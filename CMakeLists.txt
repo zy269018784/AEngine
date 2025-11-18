@@ -11,6 +11,8 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set (SRC_PREFIX ${PROJECT_SOURCE_DIR}/Source)
+
 include (CMakeScripts/Libiary.cmake)
 
 message(STATUS "项目名称: ${PROJECT_NAME}")   
@@ -19,7 +21,13 @@ message(STATUS "LINK_PATH: ${LINK_PATH}")
 message(STATUS "LIBRARYS: ${LIBRARYS}")   
 
 
-add_executable(${PROJECT_NAME} Source/main.cpp)
+file(GLOB_RECURSE SRC_LIST ${SRC_PREFIX} ${SRC_PREFIX}/*.cpp ${SRC_PREFIX}/*.c ${SRC_PREFIX}/*.h)
+
+if (CMAKE_SYSTEM_NAME STREQUAL Windows)
+	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
+endif ()
+
+add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})

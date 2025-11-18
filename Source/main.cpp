@@ -4,8 +4,19 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
 
+#include "Audio/CoreAudio/CoreAudioDeviceManager.h"
+#include "Audio/DirectSound/DirectSoundDeviceManager.h"
+#include "Audio/XAudio2/XAudio2DeviceManager.h"
+#include "Audio/MediaFoundation/MediaFoundationDeviceManager.h"
+#include "Audio/DirectMusic/DirectMusicDeviceManager.h"
+#include "Audio/ASIO/ASIODeviceManager.h"
+#include "Audio/WindowsMultimediaExtensions/WMMEDeviceManager.h"
+
 int main(int argc, char **argv)
 {
+	WMMEDeviceManager adm;
+	return 0;
+
 	//std::cout << "hello " << argc  << " " << argv[1] << std::endl;
 	auto Music = new sf::Music("ikutaerika.mp3");
 	std::cout << "play start" << std::endl;
