@@ -14,6 +14,7 @@
 #include "Audio/AdvancedLinuxSoundArchitecture/ALSADeviceManager.h"
 int main(int argc, char **argv)
 {
+	std::cout << "hello " << std::endl;
 	ALSADeviceManager adm;
 	return 0;
 

@@ -1,5 +1,7 @@
 set (LIBRARY_PATH ${PROJECT_SOURCE_DIR}/../Library)
-
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	list (APPEND LIBRARYS		asound)
+endif ()
 list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
 list(APPEND LIBRARYS sfml-system sfml-audio sfml-window sfml-graphics)
@@ -38,7 +40,7 @@ list (APPEND LIBRARYS		FLAC)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/webp/1.6.0/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/webp/1.6.0/lib)
-list (APPEND LIBRARYS		webp webpdecoder webpdemux webpmux)
+list (APPEND LIBRARYS		webp webpdecoder webpdemux webpmux sharpyuv)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/giflib/5.2.2/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/giflib/5.2.2/lib)
