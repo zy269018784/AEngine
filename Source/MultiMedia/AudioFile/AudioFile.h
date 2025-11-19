@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <string>
+#include <cstdint>
+#include <algorithm>
 #include "PCM.h"
 /*
 	mp2

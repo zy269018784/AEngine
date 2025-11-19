@@ -7,6 +7,6 @@
 
 ALSADeviceManager::ALSADeviceManager()
 {
-
+	std::cout << "ALSA" << std::endl;
 }
 #endif

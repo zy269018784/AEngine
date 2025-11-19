@@ -11,10 +11,10 @@
 #include "Audio/DirectMusic/DirectMusicDeviceManager.h"
 #include "Audio/ASIO/ASIODeviceManager.h"
 #include "Audio/WindowsMultimediaExtensions/WMMEDeviceManager.h"
-
+#include "Audio/AdvancedLinuxSoundArchitecture/ALSADeviceManager.h"
 int main(int argc, char **argv)
 {
-	WMMEDeviceManager adm;
+	ALSADeviceManager adm;
 	return 0;
 
 	//std::cout << "hello " << argc  << " " << argv[1] << std::endl;

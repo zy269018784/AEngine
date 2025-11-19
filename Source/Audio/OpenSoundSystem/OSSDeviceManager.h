@@ -1,13 +1,12 @@
 ﻿#pragma once
 #ifdef OS_IS_LINUX
-#include <windows.h>
-#include <dsound.h>
+
 #include <vector>
 
-class ALSADeviceManager
+class OSSDeviceManager
 {
 public:
-	ALSADeviceManager();
+	OSSDeviceManager();
 private:
 
 };

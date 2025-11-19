@@ -1,4 +1,5 @@
-﻿#include "XAudio2DeviceManager.h"
+﻿#ifdef OS_IS_WINDOWS
+#include "XAudio2DeviceManager.h"
 #include <iostream>
 #pragma comment(lib, "xaudio2.lib")
 XAudio2DeviceManager::XAudio2DeviceManager()
@@ -14,3 +15,4 @@ XAudio2DeviceManager::XAudio2DeviceManager()
     }
 
 }
+#endif

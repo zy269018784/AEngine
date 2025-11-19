@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include <fdk-aac/aacenc_lib.h>
+#include <aacenc_lib.h>
 #include <opus.h>
 
 #include <ogg/ogg.h>
