@@ -1,0 +1,76 @@
+类型:
+	IVmSolution 							方案
+	IVmSolutionEvent	
+	IVmProcedure							流程
+						
+	ObjectList								流程对象
+	ProcessInfo
+	ProcessInfoList							流程信息
+	ModuInfo
+	ModuleInfoList							模块信息
+	CameraInfo
+	CameraInfoList
+	GroupModuInfo
+	GroupModuInfoList
+	ProcedureRunPolicy
+	ModuleImportData
+	OutputPlatformInfo
+	DynamicIOInfoItem
+	DynamicIOInfoList
+	ModuRunErrorInfo
+	ModuRunErrorInfoList
+	VMObjectType
+	ModuResultMemoryTypeEnum
+	
+	
+方法:
+	DisposeResource							退出程序前释放所有资源，注意避免在析构函数中调用
+
+方案:	
+	CreateSolutionInstance					创建方案
+	DestroySolutionInstance					关闭方案
+	LoadSolution							加载方案
+	IVmSolution::GetSolutionVersion			获取方案版本号
+	IVmSolution::HasPassword				判断方案是否加密
+	IVmSolution::GetSolutionPath			获取方案绝对路径
+	IVmSolution::GetAllProcedureObjects		获取方案所有流程对象
+	IVmSolution::GetAllProcedureList		获取方案所有流程信息
+	IVmSolution::EnableProcedure			使用流程名称启用流程
+	IVmSolution::DisableProcedure			使用流程名称禁用流程
+	IVmSolution::DeleteOneProcedure			使用流程名称删除流程
+	IVmSolution::Run						方案同步执行一次
+	IVmSolution::Runing						方案开始连续执行	
+	IVmSolution::StopRun					方案停止连续执行
+	IVmSolution::SetRunInterval				设置连续执行时间间隔
+	IVmSolution::SaveSolution				保存当前方案
+	IVmSolution::SaveAsSolution				方案另存为
+	IVmSolution::SetRunInterval				设置连续执行时间间隔
+	IVmSolution::RegisterCallBackEvent		注册方案回调事件对象
+	IVmSolution::UnRegisterCallBackEvent	注销方案回调事件对象
+	IVmSolution::RegisterCallBack			注册回调函数
+	IVmSolution::UnRegisterCallBack			注销回调函数
+	IVmSolution::EnableModulesCallback		启用所有模块结果回调
+	IVmSolution::DisableModulesCallback		禁用所有模块结果回调
+	
+流程:
+	LoadProcess
+	IVmProcedure::RegisterCallBackEvent
+	IVmProcedure::UnRegisterCallBackEvent
+	
+回调:
+	OnWorkBeginStatusCallBack 				流程开始执行状态回调 	
+	OnWorkEndStatusCallBack 				流程执行结束状态回调 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+

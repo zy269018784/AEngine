@@ -1,0 +1,384 @@
+ 
+
+  
+ 
+首页
+发版说明
+软件许可
+运行环境
+版本切换和升级
+编程引导
+接口函数
+示例程序介绍
+状态码
+工具
+常见问题
+法律声明
+ 
+
+
+
+
+
+回调设置方法
+
+回调设置方法的示例代码如下，仅供参考。
+
+#include "IVmSolution.h"
+#include "IVmProcedure.h"
+#include "VMException.h"
+
+using namespace VisionMasterSDK;
+using namespace VisionMasterSDK::VmSolution;
+using namespace VisionMasterSDK::VmProcedure;
+
+class SolEvent :public IVmSolutionEvent
+{
+public:
+    // 相机取图信息回调
+    virtual void OnCameraCollectInfoCallBack(IN const IMVS_PF_CAMERA_COLLECT_INFO * const pstCameraCollect, IN void * const pUser) override
+    {
+        // 获取取图结束的全局相机ID
+        int cameraID = pstCameraCollect->nCameraID;
+
+        // 获取当次取图帧号
+        int frameNum = pstCameraCollect->nFrameNum;
+
+        // 获取取图结束的全局相机SN
+        string cameraSN = pstCameraCollect->strCameraSN;
+    }
+
+    // 相机取图信息回调，取图开始时触发
+    virtual void OnCameraCollectStartInfoCallBack(IN const IMVS_PF_CAMERA_COLLECT_INFO * const pstCameraCollect, IN void * const pUser) override
+    {
+        //获取取图开始的全局相机ID
+        int cameraID = pstCameraCollect->nCameraID;
+
+        //获取当次取图帧号
+        int frameNum = pstCameraCollect->nFrameNum;
+
+        //获取取图开始的全局相机SN
+        string cameraSN = pstCameraCollect->strCameraSN;
+    }
+
+    // 通信连接状态回调
+    virtual void OnCommunicationConnectInfoCallBack(IN const IMVS_PF_COMMUNICATION_CONNECT_INFO * const pstCommuConnect, IN void * const pUser) override
+    {
+        // 获取通信状态变更后的状态，连接为1，断开为0
+        int deviceStatus = pstCommuConnect->nDeviceStatus;
+
+        // 获取通信状态变更的设备ID
+        int deviceID = pstCommuConnect->nDeviceID;
+    }
+
+    // 处理相机连接状态回调
+    virtual void OnCameraConnectStatusCallBack(IN const IMVS_PF_CAMERA_CONNECT_STATUS_INFO * const pstCameraConnectStatus, IN void * const pUser) override
+    {
+        //获取相机ID
+        int cameraID = pstCameraConnectStatus->nCameraID;
+
+        //获取相机连接状态
+        int connectStatus = pstCameraConnectStatus->nConnectStatus;
+
+        //获取相机SN
+        string cameraSN = pstCameraConnectStatus->strCameraSN;
+    }
+};
+
+class ProEvent :public IVmProcedureEvent
+{
+public:
+    // 流程开始执行状态回调
+    virtual void OnWorkBeginStatusCallBack(IN const IMVS_PF_MODULE_WORK_STAUS * const pstWorkStatus, IN void * const pUser)
+    {
+        // 获取流程ID
+        int processID = pstWorkStatus->nProcessID;
+    }
+
+    // 流程结束执行状态回调
+    virtual void OnWorkEndStatusCallBack(IN const IMVS_PF_MODULE_WORK_STAUS * const pstWorkStatus, IN void * const pUser)
+    {
+        // 获取流程ID
+        int processID = pstWorkStatus->nProcessID;
+
+        // 获取流程耗时
+        float processTime = pstWorkStatus->fProcessTime;
+    }
+};
+
+int __stdcall CallBackFunc(OUT OutputPlatformInfo * const pstOutputInfo, IN void * const pUser);
+
+class EventClass
+{
+public:
+    // 注册方案事件和回调
+    void RegisterSolutionEvent(IVmSolution * pVmSol)
+    {
+        if (nullptr == m_pSolEvent)
+        {
+            m_pSolEvent = new SolEvent();
+        }
+
+        pVmSol->RegisterCallBackEvent(m_pSolEvent, this);
+
+        pVmSol->RegisterCallBack(CallBackFunc, this);
+    }
+
+    // 注册流程事件
+    void RegisterProcedureEvent(IVmProcedure * pVmPrc)
+    {
+        if (nullptr == m_pPrcEvent)
+        {
+            m_pPrcEvent = new ProEvent();
+        }
+
+        pVmPrc->RegisterCallBackEvent(m_pPrcEvent, this);
+    }
+
+    // 解注册方案事件和回调
+    void UnRegisterSolutionEvent(IVmSolution * pVmSol)
+    {
+        pVmSol->UnRegisterCallBackEvent();
+
+        pVmSol->UnRegisterCallBack();
+
+        if (nullptr != m_pSolEvent)
+        {
+            delete m_pSolEvent;
+            m_pSolEvent = nullptr;
+        }
+    }
+
+    // 解注册流程事件
+    void UnRegisterProcedureEvent(IVmProcedure * pVmPrc)
+    {
+        pVmPrc->UnRegisterCallBackEvent();
+
+        if (nullptr != m_pPrcEvent)
+        {
+            delete m_pPrcEvent;
+            m_pPrcEvent = nullptr;
+        }
+    }
+
+    int CallBackInfoFunc(IN OutputPlatformInfo * const pstOutputPlatformInfo)
+    {
+        if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_MODULE_RESULT == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_MODULE_RESULT_INFO_LIST * pstPFModuResInfoList = (IMVS_PF_MODULE_RESULT_INFO_LIST *)pstOutputPlatformInfo->pData;
+            if (pstPFModuResInfoList == NULL)
+                return IMVS_EC_NULL_PTR;
+
+            // 获取流程/Group/模块运行的错误码，可判断是否运行异常
+            int errorCode = pstPFModuResInfoList->nErrorCode;
+            
+            // 获取流程/Group/模块ID
+            int moduleID = pstPFModuResInfoList->nModuleID;
+           
+            // 获取流程/Group/模块耗时，包含算法耗时
+            float moduleTime = pstPFModuResInfoList->fModuleTime;
+            
+            // 获取流程/Group/模块算法耗时
+            float algorithmTime = pstPFModuResInfoList->fAlgorithmTime;
+
+            // 获取流程/Group/模块运行结果数据
+            IMVS_PF_MODULE_RESULT_INFO* pstPFModuResInfo = pstPFModuResInfoList->pModuResInfo;
+            if (pstPFModuResInfo == NULL)
+                return IMVS_EC_NULL_PTR;
+
+            // 获取结果名称
+            char    strParamName[IMVS_PF_MAX_MODULE_PARAMNAME_LENGTH];
+            memcpy_s(strParamName, sizeof(strParamName), pstPFModuResInfo->strParamName, sizeof(pstPFModuResInfo->strParamName));
+
+            // 获取结果数据
+            IMVS_PF_MODULE_BYTEDATA_VALUE * pstPFModuByteValue = pstPFModuResInfo->pstByteValue;
+            if (pstPFModuByteValue == NULL)
+                return IMVS_EC_NULL_PTR;
+            int len = pstPFModuByteValue->nLen;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_START_CONTINUOUSLY == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_STATUS_START_CONTINUOUSLY_INFO* pStatusStartContinuouslyInfo = (IMVS_PF_STATUS_START_CONTINUOUSLY_INFO*)pstOutputPlatformInfo->pData;
+            
+            // 获取连续执行流程ID
+            int processID = pStatusStartContinuouslyInfo->nProcessID;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_WORK_STATE == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_MODULE_WORK_STAUS * pstPFWorkStatus = (IMVS_PF_MODULE_WORK_STAUS *)pstOutputPlatformInfo->pData;
+
+            //获取流程ID，多个流程时用于区分流程
+            int processID = pstPFWorkStatus->nProcessID;
+
+            //获取流程状态，1运行开始，0运行结束
+            int workStatus = pstPFWorkStatus->nWorkStatus;
+
+            //获取流程耗时，仅在运行结束时有效
+            float fProcessTime = pstPFWorkStatus->fProcessTime;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_STOP == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_STATUS_STOP_INFO* pStatusStopInfo = (IMVS_PF_STATUS_STOP_INFO*)pstOutputPlatformInfo->pData;
+            
+            // 获取连续执行流程ID
+            int processID = pStatusStopInfo->nProcessID;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_HB_SERVER == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_EXCEPTION_HB_SERVER_INFO* pExceptionHbServerInfo = (IMVS_PF_EXCEPTION_HB_SERVER_INFO*)pstOutputPlatformInfo->pData;
+            
+            // 获取服务进程状态，单进程版本不触发
+            int serverStatus = pExceptionHbServerInfo->nServerStatus;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_DONGLE == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_DONGLE_INFO* pDongleInfo = (IMVS_PF_DONGLE_INFO*)pstOutputPlatformInfo->pData;
+            
+            // 获取加密狗状态，正常时为0，异常时为错误码
+            int dongleStatus = pDongleInfo->nDongleStatus;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PlATFORM_INFO_SOLUTION_SAVE_END == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_SOLUTION_SAVE_END_INFO* pSolutionSaveEndInfo = (IMVS_PF_SOLUTION_SAVE_END_INFO*)pstOutputPlatformInfo->pData;
+            char    strSolPath[IMVS_PF_MAX_PATH_LENGTH];
+            memcpy_s(strSolPath, sizeof(strSolPath), pSolutionSaveEndInfo->strSolPath, sizeof(pSolutionSaveEndInfo->strSolPath));
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PlATFORM_INFO_SOLUTION_LOAD_END == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_SOLUTION_LOAD_END_INFO * pSolutionLoadEndInfo = (IMVS_PF_SOLUTION_LOAD_END_INFO *)pstOutputPlatformInfo->pData;
+            
+            // 获取加载方案状态，正常时为0，异常时为错误码
+            int status = pSolutionLoadEndInfo->nStatus;
+        }
+        // 模块进程心跳异常信息（单进程版本）
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_HB_SP_PROXY == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_EXCEPTION_HB_SP_PROXY_INFO* pExceptionHbSpProxyInfo = (IMVS_PF_EXCEPTION_HB_SP_PROXY_INFO*)pstOutputPlatformInfo->pData;
+            // 获取代理进程状态，单进程版本不触发
+            int solStatu = pExceptionHbSpProxyInfo->nSolStatu;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_LOAD_MODULE_WARN == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_LOAD_MODULE_ERROR_INFO_LIST* pLoadModuErrorInfoList = (IMVS_PF_LOAD_MODULE_ERROR_INFO_LIST*)pstOutputPlatformInfo->pData;
+            // 获取加载方案时，加载失败模块的信息，包括模块ID/名称等
+            if (pLoadModuErrorInfoList->nModuleNum > 0)
+            {
+                int  moduleID = pLoadModuErrorInfoList->astLoadModuErrInfo[0].nModuleID;
+            }
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_EXPORT_PROCESS_END == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_EXPORT_PROCESS_END_INFO* pExportProcessEndInfo = (IMVS_PF_EXPORT_PROCESS_END_INFO*)pstOutputPlatformInfo->pData;
+            char    strProcPath[IMVS_PF_MAX_PATH_LENGTH];
+            memcpy_s(strProcPath, sizeof(strProcPath), pExportProcessEndInfo->strProcPath, sizeof(pExportProcessEndInfo->strProcPath));
+
+            string str = strProcPath;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_IMPORT_PROCESS_END == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_IMPORT_PROCESS_END_INFO* pImportProcessEndInfo = (IMVS_PF_IMPORT_PROCESS_END_INFO*)pstOutputPlatformInfo->pData;
+            char    strProcName[IMVS_PF_MAX_PROCESS_NAME_LENGTH];
+            memcpy_s(strProcName, sizeof(strProcName), pImportProcessEndInfo->strProcName, sizeof(pImportProcessEndInfo->strProcName));
+
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_PROCEDURE_UNREGISTER == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_PROCEDURE_UNREGISTER_INFO* pProcedureUnregisterInfo = (IMVS_PF_PROCEDURE_UNREGISTER_INFO*)pstOutputPlatformInfo->pData;
+
+            // 获取删除流程ID
+            int processID = pProcedureUnregisterInfo->nProcessID;
+
+            // 获取删除流程名称
+            char    strProcessName[IMVS_PF_MAX_PROCESS_NAME_LENGTH];
+            memcpy_s(strProcessName, sizeof(strProcessName), pProcedureUnregisterInfo->strProcessName, sizeof(pProcedureUnregisterInfo->strProcessName));
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_CAMERA_COLLECT == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_CAMERA_COLLECT_INFO* pCameraCollectInfo = (IMVS_PF_CAMERA_COLLECT_INFO*)pstOutputPlatformInfo->pData;
+            // 获取取图结束的全局相机ID
+            int cameraID = pCameraCollectInfo->nCameraID;
+
+            // 获取当次取图帧号
+            int frameNum = pCameraCollectInfo->nFrameNum;
+
+            // 获取取图结束的全局相机SN
+            string cameraSN = pCameraCollectInfo->strCameraSN;
+        }
+        else if (IMVS_ENUM_CTRLC_OUTPUT_PLATFORM_INFO_COMMUNICATION_CONNECT == pstOutputPlatformInfo->nInfoType)
+        {
+            IMVS_PF_COMMUNICATION_CONNECT_INFO * pCommunicationInfo = (IMVS_PF_COMMUNICATION_CONNECT_INFO *)pstOutputPlatformInfo->pData;
+            
+            // 获取通信状态变更后的状态，连接为1，断开为0
+            int deviceStatus = pCommunicationInfo->nDeviceStatus;
+
+            //获取通信状态变更的设备ID
+            int deviceID = pCommunicationInfo->nDeviceID;
+        }
+    }
+
+private:
+    SolEvent * m_pSolEvent = nullptr;
+    ProEvent * m_pPrcEvent = nullptr;
+};
+
+int __stdcall CallBackFunc(OUT OutputPlatformInfo * const pstOutputInfo, IN void * const pUser)
+{
+    EventClass * pCtrlThis = (EventClass *)pUser;
+
+    int nRet = IMVS_EC_UNKNOWN;
+    nRet = pCtrlThis->CallBackInfoFunc(pstOutputInfo);
+    if (IMVS_EC_OK != nRet)
+    {
+        return nRet;
+    }
+    return IMVS_EC_OK;
+}
+
+int main(void)
+{
+    try
+    {
+        // 创建方案单例，用于初始化资源，方案对象可用于注册回调函数/事件等操作
+        IVmSolution * pVmSol = CreateSolutionInstance();
+
+        // 注册方案事件和回调
+        EventClass * pEventClass = new EventClass();
+        pEventClass->RegisterSolutionEvent(pVmSol);
+
+        // 加载方案，仅支持绝对路径，编码格式UTF-8
+        pVmSol = LoadSolution("D:\\Test.sol", "");
+        IVmProcedure * pVmPrc = (IVmProcedure *)(*pVmSol)["流程1"];
+
+        // 注册流程事件
+        pEventClass->RegisterProcedureEvent(pVmPrc);
+
+        //解注册流程事件
+        pEventClass->UnRegisterProcedureEvent(pVmPrc);
+
+        //解注册方案事件和回调
+        pEventClass->UnRegisterSolutionEvent(pVmSol);
+
+        if (nullptr != pEventClass)
+        {
+            delete pEventClass;
+            pEventClass = nullptr;
+        }
+
+        // 退出程序前释放所有资源，注意避免在析构函数中调用
+        DisposeResource();
+    }
+    catch (CVmException vmex)
+    {
+        return vmex.GetErrorCode();
+    }
+    catch (...)
+    {
+        return IMVS_EC_UNKNOWN;
+    }
+
+    return IMVS_EC_OK;
+}
+    
+
+--------------------------------------------------------------------------------
+ 
