@@ -15,7 +15,7 @@
 int main(int argc, char **argv)
 {
 	std::cout << "hello " << std::endl;
-	ALSADeviceManager adm;
+	CoreAudioDeviceManager adm;
 	return 0;
 
 	//std::cout << "hello " << argc  << " " << argv[1] << std::endl;

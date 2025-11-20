@@ -38,7 +38,7 @@
 /*
 	gif
 */
-#include <gif_lib.h>
+//#include <gif_lib.h>
 
 bool HasExtension(std::string filename, std::string e) {
     std::string ext = e;
@@ -624,6 +624,7 @@ bool ImageFile::WriteWEBP(std::string filename) const
 
 bool ImageFile::WriteGIF(std::string filename) const
 {
+#if 0
 	int error = 0;
 	GifFileType* gif = EGifOpenFileName(filename.c_str(), false, &error);
 	if (!gif) {
@@ -692,6 +693,7 @@ bool ImageFile::WriteGIF(std::string filename) const
 	free(pixels);
 	GifFreeMapObject(colorMap);
 	EGifCloseFile(gif, &error);
+#endif
 	return true;
 }
 
