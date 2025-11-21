@@ -1,0 +1,11 @@
+﻿/*
+	1.
+		USB
+		CAN
+		IIC
+		SPI
+		UART
+		RS232
+		RS485
+		1-wire
+*/
