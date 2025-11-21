@@ -7,6 +7,6 @@
 #endif
 #ifdef OS_IS_LINUX
 	#define RHI_USE_PLATFORM_WAYLAND_KHR	0
-	#define RHI_USE_PLATFORM_XCB_KHR		0
+	#define RHI_USE_PLATFORM_XCB_KHR		1
 	#define RHI_USE_PLATFORM_XLIB_KHR		0
 #endif

@@ -51,7 +51,7 @@ RHIWindow* ES32RHI::RHICreateWindow(struct wl_display* display, struct wl_surfac
 #if RHI_USE_PLATFORM_XCB_KHR  
 RHIWindow* ES32RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
-	return nullptr;
+	return new OpenGLWindow();
 }
 #endif
 
@@ -74,7 +74,9 @@ RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline()
 
 RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 { 
-	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
+	OpenGLGraphicsPipeline* Pipeline;
+	Pipeline = new OpenGLGraphicsPipeline();
+	//((OpenGLWindow *)Window)->CommandBuffer->GraphicsPipeline = Pipeline;
 	return Pipeline;
 }
 

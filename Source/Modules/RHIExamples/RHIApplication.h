@@ -6,11 +6,16 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+
 #ifdef OS_IS_WINDOWS
 #define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
 #endif
 
+#ifdef OS_IS_LINUX
+#define GLFW_EXPOSE_NATIVE_X11
+#endif
+
+#include <GLFW/glfw3native.h>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -24,7 +29,7 @@
 #include <set>
 
 
-#define USE_RHI_VULKAN 1
+#define USE_RHI_VULKAN 0
 class RHIApplication
 {
 public:

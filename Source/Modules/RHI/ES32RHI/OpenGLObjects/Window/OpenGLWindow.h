@@ -16,5 +16,6 @@ public:
 	virtual void Draw() final override;
 	virtual void WaitDeviceIdle() final override;
 private:
+public:
 	OpenGLCommandBuffer* CommandBuffer;
 };

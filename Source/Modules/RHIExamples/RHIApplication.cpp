@@ -1,5 +1,8 @@
 ﻿#include <RHIApplication.h>
-
+#ifdef OS_IS_LINUX
+#include <xcb/xcb.h>
+#include <X11/Xlib-xcb.h>
+#endif
 RHIApplication::RHIApplication(GLFWwindow* InWindow)
     : Window(InWindow)
 {
@@ -14,12 +17,26 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
     glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
-#ifdef OS_SYSTEM_IS_WINDOWS
+#ifdef OS_IS_LINUX
+    Display* Display = glfwGetX11Display();
+    xcb_connection_t* connection = XGetXCBConnection(Display);
+    xcb_window_t xcb_window = glfwGetX11Window(InWindow);
+
+    if (!connection || xcb_window == XCB_NONE) {
+        std::cerr << "Failed to get XCB connection/window" << std::endl;
+        return;
+    }
+    RHIWindow_ = pRHI->RHICreateWindow(connection, xcb_window);
+    std::cout << "glfwGetX11Window" << std::endl;
+#endif
+
+#ifdef OS_IS_WINDOWS
    	HWND hwnd = glfwGetWin32Window(Window);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
 #endif
+
     std::cout << "RHIApplication End" << std::endl;
 }
 

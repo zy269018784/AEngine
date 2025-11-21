@@ -60,6 +60,7 @@ void RHIApplicationTriangle::Init()
 void RHIApplicationTriangle::CreateVBO()
 {
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    std::cout << "CreateVBO OK" << std::endl;
 }
 
 
@@ -67,6 +68,7 @@ void RHIApplicationTriangle::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->Create();
+    std::cout << "CreateSRB OK" << std::endl;
 }
 
 void RHIApplicationTriangle::CreateVertexDescriptioin()
@@ -132,6 +134,8 @@ void RHIApplicationTriangle::CreateGraphicsPipeline()
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
     GraphicsPipeline->Create();
 
+    std::cout << "CreateGraphicsPipeline OK" << std::endl;
+
     /*
         vulkan要求删除
     */
@@ -142,6 +146,7 @@ void RHIApplicationTriangle::CreateGraphicsPipeline()
 void RHIApplicationTriangle::Draw()
 {
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
+
     float x = 0;
     float y = 0;
     float w = 0;
