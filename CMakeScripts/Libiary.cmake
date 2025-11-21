@@ -1,4 +1,4 @@
-set (LIBRARY_PATH ${PROJECT_SOURCE_DIR}/../Library)
+		set (LIBRARY_PATH ${PROJECT_SOURCE_DIR}/../Library)
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LIBRARYS		asound)
 endif ()
@@ -14,8 +14,8 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/opus/1.5.2/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/opus/1.5.2/lib)
 list (APPEND LIBRARYS		opus)
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libogg/1.3.6/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/libogg/1.3.6/lib)
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ogg/1.3.6/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/ogg/1.3.6/lib)
 list (APPEND LIBRARYS		ogg)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libtwolame/0.4.0/include)
