@@ -35,7 +35,9 @@ add_executable(${PROJECT_NAME} ${SRC_LIST}
 		Source/Modules/MultiMedia/CADFile/CADFile.cpp
 		Source/Modules/MultiMedia/CADFile/CADFile.h
 		Source/Modules/MultiMedia/PDFFile/PDFFile.cpp
-		Source/Modules/MultiMedia/PDFFile/PDFFile.h)
+		Source/Modules/MultiMedia/PDFFile/PDFFile.h
+		Source/Modules/Window/X11Window.cpp
+		Source/Modules/Window/X11Window.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})

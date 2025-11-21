@@ -12,7 +12,8 @@ file(GLOB_RECURSE SRC_LIST_OpenGL330RHI     ${SRC_PREFIX}/Modules/RHI/OpenGL330R
 file(GLOB_RECURSE SRC_LIST_D3D12RHI         ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.cpp ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.c ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.h)
 file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/glad/*.cpp ${SRC_PREFIX}/Modules/glad/*.c ${SRC_PREFIX}/Modules/glad/*.h)
 file(GLOB_RECURSE SRC_LIST_RHIExamples      ${SRC_PREFIX}/Modules/RHIExamples/*.cpp ${SRC_PREFIX}/Modules/RHIExamples/*.c ${SRC_PREFIX}/Modules/RHIExamples/*.h)
-file(GLOB_RECURSE SRC_LIST_Model      ${SRC_PREFIX}/Modules/Model/*.cpp ${SRC_PREFIX}/Modules/Model/*.c ${SRC_PREFIX}/Modules/Model/*.h)
+file(GLOB_RECURSE SRC_LIST_Model            ${SRC_PREFIX}/Modules/Model/*.cpp ${SRC_PREFIX}/Modules/Model/*.c ${SRC_PREFIX}/Modules/Model/*.h)
+file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp ${SRC_PREFIX}/Modules/Window/*.c ${SRC_PREFIX}/Modules/Window/*.h)
 
 
 
@@ -35,6 +36,7 @@ list (APPEND SRC_LIST
         ${SRC_LIST_GLAD}
         ${SRC_LIST_RHIExamples}
         ${SRC_LIST_Model}
+        #{SRC_LIST_Window}
 )
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
@@ -55,3 +57,4 @@ endif ()
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
+list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
