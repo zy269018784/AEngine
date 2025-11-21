@@ -6,6 +6,7 @@ int DXFWrite2(int argc, char **argv);
 int RHIExample();
 int main(int argc, char **argv)
 {
+	//Play(argv[1]);
 	return RHIExample();
 	//return DXFWrite2(argc, argv);
 	return Play(argv[1]);
