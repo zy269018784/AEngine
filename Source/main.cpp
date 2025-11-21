@@ -12,8 +12,12 @@
 #include "Audio/ASIO/ASIODeviceManager.h"
 #include "Audio/WindowsMultimediaExtensions/WMMEDeviceManager.h"
 #include "Audio/AdvancedLinuxSoundArchitecture/ALSADeviceManager.h"
+
+int MusicPlayer(int argc, char** argv);
 int main(int argc, char **argv)
 {
+	return MusicPlayer(argc,argv);
+
 	//std::cout << "hello " << std::endl;
 //	CoreAudioDeviceManager adm;
 	//	return 0;

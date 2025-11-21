@@ -26,12 +26,13 @@ if (CMAKE_SYSTEM_NAME STREQUAL Windows)
 	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
 endif ()
 
-list (APPEND INCLUDE_PATH ${SRC_PREFIX})
+list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
 
 message(STATUS "INCLUDE_PATH ${INCLUDE_PATH}")
 message(STATUS "LINK_PATH ${LINK_PATH}")
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST}
+		Source/Applications/MusicPlayer/MusicPlayer.cpp)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
