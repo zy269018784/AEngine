@@ -10,5 +10,3 @@ public:
 //private:
 	GLuint  Handle;
 };
-
-GLenum ToOpenGLShaderType(RHIShaderType Type);

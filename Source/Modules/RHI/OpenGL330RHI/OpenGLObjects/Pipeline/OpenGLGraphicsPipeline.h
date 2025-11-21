@@ -71,7 +71,7 @@ private:
 			glDisable(GL_COLOR_LOGIC_OP);
 			glLogicOp
 	*/
-	GLenum ToOpenGLLogicOp(RHIGraphicsPipeline::LogicOp LogicOp);
+	GLenum ToOpenGLLogicOp(RHILogicOp LogicOp);
 
 	GLenum ToOpenGLVertexInputRate(std::uint32_t StepRate);
 	GLenum ToOpenGLSampleCountFlagBits(int Count);

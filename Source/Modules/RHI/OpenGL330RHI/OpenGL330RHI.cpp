@@ -22,10 +22,7 @@ void OpenGL330RHI::RHIUseGPU(std::uint32_t GPUIndex)
 
 }
 
-RHIWindow* OpenGL330RHI::RHICreateWindow(GLFWwindow* Window)
-{ 
-	return new OpenGLWindow();
-}
+
 
 RHIBuffer* OpenGL330RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize){ return nullptr; }
 
@@ -47,32 +44,32 @@ RHIGraphicsPipeline* OpenGL330RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 	return Pipeline;
 }
 
-RHIShader* OpenGL330RHI::RHICreateShader(RHIShader::Type Type, std::uint32_t* Code, size_t CodeSize){ return nullptr; }
+RHIShader* OpenGL330RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize){ return nullptr; }
 
-RHITexture* OpenGL330RHI::RHICreateTexture1D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX){ return nullptr; }
+RHITexture* OpenGL330RHI::RHICreateTexture1D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX){ return nullptr; }
 
-RHITexture* OpenGL330RHI::RHICreateTexture1DArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize){ return nullptr; }
+RHITexture* OpenGL330RHI::RHICreateTexture1DArray(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize){ return nullptr; }
 
-RHITexture* OpenGL330RHI::RHICreateTexture2D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY){ return nullptr; }
-
-
-RHITexture* OpenGL330RHI::RHICreateTexture2DArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize){ return nullptr; }
-
-RHITexture* OpenGL330RHI::RHICreateTexture3D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ){ return nullptr; }
-
-RHITexture* OpenGL330RHI::RHICreateTextureCube(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t Size){ return nullptr; }
+RHITexture* OpenGL330RHI::RHICreateTexture2D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY){ return nullptr; }
 
 
+RHITexture* OpenGL330RHI::RHICreateTexture2DArray(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize){ return nullptr; }
 
-RHITexture* OpenGL330RHI::RHICreateTextureCubeArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize){ return nullptr; }
+RHITexture* OpenGL330RHI::RHICreateTexture3D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ){ return nullptr; }
+
+RHITexture* OpenGL330RHI::RHICreateTextureCube(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t Size){ return nullptr; }
+
+
+
+RHITexture* OpenGL330RHI::RHICreateTextureCubeArray(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize){ return nullptr; }
 
 void OpenGL330RHI::RHIUpdateTexture(RHITexture* Texture, const void* InData, std::uint32_t InSize){  }
 
-RHISampler* OpenGL330RHI::RHICreateSampler(RHISampler::Filter MinFilter,
-	RHISampler::Filter MagFilter,
-	RHISampler::AddressMode AddressModeU,
-	RHISampler::AddressMode AddressModeV,
-	RHISampler::AddressMode AddressModeW){ return nullptr; }
+RHISampler* OpenGL330RHI::RHICreateSampler(RHIFilter MinFilter,
+	RHIFilter MagFilter,
+	RHIAddressMode AddressModeU,
+	RHIAddressMode AddressModeV,
+	RHIAddressMode AddressModeW){ return nullptr; }
 
 RHIShaderResourceBindings* OpenGL330RHI::RHICreateShaderResourceBindings(){ return nullptr; }
 

@@ -103,3 +103,5 @@ list (APPEND LIBRARYS		dxfrw)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
+
+list (APPEND LIBRARYS		vulkan)

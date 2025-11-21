@@ -96,10 +96,10 @@ private:
 //private:
 //	std::vector<const char*> PhysicalDeviceExtensions;
 private:
-#ifdef RHI_USE_PLATFORM_WIN32_KHR
+#if RHI_USE_PLATFORM_WIN32_KHR
 	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
 #endif
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_PLATFORM_WAYLAND_KHR
 	PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
 #endif
 };

@@ -10,12 +10,13 @@ file(GLOB_RECURSE SRC_LIST_VulkanRHI        ${SRC_PREFIX}/Modules/RHI/VulkanRHI/
 file(GLOB_RECURSE SRC_LIST_ES32RHI          ${SRC_PREFIX}/Modules/RHI/ES32RHI/*.cpp ${SRC_PREFIX}/Modules/RHI/ES32RHI/*.c ${SRC_PREFIX}/Modules/RHI/ES32RHI/*.h)
 file(GLOB_RECURSE SRC_LIST_OpenGL330RHI     ${SRC_PREFIX}/Modules/RHI/OpenGL330RHI/*.cpp ${SRC_PREFIX}/Modules/RHI/OpenGL330RHI/*.c ${SRC_PREFIX}/Modules/RHI/OpenGL330RHI/*.h)
 file(GLOB_RECURSE SRC_LIST_D3D12RHI         ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.cpp ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.c ${SRC_PREFIX}/Modules/RHI/D3D12RHI/*.h)
-file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/GLAD/*.cpp ${SRC_PREFIX}/Modules/GLAD/*.c ${SRC_PREFIX}/Modules/GLAD/*.h)
+file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/glad/*.cpp ${SRC_PREFIX}/Modules/glad/*.c ${SRC_PREFIX}/Modules/glad/*.h)
 
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
 #message(STATUS "SRC_LIST_Network ${SRC_LIST_Network}")
+message(STATUS "SRC_LIST_GLAD ${SRC_LIST_GLAD}")
 
 list (APPEND SRC_LIST
         ${SRC_LIST_Applications}
@@ -26,7 +27,7 @@ list (APPEND SRC_LIST
         ${SRC_LIST_RHI}
         ${SRC_LIST_VulkanRHI}
         ${SRC_LIST_ES32RHI}
-        ${SRC_LIST_OpenGL330RHI}
+        #${SRC_LIST_OpenGL330RHI}
         ${SRC_LIST_GLAD}
 )
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -45,3 +46,4 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D12RHI)
 endif ()
 
+list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)

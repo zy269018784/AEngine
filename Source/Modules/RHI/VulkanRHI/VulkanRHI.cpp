@@ -1,4 +1,4 @@
-#include "Source/VulkanRHI.h"
+#include "VulkanRHI.h"
 #include "VulkanObjects/Shader/VulkanShader.h"
 #include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
@@ -23,10 +23,10 @@ VulkanRHI::VulkanRHI()
 	CreateInstance();
 	CreateDevice();
 	CreateCommandPool();
-#ifdef RHI_USE_PLATFORM_WIN32_KHR
+#if RHI_USE_PLATFORM_WIN32_KHR
 	vkCreateWin32SurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWin32SurfaceKHR"));
 #endif
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_PLATFORM_WAYLAND_KHR
 	PFN_vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWaylandSurfaceKHR"));
 #endif
 }

@@ -1,4 +1,5 @@
 #include "OpenGLShader.h"
+#include "ES32Translate.h"
 #include <iostream>
 //GLenum ToOpenGLShaderType(RHIShaderType Type)
 //{

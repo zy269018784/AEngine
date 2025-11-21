@@ -1,23 +1,23 @@
 #include "OpenGLShader.h"
 #include <iostream>
-GLenum ToOpenGLShaderType(RHIShader::Type Type)
+GLenum ToOpenGLShaderType(RHIShaderType Type)
 {
 	GLenum ShaderType;
 	switch (Type)
 	{
-	case RHIShader::Vertex:
+	case RHIShaderType::Vertex:
 		ShaderType = GL_VERTEX_SHADER;
 		break;
-	case RHIShader::TessellationControl:
+	case RHIShaderType::TessellationControl:
 		break;
-	case RHIShader::TessellationEvaluation:
+	case RHIShaderType::TessellationEvaluation:
 		break;
-	case RHIShader::Fragment:
+	case RHIShaderType::Fragment:
 		ShaderType = GL_FRAGMENT_SHADER;
 		break;
-	case RHIShader::Compute:
+	case RHIShaderType::Compute:
 		break;
-	case RHIShader::Geometry:
+	case RHIShaderType::Geometry:
 		break;
 	default:
 		break;
@@ -25,7 +25,7 @@ GLenum ToOpenGLShaderType(RHIShader::Type Type)
 	return ShaderType;
 }
 
-OpenGLShader::OpenGLShader(RHIShader::Type Type, std::uint32_t* Code, std::size_t CodeSize)
+OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t CodeSize)
 	: RHIShader(Type, Code, CodeSize)
 {
 	GLenum ShaderType = ToOpenGLShaderType(Type);

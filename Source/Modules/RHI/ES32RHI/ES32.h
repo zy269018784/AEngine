@@ -2,7 +2,7 @@
 #ifndef GLAD_OPENGL_3_2
 #define GLAD_OPENGL_3_2
 
-#include <glad/include/glad/glad.h>
+#include "glad/glad.h"
 
 #endif // !GLAD
 

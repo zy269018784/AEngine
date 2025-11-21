@@ -38,19 +38,19 @@ public:
 	/*
 		Win32
 	*/
-#ifdef RHI_USE_PLATFORM_WIN32_KHR 
+#if RHI_USE_PLATFORM_WIN32_KHR
 	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) = 0;
 #endif
 	/*
 		Wayland
 	*/
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR 
+#if RHI_USE_PLATFORM_WAYLAND_KHR
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*
 		X11
 	*/
-#ifdef RHI_USE_PLATFORM_XCB_KHR  
+#if RHI_USE_PLATFORM_XCB_KHR
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
 #endif
 

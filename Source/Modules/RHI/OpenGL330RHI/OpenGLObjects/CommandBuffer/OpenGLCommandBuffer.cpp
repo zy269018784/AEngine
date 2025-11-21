@@ -31,7 +31,7 @@ void OpenGLCommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
 
 }
 
-void OpenGLCommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHICommandBuffer::IndexFormat IndexFormat)
+void OpenGLCommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat IndexFormat)
 {
 
 }
@@ -42,7 +42,7 @@ void OpenGLCommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPi
 }
 
 void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
-	RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHICommandBuffer::IndexFormat IndexFormat)
+	RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHIIndexFormat IndexFormat)
 {
 
 }

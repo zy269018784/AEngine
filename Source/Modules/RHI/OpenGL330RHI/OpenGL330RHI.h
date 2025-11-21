@@ -16,11 +16,6 @@ public:
 		@return
 	*/
 	virtual void RHIUseGPU(std::uint32_t GPUIndex) final override;
-	/**
-		@brief 创建RHIWindow
-		@return 返回RHIWindow
-	*/
-	virtual RHIWindow* RHICreateWindow(GLFWwindow* Window) final override;
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;
@@ -29,7 +24,7 @@ public:
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow* Window) final override;
 
-	virtual RHIShader* RHICreateShader(RHIShader::Type Type, std::uint32_t* Code, size_t CodeSize) final override;
+	virtual RHIShader* RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize) final override;
 
 	/*
 		Texture
@@ -42,7 +37,7 @@ public:
 		@param  SizeX : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX) final override;
+	virtual RHITexture* RHICreateTexture1D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX) final override;
 
 	/**
 		@brief 创建1D纹理数组
@@ -52,7 +47,7 @@ public:
 		@param  ArraySize : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1DArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize) final override;
+	virtual RHITexture* RHICreateTexture1DArray(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize) final override;
 
 	/**
 		@brief 创建2D纹理
@@ -62,7 +57,7 @@ public:
 		@param  SizeY : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY) final override;
+	virtual RHITexture* RHICreateTexture2D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY) final override;
 
 
 	/**
@@ -74,7 +69,7 @@ public:
 		@param  ArraySize : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2DArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize) final override;
+	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize) final override;
 
 	/**
 		@brief 创建3D纹理
@@ -85,7 +80,7 @@ public:
 		@param  SizeZ : 纹理高度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture3D(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ) final override;
+	virtual RHITexture* RHICreateTexture3D(RHIPixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ) final override;
 
 	/**
 		@brief 创建CubeMap纹理
@@ -94,7 +89,7 @@ public:
 		@param  Size : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCube(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t Size) final override;
+	virtual RHITexture* RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY) final override;
 
 
 	/**
@@ -104,15 +99,15 @@ public:
 		@param  Size : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCubeArray(RHITexture::PixelFormat PixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize) final override;
+	virtual RHITexture* RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize) final override;
 
 	virtual void RHIUpdateTexture(RHITexture* Texture, const void* InData, std::uint32_t InSize) final override;
 
-	virtual RHISampler* RHICreateSampler(RHISampler::Filter MinFilter = RHISampler::NEAREST,
-		RHISampler::Filter MagFilter = RHISampler::NEAREST,
-		RHISampler::AddressMode AddressModeU = RHISampler::REPEAT,
-		RHISampler::AddressMode AddressModeV = RHISampler::REPEAT,
-		RHISampler::AddressMode AddressModeW = RHISampler::REPEAT) final override;
+	virtual RHISampler* RHICreateSampler(RHIFilter MinFilter = RHIFilter::NEAREST,
+		RHIFilter MagFilter = RHIFilter::NEAREST,
+		RHIAddressMode AddressModeU = RHIAddressMode::REPEAT,
+		RHIAddressMode AddressModeV = RHIAddressMode::REPEAT,
+		RHIAddressMode AddressModeW = RHIAddressMode::REPEAT) final override;
 
 	virtual RHIShaderResourceBindings* RHICreateShaderResourceBindings() final override;
 };

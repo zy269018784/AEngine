@@ -1,4 +1,4 @@
-﻿#include "Source/ES32PixelFormat.h"
+﻿#include "ES32PixelFormat.h"
 
 OpenGLPixelFormatInfo OpenGLPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_MAX_)] = {
 	//					PixelFormat								InternalFormat			Format				Type		

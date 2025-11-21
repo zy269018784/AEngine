@@ -459,7 +459,7 @@ GLenum OpenGLGraphicsPipeline::ToOpenGLShaderStageFlagBits(RHIShaderResourceBind
 	return Mode;
 }
 
-GLenum OpenGLGraphicsPipeline::ToOpenGLLogicOp(RHIGraphicsPipeline::LogicOp LogicOp)
+GLenum OpenGLGraphicsPipeline::ToOpenGLLogicOp(RHILogicOp LogicOp)
 {
 	/*
 		The initial value is GL_COPY
@@ -467,52 +467,52 @@ GLenum OpenGLGraphicsPipeline::ToOpenGLLogicOp(RHIGraphicsPipeline::LogicOp Logi
 	GLenum Op = GL_COPY;
 	switch (LogicOp)
 	{
-	case RHIGraphicsPipeline::LogicOp::CLEAR:
+	case RHILogicOp::CLEAR:
 		Op = GL_CLEAR;
 		break;
-	case RHIGraphicsPipeline::LogicOp::SET:
+	case RHILogicOp::SET:
 		Op = GL_SET;
 		break;
-	case RHIGraphicsPipeline::LogicOp::COPY:
+	case RHILogicOp::COPY:
 		Op = GL_COPY;
 		break;
-	case RHIGraphicsPipeline::LogicOp::COPY_INVERTED:
+	case RHILogicOp::COPY_INVERTED:
 		Op = GL_COPY_INVERTED;
 		break;
-	case RHIGraphicsPipeline::LogicOp::NOOP:
+	case RHILogicOp::NOOP:
 		Op = GL_NOOP;
 		break;
-	case RHIGraphicsPipeline::LogicOp::INVERT:
+	case RHILogicOp::INVERT:
 		Op = GL_INVERT;
 		break;
-	case RHIGraphicsPipeline::LogicOp::AND:
+	case RHILogicOp::AND:
 		Op = GL_AND;
 		break;
-	case RHIGraphicsPipeline::LogicOp::NAND:
+	case RHILogicOp::NAND:
 		Op = GL_NAND;
 		break;
-	case RHIGraphicsPipeline::LogicOp::OR:
+	case RHILogicOp::OR:
 		Op = GL_OR;
 		break;
-	case RHIGraphicsPipeline::LogicOp::NOR:
+	case RHILogicOp::NOR:
 		Op = GL_NOR;
 		break;
-	case RHIGraphicsPipeline::LogicOp::XOR:
+	case RHILogicOp::XOR:
 		Op = GL_XOR;
 		break;
-	case RHIGraphicsPipeline::LogicOp::EQUIV:
+	case RHILogicOp::EQUIV:
 		Op = GL_EQUIV;
 		break;
-	case RHIGraphicsPipeline::LogicOp::AND_REVERSE:
+	case RHILogicOp::AND_REVERSE:
 		Op = GL_AND_REVERSE;
 		break;
-	case RHIGraphicsPipeline::LogicOp::AND_INVERTED:
+	case RHILogicOp::AND_INVERTED:
 		Op = GL_AND_INVERTED;
 		break;
-	case RHIGraphicsPipeline::LogicOp::OR_REVERSE:
+	case RHILogicOp::OR_REVERSE:
 		Op = GL_OR_REVERSE;
 		break;
-	case RHIGraphicsPipeline::LogicOp::OR_INVERTED:
+	case RHILogicOp::OR_INVERTED:
 		Op = GL_OR_INVERTED;
 		break;
 	default:

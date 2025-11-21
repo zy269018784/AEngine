@@ -1,7 +1,5 @@
 #pragma once
-
-#include <RHIObjects/RHICommandBuffer.h>
-
+#include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
 #include <cstdint>
 class OpenGLCommandBuffer : public RHICommandBuffer
 {
@@ -24,11 +22,11 @@ public:
 
 	virtual void RHIEndRenderPass(RHIRenderPass* RenderPass) final override;
 
-	virtual void RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHICommandBuffer::IndexFormat IndexFormat) final override;
+	virtual void RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat IndexFormat) final override;
 
 	virtual void RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPipeline) final override;
 
 	virtual void RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
-		RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHICommandBuffer::IndexFormat IndexFormat) final override;
+		RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHIIndexFormat IndexFormat) final override;
 
 };

@@ -2,6 +2,7 @@
 #include "VulkanObjects/Core/VulkanCore.h"
 #include "VulkanObjects/Shader/VulkanShader.h"
 #include <stdexcept>
+#if 0
 VulkanRayTracingPipeline::VulkanRayTracingPipeline(VulkanDevice* InDevice)
 	: VulkanPipeline(InDevice)
 {
@@ -326,3 +327,4 @@ void BuildTLAS(std::vector<VkAccelerationStructureInstanceKHR>& BLASInstances)
 	*/
 	//vkCmdBuildAccelerationStructuresKHR();
 }
+#endif
