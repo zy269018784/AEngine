@@ -14,26 +14,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set (SRC_PREFIX ${PROJECT_SOURCE_DIR}/Source)
 
 include (CMakeScripts/Libiary.cmake)
+include (CMakeScripts/Modules.cmake)
 
 message(STATUS "项目名称: ${PROJECT_NAME}")   
 message(STATUS "INCLUDE_PATH: ${INCLUDE_PATH}")   
 message(STATUS "LINK_PATH: ${LINK_PATH}")   
 message(STATUS "LIBRARYS: ${LIBRARYS}")   
 
-file(GLOB_RECURSE SRC_LIST ${SRC_PREFIX} ${SRC_PREFIX}/*.cpp ${SRC_PREFIX}/*.c ${SRC_PREFIX}/*.h)
+#file(GLOB_RECURSE SRC_LIST ${SRC_PREFIX} ${SRC_PREFIX}/*.cpp ${SRC_PREFIX}/*.c ${SRC_PREFIX}/*.h)
+#file(GLOB_RECURSE SRC_LIST ${SRC_PREFIX} *.cpp *.c *.h)
 
 if (CMAKE_SYSTEM_NAME STREQUAL Windows)
 	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
 endif ()
 
-list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
-
 message(STATUS "INCLUDE_PATH ${INCLUDE_PATH}")
 message(STATUS "LINK_PATH ${LINK_PATH}")
 
-add_executable(${PROJECT_NAME} ${SRC_LIST}
-		Source/Applications/MusicPlayer/MusicPlayer.cpp
-		Source/Applications/DxfWriter/writer2.cpp)
+add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
