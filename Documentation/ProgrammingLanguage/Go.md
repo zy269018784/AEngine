@@ -4,6 +4,7 @@
 		https://golang.org/dl/
 		https://go.dev/dl/
 		https://go.dev/doc/install/source
+        https://go.dev/doc/install
 	
 	2. 版本
 		go1.25.0	2025-08-12
