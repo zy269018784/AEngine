@@ -1,7 +1,34 @@
-		set (LIBRARY_PATH ${PROJECT_SOURCE_DIR}/../Library)
+set (LIBRARY_PATH ${PROJECT_SOURCE_DIR}/../Library)
+
+#[[
+        QT
+#]]
+set (CMAKE_AUTOMOC ON)
+set (CMAKE_AUTOUIC ON)
+set (CMAKE_AUTORCC ON)
+message (STATUS "USE_QT6 ${USE_QT6}")
+message (STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
+if (USE_QT6)
+	find_package(Qt6 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets REQUIRED)
+	set (QT_LIBS Qt6::Widgets
+			Qt6::QuickWidgets
+			Qt6::Quick
+			Qt6::Qml
+			Qt6::QuickControls2)
+else ()
+	find_package(Qt5 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets REQUIRED)
+	set (QT_LIBS Qt5::Widgets
+			Qt5::QuickWidgets
+			Qt5::Quick
+			Qt5::Qml
+			Qt5::QuickControls2)
+endif ()
+list(APPEND LIBRARYS ${QT_LIBS})
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LIBRARYS		asound)
 endif ()
+
 list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
 list(APPEND LIBRARYS sfml-system sfml-audio sfml-window sfml-graphics)
