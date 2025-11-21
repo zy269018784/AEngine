@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert Vulkan_SSBO_vert.glsl -o Vukan_SSBO_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag Vulkan_SSBO_frag.glsl -o Vukan_SSBO_frag.spv -e main

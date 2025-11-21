@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert TextureCubeMapArray_vert.glsl -o TextureCubeMapArray_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag TextureCubeMapArray_frag.glsl -o TextureCubeMapArray_frag.spv -e main

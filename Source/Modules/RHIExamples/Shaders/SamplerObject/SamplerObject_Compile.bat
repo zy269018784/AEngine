@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert SamplerObject_vert.glsl -o SamplerObject_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag SamplerObject_frag.glsl -o SamplerObject_frag.spv -e main

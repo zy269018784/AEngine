@@ -1,0 +1,2 @@
+    glslangValidator.exe -V --glsl-version 460 -S vert Texture1DArray_vert.glsl -o Texture1DArray_vert.spv -e main
+    glslangValidator.exe -V --glsl-version 460 -S frag Texture1DArray_frag.glsl -o Texture1DArray_frag.spv -e main

@@ -3,8 +3,10 @@ int MusicPlayer(int argc, char** argv);
 int HttpFileDownloader(int argc, char** argv);
 int DxfWriter(int argc, char** argv);
 int DXFWrite2(int argc, char **argv);
+int RHIExample();
 int main(int argc, char **argv)
 {
+	return RHIExample();
 	//return DXFWrite2(argc, argv);
 	return Play(argv[1]);
 	return HttpFileDownloader(argc, argv);

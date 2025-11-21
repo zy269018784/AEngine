@@ -1,0 +1,249 @@
+#include "RHIApplicationTexture1DArray.h"
+#include "Vulkan/Common.h"
+#include <stb_image.h>
+
+#include "OpenGLObjects/Texture/OpenGLTexture.h"
+/*
+    VBO1三角形: 红色和黄色
+    VBO1三角形: 蓝色和绿色
+*/
+static float VertexAttributes[] = {
+    // VBO1                                                      // VBO2
+    // pos              color              uv                    // pos              color              uv
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+
+     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,           -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f
+};
+
+//static float VertexAttributes[] = {
+//    // VBO1                                                    
+//    // pos              color              uv                  
+//    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,         
+//     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,         
+//     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 1.0f,         
+//
+//     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  1.0f, 1.0f,         
+//    -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,         
+//    -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,         
+//};
+
+
+static unsigned int Index[] = {
+    0, 1, 2,
+    3, 4, 5
+};
+
+RHIApplicationTexture1DArray::RHIApplicationTexture1DArray(GLFWwindow* InWindow)
+    : RHIApplication(InWindow)
+{
+
+}
+
+RHIApplicationTexture1DArray::~RHIApplicationTexture1DArray()
+{
+    delete RHITexture1DArray;
+    delete RHISampler1DArray;
+    delete VertexShader;
+    delete FragmengShader;
+}
+
+void RHIApplicationTexture1DArray::Init()
+{
+    CreateVBO();
+    CreateEBO();
+    CreateTexture();
+    CreateSRB();
+    CreateVertexDescriptioin();
+    CreateGraphicsPipeline();
+}
+
+void RHIApplicationTexture1DArray::CreateVBO()
+{
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+}
+
+void RHIApplicationTexture1DArray::CreateEBO()
+{
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+}
+
+void RHIApplicationTexture1DArray::CreateTexture()
+{
+#if 0
+    /*
+        STBI_rgb_alpha统一转成4通道,
+        有些vulkan设备不支持R8G8B8
+    */
+   std::uint8_t *pixels = new  std::uint8_t[32 * 32 * 4];
+   for (int i = 0; i < 32; i++)
+   {
+       for (int j = 0; j < 32; j++)
+       {
+            int offset = 4 * (i * 32 + j);
+            pixels[offset + 0] = 255;
+            pixels[offset + 1] = 255;
+            pixels[offset + 2] = 0;
+            pixels[offset + 3] = 255;  
+       }
+
+   }
+   int offset = 4 * (30 * 32 + 1);
+   pixels[offset + 0] = 255;
+   pixels[offset + 1] = 0;
+   pixels[offset + 2] = 0;
+   pixels[offset + 3] = 255;
+#else
+    int texWidth, texHeight, texChannels;
+    /*
+        STBI_rgb_alpha统一转成4通道
+    */
+    stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+#endif
+    RHISampler1DArray = pRHI->RHICreateSampler(RHIFilter::LINEAR, RHIFilter::LINEAR);
+#if 0
+    /*
+
+    */
+    unsigned char* PixelArray = new  unsigned char[2 * imageSize];
+    memcpy(PixelArray, pixels, imageSize);
+    memcpy(PixelArray + imageSize, pixels2, imageSize);
+
+    RHITexture1DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2);
+    pRHI->RHIUpdateTexture(RHITexture1DArray, PixelArray, 2 * imageSize);
+    RHITexture1DArray->Update(0, 0, 0, 0, 256, 256, 1, pixels);
+    RHITexture1DArray->Update(0, 0, 0, 1, 256, 256, 1, pixels2);
+    delete PixelArray;
+#else
+#if 1
+    RHITexture1DArray = pRHI->RHICreateTexture1DArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
+    RHITexture1DArray->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
+    //for (int i = 0; i < texHeight; i++)
+    //{
+    //    int offset = 4 * (i * texWidth);
+    //    RHITexture1DArray->Update(0, 0, i, 0, texWidth, 1, 1, pixels + offset);
+    //}
+#else
+     RHITexture1DArray = pRHI->RHICreateTexture1DArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32);
+     RHITexture1DArray->Update(0, 0, 0, 0, 32, 32, 1, pixels);
+     //RHITexture1DArray->Update(0, 0, 0, 0, 16, 1, 1, pixels);
+     //RHITexture1DArray->Update(0, 0, 1, 0, 16, 1, 1, pixels + 64);
+#endif
+#endif
+}
+
+
+void RHIApplicationTexture1DArray::CreateSRB()
+{
+    SRB = pRHI->RHICreateShaderResourceBindings();
+    SRB->SetBindings({
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture1DArray, RHISampler1DArray)
+        });
+    SRB->Create();
+}
+
+void RHIApplicationTexture1DArray::CreateVertexDescriptioin()
+{
+#if 1
+    /*
+        使用VBO1
+    */
+    VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
+#else
+    /*
+        使用VBO2
+    */
+    VertexInputs.push_back(std::make_pair(RHIVBO, 8 * sizeof(float)));
+#endif
+}
+
+void RHIApplicationTexture1DArray::CreateGraphicsPipeline()
+{
+#if 1
+    auto vertShaderCode = ReadFile("Texture1DArray_vert.spv");
+    auto fragShaderCode = ReadFile("Texture1DArray_frag.spv");
+    // 创建Shader
+    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+#else
+    auto vertShaderCode = ReadFile2("Texture2DArray_vert.glsl");
+    auto fragShaderCode = ReadFile2("Texture2DArray_frag.glsl");
+    const char* p1 = vertShaderCode.c_str();
+    const char* p2 = fragShaderCode.c_str();
+
+    // std::cout << p1 << std::endl;
+    // std::cout << p2 << std::endl;
+     // 创建Shader
+    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
+    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
+#endif
+
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+        { 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { 0, 1, RHIVertexInputAttribute::Format::Float3,  3 * sizeof(float), 0 },
+        { 0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
+        });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+        { 16 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+        });
+    /*
+        用于创建Descriptor Set Layout和Pipeline Layout
+    */
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
+    GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+#if USE_RHI_VULKAN
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
+#else
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+#endif
+    GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline->Create();
+}
+
+void RHIApplicationTexture1DArray::Draw()
+{
+    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
+
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+    RHIWindow_->GetExtent(x, y, w, h);
+
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+}
