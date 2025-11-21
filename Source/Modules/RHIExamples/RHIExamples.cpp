@@ -145,7 +145,7 @@ int RHIExample()
 		Example_TextureCubeMapArray		OK,		
 	*/
 	//Example_Model(Window->GetHandle());
-	//Example_Triangle(Window->GetHandle());
+	Example_Triangle(Window->GetHandle());
 	//Example_TriangleIndexed(Window->GetHandle());
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());
@@ -160,7 +160,7 @@ int RHIExample()
 	//Example_TextureCubeMapArray(Window->GetHandle());
 	//Example_SampleObject(Window->GetHandle());
 	//Example_GeometryShader(Window->GetHandle());
-	Example_Scene(Window->GetHandle());
+	//Example_Scene(Window->GetHandle());
 	//Example_Player(Window->GetHandle());
 	CleanupWindow(Window->GetHandle());
 

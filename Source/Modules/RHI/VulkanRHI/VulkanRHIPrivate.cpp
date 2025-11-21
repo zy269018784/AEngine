@@ -10,9 +10,18 @@ void VulkanRHI::CreateInstance()
     std::vector<const char*> InstanceExtensions =
     {
         "VK_KHR_surface",
-        "VK_KHR_win32_surface",
+        //"VK_KHR_win32_surface",
         //"VK_KHR_xcb_surface"
     };
+#ifdef OS_IS_LINUX
+    InstanceExtensions.emplace_back("VK_KHR_xcb_surface");
+#endif
+
+#ifdef OS_IS_Windows
+    InstanceExtensions.emplace_back("VK_KHR_win32_surface");
+#endif
+
+
 
    std::vector<const char*> InstanceLayers = 
    {

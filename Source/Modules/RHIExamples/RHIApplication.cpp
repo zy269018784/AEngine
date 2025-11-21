@@ -14,12 +14,12 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
     glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
-
+#ifdef OS_SYSTEM_IS_WINDOWS
    	HWND hwnd = glfwGetWin32Window(Window);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-  
-    RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
 
+    RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+#endif
     std::cout << "RHIApplication End" << std::endl;
 }
 

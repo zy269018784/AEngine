@@ -101,7 +101,19 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/dxfrw/1.0.1/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/dxfrw/1.0.1/lib)
 list (APPEND LIBRARYS		dxfrw)
 
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
+list (APPEND LIBRARYS		glfw3)
+
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
 
 list (APPEND LIBRARYS		vulkan)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	list (APPEND LIBRARYS		X11 X11-xcb)
+endif ()
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/assimp/6.0.2/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/assimp/6.0.2/lib)
+list (APPEND LIBRARYS		assimp)
