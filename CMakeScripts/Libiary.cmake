@@ -84,3 +84,19 @@ list (APPEND LINK_PATH      ${LIBRARY_PATH}/Imath/3.1/lib)
 list (APPEND LIBRARYS		Iex-3_2 IlmThread-3_2 Imath-3_1)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/boost/1.84/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/boost/1.84/lib)
+list (APPEND LIBRARYS		boost_exception boost_filesystem)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/curl/8.17.0/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/curl/8.17.0/lib)
+list (APPEND LIBRARYS		curl)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/openssl/3.6.0/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/openssl/3.6.0/lib)
+list (APPEND LIBRARYS		ssl crypto)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/dxfrw/1.0.1/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/dxfrw/1.0.1/lib)
+list (APPEND LIBRARYS		dxfrw)
