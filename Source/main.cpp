@@ -7,8 +7,8 @@ int RHIExample();
 int CEFMain(int argc, char* argv[]) ;
 int main(int argc, char **argv)
 {
-	return CEFMain(argc, argv);
-	//Play(argv[1]);
+	//return CEFMain(argc, argv);
+	Play(argv[1]);
 	return RHIExample();
 	//return DXFWrite2(argc, argv);
 	return Play(argv[1]);

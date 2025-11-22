@@ -39,7 +39,15 @@ add_executable(${PROJECT_NAME} ${SRC_LIST}
 		Source/Modules/Window/X11Window.cpp
 		Source/Modules/Window/X11Window.h
 		Source/Modules/Window/CEFWindow.cpp
-		Source/Modules/Window/CEFWindow.h)
+		Source/Modules/Window/CEFWindow.h
+		Source/Modules/Window/QTWindow.cpp
+		Source/Modules/Window/QTWindow.h
+		Source/Modules/Window/GLFWWindow.cpp
+		Source/Modules/Window/GLFWWindow.h
+		Source/Modules/Window/MFCWindow.cpp
+		Source/Modules/Window/MFCWindow.h
+		Source/Modules/Window/SFMLWindow.cpp
+		Source/Modules/Window/SFMLWindow.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
