@@ -9,6 +9,8 @@
 		Support Forum - http://www.magpcss.org/ceforum/
 		Issue Tracker - https://github.com/chromiumembedded/cef/issues
 		C++ API Docs - Stable release docs / Beta release docs
+				https://cef-builds.spotifycdn.com/docs/stable.html
+				https://cef-builds.spotifycdn.com/docs/beta.html
 		Downloads - https://cef-builds.spotifycdn.com/index.html
 		Donations - http://www.magpcss.org/ceforum/donate.php
 */
