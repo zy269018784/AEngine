@@ -47,7 +47,9 @@ add_executable(${PROJECT_NAME} ${SRC_LIST}
 		Source/Modules/Window/MFCWindow.cpp
 		Source/Modules/Window/MFCWindow.h
 		Source/Modules/Window/SFMLWindow.cpp
-		Source/Modules/Window/SFMLWindow.h)
+		Source/Modules/Window/SFMLWindow.h
+		Source/Modules/Window/FLTKWindow.cpp
+		Source/Modules/Window/FLTKWindow.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
