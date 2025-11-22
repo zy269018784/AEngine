@@ -117,3 +117,7 @@ endif ()
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/assimp/6.0.2/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/assimp/6.0.2/lib)
 list (APPEND LIBRARYS		assimp)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/cef/142.0.15/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/cef/142.0.15/lib)
+list (APPEND LIBRARYS		cef)
