@@ -1,16 +1,20 @@
 1. API
+    SDL_OpenAudioDevice
+    SDL_CloseAudioDevice
+    SDL_OpenAudioDeviceStream
+
     SDL_AudioDevicePaused
     SDL_AudioStreamDevicePaused
     SDL_BindAudioStream
     SDL_BindAudioStreams
     SDL_ClearAudioStream
-    SDL_CloseAudioDevice
+    
     SDL_ConvertAudioSamples
     SDL_CreateAudioStream
     SDL_DestroyAudioStream
     SDL_FlushAudioStream
     SDL_GetAudioDeviceChannelMap
-    SDL_GetAudioDeviceFormat
+    SDL_GetAudioDeviceFormat                    Get the current audio format of a specific audio device.
     SDL_GetAudioDeviceGain
     SDL_GetAudioDeviceName
     SDL_GetAudioDriver
@@ -36,8 +40,8 @@
     SDL_LoadWAV_IO
     SDL_LockAudioStream
     SDL_MixAudio
-    SDL_OpenAudioDevice
-    SDL_OpenAudioDeviceStream
+
+
     SDL_PauseAudioDevice
     SDL_PauseAudioStreamDevice
     SDL_PutAudioStreamData
@@ -51,10 +55,11 @@
     SDL_SetAudioStreamFormat
     SDL_SetAudioStreamFrequencyRatio
     SDL_SetAudioStreamGain
-    SDL_SetAudioStreamGetCallback
+    SDL_SetAudioStreamGetCallback               Set a callback that runs when data is requested from an audio stream. 
+    SDL_SetAudioStreamPutCallback               Set a callback that runs when data is added to an audio stream.
     SDL_SetAudioStreamInputChannelMap
     SDL_SetAudioStreamOutputChannelMap
-    SDL_SetAudioStreamPutCallback               Set a callback that runs when data is added to an audio stream.
+    
     SDL_UnbindAudioStream
     SDL_UnbindAudioStreams
     SDL_UnlockAudioStream
