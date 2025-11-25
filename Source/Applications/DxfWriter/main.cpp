@@ -6,7 +6,7 @@
 #include "drw_interface.h"
 #include "drw_objects.h"
 #include "libdwgr.h"
-#include "main_doc.h"
+//#include "main_doc.h"
 
 #include <iostream>
 #include <memory>
@@ -110,6 +110,10 @@ public:
     void writeVports() override {}
     void writeDimstyles() override {}
     void writeAppId() override {}
+
+    void addPlotSettings(const DRW_PlotSettings* data) override {}
+
+    void writeObjects() override {}
 };
 
 

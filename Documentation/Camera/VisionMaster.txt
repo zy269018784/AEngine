@@ -1,35 +1,32 @@
 类型:
 	IVmSolution 							方案
-	IVmSolutionEvent	
+	IVmSolutionEvent						方案事件类
 	IVmProcedure							流程
-						
-	ObjectList								流程对象
-	ProcessInfo
-	ProcessInfoList							流程信息
-	ModuInfo
-	ModuleInfoList							模块信息
-	CameraInfo
-	CameraInfoList
-	GroupModuInfo
-	GroupModuInfoList
+	VMObjectType							VM对象类型 
+	
+	ObjectList								对象信息列表
+	ProcessInfo								流程信息
+	ProcessInfoList							流程信息列表
+	ModuInfo								模块信息
+	ModuleInfoList							模块信息列表
+	CameraInfo								相机信息	
+	CameraInfoList							相机信息列表
+	GroupModuInfo							Group模块信息
+	GroupModuInfoList						Group模块信息列表
+	DynamicIOInfoItem						动态IO信息
+	DynamicIOInfoList						动态IO信息列表
+	ModuRunErrorInfo						模块运行错误信息
+	ModuRunErrorInfoList					模块运行错误信息列表 
 	ProcedureRunPolicy
 	ModuleImportData
-	OutputPlatformInfo
-	DynamicIOInfoItem
-	DynamicIOInfoList
-	ModuRunErrorInfo
-	ModuRunErrorInfoList
-	VMObjectType
+	OutputPlatformInfo						输出算法平台信息
 	ModuResultMemoryTypeEnum
-	
+	ImageBaseData							像基本信息
 	
 方法:
 	DisposeResource							退出程序前释放所有资源，注意避免在析构函数中调用
 
-方案:	
-	CreateSolutionInstance					创建方案
-	DestroySolutionInstance					关闭方案
-	LoadSolution							加载方案
+IVmSolution:	
 	IVmSolution::GetSolutionVersion			获取方案版本号
 	IVmSolution::HasPassword				判断方案是否加密
 	IVmSolution::GetSolutionPath			获取方案绝对路径
@@ -51,18 +48,24 @@
 	IVmSolution::UnRegisterCallBack			注销回调函数
 	IVmSolution::EnableModulesCallback		启用所有模块结果回调
 	IVmSolution::DisableModulesCallback		禁用所有模块结果回调
+	CreateSolutionInstance					创建方案
+	DestroySolutionInstance					关闭方案
+	LoadSolution							加载方案
 	
-流程:
-	LoadProcess
+IVmProcedure:
 	IVmProcedure::RegisterCallBackEvent
 	IVmProcedure::UnRegisterCallBackEvent
-	
+	LoadProcess
 回调:
 	OnWorkBeginStatusCallBack 				流程开始执行状态回调 	
 	OnWorkEndStatusCallBack 				流程执行结束状态回调 
 	
-
-
+用法:
+	using namespace VisionMasterSDK::IMVSAffineTransformModu;				
+    IVmProcedure* pVmPrc = (IVmProcedure*)(*pVmSol)["流程1"];
+    IMVSAffineTransformModuTool* Tool = (IMVSAffineTransformModuTool*)(*pVmSol)["流程1.仿射变换1"];
+	  
+	  
 
 
 

@@ -7,7 +7,7 @@
 #include "drw_interface.h"
 #include "drw_objects.h"
 #include "libdwgr.h"
-#include "main_doc.h"
+//#include "main_doc.h"
 class SimpleInterface : public DRW_Interface {
 public:
        void addCircle(double centerX, double centerY, double radius, const std::string& layer = "0") {
