@@ -1,0 +1,10 @@
+API:
+	lv_timer_create
+	lv_timer_delete
+	lv_timer_pause
+	lv_timer_resume
+	lv_timer_reset
+	lv_timer_enable	
+	lv_timer_set_cb
+	lv_timer_handler_set_resume_cb
+	lv_timer_set_period
