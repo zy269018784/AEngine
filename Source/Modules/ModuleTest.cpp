@@ -10,10 +10,14 @@
 
 #include "AudioPlayer/SDL3AudioPlayer.h"
 #include "AudioPlayer/SFMLAudioPlayer.h"
+#include "AudioPlayer/IrrKlangAudioPlayer.h"
 
 #include <iostream>
 #include <memory>
 #include <stdio.h>
+
+#include "AudioPlayer/IrrKlangAudioPlayer.h"
+
 int HelloFLTK() {
     //FLTKWindow Window;
     //return Fl::run();
@@ -101,6 +105,15 @@ int HelloSFMLAudioPlayer(int argc, char **argv)
 {
     std::unique_ptr<IAudioPlayer> Player;
     Player.reset(new SFMLAudioPlayer());
+    Player->Play(argv[1]);
+    while (1);
+    return 0;
+}
+
+int HelloIrrKlangAudioPlayer(int argc, char **argv)
+{
+    std::unique_ptr<IAudioPlayer> Player;
+    Player.reset(new IrrKlangAudioPlayer());
     Player->Play(argv[1]);
     while (1);
     return 0;

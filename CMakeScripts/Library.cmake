@@ -46,6 +46,12 @@ if (${USE_FDKACC})
 	list (APPEND LIBRARYS		fdk-aac)
 endif ()
 
+if (${USE_IrrKlang})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/irrKlang/1.6/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/irrKlang/1.6/lib)
+	list (APPEND LIBRARYS		IrrKlang)
+endif ()
+
 if (${USE_OPUS})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/opus/1.5.2/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/opus/1.5.2/lib)

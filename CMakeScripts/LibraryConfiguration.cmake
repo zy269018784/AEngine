@@ -16,6 +16,7 @@ else ()
     set (USE_ALSA    false)
 endif ()
 set (USE_SFML       true)
+set (USE_IrrKlang   false)
 
 set (USE_FLTK       false)
 set (USE_wxWidget   false)

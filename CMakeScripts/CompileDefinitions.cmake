@@ -115,6 +115,9 @@ if (${USE_WEBP})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_WEBP)
 endif ()
 
+if (${USE_IrrKlang})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_IrrKlang)
+endif ()
 
 
 
