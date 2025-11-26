@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_PORTAUDIO
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,8 +49,12 @@ static int paCallback(const void* inputBuffer, void* outputBuffer,
     //}
     return paContinue;
 }
+#endif
+
+
 int TestPortaudio()
 {
+#if   PROJECT_USE_PORTAUDIO
     Pa_Initialize();
 
     UserData userData;
@@ -93,5 +98,6 @@ int TestPortaudio()
     Pa_CloseStream(stream);
     fclose(userData.file);
     Pa_Terminate();
+#endif
     return 0;
 }
