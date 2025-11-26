@@ -125,3 +125,19 @@ list (APPEND LIBRARYS		cef cef_dll_wrapper)
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SDL/3.2.24/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/SDL/3.2.24/lib)
 list (APPEND LIBRARYS		SDL3)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/wxWidgets/3.2.6/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/wxWidgets/3.2.6/lib)
+list (APPEND LIBRARYS		wx_gtk3u_core-3.2 	wx_baseu-3.2 			wx_gtk3u_aui-3.2	wx_gtk3u_richtext-3.2
+							wx_gtk3u_ribbon-3.2 wx_gtk3u_propgrid-3.2 	wx_gtk3u_qa-3.2		wx_gtk3u_html-3.2
+							wx_gtk3u_gl-3.2		wx_baseu_xml-3.2		wx_baseu_net-3.2    wx_gtk3u_stc-3.2
+							wx_gtk3u_xrc-3.2	wx_gtk3u_adv-3.2)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/nana/1.7/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/nana/1.7/lib)
+list (APPEND LIBRARYS		nana)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
+list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images)
+

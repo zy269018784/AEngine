@@ -31,7 +31,9 @@ endif ()
 message(STATUS "INCLUDE_PATH ${INCLUDE_PATH}")
 message(STATUS "LINK_PATH ${LINK_PATH}")
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST}
+		Source/Modules/Window/wxWidgetWIndow.cpp
+		Source/Modules/Window/wxWidgetWIndow.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
