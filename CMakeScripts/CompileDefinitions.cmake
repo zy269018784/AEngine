@@ -123,6 +123,10 @@ if (${USE_PORTAUDIO})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_PORTAUDIO)
 endif ()
 
+if (${USE_MP3LAME})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_MP3LAME)
+endif ()
+
 
 
 

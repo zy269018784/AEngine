@@ -1,6 +1,6 @@
 ﻿#include "MP3FileFormat.h"
 #include "PCM.h"
-#ifdef PROJECT_USE_LAME
+#ifdef PROJECT_USE_MP3LAME
     #include <lame/lame.h>
 #endif
 
@@ -9,7 +9,7 @@
 
 int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
 {
-#ifdef PROJECT_USE_LAME
+#ifdef PROJECT_USE_MP3LAME
     auto start = std::chrono::high_resolution_clock::now();
 
 	lame_global_flags* GlobalFlags = nullptr;

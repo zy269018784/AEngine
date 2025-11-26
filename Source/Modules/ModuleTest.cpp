@@ -18,6 +18,9 @@
 
 #include "AudioPlayer/IrrKlangAudioPlayer.h"
 
+#include "MultiMedia/AudioFile/PCM.h"
+#include "MultiMedia/AudioFile/MP3FileFormat.h"
+
 int HelloFLTK() {
     //FLTKWindow Window;
     //return Fl::run();
@@ -119,9 +122,23 @@ int HelloIrrKlangAudioPlayer(int argc, char **argv)
     return 0;
 }
 
+int EncodeToMP3(char* InputFilename, char* OutputFilename)
+{
+    PCM pcm;
+    pcm.SetChannels(2);
+    pcm.SetBytesPerSample(2);
+   // pcm.SetSampleRate(44100);
+    pcm.SetSampleRate(48000);
+    pcm.ReadFromRawFile(InputFilename);
+
+    MP3FileFormat mp3ff;
+    return mp3ff.LameEncoder(&pcm, OutputFilename);
+}
+
 int TestPortaudio();
 int ModuleTest(int argc, char **argv)
 {
+    return EncodeToMP3(argv[1], argv[2]);
     return TestPortaudio();
 #ifdef PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
