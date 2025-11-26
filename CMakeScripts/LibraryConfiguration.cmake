@@ -10,6 +10,12 @@ endif ()
 
 set (USE_QT         true)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set (USE_ALSA    true)
+else ()
+    set (USE_ALSA    false)
+endif ()
+
 set (USE_FLTK       false)
 set (USE_SFML       false)
 set (USE_wxWidget   false)
