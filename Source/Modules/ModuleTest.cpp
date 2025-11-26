@@ -5,10 +5,11 @@
 // QT must before x11
 #include "Window/QTWindow.h"
 #include "Window/SFMLWindow.h"
-
 #include "Window/X11Window.h"
 #include "Window/GLFWWindow.h"
 
+#include "AudioPlayer/SDL3AudioPlayer.h"
+#include "AudioPlayer/SFMLAudioPlayer.h"
 
 #include <iostream>
 #include <memory>
@@ -87,13 +88,31 @@ int HelloIWindow() {
     return 0;
 }
 
+int HelloSDL3AudioPlayer(int argc, char **argv)
+{
+    std::unique_ptr<IAudioPlayer> Player;
+    Player.reset(new SDL3AudioPlayer());
+    Player->Play(argv[1]);
+    return 0;
+}
+
+
+int HelloSFMLAudioPlayer(int argc, char **argv)
+{
+    std::unique_ptr<IAudioPlayer> Player;
+    Player.reset(new SFMLAudioPlayer());
+    Player->Play(argv[1]);
+    while (1);
+    return 0;
+}
+
 int ModuleTest(int argc, char **argv)
 {
 #ifdef PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
 #endif
     //HelloX11();
-    HelloQT(argc, argv);
+    HelloSFMLAudioPlayer(argc, argv);
     //HelloGLFW();
     //HelloSFML();
     return 0;

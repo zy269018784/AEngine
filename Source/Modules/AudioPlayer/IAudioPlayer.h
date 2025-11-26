@@ -1,13 +1,10 @@
-//
-// Created by root on 11/27/25.
-//
-
-#ifndef ENGINE_IAUDIOPLAYER_H
-#define ENGINE_IAUDIOPLAYER_H
-
-
-class IAudioPlayer {
+#pragma once
+class IAudioPlayer
+{
+public:
+    IAudioPlayer();
+    virtual ~IAudioPlayer();
+public:
+    virtual int Play(const char *fileName) = 0;
 };
 
-
-#endif //ENGINE_IAUDIOPLAYER_H

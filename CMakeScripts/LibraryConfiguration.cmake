@@ -15,11 +15,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 else ()
     set (USE_ALSA    false)
 endif ()
+set (USE_SFML       true)
 
 set (USE_FLTK       false)
-set (USE_SFML       false)
 set (USE_wxWidget   false)
-
 set (USE_MFC        false)
 set (USE_CEGUI      false)
 set (USE_MYGUI      false)

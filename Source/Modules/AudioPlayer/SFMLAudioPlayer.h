@@ -1,13 +1,12 @@
-//
-// Created by root on 11/27/25.
-//
-
-#ifndef ENGINE_SFMLAUDIOPLAYER_H
-#define ENGINE_SFMLAUDIOPLAYER_H
-
-
-class SFMLAudioPlayer {
+#pragma once
+#include "IAudioPlayer.h"
+class SFMLAudioPlayer : public IAudioPlayer
+{
+public:
+    SFMLAudioPlayer();
+    virtual ~SFMLAudioPlayer();
+public:
+    virtual int Play(const char *fileName) override final;
 };
 
 
-#endif //ENGINE_SFMLAUDIOPLAYER_H

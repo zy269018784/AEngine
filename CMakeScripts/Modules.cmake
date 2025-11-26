@@ -61,4 +61,4 @@ list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
 
-message(STATUS "SRC_LIST ${SRC_LIST}")
+message(STATUS "SRC_LIST_AudioPlayer ${SRC_LIST_AudioPlayer}")

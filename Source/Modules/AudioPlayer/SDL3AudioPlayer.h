@@ -1,13 +1,12 @@
-//
-// Created by root on 11/27/25.
-//
-
-#ifndef ENGINE_SDL3AUDIOPLAYER_H
-#define ENGINE_SDL3AUDIOPLAYER_H
-
-
-class SDL3AudioPlayer {
+#pragma once
+#include "IAudioPlayer.h"
+class SDL3AudioPlayer : public IAudioPlayer
+{
+public:
+    SDL3AudioPlayer();
+    virtual ~SDL3AudioPlayer();
+public:
+    virtual int Play(const char *fileName) override final;
 };
 
 
-#endif //ENGINE_SDL3AUDIOPLAYER_H
