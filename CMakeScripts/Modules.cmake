@@ -2,6 +2,7 @@
 
 file(GLOB_RECURSE SRC_LIST_Applications     ${SRC_PREFIX}/Applications/*.cpp ${SRC_PREFIX}/Applications/*.c ${SRC_PREFIX}/Applications/*.h)
 file(GLOB_RECURSE SRC_LIST_Audio            ${SRC_PREFIX}/Modules/Audio/*.cpp ${SRC_PREFIX}/Modules/Audio/*.c ${SRC_PREFIX}/Modules/Audio/*.h)
+file(GLOB_RECURSE SRC_LIST_AudioPlayer      ${SRC_PREFIX}/Modules/AudioPlayer/*.cpp ${SRC_PREFIX}/Modules/AudioPlayer/*.c ${SRC_PREFIX}/Modules/AudioPlayer/*.h)
 file(GLOB_RECURSE SRC_LIST_MultiMedia       ${SRC_PREFIX}/Modules/MultiMedia/*.cpp ${SRC_PREFIX}/Modules/MultiMedia/*.c ${SRC_PREFIX}/Modules/MultiMedia/*.h)
 file(GLOB_RECURSE SRC_LIST_Network $        ${SRC_PREFIX}/Modules/Network/*.cpp ${SRC_PREFIX}/Modules/Network/*.c ${SRC_PREFIX}/Modules/Network/*.h)
 file(GLOB_RECURSE SRC_LIST_Type             ${SRC_PREFIX}/Modules/Type/*.cpp ${SRC_PREFIX}/Modules/Type/*.c ${SRC_PREFIX}/Modules/Type/*.h)
@@ -26,6 +27,7 @@ file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp $
 list (APPEND SRC_LIST
         ${SRC_LIST_Applications}
         ${SRC_LIST_Audio}
+        ${SRC_LIST_AudioPlayer}
         ${SRC_LIST_MultiMedia}
         ${SRC_LIST_Network}
         ${SRC_LIST_Type}
