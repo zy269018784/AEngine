@@ -60,10 +60,8 @@ int HelloSFML()
     Window->Run();
 }
 
-int HelloQT()
+int HelloQT(int argc, char **argv)
 {
-    int argc = 2;
-    char *argv[2] = {"aaa", "bbb"};
 #ifdef PROJECT_USE_QT
     QApplication app(argc, argv);
 #endif
@@ -89,13 +87,13 @@ int HelloIWindow() {
     return 0;
 }
 
-int ModuleTest()
+int ModuleTest(int argc, char **argv)
 {
 #ifdef PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
 #endif
     //HelloX11();
-    HelloQT();
+    HelloQT(argc, argv);
     //HelloGLFW();
     //HelloSFML();
     return 0;
