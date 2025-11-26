@@ -1,13 +1,17 @@
-//
-// Created by root on 11/22/25.
-//
-
-#ifndef ENGINE_FLTKWINDOW_H
-#define ENGINE_FLTKWINDOW_H
-
+#pragma once
+#ifdef PROJECT_USE_FTLK
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#endif
 
 class FLTKWindow {
+public:
+    FLTKWindow();
+    ~FLTKWindow();
+private:
+#ifdef PROJECT_USE_FTLK
+    Fl_Window *Handle;
+#endif
 };
 
 
-#endif //ENGINE_FLTKWINDOW_H

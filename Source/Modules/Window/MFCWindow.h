@@ -1,13 +1,28 @@
-//
-// Created by root on 11/22/25.
-//
+#pragma once
+#include "IWindow.h"
+#ifdef PROJECT_USE_MFC
+#include <QWindow>
+#endif
 
-#ifndef ENGINE_MFCWINDOW_H
-#define ENGINE_MFCWINDOW_H
-
-
-class MFCWindow {
+class MFCWindow : public IWindow
+{
+public:
+    MFCWindow(IWindow *Parent = nullptr);
+    ~MFCWindow();
+    virtual void Run() override final;
+#ifdef PROJECT_USE_MFC
+public:
+    QWindow *GetHandle();
+#endif
+public:
+    void SetTitle(const char *Title) override final;
+    void Resize(int W, int H) override final;
+    void SetWidth(int arg) override final;
+    void SetHeight(int arg) override final;
+    void SetPosition(int X, int Y) override final;
+private:
+#ifdef PROJECT_USE_MFC
+    QWindow *Handle;
+#endif
 };
 
-
-#endif //ENGINE_MFCWINDOW_H

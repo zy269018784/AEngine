@@ -6,9 +6,10 @@ int DXFWrite2(int argc, char **argv);
 int RHIExample();
 int CEFMain(int argc, char* argv[]);
 int testSDL3();
+int ModuleTest();
 int main(int argc, char **argv)
 {
-	return testSDL3();
+	return ModuleTest();
 	//return CEFMain(argc, argv);
 	Play(argv[1]);
 	return RHIExample();

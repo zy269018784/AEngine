@@ -1,5 +1,5 @@
 #include "wxWidgetWIndow.h"
-#include <wx/wx.h>
+
 wxWidgetWIndow::wxWidgetWIndow()
 {
 
@@ -9,7 +9,7 @@ wxWidgetWIndow::~wxWidgetWIndow()
 {
 
 }
-
+#if 0
 class DerivedApp : public wxApp
 {
 public:
@@ -26,3 +26,4 @@ bool DerivedApp::OnInit()
 
     return true;
 }
+#endif

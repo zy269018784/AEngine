@@ -13,7 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set (SRC_PREFIX ${PROJECT_SOURCE_DIR}/Source)
 
-include (CMakeScripts/Libiary.cmake)
+include (CMakeScripts/LibraryConfiguration.cmake)
+include (CMakeScripts/Library.cmake)
 include (CMakeScripts/Modules.cmake)
 
 message(STATUS "项目名称: ${PROJECT_NAME}")   
@@ -28,25 +29,9 @@ if (CMAKE_SYSTEM_NAME STREQUAL Windows)
 	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
 endif ()
 
-message(STATUS "INCLUDE_PATH ${INCLUDE_PATH}")
-message(STATUS "LINK_PATH ${LINK_PATH}")
-
-add_executable(${PROJECT_NAME} ${SRC_LIST}
-		Source/Modules/Window/wxWidgetWIndow.cpp
-		Source/Modules/Window/wxWidgetWIndow.h)
+add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
 
-#[[
-	操作系统宏定义
-#]]
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS)
-elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-	target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_LINUX)
-elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
-	target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_ANDROID)
-elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-	target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_MACOS)
-endif ()
+include (CMakeScripts/CompileDefinitions.cmake)

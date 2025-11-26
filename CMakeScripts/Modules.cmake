@@ -21,7 +21,7 @@ file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp $
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
 #message(STATUS "SRC_LIST_Network ${SRC_LIST_Network}")
-message(STATUS "SRC_LIST_GLAD ${SRC_LIST_GLAD}")
+#message(STATUS "SRC_LIST_Window ${SRC_LIST_Window}")
 
 list (APPEND SRC_LIST
         ${SRC_LIST_Applications}
@@ -36,13 +36,13 @@ list (APPEND SRC_LIST
         ${SRC_LIST_GLAD}
         ${SRC_LIST_RHIExamples}
         ${SRC_LIST_Model}
-        #{SRC_LIST_Window}
+        ${SRC_LIST_Window}
 )
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
 endif ()
 
-list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp)
+list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp ${SRC_PREFIX}/Modules/ModuleTest.cpp)
 
 list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
 
@@ -58,3 +58,5 @@ list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
+
+message(STATUS "SRC_LIST ${SRC_LIST}")
