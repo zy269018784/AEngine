@@ -64,6 +64,12 @@ if (${USE_OGG})
 	list (APPEND LIBRARYS		ogg)
 endif ()
 
+if (${USE_PORTAUDIO})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/PortAudio/v190700_20210406/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/PortAudio/v190700_20210406/lib)
+	list (APPEND LIBRARYS		portaudio)
+endif ()
+
 if (${USE_TWOLAME})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libtwolame/0.4.0/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libtwolame/0.4.0/lib)

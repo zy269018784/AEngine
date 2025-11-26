@@ -119,6 +119,9 @@ if (${USE_IrrKlang})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_IrrKlang)
 endif ()
 
+if (${USE_PORTAUDIO})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_PORTAUDIO)
+endif ()
 
 
 

@@ -119,8 +119,10 @@ int HelloIrrKlangAudioPlayer(int argc, char **argv)
     return 0;
 }
 
+int TestPortaudio();
 int ModuleTest(int argc, char **argv)
 {
+    return TestPortaudio();
 #ifdef PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
 #endif

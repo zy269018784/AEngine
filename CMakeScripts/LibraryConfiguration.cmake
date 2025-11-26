@@ -1,6 +1,10 @@
 set (USE_VULKAN     true)
 set (USE_GLFW       true)
-
+set (USE_QT         true)
+set (USE_BOOST      true)
+set (USE_PORTAUDIO  true)
+set (USE_SFML       true)
+set (USE_MFC        false)
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_X11    true)
@@ -8,19 +12,21 @@ else ()
     set (USE_X11    false)
 endif ()
 
-set (USE_QT         true)
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_ALSA    true)
 else ()
     set (USE_ALSA    false)
 endif ()
-set (USE_SFML       true)
-set (USE_IrrKlang   false)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Window")
+    set (USE_MFC    true)
+else ()
+    set (USE_MFC    false)
+endif ()
+
+set (USE_IrrKlang   false)
 set (USE_FLTK       false)
 set (USE_wxWidget   false)
-set (USE_MFC        false)
 set (USE_CEGUI      false)
 set (USE_MYGUI      false)
 set (USE_LVGL       false)
@@ -47,12 +53,6 @@ set (USE_OPENSSL    false)
 set (USE_DXFRW      false)
 set (USE_CEF        false)
 set (USE_SDL3       false)
-
-if (CMAKE_SYSTEM_NAME STREQUAL "Window")
-    set (USE_MFC    true)
-else ()
-    set (USE_MFC    false)
-endif ()
 
 
 
