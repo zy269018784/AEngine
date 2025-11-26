@@ -1,6 +1,8 @@
 #include "RHIApplicationTexture1DArray.h"
 #include "Vulkan/Common.h"
+#ifdef PROJECT_USE_STB
 #include <stb_image.h>
+#endif
 
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
 /*
@@ -73,6 +75,7 @@ void RHIApplicationTexture1DArray::CreateEBO()
 
 void RHIApplicationTexture1DArray::CreateTexture()
 {
+#ifdef PROJECT_USE_STB
 #if 0
     /*
         STBI_rgb_alpha统一转成4通道,
@@ -131,6 +134,7 @@ void RHIApplicationTexture1DArray::CreateTexture()
      RHITexture1DArray->Update(0, 0, 0, 0, 32, 32, 1, pixels);
      //RHITexture1DArray->Update(0, 0, 0, 0, 16, 1, 1, pixels);
      //RHITexture1DArray->Update(0, 0, 1, 0, 16, 1, 1, pixels + 64);
+#endif
 #endif
 #endif
 }

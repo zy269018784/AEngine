@@ -1,4 +1,5 @@
-﻿#include <boost/beast/core.hpp>
+﻿#ifdef PROJECT_USE_BOOST
+#include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
 #include <boost/asio.hpp>
@@ -354,3 +355,4 @@ int ProgressDownloadermain(int argc, char** argv) {
 
     return 0;
 }
+#endif

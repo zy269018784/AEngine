@@ -1,5 +1,6 @@
 ﻿#include "WebSocketServer.h"
 #include <iostream>
+#ifdef PROJECT_USE_BOOST
 WebSocketServer::WebSocketServer(unsigned short port)
     :   
         Context(),
@@ -67,3 +68,4 @@ void WebSocketServer::Run()
         Thread.join();
     }
 }
+#endif

@@ -3,14 +3,26 @@
 #include <iostream>
 #include <stdio.h>
 
-#include <aacenc_lib.h>
-#include <opus.h>
+#ifdef PROJECT_USE_FDKAAC
+    #include <aacenc_lib.h>
+#endif
 
-#include <ogg/ogg.h>
+#ifdef PROJECT_USE_OPUS
+    #include <opus.h>
+#endif
 
-#include <vorbis/vorbisenc.h>
 
-#include <twolame.h>
+#ifdef PROJECT_USE_OGG
+    #include <ogg/ogg.h>
+#endif
+
+#ifdef PROJECT_USE_VORBIS
+    #include <vorbis/vorbisenc.h>
+#endif
+
+#ifdef PROJECT_USE_TWOLAME
+    #include <twolame.h>
+#endif
 
 #include "MP3FileFormat.h"
 #include "FlacFileFormat.h"
@@ -143,6 +155,7 @@ int AudioFile::EncodeToMP3(char* InputFilename, char* OutputFilename)
 
 int AudioFile::EncodeToAAC(char* InputFilename, char* OutputFilename)
 {
+#ifdef PROJECT_USE_FDKAAC
     // 初始化编码器
     HANDLE_AACENCODER hEncoder;
     if (aacEncOpen(&hEncoder, 0, 2) != AACENC_OK) {
@@ -247,6 +260,7 @@ int AudioFile::EncodeToAAC(char* InputFilename, char* OutputFilename)
     fclose(aac_file);
     aacEncClose(&hEncoder);
     printf("AAC文件生成成功: output.aac\n");
+#endif
     return 0;
 }
 
@@ -263,6 +277,7 @@ int AudioFile::EncodeToAC3(char* InputFilename, char* OutputFilename)
 
 int AudioFile::EncodeToOPUS(char* InputFilename, char* OutputFilename)
 {
+#ifdef PROJECT_USE_OPUS
     // 打开PCM输入文件和Opus输出文件
     FILE* pcm_file = fopen(InputFilename, "rb");
     FILE* opus_file = fopen(OutputFilename, "wb");
@@ -319,7 +334,7 @@ int AudioFile::EncodeToOPUS(char* InputFilename, char* OutputFilename)
     fclose(pcm_file);
     fclose(opus_file);
     printf("Opus文件生成成功: %s\n", OutputFilename);
-    return 0;
+#endif
     return 0;
 }
 

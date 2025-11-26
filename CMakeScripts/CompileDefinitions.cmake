@@ -54,6 +54,67 @@ if (${USE_MYGUI})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_MYGUI)
 endif ()
 
+if (${USE_DXFRW})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_DXFRW)
+endif ()
+
+if (${USE_SDL3})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_SDL3)
+endif ()
+
+if (${USE_BOOST})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_BOOST)
+endif ()
+
+if (${USE_CURL})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_CURL)
+endif ()
+
+if (${USE_OGG})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_OGG)
+endif ()
+
+if (${USE_VORBIS})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_VORBIS)
+endif ()
+
+if (${USE_LAEM})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_LAME)
+endif ()
+
+if (${USE_ASSIMP})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_ASSIMP)
+endif ()
+
+if (${USE_CEF})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_CEF)
+endif ()
+
+if (${USE_STB})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_STB)
+endif ()
+
+if (${USE_OPENEXR})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_OPENEXR)
+endif ()
+
+if (${USE_FLAC})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_FLAC)
+endif ()
+
+if (${USE_OPUS})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_OPUS)
+endif ()
+
+
+if (${USE_FDKAAC})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_FDKAAC)
+endif ()
+
+if (${USE_WEBP})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_WEBP)
+endif ()
+
 
 
 

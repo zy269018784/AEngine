@@ -1,6 +1,8 @@
 #include "RHIApplicationTextureCubeMapArray.h"
 #include "Vulkan/Common.h"
-#include <stb_image.h>
+#ifdef PROJECT_USE_STB
+    #include <stb_image.h>
+#endif
 
 /*
     VBO1三角形: 红色和黄色
@@ -66,7 +68,7 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
 {
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
-
+#ifdef PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */    
@@ -85,6 +87,7 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
     stbi_uc* skybox2_bottom = stbi_load("textures/Storforsen2/negy.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* skybox2_front  = stbi_load("textures/Storforsen2/posz.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* skybox2_back   = stbi_load("textures/Storforsen2/negz.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
@@ -118,6 +121,7 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, texWidth, texHeight, 1, pixels);
 #endif
     //pRHI->RHIUpdateTexture(RHITexture2D, pixels, imageSize);
+#endif
 }
 
 

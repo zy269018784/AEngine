@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#ifdef  PROJECT_USE_ASSIMP
+	#include <assimp/Importer.hpp>
+	#include <assimp/scene.h>
+	#include <assimp/postprocess.h>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+
 class Model
 {
 public:
@@ -19,3 +21,4 @@ public:
 	std::vector <std::string> Textures;
 	//std::vector<int> offsets;
 };
+#endif

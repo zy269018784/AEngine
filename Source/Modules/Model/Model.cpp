@@ -1,9 +1,7 @@
 ﻿#include "Model.h"
 #include <list>
-
-
 #include <iostream>
-
+#ifdef  PROJECT_USE_ASSIMP
 void Model::LoadModel(std::string const& path)
 {
     Assimp::Importer importer;
@@ -113,3 +111,4 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, aiMatrix4x4 mat1)
             EBOData.push_back(offset + face.mIndices[j]);
     }
 }
+#endif

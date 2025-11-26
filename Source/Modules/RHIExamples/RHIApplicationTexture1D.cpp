@@ -1,6 +1,8 @@
 #include "RHIApplicationTexture1D.h"
 #include "Vulkan/Common.h"
+#ifdef PROJECT_USE_STB
 #include <stb_image.h>
+#endif
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色

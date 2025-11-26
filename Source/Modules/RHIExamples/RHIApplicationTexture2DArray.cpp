@@ -1,6 +1,8 @@
 #include "RHIApplicationTexture2DArray.h"
 #include "Vulkan/Common.h"
+#ifdef PROJECT_USE_STB
 #include <stb_image.h>
+#endif
 
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
 /*
@@ -77,6 +79,7 @@ void RHIApplicationTexture2DArray::CreateTexture()
 
     int texWidth, texHeight, texChannels;
     int texWidth2, texHeight2, texChannels2;
+#ifdef PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道,
         有些vulkan设备不支持R8G8B8
@@ -136,6 +139,7 @@ void RHIApplicationTexture2DArray::CreateTexture()
     glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
     glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 1, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels2);
+#endif
 #endif
 #endif
 }

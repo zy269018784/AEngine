@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_DXFRW
 #include "libdxfrw.h"
 #include "drw_base.h"
 #include "drw_classes.h"
@@ -143,3 +144,4 @@ int DxfWriter(int argc, char** argv)
     //writer->writeEntities();
 
 }
+#endif

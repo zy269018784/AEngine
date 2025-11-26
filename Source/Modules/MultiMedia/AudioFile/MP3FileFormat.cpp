@@ -1,13 +1,15 @@
 ﻿#include "MP3FileFormat.h"
 #include "PCM.h"
-
-#include <lame/lame.h>
+#ifdef PROJECT_USE_LAME
+    #include <lame/lame.h>
+#endif
 
 #include <chrono>
 #include <iostream>
 
 int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
 {
+#ifdef PROJECT_USE_LAME
     auto start = std::chrono::high_resolution_clock::now();
 
 	lame_global_flags* GlobalFlags = nullptr;
@@ -86,5 +88,7 @@ int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
     std::cout << "cost " << duration.count() << " ms " << std::endl;
+#endif
+
 	return 0;
 }

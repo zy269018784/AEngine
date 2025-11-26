@@ -1,5 +1,5 @@
-﻿#define BOOST_ASIO_DISABLE_SSL
-
+﻿#ifdef PROJECT_USE_BOOST
+#define BOOST_ASIO_DISABLE_SSL
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
@@ -155,3 +155,4 @@ int FileDownloader1(int argc, char** argv) {
 
     return 0;
 }
+#endif

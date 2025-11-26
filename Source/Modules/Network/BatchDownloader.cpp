@@ -1,4 +1,5 @@
-﻿#include <boost/beast/core.hpp>
+﻿#ifdef PROJECT_USE_BOOST
+#include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/asio.hpp>
 #include <fstream>
@@ -157,3 +158,4 @@ int BatchDownloadermain() {
 
     return 0;
 }
+#endif

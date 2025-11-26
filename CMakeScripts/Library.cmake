@@ -40,73 +40,107 @@ if (${USE_SFML})
 	list(APPEND LIBRARYS sfml-system sfml-audio sfml-window sfml-graphics)
 endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fdk-aac/2.0.3/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/fdk-aac/2.0.3/lib)
-list (APPEND LIBRARYS		fdk-aac)
+if (${USE_FDKACC})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fdk-aac/2.0.3/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fdk-aac/2.0.3/lib)
+	list (APPEND LIBRARYS		fdk-aac)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/opus/1.5.2/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/opus/1.5.2/lib)
-list (APPEND LIBRARYS		opus)
+if (${USE_OPUS})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/opus/1.5.2/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/opus/1.5.2/lib)
+	list (APPEND LIBRARYS		opus)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ogg/1.3.6/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/ogg/1.3.6/lib)
-list (APPEND LIBRARYS		ogg)
+if (${USE_OGG})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ogg/1.3.6/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/ogg/1.3.6/lib)
+	list (APPEND LIBRARYS		ogg)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libtwolame/0.4.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/libtwolame/0.4.0/lib)
-list (APPEND LIBRARYS		twolame)
+if (${USE_TWOLAME})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libtwolame/0.4.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libtwolame/0.4.0/lib)
+	list (APPEND LIBRARYS		twolame)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libflac/1.5.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/libflac/1.5.0/lib)
-list (APPEND LIBRARYS		FLAC)
+if (${USE_VORBIS})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libvorbis/1.3.7/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libvorbis/1.3.7/lib)
+	list (APPEND LIBRARYS		vorbis	vorbisenc vorbisfile)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libvorbis/1.3.7/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/libvorbis/1.3.7/lib)
-list (APPEND LIBRARYS		vorbis	vorbisenc vorbisfile)
+if (${USE_MP3LAME})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libmp3lame/3.100.2/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libmp3lame/3.100.2/lib)
+	list (APPEND LIBRARYS		mp3lame)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libmp3lame/3.100.2/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/libmp3lame/3.100.2/lib)
-list (APPEND LIBRARYS		mp3lame)
+if (${USE_FLAC})
+		list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libflac/1.5.0/include)
+		list (APPEND LINK_PATH      ${LIBRARY_PATH}/libflac/1.5.0/lib)
+		list (APPEND LIBRARYS		FLAC)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/FLAC/1.5.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/FLAC/1.5.0/lib)
-list (APPEND LIBRARYS		FLAC)
+if (${USE_FLAC})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/FLAC/1.5.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/FLAC/1.5.0/lib)
+	list (APPEND LIBRARYS		FLAC)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/webp/1.6.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/webp/1.6.0/lib)
-list (APPEND LIBRARYS		webp webpdecoder webpdemux webpmux sharpyuv)
+if (${USE_WEBP})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/webp/1.6.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/webp/1.6.0/lib)
+	list (APPEND LIBRARYS		webp webpdecoder webpdemux webpmux sharpyuv)
+endif ()
 
-#list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/giflib/5.2.2/include)
-#list (APPEND LINK_PATH      ${LIBRARY_PATH}/giflib/5.2.2/lib)
-#list (APPEND LIBRARYS		gif)
+if (${USE_GIF})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/giflib/5.2.2/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/giflib/5.2.2/lib)
+	list (APPEND LIBRARYS		gif)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/OpenEXR/3.2.1/include)
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/OpenEXR/3.2.1/include/OpenEXR)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/OpenEXR/3.2.1/lib)
-list (APPEND LIBRARYS		OpenEXR-3_2 OpenEXRCore-3_2 OpenEXRUtil-3_2)
+if (${USE_OPENEXR})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/OpenEXR/3.2.1/include)
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/OpenEXR/3.2.1/include/OpenEXR)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/OpenEXR/3.2.1/lib)
+	list (APPEND LIBRARYS		OpenEXR-3_2 OpenEXRCore-3_2 OpenEXRUtil-3_2)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Imath/3.1/include)
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Imath/3.1/include/Imath)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/Imath/3.1/lib)
-list (APPEND LIBRARYS		Iex-3_2 IlmThread-3_2 Imath-3_1)
+if (${USE_IMATH})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Imath/3.1/include)
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Imath/3.1/include/Imath)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Imath/3.1/lib)
+	list (APPEND LIBRARYS		Iex-3_2 IlmThread-3_2 Imath-3_1)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
+if (${USE_STB})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/boost/1.84/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/boost/1.84/lib)
-list (APPEND LIBRARYS		boost_exception boost_filesystem)
+if (${USE_BOOST})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/boost/1.84/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/boost/1.84/lib)
+	list (APPEND LIBRARYS		boost_exception boost_filesystem)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/curl/8.17.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/curl/8.17.0/lib)
-list (APPEND LIBRARYS		curl)
+if (${USE_CURL})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/curl/8.17.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/curl/8.17.0/lib)
+	list (APPEND LIBRARYS		curl)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/openssl/3.6.0/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/openssl/3.6.0/lib)
-list (APPEND LIBRARYS		ssl crypto)
+if (${USE_OPENSSL})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/openssl/3.6.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/openssl/3.6.0/lib)
+	list (APPEND LIBRARYS		ssl crypto)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/dxfrw/1.0.1/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/dxfrw/1.0.1/lib)
-list (APPEND LIBRARYS		dxfrw)
+if (${USE_DXFRW})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/dxfrw/1.0.1/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/dxfrw/1.0.1/lib)
+	list (APPEND LIBRARYS		dxfrw)
+endif ()
 
 if (${USE_GLFW})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
@@ -114,56 +148,70 @@ if (${USE_GLFW})
 	list (APPEND LIBRARYS		glfw3)
 endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
-
-list (APPEND LIBRARYS		vulkan)
-
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/assimp/6.0.2/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/assimp/6.0.2/lib)
-list (APPEND LIBRARYS		assimp)
-
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/cef/142.0.15/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/cef/142.0.15/lib)
-list (APPEND LIBRARYS		cef cef_dll_wrapper)
-
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SDL/3.2.24/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/SDL/3.2.24/lib)
-list (APPEND LIBRARYS		SDL3)
-
-if (${USE_wxWidget})
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/wxWidgets/3.2.6/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/wxWidgets/3.2.6/lib)
-list (APPEND LIBRARYS		wx_gtk3u_core-3.2 	wx_baseu-3.2 			wx_gtk3u_aui-3.2	wx_gtk3u_richtext-3.2
-							wx_gtk3u_ribbon-3.2 wx_gtk3u_propgrid-3.2 	wx_gtk3u_qa-3.2		wx_gtk3u_html-3.2
-							wx_gtk3u_gl-3.2		wx_baseu_xml-3.2		wx_baseu_net-3.2    wx_gtk3u_stc-3.2
-							wx_gtk3u_xrc-3.2	wx_gtk3u_adv-3.2)
+if (${USE_MQTT})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
 endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/nana/1.7/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/nana/1.7/lib)
-list (APPEND LIBRARYS		nana)
+if (${USE_VULKAN})
+	list (APPEND LIBRARYS		vulkan)
+endif ()
 
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
-list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images
-		xkbcommon
-		X11
-		pthread
-		dl
-		m
-		dbus-1
-		glib-2.0
-		wayland-client
-		wayland-cursor
-		wayland-egl
-		cairo
-		gobject-2.0
-		gio-2.0
+if (${USE_ASSIMP})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/assimp/6.0.2/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/assimp/6.0.2/lib)
+	list (APPEND LIBRARYS		assimp)
+endif ()
+
+if (${USE_CEF})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/cef/142.0.15/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/cef/142.0.15/lib)
+	list (APPEND LIBRARYS		cef cef_dll_wrapper)
+endif ()
+
+if (${USE_SDL3})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SDL/3.2.24/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/SDL/3.2.24/lib)
+	list (APPEND LIBRARYS		SDL3)
+endif ()
+
+if (${USE_wxWidget})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/wxWidgets/3.2.6/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/wxWidgets/3.2.6/lib)
+	list (APPEND LIBRARYS		wx_gtk3u_core-3.2 	wx_baseu-3.2 			wx_gtk3u_aui-3.2	wx_gtk3u_richtext-3.2
+								wx_gtk3u_ribbon-3.2 wx_gtk3u_propgrid-3.2 	wx_gtk3u_qa-3.2		wx_gtk3u_html-3.2
+								wx_gtk3u_gl-3.2		wx_baseu_xml-3.2		wx_baseu_net-3.2    wx_gtk3u_stc-3.2
+								wx_gtk3u_xrc-3.2	wx_gtk3u_adv-3.2)
+endif ()
+
+if (${USE_NANA})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/nana/1.7/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/nana/1.7/lib)
+	list (APPEND LIBRARYS		nana)
+endif ()
+
+if (${USE_FLTK})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
+	list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images
+			xkbcommon
+			X11
+			pthread
+			dl
+			m
+			dbus-1
+			glib-2.0
+			wayland-client
+			wayland-cursor
+			wayland-egl
+			cairo
+			gobject-2.0
+			gio-2.0
+		)
+
+	execute_process(
+			COMMAND fltk-config --cxxflags
+			OUTPUT_VARIABLE FLTK_CXXFLAGS
+			OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-
-execute_process(
-		COMMAND fltk-config --cxxflags
-		OUTPUT_VARIABLE FLTK_CXXFLAGS
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+endif ()

@@ -1,9 +1,12 @@
 ﻿#include "FlacFileFormat.h"
 #include "PCM.h"
 #include <iostream>
-#define FLAC__NO_DLL
-#include <FLAC/stream_encoder.h>
+#ifdef PROJECT_USE_FLAC
+    #define FLAC__NO_DLL
+    #include <FLAC/stream_encoder.h>
+#endif
 
+#ifdef PROJECT_USE_FLAC
 static FLAC__StreamEncoderWriteStatus write_callback(
     const FLAC__StreamEncoder* encoder,
     const FLAC__byte buffer[],
@@ -17,9 +20,11 @@ static FLAC__StreamEncoderWriteStatus write_callback(
         return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
     return FLAC__STREAM_ENCODER_WRITE_STATUS_OK;
 }
+#endif
 
 int FlacFileFormat::FlacEncoder(class PCM* InPCM, std::string OutputFile)
 {
+#ifdef PROJECT_USE_FLAC
     unsigned sample_rate = InPCM->GetSampleRate();
     /*
         通道数量
@@ -88,5 +93,6 @@ int FlacFileFormat::FlacEncoder(class PCM* InPCM, std::string OutputFile)
     FLAC__stream_encoder_delete(encoder);
     //fclose(pcm);
     fclose(flac);
+#endif
 	return 0;
 }

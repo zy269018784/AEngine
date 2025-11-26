@@ -26,8 +26,9 @@ std::vector<unsigned int> EBOData = {
      0, 1, 2,
     3, 4, 5
 };
-
+#ifdef PROJECT_USE_STB
  Model model;
+#endif
 
 RHIApplicationModel::RHIApplicationModel(GLFWwindow* InWindow)
     : RHIApplication(InWindow)
@@ -37,9 +38,9 @@ RHIApplicationModel::RHIApplicationModel(GLFWwindow* InWindow)
 
 void RHIApplicationModel::Init()
 {
-   
+#ifdef PROJECT_USE_STB
     model.LoadModel("Television_01_4k/Television_01_4k.gltf");
-
+#endif
 
     // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(45.f), (float)800 / (float)600, 0.1f, 100.0f);

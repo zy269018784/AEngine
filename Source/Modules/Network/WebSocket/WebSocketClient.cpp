@@ -1,5 +1,6 @@
 ﻿#include "WebSocketClient.h"
 #include <iostream>
+#ifdef PROJECT_USE_BOOST
 WebSocketClient::WebSocketClient()
 	:   Context(),
         Handle(Context)
@@ -37,3 +38,4 @@ bool WebSocketClient::Connect(const std::string& Host, const std::string& Port, 
     std::cout << "Connected to " << Host << ":" << Port << Path << std::endl;
     return true;
 }
+#endif

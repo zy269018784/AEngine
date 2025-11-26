@@ -1,11 +1,11 @@
 #include "RHIApplicationPlayer.h"
 #include "Vulkan/Common.h"
-
 #include "Model/Model.h"
-#include <stb_image.h>
 
-
-static Model model1;
+#ifdef PROJECT_USE_STB
+    #include <stb_image.h>
+    static Model model1;
+#endif
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
@@ -105,6 +105,7 @@ void RHIApplicationPlayer::CreateTexture()
 
 
     int texWidth, texHeight, texChannels;
+#ifdef PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -124,6 +125,7 @@ void RHIApplicationPlayer::CreateTexture()
     RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
 
     RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
+#endif
 }
 
 #define USE_MODEL 0

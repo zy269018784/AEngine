@@ -1,9 +1,17 @@
 ﻿#include "OggFileFormat.h"
 #include "PCM.h"
-#include <ogg/ogg.h>
-#include <vorbis/vorbisenc.h>
+
+#ifdef PROJECT_USE_OGG
+    #include <ogg/ogg.h>
+#endif
+
+#ifdef PROJECT_USE_VORBIS
+    #include <vorbis/vorbisenc.h>
+#endif
+
 int OggFileFormat::VorbisEncoder(class PCM* InPCM, std::string OutputFile)
 {
+#ifdef PROJECT_USE_OGG
     FILE* ogg_file = fopen(OutputFile.data(), "wb");
     if (!ogg_file)
     {
@@ -118,4 +126,5 @@ int OggFileFormat::VorbisEncoder(class PCM* InPCM, std::string OutputFile)
     vorbis_comment_clear(&vc);
     vorbis_info_clear(&vi);
     fclose(ogg_file);
+#endif
 }

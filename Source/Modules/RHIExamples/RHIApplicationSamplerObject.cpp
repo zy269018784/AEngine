@@ -1,6 +1,8 @@
 #include "RHIApplicationSamplerObject.h"
 #include "Vulkan/Common.h"
+#ifdef PROJECT_USE_STB
 #include <stb_image.h>
+#endif
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
@@ -120,6 +122,7 @@ void RHIApplicationSamplerObject::CreateTexture()
     RHISamplers[3] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST, RHIAddressMode::CLAMP_TO_BORDER, RHIAddressMode::CLAMP_TO_BORDER);
 
     int texWidth, texHeight, texChannels;
+#ifdef PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -145,6 +148,7 @@ void RHIApplicationSamplerObject::CreateTexture()
         RHITextures[i]->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
         pRHI->RHIUpdateTexture(RHITextures[i], pixels, imageSize);
     }
+#endif
 }
 
 

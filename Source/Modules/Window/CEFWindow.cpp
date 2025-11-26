@@ -1,6 +1,9 @@
 #include "CEFWindow.h"
-#include <include/cef_app.h>
-#include <include/wrapper/cef_helpers.h>
+#ifdef PROJECT_USE_CEF
+    #include <include/cef_app.h>
+    #include <include/wrapper/cef_helpers.h>
+#endif
+
 CEFWindow::CEFWindow()
 {
 
@@ -10,7 +13,7 @@ CEFWindow::~CEFWindow()
 {
 
 }
-
+#ifdef PROJECT_USE_CEF
 class SimpleClient : public CefClient, public CefLifeSpanHandler {
 public:
     SimpleClient() {}
@@ -85,3 +88,4 @@ int CEFMain(int argc, char* argv[])
 
     return 0;
 }
+#endif

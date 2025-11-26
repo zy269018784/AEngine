@@ -1,10 +1,17 @@
-﻿#include <curl/curl.h>
-#include <boost/beast/core.hpp>
-#include <boost/beast/http.hpp>
-#include <boost/beast/version.hpp>
+﻿#ifdef PROJECT_USE_CURL
+    #include <curl/curl.h>
+#endif
+
+#ifdef PROJECT_USE_BOOST
+    #include <boost/beast/core.hpp>
+    #include <boost/beast/http.hpp>
+    #include <boost/beast/version.hpp>
+#endif
+
 #include "http.h"
 int http_main(int argc, char** argv)
 {
+#ifdef PROJECT_USE_BOOST
     try {
         if (argc != 4) {
             std::cerr << "Usage: " << argv[0] << " <address> <port> <doc_root>\n";
@@ -31,4 +38,5 @@ int http_main(int argc, char** argv)
     }
 
     return 0;
+#endif
 }

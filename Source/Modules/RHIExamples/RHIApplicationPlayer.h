@@ -8,7 +8,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stb_image.h>
+
+#ifdef PROJECT_USE_STB
+    #include <stb_image.h>
+#endif
 
 #include <RHI.h>
 #include <RHIObjects/Resource/RHIBuffer.h>
@@ -46,5 +49,7 @@ private:
     glm::mat4 projection;
     glm::mat4 mvp;
     float fov;
+#ifdef PROJECT_USE_STB
     stbi_uc* pixels;
+#endif
 };

@@ -1,4 +1,4 @@
-
+#ifdef PROJECT_USE_DXFRW
 #include "libdxfrw.h"
 #include "drw_base.h"
 #include "drw_classes.h"
@@ -116,3 +116,4 @@ int DXFWrite2(int argc, char **argv)
     bool success = dxf.write(&SInterface, DRW::AC1015, false);
     return 0;
 }
+#endif
