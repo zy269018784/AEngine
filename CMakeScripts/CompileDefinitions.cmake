@@ -128,5 +128,12 @@ if (${USE_MP3LAME})
 endif ()
 
 
+if (${USE_D3D12})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_D3D12)
+endif ()
+
+
+
+
 
 

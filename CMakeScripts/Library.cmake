@@ -34,6 +34,14 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LINK_PATH 		/usr/lib/x86_64-linux-gnu/)
 endif ()
 
+
+if (${USE_SFML})
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Direct3D/12/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Direct3D/12/lib)
+	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx)
+endif ()
+
+
 if (${USE_SFML})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
@@ -166,6 +174,8 @@ if (${USE_MQTT})
 endif ()
 
 if (${USE_VULKAN})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Vulkan/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Vulkan/lib)
 	list (APPEND LIBRARYS		vulkan)
 endif ()
 

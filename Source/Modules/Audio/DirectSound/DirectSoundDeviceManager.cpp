@@ -1,4 +1,4 @@
-﻿#ifdef OS_IS_WINDOWS
+﻿#ifdef OS_IS_WINDOWS_1
 #include "DirectSoundDeviceManager.h"
 #include <iostream>
 #pragma comment(lib, "dsound.lib")

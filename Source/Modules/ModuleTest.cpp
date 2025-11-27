@@ -37,6 +37,7 @@ int HelloX11()
     Window->Resize(960, 600);
     Window->SetPosition(960, 0);
     Window->Run();
+    return 0;
 }
 
 int HelloGLFW()
@@ -54,6 +55,7 @@ int HelloGLFW()
 #ifdef PROJECT_USE_GLFW
     glfwTerminate();
 #endif
+    return 0;
 }
 
 int HelloSFML()
@@ -66,6 +68,7 @@ int HelloSFML()
     //Window->SetHeight(600);
     Window->SetPosition(960, 0);
     Window->Run();
+    return 0;
 }
 
 int HelloQT(int argc, char **argv)

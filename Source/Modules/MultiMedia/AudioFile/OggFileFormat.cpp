@@ -127,4 +127,5 @@ int OggFileFormat::VorbisEncoder(class PCM* InPCM, std::string OutputFile)
     vorbis_info_clear(&vi);
     fclose(ogg_file);
 #endif
+    return 0;
 }

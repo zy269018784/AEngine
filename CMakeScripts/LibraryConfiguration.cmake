@@ -6,6 +6,7 @@ set (USE_PORTAUDIO  true)
 set (USE_SFML       true)
 set (USE_MFC        false)
 set (USE_MP3LAME    true)
+set (USE_D3D12  	false)
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_X11    true)
@@ -20,8 +21,10 @@ else ()
 endif ()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Window")
+	set (USE_D3D12  true)
     set (USE_MFC    true)
 else ()
+	set (USE_D3D12  false)
     set (USE_MFC    false)
 endif ()
 
