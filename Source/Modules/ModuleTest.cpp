@@ -141,13 +141,14 @@ int EncodeToMP3(char* InputFilename, char* OutputFilename)
 int TestPortaudio();
 int ModuleTest(int argc, char **argv)
 {
+    return HelloSFMLAudioPlayer(argc, argv);
     return EncodeToMP3(argv[1], argv[2]);
     return TestPortaudio();
 #ifdef PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
 #endif
     //HelloX11();
-    HelloSFMLAudioPlayer(argc, argv);
+    
     //HelloGLFW();
     //HelloSFML();
     return 0;

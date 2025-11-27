@@ -1,6 +1,6 @@
-#include <mqtt/mqtt.h>
-
-void testMQTT() {
-
-    MQTTConfig config;
-}
+//#include <mqtt/mqtt.h>
+//
+//void testMQTT() {
+//
+//    MQTTConfig config;
+//}

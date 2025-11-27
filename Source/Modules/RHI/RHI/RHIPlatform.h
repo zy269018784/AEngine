@@ -1,8 +1,8 @@
 #pragma once
-#ifdef OS_SYSTEM_IS_WINDOWS
+#ifdef OS_IS_WINDOWS
 	#define RHI_USE_PLATFORM_WIN32_KHR	1
 #endif
-#ifdef OS_SYSTEM_IS_ANDROID
+#ifdef OS_IS_ANDROID
 	#define RHI_USE_PLATFORM_ANDROID_KHR		0
 #endif
 #ifdef OS_IS_LINUX
