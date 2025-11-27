@@ -27,7 +27,7 @@ else ()
 	set (USE_D3D12  false)
     set (USE_MFC    false)
 endif ()
-
+set (USE_MODBUS     false)
 set (USE_IrrKlang   false)
 set (USE_FLTK       false)
 set (USE_wxWidget   false)

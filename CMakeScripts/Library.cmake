@@ -212,6 +212,13 @@ if (${USE_NANA})
 	list (APPEND LIBRARYS		nana)
 endif ()
 
+if (${USE_MODBUS})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Modbus/3.1.11/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Modbus/3.1.11/lib)
+	list (APPEND LIBRARYS		modbus)
+endif ()
+
+
 if (${USE_FLTK})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)

@@ -133,7 +133,8 @@ if (${USE_D3D12})
 endif ()
 
 
-
-
+if (${USE_MODBUS})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_MODBUS)
+endif ()
 
 
