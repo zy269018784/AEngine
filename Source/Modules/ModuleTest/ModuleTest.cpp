@@ -141,8 +141,10 @@ int EncodeToMP3(char* InputFilename, char* OutputFilename)
 int TestPortaudio();
 int TestModbusServer(int argc, char *argv[]);
 void TestBluetooth();
+int TestAlsa();
 int ModuleTest(int argc, char **argv)
 {
+    return TestAlsa();
     TestBluetooth();
     return 0;
     return TestModbusServer(argc, argv);

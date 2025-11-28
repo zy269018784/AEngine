@@ -22,7 +22,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 else ()
     set (USE_ALSA    false)
 endif ()
-    set (USE_ALSA    false)
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Window")
 	set (USE_D3D12  true)

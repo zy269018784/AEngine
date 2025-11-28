@@ -106,6 +106,9 @@ if (${USE_OPUS})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_OPUS)
 endif ()
 
+if (${USE_ALSA})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_ALSA)
+endif ()
 
 if (${USE_FDKAAC})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_FDKAAC)
