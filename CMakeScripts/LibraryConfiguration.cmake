@@ -1,6 +1,6 @@
 set (USE_VULKAN     false)
 set (USE_GLFW       true)
-set (USE_QT         false)
+set (USE_QT         true)
 set (USE_BOOST      true)
 set (USE_PORTAUDIO  false)
 set (USE_SFML       true)
