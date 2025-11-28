@@ -145,3 +145,7 @@ if (${USE_VULKAN})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_VULKAN)
 endif ()
 
+if (${USE_BLUEZ})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_BLUEZ)
+endif ()
+

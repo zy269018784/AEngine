@@ -140,8 +140,11 @@ int EncodeToMP3(char* InputFilename, char* OutputFilename)
 
 int TestPortaudio();
 int TestModbusServer(int argc, char *argv[]);
+void TestBluetooth();
 int ModuleTest(int argc, char **argv)
 {
+    TestBluetooth();
+    return 0;
     return TestModbusServer(argc, argv);
     return HelloSFMLAudioPlayer(argc, argv);
     return EncodeToMP3(argv[1], argv[2]);

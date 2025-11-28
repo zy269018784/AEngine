@@ -17,7 +17,7 @@ file(GLOB_RECURSE SRC_LIST_Model            ${SRC_PREFIX}/Modules/Model/*.cpp ${
 file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp ${SRC_PREFIX}/Modules/Window/*.c ${SRC_PREFIX}/Modules/Window/*.h)
 file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/Bus/*.cpp ${SRC_PREFIX}/Modules/Bus/*.c ${SRC_PREFIX}/Modules/Bus/*.h)
 file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
-
+file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cpp ${SRC_PREFIX}/Modules/Bluetooth/*.c ${SRC_PREFIX}/Modules/Bluetooth/*.h)
 
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
@@ -49,6 +49,10 @@ endif ()
 
 if (${USE_VULKAN})
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
+endif ()
+
+if (${USE_Bluez})
+    list (APPEND SRC_LIST ${SRC_LIST_Bluetooth})
 endif ()
 
 list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp)

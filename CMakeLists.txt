@@ -29,7 +29,9 @@ if (CMAKE_SYSTEM_NAME STREQUAL Windows)
 	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
 endif ()
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST}
+		Source/Modules/Bluetooth/Bluetooth.cpp
+		Source/Modules/Bluetooth/Bluetooth.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})

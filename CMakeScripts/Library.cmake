@@ -228,6 +228,11 @@ if (${USE_MODBUS})
 	list (APPEND LIBRARYS		modbus)
 endif ()
 
+if (${USE_BLUEZ})
+	list (APPEND LIBRARYS		bluetooth)
+endif ()
+
+
 
 if (${USE_FLTK})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
