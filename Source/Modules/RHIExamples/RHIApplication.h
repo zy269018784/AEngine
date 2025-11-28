@@ -2,16 +2,18 @@
 
 #include "ES32RHI.h"
 #include "RHI.h"
-#include "VulkanRHI.h"
-
-#define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_VULKAN
+    #include "VulkanRHI.h"
+    #define GLFW_INCLUDE_VULKAN
+#endif
 #include <GLFW/glfw3.h>
+
 
 #ifdef OS_IS_WINDOWS
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
 
-#ifdef OS_IS_LINUX
+#ifdef PROJECT_USE_X11
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
 

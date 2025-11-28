@@ -9,5 +9,8 @@ public:
     ModbusServer();
     ~ModbusServer();
 public:
+#ifdef PROJECT_USE_QT
     QModbusTcpServer Handle;
+#endif
+
 };

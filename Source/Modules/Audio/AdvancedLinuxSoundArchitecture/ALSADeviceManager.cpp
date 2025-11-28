@@ -1,9 +1,11 @@
 ﻿#ifdef OS_IS_LINUX
 #include "ALSADeviceManager.h"
 #include <iostream>
+#ifdef PROJECT_USE_ALSA
 #include <alsa/asoundlib.h>
-
+#endif
 void list_alsa_devices() {
+#ifdef PROJECT_USE_ALSA
 	char** hints;
 	int err;
 
@@ -54,11 +56,14 @@ void list_alsa_devices() {
 	if (count == 0) {
 		printf("No ALSA devices found!\n");
 	}
+#endif
 }
 
 ALSADeviceManager::ALSADeviceManager()
 {
+#ifdef PROJECT_USE_ALSA
 	list_alsa_devices();
 	std::cout << "ALSA" << std::endl;
+#endif
 }
 #endif

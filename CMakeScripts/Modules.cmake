@@ -33,7 +33,6 @@ list (APPEND SRC_LIST
         ${SRC_LIST_Network}
         ${SRC_LIST_Type}
         ${SRC_LIST_RHI}
-        ${SRC_LIST_VulkanRHI}
         ${SRC_LIST_ES32RHI}
         #${SRC_LIST_OpenGL330RHI}
         ${SRC_LIST_GLAD}
@@ -43,8 +42,13 @@ list (APPEND SRC_LIST
         ${SRC_LIST_BUS}
         ${SRC_LIST_ModuleTest}
 )
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
+endif ()
+
+if (${USE_VULKAN})
+    list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
 endif ()
 
 list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp)

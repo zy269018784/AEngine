@@ -137,4 +137,11 @@ if (${USE_MODBUS})
     target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_MODBUS)
 endif ()
 
+if (${USE_GLM})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_GLM)
+endif ()
+
+if (${USE_VULKAN})
+    target_compile_definitions (${PROJECT_NAME} PUBLIC PROJECT_USE_VULKAN)
+endif ()
 

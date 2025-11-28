@@ -1,6 +1,7 @@
 #pragma once
-
+#ifdef  PROJECT_USE_VULKAN
 #define GLFW_INCLUDE_VULKAN
+#endif
 #include <GLFW/glfw3.h>
 namespace GLFW_RHIWindow
 {

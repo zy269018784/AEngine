@@ -1,13 +1,17 @@
 #pragma once
 #include <RHIApplication.h>
-#define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_VULKAN
+    #define GLFW_INCLUDE_VULKAN
+#endif
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#ifdef PROJECT_USE_GLM
+    #include <glm/glm.hpp>
+    #include <glm/gtc/matrix_transform.hpp>
+    #include <glm/gtc/type_ptr.hpp>
+#endif
 
 
 #include <RHI.h>

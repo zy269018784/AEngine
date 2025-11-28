@@ -117,7 +117,7 @@ int TestVulkan()
     for (uint32_t i = 0; i < glfwExtensionCount; i++) {
         std::cout << "  " << glfwExtensions[i] << std::endl;
     }
-
+#ifdef PROJECT_USE_VULKAN
     VkApplicationInfo AppInfo{};
     AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     AppInfo.pApplicationName = "Hello Triangle";
@@ -150,6 +150,7 @@ int TestVulkan()
         std::cout << "glfwCreateWindowSurface failed " << Result << std::endl;
         throw std::runtime_error("failed to create window surface!");
     }
+#endif
 
     glfwDestroyWindow(Window);
 

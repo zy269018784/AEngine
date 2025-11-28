@@ -1,6 +1,5 @@
 ﻿#pragma once
-#ifndef VULKAN
-#define VULKAN
+#ifdef PROJECT_USE_VULKAN
 
 //#include "RHI/RHIPlantform.h"
 
@@ -35,7 +34,7 @@
 #include <vulkan/vulkan_wayland.h>  
 #endif
 
-#endif // !VULKAN
+#endif
 
 /*
 	1. Instance

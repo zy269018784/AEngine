@@ -173,6 +173,11 @@ if (${USE_GLFW})
 	list (APPEND LIBRARYS		glfw3)
 endif ()
 
+if (${USE_GLM})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glm/1.0.2/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/glm/1.0.2/lib)
+endif ()
+
 if (${USE_MQTT})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)

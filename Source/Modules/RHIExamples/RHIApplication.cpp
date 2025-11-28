@@ -1,5 +1,5 @@
 ﻿#include <RHIApplication.h>
-#ifdef OS_IS_LINUX
+#ifdef PROJECT_USE_X11
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
@@ -17,7 +17,7 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
     glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
-#ifdef OS_IS_LINUX
+#ifdef PROJECT_USE_X11
     Display* Display = glfwGetX11Display();
     xcb_connection_t* connection = XGetXCBConnection(Display);
     xcb_window_t xcb_window = glfwGetX11Window(InWindow);
