@@ -73,7 +73,7 @@ int TestAlsa()
     }
 
 
-    Ctrl->ElementInfo(Eleminfo->Handle);
+    //Ctrl->ElementInfo(Eleminfo->Handle);
    // printf("eleminfo name %s\n", Eleminfo->Name());
 
     delete Eleminfo;
