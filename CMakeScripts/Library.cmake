@@ -9,19 +9,24 @@ if (${USE_QT})
 	set (CMAKE_AUTORCC ON)
 	message (STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 	if (USE_QT6)
-		find_package(Qt6 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets REQUIRED)
-		set (QT_LIBS Qt6::Widgets
+		find_package(Qt6 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets SerialBus REQUIRED)
+		set (QT_LIBS
+				Qt6::Widgets
 				Qt6::QuickWidgets
 				Qt6::Quick
 				Qt6::Qml
-				Qt6::QuickControls2)
+				Qt6::QuickControls2
+				Qt6::SerialBus
+		)
 	else ()
-		find_package(Qt5 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets REQUIRED)
+		find_package(Qt5 COMPONENTS Widgets Qml Quick QuickControls2 QuickWidgets SerialBus REQUIRED)
 		set (QT_LIBS Qt5::Widgets
 				Qt5::QuickWidgets
 				Qt5::Quick
 				Qt5::Qml
-				Qt5::QuickControls2)
+				Qt5::QuickControls2
+				Qt5::SerialBus
+		)
 	endif ()
 	list(APPEND LIBRARYS ${QT_LIBS})
 endif ()

@@ -4,7 +4,7 @@ file(GLOB_RECURSE SRC_LIST_Applications     ${SRC_PREFIX}/Applications/*.cpp ${S
 file(GLOB_RECURSE SRC_LIST_Audio            ${SRC_PREFIX}/Modules/Audio/*.cpp ${SRC_PREFIX}/Modules/Audio/*.c ${SRC_PREFIX}/Modules/Audio/*.h)
 file(GLOB_RECURSE SRC_LIST_AudioPlayer      ${SRC_PREFIX}/Modules/AudioPlayer/*.cpp ${SRC_PREFIX}/Modules/AudioPlayer/*.c ${SRC_PREFIX}/Modules/AudioPlayer/*.h)
 file(GLOB_RECURSE SRC_LIST_MultiMedia       ${SRC_PREFIX}/Modules/MultiMedia/*.cpp ${SRC_PREFIX}/Modules/MultiMedia/*.c ${SRC_PREFIX}/Modules/MultiMedia/*.h)
-file(GLOB_RECURSE SRC_LIST_Network $        ${SRC_PREFIX}/Modules/Network/*.cpp ${SRC_PREFIX}/Modules/Network/*.c ${SRC_PREFIX}/Modules/Network/*.h)
+file(GLOB_RECURSE SRC_LIST_Network          ${SRC_PREFIX}/Modules/Network/*.cpp ${SRC_PREFIX}/Modules/Network/*.c ${SRC_PREFIX}/Modules/Network/*.h)
 file(GLOB_RECURSE SRC_LIST_Type             ${SRC_PREFIX}/Modules/Type/*.cpp ${SRC_PREFIX}/Modules/Type/*.c ${SRC_PREFIX}/Modules/Type/*.h)
 file(GLOB_RECURSE SRC_LIST_RHI              ${SRC_PREFIX}/Modules/RHI/RHI/*.cpp ${SRC_PREFIX}/Modules/RHI/RHI/*.c ${SRC_PREFIX}/Modules/RHI/RHI/*.h)
 file(GLOB_RECURSE SRC_LIST_VulkanRHI        ${SRC_PREFIX}/Modules/RHI/VulkanRHI/*.cpp ${SRC_PREFIX}/Modules/RHI/VulkanRHI/*.c ${SRC_PREFIX}/Modules/RHI/VulkanRHI/*.h)
@@ -15,14 +15,15 @@ file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/glad/*.cpp ${S
 file(GLOB_RECURSE SRC_LIST_RHIExamples      ${SRC_PREFIX}/Modules/RHIExamples/*.cpp ${SRC_PREFIX}/Modules/RHIExamples/*.c ${SRC_PREFIX}/Modules/RHIExamples/*.h)
 file(GLOB_RECURSE SRC_LIST_Model            ${SRC_PREFIX}/Modules/Model/*.cpp ${SRC_PREFIX}/Modules/Model/*.c ${SRC_PREFIX}/Modules/Model/*.h)
 file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp ${SRC_PREFIX}/Modules/Window/*.c ${SRC_PREFIX}/Modules/Window/*.h)
-
+file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/BUS/*.cpp ${SRC_PREFIX}/Modules/BUS/*.c ${SRC_PREFIX}/Modules/BUS/*.h)
+file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
 
 
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
 #message(STATUS "SRC_LIST_Network ${SRC_LIST_Network}")
-#message(STATUS "SRC_LIST_Window ${SRC_LIST_Window}")
+message(STATUS "SRC_LIST_D3D12RHI ${SRC_LIST_D3D12RHI}")
 
 list (APPEND SRC_LIST
         ${SRC_LIST_Applications}
@@ -39,12 +40,14 @@ list (APPEND SRC_LIST
         ${SRC_LIST_RHIExamples}
         ${SRC_LIST_Model}
         ${SRC_LIST_Window}
+        ${SRC_LIST_BUS}
+        ${SRC_LIST_ModuleTest}
 )
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
 endif ()
 
-list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp ${SRC_PREFIX}/Modules/ModuleTest.cpp)
+list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp)
 
 list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
 
@@ -60,5 +63,6 @@ list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
 list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
+list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/ModuleTest)
 
 message(STATUS "SRC_LIST_AudioPlayer ${SRC_LIST_AudioPlayer}")

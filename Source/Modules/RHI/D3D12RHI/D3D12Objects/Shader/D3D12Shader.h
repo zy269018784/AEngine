@@ -2,7 +2,7 @@
 #include "D3D12_Includes.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "RHIObjects/Shader/RHIShader.h"
-
+#include <cstddef>
 class D3D12Shader : public RHIShader
 {
 public:
