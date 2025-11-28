@@ -15,7 +15,7 @@ file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/glad/*.cpp ${S
 file(GLOB_RECURSE SRC_LIST_RHIExamples      ${SRC_PREFIX}/Modules/RHIExamples/*.cpp ${SRC_PREFIX}/Modules/RHIExamples/*.c ${SRC_PREFIX}/Modules/RHIExamples/*.h)
 file(GLOB_RECURSE SRC_LIST_Model            ${SRC_PREFIX}/Modules/Model/*.cpp ${SRC_PREFIX}/Modules/Model/*.c ${SRC_PREFIX}/Modules/Model/*.h)
 file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp ${SRC_PREFIX}/Modules/Window/*.c ${SRC_PREFIX}/Modules/Window/*.h)
-file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/BUS/*.cpp ${SRC_PREFIX}/Modules/BUS/*.c ${SRC_PREFIX}/Modules/BUS/*.h)
+file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/Bus/*.cpp ${SRC_PREFIX}/Modules/Bus/*.c ${SRC_PREFIX}/Modules/Bus/*.h)
 file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
 
 
@@ -23,7 +23,7 @@ file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.c
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
 #message(STATUS "SRC_LIST_Network ${SRC_LIST_Network}")
-message(STATUS "SRC_LIST_D3D12RHI ${SRC_LIST_D3D12RHI}")
+message(STATUS "SRC_LIST_BUS ${SRC_LIST_BUS}")
 
 list (APPEND SRC_LIST
         ${SRC_LIST_Applications}
