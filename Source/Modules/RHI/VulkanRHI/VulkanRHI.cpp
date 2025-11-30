@@ -154,7 +154,22 @@ RHIWindow* VulkanRHI::RHICreateWindow(struct wl_display* display, struct wl_surf
 #if RHI_USE_PLATFORM_XCB_KHR  
 RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
-	return nullptr;
+	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+
+	VulkanPhysicalDevice* PhysicalDevice = Instance->GetVulkanPhysicalDevice(GPUIndex);
+	VulkanDevice* Device = Devices[GPUIndex];
+
+	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
+	std::cout << "RHICreateWindow 1" << std::endl;
+	NewVulkanWindow->CreateSwapChain();
+	std::cout << "RHICreateWindow 2" << std::endl;
+	NewVulkanWindow->CreateRenderPass();
+	NewVulkanWindow->CreateFrameBuffer();
+	NewVulkanWindow->CreateCommandBuffer();
+	NewVulkanWindow->CreateSyncObject();
+	return NewVulkanWindow;
 }
 #endif
 
@@ -167,8 +182,8 @@ RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer
 
 RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 {
+	std::cout << "GPUIndex " << GPUIndex << std::endl;
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, InData);
-
 	return Buffer;
 }
 

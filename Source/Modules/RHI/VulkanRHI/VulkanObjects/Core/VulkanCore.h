@@ -34,7 +34,7 @@ inline VkCompareOp ToVulkanCompareOp(RHICompareOp RHICompareOp)
 	case RHICompareOp::Never:
 		Mode = VK_COMPARE_OP_NEVER;
 		break;
-	case RHICompareOp::Always:
+	case RHICompareOp::CompareOpAlways:
 		Mode = VK_COMPARE_OP_ALWAYS;
 		break;
 	case RHICompareOp::Equal:
@@ -305,7 +305,7 @@ inline VkCompareOp ToVkCompareOp(RHICompareOp RHICompareOp)
 	case RHICompareOp::Never:
 		Op = VK_COMPARE_OP_NEVER;
 		break;
-	case RHICompareOp::Always:
+	case RHICompareOp::CompareOpAlways:
 		Op = VK_COMPARE_OP_ALWAYS;
 		break;
 	case RHICompareOp::Equal:

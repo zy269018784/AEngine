@@ -11,6 +11,7 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
 #if USE_RHI_VULKAN
 #ifdef PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
+   // pRHI->RHIUseGPU(0);
 #endif
 
 #else

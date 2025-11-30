@@ -8,7 +8,7 @@
 VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface)
 	: PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
-
+	//PhysicalDevice->Query(Surface);
 }
 
 VulkanWindow::~VulkanWindow()

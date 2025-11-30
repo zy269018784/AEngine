@@ -16,7 +16,7 @@
 #endif
 
 #if RHI_USE_PLATFORM_XCB_KHR  
-#define VK_USE_PLATFORM_XCB_KHR 
+#define VK_USE_PLATFORM_XCB_KHR
 #endif
 
 #if RHI_USE_PLATFORM_XLIB_KHR
@@ -30,6 +30,7 @@
 
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
+
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR 
 #include <vulkan/vulkan_wayland.h>  

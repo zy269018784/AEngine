@@ -123,7 +123,7 @@ inline GLenum ToOpenGLCompareOp(RHICompareOp RHICompareOp)
 	case RHICompareOp::Never:
 		Mode = GL_NEVER;
 		break;
-	case RHICompareOp::Always:
+	case RHICompareOp::CompareOpAlways:
 		Mode = GL_ALWAYS;
 		break;
 	case RHICompareOp::Equal:

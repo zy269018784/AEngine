@@ -2,8 +2,9 @@
 #include <iostream>
 #include <algorithm>
 #include <limits>
-
-
+#if PROJECT_USE_X11
+#include <vulkan/vulkan_xcb.h>
+#endif
 VulkanSurface::VulkanSurface()
 {
 
@@ -14,6 +15,25 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
 {
     Handle = Surface;
 }
+
+#ifdef PROJECT_USE_X11
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
+{
+    VkXcbSurfaceCreateInfoKHR createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR;
+    createInfo.connection = connection;
+    createInfo.window = window;
+
+    // Create the surface
+    VkResult result = vkCreateXcbSurfaceKHR(InInstance->GetHandle(), &createInfo, nullptr, &Handle);
+    if (result != VK_SUCCESS) {
+        // Handle error
+        throw std::runtime_error("Failed to create XCB Vulkan surface!");
+    }
+}
+
+#endif
+
 
 //VulkanSurface::VulkanSurface(VulkanInstance *InInstance, GLFWwindow* InWindow)
 //	: GLFWWindow(InWindow), Instance(InInstance)
@@ -40,7 +60,6 @@ VkSurfaceKHR VulkanSurface::GetHandle() const
 
 void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
 {
-
     PhysicalDevice.GetPhysicalDeviceSurfaceCapabilitiesKHR(Handle, &Capabilities);
 
     std::uint32_t FormatCount;

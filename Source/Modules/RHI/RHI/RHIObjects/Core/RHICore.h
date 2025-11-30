@@ -47,9 +47,9 @@ enum class RHITopology
 	Patches
 };
 
-enum class RHICullMode
+enum class RHICullMode : uint8_t
 {
-	None,
+	CullModeNone,
 	Front,
 	Back,
 	Front_Back
@@ -71,7 +71,7 @@ enum class RHIPolygonMode
 enum class RHICompareOp
 {
 	Never,
-	Always,
+	CompareOpAlways,
 	Equal,
 	NotEqual,
 	Less,
