@@ -113,7 +113,7 @@ void X11Window::SetPosition(int X, int Y)
 #ifdef PROJECT_USE_X11
 xcb_connection_t *X11Window::GetXCBConnection()
 {
-    return xcb_connect(NULL, NULL);;
+    return XGetXCBConnection(X11Display);
 }
 
 xcb_window_t X11Window::GetWindow()
