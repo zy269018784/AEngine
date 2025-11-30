@@ -8,8 +8,12 @@
 class GLFWWindow : public IWindow
 {
 public:
-    GLFWWindow(IWindow *Parent = nullptr);
+    GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent = nullptr);
     ~GLFWWindow();
+#ifdef PROJECT_USE_GLFW
+    GLFWwindow* GetHandle();
+    void MakeContextCurrent(void);
+#endif
     virtual void Run() override final;
 public:
     void SetTitle(const char *Title) override final;

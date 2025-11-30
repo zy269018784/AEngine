@@ -9,7 +9,10 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
    // return;
     std::cout << "RHIApplication" << std::endl;
 #if USE_RHI_VULKAN
+#ifdef PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
+#endif
+
 #else
     /*
         opengl需要

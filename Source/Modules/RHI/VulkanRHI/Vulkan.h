@@ -27,6 +27,7 @@
 #define VK_USE_PLATFORM_WAYLAND_KHR
 #define VK_ENABLE_BETA_EXTENSIONS
 #endif
+
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
 

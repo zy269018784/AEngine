@@ -46,7 +46,7 @@ int HelloGLFW()
     glfwInit();
 #endif
     std::unique_ptr<IWindow> Window;
-    Window.reset(new GLFWWindow());
+    Window.reset(new GLFWWindow(IWindow::OpenGL46));
     Window->SetTitle("GLFW Window");
     Window->SetWidth(960);
     Window->SetHeight(600);

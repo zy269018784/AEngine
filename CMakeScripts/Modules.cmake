@@ -26,7 +26,7 @@ file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cp
 message(STATUS "SRC_LIST_BUS ${SRC_LIST_BUS}")
 
 list (APPEND SRC_LIST
-        ${SRC_LIST_Applications}
+        #${SRC_LIST_Applications}
         ${SRC_LIST_Audio}
         ${SRC_LIST_AudioPlayer}
         ${SRC_LIST_MultiMedia}
@@ -55,7 +55,7 @@ if (${USE_Bluez})
     list (APPEND SRC_LIST ${SRC_LIST_Bluetooth})
 endif ()
 
-list (APPEND SRC_LIST ${SRC_PREFIX}/main.cpp ${SRC_PREFIX}/stb_image.cpp)
+list (APPEND SRC_LIST ${SRC_PREFIX}/stb_image.cpp)
 
 list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
 

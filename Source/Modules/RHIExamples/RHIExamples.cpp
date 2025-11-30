@@ -15,9 +15,8 @@
 #include "RHIApplicationSamplerObject.h"
 #include "RHIApplicationGeometryShader.h"
 #include "RHIApplicationPlayer.h"
-
+#include "Window/GLFWWindow.h"
 #include "Vulkan/Common.h"
-#include "GLFW/RHIWindow.h"
 void Example_Model(GLFWwindow* Window)
 {
 	RHIApplicationModel App(Window);
@@ -124,10 +123,15 @@ void Example_Player(GLFWwindow* Window)
 
 int RHIExample()
 {
+#ifdef PROJECT_USE_GLFW
+	glfwInit();
+#endif
 #if USE_RHI_VULKAN
-	GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
+	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
+	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
 #else
-	GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::OpenGL46);
+	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::OpenGL46);
+	GLFWWindow *Window = new GLFWWindow(IWindow::OpenGL46);
 	Window->MakeContextCurrent();
 #endif
 	/*									OpenGL	Vulkan
