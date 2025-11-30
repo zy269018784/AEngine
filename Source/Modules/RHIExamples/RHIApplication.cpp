@@ -65,6 +65,7 @@ RHIApplication::~RHIApplication()
 void RHIApplication::Run()
 {
     Init();
+    return;
 #if 1
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))

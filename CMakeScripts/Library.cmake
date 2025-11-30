@@ -33,7 +33,7 @@ endif ()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LIBRARYS		asound)
-	list (APPEND LIBRARYS		X11 X11-xcb Xcursor Xrandr Xinerama Xfixes)
+	list (APPEND LIBRARYS		X11 X11-xcb xcb Xcursor Xrandr Xinerama Xfixes)
 	list (APPEND LIBRARYS		pango-1.0 pangocairo-1.0 pangoft2-1.0 pangoxft-1.0)
 	list (APPEND LIBRARYS		gtk-3)
 	list (APPEND LINK_PATH 		/usr/lib/x86_64-linux-gnu/)

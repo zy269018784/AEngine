@@ -1,11 +1,27 @@
 #include "SDL3Window.h"
+#include <iostream>
 
+#ifdef PROJECT_USE_X11
+extern "C"
+{
+#include <xcb/xcb.h>
+#include <X11/Xlib-xcb.h>
+#include <X11/Xutil.h>
+}
+#endif
 SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
+    Handle = SDL_CreateWindow("SDL3 Hello World", 800, 600, 0);
+    if (!Handle) {
+        std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+    }
+    SDL_CreateRenderer(Handle, nullptr);
 #ifdef PROJECT_USE_SDL3
     Uint32 windowID = SDL_GetWindowID(Handle);
     X11Window = static_cast<xcb_window_t>(windowID);
+    X11Connection = xcb_connect(nullptr, nullptr);
 #endif
 
 }

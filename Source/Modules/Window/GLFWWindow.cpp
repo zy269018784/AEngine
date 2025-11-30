@@ -138,7 +138,7 @@ void GLFWWindow::SetPosition(int X, int Y)
 #endif
 
 }
-
+#ifdef PROJECT_USE_GLFW
 #ifdef PROJECT_USE_X11
 xcb_connection_t *GLFWWindow::GetXCBConnection()
 {
@@ -158,4 +158,5 @@ xcb_window_t GLFWWindow::GetWindow()
     return 0;
 #endif
 }
+#endif
 #endif
