@@ -135,7 +135,7 @@ int RHIExample()
 #if USE_RHI_VULKAN
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
-	SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
+	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
 #else
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::OpenGL46);
 	GLFWWindow *Window = new GLFWWindow(IWindow::OpenGL46);
