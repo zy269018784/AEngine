@@ -23,7 +23,7 @@ void Example_Model(GLFWwindow* Window)
 	App.Run();
 }
 
-void Example_Triangle(GLFWwindow* Window)
+void Example_Triangle(IWindow* Window)
 {
 	RHIApplicationTriangle App(Window);
 	App.Run();
@@ -149,7 +149,7 @@ int RHIExample()
 		Example_TextureCubeMapArray		OK,		
 	*/
 	//Example_Model(Window->GetHandle());
-	Example_Triangle(Window->GetHandle());
+	Example_Triangle(Window);
 	//Example_TriangleIndexed(Window->GetHandle());
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());

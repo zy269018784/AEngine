@@ -69,3 +69,15 @@ void QTWindow::SetPosition(int X, int Y)
 #endif
 }
 
+
+#ifdef PROJECT_USE_X11
+xcb_connection_t *QTWindow::GetXCBConnection()
+{
+    return nullptr;
+}
+
+xcb_window_t QTWindow::GetWindow()
+{
+    return 0;
+}
+#endif

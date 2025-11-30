@@ -162,9 +162,7 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 	VulkanDevice* Device = Devices[GPUIndex];
 
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	std::cout << "RHICreateWindow 1" << std::endl;
 	NewVulkanWindow->CreateSwapChain();
-	std::cout << "RHICreateWindow 2" << std::endl;
 	NewVulkanWindow->CreateRenderPass();
 	NewVulkanWindow->CreateFrameBuffer();
 	NewVulkanWindow->CreateCommandBuffer();

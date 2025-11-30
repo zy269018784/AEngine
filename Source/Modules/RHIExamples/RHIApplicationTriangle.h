@@ -8,7 +8,7 @@
 #include <RHI.h>
 #include "RHIObjects/Resource/RHIBuffer.h"
 #include "RHIObjects/Window/RHIWindow.h"
-
+#include "Window/IWindow.h"
 
 /*
     spirv-cross.exe --version 460 DrawTriangle_vert.spv --output DrawTriangle_vert.glsl
@@ -20,7 +20,7 @@
 class RHIApplicationTriangle : public RHIApplication
 {
 public:
-    RHIApplicationTriangle(GLFWwindow* Window);
+    RHIApplicationTriangle(IWindow* Window);
 private:
     virtual void Init();
     virtual void Draw();

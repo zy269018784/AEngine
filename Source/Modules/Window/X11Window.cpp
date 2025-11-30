@@ -108,3 +108,16 @@ void X11Window::SetPosition(int X, int Y)
     XFlush(X11Display);
 #endif
 }
+
+
+#ifdef PROJECT_USE_X11
+xcb_connection_t *X11Window::GetXCBConnection()
+{
+    return nullptr;
+}
+
+xcb_window_t X11Window::GetWindow()
+{
+    return 0;
+}
+#endif

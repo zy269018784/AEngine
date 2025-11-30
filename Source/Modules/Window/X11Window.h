@@ -17,6 +17,10 @@ public:
     void SetWidth(int arg) override final;
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
+#ifdef PROJECT_USE_X11
+    xcb_connection_t *GetXCBConnection() override final;
+    xcb_window_t GetWindow() override final;
+#endif
 private:
 public:
 #ifdef PROJECT_USE_X11

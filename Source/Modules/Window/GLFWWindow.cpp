@@ -1,4 +1,10 @@
 #include "GLFWWindow.h"
+#ifdef PROJECT_USE_X11
+#include <xcb/xcb.h>
+#include <X11/Xlib-xcb.h>
+#include <X11/Xutil.h>
+#endif
+
 
 GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
@@ -132,3 +138,24 @@ void GLFWWindow::SetPosition(int X, int Y)
 #endif
 
 }
+
+#ifdef PROJECT_USE_X11
+xcb_connection_t *GLFWWindow::GetXCBConnection()
+{
+#ifdef PROJECT_USE_X11
+    Display* Display = glfwGetX11Display();
+    return XGetXCBConnection(Display);
+#else
+    return nullptr;
+#endif
+}
+
+xcb_window_t GLFWWindow::GetWindow()
+{
+#ifdef PROJECT_USE_X11
+    return glfwGetX11Window(Handle);
+#else
+    return 0;
+#endif
+}
+#endif

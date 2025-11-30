@@ -3,7 +3,8 @@
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
-RHIApplication::RHIApplication(GLFWwindow* InWindow)
+#include "Window/GLFWWindow.h"
+RHIApplication::RHIApplication(IWindow* InWindow)
     : Window(InWindow)
 {
    // return;
@@ -18,14 +19,17 @@ RHIApplication::RHIApplication(GLFWwindow* InWindow)
     /*
         opengl需要
     */
-    glfwMakeContextCurrent(InWindow);
+   // glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
 #ifdef PROJECT_USE_X11
-    Display* Display = glfwGetX11Display();
-    xcb_connection_t* connection = XGetXCBConnection(Display);
-    xcb_window_t xcb_window = glfwGetX11Window(InWindow);
+    //Display* Display = glfwGetX11Display();
+    //xcb_connection_t* connection = XGetXCBConnection(Display);
+    //xcb_window_t xcb_window = glfwGetX11Window(InWindow);
 
+
+    xcb_window_t xcb_window =  Window->GetWindow();
+    xcb_connection_t* connection = Window->GetXCBConnection();
     if (!connection || xcb_window == XCB_NONE) {
         std::cerr << "Failed to get XCB connection/window" << std::endl;
         return;
@@ -62,7 +66,8 @@ void RHIApplication::Run()
 {
     Init();
 #if 1
-    while (!glfwWindowShouldClose(Window))
+    auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
+    while (!glfwWindowShouldClose(glfwWin))
     {
         RHIWindow_->RHIBeginFrame();
         RHIWindow_->RHIBeginRenderPass();
@@ -71,7 +76,7 @@ void RHIApplication::Run()
         RHIWindow_->RHIEndFrame();
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(Window);
+        glfwSwapBuffers(glfwWin);
         glfwPollEvents();
     }
     RHIWindow_->WaitDeviceIdle();
@@ -94,7 +99,8 @@ void RHIApplication::Run()
 
 void RHIApplication::Resize(int w, int h)
 {
-    glfwSetWindowSize(Window, w, h);
+    Window->Resize(w, h);
+    //glfwSetWindowSize(Window, w, h);
 }
 
 void RHIApplication::Init()

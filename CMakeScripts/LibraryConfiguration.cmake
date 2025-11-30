@@ -42,7 +42,6 @@ set (USE_NANA       false)
 set (USE_MQTT       false)
 set (USE_ASSIMP     false)
 set (USE_CEF        false)
-set (USE_SDL3       false)
 set (USE_FDKAAC     false)
 set (USE_OPUS       false)
 set (USE_OGG        false)
@@ -59,7 +58,7 @@ set (USE_CURL       false)
 set (USE_OPENSSL    false)
 set (USE_DXFRW      false)
 set (USE_CEF        false)
-set (USE_SDL3       false)
+set (USE_SDL3       true)
 
 
 

@@ -18,6 +18,9 @@
 #endif
 
 #include <GLFW/glfw3native.h>
+
+#include "Window/IWindow.h"
+
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -35,7 +38,8 @@
 class RHIApplication
 {
 public:
-    RHIApplication(GLFWwindow* Window);
+    RHIApplication(IWindow* Window);
+    RHIApplication(GLFWwindow* Window) {};
     virtual ~RHIApplication();
     virtual void Run();
     virtual void Resize(int w, int h);
@@ -47,7 +51,7 @@ protected:
     /*
         GLFW窗口
     */
-    GLFWwindow* Window = nullptr;
+    IWindow* Window = nullptr;
     RHIWindow* RHIWindow_ = nullptr;
     /*
         RHI
