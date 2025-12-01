@@ -6,7 +6,7 @@
     #include <SFML/Audio/Music.hpp>
 #endif
 
-#ifdef PROJECT_USE_CEF
+#ifdef PROJECT_USE_CEF1
 #include "cef_app.h"
 #include "cef_client.h"
 #include "cef_render_handler.h"
@@ -26,14 +26,17 @@ int main(int argc, char **argv)
     Music->setLooping(true);
     Music->play();
 #endif
-    return cef_main(argc, argv);
+   // return cef_main(argc, argv);
     return RHIExample();
 }
+
+#if 0
 class MinimalClient : public CefClient
 {
 public:
     IMPLEMENT_REFCOUNTING(MinimalClient);
 };
+
 int cef_main(int argc, char **argv) {
     CefMainArgs main_args(argc, argv);
     CefSettings settings;
@@ -55,3 +58,4 @@ int cef_main(int argc, char **argv) {
     CefShutdown();
     return 0;
 }
+#endif

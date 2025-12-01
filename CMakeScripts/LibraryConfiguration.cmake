@@ -8,7 +8,7 @@ set (USE_MFC        false)
 set (USE_MP3LAME    true)
 set (USE_D3D12  	true)
 set (USE_GLM  	    true)
-set (USE_CEF        true)
+set (USE_CEF        false)
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_X11    true)
