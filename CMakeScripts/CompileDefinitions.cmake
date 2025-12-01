@@ -152,3 +152,8 @@ if (${USE_BLUEZ})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_BLUEZ)
 endif ()
 
+if (${USE_LIVE555})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_LIVE555)
+endif ()
+
+

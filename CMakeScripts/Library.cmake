@@ -233,7 +233,11 @@ if (${USE_BLUEZ})
 	list (APPEND LIBRARYS		bluetooth)
 endif ()
 
-
+if (${USE_LIVE555})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/live555/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/live555/lib)
+	list (APPEND LIBRARYS		BasicUsageEnvironment  groupsock. liveMedia UsageEnvironment)
+endif ()
 
 if (${USE_FLTK})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
