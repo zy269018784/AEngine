@@ -13,4 +13,7 @@
 				https://cef-builds.spotifycdn.com/docs/beta.html
 		Downloads - https://cef-builds.spotifycdn.com/index.html
 		Donations - http://www.magpcss.org/ceforum/donate.php
+
+	
+	https://cef-builds.spotifycdn.com/index.html#linux64
 */
