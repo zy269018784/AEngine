@@ -1,0 +1,8 @@
+ComPtr<ID3D12CommandQueue> g_CommandQueue;
+
+// 创建命令队列
+D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+if (FAILED(g_Device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_CommandQueue)))) {
+	return false;
+}

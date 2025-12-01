@@ -1,0 +1,25 @@
+ComPtr<ID3D12PipelineState> g_PipelineState;
+
+D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+psoDesc.InputLayout = { inputDescs, _countof(inputDescs) };
+psoDesc.pRootSignature = g_RootSignature.Get();
+psoDesc.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
+psoDesc.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
+psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
+psoDesc.RasterizerState.DepthClipEnable = TRUE;
+psoDesc.BlendState.AlphaToCoverageEnable = FALSE;
+psoDesc.BlendState.IndependentBlendEnable = FALSE;
+psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+psoDesc.DepthStencilState.DepthEnable = FALSE;
+psoDesc.DepthStencilState.StencilEnable = FALSE;
+psoDesc.SampleMask = UINT_MAX;
+psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+psoDesc.NumRenderTargets = 1;
+psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+psoDesc.SampleDesc.Count = 1;
+
+if (FAILED(g_Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&g_PipelineState)))) {
+	std::cerr << "Failed to create PSO" << std::endl;
+	return false;
+}

@@ -1,0 +1,6 @@
+ComPtr<ID3DBlob> vertexShader；
+
+if (FAILED(D3DCompile(vsCode, strlen(vsCode), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, &vertexShader, &error))) {
+	std::cerr << "VS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
+	return false;
+}

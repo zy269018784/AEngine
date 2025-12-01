@@ -1,0 +1,6 @@
+ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
+
+// 创建命令分配器和列表
+if (FAILED(g_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_CommandAllocator)))) {
+	return false;
+}

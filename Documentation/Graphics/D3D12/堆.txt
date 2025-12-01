@@ -1,0 +1,14 @@
+ComPtr<ID3D12DescriptorHeap> g_RtvHeap;
+
+
+// 创建RTV堆
+D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+rtvHeapDesc.NumDescriptors = FrameCount;
+rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+if (FAILED(g_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&g_RtvHeap)))) {
+	return false;
+}
+
+
+
+
