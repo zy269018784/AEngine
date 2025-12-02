@@ -229,6 +229,12 @@ if (${USE_MODBUS})
 	list (APPEND LIBRARYS		modbus)
 endif ()
 
+if (${USE_embroidery})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libembroidery/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libembroidery/lib)
+	list (APPEND LIBRARYS		embroidery)
+endif ()
+
 if (${USE_BLUEZ})
 	list (APPEND LIBRARYS		bluetooth)
 endif ()

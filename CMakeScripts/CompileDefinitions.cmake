@@ -156,4 +156,6 @@ if (${USE_LIVE555})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_LIVE555)
 endif ()
 
-
+if (${USE_embroidery})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_embroidery)
+endif ()

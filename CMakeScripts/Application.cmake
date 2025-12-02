@@ -17,6 +17,7 @@ include (CMakeScripts/CompileDefinitions.cmake)
 
 list (APPEND Test_SRC_LIST
         ${SRC_LIST_Test}
+        ${SRC_LIST}
 )
 
 set (APP_NAME Test)

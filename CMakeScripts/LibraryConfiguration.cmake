@@ -11,6 +11,7 @@ set (USE_GLM  	    true)
 set (USE_CEF        false)
 set (USE_LIVE555    false)
 set (USE_SDL3       false)
+set (USE_embroidery       true)
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_X11    true)
