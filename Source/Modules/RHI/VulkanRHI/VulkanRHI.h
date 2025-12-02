@@ -1,21 +1,18 @@
 #pragma once
 #include "RHI.h"
-#include "RHIPlatform.h"
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Instance/VulkanInstance.h"
-#include "VulkanObjects/Surface/VulkanSurface.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/SwapChain/VulkanSwapChain.h"
-#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include "VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
-#include "VulkanObjects/Synchronization/VulkanFence.h"
-#include "VulkanObjects/Synchronization/VulkanSemaphore.h"
-#include "VulkanObjects/Window/VulkanWindow.h"
-//#include <vector>
+
+class VulkanInstance;
+class VulkanCommandPool;
+class VulkanDevice;
+
+
+#ifdef RHI_USE_WIN32_KHR
+	extern PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR_1;
+#endif
+#if RHI_USE_PLATFORM_WAYLAND_KHR
+	extern PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
+#endif
 
 class VulkanRHI : public RHI
 {
@@ -42,19 +39,19 @@ public:
 	/*
 		Win32
 	*/
-#if RHI_USE_PLATFORM_WIN32_KHR 
+#ifdef RHI_USE_WIN32_KHR
 	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) final override;
 #endif
 	/*
 		Wayland
 	*/
-#if RHI_USE_PLATFORM_WAYLAND_KHR 
+#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) final override;
 #endif
 	/*
 		X11
 	*/
-#if RHI_USE_PLATFORM_XCB_KHR  
+#ifdef RHI_USE_X11
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
 
@@ -89,19 +86,10 @@ private:
 	void CreateCommandPool();
 private:	
 	std::uint32_t							GPUIndex = 0;
-	VulkanInstance							*Instance = nullptr;			// 1个
+	VulkanInstance *						Instance = nullptr;			// 1个
 	std::vector<VulkanDevice *>				Devices;						// 多个
-	VulkanCommandPool						*GraphicsCommandPool = nullptr;	// 1个
-	VulkanCommandPool						*ComputeCommandPool = nullptr;	// 1个
-//private:
-//	std::vector<const char*> PhysicalDeviceExtensions;
-private:
-#if RHI_USE_PLATFORM_WIN32_KHR
-	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
-#endif
-#if RHI_USE_PLATFORM_WAYLAND_KHR
-	PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
-#endif
+	VulkanCommandPool *						GraphicsCommandPool = nullptr;	// 1个
+	VulkanCommandPool *						ComputeCommandPool = nullptr;	// 1个
 };
 
 /*

@@ -3,6 +3,7 @@
 #]]
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions (${APP_NAME} PUBLIC OS_IS_WINDOWS)
+    target_compile_definitions (${APP_NAME} PUBLIC NOMINMAX)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_definitions (${APP_NAME} PUBLIC OS_IS_LINUX)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")

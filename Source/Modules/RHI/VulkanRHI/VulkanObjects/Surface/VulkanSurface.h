@@ -1,19 +1,18 @@
 #pragma once
+#include "RHIPlatform.h"
 #include "Vulkan.h"
 #include "VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 
-#ifdef PROJECT_USE_X11
-	#include <xcb/xcb.h>
-	#include <X11/Xlib-xcb.h>
-	#include <X11/Xutil.h>
-#endif
 
 class VulkanSurface
 {
 public:
 	VulkanSurface();
 	VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface);
+#ifdef RHI_USE_WIN32_KHR
+	VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd);
+#endif
 #ifdef PROJECT_USE_X11
 	VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window);
 #endif

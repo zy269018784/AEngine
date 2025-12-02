@@ -11,10 +11,20 @@
 #include "VulkanObjects/Texture/VulkanTexture1DArray.h"
 #include "VulkanObjects/Texture/VulkanTexture2DArray.h"
 #include "VulkanObjects/Resource/VulkanSampler.h"
-
-
+#include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
+#include "VulkanObjects/Surface/VulkanSurface.h"
+#include "VulkanObjects/Window/VulkanWindow.h"
 
 #include <iostream>
+
+#if 1
+#ifdef RHI_USE_WIN32_KHR
+	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR_1;
+#endif
+#if RHI_USE_PLATFORM_WAYLAND_KHR
+PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
+#endif
+#endif
 VulkanRHI::VulkanRHI()
 {
 	/*
@@ -23,8 +33,9 @@ VulkanRHI::VulkanRHI()
 	CreateInstance();
 	CreateDevice();
 	CreateCommandPool();
-#if RHI_USE_PLATFORM_WIN32_KHR
-	vkCreateWin32SurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWin32SurfaceKHR"));
+#ifdef RHI_USE_WIN32_KHR
+	vkCreateWin32SurfaceKHR_1 = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWin32SurfaceKHR"));
+
 #endif
 #if RHI_USE_PLATFORM_WAYLAND_KHR
 	PFN_vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWaylandSurfaceKHR"));
@@ -105,7 +116,7 @@ void VulkanRHI::RHIUseGPU(std::uint32_t InGPUIndex)
 //	return NewVulkanWindow;
 //}
 
-#if RHI_USE_PLATFORM_WIN32_KHR 
+#ifdef RHI_USE_WIN32_KHR
 RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 {
 	if (!Instance)
@@ -113,29 +124,24 @@ RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 		std::cout << "Instance is nullptr" << std::endl;
 		return nullptr;
 	}
-
-	VkSurfaceKHR Handle;
-	VkWin32SurfaceCreateInfoKHR CreateInfo{};
-	CreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	CreateInfo.hwnd = Hwnd;
-	CreateInfo.hinstance = Hinstance;
-	vkCreateWin32SurfaceKHR(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
-
-	VulkanSurface* Surface = new VulkanSurface(Instance, Handle);
+	/*
+	 *	创建Surface
+	 */
+	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
 
 	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
 
 	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
 
-	/**/
-
+	/*
+	 *	获取物理设备和逻辑设备
+	 */
 	VulkanPhysicalDevice* PhysicalDevice = Instance->GetVulkanPhysicalDevice(GPUIndex);
 	VulkanDevice* Device = Devices[GPUIndex];
 
+
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	std::cout << "RHICreateWindow 1" << std::endl;
 	NewVulkanWindow->CreateSwapChain();
-	std::cout << "RHICreateWindow 2" << std::endl;
 	NewVulkanWindow->CreateRenderPass();
 	NewVulkanWindow->CreateFrameBuffer();
 	NewVulkanWindow->CreateCommandBuffer();
@@ -151,7 +157,7 @@ RHIWindow* VulkanRHI::RHICreateWindow(struct wl_display* display, struct wl_surf
 }
 #endif
 
-#if RHI_USE_PLATFORM_XCB_KHR  
+#ifdef RHI_USE_X11
 RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);

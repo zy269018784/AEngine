@@ -1,4 +1,6 @@
-#include <VulkanRHI.h>
+#include "VulkanRHI.h"
+#include "VulkanObjects/Instance/VulkanInstance.h"
+#include "VulkanObjects/Device/VulkanDevice.h"
 #include <iostream>
 
 
@@ -10,19 +12,14 @@ void VulkanRHI::CreateInstance()
     std::vector<const char*> InstanceExtensions =
     {
         "VK_KHR_surface",
-        //"VK_KHR_win32_surface",
-        //"VK_KHR_xcb_surface"
     };
-#ifdef OS_IS_LINUX
+#ifdef RHI_USE_X11
     InstanceExtensions.emplace_back("VK_KHR_xcb_surface");
 #endif
 
-#ifdef OS_IS_Windows
+#ifdef RHI_USE_WIN32_KHR
     InstanceExtensions.emplace_back("VK_KHR_win32_surface");
 #endif
-
-
-
    std::vector<const char*> InstanceLayers = 
    {
         "VK_LAYER_KHRONOS_validation"

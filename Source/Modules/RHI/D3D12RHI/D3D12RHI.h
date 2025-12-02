@@ -26,7 +26,7 @@ public:
 	/*
 	Win32
 */
-#if RHI_USE_PLATFORM_WIN32_KHR 
+#if RHI_USE_WIN32_KHR
 	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) final override;
 #endif
 	/*
@@ -38,7 +38,7 @@ public:
 	/*
 		X11
 	*/
-#if RHI_USE_PLATFORM_XCB_KHR  
+#ifdef RHI_USE_X11
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
 

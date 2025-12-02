@@ -8,7 +8,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     : Window(InWindow)
 {
    // return;
-    std::cout << "RHIApplication" << std::endl;
+    std::cout << "RHIApplication 1" << std::endl;
 #if USE_RHI_VULKAN
 #ifdef PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
@@ -39,13 +39,16 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 #endif
 
 #ifdef OS_IS_WINDOWS
+    std::cout << "RHIApplication 1" << std::endl;
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
+
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
+
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-
+    std::cout << "RHIApplication 2" << std::endl;
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+    std::cout << "RHIApplication 3" << std::endl;
 #endif
-
     std::cout << "RHIApplication End" << std::endl;
 }
 

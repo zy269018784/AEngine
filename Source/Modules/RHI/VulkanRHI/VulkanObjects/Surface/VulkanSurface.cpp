@@ -1,10 +1,10 @@
 #include "VulkanObjects/Surface/VulkanSurface.h"
+
 #include <iostream>
-#include <algorithm>
 #include <limits>
-#if PROJECT_USE_X11
-#include <vulkan/vulkan_xcb.h>
-#endif
+
+#include "VulkanRHI.h"
+
 VulkanSurface::VulkanSurface()
 {
 
@@ -15,6 +15,18 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
 {
     Handle = Surface;
 }
+
+#ifdef RHI_USE_WIN32_KHR
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd)
+    : Instance(InInstance)
+{
+    VkWin32SurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.hwnd = Hwnd;
+    CreateInfo.hinstance = Hinstance;
+    vkCreateWin32SurfaceKHR_1(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
+}
+#endif
 
 #ifdef PROJECT_USE_X11
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
@@ -31,21 +43,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* conne
         throw std::runtime_error("Failed to create XCB Vulkan surface!");
     }
 }
-
 #endif
-
-
-//VulkanSurface::VulkanSurface(VulkanInstance *InInstance, GLFWwindow* InWindow)
-//	: GLFWWindow(InWindow), Instance(InInstance)
-//{
-//    VkResult Result = glfwCreateWindowSurface(Instance->GetHandle(), GLFWWindow, nullptr, &Handle);
-//    if (VK_SUCCESS != Result)
-//    {
-//        std::cout << "glfwCreateWindowSurface failed " << Result << std::endl;
-//        throw std::runtime_error("failed to create window surface!");
-//    }
-//    std::cout << "glfwCreateWindowSurface ok " << Handle << std::endl;
-//}
 
 VulkanSurface::~VulkanSurface()
 {

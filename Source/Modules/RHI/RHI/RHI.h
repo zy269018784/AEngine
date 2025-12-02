@@ -4,17 +4,9 @@
 #include "RHIObjects/Shader/RHIShader.h"
 #include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "RHIObjects/Shader/RHIShader.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include "RHIObjects/Window/RHIWindow.h"
 
-#ifdef RHI_USE_PLATFORM_WIN32_KHR
-#include <windows.h>
-#endif
-
-#ifdef RHI_USE_PLATFORM_XCB_KHR
-#include <xcb/xcb.h>
-#endif
 class RHI
 {
 public:
@@ -38,19 +30,19 @@ public:
 	/*
 		Win32
 	*/
-#if RHI_USE_PLATFORM_WIN32_KHR
+#ifdef RHI_USE_WIN32_KHR
 	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) = 0;
 #endif
 	/*
 		Wayland
 	*/
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*
 		X11
 	*/
-#if RHI_USE_PLATFORM_XCB_KHR
+#ifdef RHI_USE_X11
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
 #endif
 

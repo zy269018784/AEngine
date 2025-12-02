@@ -34,7 +34,7 @@
 #include <set>
 
 
-#define USE_RHI_VULKAN 0
+#define USE_RHI_VULKAN 1
 class RHIApplication
 {
 public:
