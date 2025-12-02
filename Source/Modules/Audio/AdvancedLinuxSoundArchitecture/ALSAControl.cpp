@@ -31,6 +31,8 @@ int ALSAControl::Close()
 {
 #ifdef PROJECT_USE_ALSA
     return snd_ctl_close(Handle);
+#else
+    return 0;
 #endif
 }
 
@@ -38,26 +40,25 @@ const char *ALSAControl::Name()
 {
 #ifdef PROJECT_USE_ALSA
     return snd_ctl_name(Handle);
+#else
+    return nullptr;
 #endif
 }
-
+#ifdef PROJECT_USE_ALSA
 int ALSAControl::ElementList(snd_ctl_elem_list_t *List)
 {
-#ifdef PROJECT_USE_ALSA
+
     return snd_ctl_elem_list(Handle, List);
-#endif
+#
 }
 
 int ALSAControl::ElementInfo(snd_ctl_elem_info_t *Info)
 {
-#ifdef PROJECT_USE_ALSA
     return snd_ctl_elem_info(Handle, Info);
-#endif
 }
 
 int ALSAControl::CardInfo(snd_ctl_card_info_t *Info)
 {
-#ifdef PROJECT_USE_ALSA
     return snd_ctl_card_info(Handle, Info);
-#endif
 }
+#endif

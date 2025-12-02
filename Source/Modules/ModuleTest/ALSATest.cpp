@@ -13,6 +13,7 @@
 void list_alsa_devices() ;
 int TestAlsa()
 {
+#ifdef PROJECT_USE_ALSA
     list_alsa_devices();
     int error;
 
@@ -79,6 +80,7 @@ int TestAlsa()
     delete Eleminfo;
     delete List;
     delete Ctrl;
+#endif
     return 0;
 }
 

@@ -4,7 +4,7 @@
 #include <SDL3/SDL_main.h>
 #include <math.h>
 #include <stdio.h>
-
+#define M_PI 3.14159265358979323846
 // Audio callback function
 void audio_callback(void* userdata, SDL_AudioStream* stream, int additional_amount, int total_amount) {
     // Generate a simple sine wave

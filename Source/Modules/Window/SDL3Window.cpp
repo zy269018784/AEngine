@@ -12,16 +12,20 @@ extern "C"
 SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
+#ifdef PROJECT_USE_SDL3
     Handle = SDL_CreateWindow("SDL3 Hello World", 800, 600, 0);
     if (!Handle) {
         std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
         SDL_Quit();
     }
     SDL_CreateRenderer(Handle, nullptr);
-#ifdef PROJECT_USE_SDL3
+
     Uint32 windowID = SDL_GetWindowID(Handle);
+#ifdef PROJECT_USE_X11
     X11Window = static_cast<xcb_window_t>(windowID);
     X11Connection = xcb_connect(nullptr, nullptr);
+#endif
+
 #endif
 
 }

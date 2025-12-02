@@ -17,7 +17,7 @@ int RHIExample();
 int main(int argc, char **argv)
 {
     std::cout << "hello world" << std::endl;
-    return cef_main(argc, argv);
+   // return cef_main(argc, argv);
 #ifdef PROJECT_USE_SFML
     auto Music = new sf::Music("ikutaerika.mp3");
     std::cout << "play start" << std::endl;
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     return RHIExample();
 }
 
-#if 1
+#ifdef PROJECT_USE_CEF
 class MinimalClient : public CefClient
 {
 public:

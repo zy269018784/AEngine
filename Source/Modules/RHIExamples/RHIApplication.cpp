@@ -39,7 +39,8 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 #endif
 
 #ifdef OS_IS_WINDOWS
-   	HWND hwnd = glfwGetWin32Window(Window);
+    auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
+   	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);

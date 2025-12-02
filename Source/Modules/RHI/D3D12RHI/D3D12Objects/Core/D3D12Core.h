@@ -32,7 +32,7 @@ inline D3D12_COMPARISON_FUNC ToD3D12CompareOp(RHICompareOp RHICompareOp)
     case RHICompareOp::Never:
         Func = D3D12_COMPARISON_FUNC_NEVER;
         break;
-    case RHICompareOp::Always:
+        case RHICompareOp::CompareOpAlways:
         Func = D3D12_COMPARISON_FUNC_ALWAYS;
         break;
     case RHICompareOp::Equal:
@@ -258,7 +258,7 @@ inline D3D12_COMPARISON_FUNC ToD3D12DepthComparisonFunc(RHICompareOp RHICompareO
     case RHICompareOp::Never:
         Func = D3D12_COMPARISON_FUNC_NEVER;
         break;
-    case RHICompareOp::Always:
+        case RHICompareOp::CompareOpAlways:
         Func = D3D12_COMPARISON_FUNC_ALWAYS;
         break;
     case RHICompareOp::Equal:
