@@ -1,5 +1,6 @@
-﻿#include <VulkanObjects/Texture/VulkanTexture.h>
-#include <VulkanPixelFormat.h>
+﻿#include "VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanObjects/Core/VulkanCore.h"
+
 #include <iostream>
 
 VkCommandBuffer VulkanTexture::BeginSingleTimeCommands()
