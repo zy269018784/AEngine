@@ -1,6 +1,5 @@
 #include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
 #include "OpenGLObjects/Shader/OpenGLShader.h"
-#include "ES32Translate.h"
 #include <iostream>
 
 OpenGLGraphicsPipeline::OpenGLGraphicsPipeline()

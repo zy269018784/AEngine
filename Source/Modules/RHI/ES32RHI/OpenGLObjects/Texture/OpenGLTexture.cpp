@@ -1,5 +1,5 @@
 ﻿#include "OpenGLObjects/Texture/OpenGLTexture.h"
-#include "ES32Translate.h"
+#include "OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32PixelFormat.h"
 
 OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ)

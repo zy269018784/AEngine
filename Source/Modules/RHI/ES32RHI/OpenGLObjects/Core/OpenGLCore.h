@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include "ES32.h"
@@ -23,7 +23,7 @@ inline GLenum  ToOpenGLIndexType(RHIIndexFormat RHIIndexFormat)
 
 /*
 	Polygon Mode API:
-		glPolygonMode 
+		glPolygonMode
 	glIsEnabled with argument GL_CULL_FACE
 	glGet with argument GL_CULL_FACE_MODE
 */
@@ -569,36 +569,3 @@ inline GLenum ToOpenGLShaderType(RHIShaderType Type)
 	}
 	return ShaderType;
 }
-
-//#include <d3d12.h>
-//
-//inline D3D12_TEXTURE_ADDRESS_MODE ToD3D12SamplerAddressMode(RHIAddressMode Mode)
-//{
-//	switch (Mode)
-//	{
-//	case RHIAddressMode::REPEAT:
-//		return D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-//	case RHIAddressMode::MIRRORED_REPEAT:
-//		return D3D12_TEXTURE_ADDRESS_MODE_MIRROR;
-//	case RHIAddressMode::CLAMP_TO_EDGE:
-//		return D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-//	case RHIAddressMode::CLAMP_TO_BORDER:
-//		return D3D12_TEXTURE_ADDRESS_MODE_BORDER;
-//	default:
-//		return D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 默认使用WRAP
-//	}
-//}
-//
-//D3D12_FILTER ToD3D12Filter(RHIFilter Filter)
-//{
-//	switch (Filter)
-//	{
-//	case RHIFilter::NEAREST:
-//		// D3D12中需要同时指定min、mag、mip过滤
-//		return D3D12_FILTER_MIN_MAG_MIP_POINT;
-//	case RHIFilter::LINEAR:
-//		return D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-//	default:
-//		return D3D12_FILTER_MIN_MAG_MIP_LINEAR; // 默认使用线性过滤
-//	}
-//}

@@ -11,7 +11,7 @@ enum RHIResourceType
 	RRT_DepthRangeState,
 	RRT_BlendState,
 	RRT_ScissorState,
-	RRT_SamplerState,	
+	RRT_SamplerState,
 	RRT_GraphicsPipelineState,
 	RRT_ComputePipelineState,
 	RRT_RayTracingPipelineState,
@@ -38,12 +38,12 @@ enum RHIResourceType
 	RRT_Buffer,
 	RRT_UniformBufferLayout,
 	RRT_UniformBuffer,
-	
+
 	RRT_Num
 };
 
 
-class RHIResource 
+class RHIResource
 {
 public:
 	RHIResource()

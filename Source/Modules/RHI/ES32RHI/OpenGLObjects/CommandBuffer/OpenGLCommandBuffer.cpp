@@ -1,10 +1,9 @@
-﻿#include "OpenGLCommandBuffer.h"
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
+﻿#include "OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
 #include "OpenGLObjects/Buffer/OpenGLBuffer.h"
-#include "ES32Translate.h"
+#include "OpenGLObjects/Core/OpenGLCore.h"
+#include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
+#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include <iostream>
-
 void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {	
 	GLenum RHITopology =    ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());

@@ -1,8 +1,7 @@
 #pragma once
-#include <RHIResource.h>
 #include <cstdint>
 
-class RHIBuffer : public RHIResource
+class RHIBuffer
 {
 public:
 	enum RHIBufferType
@@ -38,7 +37,11 @@ public:
 	}
 
 	RHIBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
-		: RHIResource(RRT_Buffer), Type(InType), Usage(InUsage), Size(InSize)
+		:  Type(InType), Usage(InUsage), Size(InSize)
+	{
+	}
+
+	virtual ~RHIBuffer()
 	{
 	}
 private:

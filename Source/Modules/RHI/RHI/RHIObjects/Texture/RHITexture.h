@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include "RHIResource.h"
 #include "RHIObjects/Core/RHICore.h"
 #include <cstdint>
-class RHITexture : public RHIResource
+class RHITexture
 {
 public:
 	//enum Type
