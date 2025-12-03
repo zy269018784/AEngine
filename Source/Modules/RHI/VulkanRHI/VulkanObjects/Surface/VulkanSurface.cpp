@@ -58,7 +58,6 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window W
         throw std::runtime_error("Failed to create XCB Vulkan surface!");
     }
 }
-
 #endif
 
 VulkanSurface::~VulkanSurface()
