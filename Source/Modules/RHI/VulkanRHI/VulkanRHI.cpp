@@ -120,10 +120,23 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 	return NewVulkanWindow;
 }
 #endif
-#ifdef RHI_USE_lib
+#ifdef RHI_USE_Xlib
 RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
 {
-	return nullptr;
+	VulkanSurface *Surface = new VulkanSurface(Instance, Disp, Win);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+
+	VulkanPhysicalDevice* PhysicalDevice = Instance->GetVulkanPhysicalDevice(GPUIndex);
+	VulkanDevice* Device = Devices[GPUIndex];
+
+	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
+	NewVulkanWindow->CreateSwapChain();
+	NewVulkanWindow->CreateRenderPass();
+	NewVulkanWindow->CreateFrameBuffer();
+	NewVulkanWindow->CreateCommandBuffer();
+	NewVulkanWindow->CreateSyncObject();
+	return NewVulkanWindow;
 }
 #endif
 

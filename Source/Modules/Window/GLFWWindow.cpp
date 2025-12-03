@@ -153,7 +153,7 @@ xcb_window_t GLFWWindow::GetXCBWindow()
 }
 #endif
 
-#ifdef PROJECT_USE_Xlb
+#ifdef PROJECT_USE_Xlib
 Display* GLFWWindow::GetXlibDisplay()
 {
     return glfwGetX11Display();

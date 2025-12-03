@@ -22,7 +22,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
    // glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
-#ifdef PROJECT_USE_XCB
+#ifdef PROJECT_USE_XCB1
     //Display* Display = glfwGetX11Display();
     //xcb_connection_t* connection = XGetXCBConnection(Display);
     //xcb_window_t xcb_window = glfwGetX11Window(InWindow);

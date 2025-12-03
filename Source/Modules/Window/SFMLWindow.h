@@ -1,9 +1,11 @@
 #pragma once
-#include "IWindow.h"
-
 #ifdef PROJECT_USE_SFML
     #include <SFML/Graphics.hpp>
 #endif
+
+
+#include "IWindow.h"
+
 
 class SFMLWindow : public IWindow
 {

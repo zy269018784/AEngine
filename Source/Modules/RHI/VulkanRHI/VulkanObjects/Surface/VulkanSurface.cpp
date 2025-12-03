@@ -51,10 +51,10 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window W
     CreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
     CreateInfo.dpy = Disp;
     CreateInfo.window = Win;
-
     VkResult Result = vkCreateXlibSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
     if (Result != VK_SUCCESS)
     {
+        std::cout << "vkCreateXlibSurfaceKHR faliled " << Result << std::endl;
         throw std::runtime_error("Failed to create XCB Vulkan surface!");
     }
 }

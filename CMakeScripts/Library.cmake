@@ -31,11 +31,7 @@ if (${USE_QT})
 	list(APPEND LIBRARYS ${QT_LIBS})
 endif ()
 
-if (${USE_SFML})
-	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
-	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
-	list(APPEND LIBRARYS sfml-system sfml-audio sfml-window sfml-graphics)
-endif ()
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LIBRARYS		asound)
@@ -61,7 +57,12 @@ if (${USE_D3D12})
 endif ()
 
 
-
+list(APPEND LIBRARYS X11 X11-xcb)
+if (${USE_SFML})
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
+	list(APPEND LIBRARYS sfml-system sfml-audio sfml-window sfml-graphics)
+endif ()
 
 if (${USE_FDKACC})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fdk-aac/2.0.3/include)

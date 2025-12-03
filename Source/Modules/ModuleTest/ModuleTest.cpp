@@ -4,7 +4,7 @@
 
 // QT must before x11
 #include "../Window/QTWindow.h"
-#include "../Window/SFMLWindow.h"
+//#include "../Window/SFMLWindow.h"
 #include "../Window/X11Window.h"
 #include "../Window/GLFWWindow.h"
 
@@ -60,6 +60,7 @@ int HelloGLFW()
 
 int HelloSFML()
 {
+    /*
     std::unique_ptr<IWindow> Window;
     Window.reset(new SFMLWindow());
     Window->SetTitle("SFML Window");
@@ -69,6 +70,7 @@ int HelloSFML()
     Window->SetPosition(960, 0);
     Window->Run();
     return 0;
+    */
 }
 
 int HelloQT(int argc, char **argv)
