@@ -9,11 +9,11 @@
 	//#define RHI_USE_PLATFORM_WAYLAND_KHR	0
 #endif
 #ifdef PROJECT_USE_XCB
-	#define RHI_USE_XCB			1
+	#define RHI_USE_XCB_KHR			1
 #endif
 
 #ifdef PROJECT_USE_Xlib
-	#define RHI_USE_Xlib			1
+	#define RHI_USE_Xlib_KHR			1
 #endif
 
 #ifdef RHI_USE_WIN32_KHR
@@ -22,7 +22,7 @@
 #include <minwindef.h>
 #endif
 
-#ifdef RHI_USE_XCB
+#ifdef RHI_USE_XCB_KHR
 	#include <xcb/xcb.h>
 	#include <X11/Xlib-xcb.h>
 	#include <X11/Xutil.h>

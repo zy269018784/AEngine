@@ -13,11 +13,11 @@ void VulkanRHI::CreateInstance()
     {
         "VK_KHR_surface",
     };
-#ifdef RHI_USE_XCB
+#ifdef RHI_USE_XCB_KHR
     InstanceExtensions.emplace_back("VK_KHR_xcb_surface");
 #endif
 
-#ifdef RHI_USE_Xlib
+#ifdef RHI_USE_Xlib_KHR
     InstanceExtensions.emplace_back("VK_KHR_xlib_surface");
 #endif
 

@@ -37,13 +37,13 @@ public:
 	/*
 		XCB
 	*/
-#ifdef RHI_USE_XCB
+#ifdef RHI_USE_XCB_KHR
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
 	/*
 		Xlib
 	*/
-#ifdef RHI_USE_Xlib
+#ifdef RHI_USE_Xlib_KHR
 	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) final override;
 #endif
 

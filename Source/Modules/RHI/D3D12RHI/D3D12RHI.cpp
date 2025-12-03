@@ -36,7 +36,7 @@ RHIWindow* D3D12RHI::RHICreateWindow(struct wl_display* display, struct wl_surfa
 /*
 	X11
 */
-#ifdef RHI_USE_XCB
+#ifdef RHI_USE_XCB_KHR
 RHIWindow* D3D12RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	return nullptr;

@@ -101,7 +101,7 @@ RHIWindow* VulkanRHI::RHICreateWindow(struct wl_display* display, struct wl_surf
 }
 #endif
 
-#ifdef RHI_USE_XCB
+#ifdef RHI_USE_XCB_KHR
 RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);
@@ -120,7 +120,7 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 	return NewVulkanWindow;
 }
 #endif
-#ifdef RHI_USE_Xlib
+#ifdef RHI_USE_Xlib_KHR
 RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Disp, Win);

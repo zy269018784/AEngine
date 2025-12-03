@@ -8,17 +8,18 @@
 #endif
 
 #ifdef RHI_USE_WIN32_KHR
-#define VK_USE_PLATFORM_WIN32_KHR
+	#define VK_USE_PLATFORM_WIN32_KHR
 #endif
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR
-#define VK_USE_PLATFORM_WAYLAND_KHR
+	#define VK_USE_PLATFORM_WAYLAND_KHR
 #endif
 
-#if RHI_USE_XCB
+#if RHI_USE_XCB_KHR
 	#define VK_USE_PLATFORM_XCB_KHR
 #endif
-#if RHI_USE_Xlib
+
+#if RHI_USE_Xlib_KHR
 	#define VK_USE_PLATFORM_XLIB_KHR
 #endif
 
@@ -32,7 +33,7 @@
 
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR 
-#include <vulkan/vulkan_wayland.h>  
+	#include <vulkan/vulkan_wayland.h>
 #endif
 
 #endif
