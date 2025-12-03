@@ -60,6 +60,22 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window W
 }
 #endif
 
+#ifdef RHI_USE_WAYLAND_KHR
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* display, struct wl_surface* surface)
+{
+    VkWaylandSurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.display = display;
+    CreateInfo.surface = surface;
+    VkResult Result = vkCreateWaylandSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateWaylandSurfaceKHR failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create Wayland Vulkan surface!");
+    }
+}
+#endif
+
 #ifdef RHI_USE_ANDROID_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* Win)
 {

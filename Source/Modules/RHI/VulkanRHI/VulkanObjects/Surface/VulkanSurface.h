@@ -23,6 +23,10 @@ public:
 	VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win);
 #endif
 
+#ifdef RHI_USE_WAYLAND_KHR
+	VulkanSurface(VulkanInstance* InInstance,   struct wl_display* display, struct wl_surface* surface);
+#endif
+
 #ifdef RHI_USE_ANDROID_KHR
 	VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* Win);
 #endif
