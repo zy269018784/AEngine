@@ -1,5 +1,5 @@
 ﻿#include <RHIApplication.h>
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
@@ -22,13 +22,13 @@ RHIApplication::RHIApplication(IWindow* InWindow)
    // glfwMakeContextCurrent(InWindow);
     pRHI = new ES32RHI();
 #endif
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
     //Display* Display = glfwGetX11Display();
     //xcb_connection_t* connection = XGetXCBConnection(Display);
     //xcb_window_t xcb_window = glfwGetX11Window(InWindow);
 
 
-    xcb_window_t xcb_window =  Window->GetWindow();
+    xcb_window_t xcb_window =  Window->GetXCBWindow();
     xcb_connection_t* connection = Window->GetXCBConnection();
     if (!connection || xcb_window == XCB_NONE) {
         std::cerr << "Failed to get XCB connection/window" << std::endl;
@@ -37,6 +37,13 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     RHIWindow_ = pRHI->RHICreateWindow(connection, xcb_window);
     std::cout << "glfwGetX11Window" << std::endl;
 #endif
+
+#ifdef PROJECT_USE_Xlib
+    Display *Disp = Window->GetXlibDisplay();
+    ::Window Win = Window->GetXlibWindow();
+    RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
+#endif
+
 
 #ifdef OS_IS_WINDOWS
     std::cout << "RHIApplication 1" << std::endl;

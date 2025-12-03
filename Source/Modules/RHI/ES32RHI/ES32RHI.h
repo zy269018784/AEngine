@@ -35,11 +35,18 @@ public:
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) final override;
 #endif
 	/*
-		X11
+		XCB
 	*/
-#ifdef RHI_USE_X11
+#ifdef RHI_USE_XCB
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
+	/*
+		Xlib
+	*/
+#ifdef RHI_USE_Xlib
+	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) final override;
+#endif
+
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;

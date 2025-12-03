@@ -1,5 +1,4 @@
 #pragma once
-#include "RHIResource.h"
 #include "RHIObjects/Core/RHICore.h"
 #include <cstdint>
 #include <cstdlib> 

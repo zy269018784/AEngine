@@ -1,7 +1,7 @@
 #pragma once
 #include "IWindow.h"
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
     #define GLFW_EXPOSE_NATIVE_X11
 #endif
 
@@ -28,9 +28,13 @@ public:
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
 #ifdef PROJECT_USE_GLFW
-#ifdef PROJECT_USE_X11
-    xcb_connection_t *GetXCBConnection() override final;
-    xcb_window_t GetWindow() override final;
+#ifdef PROJECT_USE_XCB
+    virtual xcb_connection_t *GetXCBConnection() override final;
+    virtual xcb_window_t GetXCBWindow() override final;
+#endif
+#ifdef PROJECT_USE_Xlib
+    virtual Display* GetXlibDisplay() override final;
+    virtual Window GetXlibWindow() override final;
 #endif
 #endif
 private:

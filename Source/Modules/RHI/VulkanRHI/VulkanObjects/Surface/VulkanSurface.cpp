@@ -28,7 +28,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HW
 }
 #endif
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
 {
     VkXcbSurfaceCreateInfoKHR createInfo{};
@@ -43,6 +43,22 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* conne
         throw std::runtime_error("Failed to create XCB Vulkan surface!");
     }
 }
+#endif
+#ifdef PROJECT_USE_Xlib
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win)
+{
+    VkXlibSurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.dpy = Disp;
+    CreateInfo.window = Win;
+
+    VkResult Result = vkCreateXlibSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        throw std::runtime_error("Failed to create XCB Vulkan surface!");
+    }
+}
+
 #endif
 
 VulkanSurface::~VulkanSurface()

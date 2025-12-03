@@ -48,10 +48,15 @@ RHIWindow* ES32RHI::RHICreateWindow(struct wl_display* display, struct wl_surfac
 }
 #endif
 
-#ifdef RHI_USE_X11
+#ifdef RHI_USE_XCB
 RHIWindow* ES32RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	return new OpenGLWindow();
+}
+#endif
+#ifdef RHI_USE_Xlib
+RHIWindow* ES32RHI::RHICreateWindow(Display* Disp, Window Win) {
+	return nullptr;
 }
 #endif
 

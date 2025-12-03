@@ -13,8 +13,11 @@ public:
 #ifdef RHI_USE_WIN32_KHR
 	VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd);
 #endif
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 	VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window);
+#endif
+#ifdef PROJECT_USE_Xlib
+	VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win);
 #endif
 
 	~VulkanSurface();

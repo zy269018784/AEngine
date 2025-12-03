@@ -1,8 +1,8 @@
 #include "GLFWWindow.h"
-#ifdef PROJECT_USE_X11
-#include <xcb/xcb.h>
-#include <X11/Xlib-xcb.h>
-#include <X11/Xutil.h>
+#ifdef PROJECT_USE_XCB
+    #include <xcb/xcb.h>
+    #include <X11/Xlib-xcb.h>
+    #include <X11/Xutil.h>
 #endif
 
 
@@ -139,24 +139,31 @@ void GLFWWindow::SetPosition(int X, int Y)
 
 }
 #ifdef PROJECT_USE_GLFW
-#ifdef PROJECT_USE_X11
+
+#ifdef PROJECT_USE_XCB
 xcb_connection_t *GLFWWindow::GetXCBConnection()
 {
-#ifdef PROJECT_USE_X11
     Display* Display = glfwGetX11Display();
     return XGetXCBConnection(Display);
-#else
-    return nullptr;
-#endif
 }
 
-xcb_window_t GLFWWindow::GetWindow()
+xcb_window_t GLFWWindow::GetXCBWindow()
 {
-#ifdef PROJECT_USE_X11
     return glfwGetX11Window(Handle);
-#else
-    return 0;
-#endif
 }
 #endif
+
+#ifdef PROJECT_USE_Xlb
+Display* GLFWWindow::GetXlibDisplay()
+{
+    return glfwGetX11Display();
+}
+
+Window GLFWWindow::GetXlibWindow()
+{
+    return glfwGetX11Window(Handle);
+}
+
+#endif
+
 #endif

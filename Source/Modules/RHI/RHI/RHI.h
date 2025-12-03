@@ -40,12 +40,17 @@ public:
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*
-		X11
+		XCB
 	*/
-#ifdef RHI_USE_X11
+#ifdef RHI_USE_XCB
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
 #endif
-
+	/*
+		Xlib
+	*/
+#ifdef RHI_USE_Xlib
+	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) = 0;
+#endif
 	/*
 		管线Pipeline
 	*/

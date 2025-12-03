@@ -22,16 +22,20 @@ public:
     void SetWidth(int arg) override final;
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
-#ifdef PROJECT_USE_X11
-    xcb_connection_t *GetXCBConnection() override final;
-    xcb_window_t GetWindow() override final;
+#ifdef PROJECT_USE_XCB
+    virtual xcb_connection_t *GetXCBConnection() override final;
+    virtual xcb_window_t GetXCBWindow() override final;
+#endif
+#ifdef PROJECT_USE_Xlib
+    virtual Display* GetXlibDisplay() override final;
+    virtual Window GetXlibWindow() override final;
 #endif
 private:
 #ifdef PROJECT_USE_SDL3
     SDL_Window* Handle;
 #endif
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
     xcb_window_t X11Window;
     xcb_connection_t* X11Connection;
 #endif
