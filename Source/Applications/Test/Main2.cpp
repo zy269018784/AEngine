@@ -1,12 +1,14 @@
 #ifdef PROJECT_USE_embroidery
 #define LIBEMBROIDERY_IMPLEMENTATION
-#endif
+
 #include "embroidery.h"
+#endif
 #include <iostream>
 #include <vector>
 #include <cmath>
-
+#ifdef PROJECT_USE_embroidery
 void addTajimaSyncHole(EmbPattern* pattern, double x, double y) {
+
     if (!pattern) return;
 
     // 移动到同步孔位置
@@ -21,9 +23,11 @@ void addTajimaSyncHole(EmbPattern* pattern, double x, double y) {
     emb_pattern_addStitchAbs(pattern, x, y + 5, JUMP, 1);     // ↓ (回到中心)
 
     std::cout << "添加 Tajima 同步孔 at (" << x << ", " << y << ")" << std::endl;
-}
 
-int main() {
+}
+#endif
+
+int main2() {
 #ifdef PROJECT_USE_embroidery
     // 1. 创建图案对象
     EmbPattern* pattern = emb_pattern_create();
