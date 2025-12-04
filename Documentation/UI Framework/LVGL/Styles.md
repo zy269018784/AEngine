@@ -19,16 +19,6 @@ API:
 	lv_obj_set_style_size
 	lv_obj_bind_style				绑定样式
 	lv_obj_bind_style_prop
-	lv_obj_set_style_border_color	设置边框颜色
-	lv_obj_set_style_border_opa		设置边框透明度
-	lv_obj_set_style_border_width	设置边框宽度
-	lv_obj_set_style_border_side
-	lv_obj_set_style_border_post
-	lv_obj_set_style_outline_color
-	lv_obj_set_style_outline_opa
-	lv_obj_set_style_outline_width
-	lv_obj_set_style_outline_pad
-	
 
 状态:
 	LV_STATE_DEFAULT: Normal, released state
