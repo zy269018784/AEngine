@@ -1,7 +1,14 @@
 #pragma once
-#ifdef PROJECT_USE_X11
-    #include <xcb/xcb.h>
+#ifdef PROJECT_USE_Xlib
+   #include <X11/Xlib.h>
+#include <X11/Xlib-xcb.h>
 #endif
+
+#ifdef PROJECT_USE_XCB
+    #include <xcb/xcb.h>
+
+#endif
+
 class IWindow
 {
 public:
@@ -38,9 +45,13 @@ public:
     virtual void SetWidth(int arg) =0;
     virtual void SetHeight(int arg) =0;
     virtual void SetPosition(int X, int Y) =0;
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
     virtual xcb_connection_t *GetXCBConnection() =0;
-    virtual xcb_window_t GetWindow() =0;
+    virtual xcb_window_t GetXCBWindow() =0;
+#endif
+#ifdef PROJECT_USE_Xlib
+    virtual Display* GetXlibDisplay() =0;
+    virtual Window GetXlibWindow() =0;
 #endif
 protected:
     IWindow  *Parent;

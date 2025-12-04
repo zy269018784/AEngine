@@ -76,13 +76,24 @@ void SFMLWindow::SetPosition(int X, int Y)
 #endif
 }
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 xcb_connection_t *SFMLWindow::GetXCBConnection()
 {
     return nullptr;
 }
 
-xcb_window_t SFMLWindow::GetWindow()
+xcb_window_t SFMLWindow::GetXCBWindow()
+{
+    return 0;
+}
+#endif
+#ifdef PROJECT_USE_Xlib
+Display* SFMLWindow::GetXlibDisplay()
+{
+    return nullptr;
+}
+
+Window SFMLWindow::GetXlibWindow()
 {
     return 0;
 }

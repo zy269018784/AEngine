@@ -69,13 +69,24 @@ void MFCWindow::SetPosition(int X, int Y)
 #endif
 }
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 xcb_connection_t *MFCWindow::GetXCBConnection()
 {
     return nullptr;
 }
 
-xcb_window_t MFCWindow::GetWindow()
+xcb_window_t MFCWindow::GetXCBWindow()
+{
+    return 0;
+}
+#endif
+#ifdef PROJECT_USE_Xlib
+Display* MFCWindow::GetXlibDisplay()
+{
+    return nullptr;
+}
+
+Window MFCWindow::GetXlibWindow()
 {
     return 0;
 }

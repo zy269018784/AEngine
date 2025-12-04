@@ -1,5 +1,5 @@
 #include "OpenGLObjects/Resource/OpenGLSampler.h"
-#include "ES32Translate.h"
+#include "OpenGLObjects/Core/OpenGLCore.h"
 
 OpenGLSampler::OpenGLSampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
 {

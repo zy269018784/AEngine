@@ -1,7 +1,7 @@
 #include "SDL3Window.h"
 #include <iostream>
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 extern "C"
 {
 #include <xcb/xcb.h>
@@ -21,7 +21,7 @@ SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     SDL_CreateRenderer(Handle, nullptr);
 
     Uint32 windowID = SDL_GetWindowID(Handle);
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
     X11Window = static_cast<xcb_window_t>(windowID);
     X11Connection = xcb_connect(nullptr, nullptr);
 #endif
@@ -103,14 +103,25 @@ void SDL3Window::SetPosition(int X, int Y)
 
 }
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 xcb_connection_t *SDL3Window::GetXCBConnection()
 {
     return X11Connection;
 }
 
-xcb_window_t SDL3Window::GetWindow()
+xcb_window_t SDL3Window::GetXCBWindow()
 {
     return X11Window;
+}
+#endif
+#ifdef PROJECT_USE_Xlib
+Display* SDL3Window::GetXlibDisplay()
+{
+    return nullptr;
+}
+
+Window SDL3Window::GetXlibWindow()
+{
+    return 0;
 }
 #endif

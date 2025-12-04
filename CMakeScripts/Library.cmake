@@ -31,12 +31,22 @@ if (${USE_QT})
 	list(APPEND LIBRARYS ${QT_LIBS})
 endif ()
 
+
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	list (APPEND LIBRARYS		asound)
-	list (APPEND LIBRARYS		X11 X11-xcb xcb Xcursor Xrandr Xinerama Xfixes)
+	list (APPEND LIBRARYS		X11 X11-xcb Xcursor Xrandr Xinerama Xfixes)
 	list (APPEND LIBRARYS		pango-1.0 pangocairo-1.0 pangoft2-1.0 pangoxft-1.0)
 	list (APPEND LIBRARYS		gtk-3)
 	list (APPEND LINK_PATH 		/usr/lib/x86_64-linux-gnu/)
+
+	if (${USE_Xlib})
+		list(APPEND LIBRARYS X11 X11-xcb)
+	endif ()
+
+	if (${USE_XCB})
+		list(APPEND LIBRARYS xcb)
+	endif ()
 endif ()
 
 
@@ -47,6 +57,7 @@ if (${USE_D3D12})
 endif ()
 
 
+list(APPEND LIBRARYS X11 X11-xcb)
 if (${USE_SFML})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
@@ -250,7 +261,6 @@ if (${USE_FLTK})
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
 	list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images
 			xkbcommon
-			X11
 			pthread
 			dl
 			m

@@ -28,7 +28,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HW
 }
 #endif
 
-#ifdef PROJECT_USE_X11
+#ifdef RHI_USE_XCB_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
 {
     VkXcbSurfaceCreateInfoKHR createInfo{};
@@ -41,6 +41,189 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* conne
     if (result != VK_SUCCESS) {
         // Handle error
         throw std::runtime_error("Failed to create XCB Vulkan surface!");
+    }
+}
+#endif
+#ifdef RHI_USE_Xlib_KHR
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win)
+{
+    VkXlibSurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.dpy = Disp;
+    CreateInfo.window = Win;
+    VkResult Result = vkCreateXlibSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateXlibSurfaceKHR faliled " << Result << std::endl;
+        throw std::runtime_error("Failed to create XCB Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_WAYLAND_KHR
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* display, struct wl_surface* surface)
+{
+    VkWaylandSurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.display = display;
+    CreateInfo.surface = surface;
+    VkResult Result = vkCreateWaylandSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateWaylandSurfaceKHR failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create Wayland Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_ANDROID_KHR
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* Win)
+{
+    VkAndroidSurfaceCreateInfoKHR CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
+    CreateInfo.window = Win;
+    VkResult Result = vkCreateAndroidSurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateAndroidSurfaceKHR failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create Android Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_DirectFB_EXT
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, DirectFB* dfb, IDirectFBSurface* surface)
+{
+    VkDirectFBSurfaceCreateInfoEXT CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_DIRECTFB_SURFACE_CREATE_INFO_EXT;
+    CreateInfo.dfb = dfb;
+    CreateInfo.surface = surface;
+    VkResult Result = vkCreateDirectFBSurfaceEXT(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateDirectFBSurfaceEXT failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create DirectFB Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_IOS_MVK
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
+{
+    VkIOSSurfaceCreateInfoMVK CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_IOS_SURFACE_CREATE_INFO_MVK;
+    CreateInfo.pView = pView;
+    VkResult Result = vkCreateIOSSurfaceMVK(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateIOSSurfaceMVK failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create iOS Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_MacOS_MVK
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
+{
+    VkMacOSSurfaceCreateInfoMVK CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
+    CreateInfo.pView = pView;
+    VkResult Result = vkCreateMacOSSurfaceMVK(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateMacOSSurfaceMVK failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create macOS Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_Metal_EXT
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const CAMetalLayer* Layer)
+{
+    VkMetalSurfaceCreateInfoEXT CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT;
+    CreateInfo.pLayer = Layer;
+    VkResult Result = vkCreateMetalSurfaceEXT(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateMetalSurfaceEXT failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create Metal Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_QNX
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct _screen_context* context, struct _screen_window* window)
+{
+    VkScreenSurfaceCreateInfoQNX CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_SCREEN_SURFACE_CREATE_INFO_QNX;
+    CreateInfo.context = context;
+    CreateInfo.window = window;
+    VkResult Result = vkCreateScreenSurfaceQNX(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateScreenSurfaceQNX failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create QNX Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_VI_NN
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, void* window)
+{
+    VkViSurfaceCreateInfoNN CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN;
+    CreateInfo.window = window;
+    VkResult Result = vkCreateViSurfaceNN(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateViSurfaceNN failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create VI_NN Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_FUCHSIA
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, zx_handle_t imagePipeHandle)
+{
+    VkImagePipeSurfaceCreateInfoFUCHSIA CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_IMAGEPIPE_SURFACE_CREATE_INFO_FUCHSIA;
+    CreateInfo.imagePipeHandle = imagePipeHandle;
+    VkResult Result = vkCreateImagePipeSurfaceFUCHSIA(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateImagePipeSurfaceFUCHSIA failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create Fuchsia Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_GGP
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, GgpStreamDescriptor StreamDescriptor)
+{
+    VkStreamDescriptorSurfaceCreateInfoGGP CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP;
+    CreateInfo.streamDescriptor = StreamDescriptor;
+    VkResult Result = vkCreateStreamDescriptorSurfaceGGP(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateStreamDescriptorSurfaceGGP failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create GGP Vulkan surface!");
+    }
+}
+#endif
+
+#ifdef RHI_USE_OHOS
+VulkanSurface::VulkanSurface(VulkanInstance* InInstance, OHNativeWindow* window)
+{
+    VkOHOSSurfaceCreateInfoOHOS CreateInfo{};
+    CreateInfo.sType = VK_STRUCTURE_TYPE_OHOS_SURFACE_CREATE_INFO_OHOS;
+    CreateInfo.window = window;
+    VkResult Result = vkCreateOHOSSurfaceOHOS(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    if (Result != VK_SUCCESS)
+    {
+        std::cout << "vkCreateOHOSSurfaceOHOS failed " << Result << std::endl;
+        throw std::runtime_error("Failed to create OHOS Vulkan surface!");
     }
 }
 #endif

@@ -27,8 +27,12 @@ if (${USE_QT})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_QT)
 endif ()
 
-if (${USE_X11})
-    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_X11)
+if (${USE_Xlib})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_Xlib)
+endif ()
+
+if (${USE_XCB})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_XCB)
 endif ()
 
 if (${USE_MFC})

@@ -13,7 +13,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
 
-#ifdef PROJECT_USE_X11
+#ifdef PROJECT_USE_XCB
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
 
@@ -32,7 +32,6 @@
 #include <limits>
 #include <optional>
 #include <set>
-
 
 #define USE_RHI_VULKAN 1
 class RHIApplication
