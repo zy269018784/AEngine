@@ -56,8 +56,6 @@ if (${USE_D3D12})
 	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx)
 endif ()
 
-
-list(APPEND LIBRARYS X11 X11-xcb)
 if (${USE_SFML})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)

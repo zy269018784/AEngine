@@ -1,7 +1,9 @@
-#include "lvgl/lvgl.h"#include <lvgl/src/drivers/lv_drivers.h>
+#include "lvgl/lvgl.h"
+#include <lvgl/src/drivers/lv_drivers.h>
 #include <lvgl/src/drivers/windows/lv_windows_display.h>
 
 int main() {
+    return  0;
     lv_init();
      lv_display_t * Display = lv_windows_create_display(
         L"Milkyway Keyboard",

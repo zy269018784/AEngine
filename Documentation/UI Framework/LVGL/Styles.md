@@ -51,6 +51,7 @@ API:
 
 背景
 	lv_obj_set_style_bg_color					背景颜色
+	lv_obj_set_style_bg_opa
 
 边框
 	lv_obj_set_style_border_color				边框颜色
