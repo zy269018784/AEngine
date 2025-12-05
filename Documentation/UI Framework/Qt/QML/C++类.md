@@ -31,4 +31,10 @@ QQuickWidget
 
 
 
-    
+QQuickWidget
+    QQuickWidget does not support using windows as a root item.
+    If you wish to create your root window from QML, consider using QQmlApplicationEngine instead.
+
+QQuickView
+    QQuickView does not support using a window as a root item.
+    If you wish to create your root window from QML, consider using QQmlApplicationEngine instead.
