@@ -140,7 +140,8 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
     }
     // 初始化缩放上下文
     if (!swsCtx) {
-#if 0
+        printf("%d %d\n",(AVPixelFormat)frame->format, AV_PIX_FMT_YUV420P);
+#if 1
         swsCtx = sws_getContext(
             frame->width, frame->height, (AVPixelFormat)frame->format,
             frame->width, frame->height, AV_PIX_FMT_RGB24,
