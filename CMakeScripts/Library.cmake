@@ -56,6 +56,13 @@ if (${USE_D3D12})
 	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx)
 endif ()
 
+if (${USE_FFMPEG})
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
+	list(APPEND LIBRARYS avcodec avdevice  avfilter  avformat  avutil)
+endif ()
+
+
 if (${USE_SFML})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
