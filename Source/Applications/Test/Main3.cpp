@@ -1,8 +1,9 @@
+#ifdef PROJECT_USE_LVGL
 #include "lvgl/lvgl.h"
 #include <lvgl/src/drivers/lv_drivers.h>
 #include <lvgl/src/drivers/windows/lv_windows_display.h>
 
-int main() {
+int main3() {
     return  0;
     lv_init();
      lv_display_t * Display = lv_windows_create_display(
@@ -22,3 +23,4 @@ int main() {
         lv_delay_ms(time_till_next);
     }
 }
+#endif

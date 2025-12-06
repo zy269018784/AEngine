@@ -59,7 +59,7 @@ endif ()
 if (${USE_FFMPEG})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
-	list(APPEND LIBRARYS avcodec avdevice  avfilter  avformat  avutil)
+	list(APPEND LIBRARYS avcodec avdevice  avfilter  avformat  avutil  swscale swresample  z bz2 lzma)
 endif ()
 
 
