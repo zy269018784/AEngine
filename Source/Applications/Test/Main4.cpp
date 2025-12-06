@@ -23,6 +23,18 @@ int main(int argc, char* argv[]) {
         std::cerr << "无法打开视频文件: " << argv[1] << std::endl;
         return -1;
     }
+#if 0
+    struct SwsContext *test_ctx = sws_getContext(
+       1280, 720,  // 小尺寸
+       AV_PIX_FMT_YUV420P,
+       1280, 720,
+       AV_PIX_FMT_RGB24,
+       SWS_BILINEAR,
+       nullptr, nullptr, nullptr
+   );
+    printf("ok\n");
+    return 0;
+#endif
 
     // 开始解码
     decoder.Start();
@@ -39,14 +51,15 @@ int main(int argc, char* argv[]) {
             // 获取一帧
             auto frame = decoder.GetFrame();
             if (frame) {
+#if 1
                 // 渲染帧
                 renderer.RenderFrame(frame->data.get(),
                     decoder.GetWidth(),
                     decoder.GetHeight());
+#endif
                 lastTime = currentTime;
             }
         }
-
         renderer.PollEvents();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }

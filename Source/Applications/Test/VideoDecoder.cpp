@@ -97,13 +97,11 @@ void VideoDecoder::DecodeLoop() {
 
     while (running) {
         int ret = av_read_frame(formatCtx, packet);
-
         if (ret < 0) {
             // 文件结束或错误，短暂等待后继续
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             continue;
         }
-
         if (packet->stream_index == videoStreamIndex) {
             // 发送包到解码器
             ret = avcodec_send_packet(codecCtx, packet);
@@ -111,10 +109,11 @@ void VideoDecoder::DecodeLoop() {
                 av_packet_unref(packet);
                 continue;
             }
-
             // 接收解码后的帧
             while (avcodec_receive_frame(codecCtx, frame) == 0) {
-                auto rgbFrame = ConvertToRGB(frame);
+                 auto rgbFrame = ConvertToRGB(frame);
+#if 1
+
                 if (rgbFrame) {
                     std::unique_lock<std::mutex> lock(queueMutex);
                     if (frameQueue.size() >= maxQueueSize) {
@@ -124,9 +123,9 @@ void VideoDecoder::DecodeLoop() {
                     lock.unlock();
                     queueCV.notify_one();
                 }
+#endif
             }
         }
-
         av_packet_unref(packet);
     }
 
@@ -139,24 +138,31 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
     if (!frame || !frame->data[0]) {
         return nullptr;
     }
-
     // 初始化缩放上下文
     if (!swsCtx) {
+#if 0
         swsCtx = sws_getContext(
             frame->width, frame->height, (AVPixelFormat)frame->format,
             frame->width, frame->height, AV_PIX_FMT_RGB24,
             SWS_BILINEAR, nullptr, nullptr, nullptr
         );
-
+#else
+       swsCtx = sws_getContext(
+       frame->width, frame->height,
+            AV_PIX_FMT_YUV420P,
+            frame->width, frame->height,
+            AV_PIX_FMT_RGB24,
+            SWS_BILINEAR,
+            nullptr, nullptr, nullptr
+        );
+#endif
         if (!swsCtx) {
             std::cerr << "无法创建缩放上下文" << std::endl;
             return nullptr;
         }
     }
-
     // 创建目标帧
     auto rgbFrame = std::make_unique<VideoFrame>(frame->width, frame->height);
-
     // 设置目标帧参数
     uint8_t* dstData[1] = { rgbFrame->data.get() };
     int dstLinesize[1] = { frame->width * 3 }; // RGB24
@@ -165,20 +171,17 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
     int result = sws_scale(swsCtx,
         frame->data, frame->linesize,
         0, frame->height,
-        dstData, dstLinesize);
-
+        dstData, dstLinesize);;
     if (result <= 0) {
         std::cerr << "sws_scale 失败: " << result << std::endl;
         return nullptr;
     }
-
     // 设置时间戳
     rgbFrame->pts = frame->pts;
     if (frame->pts != AV_NOPTS_VALUE) {
         AVRational time_base = formatCtx->streams[videoStreamIndex]->time_base;
         rgbFrame->timestamp = frame->pts * av_q2d(time_base);
     }
-
     return rgbFrame;
 }
 
