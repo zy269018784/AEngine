@@ -41,7 +41,10 @@ bool VideoRenderer::Initialize() {
         std::cerr << "GLFW初始化失败" << std::endl;
         return false;
     }
-
+#if 1
+    Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL33);
+    window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -55,7 +58,7 @@ bool VideoRenderer::Initialize() {
     }
 
     glfwMakeContextCurrent(window);
-
+#endif
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -76,8 +79,8 @@ bool VideoRenderer::Initialize() {
     SetupQuad();
 
     // 设置混合
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     initialized = true;
     std::cout << "渲染器初始化成功" << std::endl;

@@ -4,10 +4,11 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <chrono>
-
+#include "Window/GLFWWindow.h"
 class VideoRenderer {
 private:
     GLFWwindow* window = nullptr;
+    IWindow *Window = nullptr;
     GLuint textureID = 0;
     GLuint shaderProgram = 0;
     GLuint VAO = 0, VBO = 0, EBO = 0;
