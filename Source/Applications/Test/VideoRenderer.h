@@ -5,10 +5,18 @@
 #include <iostream>
 #include <chrono>
 #include "Window/GLFWWindow.h"
+#include "RHI/RHI/RHI.h"
+#include "RHI/VulkanRHI/VulkanRHI.h"
+#include "RHI/ES32RHI/ES32RHI.h"
+#include "RHI/RHI/RHIObjects/Resource/RHIBuffer.h"
 class VideoRenderer {
 private:
     GLFWwindow* window = nullptr;
     IWindow *Window = nullptr;
+    RHI* pRHI = nullptr;
+    RHIBuffer *RHIVBO = nullptr;
+    RHIBuffer *RHIEBO = nullptr;
+
     GLuint textureID = 0;
     GLuint shaderProgram = 0;
     GLuint VAO = 0, VBO = 0, EBO = 0;

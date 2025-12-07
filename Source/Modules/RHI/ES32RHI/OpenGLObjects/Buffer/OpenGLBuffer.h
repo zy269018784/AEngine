@@ -12,6 +12,7 @@ public:
 	void Bind();
 	bool IsDynamic() const;
 	GLenum GetAccess() const;
+	GLuint GetHandle() const;
 public:
 	GLuint Handle;			// Buffer Object
 	GLenum Type;				// Target

@@ -1,6 +1,8 @@
 // VideoRenderer.cpp
 #include "VideoRenderer.h"
 
+#include "OpenGLObjects/Buffer/OpenGLBuffer.h"
+
 const char* vertexShaderSource = R"(
 #version 330 core
 layout (location = 0) in vec2 aPos;
@@ -44,7 +46,7 @@ bool VideoRenderer::Initialize() {
 #if 1
     Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL33);
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
-#else
+#else 0
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -64,6 +66,8 @@ bool VideoRenderer::Initialize() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    pRHI = new ES32RHI();
 
     std::cout << "OpenGL版本: " << glGetString(GL_VERSION) << std::endl;
 
@@ -151,14 +155,18 @@ void VideoRenderer::SetupQuad() {
     };
 
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    //glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
-
+#if 1
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
+    VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
+    std::cout << "CreateVBO OK" << std::endl;
+#else
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+#endif
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
@@ -235,10 +243,15 @@ void VideoRenderer::Cleanup() {
         glDeleteVertexArrays(1, &VAO);
         VAO = 0;
     }
+#if 1
+    delete RHIVBO;
+#else
     if (VBO) {
         glDeleteBuffers(1, &VBO);
         VBO = 0;
     }
+#endif
+
     if (EBO) {
         glDeleteBuffers(1, &EBO);
         EBO = 0;
@@ -247,6 +260,8 @@ void VideoRenderer::Cleanup() {
         glfwDestroyWindow(window);
         window = nullptr;
     }
+
+    delete pRHI;
     glfwTerminate();
     initialized = false;
 }
