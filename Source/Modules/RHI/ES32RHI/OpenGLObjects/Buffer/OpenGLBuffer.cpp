@@ -97,3 +97,7 @@ GLenum OpenGLBuffer::GetAccess() const
 {
 	return bStreamDraw ? GL_STREAM_DRAW : (IsDynamic() ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 }
+
+GLuint OpenGLBuffer::GetHandle() const {
+    return Handle;
+}

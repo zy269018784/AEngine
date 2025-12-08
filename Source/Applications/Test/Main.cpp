@@ -10,11 +10,12 @@ int main(int argc, char **argv)
     return 0;
 }
 #endif
+#include <cstdint>
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include <vector>
-
+using namespace  std;
 #pragma pack(push, 1)
 struct DSTHeader {
     char signature[3] = {'L', 'A', ' '};  // 签名

@@ -87,6 +87,10 @@ if (${USE_LAEM})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_LAME)
 endif ()
 
+if (${USE_FFMPEG})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_FFMPEG)
+endif ()
+
 if (${USE_ASSIMP})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_ASSIMP)
 endif ()

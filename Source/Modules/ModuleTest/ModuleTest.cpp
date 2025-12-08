@@ -71,6 +71,7 @@ int HelloSFML()
     Window->Run();
     return 0;
     */
+    return 0;
 }
 
 int HelloQT(int argc, char **argv)

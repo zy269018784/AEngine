@@ -55,7 +55,7 @@ GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
         default:
             break;
     }
-
+    //glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
     glfwMakeContextCurrent(Handle);
 #endif

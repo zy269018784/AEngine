@@ -56,8 +56,13 @@ if (${USE_D3D12})
 	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx)
 endif ()
 
+if (${USE_FFMPEG})
+	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
+	list(APPEND LINK_PATH    ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
+	list(APPEND LIBRARYS avcodec avdevice  avfilter  avformat  avutil  swscale swresample  z bz2 lzma)
+endif ()
 
-list(APPEND LIBRARYS X11 X11-xcb)
+
 if (${USE_SFML})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/SFML/3.0.2/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/SFML/3.0.2/lib)
@@ -254,6 +259,12 @@ if (${USE_LIVE555})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/live555/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/live555/lib)
 	list (APPEND LIBRARYS		BasicUsageEnvironment  groupsock. liveMedia UsageEnvironment)
+endif ()
+
+if (${USE_LVGL})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/lvgl/9.4.0/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/lvgl/9.4.0/lib)
+	list (APPEND LIBRARYS		lvgl LvglWindows)
 endif ()
 
 if (${USE_FLTK})
