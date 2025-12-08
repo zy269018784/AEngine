@@ -46,7 +46,7 @@ bool VideoRenderer::Initialize() {
 #if 1
     Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL33);
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
-#else 0
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -162,14 +162,16 @@ void VideoRenderer::SetupQuad() {
 #if 1
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
     VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
+
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(indices), indices);
+    EBO = dynamic_cast<OpenGLBuffer *>(RHIEBO)->GetHandle();
     std::cout << "CreateVBO OK" << std::endl;
 #else
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-#endif
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
+#endif
     // 位置属性
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
