@@ -1,7 +1,8 @@
 // VideoRenderer.cpp
 #include "VideoRenderer.h"
-
+#include "RHIExamples/Vulkan/Common.h"
 #include "OpenGLObjects/Buffer/OpenGLBuffer.h"
+#include "OpenGLObjects/Shader/OpenGLShader.h"
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
 
 const char* vertexShaderSource = R"(
@@ -93,6 +94,17 @@ bool VideoRenderer::Initialize() {
 }
 
 bool VideoRenderer::CompileShaders() {
+#if 1
+    std::cout << "hello rhi shader" << std::endl;
+    auto vertShaderCode = ReadFile("Texture2D_vert.spv");
+    auto fragShaderCode = ReadFile("Texture2D_frag.spv");
+    // 创建Shader
+    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+    GLuint vertexShader = dynamic_cast<OpenGLShader *>(VertexShader)->GetHandle();
+    GLuint fragmentShader = dynamic_cast<OpenGLShader *>(FragmengShader)->GetHandle();
+    GLint success;
+#else
     // 顶点着色器
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
@@ -119,11 +131,13 @@ bool VideoRenderer::CompileShaders() {
         std::cerr << "片段着色器编译失败: " << infoLog << std::endl;
         return false;
     }
+#endif
 
     // 着色器程序
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
+
     glLinkProgram(shaderProgram);
 
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
@@ -157,7 +171,7 @@ void VideoRenderer::SetupQuad() {
 
     glGenVertexArrays(1, &VAO);
     //glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    //glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 #if 1
@@ -236,9 +250,12 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     }
 
     // 更新纹理数据
+#if 1
+    RHITexture2D->Update(0, 0, 0, 0, width, height, 1, data);
+#else
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
-
+#endif
     // 渲染四边形
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);

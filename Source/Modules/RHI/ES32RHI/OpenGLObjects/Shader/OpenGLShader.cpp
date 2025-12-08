@@ -93,3 +93,7 @@ OpenGLShader::~OpenGLShader()
 {
 	glDeleteShader(Handle);
 }
+
+GLuint OpenGLShader::GetHandle() const {
+	return  Handle;
+}

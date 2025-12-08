@@ -7,6 +7,7 @@ class OpenGLShader : public RHIShader
 public:
 	OpenGLShader(RHIShaderType type, std::uint32_t* Code, std::size_t CodeSize);
 	~OpenGLShader();
+	GLuint  GetHandle() const;
 //private:
 	GLuint  Handle;
 };

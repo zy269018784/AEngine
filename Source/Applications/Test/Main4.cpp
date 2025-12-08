@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cout << "用法: " << argv[0] << " <视频文件>" << std::endl;
