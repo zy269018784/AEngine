@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <chrono>
+#include <vector>
 #include "Window/GLFWWindow.h"
 #include "RHI/RHI/RHI.h"
 #include "RHI/VulkanRHI/VulkanRHI.h"
@@ -14,8 +15,15 @@ private:
     GLFWwindow* window = nullptr;
     IWindow *Window = nullptr;
     RHI* pRHI = nullptr;
-    RHIBuffer *RHIVBO = nullptr;
-    RHIBuffer *RHIEBO = nullptr;
+    RHIBuffer* RHIVBO = nullptr;
+    RHIBuffer* RHIEBO = nullptr;
+    RHITexture* RHITexture2D = nullptr;
+    RHISampler* RHISampler_ = nullptr;
+    RHIShader* VertexShader = nullptr;
+    RHIShader* FragmengShader = nullptr;
+    std::vector<RHICommandBuffer::VertexInput> VertexInputs;
+    RHIShaderResourceBindings* SRB = nullptr;
+    RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 
     GLuint textureID = 0;
     GLuint shaderProgram = 0;

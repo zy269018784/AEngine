@@ -2,6 +2,7 @@
 #include "VideoRenderer.h"
 
 #include "OpenGLObjects/Buffer/OpenGLBuffer.h"
+#include "OpenGLObjects/Texture/OpenGLTexture.h"
 
 const char* vertexShaderSource = R"(
 #version 330 core
@@ -44,7 +45,7 @@ bool VideoRenderer::Initialize() {
         return false;
     }
 #if 1
-    Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL33);
+    Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46);
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -184,6 +185,22 @@ void VideoRenderer::SetupQuad() {
 }
 
 bool VideoRenderer::CreateTexture(int width, int height) {
+#if 1
+
+    if (textureID == 0) {
+        std::cout << "CreateTexture AAA" << std::endl;
+        //RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+        RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8_UNORM, 1, width, height);
+        textureID = dynamic_cast<OpenGLTexture *>(RHITexture2D)->GetHandle();
+        std::cout << "CreateTexture BBB textureID " <<  textureID << std::endl;
+        return true;
+        //CheckGLError("CreateTexture");
+        //return glGetError() == GL_NO_ERROR;
+    }
+
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+#else
     if (textureID == 0) {
         glGenTextures(1, &textureID);
     }
@@ -201,6 +218,7 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 
     CheckGLError("CreateTexture");
     return glGetError() == GL_NO_ERROR;
+#endif
 }
 
 void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {

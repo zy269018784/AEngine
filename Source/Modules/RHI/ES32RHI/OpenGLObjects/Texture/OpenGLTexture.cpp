@@ -6,12 +6,9 @@ OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixe
     : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize), Device(InDevice)
 {
     glGenTextures(1, &Handle);
-
     GLenum Target = ToOpenGLTextureType(InType);
     auto PixelFormat = OpenGLPixelFormats[int(InFormat)];
-
     glBindTexture(Target, Handle);
-
     switch (InType)
     {
     case RHITextureType::Texture1D:
@@ -28,7 +25,7 @@ OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixe
         glTexStorage2D(GL_TEXTURE_1D_ARRAY, InNumMips, PixelFormat.InternalFormat, InX, InArraySize);
         std::cout << "glTexStorage2D Texture1DArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << std::endl;
         break;
-    case RHITextureType::Texture2D:   
+    case RHITextureType::Texture2D:
         glTexStorage2D(GL_TEXTURE_2D, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
     case RHITextureType::Texture2DArray:
@@ -65,12 +62,10 @@ OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixe
         std::cout << "glTexStorage3D TextureCubeMapArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << " InY " << InY << " InZ " << InY << " InArraySize " << InArraySize << std::endl;
         break;
     }
-    
     // set the texture wrapping parameters
     glTexParameteri(Target, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(Target, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(Target, GL_TEXTURE_WRAP_R, GL_REPEAT);
-
     // set texture filtering parameters
     glTexParameteri(Target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(Target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -81,6 +76,12 @@ OpenGLTexture::~OpenGLTexture()
 {
     glDeleteTextures(1, &Handle);
 }
+
+GLuint OpenGLTexture::GetHandle() const
+{
+    return Handle;
+};
+
 
 void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
