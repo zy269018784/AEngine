@@ -36,16 +36,22 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     {
         throw std::runtime_error("Failed to create texture image!");
     }
-
+    std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
     GetImageMemoryRequirements(&MemoryRequirements);
-
+    std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
     VkMemoryAllocateInfo AllocateInfo = {
         VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
         nullptr,
         MemoryRequirements.size,
         //Device->pPhysicalDevice->HostVisibleIndex
-        1
+        //1
+        Device->GetPhysicalDevice()->HostVisibleIndex
     };
+
+    std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;
+
+    std::cout << "InPixelFormat: " <<   (int)InPixelFormat  << std::endl;
+    std::cout << "InSizeX: " <<   InSizeX << " " << InSizeY << " " << InSizeZ<< std::endl;
 
     Result = DeviceMemory->AllocateMemory(&AllocateInfo, nullptr);
     if (VK_SUCCESS != Result)

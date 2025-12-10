@@ -46,7 +46,12 @@ bool VideoRenderer::Initialize() {
         return false;
     }
 #if 1
+
+#if USE_RHI_VULKAN
+    Window = new GLFWWindow(IWindow::GraphicsAPI::Vulkan);
+#else
     Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46);
+#endif
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -63,30 +68,35 @@ bool VideoRenderer::Initialize() {
 
     glfwMakeContextCurrent(window);
 #endif
+#if 0
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
+#endif
+#if USE_RHI_VULKAN
+    pRHI = new VulkanRHI();
+    pRHI->RHIUseGPU(0);
+#else
     pRHI = new ES32RHI();
-
+#endif
 #ifdef PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
 #endif
-    std::cout << "OpenGL版本: " << glGetString(GL_VERSION) << std::endl;
+    //std::cout << "OpenGL版本: " << glGetString(GL_VERSION) << std::endl;
 
     // 设置视口
-    glViewport(0, 0, windowWidth, windowHeight);
-
+    //glViewport(0, 0, windowWidth, windowHeight);
+    std::cout << "Debug 1" << std::endl;
     // 编译着色器
     if (!CompileShaders()) {
         return false;
     }
 
-    std::cout << "Debug 1" << std::endl;
+    std::cout << "Debug 2" << std::endl;
 
     // 创建或更新纹理
     if (textureID == 0) {
@@ -96,11 +106,11 @@ bool VideoRenderer::Initialize() {
         }
     }
 
-    std::cout << "Debug 2" << std::endl;
+    std::cout << "Debug 3" << std::endl;
     // 设置四边形
     SetupQuad();
 
-    std::cout << "Debug 3" << std::endl;
+    std::cout << "Debug 4" << std::endl;
     // 设置混合
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -112,15 +122,18 @@ bool VideoRenderer::Initialize() {
 
 bool VideoRenderer::CompileShaders() {
 #if 1
-    std::cout << "hello rhi shader" << std::endl;
+    std::cout << "hello rhi shader start" << std::endl;
     auto vertShaderCode = ReadFile("Texture2D_vert.spv");
     auto fragShaderCode = ReadFile("Texture2D_frag.spv");
     // 创建Shader
     VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
-    GLuint vertexShader = dynamic_cast<OpenGLShader *>(VertexShader)->GetHandle();
-    GLuint fragmentShader = dynamic_cast<OpenGLShader *>(FragmengShader)->GetHandle();
-    GLint success;
+
+    std::cout << "hello rhi shader stop" << std::endl;
+
+   // GLuint vertexShader = dynamic_cast<OpenGLShader *>(VertexShader)->GetHandle();
+   // GLuint fragmentShader = dynamic_cast<OpenGLShader *>(FragmengShader)->GetHandle();
+  //  GLint success;
 #else
     // 顶点着色器
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -186,12 +199,13 @@ void VideoRenderer::SetupQuad() {
         0, 1, 2,
         0, 2, 3
     };
-
+#if 0
     glGenVertexArrays(1, &VAO);
     //glGenBuffers(1, &VBO);
     //glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
+#endif
 #if 1
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
     VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
@@ -264,18 +278,17 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 #if 1
 
     if (textureID == 0) {
-        std::cout << "CreateTexture AAA" << std::endl;
         RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
         RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8_UNORM, 1, width, height);
-        textureID = dynamic_cast<OpenGLTexture *>(RHITexture2D)->GetHandle();
-        std::cout << "CreateTexture BBB textureID " <<  textureID << std::endl;
+        //textureID = dynamic_cast<OpenGLTexture *>(RHITexture2D)->GetHandle();
+        //std::cout << "CreateTexture BBB textureID " <<  textureID << std::endl;
         return true;
         //CheckGLError("CreateTexture");
         //return glGetError() == GL_NO_ERROR;
     }
 
 
-    glBindTexture(GL_TEXTURE_2D, textureID);
+  //  glBindTexture(GL_TEXTURE_2D, textureID);
 #else
     if (textureID == 0) {
         glGenTextures(1, &textureID);
@@ -299,10 +312,11 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 
 void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     if (!initialized || !data || width <= 0 || height <= 0) return;
-
+#if 0
     // 清除屏幕
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
 
     // 创建或更新纹理
     if (textureID == 0) {
@@ -310,7 +324,7 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
             return;
         }
     }
-
+#endif
     // 更新纹理数据
 #if 1
     RHITexture2D->Update(0, 0, 0, 0, width, height, 1, data);

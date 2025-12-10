@@ -10,6 +10,8 @@
 #include "RHI/VulkanRHI/VulkanRHI.h"
 #include "RHI/ES32RHI/ES32RHI.h"
 #include "RHI/RHI/RHIObjects/Resource/RHIBuffer.h"
+
+#define USE_RHI_VULKAN 0
 class VideoRenderer {
 private:
     GLFWwindow* window = nullptr;
