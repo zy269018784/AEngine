@@ -14,6 +14,7 @@ class VideoRenderer {
 private:
     GLFWwindow* window = nullptr;
     IWindow *Window = nullptr;
+    RHIWindow* RHIWindow_ = nullptr;
     RHI* pRHI = nullptr;
     RHIBuffer* RHIVBO = nullptr;
     RHIBuffer* RHIEBO = nullptr;

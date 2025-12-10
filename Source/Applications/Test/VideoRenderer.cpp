@@ -71,6 +71,11 @@ bool VideoRenderer::Initialize() {
 
     pRHI = new ES32RHI();
 
+#ifdef PROJECT_USE_Xlib
+    Display *Disp = Window->GetXlibDisplay();
+    ::Window Win = Window->GetXlibWindow();
+    RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
+#endif
     std::cout << "OpenGL版本: " << glGetString(GL_VERSION) << std::endl;
 
     // 设置视口
@@ -81,9 +86,21 @@ bool VideoRenderer::Initialize() {
         return false;
     }
 
+    std::cout << "Debug 1" << std::endl;
+
+    // 创建或更新纹理
+    if (textureID == 0) {
+        std::cout << "CreateTexture" << std::endl;
+        if (!CreateTexture(1920, 1080)) {
+            std::cout << "create texture error" << std::endl;
+        }
+    }
+
+    std::cout << "Debug 2" << std::endl;
     // 设置四边形
     SetupQuad();
 
+    std::cout << "Debug 3" << std::endl;
     // 设置混合
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -132,7 +149,7 @@ bool VideoRenderer::CompileShaders() {
         return false;
     }
 #endif
-
+#if 0
     // 着色器程序
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
@@ -152,6 +169,7 @@ bool VideoRenderer::CompileShaders() {
     glDeleteShader(fragmentShader);
 
     CheckGLError("CompileShaders");
+#endif
     return true;
 }
 
@@ -181,12 +199,56 @@ void VideoRenderer::SetupQuad() {
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(indices), indices);
     EBO = dynamic_cast<OpenGLBuffer *>(RHIEBO)->GetHandle();
     std::cout << "CreateVBO OK" << std::endl;
+    /*
+        使用VBO1
+    */
+    VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
+
+    SRB = pRHI->RHICreateShaderResourceBindings();
+    SRB->SetBindings({
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+    });
+    std::cout << "Create SRB Start" << std::endl;
+    SRB->Create();
+    std::cout << "Create SRB OK" << std::endl;
+
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+        { 0, 0, RHIVertexInputAttribute::Format::Float2,  0 * sizeof(float), 0 },
+        { 0, 1, RHIVertexInputAttribute::Format::Float2,  2 * sizeof(float), 0 },
+    });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+        { 4 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+    });
+    std::cout << "Create Pipeline start" << std::endl;
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
+    GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+#if USE_RHI_VULKAN
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
+#else
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+#endif
+    GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline->Create();
+    std::cout << "Create Pipeline OK" << std::endl;
 #else
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 #endif
+
+#if 0
     // 位置属性
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -194,7 +256,7 @@ void VideoRenderer::SetupQuad() {
     // 纹理坐标属性
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
+#endif
     CheckGLError("SetupQuad");
 }
 
@@ -203,7 +265,7 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 
     if (textureID == 0) {
         std::cout << "CreateTexture AAA" << std::endl;
-        //RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+        RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
         RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8_UNORM, 1, width, height);
         textureID = dynamic_cast<OpenGLTexture *>(RHITexture2D)->GetHandle();
         std::cout << "CreateTexture BBB textureID " <<  textureID << std::endl;
@@ -256,11 +318,44 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 #endif
+
+    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
+
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+    RHIWindow_->GetExtent(x, y, w, h);
+
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+
+#if 0
     // 渲染四边形
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+#endif
     // 交换缓冲区
     glfwSwapBuffers(window);
 
