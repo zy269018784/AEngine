@@ -51,6 +51,8 @@ bool VideoRenderer::Initialize() {
     Window = new GLFWWindow(IWindow::GraphicsAPI::Vulkan);
 #else
     Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46);
+    Window->Resize(1920, 1080);
+
 #endif
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
 #else
@@ -80,6 +82,7 @@ bool VideoRenderer::Initialize() {
     pRHI->RHIUseGPU(0);
 #else
     pRHI = new ES32RHI();
+    glViewport(0, 0, 1920, 1080);
 #endif
 #ifdef PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
@@ -312,6 +315,9 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 
 void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     if (!initialized || !data || width <= 0 || height <= 0) return;
+
+    RHIWindow_->RHIBeginFrame();
+    RHIWindow_->RHIBeginRenderPass();
 #if 0
     // 清除屏幕
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -340,6 +346,7 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     float w = 0;
     float h = 0;
     RHIWindow_->GetExtent(x, y, w, h);
+    std::cout << "w " << w << " " << h << std::endl;
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
@@ -364,6 +371,8 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 
+    RHIWindow_->RHIEndRenderPass();
+    RHIWindow_->RHIEndFrame();
 #if 0
     // 渲染四边形
     glUseProgram(shaderProgram);
