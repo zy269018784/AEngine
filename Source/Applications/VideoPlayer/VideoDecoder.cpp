@@ -144,7 +144,7 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
 #if 1
         swsCtx = sws_getContext(
             frame->width, frame->height, (AVPixelFormat)frame->format,
-            frame->width, frame->height, AV_PIX_FMT_RGB24,
+            frame->width, frame->height, AV_PIX_FMT_RGBA,
             SWS_BILINEAR, nullptr, nullptr, nullptr
         );
 #else
@@ -166,7 +166,7 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
     auto rgbFrame = std::make_unique<VideoFrame>(frame->width, frame->height);
     // 设置目标帧参数
     uint8_t* dstData[1] = { rgbFrame->data.get() };
-    int dstLinesize[1] = { frame->width * 3 }; // RGB24
+    int dstLinesize[1] = { frame->width * 4 }; // RGB24
 
     // 执行转换
     int result = sws_scale(swsCtx,

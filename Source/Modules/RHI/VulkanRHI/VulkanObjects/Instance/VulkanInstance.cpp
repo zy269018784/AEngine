@@ -117,7 +117,7 @@ void VulkanInstance::EnumeratePhysicalDevices()
     VkFormatProperties formatProperties;
 
     vkGetPhysicalDeviceFormatProperties(PhysicalDeviceHandles[0], format, &formatProperties);
-#endif
+
     std::cout << "VK_FORMAT_R8G8B8A8_UNORM support:\n";
     std::cout << "Linear tiling features: "
               << formatProperties.linearTilingFeatures << "\n";
@@ -125,6 +125,7 @@ void VulkanInstance::EnumeratePhysicalDevices()
               << formatProperties.optimalTilingFeatures << "\n";
     std::cout << "Buffer features: "
               << formatProperties.bufferFeatures << "\n";
+#endif
     /*
         创建VulkanPhysicalDevice
     */

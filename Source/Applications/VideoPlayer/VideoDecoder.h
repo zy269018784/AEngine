@@ -23,7 +23,7 @@ struct VideoFrame {
 
     VideoFrame() = default;
     VideoFrame(int w, int h) : width(w), height(h) {
-        data = std::make_unique<uint8_t[]>(w * h * 3); // RGB24
+        data = std::make_unique<uint8_t[]>(w * h * 4); // RGB24
     }
 };
 

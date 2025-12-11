@@ -282,7 +282,7 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 
     if (textureID == 0) {
         RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-        RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8_UNORM, 1, width, height);
+        RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, width, height);
         //RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8_UINT, 1, width, height);
 
 
