@@ -80,6 +80,9 @@ void ALSource::SetVelocity(float x, float y, float z)
     alSource3f(Handle, AL_VELOCITY, x, y, z);
 }
 
+void ALSource::SetLooping(bool On) {
+    alSourcei(Handle, AL_LOOPING, On);
+}
 
 void ALSource::Play()
 {

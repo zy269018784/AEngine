@@ -18,6 +18,7 @@ public:
     void SetPosition(float x, float y, float z);
     void SetDirection(float x, float y, float z);
     void SetVelocity(float x, float y, float z);
+    void SetLooping(bool On);
     void Play();
     void Pause();
     void Stop();

@@ -57,9 +57,11 @@ int main()
 
     Source.SetBuffer(Buffer.GetHandle());
     Source.SetPosition(0, 1, 0);
-    Source.SetGain(1.0);
+    Source.SetGain(0.5);
     Source.SetVelocity(0, 0, 0);
-    Source.SetDirection(0, -1, 0);
+    Source.SetDirection(0, 1, 0);
+    Source.SetLooping(true);
+
     Source.Play();
 
     while (1);
