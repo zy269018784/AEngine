@@ -19,6 +19,10 @@ if (${USE_FLTK})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_FTLK)
 endif ()
 
+if (${USE_OpenAL})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_OpenAL)
+endif ()
+
 if (${USE_SFML})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_SFML)
 endif ()

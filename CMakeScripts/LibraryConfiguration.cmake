@@ -14,6 +14,7 @@ set (USE_SDL3       false)
 set (USE_embroidery false)
 set (USE_LVGL       false)
 set (USE_FFMPEG     true)
+set (USE_OpenAL     true)
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_Xlib   true)

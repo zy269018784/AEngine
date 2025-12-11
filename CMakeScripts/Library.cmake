@@ -255,6 +255,12 @@ if (${USE_BLUEZ})
 	list (APPEND LIBRARYS		bluetooth)
 endif ()
 
+if (${USE_OpenAL})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/OpenAL/1.24.3/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/OpenAL/1.24.3/lib)
+	list (APPEND LIBRARYS		openal)
+endif ()
+
 if (${USE_LIVE555})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/live555/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/live555/lib)
