@@ -36,6 +36,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     {
         throw std::runtime_error("Failed to create texture image!");
     }
+
     std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
     GetImageMemoryRequirements(&MemoryRequirements);
     std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
@@ -45,7 +46,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         MemoryRequirements.size,
         //Device->pPhysicalDevice->HostVisibleIndex
         1
-        //Device->GetPhysicalDevice()->HostVisibleIndex // why crash
+       // Device->GetPhysicalDevice()->HostVisibleIndex // why crash
     };
 
     std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;

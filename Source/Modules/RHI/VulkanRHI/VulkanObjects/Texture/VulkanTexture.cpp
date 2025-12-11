@@ -97,7 +97,7 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 		Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
 	}
 	//VkImageViewType ImageViewType = ToVulkanImageViewType(InType);
-
+	//std::cout << "InFormat " << (int)InFormat << " " << InX  << " "  << InY << " "  << InZ << " "  <<InArraySize << " "  << InNumMips << std::endl;
 	Image = new VulkanImage(InDevice, InType, InFormat, InX, InY, InZ, InArraySize, InNumMips, 1);
 	ImageView = new VulkanImageView(InDevice, Image, InType,  Aspect, InFormat, InNumMips, InArraySize);
 }

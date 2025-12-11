@@ -108,7 +108,23 @@ void VulkanInstance::EnumeratePhysicalDevices()
     std::vector<VkPhysicalDevice>			PhysicalDeviceHandles;
     PhysicalDeviceHandles.resize(PhysicalDeviceCount);
     EnumeratePhysicalDevices(&PhysicalDeviceCount, PhysicalDeviceHandles.data());
+#if 0
+    /*
+     *  check format
+     *
+     */
+    VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
+    VkFormatProperties formatProperties;
 
+    vkGetPhysicalDeviceFormatProperties(PhysicalDeviceHandles[0], format, &formatProperties);
+#endif
+    std::cout << "VK_FORMAT_R8G8B8A8_UNORM support:\n";
+    std::cout << "Linear tiling features: "
+              << formatProperties.linearTilingFeatures << "\n";
+    std::cout << "Optimal tiling features: "
+              << formatProperties.optimalTilingFeatures << "\n";
+    std::cout << "Buffer features: "
+              << formatProperties.bufferFeatures << "\n";
     /*
         创建VulkanPhysicalDevice
     */
@@ -117,6 +133,7 @@ void VulkanInstance::EnumeratePhysicalDevices()
     {
         std::cout << "\t==========================\t" << "GPU " << i << "\tBegin" << "\t====================================================" << std::endl;
         PhysicalDevices[i] = new VulkanPhysicalDevice(PhysicalDeviceHandles[i]);
+
         PhysicalDevices[i]->PrintExtensions();
         PhysicalDevices[i]->PrintLayers();
         PhysicalDevices[i]->PrintProperties();
