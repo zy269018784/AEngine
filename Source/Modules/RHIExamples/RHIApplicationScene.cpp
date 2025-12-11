@@ -4,7 +4,7 @@
 #include "Model/Model.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
-Model model1;
+//Model model1;
 #endif
 /*
     VBO1三角形: 红色和黄色
@@ -83,7 +83,7 @@ void RHIApplicationScene::Init()
     auto a = mvp * glm::vec4(0, 0, -500, 1);
     a /= a.w;
     std::cout << "a " << a.x << " " << a.y << " " << a.z << " " << a.w << std::endl;
-#ifdef PROJECT_USE_STB
+#ifdef PROJECT_USE_STB_1
     model1.LoadModel("namaqualand_boulder_02_2k/namaqualand_boulder_02_2k.gltf");
 #endif
 
@@ -104,7 +104,7 @@ void RHIApplicationScene::CreateTexture()
 
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#ifdef PROJECT_USE_STB_1
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -131,24 +131,24 @@ void RHIApplicationScene::CreateTexture()
 void RHIApplicationScene::CreateVBO()
 {
 #ifdef PROJECT_USE_STB
-#if USE_MODEL
+#if USE_MODEL_1
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model1.VBOData.size() * sizeof(float), model1.VBOData.data());
 #else
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes); 
 #endif
-    std::cout << "model1.VBOData.size() " << model1.VBOData.size() << std::endl;
+  //  std::cout << "model1.VBOData.size() " << model1.VBOData.size() << std::endl;
 #endif
 }
 
 void RHIApplicationScene::CreateEBO()
 {
 #ifdef PROJECT_USE_STB
-#if USE_MODEL
+#if USE_MODEL_1
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model1.EBOData.size() * sizeof(unsigned int), model1.EBOData.data());
 #else
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
 #endif
-    std::cout << "model1.EBOData.size() " << model1.EBOData.size() << std::endl;
+//    std::cout << "model1.EBOData.size() " << model1.EBOData.size() << std::endl;
 #endif
 }
 
@@ -263,7 +263,7 @@ void RHIApplicationScene::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
 #ifdef PROJECT_USE_STB
 #if USE_MODEL
-    CommandBuffer->RHIDrawIndexedPrimitive(model1.EBOData.size(), 1, 0, 0, 0);
+  //  CommandBuffer->RHIDrawIndexedPrimitive(model1.EBOData.size(), 1, 0, 0, 0);
 #else
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 #endif

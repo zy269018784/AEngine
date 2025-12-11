@@ -268,6 +268,7 @@ void VulkanWindow::RHIEndFrame()
 	auto ret = Device->Queues[0]->QueueSubmit(1, &SubmitInfo, Fence);
 	if (VK_SUCCESS != ret)
 	{
+		std::cout << "ret " << ret << std::endl;
 		throw std::runtime_error("failed to submit draw command buffer!");
 	}
 

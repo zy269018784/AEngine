@@ -44,8 +44,8 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         nullptr,
         MemoryRequirements.size,
         //Device->pPhysicalDevice->HostVisibleIndex
-        //1
-        Device->GetPhysicalDevice()->HostVisibleIndex
+        1
+        //Device->GetPhysicalDevice()->HostVisibleIndex // why crash
     };
 
     std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;
