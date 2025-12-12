@@ -2,18 +2,19 @@
 
 // 实现部分
 void STDMETHODCALLTYPE D3D12Queue::UpdateTileMappings(
-    _In_  ID3D12Resource* pResource,
-    UINT NumResourceRegions,
-    _In_reads_opt_(NumResourceRegions)  const D3D12_TILED_RESOURCE_COORDINATE* pResourceRegionStartCoordinates,
-    _In_reads_opt_(NumResourceRegions)  const D3D12_TILE_REGION_SIZE* pResourceRegionSizes,
-    _In_opt_  ID3D12Heap* pHeap,
-    UINT NumRanges,
-    _In_reads_opt_(NumRanges)  const D3D12_TILE_RANGE_FLAGS* pRangeFlags,
-    _In_reads_opt_(NumRanges)  const UINT* pHeapRangeStartOffsets,
-    _In_reads_opt_(NumRanges)  const UINT* pRangeTileCounts,
-    D3D12_TILE_MAPPING_FLAGS Flags)
+        ID3D12Resource *resource,
+        UINT region_count,
+        const D3D12_TILED_RESOURCE_COORDINATE *region_start_coordinates,
+        const D3D12_TILE_REGION_SIZE *region_sizes,
+        ID3D12Heap *heap,
+        UINT range_count,
+        const D3D12_TILE_RANGE_FLAGS *range_flags,
+        UINT *heap_range_offsets,
+        UINT *range_tile_counts,
+        D3D12_TILE_MAPPING_FLAGS flags)
 {
-    Handle->UpdateTileMappings(pResource, NumResourceRegions, pResourceRegionStartCoordinates, pResourceRegionSizes, pHeap, NumRanges, pRangeFlags, pHeapRangeStartOffsets, pRangeTileCounts, Flags);
+    Handle->UpdateTileMappings(resource, region_count, region_start_coordinates, region_sizes, heap, range_count, range_flags, heap_range_offsets, range_tile_counts, flags);
+    //Handle->UpdateTileMappings(pResource, NumResourceRegions, pResourceRegionStartCoordinates, pResourceRegionSizes, pHeap, NumRanges, pRangeFlags, pHeapRangeStartOffsets, pRangeTileCounts, Flags);
 }
 
 void STDMETHODCALLTYPE D3D12Queue::CopyTileMappings(
