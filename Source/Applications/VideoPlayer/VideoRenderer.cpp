@@ -51,9 +51,8 @@ bool VideoRenderer::Initialize() {
     Window = new GLFWWindow(IWindow::GraphicsAPI::Vulkan);
 #else
     Window = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46);
-    Window->Resize(1920, 1080);
-
 #endif
+    Window->Resize(1920, 1080);
     window = dynamic_cast<GLFWWindow *>(Window)->GetHandle();
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -211,10 +210,10 @@ void VideoRenderer::SetupQuad() {
 #endif
 #if 1
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
-    VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
+    //VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
 
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(indices), indices);
-    EBO = dynamic_cast<OpenGLBuffer *>(RHIEBO)->GetHandle();
+    //EBO = dynamic_cast<OpenGLBuffer *>(RHIEBO)->GetHandle();
     std::cout << "CreateVBO OK" << std::endl;
     /*
         使用VBO1
@@ -273,8 +272,9 @@ void VideoRenderer::SetupQuad() {
     // 纹理坐标属性
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
-#endif
     CheckGLError("SetupQuad");
+#endif
+
 }
 
 bool VideoRenderer::CreateTexture(int width, int height) {
@@ -319,8 +319,6 @@ bool VideoRenderer::CreateTexture(int width, int height) {
 void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     if (!initialized || !data || width <= 0 || height <= 0) return;
 
-    RHIWindow_->RHIBeginFrame();
-    RHIWindow_->RHIBeginRenderPass();
 #if 0
     // 清除屏幕
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -336,11 +334,16 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
 #endif
     // 更新纹理数据
 #if 1
+
     RHITexture2D->Update(0, 0, 0, 0, width, height, 1, data);
+
 #else
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 #endif
+
+    RHIWindow_->RHIBeginFrame();
+    RHIWindow_->RHIBeginRenderPass();
 
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
 
@@ -349,7 +352,7 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     float w = 0;
     float h = 0;
     RHIWindow_->GetExtent(x, y, w, h);
-    std::cout << "w " << w << " " << h << std::endl;
+  //  std::cout << "w " << w << " " << h << std::endl;
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
@@ -376,16 +379,19 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
 
     RHIWindow_->RHIEndRenderPass();
     RHIWindow_->RHIEndFrame();
+
 #if 0
     // 渲染四边形
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 #endif
+#if !USE_RHI_VULKAN
     // 交换缓冲区
     glfwSwapBuffers(window);
-
     CheckGLError("RenderFrame");
+#endif
+
 }
 
 void VideoRenderer::Cleanup() {
