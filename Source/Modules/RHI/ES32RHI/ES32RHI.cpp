@@ -44,7 +44,7 @@ RHIWindow* ES32RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 #ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 RHIWindow* ES32RHI::RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface)
 {
-	return nullptr;
+	return new OpenGLWindow();
 }
 #endif
 
@@ -56,7 +56,7 @@ RHIWindow* ES32RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t W
 #endif
 #ifdef RHI_USE_Xlib_KHR
 RHIWindow* ES32RHI::RHICreateWindow(Display* Disp, Window Win) {
-	return nullptr;
+	return new OpenGLWindow();
 }
 #endif
 

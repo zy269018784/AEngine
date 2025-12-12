@@ -26,7 +26,7 @@ std::vector<unsigned int> EBOData = {
      0, 1, 2,
     3, 4, 5
 };
-#ifdef PROJECT_USE_STB
+#ifdef PROJECT_USE_STB_1
  Model model;
 #endif
 
@@ -38,7 +38,7 @@ RHIApplicationModel::RHIApplicationModel(GLFWwindow* InWindow)
 
 void RHIApplicationModel::Init()
 {
-#ifdef PROJECT_USE_STB
+#ifdef PROJECT_USE_STB_1
     model.LoadModel("Television_01_4k/Television_01_4k.gltf");
 #endif
 

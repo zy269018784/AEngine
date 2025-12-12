@@ -22,7 +22,7 @@
 class RHIApplicationTexture2D : public RHIApplication
 {
 public:
-    RHIApplicationTexture2D(GLFWwindow* Window);
+    RHIApplicationTexture2D(IWindow* Window);
     ~RHIApplicationTexture2D();
 private:
     virtual void Init();

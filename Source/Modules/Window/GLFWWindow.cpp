@@ -108,7 +108,6 @@ void GLFWWindow::Resize(int W, int H)
 #ifdef PROJECT_USE_GLFW
     glfwSetWindowSize(Handle, Width, Height);
 #endif
-
 }
 
 void GLFWWindow::SetWidth(int arg)

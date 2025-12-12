@@ -2,7 +2,7 @@
 #include "Vulkan/Common.h"
 #include "Model/Model.h"
 
-#ifdef PROJECT_USE_STB
+#ifdef PROJECT_USE_STB_1
     #include <stb_image.h>
     static Model model1;
 #endif

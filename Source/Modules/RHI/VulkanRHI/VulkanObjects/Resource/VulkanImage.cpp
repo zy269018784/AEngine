@@ -37,15 +37,22 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         throw std::runtime_error("Failed to create texture image!");
     }
 
+    std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
     GetImageMemoryRequirements(&MemoryRequirements);
-
+    std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
     VkMemoryAllocateInfo AllocateInfo = {
         VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
         nullptr,
         MemoryRequirements.size,
         //Device->pPhysicalDevice->HostVisibleIndex
         1
+       // Device->GetPhysicalDevice()->HostVisibleIndex // why crash
     };
+
+    std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;
+
+    std::cout << "InPixelFormat: " <<   (int)InPixelFormat  << std::endl;
+    std::cout << "InSizeX: " <<   InSizeX << " " << InSizeY << " " << InSizeZ<< std::endl;
 
     Result = DeviceMemory->AllocateMemory(&AllocateInfo, nullptr);
     if (VK_SUCCESS != Result)
@@ -110,15 +117,7 @@ void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags U
     VkMemoryRequirements MemoryRequirements;
     Device->GetBufferMemoryRequirements(Buffer, &MemoryRequirements);
 
-    std::cout
-        << "memRequirements.size " << MemoryRequirements.size << " "
-        << "memRequirements.memoryTypeBits " << MemoryRequirements.memoryTypeBits << " "
-        << "Buffer " << Buffer << " "
-        << std::endl;
-
     std::uint32_t MemoryTypeIndex = Device->GetPhysicalDevice()->FindMemoryType(MemoryRequirements.memoryTypeBits, Properties);
-    std::cout << "Requeired Memory Type Index " << MemoryTypeIndex << std::endl;
-
 
     VkMemoryAllocateInfo AllocateInfo{};
     AllocateInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
@@ -135,13 +134,11 @@ void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags U
     {
         throw std::runtime_error("failed to allocate buffer memory!");
     }
-
-    std::cout << "VulkanImage::createBuffer ok" << std::endl;
 }
 
 void VulkanImage::Update(const void* InData, std::uint32_t InSize)
 {
-    std::cout << "VulkanImage::Update start " << InSize << std::endl;
+    //std::cout << "VulkanImage::Update start " << InSize << std::endl;
 
     //CreateBuffer(InSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, StagingBuffer, StagingBufferMemory);
 
@@ -155,7 +152,7 @@ void VulkanImage::Update(const void* InData, std::uint32_t InSize)
 
     Device->UnmapMemory(StagingBufferMemory);
 
-    std::cout << "VulkanImage::Update end " << InSize << std::endl;
+    //std::cout << "VulkanImage::Update end " << InSize << std::endl;
 }
 
 void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory) 
@@ -313,7 +310,7 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
         LayerCount = 1;
         break;
     }
-
+#if 0
     std::cout << " CopyBufferToImage "
         << " XOffset " << XOffset
         << " YOffset " << YOffset
@@ -327,7 +324,7 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
         << " BaseArrayLayer " << BaseArrayLayer
         << " MipLevel " << MipLevel
         << std::endl;
-
+#endif
     VkBufferImageCopy Region{};
     Region.bufferOffset = 0;
     Region.bufferRowLength = 0;

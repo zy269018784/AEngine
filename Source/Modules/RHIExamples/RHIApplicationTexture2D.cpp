@@ -37,7 +37,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture2D::RHIApplicationTexture2D(GLFWwindow* InWindow)
+RHIApplicationTexture2D::RHIApplicationTexture2D(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -84,7 +84,8 @@ void RHIApplicationTexture2D::CreateTexture()
     /*
         STBI_rgb_alpha统一转成4通道
     */
-    stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    //stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels = stbi_load("textures/1.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
