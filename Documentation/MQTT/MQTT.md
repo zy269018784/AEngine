@@ -27,8 +27,26 @@ MQTT offers several key benefits:
     Security features: Supports TLS encryption for message confidentiality and authentication protocols for client verification.
 
 
+MQTT Control Packet
+
+MQTT Control Packet type
 
 
+    
 
+Client(Publish)                                  Server                                 Client(subscriber)
+            CONNECT     ->
+        <-  CONNACK 
 
+            PUBLISH     ->                                          PUBLISH     ->        
+        <-  PUBACK                                              <-  PUBACK
+            PUBREL      ->                                          PUBREL      ->
+        <-  PUBCOMP                                             <-  PUBCOMP
 
+                                                                <-  SUBSCRIBE   
+                                                                    SUBACK      ->
+                                                                
+                                                                <-  UNSUBSCRIBE
+                                                                    UNSUBACK    ->
+
+            DISCONNECT  ->
