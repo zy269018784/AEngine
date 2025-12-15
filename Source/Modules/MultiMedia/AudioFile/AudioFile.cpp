@@ -4,7 +4,8 @@
 #include <stdio.h>
 
 #ifdef PROJECT_USE_FDKAAC
-    #include <aacenc_lib.h>
+    #include <fdk-aac/aacenc_lib.h>
+    #include <fdk-aac/aacdecoder_lib.h>
 #endif
 
 #ifdef PROJECT_USE_OPUS
@@ -345,7 +346,7 @@ int AudioFile::EncodeToFLAC(char* InputFilename, char* OutputFilename)
     pcm.SetChannels(2);
     pcm.SetBytesPerSample(2);
     pcm.SetSampleRate(44100);
-    pcm.ReadFromRawFile32(InputFilename);
+  //  pcm.ReadFromRawFile32(InputFilename);
 
     FlacFileFormat flacff;
     return flacff.FlacEncoder(&pcm, OutputFilename);
@@ -362,7 +363,7 @@ int AudioFile::EncodeToOGG(char* InputFilename, char* OutputFilename)
     pcm.SetChannels(2);
     pcm.SetBytesPerSample(2);
     pcm.SetSampleRate(44100);
-    pcm.ReadFromRawFile32(InputFilename);
+    //pcm.ReadFromRawFile32(InputFilename);
 
     OggFileFormat oggff;
     return oggff.VorbisEncoder(&pcm, OutputFilename);

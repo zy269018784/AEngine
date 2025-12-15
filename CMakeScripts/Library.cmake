@@ -75,7 +75,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif ()
 endif ()
 
-if (${USE_FDKACC})
+if (${USE_FDKAAC})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fdk-aac/2.0.3/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fdk-aac/2.0.3/lib)
 	list (APPEND LIBRARYS		fdk-aac)

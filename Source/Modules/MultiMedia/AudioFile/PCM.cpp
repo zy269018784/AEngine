@@ -14,6 +14,13 @@
 	#define FLAC__NO_DLL
 	#include <FLAC/stream_encoder.h>
 #endif
+#ifdef PROJECT_USE_FDKAAC
+	#include <fdk-aac/aacenc_lib.h>
+	#include <fdk-aac/aacdecoder_lib.h>
+#endif
+#ifdef PROJECT_USE_TWOLAME
+	#include <twolame.h>
+#endif
 
 int PCM::ReadFromRawFile(std::string InputFile)
 {
@@ -69,7 +76,7 @@ void PCM::SetSampleRate(int n)
 	SampleRate = n;
 }
 
-int  PCM::GetSampleRate()
+int PCM::GetSampleRate()
 {
 	return SampleRate;
 }
@@ -77,6 +84,16 @@ int  PCM::GetSampleRate()
 void PCM::SetChannels(int n)
 {
 	Channels = n;
+}
+
+void PCM::SetBitRate(int n)
+{
+	BitRate = n;
+}
+
+int PCM::GetBitRate()
+{
+	return BitRate;
 }
 
 int  PCM::GetChannels()
@@ -132,7 +149,7 @@ int PCM::Write(std::string OutputFilename) {
 	{
 		return WriteFLAC(OutputFilename);
 	}
-	else if (HasExtension(OutputFilename, ".acc"))
+	else if (HasExtension(OutputFilename, ".aac"))
 	{
 		return WriteAAC(OutputFilename);
 	}
@@ -157,7 +174,65 @@ int PCM::Write(std::string OutputFilename) {
 
 int PCM::WriteMP2(std::string OutputFile)
 {
+#ifdef PROJECT_USE_TWOLAME
+	twolame_options * glopts = twolame_init();
 
+
+	twolame_set_in_samplerate(glopts,  GetSampleRate());
+	twolame_set_out_samplerate(glopts, GetSampleRate());
+	twolame_set_num_channels(glopts, GetChannels());
+	twolame_set_bitrate(glopts, GetBitRate());
+	twolame_set_psymodel(glopts, -1);  // 使用默认心理声学模型
+	twolame_set_energy_levels(glopts, 1);  // 启用能量水平扩展
+	twolame_set_error_protection(glopts, 0);  // 禁用CRC错误保护
+	twolame_set_copyright(glopts, 0);
+	twolame_set_original(glopts, 1);
+	twolame_init_params(glopts);
+
+	auto num_samples = twolame_get_framelength(glopts);
+	// 6. 分配缓冲区
+	auto input_buffer = (short*)malloc(num_samples * GetChannels() * sizeof(short));
+	auto output_buffer = (unsigned char*)malloc(16384);  // MP2帧最大可能大小
+
+	FILE* File = fopen(OutputFile.c_str(), "wb");
+	if (!File)
+	{
+		return -1;
+	}
+	/*
+		PCM样本数量
+	*/
+	int LeftSampleCount = GetSampleCount();
+	const int SampleCountPerLoop = 8192;
+	int CurrentSampleCount  = SampleCountPerLoop;
+	int PCMBufferSampleOffset = 0;
+
+	unsigned char *mp2buffer = (unsigned char *)malloc(8192);
+	int mp2buffer_size = 8192;
+	while (LeftSampleCount > 0)
+	{
+		CurrentSampleCount = SampleCountPerLoop;
+		if (LeftSampleCount < SampleCountPerLoop)
+			CurrentSampleCount = LeftSampleCount;
+
+		int  NumSamples = CurrentSampleCount / GetChannels();
+
+		int bytes = twolame_encode_buffer_interleaved(glopts, PCMBuffer.data() + PCMBufferSampleOffset, NumSamples, mp2buffer, mp2buffer_size);
+		if (bytes > 0)
+		{
+			fwrite(mp2buffer, 1, bytes, File);
+		}
+		else
+			break;
+		printf("PCMBufferSampleOffset %d\n", PCMBufferSampleOffset);
+		PCMBufferSampleOffset += CurrentSampleCount;
+
+		LeftSampleCount -= CurrentSampleCount;
+	}
+
+	fclose(File);
+	twolame_close(&glopts);
+#endif
 	return 0;
 }
 
@@ -230,17 +305,94 @@ int PCM::WriteMP3(std::string OutputFile)
 
     lame_close(GlobalFlags);
 #endif
-
 	return 0;
 }
 
 int PCM::WriteAAC(std::string OutputFile)
 {
+#ifdef PROJECT_USE_FDKAAC
+	HANDLE_AACENCODER Encoder;
+	AACENC_ERROR ErrorStatus;
+
+	ErrorStatus = aacEncOpen(&Encoder, 0, GetChannels());
+	if (AACENC_OK != ErrorStatus)
+	{
+		fprintf(stderr, "无法打开编码器\n");
+		return -1;
+	}
+	/*
+	 *	Mandatory Encoder Parameters
+	 */
+	aacEncoder_SetParam(Encoder, AACENC_CHANNELMODE, GetChannels());
+	aacEncoder_SetParam(Encoder, AACENC_SAMPLERATE, GetSampleRate());
+	aacEncoder_SetParam(Encoder, AACENC_BITRATE,    GetBitRate());
+	aacEncoder_SetParam(Encoder, AACENC_CHANNELMODE, MODE_2);
+	/*
+	 *	Audio Quality
+	 */
+	aacEncoder_SetParam(Encoder, AACENC_AFTERBURNER, 1);
+
+	aacEncoder_SetParam(Encoder, AACENC_CHANNELORDER, 1);
+	aacEncoder_SetParam(Encoder, AACENC_TRANSMUX, TT_MP4_ADTS);
+
+	ErrorStatus = aacEncEncode(Encoder, NULL, NULL, NULL, NULL);
+
+	int InBufferSize = GetSampleCount() * GetBytesPerSample();
+	void *InBuffer = PCMBuffer.data();
+	int InElSize = GetBytesPerSample();
+	//int InBufferIds[] = { IN_AUDIO_DATA, IN_ANCILLRY_DATA, IN_METADATA_SETUP };
+	int InBufferIds[] = { IN_AUDIO_DATA};
+	AACENC_BufDesc inBufDesc = {0};
+	inBufDesc.numBufs = 1;
+	inBufDesc.bufs = &InBuffer;
+	inBufDesc.bufferIdentifiers = InBufferIds;
+	inBufDesc.bufSizes   = &InBufferSize;
+	inBufDesc.bufElSizes = &InElSize;
+
+
+	void* OutBuffer =  (void *)malloc(8192 * 8 ) ;
+	int OutBufferIds = { OUT_BITSTREAM_DATA };
+	int OutBufferSize = { 8192 * 8 };
+	int OutBufferElSize = { sizeof(char) };
+
+	AACENC_BufDesc outBufDesc;
+	outBufDesc.numBufs = 1;
+	outBufDesc.bufs = &OutBuffer;
+	outBufDesc.bufferIdentifiers = &OutBufferIds;
+	outBufDesc.bufSizes = &OutBufferSize;
+	outBufDesc.bufElSizes = &OutBufferElSize;
+
+	AACENC_InArgs in_args = {0};
+	in_args.numInSamples = GetSampleCount() / 2;
+
+	// 设置输出参数
+	AACENC_OutArgs out_args = {0};
+
+	//do {
+		ErrorStatus = aacEncEncode(Encoder, &inBufDesc,&outBufDesc, &in_args, &out_args);
+	//}while (ErrorStatus==AACENC_OK);
+	FILE* File = fopen(OutputFile.c_str(), "wb");
+	if (!File)
+	{
+		return -1;
+	}
+
+	printf("out_args.numOutBytes %d\n", out_args.numOutBytes);
+	printf("InBufferSize %d\n", PCMBuffer.size() * 2);
+	printf("InBufferSize %d\n", InBufferSize);
+
+	fwrite(reinterpret_cast<const char*>(OutBuffer), 1, out_args.numOutBytes, File);
+
+
+	fclose(File);
+	aacEncClose(&Encoder);
+#endif
 	return 0;
 }
 
 int PCM::WriteAC3(std::string OutputFile)
 {
+
 	return 0;
 }
 

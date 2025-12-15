@@ -8,6 +8,8 @@ public:
 	int ReadFromRawFile16Normalized(std::string InputFile);
 	void SetSampleRate(int n);
 	int GetSampleRate();
+	void SetBitRate(int n);
+	int GetBitRate();
 	void SetChannels(int n);
 	int GetChannels();
 	void SetSampleCount(int n);
@@ -27,6 +29,7 @@ public:
 	int WriteLC3(std::string OutputFile);
 	int WriteOGG(std::string OutputFile);
 private:
+	int BitRate;
 	int SampleRate;
 	int Channels;
 	int BytesPerSample;

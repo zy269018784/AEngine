@@ -127,6 +127,10 @@ if (${USE_FDKAAC})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_FDKAAC)
 endif ()
 
+if (${USE_TWOLAME})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_TWOLAME)
+endif ()
+
 if (${USE_WEBP})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_WEBP)
 endif ()

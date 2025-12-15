@@ -1,0 +1,1 @@
+http://www.ossh.com/doc/fdk-aac-devel-0.1.4/aacEncoder.pdf

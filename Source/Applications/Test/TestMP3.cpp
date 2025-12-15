@@ -20,31 +20,20 @@ void TestAudioFormat()
     pPCM.SetSampleRate(48000);
     pPCM.SetChannels(2);
     pPCM.SetBytesPerSample(2);
+   // pPCM.SetBitRate(317);
+    pPCM.SetBitRate(320);
     pPCM.ReadFromRawFile("1.pcm");
+    pPCM.Write("test222.mp2");
+    return;
+    pPCM.Write("test222.aac");
     pPCM.Write("test222.mp3");
     pPCM.Write("test222.ogg");
     pPCM.Write("test222.flac");
 }
 
-void TestFlac()
-{
-    PCM pPCM;
-    pPCM.SetSampleRate(48000);
-    pPCM.SetChannels(2);
-    pPCM.SetBytesPerSample(2);
-
-    pPCM.ReadFromRawFile32("1.pcm");
-
-    pPCM.Write("test222.flac");
-
-   // FlacFileFormat File;
-    //File.FlacEncoder(&pPCM, "test111.flac");
-}
 
 int main()
 {
-    //TestMP3();
     TestAudioFormat();
-    //TestFlac();
     return 0;
 }
