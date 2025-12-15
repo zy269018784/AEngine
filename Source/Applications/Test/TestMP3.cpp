@@ -32,7 +32,7 @@ void TestAudioFormat()
 }
 
 
-int main()
+int main1()
 {
     TestAudioFormat();
     return 0;

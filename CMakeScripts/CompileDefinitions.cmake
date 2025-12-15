@@ -151,6 +151,9 @@ if (${USE_MP3LAME})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_MP3LAME)
 endif ()
 
+if (${USE_MQTT})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_MQTT)
+endif ()
 
 if (${USE_D3D12})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_D3D12)

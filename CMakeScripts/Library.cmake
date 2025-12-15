@@ -118,6 +118,11 @@ if (${USE_LC3})
 endif ()
 
 
+if (${USE_MQTT})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
+endif ()
+
 if (${USE_VORBIS})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libvorbis/1.3.7/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libvorbis/1.3.7/lib)
