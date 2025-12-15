@@ -15,6 +15,10 @@ set (USE_embroidery false)
 set (USE_LVGL       false)
 set (USE_FFMPEG     true)
 set (USE_OpenAL     true)
+set (USE_OGG        true)
+set (USE_FLAC       true)
+set (USE_VORBIS     true)
+
 # glfw need x11 on linux
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (USE_Xlib   true)
@@ -48,10 +52,9 @@ set (USE_ASSIMP     false)
 
 set (USE_FDKAAC     false)
 set (USE_OPUS       false)
-set (USE_OGG        false)
+
 set (USE_TWOLAME    false)
-set (USE_VORBIS     false)
-set (USE_FLAC       false)
+
 set (USE_WEBP       false)
 set (USE_GIF        false)
 set (USE_OPENEXR    false)
