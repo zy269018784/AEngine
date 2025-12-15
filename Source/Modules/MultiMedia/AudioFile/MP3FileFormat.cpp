@@ -49,6 +49,7 @@ int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
     int PCMBufferSampleOffset = 0;
     /*
         每次循环处理8192个样本
+        1个Sample = Channels个PCM Sample
     */
     const int SampleCountPerLoop = 8192;
     int CurrentSampleCount  = SampleCountPerLoop;
@@ -60,6 +61,8 @@ int MP3FileFormat::LameEncoder(class PCM* InPCM, std::string OutputFile)
             CurrentSampleCount = LeftSampleCount;
         /*
              Channels个PCM样本构成1个样本
+            1个样本 = Channels个PCM样本
+            1个Sample = Channels个PCM Sample
         */
         int  NumSamples = CurrentSampleCount / Channels;
         int encoded = lame_encode_buffer_interleaved(
