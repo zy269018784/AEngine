@@ -8,26 +8,21 @@ void TestMP3()
     pPCM.SetSampleRate(48000);
     pPCM.SetChannels(2);
     pPCM.SetBytesPerSample(2);
-
     pPCM.ReadFromRawFile("1.pcm");
-   // pPCM.ReadFromRawFile16Normalized("1.pcm");
 
     MP3FileFormat mp3;
-    mp3.LameEncoder(&pPCM, "test111.mp3");
+    mp3.LameEncoder(&pPCM, "test3.mp3");
 }
 
-void TestOgg()
+void TestAudioFormat()
 {
     PCM pPCM;
     pPCM.SetSampleRate(48000);
     pPCM.SetChannels(2);
     pPCM.SetBytesPerSample(2);
-
     pPCM.ReadFromRawFile("1.pcm");
-    // pPCM.ReadFromRawFile16Normalized("1.pcm");
-
-    OggFileFormat File;
-    File.VorbisEncoder(&pPCM, "test111.ogg");
+    pPCM.Write("test222.mp3");
+    pPCM.Write("test222.ogg");
 }
 
 void TestFlac()
@@ -37,17 +32,18 @@ void TestFlac()
     pPCM.SetChannels(2);
     pPCM.SetBytesPerSample(2);
 
-    //pPCM.ReadFromRawFile("1.pcm");
     pPCM.ReadFromRawFile32("1.pcm");
-    // pPCM.ReadFromRawFile16Normalized("1.pcm");
 
-    FlacFileFormat File;
-    File.FlacEncoder(&pPCM, "test111.flac");
+    pPCM.Write("test222.flac");
+
+   // FlacFileFormat File;
+    //File.FlacEncoder(&pPCM, "test111.flac");
 }
 
-int main() {
-   // TestMP3();
-    //TestOgg();
+int main()
+{
+    TestMP3();
+    TestAudioFormat();
     TestFlac();
     return 0;
 }

@@ -17,6 +17,16 @@ public:
 	int GetBytesPerSample();
 	const std::vector<short>& GetPCMBuffer();
 	const std::vector<int>& GetPCMBuffer32();
+public:
+	int Write(std::string OutputFile);
+	int WriteMP2(std::string OutputFile);
+	int WriteMP3(std::string OutputFile);
+	int WriteAAC(std::string OutputFile);
+	int WriteAC3(std::string OutputFile);
+	int WriteOPUS(std::string OutputFile);
+	int WriteFLAC(std::string OutputFile);
+	int WriteLC3(std::string OutputFile);
+	int WriteOGG(std::string OutputFile);
 private:
 	int SampleRate;
 	int Channels;
