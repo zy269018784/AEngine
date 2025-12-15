@@ -20,14 +20,14 @@ public:
 	const std::vector<int>& GetPCMBuffer32();
 public:
 	int Write(std::string OutputFile);
-	int WriteMP2(std::string OutputFile);
-	int WriteMP3(std::string OutputFile);
-	int WriteAAC(std::string OutputFile);
+	int WriteMP2(std::string OutputFile);	// Ok
+	int WriteMP3(std::string OutputFile);	// Ok
+	int WriteAAC(std::string OutputFile);	// 0.5
 	int WriteAC3(std::string OutputFile);
 	int WriteOPUS(std::string OutputFile);
-	int WriteFLAC(std::string OutputFile);
-	int WriteLC3(std::string OutputFile);
-	int WriteOGG(std::string OutputFile);
+	int WriteFLAC(std::string OutputFile);	// OK
+	int WriteLC3(std::string OutputFile);	// 0.1
+	int WriteOGG(std::string OutputFile);	// OK
 private:
 	int BitRate;
 	int SampleRate;

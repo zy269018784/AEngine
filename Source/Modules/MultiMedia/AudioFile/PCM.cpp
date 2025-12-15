@@ -21,6 +21,9 @@
 #ifdef PROJECT_USE_TWOLAME
 	#include <twolame.h>
 #endif
+#ifdef 	PROJECT_USE_LC3
+	#include <lc3.h>
+#endif
 
 int PCM::ReadFromRawFile(std::string InputFile)
 {
@@ -495,12 +498,15 @@ int PCM::WriteFLAC(std::string OutputFile)
 
 int PCM::WriteLC3(std::string OutputFile)
 {
+#ifdef 	PROJECT_USE_LC3
+
+#endif
 	return 0;
 }
 
 int PCM::WriteOGG(std::string OutputFile)
 {
-	#ifdef PROJECT_USE_OGG
+#ifdef PROJECT_USE_OGG
     FILE* ogg_file = fopen(OutputFile.data(), "wb");
     if (!ogg_file)
     {

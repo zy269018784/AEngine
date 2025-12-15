@@ -111,6 +111,13 @@ if (${USE_TWOLAME})
 	list (APPEND LIBRARYS		twolame)
 endif ()
 
+if (${USE_LC3})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/LC3/1.1.3/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/LC3/1.1.3/lib)
+	list (APPEND LIBRARYS		liblc3.so)
+endif ()
+
+
 if (${USE_VORBIS})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libvorbis/1.3.7/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libvorbis/1.3.7/lib)
