@@ -114,13 +114,14 @@ endif ()
 if (${USE_LC3})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/LC3/1.1.3/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/LC3/1.1.3/lib)
-	list (APPEND LIBRARYS		liblc3.so)
+	list (APPEND LIBRARYS		lc3)
 endif ()
 
 
 if (${USE_MQTT})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
+	list (APPEND LIBRARYS		mqtt)
 endif ()
 
 if (${USE_VORBIS})
