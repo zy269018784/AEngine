@@ -23,6 +23,7 @@ void TestAudioFormat()
     pPCM.ReadFromRawFile("1.pcm");
     pPCM.Write("test222.mp3");
     pPCM.Write("test222.ogg");
+    pPCM.Write("test222.flac");
 }
 
 void TestFlac()
@@ -42,8 +43,8 @@ void TestFlac()
 
 int main()
 {
-    TestMP3();
+    //TestMP3();
     TestAudioFormat();
-    TestFlac();
+    //TestFlac();
     return 0;
 }

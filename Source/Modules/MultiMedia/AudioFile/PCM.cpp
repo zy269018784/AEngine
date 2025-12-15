@@ -28,6 +28,12 @@ int PCM::ReadFromRawFile(std::string InputFile)
 
 	fread(PCMBuffer.data(), BytesPerSample, GetSampleCount(), file);
 
+	PCMBuffer32.resize(GetSampleCount());
+	for (size_t i = 0; i < PCMBuffer32.size(); i++)
+	{
+		PCMBuffer32[i] = PCMBuffer[i];
+	}
+
 	fclose(file);
 
 	return 0;
@@ -51,30 +57,6 @@ int PCM::ReadFromRawFile16Normalized(std::string InputFile)
 	for (size_t i = 0; i < PCMBuffer.size(); i++)
 	{
 		PCMBuffer[i] = PCMBuffer[i] / 32768.0f;
-	}
-
-	fclose(file);
-
-	return 0;
-}
-
-int PCM::ReadFromRawFile32(std::string InputFile)
-{
-	size_t FileSize = 0;
-	FILE* file = fopen(InputFile.c_str(), "rb");
-	fseek(file, 0, SEEK_END);
-	FileSize = ftell(file);
-
-	SetSampleCount(FileSize / BytesPerSample);
-
-	fseek(file, 0, SEEK_SET);
-
-	fread(PCMBuffer.data(), BytesPerSample, GetSampleCount(), file);
-
-	PCMBuffer32.resize(FileSize / BytesPerSample);
-	for (size_t i = 0; i < PCMBuffer32.size(); i++)
-	{
-		PCMBuffer32[i] = PCMBuffer[i];
 	}
 
 	fclose(file);
@@ -181,16 +163,14 @@ int PCM::WriteMP2(std::string OutputFile)
 
 int PCM::WriteMP3(std::string OutputFile)
 {
-	#ifdef PROJECT_USE_MP3LAME
-    auto start = std::chrono::high_resolution_clock::now();
-
-	lame_global_flags* GlobalFlags = nullptr;
-
-    FILE* MP3File = fopen(OutputFile.c_str(), "wb");
+#ifdef PROJECT_USE_MP3LAME
+	FILE* MP3File = fopen(OutputFile.c_str(), "wb");
     if (!MP3File)
     {
         return -1;
     }
+
+	lame_global_flags* GlobalFlags = nullptr;
     GlobalFlags = lame_init();
 	lame_set_in_samplerate(GlobalFlags, GetSampleRate());
 	lame_set_num_channels(GlobalFlags,  GetChannels());
@@ -249,14 +229,6 @@ int PCM::WriteMP3(std::string OutputFile)
     NumWriteBytes += fwrite(MP3Buffer, 1, final, MP3File);
 
     lame_close(GlobalFlags);
-
-    // 获取结束时间点
-    auto end = std::chrono::high_resolution_clock::now();
-
-    // 计算时间差
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    std::cout << "cost " << duration.count() << " ms " << std::endl;
 #endif
 
 	return 0;

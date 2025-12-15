@@ -6,7 +6,6 @@ class PCM
 public:
 	int ReadFromRawFile(std::string InputFile);
 	int ReadFromRawFile16Normalized(std::string InputFile);
-	int ReadFromRawFile32(std::string InputFile);
 	void SetSampleRate(int n);
 	int GetSampleRate();
 	void SetChannels(int n);
