@@ -1,0 +1,2 @@
+Modbus RTU:
+    可以基于RS232/RS422/RS485/TCP/UDP
