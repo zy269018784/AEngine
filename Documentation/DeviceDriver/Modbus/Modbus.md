@@ -6,9 +6,15 @@ https://www.bilibili.com/video/BV1CoGrzBESu?spm_id_from=333.788.videopod.episode
 
 
 
+Server:
+    modbus_new_tcp
+    modbus_tcp_listen
+    modbus_tcp_accept
+    modbus_free
 
+client:
+    modbus_new_tcp
+    modbus_connect
+    modbus_close
+    modbus_free
 
-
-
-
-    

@@ -37,7 +37,7 @@ void on_connected(MQTTHandle *handle, void *context)
 }
 
 
-int main()
+int MQTTMain()
 {
     MQTTConfig config = {0};
     config.hostname = strdup("test.mosquitto.org");
