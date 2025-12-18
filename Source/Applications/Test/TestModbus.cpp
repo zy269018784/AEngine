@@ -2,7 +2,11 @@
     #include <modbus/modbus-rtu.h>
     #include <modbus/modbus-tcp.h>
 #endif
-#include  <iostream>
+#ifdef PROJECT_USE_QT
+    #include <QModbusServer>
+#endif
+#include <thread>
+#include <iostream>
 int ModbusTCPMain();
 int ModbusTCPServerMain();
 int ModbusTCPClientMain();
@@ -14,14 +18,42 @@ int ModbusMain()
     return 0;
 }
 
-int ModbusTCPServerMain() {
+int ModbusTCPServerMain()
+{
+    int ErrorCode = 0;
+
     modbus_t *mb;
     mb = modbus_new_tcp("127.0.0.1", 1502);
-    while (1) {
-        int s = modbus_tcp_listen(mb, 1);
-        modbus_tcp_accept(mb, &s);
-        std::cout << "accept ok" << std::endl;
+    modbus_mapping_t *mb_mapping = modbus_mapping_new_start_address(
+            0,   // 线圈起始地址
+            100, // 线圈数量
+            0,   // 离散输入起始地址
+            100, // 离散输入数量
+            0,   // 保持寄存器起始地址
+            100, // 保持寄存器数量
+            0,   // 输入寄存器起始地址
+            100  // 输入寄存器数量
+        );
+
+    if (mb_mapping == NULL) {
+        fprintf(stderr, "Failed to allocate mapping: %s\n", modbus_strerror(errno));
+        modbus_free(mb);
+        return -1;
     }
+
+    //while (1) {
+        int s = modbus_tcp_listen(mb, 1);
+        ErrorCode = modbus_tcp_accept(mb, &s);
+        if (-1 == ErrorCode)
+        {
+            std::cout  << "modbus_tcp_accept falied " << modbus_strerror(errno) << std::endl;
+            return -1;
+        }
+        std::cout << "accept ok" << std::endl;
+
+   // }
+
+    std::this_thread::sleep_for(std::chrono::seconds(100));
     modbus_free(mb);
     return 0;
 }
@@ -37,6 +69,17 @@ int ModbusTCPClientMain()
         std::cout  << "modbus_connect falied " << modbus_strerror(errno) << std::endl;
         return -1;
     }
+
+    uint16_t tab_reg[32];
+
+    ErrorCode = modbus_read_registers(mb, 0, 1, tab_reg);
+    if (ErrorCode)
+    {
+        std::cout  << "modbus_read_registers falied " << modbus_strerror(errno) << std::endl;
+        return -1;
+    }
+    std::cout  << tab_reg[0] << std::endl;
+
     modbus_close(mb);
     modbus_free(mb);
     return 0;
