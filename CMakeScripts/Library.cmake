@@ -281,9 +281,13 @@ if (${USE_OpenAL})
 endif ()
 
 if (${USE_LIVE555})
-	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/live555/include)
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/live555/include
+			${LIBRARY_PATH}/live555/include/BasicUsageEnvironment
+			${LIBRARY_PATH}/live555/include/groupsock
+			${LIBRARY_PATH}/live555/include/liveMedia
+			${LIBRARY_PATH}/live555/include/UsageEnvironment)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/live555/lib)
-	list (APPEND LIBRARYS		BasicUsageEnvironment  groupsock. liveMedia UsageEnvironment)
+	list (APPEND LIBRARYS		BasicUsageEnvironment  groupsock liveMedia UsageEnvironment)
 endif ()
 
 if (${USE_LVGL})
