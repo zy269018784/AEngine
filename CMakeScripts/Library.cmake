@@ -259,8 +259,8 @@ if (${USE_NANA})
 endif ()
 
 if (${USE_MODBUS})
-	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Modbus/3.1.11/include)
-	list (APPEND LINK_PATH      ${LIBRARY_PATH}/Modbus/3.1.11/lib)
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libmodbus/3.1.11/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/libmodbus/3.1.11/lib)
 	list (APPEND LIBRARYS		modbus)
 endif ()
 
