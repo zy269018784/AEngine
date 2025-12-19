@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 #ifdef PROJECT_USE_FDKAAC
-    #include <fdk-aac/aacenc_lib.h>
-    #include <fdk-aac/aacdecoder_lib.h>
+    #include <aacenc_lib.h>
+    #include <aacdecoder_lib.h>
 #endif
 
 #ifdef PROJECT_USE_OPUS
