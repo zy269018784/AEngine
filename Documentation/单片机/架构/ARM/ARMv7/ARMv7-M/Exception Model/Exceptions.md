@@ -9,8 +9,8 @@ Exceptions:
     SVCall
     Interrupts
     2 system-level interrupts
-    PendSV
-    SysTick
+        PendSV
+        SysTick
     496 external interrupts
 
 
