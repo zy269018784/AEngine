@@ -168,6 +168,10 @@ if (${USE_GLM})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_GLM)
 endif ()
 
+if (${USE_SIMPLEBLE})
+	target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_SIMPLEBLE)
+endif ()
+
 if (${USE_VULKAN})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_VULKAN)
 endif ()

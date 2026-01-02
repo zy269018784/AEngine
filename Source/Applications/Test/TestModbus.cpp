@@ -22,6 +22,7 @@ int ModbusTCPServerMain()
 {
     int ErrorCode = 0;
 
+#ifdef PROJECT_USE_MODBUS
     modbus_t *mb;
     mb = modbus_new_tcp("127.0.0.1", 1502);
     modbus_mapping_t *mb_mapping = modbus_mapping_new_start_address(
@@ -55,12 +56,14 @@ int ModbusTCPServerMain()
 
     std::this_thread::sleep_for(std::chrono::seconds(100));
     modbus_free(mb);
+#endif
     return 0;
 }
 
 int ModbusTCPClientMain()
 {
     int ErrorCode = 0;
+#ifdef PROJECT_USE_MODBUS
     modbus_t *mb;
     mb = modbus_new_tcp("127.0.0.1", 1502);
     ErrorCode = modbus_connect(mb);
@@ -82,11 +85,13 @@ int ModbusTCPClientMain()
 
     modbus_close(mb);
     modbus_free(mb);
+#endif
     return 0;
 }
 
 int ModbusTCPMain() {
     std::cout << "hello, modbus tcp" << std::endl;
+#ifdef PROJECT_USE_MODBUS
     modbus_t *mb;
 
 
@@ -124,6 +129,7 @@ int ModbusTCPMain() {
 
     modbus_close(mb);
     modbus_free(mb);
+#endif
     return 0;
 }
 

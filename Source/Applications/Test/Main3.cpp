@@ -5,6 +5,7 @@
 
 int main3() {
     return  0;
+#if 0
     lv_init();
      lv_display_t * Display = lv_windows_create_display(
         L"Milkyway Keyboard",
@@ -22,5 +23,6 @@ int main3() {
         uint32_t time_till_next = lv_timer_handler();
         lv_delay_ms(time_till_next);
     }
+#endif
 }
 #endif

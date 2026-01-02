@@ -4,9 +4,9 @@
 #ifdef PROJECT_USE_LIVE555
     #include <liveMedia/liveMedia.hh>
     #include <BasicUsageEnvironment/BasicUsageEnvironment.hh>
+	UsageEnvironment* env;
 #endif
 //}
-UsageEnvironment* env;
 #ifdef PROJECT_USE_LIVE555
 // Callback handlers
 //static void continueAfterDESCRIBE(RTSPClient* rtspClient, int resultCode, char* resultString);
