@@ -22,5 +22,17 @@ int SimpleBLEMain(int argc, char **argv)
    // Do something with the adapter
    std::cout << "Adapter identifier: " << adapter.identifier() << std::endl;
    std::cout << "Adapter address: " << adapter.address() << std::endl;
+
+   // Scan for peripherals for 5000 milliseconds
+	adapter.scan_for(5000);
+
+// Get the list of peripherals found
+std::vector<SimpleBLE::Peripheral> peripherals = adapter.scan_get_results();
+
+// Print the identifier of each peripheral
+for (auto peripheral : peripherals) {
+    std::cout << "Peripheral identifier: " << peripheral.identifier() << std::endl;
+    std::cout << "Peripheral address: " << peripheral.address() << std::endl;
+}
 	return 0;
 }	
