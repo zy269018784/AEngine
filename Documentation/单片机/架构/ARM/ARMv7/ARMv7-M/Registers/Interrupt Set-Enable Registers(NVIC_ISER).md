@@ -7,5 +7,8 @@ Interrupt Set-Enable Registers(NVIC_ISER)
     ...
     NVIC_ISER14  使能中断[32 * 14,  32 * 14 + 31].
     NVIC_ISER15  使能中断[32 * 15,  32 * 15 + 15].
-    共496个中断
+    共496个中断(包括异常和外部中断).
 
+具体有多少个外部中断, 由实现决定:
+    Cortex-M3只支持240个外部中断.
+    Cortex-M33支持480个外部中断.
