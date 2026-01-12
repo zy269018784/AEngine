@@ -13,5 +13,5 @@ void main()
 {
     fragTexCoord 	= inTexCoord;
     //gl_Position = vec4(inPosition, 1.0);
-    gl_Position = UBO1.mvp * inPosition;
+    gl_Position = UBO1.mvp * vec4(inPosition, 1.);
 }
