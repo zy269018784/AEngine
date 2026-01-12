@@ -37,7 +37,8 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture2D::RHIApplicationTexture2D(IWindow* InWindow)
+RHIApplicationTexture2D::
+RHIApplicationTexture2D(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 

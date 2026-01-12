@@ -138,7 +138,7 @@ endif ()
 if (${USE_CSerialPort})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/CSerialPort/4.3.3/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/CSerialPort/4.3.3/lib)
-	list (APPEND LIBRARYS		libcserialport)
+	list (APPEND LIBRARYS		cserialport)
 endif ()
 
 if (${USE_VORBIS})

@@ -60,3 +60,18 @@ target_link_libraries (${APP_NAME} PUBLIC ${LIBRARYS})
 
 include (CMakeScripts/CompileDefinitions.cmake)
 #----------------------------------------------------
+file(GLOB_RECURSE SRC_LIST_Engine   ${SRC_PREFIX}/Applications/Engine/*.cpp ${SRC_PREFIX}/Applications/Engine/*.c ${SRC_PREFIX}/Applications/Engine/*.h)
+
+list (APPEND Engine_SRC_LIST
+        ${SRC_LIST_Engine}
+        ${SRC_LIST}
+)
+
+set (APP_NAME Engine)
+add_executable(${APP_NAME}	 ${Engine_SRC_LIST})
+target_include_directories (${APP_NAME}	PUBLIC ${INCLUDE_PATH})
+target_link_directories (${APP_NAME}	PUBLIC ${LINK_PATH})
+target_link_libraries (${APP_NAME} PUBLIC ${LIBRARYS})
+
+include (CMakeScripts/CompileDefinitions.cmake)
+#----------------------------------------------------

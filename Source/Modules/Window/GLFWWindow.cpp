@@ -5,6 +5,7 @@
     #include <X11/Xutil.h>
 #endif
 
+#define GLFW_INCLUDE_VULKAN
 
 GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
