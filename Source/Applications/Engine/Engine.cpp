@@ -178,7 +178,11 @@ void Engine::CreateUBO()
 {
     Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     //MVP = Projection * View * Model;
-
+    MVP = glm::mat4(1.0);
+    MVP = glm::mat4(0.5, 0.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 1.0, 0.0,
+                    0.0, 0.0, 0.0, 1.0);
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
 }
 
