@@ -27,6 +27,13 @@ static unsigned int Index[] = {
         3, 4, 5
 };
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    // Adjust viewport to match new window dimensions
+    glViewport(0, 0, width, height);
+
+    // You might also want to update projection matrices here
+    printf("Window resized to %dx%d\n", width, height);
+}
 
 Engine::Engine(IWindow* InWindow)
     : Window(InWindow)
@@ -139,6 +146,7 @@ void Engine::Run()
 {
     Init();
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
+    glfwSetFramebufferSizeCallback(glfwWin, framebuffer_size_callback);
     while (!glfwWindowShouldClose(glfwWin))
     {
         RHIWindow_->RHIBeginFrame();
