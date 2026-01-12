@@ -17,5 +17,5 @@ void main()
 					0, 1, 0, 0,
 					0, 0, 1, 0,
 					0, 0, 0, 1);
-    gl_Position = mat * vec4(inPosition, 1.);
+    gl_Position = UBO1.mvp * vec4(inPosition, 1.);
 }
