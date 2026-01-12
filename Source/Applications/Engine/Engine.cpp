@@ -102,6 +102,7 @@ void Engine::Init()
 {
     CreateVBO();
     CreateEBO();
+    CreateUBO();
     CreateTexture();
     CreateSRB();
     CreateVertexDescriptioin();
@@ -176,7 +177,7 @@ void Engine::CreateEBO()
 void Engine::CreateUBO()
 {
     Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    MVP = Projection * View * Model;
+    //MVP = Projection * View * Model;
 
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
 }
@@ -216,7 +217,7 @@ void Engine::CreateSRB()
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
                              RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
-                             RHIShaderResourceBinding::UniformBuffer(1, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
+                             RHIShaderResourceBinding::UniformBuffer(0, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
                      });
     SRB->Create();
 }
@@ -239,8 +240,8 @@ void Engine::CreateVertexDescriptioin()
 void Engine::CreateGraphicsPipeline()
 {
 #if 1
-    auto vertShaderCode = ReadFile("Texture2D_vert.spv");
-    auto fragShaderCode = ReadFile("Texture2D_frag.spv");
+    auto vertShaderCode = ReadFile("Engine_vert.spv");
+    auto fragShaderCode = ReadFile("Engine_frag.spv");
     // 创建Shader
     VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
