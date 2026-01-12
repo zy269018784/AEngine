@@ -9,6 +9,17 @@
 #ifdef PROJECT_USE_VULKAN
     #include "VulkanRHI.h"
 #endif
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+/*
+    spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
+    spirv-cross.exe --version 460 Engine.spv --output Engine_frag.glsl
+    glslangValidator.exe -V --glsl-version 460 -S vert Engine_vert.glsl -o Engine_vert.spv -e main
+    glslangValidator.exe -V --glsl-version 460 -S frag Engine_frag.glsl -o Engine_frag.spv -e main
+*/
+
 class Engine
 {
 public:
@@ -19,6 +30,7 @@ public:
     void Run();
     void CreateVBO();
     void CreateEBO();
+    void CreateUBO();
     void CreateTexture();
     void CreateSRB();
     void CreateVertexDescriptioin();
@@ -38,6 +50,10 @@ private:
         EBO
     */
     RHIBuffer* RHIEBO = nullptr;
+    /*
+        UBO
+    */
+    RHIBuffer* RHIUBO = nullptr;
     /*
         Pipeline
     */
@@ -60,4 +76,9 @@ private:
     */
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
+private:
+    glm::mat4 Projection;
+    glm::mat4 View;
+    glm::mat4 Model;
+    glm::mat4 MVP;
 };
