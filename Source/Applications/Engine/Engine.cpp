@@ -10,18 +10,28 @@
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
 */
+#if 1
+static float VertexAttributes[] = {
+    -50.0f,-50.0f, -50.0f,  0.0f, 0.0f,
+    50.0f,-50.0f, -50.0f,  1.0f, 0.0f,
+    50.0f,50.0f, -50.0f,  1.0f, 1.0f,
+    50.0f,  50.0f, -50.0f,  1.0f, 1.0f,
+    -50.0f,  50.0f, -50.0f,  0.0f, 1.0f,
+    -50.0f, -50.0f, -50.0f,  0.0f, 0.0f,
+};
+#else
 static float VertexAttributes[] = {
         // VBO1                                    // VBO2
         // pos               uv                    // pos              uv
-        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.0f,  1.0f, 0.0f,            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+        -50.0f,-50.0f, 0.0f,  0.0f, 0.0f,
+        50.0f,-50.0f, 0.0f,  1.0f, 0.0f,
+        50.0f,50.0f, 0.0f,  1.0f, 1.0f,
 
-        0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,           -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f
+        50.0f,  50.0f, 0.0f,  1.0f, 1.0f,
+        -50.0f,  50.0f, 0.0f,  0.0f, 1.0f,
+        -50.0f, -50.0f, 0.0f,  0.0f, 0.0f,
 };
-
+#endif
 static unsigned int Index[] = {
         0, 1, 2,
         3, 4, 5
@@ -176,13 +186,28 @@ void Engine::CreateEBO()
 
 void Engine::CreateUBO()
 {
-    Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    //MVP = Projection * View * Model;
-    MVP = glm::mat4(1.0);
-    MVP = glm::mat4(0.5, 0.0, 0.0, 0.0,
-                    0.0, 1.0, 0.0, 0.0,
-                    0.0, 0.0, 1.0, 0.0,
-                    0.0, 0.0, 0.0, 1.0);
+    glm::vec4 p;
+    Model = glm::mat4(1.0);
+    View = glm::lookAt(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -100.0), glm::vec3(0.0, 1.0, 0.0));
+
+    p = View * glm::vec4(0, 0, 1000, 0.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    p = View * glm::vec4(0, 0, 1000, 1.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
+    MVP = Projection * View * Model;
+    p = MVP * glm::vec4(0, 0, 1000, 0.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    p = MVP * glm::vec4(0, 0, 1000, 1.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+    //MVP = glm::mat4(1.0);
+    //MVP = glm::mat4(1.0, 0.0, 0.0, 0.0,
+    //                0.0, 1.0, 0.0, 0.0,
+    //                0.0, 0.0, 1.0, 0.0,
+    //                0.0, 0.0, 0.0, 1.0);
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
 }
 
@@ -275,7 +300,7 @@ void Engine::CreateGraphicsPipeline()
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-                                          { 10 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+                                          { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
                                   });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
