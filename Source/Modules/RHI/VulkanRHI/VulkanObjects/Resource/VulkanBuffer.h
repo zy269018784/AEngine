@@ -11,6 +11,7 @@ public:
 	VulkanBuffer(VulkanDevice* Device, RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
 	~VulkanBuffer();
 	VkBuffer GetHandle() const;
+	virtual void Update(std::uint32_t InSize, const void* InData) final override;
 private:
 	/*
 		Vulkan API Wrapper

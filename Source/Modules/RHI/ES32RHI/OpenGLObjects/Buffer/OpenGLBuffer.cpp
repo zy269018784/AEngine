@@ -18,7 +18,6 @@ OpenGLBuffer::OpenGLBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBuffer
 {
 	glGenBuffers(1, &Handle);
     std::cout << "OpenGLBuffer " << Handle << std::endl;
-    GLenum Target = 0;
     switch (Type)
     {
     case VertexBuffer:
@@ -101,3 +100,9 @@ GLenum OpenGLBuffer::GetAccess() const
 GLuint OpenGLBuffer::GetHandle() const {
     return Handle;
 }
+
+ void OpenGLBuffer::Update(std::uint32_t InSize, const void* InData)
+ {
+     glBindBuffer(Target, Handle);
+     glBufferData(Target, InSize, InData, GetAccess());
+ }

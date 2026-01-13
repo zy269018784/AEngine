@@ -44,6 +44,8 @@ public:
 	virtual ~RHIBuffer()
 	{
 	}
+
+	virtual void Update(std::uint32_t InSize, const void* InData) = 0;
 private:
 	RHIBufferType		Type{};
 	RHIBufferUsageFlag	Usage{};

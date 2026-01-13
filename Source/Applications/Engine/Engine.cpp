@@ -37,12 +37,51 @@ static unsigned int Index[] = {
         3, 4, 5
 };
 
+glm::mat4 Projection;
+glm::mat4 View;
+glm::mat4 Model;
+glm::mat4 MVP;
+glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
+glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
+glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
+
+RHIBuffer* RHIUBO_ = nullptr;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
     glViewport(0, 0, width, height);
 
     // You might also want to update projection matrices here
     printf("Window resized to %dx%d\n", width, height);
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    switch (key)
+    {
+        case GLFW_KEY_W:
+            Eye.z += 1.0;
+            Target.z += 1.0;
+            break;
+        case GLFW_KEY_S:
+            Eye.z -= 1.0;
+            Target.z -= 1.0;
+            break;
+        case GLFW_KEY_A:
+            Eye.x -= 1.0;
+            Target.x -= 1.0;
+            break;
+        case GLFW_KEY_D:
+            Eye.x += 1.0;
+            Target.x += 1.0;
+            break;
+    }
+    Model = glm::mat4(1.0);
+    View = glm::lookAt(Eye, Target, Up);
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
+    MVP = Projection * View * Model;
+
+    RHIUBO_->Update(sizeof(MVP), &MVP);
 }
 
 Engine::Engine(IWindow* InWindow)
@@ -158,6 +197,7 @@ void Engine::Run()
     Init();
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     glfwSetFramebufferSizeCallback(glfwWin, framebuffer_size_callback);
+    glfwSetKeyCallback(glfwWin, key_callback);
     while (!glfwWindowShouldClose(glfwWin))
     {
         RHIWindow_->RHIBeginFrame();
@@ -209,6 +249,7 @@ void Engine::CreateUBO()
     //                0.0, 0.0, 1.0, 0.0,
     //                0.0, 0.0, 0.0, 1.0);
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
+    RHIUBO_ = RHIUBO;
 }
 
 

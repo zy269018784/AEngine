@@ -96,3 +96,7 @@ VkBuffer VulkanBuffer::GetHandle() const
 //    return DeviceMemoryHandle->GetHandle();
 //}
 
+void VulkanBuffer::Update(std::uint32_t InSize, const void* InData)
+{
+
+}
