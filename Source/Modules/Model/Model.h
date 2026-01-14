@@ -18,7 +18,7 @@ public:
 
 	std::vector<unsigned int> EBOData;
 
-	std::vector <std::string> Textures;
+	std::vector<std::string> Textures;
 	//std::vector<int> offsets;
 };
 #endif
