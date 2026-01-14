@@ -38,7 +38,10 @@ void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint3
 	/*
 		打开面剔除
 	*/
-	glEnable(GL_CULL_FACE);
+	if (RHICullMode::CullModeNone == GraphicsPipeline->GetCullMode())
+		glDisable(GL_CULL_FACE);
+	else
+		glEnable(GL_CULL_FACE);
 
 	if (InstanceCount > 1)
 		glDrawArraysInstanced(GL_TRIANGLES, FirstVertex, VertexCount, InstanceCount);
@@ -80,7 +83,10 @@ void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 	/*
 		打开面剔除
 	*/
-	glEnable(GL_CULL_FACE);
+	if (RHICullMode::CullModeNone == GraphicsPipeline->GetCullMode())
+		glDisable(GL_CULL_FACE);
+	else
+		glEnable(GL_CULL_FACE);
 	if (InstanceCount > 1)
 		glDrawElementsInstanced(RHITopology, IndexCount, IndexType1, (const void *)VertexOffset, InstanceCount);
 	else if (InstanceCount > 0)

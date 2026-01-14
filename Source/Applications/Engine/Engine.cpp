@@ -8,16 +8,22 @@
 #include <iostream>
 /*
     VBO1三角形: 红色和黄色
-    VBO1三角形: 蓝色和绿色
+    (0, 1)      (1, 1)
+    (0, 0)      (1, 0)
+
+    3   2
+    0   1
+    3   5
+    0   4
 */
 #if 1
 static float VertexAttributes[] = {
     -50.0f,-50.0f,  -100.0f,  0.0f, 0.0f,
-    50.0f,-50.0f,   -100.0f,  1.0f, 0.0f,
+     50.0f,-50.0f,   -100.0f,  1.0f, 0.0f,
     50.0f,50.0f,  -100.0f,  1.0f, 1.0f,
-    50.0f,  50.0f, -100.0f,  1.0f, 1.0f,
-    -50.0f,  50.0f, -100.0f,  0.0f, 1.0f,
-    -50.0f, -50.0f, -100.0f,  0.0f, 0.0f,
+        -50.0f,  50.0f, -100.0f,  0.0f, 1.0f,
+        -50.0f,-50.0f,  -50.0f,  0.0f, 1.0f,
+    -50.0f,  50.0f, -50.0f,  0.0f, 1.0f,
 };
 #else
 static float VertexAttributes[] = {
@@ -34,7 +40,9 @@ static float VertexAttributes[] = {
 #endif
 static unsigned int Index[] = {
         0, 1, 2,
-        3, 4, 5
+        2, 3, 0,
+            3, 0, 4,
+            4, 5, 3
 };
 
 glm::mat4 Projection;
@@ -189,7 +197,7 @@ void Engine::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+    CommandBuffer->RHIDrawIndexedPrimitive(12, 1, 0, 0, 0);
 }
 
 void Engine::Run()
@@ -294,17 +302,7 @@ void Engine::CreateSRB()
 
 void Engine::CreateVertexDescriptioin()
 {
-#if 1
-    /*
-        使用VBO1
-    */
     VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
-#else
-    /*
-        使用VBO2
-    */
-    VertexInputs.push_back(std::make_pair(RHIVBO, 5 * sizeof(float)));
-#endif
 }
 
 void Engine::CreateGraphicsPipeline()
@@ -349,7 +347,8 @@ void Engine::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
+
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
