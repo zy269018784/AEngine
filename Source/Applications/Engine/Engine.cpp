@@ -54,7 +54,7 @@ glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
 #if  USE_RHI_VULKAN
-glm::vec3 Eye = glm::vec3(0, 170, -390);
+glm::vec3 Eye = glm::vec3(0, 170, 390);
 glm::vec3 Target = glm::vec3(0, 170, 0);
 #else
 glm::vec3 Eye = glm::vec3(0, 170, 390);
@@ -107,7 +107,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
     }
     Model = glm::mat4(1.0);
-    View = glm::lookAt(Eye, Target, Up);
+#if USE_RHI_VULKAN
+    View = glm::lookAtLH(Eye, Target, Up);
+#else
+    View = glm::lookAtRH(Eye, Target, Up);
+#endif
     Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
     MVP = Projection * View * Model;
 
@@ -275,8 +279,11 @@ void Engine::CreateUBO()
 {
     glm::vec4 p;
     Model = glm::mat4(1.0);
-    View = glm::lookAt(Eye, Target, Up);
-
+#if USE_RHI_VULKAN
+    View = glm::lookAtLH(Eye, Target, Up);
+#else
+    View = glm::lookAtRH(Eye, Target, Up);
+#endif
     p = View * glm::vec4(0, 0, 1000, 0.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
 
