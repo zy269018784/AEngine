@@ -13,6 +13,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Model/Model.h"
+
 /*
     spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
     spirv-cross.exe --version 460 Engine.spv --output Engine_frag.glsl
@@ -77,5 +79,5 @@ private:
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
 private:
-
+    Model model;
 };

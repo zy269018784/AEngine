@@ -2,6 +2,13 @@
 #include <list>
 #include <iostream>
 #ifdef  PROJECT_USE_ASSIMP
+
+Model::Model()
+{
+    AA = glm::vec3(0, 0, 0);
+    BB = glm::vec3(0, 0, 0);
+}
+
 void Model::LoadModel(std::string const& path)
 {
     Assimp::Importer importer;
@@ -32,7 +39,43 @@ void Model::LoadModel(std::string const& path)
 
     //}
     Textures.push_back("namaqualand_boulder_02_2k/textures/namaqualand_boulder_02_diff_2k.jpg");
+    std::cout << "mNumCameras " << scene->mNumCameras << std::endl;
+    if (scene->mNumCameras > 0) {
+        Position.x = scene->mCameras[0]->mPosition.x;
+        Position.y = scene->mCameras[0]->mPosition.y;
+        Position.z = scene->mCameras[0]->mPosition.z;
+        LookAt.x = scene->mCameras[0]->mLookAt.x;
+        LookAt.y = scene->mCameras[0]->mLookAt.y;
+        LookAt.z = scene->mCameras[0]->mLookAt.z;
+        Up.x = scene->mCameras[0]->mUp.x;
+        Up.y = scene->mCameras[0]->mUp.y;
+        Up.z = scene->mCameras[0]->mUp.z;
+
+        Fov = scene->mCameras[0]->mHorizontalFOV;
+
+        std::cout << "Position "
+                  << Position.x << " "
+                  << Position.y << " "
+                  << Position.z << " " << std::endl;
+
+
+        std::cout << "LookAt "
+                  << LookAt.x << " "
+                  << LookAt.y << " "
+                  << LookAt.z << " " << std::endl;
+
+        std::cout << "Up "
+                  << Up.x << " "
+                  << Up.y << " "
+                  << Up.z << " " << std::endl;
+    }
+
     ProcessNode(scene->mRootNode, scene);
+
+    std::cout << "AA " << AA.x << " " << AA.y << " "<< AA.z << std::endl;
+    std::cout << "BB " << BB.x << " " << BB.y << " "<< BB.z << std::endl;
+    std::cout << "Center " << (BB.x + AA.x) / 2.0 << " " << (BB.y + AA.y) / 2.0 << " "<< (BB.z + AA.z) / 2.0 << std::endl;
+    std::cout << "Size " << (BB.x - AA.x)  << " " << (BB.y - AA.y) << " "<< (BB.z - AA.z)<< std::endl;
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
@@ -48,6 +91,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
     for (auto it = mats.begin(); it != mats.end(); it++) {
         mat *= *it;
     }
+
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -56,7 +100,6 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-
         ProcessNode(node->mChildren[i], scene);
     }
 }
@@ -83,6 +126,20 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, aiMatrix4x4 mat1)
         VBOData.push_back(p.x);
         VBOData.push_back(p.y);
         VBOData.push_back(p.z);
+        if (p.x < AA.x)
+            AA.x = p.x;
+        if (p.y < AA.y)
+            AA.y = p.y;
+        if (p.z < AA.z)
+            AA.z = p.z;
+
+        if (p.x > BB.x)
+            BB.x = p.x;
+        if (p.y > BB.y)
+            BB.y = p.y;
+        if (p.z > BB.z)
+            BB.z = p.z;
+
         //if (0 == i)
         //{
         //    VBOData.push_back(0);

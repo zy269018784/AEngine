@@ -95,6 +95,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 Engine::Engine(IWindow* InWindow)
     : Window(InWindow)
 {
+
+    model.LoadModel("periwinkle_plant_1k.gltf");
+
 #if USE_RHI_VULKAN
     #ifdef PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
@@ -197,8 +200,12 @@ void Engine::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-    CommandBuffer->RHIDrawIndexedPrimitive(12, 1, 0, 0, 0);
+   // CommandBuffer->RHIDrawIndexedPrimitive(12, 1, 0, 0, 0);
+
+    CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
 }
+
+
 
 void Engine::Run()
 {
@@ -224,12 +231,19 @@ void Engine::Run()
 
 void Engine::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
+
 }
 
 void Engine::CreateEBO()
 {
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    //RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
+
+    std::cout << "model.EBOData.size() " << model.EBOData.size() << std::endl;
 }
 
 void Engine::CreateUBO()
