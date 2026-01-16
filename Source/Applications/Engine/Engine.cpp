@@ -54,11 +54,11 @@ glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
 #if  USE_RHI_VULKAN
-glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
-glm::vec3 Target = glm::vec3(0.0, 0.0, -130.0);
+glm::vec3 Eye = glm::vec3(0, 170, -390);
+glm::vec3 Target = glm::vec3(0, 170, 0);
 #else
-glm::vec3 Eye = glm::vec3(0.0, 0.0, 130.0);
-glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
+glm::vec3 Eye = glm::vec3(0, 170, 390);
+glm::vec3 Target = glm::vec3(0, 170, 0);
 #endif
 #if USE_RHI_VULKAN
 static glm::vec3 Up= glm::vec3(0.0, -1.0, 0.0);
@@ -70,7 +70,7 @@ RHIBuffer* RHIUBO_ = nullptr;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
-   // glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
 
     // You might also want to update projection matrices here
     printf("Window resized to %dx%d\n", width, height);
@@ -113,6 +113,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
   //  MVP = glm::mat4(1.0);
     RHIUBO_->Update(sizeof(MVP), &MVP);
+
+    std::cout << "Eye " << Eye.x << " "<< Eye.y << " "<< Eye.z << " " << std::endl;
 }
 
 Engine::Engine(IWindow* InWindow)
@@ -273,7 +275,7 @@ void Engine::CreateUBO()
 {
     glm::vec4 p;
     Model = glm::mat4(1.0);
-    View = glm::lookAt(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -100.0), glm::vec3(0.0, 1.0, 0.0));
+    View = glm::lookAt(Eye, Target, Up);
 
     p = View * glm::vec4(0, 0, 1000, 0.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
