@@ -1,121 +1,58 @@
-#include "Engine.h"
+#include "Engine2.h"
 #include "Window/GLFWWindow.h"
 #include "Vulkan/Common.h"
 #ifdef PROJECT_USE_STB
-    #include <stb_image.h>
+#include <stb_image.h>
 #endif
 
 #include <iostream>
-/*
-    VBO1三角形: 红色和黄色
-    (0, 1)      (1, 1)
-    (0, 0)      (1, 0)
-
-    3   2
-    0   1
-    3   5
-    0   4
-*/
-#if 0
-static float VertexAttributes[] = {
-    -50.0f,-50.0f,  -100.0f,  0.0f, 0.0f,
-     50.0f,-50.0f,   -100.0f,  1.0f, 0.0f,
-    50.0f,50.0f,  -100.0f,  1.0f, 1.0f,
-        -50.0f,  50.0f, -100.0f,  0.0f, 1.0f,
-        -50.0f,-50.0f,  -50.0f,  0.0f, 0.0f,
-    -50.0f,  50.0f, -50.0f,  0.0f, 0.0f,
-};
-static unsigned int Index[] = {
-        0, 1, 2,
-        2, 3, 0,
-            3, 0, 4,
-            4, 5, 3
-};
-#else
 static float VertexAttributes[] = {
         // VBO1                                    // VBO2
-         // pos               uv                    // pos              uv
-        -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
-         1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
-         1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
-        -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+        // pos               uv                    // pos              uv
+        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f,  1.0f, 0.0f,            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+
+        0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,           -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f
 };
+
+//static float VertexAttributes[] = {
+//    // VBO1
+//    // pos              color              uv
+//    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+//     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+//     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+//
+//     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+//    -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+//    -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+//};
+
+
 static unsigned int Index[] = {
         0, 1, 2,
         3, 4, 5
 };
-#endif
 
-
-glm::mat4 Projection;
-glm::mat4 View;
-glm::mat4 Model;
-glm::mat4 MVP;
-#if  !USE_RHI_VULKAN
-glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
-glm::vec3 Target = glm::vec3(0.0, 0.0, -130.0);
-#else
-glm::vec3 Eye = glm::vec3(0.0, 0.0, 130.0);
-glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
-#endif
-glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
-
-RHIBuffer* RHIUBO_ = nullptr;
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
-   // glViewport(0, 0, width, height);
+    // glViewport(0, 0, width, height);
 
     // You might also want to update projection matrices here
     printf("Window resized to %dx%d\n", width, height);
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    float step = 10.f;
-    switch (key)
-    {
-        case GLFW_KEY_W:
-            Eye.z -= step;
-            Target.z -= step;
-            break;
-        case GLFW_KEY_S:
-            Eye.z += step;
-            Target.z += step;
-            break;
-        case GLFW_KEY_Q:
-            Eye.y -= step;
-            Target.y -= step;
-            break;
-        case GLFW_KEY_E:
-            Eye.y += step;
-            Target.y += step;
-            break;
-        case GLFW_KEY_A:
-            Eye.x -= step;
-            Target.x -= step;
-            break;
-        case GLFW_KEY_D:
-            Eye.x += step;
-            Target.x += step;
-            break;
-    }
-    Model = glm::mat4(1.0);
-    View = glm::lookAt(Eye, Target, Up);
-    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
-    MVP = Projection * View * Model;
 
-    MVP = glm::mat4(1.0);
-    RHIUBO_->Update(sizeof(MVP), &MVP);
 }
 
-Engine::Engine(IWindow* InWindow)
-    : Window(InWindow)
+Engine2::Engine2(IWindow* InWindow)
+        : Window(InWindow)
 {
-
-    model.LoadModel("periwinkle_plant_1k.gltf");
+   // model.LoadModel("periwinkle_plant_1k.gltf");
 
 #if USE_RHI_VULKAN
 #ifdef PROJECT_USE_VULKAN
@@ -164,7 +101,7 @@ Engine::Engine(IWindow* InWindow)
 #endif
 }
 
-Engine::~Engine()
+Engine2::~Engine2()
 {
     delete VertexShader;
     delete FragmengShader;
@@ -177,18 +114,17 @@ Engine::~Engine()
     delete pRHI;
 }
 
-void Engine::Init()
+void Engine2::Init()
 {
     CreateVBO();
     CreateEBO();
-    CreateUBO();
     CreateTexture();
     CreateSRB();
     CreateVertexDescriptioin();
     CreateGraphicsPipeline();
 }
 
-void Engine::Draw()
+void Engine2::Draw()
 {
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
 
@@ -221,12 +157,12 @@ void Engine::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 
-   // CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
+    // CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
 }
 
 
 
-void Engine::Run()
+void Engine2::Run()
 {
     Init();
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
@@ -248,55 +184,23 @@ void Engine::Run()
 }
 
 
-void Engine::CreateVBO()
+void Engine2::CreateVBO()
 {
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
-
-   // RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
-
 }
 
-void Engine::CreateEBO()
+void Engine2::CreateEBO()
 {
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
-
-   // RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
-
-    std::cout << "model.EBOData.size() " << model.EBOData.size() << std::endl;
 }
 
-void Engine::CreateUBO()
+void Engine2::CreateUBO()
 {
-    glm::vec4 p;
-    Model = glm::mat4(1.0);
-    View = glm::lookAt(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -100.0), glm::vec3(0.0, 1.0, 0.0));
 
-    p = View * glm::vec4(0, 0, 1000, 0.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-
-    p = View * glm::vec4(0, 0, 1000, 1.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-
-    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
-    MVP = Projection * View * Model;
-    p = MVP * glm::vec4(0, 0, 1000, 0.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-
-    p = MVP * glm::vec4(0, 0, 1000, 1.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-    //MVP = glm::mat4(1.0);
-    //MVP = glm::mat4(1.0, 0.0, 0.0, 0.0,
-    //                0.0, 1.0, 0.0, 0.0,
-    //                0.0, 0.0, 1.0, 0.0,
-    //                0.0, 0.0, 0.0, 1.0);
-
-    MVP = glm::mat4(1.0);
-    RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
-    RHIUBO_ = RHIUBO;
 }
 
 
-void Engine::CreateTexture()
+void Engine2::CreateTexture()
 {
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
@@ -325,22 +229,31 @@ void Engine::CreateTexture()
 }
 
 
-void Engine::CreateSRB()
+void Engine2::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
-                             RHIShaderResourceBinding::UniformBuffer(0, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
+                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
                      });
     SRB->Create();
 }
 
-void Engine::CreateVertexDescriptioin()
+void Engine2::CreateVertexDescriptioin()
 {
+#if 1
+    /*
+        使用VBO1
+    */
     VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
+#else
+    /*
+        使用VBO2
+    */
+    VertexInputs.push_back(std::make_pair(RHIVBO, 5 * sizeof(float)));
+#endif
 }
 
-void Engine::CreateGraphicsPipeline()
+void Engine2::CreateGraphicsPipeline()
 {
 #if 1
     auto vertShaderCode = ReadFile("Engine_vert.spv");
@@ -374,7 +287,7 @@ void Engine::CreateGraphicsPipeline()
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-                                          { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+                                          { 10 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
                                   });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
@@ -382,9 +295,7 @@ void Engine::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
-    //GraphicsPipeline->SetCullMode(RHICullMode::Back);
-
+    GraphicsPipeline->SetCullMode(RHICullMode::Back);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else

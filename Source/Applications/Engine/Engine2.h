@@ -17,17 +17,17 @@
 
 #define USE_RHI_VULKAN 1
 /*
-    spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
-    spirv-cross.exe --version 460 Engine.spv --output Engine_frag.glsl
-    glslangValidator.exe -V --glsl-version 460 -S vert Engine_vert.glsl -o Engine_vert.spv -e main
-    glslangValidator.exe -V --glsl-version 460 -S frag Engine_frag.glsl -o Engine_frag.spv -e main
+    spirv-cross.exe --version 460 Engine2.spv --output Engine2_vert.glsl
+    spirv-cross.exe --version 460 Engine2.spv --output Engine2_frag.glsl
+    glslangValidator.exe -V --glsl-version 460 -S vert Engine2_vert.glsl -o Engine2_vert.spv -e main
+    glslangValidator.exe -V --glsl-version 460 -S frag Engine2_frag.glsl -o Engine2_frag.spv -e main
 */
 
-class Engine
+class Engine2
 {
 public:
-    Engine(IWindow* InWindow = nullptr);
-    ~Engine();
+    Engine2(IWindow* InWindow = nullptr);
+    ~Engine2();
     void Init();
     void Draw();
     void Run();
@@ -79,6 +79,4 @@ private:
     */
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
-private:
-    Model model;
 };

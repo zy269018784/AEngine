@@ -98,5 +98,11 @@ VkBuffer VulkanBuffer::GetHandle() const
 
 void VulkanBuffer::Update(std::uint32_t InSize, const void* InData)
 {
-
+    VkResult Result = VK_SUCCESS;
+    std::uint8_t* p;
+    Result = DeviceMemoryHandle->MapMemory(0, MemoryRequirements.size, 0, reinterpret_cast<void**>(&p));
+    if (VK_SUCCESS != Result)
+        std::cout << "MapMemory failed : " << Result << std::endl;
+    std::memcpy(p, InData, InSize);
+    DeviceMemoryHandle->UnmapMemory();
 }

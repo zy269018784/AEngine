@@ -1,10 +1,12 @@
 #include <iostream>
 #include <memory>
 #include "Engine.h"
+#include "Engine2.h"
 #include "../Window/GLFWWindow.h"
-
+int RHIExample();
 int main(int argc, char **argv)
 {
+   // return RHIExample();
 #ifdef PROJECT_USE_GLFW
     glfwInit();
 #endif
@@ -16,7 +18,7 @@ int main(int argc, char **argv)
     Window->MakeContextCurrent();
 #endif
 
-    Engine *pEngine = new Engine(Window);
+    Engine2 *pEngine = new Engine2(Window);
     pEngine->Run();
 
 #ifdef PROJECT_USE_GLFW
