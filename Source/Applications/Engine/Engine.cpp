@@ -53,7 +53,7 @@ glm::mat4 Projection;
 glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
-#if  !USE_RHI_VULKAN
+#if  USE_RHI_VULKAN
 glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
 glm::vec3 Target = glm::vec3(0.0, 0.0, -130.0);
 #else
@@ -107,7 +107,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
     MVP = Projection * View * Model;
 
-    MVP = glm::mat4(1.0);
+  //  MVP = glm::mat4(1.0);
     RHIUBO_->Update(sizeof(MVP), &MVP);
 }
 
@@ -219,9 +219,9 @@ void Engine::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+  //  CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 
-   // CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
+    CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
 }
 
 
@@ -250,17 +250,17 @@ void Engine::Run()
 
 void Engine::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 
-   // RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
 
 }
 
 void Engine::CreateEBO()
 {
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+   // RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
 
-   // RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
 
     std::cout << "model.EBOData.size() " << model.EBOData.size() << std::endl;
 }
@@ -290,7 +290,7 @@ void Engine::CreateUBO()
     //                0.0, 0.0, 1.0, 0.0,
     //                0.0, 0.0, 0.0, 1.0);
 
-    MVP = glm::mat4(1.0);
+   // MVP = glm::mat4(1.0);
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
     RHIUBO_ = RHIUBO;
 }
@@ -330,7 +330,7 @@ void Engine::CreateSRB()
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
                              RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
-                             RHIShaderResourceBinding::UniformBuffer(0, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
+                             RHIShaderResourceBinding::UniformBuffer(1, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
                      });
     SRB->Create();
 }

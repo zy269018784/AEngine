@@ -36,6 +36,21 @@ static unsigned int Index[] = {
         3, 4, 5
 };
 
+static glm::mat4 Projection;
+static glm::mat4 View;
+static glm::mat4 Model;
+static glm::mat4 MVP;
+#if  !USE_RHI_VULKAN
+static  glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
+static  glm::vec3 Target = glm::vec3(0.0, 0.0, -130.0);
+#else
+static glm::vec3 Eye = glm::vec3(0.0, 0.0, 130.0);
+static glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
+#endif
+static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
+
+static RHIBuffer* RHIUBO_ = nullptr;
+
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
     // glViewport(0, 0, width, height);
@@ -118,6 +133,7 @@ void Engine2::Init()
 {
     CreateVBO();
     CreateEBO();
+    CreateUBO();
     CreateTexture();
     CreateSRB();
     CreateVertexDescriptioin();
@@ -196,7 +212,32 @@ void Engine2::CreateEBO()
 
 void Engine2::CreateUBO()
 {
+    glm::vec4 p;
+    Model = glm::mat4(1.0);
+    View = glm::lookAt(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -100.0), glm::vec3(0.0, 1.0, 0.0));
 
+    p = View * glm::vec4(0, 0, 1000, 0.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    p = View * glm::vec4(0, 0, 1000, 1.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
+    MVP = Projection * View * Model;
+    p = MVP * glm::vec4(0, 0, 1000, 0.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+
+    p = MVP * glm::vec4(0, 0, 1000, 1.0);
+    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
+    //MVP = glm::mat4(1.0);
+    MVP = glm::mat4(0.5, 0.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 1.0, 0.0,
+                    0.0, 0.0, 0.0, 1.0);
+
+    //MVP = glm::mat4(1.0);
+    RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
+    RHIUBO_ = RHIUBO;
 }
 
 
@@ -233,7 +274,8 @@ void Engine2::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
+                             RHIShaderResourceBinding::UniformBuffer(1, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
                      });
     SRB->Create();
 }

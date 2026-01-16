@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     Window->MakeContextCurrent();
 #endif
 
-    Engine2 *pEngine = new Engine2(Window);
+    Engine *pEngine = new Engine(Window);
     pEngine->Run();
 
 #ifdef PROJECT_USE_GLFW
