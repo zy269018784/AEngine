@@ -60,7 +60,11 @@ glm::vec3 Target = glm::vec3(0.0, 0.0, -130.0);
 glm::vec3 Eye = glm::vec3(0.0, 0.0, 130.0);
 glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
 #endif
-glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
+#if USE_RHI_VULKAN
+static glm::vec3 Up= glm::vec3(0.0, -1.0, 0.0);
+#else
+static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
+#endif
 
 RHIBuffer* RHIUBO_ = nullptr;
 
