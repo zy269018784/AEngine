@@ -49,7 +49,7 @@ glm::mat4 Projection;
 glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
-glm::vec3 Eye = glm::vec3(0.0, 0.0, 0.0);
+glm::vec3 Eye = glm::vec3(0.0, 0.0, 130.0);
 glm::vec3 Target = glm::vec3(0.0, 0.0, -100.0);
 glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 
@@ -65,23 +65,32 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    float step = 10.f;
     switch (key)
     {
         case GLFW_KEY_W:
-            Eye.z += 1.0;
-            Target.z += 1.0;
+            Eye.z -= step;
+            Target.z -= step;
             break;
         case GLFW_KEY_S:
-            Eye.z -= 1.0;
-            Target.z -= 1.0;
+            Eye.z += step;
+            Target.z += step;
+            break;
+        case GLFW_KEY_Q:
+            Eye.y -= step;
+            Target.y -= step;
+            break;
+        case GLFW_KEY_E:
+            Eye.y += step;
+            Target.y += step;
             break;
         case GLFW_KEY_A:
-            Eye.x -= 1.0;
-            Target.x -= 1.0;
+            Eye.x -= step;
+            Target.x -= step;
             break;
         case GLFW_KEY_D:
-            Eye.x += 1.0;
-            Target.x += 1.0;
+            Eye.x += step;
+            Target.x += step;
             break;
     }
     Model = glm::mat4(1.0);

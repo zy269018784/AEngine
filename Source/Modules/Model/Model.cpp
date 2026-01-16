@@ -119,10 +119,16 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, aiMatrix4x4 mat1)
     //}
 
 
-    int offset = VBOData.size() / 3;        
+    int offset = VBOData.size() / 5;
+   // std::vector<int> offsets;
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
+        /*
+            must matrix
+         * */
         auto p = mat1 * mesh->mVertices[i];
+        //auto p = mesh->mVertices[i];
+        p *= 1e3f;
         VBOData.push_back(p.x);
         VBOData.push_back(p.y);
         VBOData.push_back(p.z);
@@ -158,6 +164,7 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, aiMatrix4x4 mat1)
         VBOData.push_back(mesh->mTextureCoords[0][i].x);
         VBOData.push_back(mesh->mTextureCoords[0][i].y); 
 
+
        // std::cout << mesh->mTextureCoords[0][i].x << " " << mesh->mTextureCoords[0][i].y << std::endl;
     }   
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -166,6 +173,7 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, aiMatrix4x4 mat1)
         // retrieve all indices of the face and store them in the indices vector
         for (unsigned int j = 0; j < face.mNumIndices; j++)
             EBOData.push_back(offset + face.mIndices[j]);
+           // EBOData.push_back(face.mIndices[j]);
     }
 }
 #endif
