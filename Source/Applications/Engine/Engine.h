@@ -15,7 +15,7 @@
 
 #include "Model/Model.h"
 
-#define USE_RHI_VULKAN 1
+#define USE_RHI_VULKAN 0
 /*
     spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
     spirv-cross.exe --version 460 Engine.spv --output Engine_frag.glsl
