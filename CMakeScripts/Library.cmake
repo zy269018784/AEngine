@@ -53,7 +53,7 @@ endif ()
 if (${USE_D3D12})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/Direct3D/12/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/Direct3D/12/lib)
-	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx)
+	list(APPEND LIBRARYS d3d12 d3dcompiler d3dcsx dxgi)
 endif ()
 
 if (${USE_FFMPEG})
