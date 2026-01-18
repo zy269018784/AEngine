@@ -9,7 +9,16 @@
     #include <GLFW/glfw3.h>
 #endif
 
+#ifdef OS_IS_WINDOWS
+#define GLFW_EXPOSE_NATIVE_WIN32
+#endif
+
+#ifdef PROJECT_USE_XCB
+#define GLFW_EXPOSE_NATIVE_X11
+#endif
+
 #include <GLFW/glfw3native.h>
+
 
 class GLFWWindow : public IWindow
 {

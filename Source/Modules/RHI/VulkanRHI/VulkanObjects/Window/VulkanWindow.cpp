@@ -1,4 +1,4 @@
-#include "VulkanWindow.h"
+﻿#include "VulkanWindow.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Window/VulkanFrame.h"

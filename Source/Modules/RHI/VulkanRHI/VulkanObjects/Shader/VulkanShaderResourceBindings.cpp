@@ -1,4 +1,4 @@
-#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+﻿#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
 #include "VulkanObjects/Resource/VulkanBuffer.h"
 #include "VulkanObjects/Resource/VulkanSampler.h"
 #include "VulkanObjects/Resource/VulkanImage.h"

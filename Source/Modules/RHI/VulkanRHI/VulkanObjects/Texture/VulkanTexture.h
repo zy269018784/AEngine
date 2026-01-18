@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Vulkan.h"
 #include "RHIObjects/Texture/RHITexture2D.h"
 #include "RHIObjects/Core/RHICore.h"

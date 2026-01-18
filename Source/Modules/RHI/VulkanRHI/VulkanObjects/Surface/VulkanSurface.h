@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHIPlatform.h"
 #include "Vulkan.h"
 #include "VulkanObjects/Instance/VulkanInstance.h"

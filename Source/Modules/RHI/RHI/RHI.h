@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHIPlatform.h"
 #include "RHIObjects/Resource/RHIBuffer.h"
 #include "RHIObjects/Shader/RHIShader.h"

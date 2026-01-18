@@ -1,4 +1,4 @@
-#include "RHIApplicationTexture2D.h"
+﻿#include "RHIApplicationTexture2D.h"
 #include "Vulkan/Common.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>

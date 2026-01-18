@@ -1,4 +1,4 @@
-#include "RHIApplicationTriangleIndexed.h"
+﻿#include "RHIApplicationTriangleIndexed.h"
 #include "Vulkan/Common.h"
 
 /*
