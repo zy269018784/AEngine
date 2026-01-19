@@ -24,10 +24,12 @@ void D3D12GraphicsPipeline::Create()
 
     ID3DBlob *signature;
     ID3DBlob *error;
+
     if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error))) {
         std::cerr << "Failed to serialize root signature" << std::endl;
         return;
     }
+
     if (FAILED(Device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&RootSignature)))) {
         std::cerr << "Failed to create root signature" << std::endl;
         return;

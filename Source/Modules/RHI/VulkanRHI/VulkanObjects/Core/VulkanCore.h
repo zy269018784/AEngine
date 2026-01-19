@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/Core/RHIVertexInputAttribute.h"
 #include "RHIObjects/Shader/RHIShaderResourceBinding.h"

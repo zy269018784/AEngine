@@ -61,7 +61,7 @@ glm::vec3 Eye = glm::vec3(0, 170, 390);
 glm::vec3 Target = glm::vec3(0, 170, 0);
 #endif
 #if USE_RHI_VULKAN
-static glm::vec3 Up= glm::vec3(0.0, -1.0, 0.0);
+static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #else
 static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #endif
@@ -112,21 +112,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 #else
     View = glm::lookAtRH(Eye, Target, Up);
 #endif
-    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
     MVP = Projection * View * Model;
 
   //  MVP = glm::mat4(1.0);
     RHIUBO_->Update(sizeof(MVP), &MVP);
 
     std::cout << "Eye " << Eye.x << " "<< Eye.y << " "<< Eye.z << " " << std::endl;
+    std::cout << "Target " << Target.x << " "<< Target.y << " "<< Target.z << " " << std::endl;
 }
 
 Engine::Engine(IWindow* InWindow)
     : Window(InWindow)
 {
-
+    std::cout << "Engine start " << std::endl;
     model.LoadModel("periwinkle_plant_1k.gltf");
-
+    std::cout << "Engine start 2" << std::endl;
 #if USE_RHI_VULKAN
 #ifdef PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
@@ -290,7 +291,7 @@ void Engine::CreateUBO()
     p = View * glm::vec4(0, 0, 1000, 1.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
 
-    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 1000.0f);
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
     MVP = Projection * View * Model;
     p = MVP * glm::vec4(0, 0, 1000, 0.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;

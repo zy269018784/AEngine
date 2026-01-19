@@ -1,4 +1,4 @@
-#include "VulkanObjects/Synchronization/VulkanFence.h"
+﻿#include "VulkanObjects/Synchronization/VulkanFence.h"
 
 #include <stdexcept>
 #include <iostream>
