@@ -4,6 +4,7 @@
 #include <iostream>
 int SimpleBLEMain(int argc, char **argv)
 {
+#ifdef PROJECT_USE_SIMPLEBLE
 	std::cout << "SimpleBLE" << std::endl;
    if (!SimpleBLE::Adapter::bluetooth_enabled()) {
       std::cout << "Bluetooth is not enabled" << std::endl;
@@ -34,5 +35,6 @@ int SimpleBLEMain(int argc, char **argv)
 	    std::cout << "Peripheral identifier: " << peripheral.identifier() << std::endl;
 	    std::cout << "Peripheral address: " << peripheral.address() << std::endl;
 	}
+#endif
 	return 0;
 }	

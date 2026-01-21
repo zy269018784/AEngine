@@ -1,3 +1,4 @@
+#if 0
 #include <iomanip>
 #include <iostream>
 #include  "MultiMedia/CADFile/DSTFile.h"
@@ -237,3 +238,4 @@ int DSTMain() {
 
     return 0;
 }
+#endif

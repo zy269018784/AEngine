@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_embroidery
+﻿#ifdef PROJECT_USE_embroidery
 #define LIBEMBROIDERY_IMPLEMENTATION
 
 #include "embroidery.h"
