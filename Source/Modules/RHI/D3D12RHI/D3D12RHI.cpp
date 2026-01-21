@@ -1,9 +1,13 @@
 ﻿#include "D3D12RHI.h"
 #include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
+#include "D3D12Objects/Device/D3D12Device.h"
+#include "D3D12Objects/Resource/D3D12Buffer.h"
 D3D12RHI::D3D12RHI()
 {
 	Device = new D3D12Device();
 	Queue = new D3D12Queue(Device);
+	for (int i = 0; i < 1; i++)
+		Devices.emplace_back(new D3D12Device());
 }
 
 D3D12RHI::~D3D12RHI()
@@ -54,6 +58,7 @@ RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer:
 
 RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 {
+	D3D12Buffer* Buffer = new D3D12Buffer(Devices[GPUIndex], InType, InUsage, InSize, InData);
 	return nullptr;
 }
 

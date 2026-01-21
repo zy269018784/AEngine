@@ -182,6 +182,8 @@ public:
 		RHIAddressMode AddressModeW = RHIAddressMode::REPEAT) = 0;
 
 	virtual RHIShaderResourceBindings * RHICreateShaderResourceBindings() = 0;
+protected:
+	std::uint32_t							GPUIndex = 0;
 };
 
 /*

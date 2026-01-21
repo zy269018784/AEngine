@@ -145,4 +145,5 @@ public:
 private:
 	D3D12Device* Device = nullptr;
 	D3D12Queue* Queue = nullptr;
+	std::vector<D3D12Device *>				Devices;						// 多个
 };

@@ -56,15 +56,17 @@ void D3D12CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, c
 }
 
 
-void D3D12CommandBuffer::RHISetViewport(const RHIViewport& viewport)
+void D3D12CommandBuffer::RHISetViewport(const RHIViewport& InViewport)
 {
-
+	D3D12_VIEWPORT Viewport = { 0.0f, 0.0f, (float)InViewport.Width(), (float)InViewport.Height(), 0.0f, 1.0f };
+	Handle->RSSetViewports(1, &Viewport);
 }
 
 
-void D3D12CommandBuffer::RHISetScissor(const RHIScissor& scissor)
+void D3D12CommandBuffer::RHISetScissor(const RHIScissor& InScissor)
 {
-
+	D3D12_RECT scissorRect = { 0, 0, (LONG)InScissor.Width(), (LONG)InScissor.Height() };
+	Handle->RSSetScissorRects(1, &scissorRect);
 }
 
 

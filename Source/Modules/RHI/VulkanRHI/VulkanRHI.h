@@ -91,7 +91,7 @@ private:
 	void CreateDevice();
 	void CreateCommandPool();
 private:	
-	std::uint32_t							GPUIndex = 0;
+	//std::uint32_t							GPUIndex = 0;
 	VulkanInstance *						Instance = nullptr;			// 1个
 	std::vector<VulkanDevice *>				Devices;						// 多个
 	VulkanCommandPool *						GraphicsCommandPool = nullptr;	// 1个
