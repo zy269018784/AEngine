@@ -30,6 +30,7 @@
 #include <string>
 #include <wrl.h>
 #include "D3D12Objects/Resource/D3D12Buffer.h"
+#include "D3D12Objects/Shader/D3D12Shader.h"
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"
@@ -61,6 +62,8 @@ static D3D12_VERTEX_BUFFER_VIEW g_VertexBufferView;
 static D3D12RHI *RHI = nullptr;
 static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
+static RHIShader* VertexShader = nullptr;
+static RHIShader* FragmengShader = nullptr;
 
 struct Vertex {
     float position[3];
@@ -216,6 +219,7 @@ static bool CreateTriangleResources() {
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
+#if 0
     if (FAILED(D3DCompile(vsCode, strlen(vsCode), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, &vertexShader, &error))) {
         std::cerr << "VS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
         return false;
@@ -224,7 +228,13 @@ static bool CreateTriangleResources() {
         std::cerr << "PS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
         return false;
     }
+#else
+    VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+    FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
 
+    vertexShader = ((D3D12Shader *)VertexShader)->GetHandle();
+    pixelShader = ((D3D12Shader *)FragmengShader)->GetHandle();
+#endif
     // 3. 定义输入布局
     D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },

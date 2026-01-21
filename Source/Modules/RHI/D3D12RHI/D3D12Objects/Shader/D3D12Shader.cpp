@@ -1,16 +1,22 @@
 #include "D3D12Shader.h"
 #include <iostream>
 #include <intsafe.h>
-D3D12Shader::D3D12Shader(D3D12Device* InDevice, RHIShaderType type, std::uint32_t* Code, std::size_t CodeSize)
+D3D12Shader::D3D12Shader(D3D12Device* InDevice, RHIShaderType InType, std::uint32_t* Code, std::size_t CodeSize)
     : Device(InDevice)
 {
 
     UINT compileFlags = 0;
     ID3DBlob* error = nullptr;
-#if 0
-    if (FAILED(D3DCompile(Code, CodeSize, nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, &Handle, &error)))
+#if 1
+    const char *Target = nullptr;
+    if (InType == RHIShaderType::Fragment)
+        Target = "ps_5_0";
+    else if (InType == RHIShaderType::Vertex)
+        Target = "vs_5_0";
+
+    if (FAILED(D3DCompile((const char *)Code, CodeSize, nullptr, nullptr, nullptr, "main", Target, compileFlags, 0, &Handle, &error)))
     {
-      //  std::cerr << "VS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
+        std::cerr << "Shader compile failed: " << (char*)error->GetBufferPointer() << std::endl;
     }
 #endif
 }

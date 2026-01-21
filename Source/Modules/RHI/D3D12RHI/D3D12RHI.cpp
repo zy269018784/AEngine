@@ -2,6 +2,7 @@
 #include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/Resource/D3D12Buffer.h"
+#include "D3D12Objects/Shader/D3D12Shader.h"
 D3D12RHI::D3D12RHI()
 {
 //	Device = new D3D12Device();
@@ -75,7 +76,8 @@ RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 
 RHIShader* D3D12RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize)
 {
-	return nullptr;
+	D3D12Shader* Shader = new D3D12Shader(Devices[GPUIndex], Type, Code, CodeSize);
+	return Shader;
 }
 
 

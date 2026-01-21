@@ -118,7 +118,7 @@ endif ()
 if (${USE_SPIRV_CROSS})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SPIRV-Cross/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/SPIRV-Cross/lib)
-	list (APPEND LIBRARYS		spirv-cross-core spirv-cross-c spirv-cross-cpp	spirv-cross-glsl spirv-cross-hlsl spirv-cross-reflects)
+	list (APPEND LIBRARYS		spirv-cross-core spirv-cross-c spirv-cross-cpp	spirv-cross-glsl spirv-cross-hlsl spirv-cross-reflect)
 endif ()
 
 if (${USE_LC3})
