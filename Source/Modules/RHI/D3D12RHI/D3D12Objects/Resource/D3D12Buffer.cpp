@@ -26,6 +26,8 @@ D3D12Buffer::D3D12Buffer(D3D12Device* InDevice, RHIBuffer::RHIBufferType InType,
         {
 
     }
+
+    Update(InSize, InData);
 }
 
 D3D12Buffer::~D3D12Buffer()

@@ -7,6 +7,8 @@ D3D12Device::D3D12Device()
     {
         std::cerr << "Failed to create device" << std::endl;
     }
+
+    std::cout << "create device ok" << std::endl;
 }
 
 D3D12Device::~D3D12Device()
