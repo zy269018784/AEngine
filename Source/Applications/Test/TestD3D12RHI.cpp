@@ -44,9 +44,9 @@ static    ComPtr<ID3D12Device> g_Device;
 static    ComPtr<IDXGISwapChain3> g_SwapChain;
 static    ComPtr<ID3D12CommandQueue> g_CommandQueue;
 static    ComPtr<ID3D12DescriptorHeap> g_RtvHeap;
-static   ComPtr<ID3D12Resource> g_RenderTargets[FrameCount];
-static   ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
+static    ComPtr<ID3D12Resource> g_RenderTargets[FrameCount];
 static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
+static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
 static    ComPtr<ID3D12Fence> g_Fence;
 static    HANDLE g_FenceEvent = nullptr;
 static    uint64_t g_FenceValue = 1;
@@ -60,6 +60,7 @@ static D3D12_VERTEX_BUFFER_VIEW g_VertexBufferView;
 
 static D3D12RHI *RHI = nullptr;
 static RHIBuffer *VBO = nullptr;
+static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 
 struct Vertex {
     float position[3];
@@ -67,6 +68,11 @@ struct Vertex {
 };
 
 static bool CreateTriangleResources();
+
+static void CreatePipeline() {
+
+}
+
 // 简化初始化
 static bool Init() {
     // 初始化GLFW

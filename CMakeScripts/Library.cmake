@@ -115,6 +115,12 @@ if (${USE_TWOLAME})
 	list (APPEND LIBRARYS		twolame)
 endif ()
 
+if (${USE_SPIRV_CROSS})
+	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SPIRV-Cross/include)
+	list (APPEND LINK_PATH      ${LIBRARY_PATH}/SPIRV-Cross/lib)
+	list (APPEND LIBRARYS		spirv-cross-core spirv-cross-c spirv-cross-cpp	spirv-cross-glsl spirv-cross-hlsl spirv-cross-reflects)
+endif ()
+
 if (${USE_LC3})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/liblc3/1.1.3/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/liblc3/1.1.3/lib)
