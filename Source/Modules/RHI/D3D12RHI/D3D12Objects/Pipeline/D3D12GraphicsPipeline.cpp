@@ -4,7 +4,7 @@
 #include "D3D12Objects/Shader/D3D12Shader.h"
 #include <iostream>
 
-D3D12GraphicsPipeline::D3D12GraphicsPipeline(D3D12Device* InDevice)
+D3D12GraphicsPipeline::   D3D12GraphicsPipeline(D3D12Device* InDevice)
     : D3D12Pipeline(InDevice)
 {
 
@@ -17,13 +17,62 @@ D3D12GraphicsPipeline::~D3D12GraphicsPipeline()
 
 void D3D12GraphicsPipeline::Create()
 {
+    ID3DBlob* error;
+
+    auto vertexShader = ((D3D12Shader*)Shaders[0])->GetHandle();
+    auto pixelShader = ((D3D12Shader*)Shaders[1])->GetHandle();
 
     // 1. 创建空的根签名
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
+    if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &Signature, &error))) {
+        std::cerr << "Failed to serialize root signature" << std::endl;
+        return;
+    }
+    if (FAILED(Device->CreateRootSignature(0, Signature->GetBufferPointer(), Signature->GetBufferSize(), IID_PPV_ARGS(&RootSignature)))) {
+        std::cerr << "Failed to create root signature" << std::endl;
+        return;
+    }
+
+    // 3. 定义输入布局
+    D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+    };
+
+    // 4. 创建管线状态
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+    psoDesc.InputLayout = { inputDescs, _countof(inputDescs) };
+    psoDesc.pRootSignature = RootSignature;
+    psoDesc.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
+    psoDesc.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
+    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
+    psoDesc.RasterizerState.DepthClipEnable = TRUE;
+    psoDesc.BlendState.AlphaToCoverageEnable = FALSE;
+    psoDesc.BlendState.IndependentBlendEnable = FALSE;
+    psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+    psoDesc.DepthStencilState.DepthEnable = FALSE;
+    psoDesc.DepthStencilState.StencilEnable = FALSE;
+    psoDesc.SampleMask = UINT_MAX;
+    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    psoDesc.NumRenderTargets = 1;
+    psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+    psoDesc.SampleDesc.Count = 1;
+
+    if (FAILED(Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&Handle)))) {
+        std::cerr << "Failed to create PSO" << std::endl;
+        return;
+    }
+    return;
+
+    // 1. 创建空的根签名
+    D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc2 = {};
+    rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
     ID3DBlob *signature;
-    ID3DBlob *error;
+//    ID3DBlob *error;
 
     if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error))) {
         std::cerr << "Failed to serialize root signature" << std::endl;
@@ -36,7 +85,7 @@ void D3D12GraphicsPipeline::Create()
     }
 
     // 3. 定义输入布局
-    D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
+    D3D12_INPUT_ELEMENT_DESC inputDesc2[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };

@@ -6,6 +6,7 @@ class D3D12Pipeline
 public:
 	D3D12Pipeline(D3D12Device *InDevice);
 	virtual ~D3D12Pipeline();
+	ID3D12PipelineState *GetHandle();
 protected:
 	/*
 		句柄
@@ -15,8 +16,10 @@ protected:
 		设备
 	*/
 	D3D12Device* Device;
+public:
 	/*
 		根签名
 	*/
 	ID3D12RootSignature* RootSignature;
+	ID3DBlob* Signature;
 };

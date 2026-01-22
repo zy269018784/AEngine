@@ -62,3 +62,10 @@ void STDMETHODCALLTYPE D3D12Device::CreateRenderTargetView(
 {
     return Handle->CreateRenderTargetView(pResource, pDesc, DestDescriptor);
 }
+
+HRESULT D3D12Device::CreateGraphicsPipelineState(
+          const D3D12_GRAPHICS_PIPELINE_STATE_DESC *pDesc,
+          REFIID riid,
+          void **ppPipelineState) {
+    return Handle->CreateGraphicsPipelineState(pDesc, riid, ppPipelineState);
+}

@@ -19,6 +19,8 @@
 #include <DirectXMath.h>
 
 #include <d3dx12.h>
+
+#include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
 #if 0
 // 必须链接这些库
 #pragma comment(lib, "d3d12.lib")
@@ -64,6 +66,10 @@ static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
 static RHIShader* FragmengShader = nullptr;
+/*
+    着色器资源绑定
+*/
+RHIShaderResourceBindings* SRB = nullptr;
 
 struct Vertex {
     float position[3];
@@ -169,7 +175,7 @@ static bool Init() {
 
 static bool CreateTriangleResources() {
     std::cout << "Creating triangle resources..." << std::endl;
-
+#if 0
     // 1. 创建空的根签名
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -184,7 +190,7 @@ static bool CreateTriangleResources() {
         std::cerr << "Failed to create root signature" << std::endl;
         return false;
     }
-
+#endif
     // 2. 编译着色器
     const char* vsCode = R"(
         struct VS_IN {
@@ -229,17 +235,70 @@ static bool CreateTriangleResources() {
         return false;
     }
 #else
-    VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+    VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
     FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
 
     vertexShader = ((D3D12Shader *)VertexShader)->GetHandle();
     pixelShader = ((D3D12Shader *)FragmengShader)->GetHandle();
 #endif
+    std::cout << "CreateTriangleResources 1" << std::endl;
+#if 1
+    SRB = RHI->RHICreateShaderResourceBindings();
+    SRB->SetBindings({
+
+                     });
+    SRB->Create();
+#endif
+    std::cout << "CreateTriangleResources 2" << std::endl;
+#if 1
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+                                            { 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+                                            { 0, 1, RHIVertexInputAttribute::Format::Float2,  3 * sizeof(float), 0 },
+                                            // { 0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
+                                    });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+                                          { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+                                  });
+
+    /*
+    用于创建Descriptor Set Layout和Pipeline Layout
+*/
+    GraphicsPipeline = RHI->RHICreateGraphicsPipeline(nullptr);
+    GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
+    //GraphicsPipeline->SetCullMode(RHICullMode::Back);
+
+#if USE_RHI_VULKAN
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
+#else
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+#endif
+    GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    std::cout << "Create 1" << std::endl;
+    GraphicsPipeline->Create();
+    std::cout << "Create 2" << std::endl;
+    g_PipelineState = ((D3D12GraphicsPipeline*)GraphicsPipeline)->GetHandle();
+
+    g_RootSignature =  ((D3D12GraphicsPipeline*)GraphicsPipeline)->RootSignature;
+
+#else
     // 3. 定义输入布局
     D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };
+
+
 
     // 4. 创建管线状态
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
@@ -265,7 +324,7 @@ static bool CreateTriangleResources() {
         std::cerr << "Failed to create PSO" << std::endl;
         return false;
     }
-
+#endif
     // 5. 创建顶点缓冲区
     Vertex vertices[] = {
         { {  0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } }, // 上 - 红

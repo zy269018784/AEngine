@@ -3,6 +3,7 @@
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/Resource/D3D12Buffer.h"
 #include "D3D12Objects/Shader/D3D12Shader.h"
+#include "D3D12Objects/Shader/D3D12ShaderResourceBindings.h"
 D3D12RHI::D3D12RHI()
 {
 //	Device = new D3D12Device();
@@ -70,7 +71,7 @@ RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline()
 
 RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 {
-	D3D12GraphicsPipeline* Pipeline = new D3D12GraphicsPipeline(Device);
+	D3D12GraphicsPipeline* Pipeline = new D3D12GraphicsPipeline(Devices[GPUIndex]);
 	return Pipeline;
 }
 
@@ -178,5 +179,5 @@ RHISampler* D3D12RHI::RHICreateSampler(RHIFilter MinFilter, RHIFilter MagFilter,
 
 RHIShaderResourceBindings* D3D12RHI::RHICreateShaderResourceBindings()
 {
-	return nullptr;
+	return new D3D12ShaderResourceBindings(Devices[GPUIndex]);
 }

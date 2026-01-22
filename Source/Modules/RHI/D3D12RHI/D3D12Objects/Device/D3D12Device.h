@@ -60,6 +60,11 @@ public:
         _In_opt_  ID3D12Resource* pResource,
         _In_opt_  const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
         _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
+
+    HRESULT CreateGraphicsPipelineState(
+           const D3D12_GRAPHICS_PIPELINE_STATE_DESC *pDesc,
+           REFIID riid,
+           void **ppPipelineState);
 private:
 	ID3D12Device* Handle;
 };
