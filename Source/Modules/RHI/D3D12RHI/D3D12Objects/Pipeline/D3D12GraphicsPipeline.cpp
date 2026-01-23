@@ -42,26 +42,36 @@ void D3D12GraphicsPipeline::Create()
     };
 
     // 4. 创建管线状态
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-    psoDesc.InputLayout = { inputDescs, _countof(inputDescs) };
-    psoDesc.pRootSignature = RootSignature;
-    psoDesc.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
-    psoDesc.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
-    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
-    psoDesc.RasterizerState.DepthClipEnable = TRUE;
-    psoDesc.BlendState.AlphaToCoverageEnable = FALSE;
-    psoDesc.BlendState.IndependentBlendEnable = FALSE;
-    psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-    psoDesc.DepthStencilState.DepthEnable = FALSE;
-    psoDesc.DepthStencilState.StencilEnable = FALSE;
-    psoDesc.SampleMask = UINT_MAX;
-    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-    psoDesc.NumRenderTargets = 1;
-    psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-    psoDesc.SampleDesc.Count = 1;
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC CreateInfo = {};
+    CreateInfo.InputLayout = { inputDescs, _countof(inputDescs) };
+    CreateInfo.pRootSignature = RootSignature;
+    CreateInfo.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
+    CreateInfo.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
+    CreateInfo.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    CreateInfo.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
+    CreateInfo.RasterizerState.DepthClipEnable = TRUE;
 
-    if (FAILED(Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&Handle)))) {
+    /*
+        Rasterization
+    */
+    CreateInfo.RasterizerState.FillMode                            = ToD3D12PolygonMode(PolygonMode);
+    CreateInfo.RasterizerState.CullMode                            = ToD3D12CullMode(CullMode); // 重要：禁用背面剔除
+    CreateInfo.RasterizerState.DepthClipEnable                     = TRUE;
+    CreateInfo.RasterizerState.FrontCounterClockwise               = ToD3D12FrontFace(FrontFace);
+    CreateInfo.RasterizerState.DepthClipEnable                     = FALSE;
+
+    CreateInfo.BlendState.AlphaToCoverageEnable = FALSE;
+    CreateInfo.BlendState.IndependentBlendEnable = FALSE;
+    CreateInfo.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+    CreateInfo.DepthStencilState.DepthEnable = FALSE;
+    CreateInfo.DepthStencilState.StencilEnable = FALSE;
+    CreateInfo.SampleMask = UINT_MAX;
+    CreateInfo.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    CreateInfo.NumRenderTargets = 1;
+    CreateInfo.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+    CreateInfo.SampleDesc.Count = 1;
+
+    if (FAILED(Device->CreateGraphicsPipelineState(&CreateInfo, IID_PPV_ARGS(&Handle)))) {
         std::cerr << "Failed to create PSO" << std::endl;
         return;
     }
@@ -89,7 +99,7 @@ void D3D12GraphicsPipeline::Create()
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };
-
+#if 0
     D3D12_GRAPHICS_PIPELINE_STATE_DESC CreateInfo = {};
     CreateInfo.InputLayout                                         = { inputDescs, _countof(inputDescs) };
     CreateInfo.pRootSignature                                      = RootSignature;
@@ -153,4 +163,5 @@ void D3D12GraphicsPipeline::Create()
 
     CreateInfo.NumRenderTargets                                    = 1;
     CreateInfo.RTVFormats[0]                                       = DXGI_FORMAT_R8G8B8A8_UNORM;
+#endif
 }

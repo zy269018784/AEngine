@@ -273,14 +273,9 @@ static bool CreateTriangleResources() {
     GraphicsPipeline = RHI->RHICreateGraphicsPipeline(nullptr);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
-    //GraphicsPipeline->SetCullMode(RHICullMode::Back);
-
-#if USE_RHI_VULKAN
+    GraphicsPipeline->SetCullMode(RHICullMode::Back);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
-#else
-    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
-#endif
+
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
