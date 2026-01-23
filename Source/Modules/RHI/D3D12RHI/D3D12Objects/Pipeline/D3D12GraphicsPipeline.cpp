@@ -18,10 +18,13 @@ D3D12GraphicsPipeline::~D3D12GraphicsPipeline()
 void D3D12GraphicsPipeline::Create()
 {
     ID3DBlob* error;
-
+#if 0
     auto vertexShader = ((D3D12Shader*)Shaders[0])->GetHandle();
     auto pixelShader = ((D3D12Shader*)Shaders[1])->GetHandle();
 
+    std::cout << "VS " << vertexShader << std::endl;
+    std::cout << "PS " << pixelShader << std::endl;
+#endif
     // 1. 创建空的根签名
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -45,8 +48,8 @@ void D3D12GraphicsPipeline::Create()
     D3D12_GRAPHICS_PIPELINE_STATE_DESC CreateInfo = {};
     CreateInfo.InputLayout = { inputDescs, _countof(inputDescs) };
     CreateInfo.pRootSignature = RootSignature;
-    CreateInfo.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
-    CreateInfo.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
+    //CreateInfo.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
+    //CreateInfo.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
     CreateInfo.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
     CreateInfo.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
     CreateInfo.RasterizerState.DepthClipEnable = TRUE;
@@ -55,10 +58,56 @@ void D3D12GraphicsPipeline::Create()
         Rasterization
     */
     CreateInfo.RasterizerState.FillMode                            = ToD3D12PolygonMode(PolygonMode);
-    CreateInfo.RasterizerState.CullMode                            = ToD3D12CullMode(CullMode); // 重要：禁用背面剔除
-    CreateInfo.RasterizerState.DepthClipEnable                     = TRUE;
+    CreateInfo.RasterizerState.CullMode                            = ToD3D12CullMode(CullMode);
     CreateInfo.RasterizerState.FrontCounterClockwise               = ToD3D12FrontFace(FrontFace);
     CreateInfo.RasterizerState.DepthClipEnable                     = FALSE;
+
+    /*
+        Depth Test
+    */
+    CreateInfo.DepthStencilState.DepthEnable                       = DepthTestEnable;
+    CreateInfo.DepthStencilState.DepthFunc                         = ToD3D12CompareOp(DepthCompareOp);
+    CreateInfo.DepthStencilState.DepthWriteMask                    = D3D12_DEPTH_WRITE_MASK_ZERO;
+    if (DepthWriteEnable)
+        CreateInfo.DepthStencilState.DepthWriteMask                = D3D12_DEPTH_WRITE_MASK_ALL;
+
+    /*
+        Stencil Test
+    */
+    CreateInfo.DepthStencilState.StencilEnable                     = FALSE;
+
+    /*
+        Multisample
+    */
+    CreateInfo.SampleDesc.Count                                    = ToD3D12SampleCount(SampleCount);
+    CreateInfo.SampleDesc.Quality                                  = 0;
+    CreateInfo.SampleMask                                          = UINT_MAX;
+
+
+    /*
+        Input Assembly
+    */
+    CreateInfo.PrimitiveTopologyType                               = ToD3D12PrimitiveTopology(Topology);
+
+    /*
+        Shader
+    */
+    for (int i = 0; i < Shaders.size(); i++)
+    {
+        ID3DBlob* Handle = ((D3D12Shader*)Shaders[i])->GetHandle();
+        if (Shaders[i]->Type_ == RHIShaderType::Vertex)
+        {
+            CreateInfo.VS = { Handle->GetBufferPointer(), Handle->GetBufferSize()};
+        }
+        else if (Shaders[i]->Type_ == RHIShaderType::Fragment)
+        {
+            CreateInfo.PS = { Handle->GetBufferPointer(), Handle->GetBufferSize() };
+        }
+        else if (Shaders[i]->Type_ == RHIShaderType::Geometry)
+        {
+            CreateInfo.GS = { Handle->GetBufferPointer(), Handle->GetBufferSize() };
+        }
+    }
 
     CreateInfo.BlendState.AlphaToCoverageEnable = FALSE;
     CreateInfo.BlendState.IndependentBlendEnable = FALSE;
@@ -66,7 +115,7 @@ void D3D12GraphicsPipeline::Create()
     CreateInfo.DepthStencilState.DepthEnable = FALSE;
     CreateInfo.DepthStencilState.StencilEnable = FALSE;
     CreateInfo.SampleMask = UINT_MAX;
-    CreateInfo.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+   // CreateInfo.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
     CreateInfo.NumRenderTargets = 1;
     CreateInfo.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
     CreateInfo.SampleDesc.Count = 1;

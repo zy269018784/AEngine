@@ -2,7 +2,7 @@
 #include <iostream>
 #include <intsafe.h>
 D3D12Shader::D3D12Shader(D3D12Device* InDevice, RHIShaderType InType, std::uint32_t* Code, std::size_t CodeSize)
-    : Device(InDevice)
+    : Device(InDevice), RHIShader(InType, Code, CodeSize)
 {
 
     UINT compileFlags = 0;
