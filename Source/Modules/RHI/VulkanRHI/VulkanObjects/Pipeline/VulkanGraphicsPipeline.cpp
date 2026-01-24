@@ -134,7 +134,14 @@ void VulkanGraphicsPipeline::Create()
 	VertexInputStateCreateInfo.vertexBindingDescriptionCount = VertexInputBindingDescriptions.size();
 
 	/*
-		8. Viewport
+		8. Blend
+	*/
+	VkPipelineColorBlendAttachmentState ColorBlendAttachment{};
+	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	ColorBlendAttachment .blendEnable = VK_FALSE;
+
+	/*
+		9. Viewport
 	*/
 	VkPipelineViewportStateCreateInfo		ViewportStateCreateInfo{};
 	ViewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -147,12 +154,7 @@ void VulkanGraphicsPipeline::Create()
 	//VkPipelineTessellationStateCreateInfo	TessellationStateCreateInfo{};
 	//TessellationStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
 
-	/*
-		9. Blend
-	*/
-	VkPipelineColorBlendAttachmentState ColorBlendAttachment{};
-	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-	ColorBlendAttachment .blendEnable = VK_FALSE;
+
 
 	VkPipelineColorBlendStateCreateInfo		ColorBlendStateCreateInfo{};
 	ColorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
