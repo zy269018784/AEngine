@@ -18,13 +18,7 @@ D3D12GraphicsPipeline::~D3D12GraphicsPipeline()
 void D3D12GraphicsPipeline::Create()
 {
     ID3DBlob* error;
-#if 0
-    auto vertexShader = ((D3D12Shader*)Shaders[0])->GetHandle();
-    auto pixelShader = ((D3D12Shader*)Shaders[1])->GetHandle();
 
-    std::cout << "VS " << vertexShader << std::endl;
-    std::cout << "PS " << pixelShader << std::endl;
-#endif
     // 1. 创建空的根签名
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
     rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -37,25 +31,15 @@ void D3D12GraphicsPipeline::Create()
         std::cerr << "Failed to create root signature" << std::endl;
         return;
     }
-
-    // 3. 定义输入布局
-    D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-    };
-
-    // 4. 创建管线状态
     D3D12_GRAPHICS_PIPELINE_STATE_DESC CreateInfo = {};
-    CreateInfo.InputLayout = { inputDescs, _countof(inputDescs) };
+
     CreateInfo.pRootSignature = RootSignature;
-    //CreateInfo.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
-    //CreateInfo.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
-    CreateInfo.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-    CreateInfo.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
-    CreateInfo.RasterizerState.DepthClipEnable = TRUE;
+
+
+
 
     /*
-        Rasterization
+        1. Rasterization
     */
     CreateInfo.RasterizerState.FillMode                            = ToD3D12PolygonMode(PolygonMode);
     CreateInfo.RasterizerState.CullMode                            = ToD3D12CullMode(CullMode);
@@ -63,34 +47,38 @@ void D3D12GraphicsPipeline::Create()
     CreateInfo.RasterizerState.DepthClipEnable                     = FALSE;
 
     /*
-        Depth Test
+        2. Depth Test
     */
+    // 2.1 DepthTestEnable
     CreateInfo.DepthStencilState.DepthEnable                       = DepthTestEnable;
-    CreateInfo.DepthStencilState.DepthFunc                         = ToD3D12CompareOp(DepthCompareOp);
+    // 2.2 DepthWriteEnable
     CreateInfo.DepthStencilState.DepthWriteMask                    = D3D12_DEPTH_WRITE_MASK_ZERO;
     if (DepthWriteEnable)
         CreateInfo.DepthStencilState.DepthWriteMask                = D3D12_DEPTH_WRITE_MASK_ALL;
+    // 2.3 DepthCompareOp
+    CreateInfo.DepthStencilState.DepthFunc                         = ToD3D12CompareOp(DepthCompareOp);
 
     /*
-        Stencil Test
+        3. Stencil Test
     */
     CreateInfo.DepthStencilState.StencilEnable                     = FALSE;
 
     /*
-        Multisample
+        4. Multisample
     */
+    // 4.1 SampleCount
     CreateInfo.SampleDesc.Count                                    = ToD3D12SampleCount(SampleCount);
     CreateInfo.SampleDesc.Quality                                  = 0;
     CreateInfo.SampleMask                                          = UINT_MAX;
 
-
     /*
-        Input Assembly
+        5. Input Assembly
     */
+    // 5.1 Topology
     CreateInfo.PrimitiveTopologyType                               = ToD3D12PrimitiveTopology(Topology);
 
     /*
-        Shader
+        6. Shader
     */
     for (int i = 0; i < Shaders.size(); i++)
     {
@@ -108,6 +96,34 @@ void D3D12GraphicsPipeline::Create()
             CreateInfo.GS = { Handle->GetBufferPointer(), Handle->GetBufferSize() };
         }
     }
+
+    /*
+        7. Vertex Input Bindings & Attributes
+    */
+    std::vector<D3D12_INPUT_ELEMENT_DESC> VertexInputBindingDescriptions;
+    for (int i = 0; i < VertexInputLayout.Attributes.size(); i++)
+    {
+        D3D12_INPUT_ELEMENT_DESC VertexInputBindingDescription;
+        VertexInputBindingDescription.SemanticIndex =  0;
+        VertexInputBindingDescription.InputSlot = VertexInputLayout.Attributes[i].GetBinding();
+        VertexInputBindingDescription.SemanticName = VertexInputLayout.Attributes[i].GetName();
+        VertexInputBindingDescription.Format = ToD3D12Format(VertexInputLayout.Attributes[i].GetFormat());
+        VertexInputBindingDescription.AlignedByteOffset = VertexInputLayout.Attributes[i].GetOffset();
+        VertexInputBindingDescription.InputSlotClass = ToD3D12InputClassification(VertexInputLayout.Bindings[i].GetInstanceStepRate());
+        VertexInputBindingDescription.InstanceDataStepRate = 0;
+        VertexInputBindingDescriptions.push_back(VertexInputBindingDescription);
+    }
+
+    /*
+    D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+    };
+    CreateInfo.InputLayout = { inputDescs, _countof(inputDescs) };
+    */
+
+    std::cout << "VertexInputBindingDescriptions.size " << VertexInputBindingDescriptions.size() << std::endl;
+    CreateInfo.InputLayout = { VertexInputBindingDescriptions.data(), (UINT)VertexInputBindingDescriptions.size() };
 
     CreateInfo.BlendState.AlphaToCoverageEnable = FALSE;
     CreateInfo.BlendState.IndependentBlendEnable = FALSE;

@@ -27,7 +27,9 @@ public:
 	};
 public:
 	RHIVertexInputAttribute();
-	RHIVertexInputAttribute(int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1);
+	RHIVertexInputAttribute(const char *name, int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1);
+	void SetName(const char *b);
+	const char * GetName() const;
 	void SetBinding(int b);
 	int GetBinding() const;
 	void SetLocation(int loc);
@@ -36,9 +38,9 @@ public:
 	std::uint32_t GetOffset() const;
 	void SetFormat(RHIVertexInputAttribute::Format f);
 	RHIVertexInputAttribute::Format GetFormat() const;
-	//void SetMatrixSlice(int slice);
-	//int GetMatrixSlice() const;
+
 private:
+	const char *Name;
 	int Binding;
 	int Location;
 	std::uint32_t Offset;

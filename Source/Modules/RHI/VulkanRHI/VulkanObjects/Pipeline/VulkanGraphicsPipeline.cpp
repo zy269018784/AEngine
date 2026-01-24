@@ -34,27 +34,34 @@ void VulkanGraphicsPipeline::Create()
 	RasterizationStateCreateInfo.rasterizerDiscardEnable	= VK_FALSE;
 
 	/*
-		Depth Test && Stencil Test
+		2. Depth Test
 	*/
 	VkPipelineDepthStencilStateCreateInfo	DepthStencilStateCreateInfo{};
 	DepthStencilStateCreateInfo.sType					= VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	// 2.1 DepthTestEnable
 	DepthStencilStateCreateInfo.depthTestEnable			= DepthTestEnable;
+	// 2.2 DepthWriteEnable
 	DepthStencilStateCreateInfo.depthWriteEnable		= DepthWriteEnable;
+	// 2.3 DepthCompareOp
 	DepthStencilStateCreateInfo.depthCompareOp			= ToVkCompareOp(DepthCompareOp);
 	DepthStencilStateCreateInfo.depthBoundsTestEnable	= VK_FALSE;
-	DepthStencilStateCreateInfo.stencilTestEnable		= VK_FALSE;
 	DepthStencilStateCreateInfo.back;
 	DepthStencilStateCreateInfo.front;
 	DepthStencilStateCreateInfo.minDepthBounds;
 	DepthStencilStateCreateInfo.maxDepthBounds;
 
 	/*
-		Multisample
+		3. Stencil Test
+	*/
+	DepthStencilStateCreateInfo.stencilTestEnable		= VK_FALSE;
+
+	/*
+		4. Multisample
 	*/
 	VkSampleMask SampleMask = { 0xFFFFFFFF };
-
 	VkPipelineMultisampleStateCreateInfo	MultisampleStateCreateInfo{};
 	MultisampleStateCreateInfo.sType					= VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+	// 4.1 SampleCount
 	MultisampleStateCreateInfo.rasterizationSamples		= ToVkSampleCountFlagBits(SampleCount);
 	MultisampleStateCreateInfo.pSampleMask				= &SampleMask;
 	MultisampleStateCreateInfo.sampleShadingEnable		= VK_FALSE;
@@ -63,50 +70,17 @@ void VulkanGraphicsPipeline::Create()
 	MultisampleStateCreateInfo.alphaToOneEnable			= VK_FALSE;
 
 	/*
-		Input Assembly
+		5. Input Assembly
 	*/
 	VkPipelineInputAssemblyStateCreateInfo InputAssemblyStateCreateInfo{};
 	InputAssemblyStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+	// 5.1 Topology
 	InputAssemblyStateCreateInfo.topology = ToVkPrimitiveTopology(Topology);
 
-	/*
-		Dynamic State
-	*/
-	VkDynamicState DynamicStates[] = {
-		/*
-			Depth Test
-		*/
-		VK_DYNAMIC_STATE_DEPTH_TEST_ENABLE,
-		VK_DYNAMIC_STATE_DEPTH_WRITE_ENABLE,
-		VK_DYNAMIC_STATE_DEPTH_COMPARE_OP,
-		VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE,
-		/*
-			Stencil Test
-		*/
-		VK_DYNAMIC_STATE_STENCIL_TEST_ENABLE,
-		VK_DYNAMIC_STATE_STENCIL_OP,
-		/*
-			Viewport
-		*/
-		VK_DYNAMIC_STATE_VIEWPORT,
-		/*
-			Scissor
-		*/
-		VK_DYNAMIC_STATE_SCISSOR,
-		/*
-			VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE specifies that the depthBoundsTestEnable state in VkPipelineDepthStencilStateCreateInfo 
-			will be ignored and must be set dynamically with vkCmdSetDepthBoundsTestEnable before any draw call.
-		*/
-		//VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE,
-	};
 
-	VkPipelineDynamicStateCreateInfo		DynamicStateCreateInfo{};
-	DynamicStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-	DynamicStateCreateInfo.pDynamicStates = DynamicStates;
-	DynamicStateCreateInfo.dynamicStateCount = sizeof(DynamicStates) / sizeof(DynamicStates[0]);
 
 	/*
-		Shader
+		6. Shader
 	*/
 	std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
 	for (int i = 0; i < Shaders.size(); i++)
@@ -120,11 +94,7 @@ void VulkanGraphicsPipeline::Create()
 	}
 
 	/*
-		Vertex Input
-	*/
-
-	/*
-		1. Vertex Input Bindings
+		7. Vertex Input Bindings & Attributes
 	*/
 	std::vector<VkVertexInputBindingDescription> VertexInputBindingDescriptions;
 	for (int i = 0; i < VertexInputLayout.Bindings.size(); i++)
@@ -138,9 +108,6 @@ void VulkanGraphicsPipeline::Create()
 		VertexInputBindingDescriptions.push_back(VertexInputBindingDescription);
 	}
 
-	/*
-		2. Vertex Input Attributes
-	*/
 	std::vector<VkVertexInputAttributeDescription> VkVertexInputAttributeDescriptions;
 	for (int i = 0; i < VertexInputLayout.Attributes.size(); i++)
 	{
@@ -200,6 +167,43 @@ void VulkanGraphicsPipeline::Create()
 	ColorBlendStateCreateInfo.blendConstants[1] = 0.0f;
 	ColorBlendStateCreateInfo.blendConstants[2] = 0.0f;
 	ColorBlendStateCreateInfo.blendConstants[3] = 0.0f;
+
+
+	/*
+		Dynamic State
+	*/
+	VkDynamicState DynamicStates[] = {
+		/*
+			Depth Test
+		*/
+		VK_DYNAMIC_STATE_DEPTH_TEST_ENABLE,
+		VK_DYNAMIC_STATE_DEPTH_WRITE_ENABLE,
+		VK_DYNAMIC_STATE_DEPTH_COMPARE_OP,
+		VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE,
+		/*
+			Stencil Test
+		*/
+		VK_DYNAMIC_STATE_STENCIL_TEST_ENABLE,
+		VK_DYNAMIC_STATE_STENCIL_OP,
+		/*
+			Viewport
+		*/
+		VK_DYNAMIC_STATE_VIEWPORT,
+		/*
+			Scissor
+		*/
+		VK_DYNAMIC_STATE_SCISSOR,
+		/*
+			VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE specifies that the depthBoundsTestEnable state in VkPipelineDepthStencilStateCreateInfo
+			will be ignored and must be set dynamically with vkCmdSetDepthBoundsTestEnable before any draw call.
+		*/
+		//VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE,
+	};
+
+	VkPipelineDynamicStateCreateInfo		DynamicStateCreateInfo{};
+	DynamicStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+	DynamicStateCreateInfo.pDynamicStates = DynamicStates;
+	DynamicStateCreateInfo.dynamicStateCount = sizeof(DynamicStates) / sizeof(DynamicStates[0]);
 
 	/*
 		PipelineLayout

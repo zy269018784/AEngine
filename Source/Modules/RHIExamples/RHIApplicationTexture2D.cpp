@@ -155,8 +155,8 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
     */
     VertexInputLayout.SetAttributes({
-        { 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
-        { 0, 1, RHIVertexInputAttribute::Format::Float2,  3 * sizeof(float), 0 },
+        { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { "", 0, 1, RHIVertexInputAttribute::Format::Float2,  3 * sizeof(float), 0 },
        // { 0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
     });
     /*

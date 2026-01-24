@@ -5,10 +5,18 @@ RHIVertexInputAttribute::RHIVertexInputAttribute()
 
 }
 
-RHIVertexInputAttribute::RHIVertexInputAttribute(int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice)
-	: Binding(binding), Location(location), Format_(format), Offset(offset)
+RHIVertexInputAttribute::RHIVertexInputAttribute(const char *name, int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice)
+	: Name(name), Binding(binding), Location(location), Format_(format), Offset(offset)
 {
 
+}
+
+void RHIVertexInputAttribute::SetName(const char *b) {
+	Name = b;
+}
+
+const char *RHIVertexInputAttribute::GetName() const {
+	return Name;
 }
 
 void RHIVertexInputAttribute::SetBinding(int b)

@@ -141,8 +141,8 @@ void RHIApplicationSSBO::CreateGraphicsPipeline()
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
     */
     VertexInputLayout.SetAttributes({
-        { 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
-        { 0, 1, RHIVertexInputAttribute::Format::Float3,  3 * sizeof(float), 0 },
+        { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { "", 0, 1, RHIVertexInputAttribute::Format::Float3,  3 * sizeof(float), 0 },
         });
     /*
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
