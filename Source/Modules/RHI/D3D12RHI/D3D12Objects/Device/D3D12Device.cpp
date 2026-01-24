@@ -1,4 +1,6 @@
 ﻿#include "D3D12Device.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 #include <iostream>
 D3D12Device::D3D12Device()
 {
@@ -20,3 +22,17 @@ ID3D12Device* D3D12Device::GetHandle()
 {
     return Handle;
 }
+
+
+D3D12CommandBuffer* D3D12Device::CreateCommandBuffer(D3D12CommandPool* CommandPool)
+{
+    D3D12CommandBuffer* CommandBuffer = new D3D12CommandBuffer(this, CommandPool);
+    return CommandBuffer;
+}
+
+void D3D12Device::CreateCommandPool()
+{
+    D3D12CommandPool* CommandPool = new D3D12CommandPool(this);
+    CommandPools.emplace_back(CommandPool);
+}
+

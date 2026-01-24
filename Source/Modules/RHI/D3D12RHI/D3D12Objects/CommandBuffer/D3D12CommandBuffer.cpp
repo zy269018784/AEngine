@@ -1,4 +1,6 @@
 ﻿#include "D3D12CommandBuffer.h"
+#include "D3D12Objects/Device/D3D12Device.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
 
 D3D12CommandBuffer::D3D12CommandBuffer(D3D12Device* InDevice, D3D12CommandPool* InCommandPool)
 	: Device(InDevice), CommandPool(InCommandPool)

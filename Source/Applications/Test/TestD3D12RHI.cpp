@@ -33,6 +33,7 @@
 #include <wrl.h>
 #include "D3D12Objects/Resource/D3D12Buffer.h"
 #include "D3D12Objects/Shader/D3D12Shader.h"
+#include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 using Microsoft::WRL::ComPtr;
 
@@ -67,6 +68,7 @@ static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
 static RHIShader* FragmengShader = nullptr;
+static RHIWindow* Window = nullptr;
 
 /*
     着色器资源绑定
@@ -101,6 +103,9 @@ static bool Init() {
 #endif
     RHI = new D3D12RHI();
     g_Device =  RHI->Devices[0]->GetHandle();
+
+    Window = RHI->RHICreateWindow(0, 0);
+
     /*
     // 创建设备
     if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&g_Device)))) {

@@ -6,12 +6,13 @@
 #include "D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 #include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
-
+class D3D12CommandBuffer;
 class D3D12Window : public RHIWindow {
 public:
     D3D12Window() = default;
     D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface);
     ~D3D12Window();
+    void CreateCommandBuffer();
     virtual void GetExtent(float& x, float& y, float& w, float& h) final override;
     virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() final override;
     virtual void RHIBeginFrame()  final override;
@@ -32,5 +33,7 @@ private:
     /*
         Surface
     */
-    D3D12Surface* Surface; 
+    D3D12Surface* Surface;
+
+    std::vector<D3D12CommandBuffer*>	GraphicsCommandBuffers;
 };

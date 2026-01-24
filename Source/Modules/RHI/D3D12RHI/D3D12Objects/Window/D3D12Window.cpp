@@ -16,6 +16,12 @@ void D3D12Window::GetExtent(float& x, float& y, float& w, float& h)
 
 }
 
+void D3D12Window::CreateCommandBuffer()
+{
+    auto pCB = Device->CreateCommandBuffer(Device->CommandPools[0]);
+    GraphicsCommandBuffers.emplace_back(pCB);
+}
+
 RHICommandBuffer* D3D12Window::CurrentGraphicsCommandBuffer()
 {
     return nullptr;

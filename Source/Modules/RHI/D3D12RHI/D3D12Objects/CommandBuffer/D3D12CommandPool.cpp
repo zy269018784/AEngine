@@ -1,5 +1,5 @@
 ﻿#include "D3D12CommandPool.h"
-
+#include "D3D12Objects/Device/D3D12Device.h"
 D3D12CommandPool::D3D12CommandPool(D3D12Device* InDevice)
 	: Device(InDevice)
 {

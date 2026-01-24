@@ -28,6 +28,7 @@ void D3D12RHI::RHIUseGPU(std::uint32_t GPUIndex)
 RHIWindow* D3D12RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 {
 	D3D12Window* NewD3D12Window = new D3D12Window(nullptr, Devices[GPUIndex], nullptr);
+	NewD3D12Window->CreateCommandBuffer();
 	return NewD3D12Window;
 }
 

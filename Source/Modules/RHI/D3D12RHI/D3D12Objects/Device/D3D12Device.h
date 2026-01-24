@@ -1,11 +1,16 @@
 #pragma once
 #include "D3D12_Includes.h"
+#include <vector>
+class D3D12CommandPool;
+class D3D12CommandBuffer;
 class D3D12Device
 {
 public:
 	D3D12Device();
 	~D3D12Device();
     ID3D12Device* GetHandle();
+    D3D12CommandBuffer* CreateCommandBuffer(D3D12CommandPool* CommandPool);
+    void CreateCommandPool();
 public:
     /*
         D3D12 API Wrapper
@@ -67,4 +72,5 @@ public:
            void **ppPipelineState);
 private:
 	ID3D12Device* Handle;
+    std::vector<D3D12CommandPool*> CommandPools;
 };
