@@ -126,9 +126,6 @@ void VulkanGraphicsPipeline::Create()
 			<< std::endl;
 	}
 
-	/*
-		3. Vertex Input State Create Info
-	*/
 	VkPipelineVertexInputStateCreateInfo	VertexInputStateCreateInfo{};
 	VertexInputStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	VertexInputStateCreateInfo.pVertexAttributeDescriptions = VkVertexInputAttributeDescriptions.data();
@@ -137,7 +134,7 @@ void VulkanGraphicsPipeline::Create()
 	VertexInputStateCreateInfo.vertexBindingDescriptionCount = VertexInputBindingDescriptions.size();
 
 	/*
-		Viewport
+		8. Viewport
 	*/
 	VkPipelineViewportStateCreateInfo		ViewportStateCreateInfo{};
 	ViewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -151,7 +148,7 @@ void VulkanGraphicsPipeline::Create()
 	//TessellationStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
 
 	/*
-		Blend
+		9. Blend
 	*/
 	VkPipelineColorBlendAttachmentState ColorBlendAttachment{};
 	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;

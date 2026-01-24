@@ -35,9 +35,6 @@ void D3D12GraphicsPipeline::Create()
 
     CreateInfo.pRootSignature = RootSignature;
 
-
-
-
     /*
         1. Rasterization
     */
