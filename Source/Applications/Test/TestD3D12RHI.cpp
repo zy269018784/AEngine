@@ -33,6 +33,7 @@
 #include <wrl.h>
 #include "D3D12Objects/Resource/D3D12Buffer.h"
 #include "D3D12Objects/Shader/D3D12Shader.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"
@@ -66,6 +67,7 @@ static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
 static RHIShader* FragmengShader = nullptr;
+
 /*
     着色器资源绑定
 */
@@ -268,57 +270,24 @@ static bool CreateTriangleResources() {
                                   });
 
     /*
-    用于创建Descriptor Set Layout和Pipeline Layout
-*/
+        用于创建Descriptor Set Layout和Pipeline Layout
+    */
     GraphicsPipeline = RHI->RHICreateGraphicsPipeline(nullptr);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::Back);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
-
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
-    std::cout << "Create 1" << std::endl;
     GraphicsPipeline->Create();
-    std::cout << "Create 2" << std::endl;
+
     g_PipelineState = ((D3D12GraphicsPipeline*)GraphicsPipeline)->GetHandle();
 
     g_RootSignature =  ((D3D12GraphicsPipeline*)GraphicsPipeline)->RootSignature;
 
 #else
-    // 3. 定义输入布局
-    D3D12_INPUT_ELEMENT_DESC inputDescs[] = {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-    };
 
-
-
-    // 4. 创建管线状态
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-    psoDesc.InputLayout = { inputDescs, _countof(inputDescs) };
-    psoDesc.pRootSignature = g_RootSignature.Get();
-    psoDesc.VS = { vertexShader->GetBufferPointer(), vertexShader->GetBufferSize() };
-    psoDesc.PS = { pixelShader->GetBufferPointer(), pixelShader->GetBufferSize() };
-    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // 重要：禁用背面剔除
-    psoDesc.RasterizerState.DepthClipEnable = TRUE;
-    psoDesc.BlendState.AlphaToCoverageEnable = FALSE;
-    psoDesc.BlendState.IndependentBlendEnable = FALSE;
-    psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-    psoDesc.DepthStencilState.DepthEnable = FALSE;
-    psoDesc.DepthStencilState.StencilEnable = FALSE;
-    psoDesc.SampleMask = UINT_MAX;
-    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-    psoDesc.NumRenderTargets = 1;
-    psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-    psoDesc.SampleDesc.Count = 1;
-
-    if (FAILED(g_Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&g_PipelineState)))) {
-        std::cerr << "Failed to create PSO" << std::endl;
-        return false;
-    }
 #endif
     // 5. 创建顶点缓冲区
     Vertex vertices[] = {
@@ -328,36 +297,10 @@ static bool CreateTriangleResources() {
     };
 
     const UINT bufferSize = sizeof(vertices);
-#if 1
+
     VBO = RHI->RHICreateBuffer(RHIBuffer::VertexBuffer, RHIBuffer::Dynamic, bufferSize, vertices);
     g_VertexBuffer = ((D3D12Buffer *)VBO)->GetHandle();
-#else
-    // 创建上传堆
-    D3D12_HEAP_PROPERTIES heapProps = {};
-    heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
 
-    D3D12_RESOURCE_DESC resourceDesc = {};
-    resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-    resourceDesc.Width = bufferSize;
-    resourceDesc.Height = 1;
-    resourceDesc.DepthOrArraySize = 1;
-    resourceDesc.MipLevels = 1;
-    resourceDesc.SampleDesc.Count = 1;
-    resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-    if (FAILED(g_Device->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc,
-        D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&g_VertexBuffer)))) {
-        return false;
-    }
-
-    // 上传顶点数据
-    void* pData = nullptr;
-    if (FAILED(g_VertexBuffer->Map(0, nullptr, &pData))) {
-        return false;
-    }
-    memcpy(pData, vertices, bufferSize);
-    g_VertexBuffer->Unmap(0, nullptr);
-#endif
     // 创建顶点缓冲区视图
     g_VertexBufferView.BufferLocation = g_VertexBuffer->GetGPUVirtualAddress();
     g_VertexBufferView.StrideInBytes = sizeof(Vertex);
