@@ -120,10 +120,8 @@ void D3D12GraphicsPipeline::Create()
     CreateInfo.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 
-    CreateInfo.SampleMask = UINT_MAX;
     CreateInfo.NumRenderTargets = 1;
     CreateInfo.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-    CreateInfo.SampleDesc.Count = 1;
 
     if (FAILED(Device->CreateGraphicsPipelineState(&CreateInfo, IID_PPV_ARGS(&Handle)))) {
         std::cerr << "Failed to create PSO" << std::endl;
