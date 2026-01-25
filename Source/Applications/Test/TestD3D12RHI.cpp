@@ -354,6 +354,7 @@ static void Render() {
 
     CommandBuffer = Window->CurrentGraphicsCommandBuffer();
 
+    Window->RHIBeginFrame();
     // 重置命令
     g_CommandAllocator->Reset();
     g_CommandList->Reset(g_CommandAllocator.Get(), g_PipelineState.Get());

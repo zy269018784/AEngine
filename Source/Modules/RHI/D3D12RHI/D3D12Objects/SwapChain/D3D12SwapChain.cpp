@@ -31,3 +31,8 @@ IDXGISwapChain1* D3D12SwapChain::GetHandle() const
 {
     return Handle;
 }
+
+UINT D3D12SwapChain::GetCurrentBackBufferIndex(void)
+{
+    return ((IDXGISwapChain3*)Handle)->GetCurrentBackBufferIndex();
+}
