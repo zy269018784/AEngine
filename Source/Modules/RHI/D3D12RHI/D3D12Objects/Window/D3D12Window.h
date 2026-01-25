@@ -1,17 +1,16 @@
 #pragma once
 #include "RHIObjects/Window/RHIWindow.h"
-#include "D3D12Objects/Instance/D3D12Instance.h"
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/Surface/D3D12Surface.h"
-#include "D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
-#include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
+class D3D12PhysicalDevice;
+class D3D12Device;
+class D3D12Surface;
 class D3D12CommandBuffer;
+class D3D12SwapChain;
 class D3D12Window : public RHIWindow {
 public:
     D3D12Window() = default;
     D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface);
     ~D3D12Window();
+    void CreateSwapChain();
     void CreateCommandBuffer();
     virtual void GetExtent(float& x, float& y, float& w, float& h) final override;
     virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() final override;
@@ -36,4 +35,6 @@ private:
     D3D12Surface* Surface;
 
     std::vector<D3D12CommandBuffer*>	GraphicsCommandBuffers;
+
+    D3D12SwapChain *SwapChain = nullptr;
 };

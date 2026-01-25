@@ -114,13 +114,15 @@ static bool Init() {
         std::cerr << "Failed to create device" << std::endl;
         return false;
     }*/
-
+#if 0
     // 创建命令队列
     D3D12_COMMAND_QUEUE_DESC queueDesc = {};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     if (FAILED(g_Device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_CommandQueue)))) {
         return false;
     }
+#endif
+    g_CommandQueue = RHI->Devices[0]->Queues[0]->GetHandle();
 
     // 创建交换链
     ComPtr<IDXGIFactory4> factory;
@@ -387,7 +389,8 @@ static void Render() {
     CommandBuffer->RHISetScissor(Scissor);
 
     // 设置顶点缓冲区和绘制
-    g_CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
+    //g_CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     g_CommandList->IASetVertexBuffers(0, 1, &g_VertexBufferView);
    // g_CommandList->DrawInstanced(3, 1, 0, 0);
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);

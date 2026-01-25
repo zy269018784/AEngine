@@ -1,4 +1,11 @@
 #include  "D3D12Window.h"
+#include "D3D12Objects/SwapChain/D3D12SwapChain.h"
+#include "D3D12Objects/Instance/D3D12Instance.h"
+#include "D3D12Objects/Device/D3D12Device.h"
+#include "D3D12Objects/Surface/D3D12Surface.h"
+#include "D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
 D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface)
     : PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
@@ -13,6 +20,11 @@ D3D12Window::~D3D12Window()
 void D3D12Window::GetExtent(float& x, float& y, float& w, float& h)
 {
 
+}
+
+void D3D12Window::CreateSwapChain()
+{
+    //SwapChain = new D3D12SwapChain();
 }
 
 void D3D12Window::CreateCommandBuffer()

@@ -1,6 +1,7 @@
 ﻿#include "D3D12Device.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12Objects/Queue/D3D12Queue.h"
 #include <iostream>
 D3D12Device::D3D12Device()
 {
@@ -36,3 +37,8 @@ void D3D12Device::CreateCommandPool()
     CommandPools.emplace_back(CommandPool);
 }
 
+void D3D12Device::CreateQueue()
+{
+    D3D12Queue *Queue = new D3D12Queue(this);
+    Queues.emplace_back(Queue);
+}

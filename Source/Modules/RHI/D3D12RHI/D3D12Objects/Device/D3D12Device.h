@@ -3,6 +3,7 @@
 #include <vector>
 class D3D12CommandPool;
 class D3D12CommandBuffer;
+class D3D12Queue;
 class D3D12Device
 {
 public:
@@ -11,6 +12,7 @@ public:
     ID3D12Device* GetHandle();
     D3D12CommandBuffer* CreateCommandBuffer(D3D12CommandPool* CommandPool);
     void CreateCommandPool();
+    void CreateQueue();
 public:
     /*
         D3D12 API Wrapper
@@ -74,4 +76,5 @@ private:
 	ID3D12Device* Handle;
 public:
     std::vector<D3D12CommandPool*> CommandPools;
+    std::vector<D3D12Queue*> Queues;
 };
