@@ -974,3 +974,45 @@ inline VkFormat ToVkFormat(RHIPixelFormat PF)
 	return Format;
 }
 
+inline VkPrimitiveTopology ToVkTopology(RHITopology Top)
+{
+	switch (Top)
+	{
+		case RHITopology::Points:
+			return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+
+		case RHITopology::Lines:
+			return VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+
+		case RHITopology::LineStrip:
+			return VK_PRIMITIVE_TOPOLOGY_LINE_STRIP;
+
+		case RHITopology::Triangles:
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+		case RHITopology::TriangleStrip:
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+
+		case RHITopology::TriangleFan:
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN;
+
+		case RHITopology::LinesWithAdjacency:
+			return VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY;
+
+		case RHITopology::LineStripWithAdjacency:
+			return VK_PRIMITIVE_TOPOLOGY_LINE_STRIP_WITH_ADJACENCY;
+
+		case RHITopology::TrianglesWithAdjacency:
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY;
+
+		case RHITopology::TriangleStripWithAdjacency:
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY;
+
+		case RHITopology::Patches:
+			return VK_PRIMITIVE_TOPOLOGY_PATCH_LIST;
+
+		default:
+			// 默认使用三角形列表作为回退
+			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	}
+}

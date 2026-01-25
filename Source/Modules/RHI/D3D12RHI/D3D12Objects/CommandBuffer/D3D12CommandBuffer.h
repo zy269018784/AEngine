@@ -14,6 +14,10 @@ public:
 	/*
 		RHI API
 	*/
+	/*
+		primitive topology
+	 */
+	virtual void RHISetPrimitiveTopology(RHITopology Topology) final override;
 	virtual void RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount = 1, std::uint32_t FirstVertex = 0, std::uint32_t FirstInstance = 0)  final override;
 
 	virtual void RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount = 1, std::int32_t FirstIndex = 0, std::int32_t VertexOffset = 0, std::int32_t FirstInstance = 0) final override;

@@ -1,6 +1,7 @@
 ﻿#include "D3D12CommandBuffer.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/Core/D3D12Core.h"
 
 D3D12CommandBuffer::D3D12CommandBuffer(D3D12Device* InDevice, D3D12CommandPool* InCommandPool)
 	: Device(InDevice), CommandPool(InCommandPool)
@@ -20,6 +21,10 @@ ID3D12GraphicsCommandList* D3D12CommandBuffer::GetHandle()
 	return Handle;
 }
 
+void D3D12CommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
+{
+	Handle->IASetPrimitiveTopology(ToD3D12Topology(Topology));
+}
 
 void D3D12CommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {

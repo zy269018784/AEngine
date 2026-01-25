@@ -4,6 +4,12 @@
 #include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include <iostream>
+
+void OpenGLCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
+{
+
+}
+
 void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {	
 	GLenum RHITopology =    ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());

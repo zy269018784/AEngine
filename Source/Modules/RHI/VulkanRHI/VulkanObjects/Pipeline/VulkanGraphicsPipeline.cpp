@@ -77,8 +77,6 @@ void VulkanGraphicsPipeline::Create()
 	// 5.1 Topology
 	InputAssemblyStateCreateInfo.topology = ToVkPrimitiveTopology(Topology);
 
-
-
 	/*
 		6. Shader
 	*/

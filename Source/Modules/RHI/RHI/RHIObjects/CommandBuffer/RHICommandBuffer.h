@@ -14,6 +14,10 @@ class RHICommandBuffer
 public:
 	using VertexInput = std::pair<RHIBuffer*, std::uint32_t>;
 public:
+	/*
+		primitive topology
+	 */
+	virtual void RHISetPrimitiveTopology(RHITopology Topology) = 0;
 	//// draw primitive
 	//virtual void RHIDrawPrimitive(std::uint32_t BaseVertexIndex, std::uint32_t NumPrimitives, std::uint32_t NumInstances) = 0;
 	//

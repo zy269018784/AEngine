@@ -656,3 +656,45 @@ inline DXGI_FORMAT ToD3D12Format(RHIVertexInputAttribute::Format Format)
     return fmt;
 }
 
+inline D3D12_PRIMITIVE_TOPOLOGY ToD3D12Topology(RHITopology Top)
+{
+    switch (Top)
+    {
+        case RHITopology::Points:
+            return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+
+        case RHITopology::Lines:
+            return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+
+        case RHITopology::LineStrip:
+            return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+
+        case RHITopology::Triangles:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+        case RHITopology::TriangleStrip:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+
+        case RHITopology::TriangleFan:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLEFAN;  // 注意：D3D12 支持 TRIANGLEFAN
+
+        case RHITopology::LinesWithAdjacency:
+            return D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ;
+
+        case RHITopology::LineStripWithAdjacency:
+            return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ;
+
+        case RHITopology::TrianglesWithAdjacency:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ;
+
+        case RHITopology::TriangleStripWithAdjacency:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ;
+
+        case RHITopology::Patches:
+            // 注意：对于面片拓扑，D3D12 需要指定控制点数量
+            // 返回基础值，实际使用时需要根据控制点数量选择
+            return D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
+        default:
+            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+    }
+}

@@ -34,6 +34,12 @@ VkResult VulkanCommandBuffer::BeginSingleTime()
 	return BeginCommandBuffer(&BeginInfo);
 }
 
+void VulkanCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
+{
+	vkCmdSetPrimitiveTopology(Handle, ToVkTopology(Topology));
+}
+
+
 // draw primitive
 void VulkanCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {
