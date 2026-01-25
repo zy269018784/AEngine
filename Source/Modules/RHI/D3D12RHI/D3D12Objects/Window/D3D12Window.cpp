@@ -6,6 +6,8 @@
 #include "D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 #include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
+#include "D3D12Objects/Factory/D3D12Factory.h"
+
 D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface)
     : PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
@@ -22,9 +24,15 @@ void D3D12Window::GetExtent(float& x, float& y, float& w, float& h)
 
 }
 
+void D3D12Window::CreateFactory()
+{
+    Factory = new D3D12Factory();
+}
+
 void D3D12Window::CreateSwapChain()
 {
-    //SwapChain = new D3D12SwapChain();
+    D3D12Queue *Queue = Device->Queues[0];
+    SwapChain = new D3D12SwapChain(Factory, Queue, Surface);
 }
 
 void D3D12Window::CreateCommandBuffer()

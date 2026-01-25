@@ -21,7 +21,11 @@
 #include <d3dx12.h>
 
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/Factory/D3D12Factory.h"
 #include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
+#include "D3D12Objects/SwapChain/D3D12SwapChain.h"
+#include "D3D12Objects/Window/D3D12Window.h"
+#include "D3D12Objects/Factory/D3D12Factory.h"
 #if 0
 // 必须链接这些库
 #pragma comment(lib, "d3d12.lib")
@@ -103,10 +107,11 @@ static bool Init() {
         debugController->EnableDebugLayer();
     }
 #endif
+    HWND hwnd = glfwGetWin32Window(g_Window);
     RHI = new D3D12RHI();
     g_Device =  RHI->Devices[0]->GetHandle();
 
-    Window = RHI->RHICreateWindow(0, 0);
+    Window = RHI->RHICreateWindow(0, hwnd);
 
     /*
     // 创建设备
@@ -126,8 +131,12 @@ static bool Init() {
 
     // 创建交换链
     ComPtr<IDXGIFactory4> factory;
+#if 0
     CreateDXGIFactory1(IID_PPV_ARGS(&factory));
-
+#endif
+    factory = ((D3D12Window *)Window)->Factory->GetHandle();
+    ComPtr<IDXGISwapChain1> swapChain;
+#if 0
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
     swapChainDesc.BufferCount = FrameCount;
     swapChainDesc.Width = Width;
@@ -137,11 +146,13 @@ static bool Init() {
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     swapChainDesc.SampleDesc.Count = 1;
 
-    ComPtr<IDXGISwapChain1> swapChain;
-    HWND hwnd = glfwGetWin32Window(g_Window);
+
     if (FAILED(factory->CreateSwapChainForHwnd(g_CommandQueue.Get(), hwnd, &swapChainDesc, nullptr, nullptr, &swapChain))) {
         return false;
     }
+#else
+    swapChain = ((D3D12Window *)Window)->SwapChain->GetHandle();
+#endif
     swapChain.As(&g_SwapChain);
     g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 

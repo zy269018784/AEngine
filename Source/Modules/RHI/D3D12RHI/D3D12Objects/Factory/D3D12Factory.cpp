@@ -29,5 +29,5 @@ HRESULT D3D12Factory::CreateSwapChainForHwnd(
             _In_opt_  IDXGIOutput *pRestrictToOutput,
             /* [annotation][out] */
             _COM_Outptr_  IDXGISwapChain1 **ppSwapChain) {
-    return Handle->CreateSwapChainForHwnd(pDevice, HWND, pDesc, nullptr, pFullscreenDesc, ppSwapChain);
+    return Handle->CreateSwapChainForHwnd(pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain);
 }

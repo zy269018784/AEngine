@@ -5,6 +5,9 @@
 #include "D3D12Objects/Shader/D3D12Shader.h"
 #include "D3D12Objects/Shader/D3D12ShaderResourceBindings.h"
 #include "D3D12Objects/Window/D3D12Window.h"
+#include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
+#include "D3D12Objects/Surface/D3D12Surface.h"
+
 D3D12RHI::D3D12RHI()
 {
 //	Device = new D3D12Device();
@@ -32,7 +35,11 @@ void D3D12RHI::RHIUseGPU(std::uint32_t GPUIndex)
 #ifdef RHI_USE_WIN32_KHR
 RHIWindow* D3D12RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 {
-	D3D12Window* NewD3D12Window = new D3D12Window(nullptr, Devices[GPUIndex], nullptr);
+	D3D12Surface* Surface = new D3D12Surface(Hinstance, Hwnd);
+
+	D3D12Window* NewD3D12Window = new D3D12Window(nullptr, Devices[GPUIndex], Surface);
+	NewD3D12Window->CreateFactory();
+	NewD3D12Window->CreateSwapChain();
 	NewD3D12Window->CreateCommandBuffer();
 	return NewD3D12Window;
 }

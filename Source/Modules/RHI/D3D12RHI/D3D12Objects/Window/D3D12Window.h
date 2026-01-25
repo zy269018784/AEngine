@@ -5,11 +5,13 @@ class D3D12Device;
 class D3D12Surface;
 class D3D12CommandBuffer;
 class D3D12SwapChain;
+class D3D12Factory;
 class D3D12Window : public RHIWindow {
 public:
     D3D12Window() = default;
     D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface);
     ~D3D12Window();
+    void CreateFactory();
     void CreateSwapChain();
     void CreateCommandBuffer();
     virtual void GetExtent(float& x, float& y, float& w, float& h) final override;
@@ -35,6 +37,8 @@ private:
     D3D12Surface* Surface;
 
     std::vector<D3D12CommandBuffer*>	GraphicsCommandBuffers;
-
+public:
     D3D12SwapChain *SwapChain = nullptr;
+
+    D3D12Factory *Factory = nullptr;
 };
