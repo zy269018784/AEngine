@@ -10,7 +10,11 @@ D3D12RHI::D3D12RHI()
 //	Device = new D3D12Device();
 //	Queue = new D3D12Queue(Device);
 	for (int i = 0; i < 1; i++)
-		Devices.emplace_back(new D3D12Device());
+	{
+		D3D12Device *pDevice = new D3D12Device();
+		pDevice->CreateCommandPool();
+		Devices.emplace_back(pDevice);
+	}
 }
 
 D3D12RHI::~D3D12RHI()

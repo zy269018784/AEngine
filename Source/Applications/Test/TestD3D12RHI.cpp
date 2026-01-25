@@ -20,6 +20,7 @@
 
 #include <d3dx12.h>
 
+#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
 #include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
 #if 0
 // 必须链接这些库
@@ -160,14 +161,22 @@ static bool Init() {
         g_Device->CreateRenderTargetView(g_RenderTargets[i].Get(), nullptr, rtvHandle);
         rtvHandle.ptr += rtvDescriptorSize;
     }
-
+#if 0
     // 创建命令分配器和列表
     if (FAILED(g_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_CommandAllocator)))) {
         return false;
     }
+#endif
+    std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
+    g_CommandAllocator = RHI->Devices[0]->CommandPools[0]->GetHandle();
+  //  RHI->Devices[0]->CommandPools[0]->GetHandle();
+    std::cout << "g_CommandAllocator " << g_CommandAllocator.Get() << std::endl;
+#if 0
     if (FAILED(g_Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_CommandAllocator.Get(), nullptr, IID_PPV_ARGS(&g_CommandList)))) {
         return false;
     }
+#endif
+    g_CommandList = ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle();
     g_CommandList->Close();
 
     // 创建围栏

@@ -72,5 +72,6 @@ public:
            void **ppPipelineState);
 private:
 	ID3D12Device* Handle;
+public:
     std::vector<D3D12CommandPool*> CommandPools;
 };

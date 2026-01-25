@@ -24,7 +24,7 @@ void D3D12Window::CreateCommandBuffer()
 
 RHICommandBuffer* D3D12Window::CurrentGraphicsCommandBuffer()
 {
-    return nullptr;
+    return GraphicsCommandBuffers[0];
 }
 
 void D3D12Window::RHIBeginFrame()
