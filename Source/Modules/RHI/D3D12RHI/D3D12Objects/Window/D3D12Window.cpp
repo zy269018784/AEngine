@@ -13,7 +13,6 @@ D3D12Window::~D3D12Window()
 void D3D12Window::GetExtent(float& x, float& y, float& w, float& h)
 {
 
-
 }
 
 void D3D12Window::CreateCommandBuffer()

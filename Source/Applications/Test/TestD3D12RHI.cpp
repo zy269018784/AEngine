@@ -70,6 +70,7 @@ static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
 static RHIShader* FragmengShader = nullptr;
 static RHIWindow* Window = nullptr;
+static RHICommandBuffer* CommandBuffer = nullptr;
 
 /*
     着色器资源绑定
@@ -337,6 +338,9 @@ static void WaitForGPU() {
 }
 
 static void Render() {
+
+    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+
     // 重置命令
     g_CommandAllocator->Reset();
     g_CommandList->Reset(g_CommandAllocator.Get(), g_PipelineState.Get());
@@ -350,6 +354,14 @@ static void Render() {
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     g_CommandList->ResourceBarrier(1, &barrier);
 
+    float x = 0;
+    float y = 0;
+    float w = 800;
+    float h = 600;
+    //Window->GetExtent(x, y, w, h);
+
+
+
     // 获取RTV
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
     rtvHandle.ptr += g_FrameIndex * g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
@@ -361,17 +373,24 @@ static void Render() {
 
     // 设置管线状态
     g_CommandList->SetGraphicsRootSignature(g_RootSignature.Get());
-
+#if 0
     // 设置视口和裁剪矩形
     D3D12_VIEWPORT viewport = { 0.0f, 0.0f, (float)Width, (float)Height, 0.0f, 1.0f };
     D3D12_RECT scissorRect = { 0, 0, (LONG)Width, (LONG)Height };
     g_CommandList->RSSetViewports(1, &viewport);
     g_CommandList->RSSetScissorRects(1, &scissorRect);
+#endif
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
 
     // 设置顶点缓冲区和绘制
     g_CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     g_CommandList->IASetVertexBuffers(0, 1, &g_VertexBufferView);
-    g_CommandList->DrawInstanced(3, 1, 0, 0);
+   // g_CommandList->DrawInstanced(3, 1, 0, 0);
+    CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
 
     // 资源屏障：Render Target -> Present
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
