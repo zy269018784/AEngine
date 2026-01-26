@@ -16,20 +16,20 @@
     3   5
     0   4
 */
-#if 0
+#if 1
 static float VertexAttributes[] = {
-    -50.0f,-50.0f,  -100.0f,  0.0f, 0.0f,
-     50.0f,-50.0f,   -100.0f,  1.0f, 0.0f,
-    50.0f,50.0f,  -100.0f,  1.0f, 1.0f,
-        -50.0f,  50.0f, -100.0f,  0.0f, 1.0f,
-        -50.0f,-50.0f,  -50.0f,  0.0f, 0.0f,
-    -50.0f,  50.0f, -50.0f,  0.0f, 0.0f,
+    -50.0f, -50.0f,  -100.0f,  0.0f, 0.0f,
+     50.0f, -50.0f,  -100.0f,  1.0f, 0.0f,
+     50.0f,  50.0f,  -100.0f,  1.0f, 1.0f,
+    -50.0f,  50.0f,  -100.0f,  0.0f, 1.0f,
+    -50.0f, -50.0f,   -50.0f,  0.0f, 0.0f,
+    -50.0f,  50.0f,   -50.0f,  0.0f, 0.0f,
 };
 static unsigned int Index[] = {
         0, 1, 2,
         2, 3, 0,
-            3, 0, 4,
-            4, 5, 3
+        3, 0, 4,
+        4, 5, 3
 };
 #else
 static float VertexAttributes[] = {
@@ -54,14 +54,14 @@ glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
 #if  USE_RHI_VULKAN
-glm::vec3 Eye = glm::vec3(0, 170, 390);
-glm::vec3 Target = glm::vec3(0, 170, 0);
+glm::vec3 Eye    = glm::vec3(0, 0, 0);
+glm::vec3 Target = glm::vec3(0, 0, -1);
 #else
-glm::vec3 Eye = glm::vec3(0, 170, 390);
-glm::vec3 Target = glm::vec3(0, 170, 0);
+glm::vec3 Eye    = glm::vec3(0, 0, 0);
+glm::vec3 Target = glm::vec3(0, 0, -1);
 #endif
 #if USE_RHI_VULKAN
-static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
+static glm::vec3 Up= glm::vec3(0.0, -1.0, 0.0);
 #else
 static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #endif
@@ -108,7 +108,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
     Model = glm::mat4(1.0);
 #if USE_RHI_VULKAN
-    View = glm::lookAtLH(Eye, Target, Up);
+    View = glm::lookAtRH(Eye, Target, Up);
 #else
     View = glm::lookAtRH(Eye, Target, Up);
 #endif
@@ -230,9 +230,9 @@ void Engine::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-  //  CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 
-    CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
+  //  CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
 }
 
 
@@ -261,18 +261,20 @@ void Engine::Run()
 
 void Engine::CreateVBO()
 {
-    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
-
+#if 1
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+#else
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
-
+#endif
 }
 
 void Engine::CreateEBO()
 {
-   // RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
-
+#if 1
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+#else
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
-
+#endif
     std::cout << "model.EBOData.size() " << model.EBOData.size() << std::endl;
 }
 
@@ -281,7 +283,7 @@ void Engine::CreateUBO()
     glm::vec4 p;
     Model = glm::mat4(1.0);
 #if USE_RHI_VULKAN
-    View = glm::lookAtLH(Eye, Target, Up);
+    View = glm::lookAtRH(Eye, Target, Up);
 #else
     View = glm::lookAtRH(Eye, Target, Up);
 #endif
