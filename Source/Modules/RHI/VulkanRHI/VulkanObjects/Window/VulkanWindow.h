@@ -19,7 +19,7 @@ public:
 	void CreateSurface(VulkanInstance* Instance);
 	void QuerySurface();
 #endif
-	void Resize(float Width, float Height);
+	virtual void Resize(float Width, float Height) final override;
 	void CreateSwapChain();
 	void CreateRenderPass();
 	void CreateFrameBuffer();

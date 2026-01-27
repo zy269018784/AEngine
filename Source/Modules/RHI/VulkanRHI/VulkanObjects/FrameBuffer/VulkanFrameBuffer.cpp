@@ -24,7 +24,6 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
 
 VulkanFrameBuffer::~VulkanFrameBuffer()
 {
-    std::cout << "~VulkanFrameBuffer() " << std::endl;
     DestroyFramebuffer(nullptr);
 }
 

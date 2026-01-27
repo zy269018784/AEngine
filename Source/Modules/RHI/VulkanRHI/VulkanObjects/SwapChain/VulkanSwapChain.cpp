@@ -204,6 +204,41 @@ void VulkanSwapChain::CreateImageViews()
 void VulkanSwapChain::Resize(float Width, float Height)
 {
     Cleanup();
+
+    SwapChainImageFormat    = Surface->CurrentFormat.format;
+    SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
+    SwapChainExtent         = { (uint32_t)Width, (uint32_t)Height};
+    SwapChainPresentMode    = Surface->CurrentPresentMode;
+
+    uint32_t ImageCount = Surface->Capabilities.minImageCount + 1;
+    if (Surface->Capabilities.maxImageCount > 0 && ImageCount > Surface->Capabilities.maxImageCount)
+    {
+        ImageCount = Surface->Capabilities.maxImageCount;
+    }
+    std::cout << "VulkanSwapChain SwapChainImageFormat " << SwapChainImageFormat << std::endl;
+    CreateSwapChain();
+    GetSwapchainImagesKHR(&ImageCount, nullptr);
+    SwapChainImages.resize(ImageCount);
+    GetSwapchainImagesKHR(&ImageCount, SwapChainImages.data());
+    std::cout << "ImageCount " << ImageCount << std::endl;
+
+    CreateImageViews();
+
+    /*
+        创建Render Pass
+    */
+    RenderPass = new VulkanRenderPass(Device, GetFormat());
+
+    /*
+        创建Frame Buffer
+    */
+    auto ImageViews = GetImageViews();
+    FrameBuffers.resize(GetImageCount());
+    for (int i = 0; i < FrameBuffers.size(); i++)
+    {
+        auto Handle = ImageViews[i];
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { GetWidth(), GetHeight() }, Handle);
+    }
 }
 
 void VulkanSwapChain::Cleanup()

@@ -54,3 +54,8 @@ void OpenGLWindow::WaitDeviceIdle()
 {
 
 }
+
+void OpenGLWindow::Resize(float Width, float Height)
+{
+
+}

@@ -93,3 +93,8 @@ void D3D12Window::WaitDeviceIdle()
 
 
 }
+
+void D3D12Window::Resize(float Width, float Height)
+{
+
+}

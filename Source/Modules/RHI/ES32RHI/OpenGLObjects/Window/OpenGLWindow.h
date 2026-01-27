@@ -15,6 +15,7 @@ public:
 	virtual void RHIEndRenderPass() final override;
 	virtual void Draw() final override;
 	virtual void WaitDeviceIdle() final override;
+	virtual void Resize(float Width, float Height) final override;
 private:
 public:
 	OpenGLCommandBuffer* CommandBuffer;

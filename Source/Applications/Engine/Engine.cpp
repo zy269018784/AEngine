@@ -66,7 +66,7 @@ glm::mat4 MVP;
 glm::vec3 Eye    = glm::vec3(0, 150, 610);
 glm::vec3 Target = glm::vec3(0, 150, 609);
 #else
-glm::vec3 Eye    = glm::vec3(0, 0, 0);
+glm::vec3 Eye    = glm::vec3(0, 0, 540);
 glm::vec3 Target = glm::vec3(0, 0, -1);
 #endif
 #if USE_RHI_VULKAN
@@ -76,7 +76,7 @@ static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #endif
 
 RHIBuffer* RHIUBO_ = nullptr;
-
+RHIWindow* RHIWindow2_ = nullptr;
 
 static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float far1) {
     float f = 1.0f / tan(fovY / 2.0f);
@@ -103,6 +103,8 @@ glm::mat4 OpenGLPerspective(float fovY, float aspect, float near1, float far1) {
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
     glViewport(0, 0, width, height);
+
+    RHIWindow2_->Resize(width, height);
 
     // You might also want to update projection matrices here
     printf("Window resized to %dx%d\n", width, height);
@@ -206,6 +208,7 @@ Engine::Engine(IWindow* InWindow)
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     std::cout << "RHIApplication 2" << std::endl;
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+    RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
 }
@@ -258,7 +261,7 @@ void Engine::Draw()
     /*
         开启深度测试, 这个也要开启
     */
-    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    CommandBuffer->RHISetDepthBoundsTestEnable(false);
     /*
 
     */

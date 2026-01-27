@@ -4,6 +4,7 @@
 #include "VulkanObjects/Window/VulkanFrame.h"
 #include  <iostream>
 #include  <stdexcept>
+#include <SFML/Window/Keyboard.hpp>
 
 VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface)
 	: PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
@@ -335,6 +336,7 @@ void VulkanWindow::WaitDeviceIdle()
 */
 void VulkanWindow::Resize(float Width, float Height)
 {
+	SwapChain->Resize(Width, Height);
 	//delete SwapChain;
 	//delete RenderPass;
 }
