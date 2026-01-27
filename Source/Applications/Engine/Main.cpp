@@ -12,8 +12,10 @@ int main(int argc, char **argv)
 
 #if USE_RHI_VULKAN
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
+	Window->SetTitle("Vulkan");
 #else
     GLFWWindow *Window = new GLFWWindow(IWindow::OpenGL46);
+	Window->SetTitle("OpenGL46");
     Window->MakeContextCurrent();
 #endif
 

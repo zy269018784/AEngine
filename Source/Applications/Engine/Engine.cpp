@@ -4,7 +4,7 @@
 #ifdef PROJECT_USE_STB
     #include <stb_image.h>
 #endif
-
+#include "CoordSystem.h"
 #include <iostream>
 /*
     VBO1三角形: 红色和黄色
@@ -35,12 +35,21 @@ static unsigned int Index[] = {
 static float VertexAttributes[] = {
         // VBO1                                    // VBO2
          // pos               uv                    // pos              uv
+#if 1
         -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
          1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
          1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
          1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
         -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
         -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+#else
+    -1.0f, -1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+     1.0f, -1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+     1.0f,  1.0f, 0.0f,  0.0f, 0.0f, 0.0f,
+    -1.0f,  1.0f, 0.0f,  1.0f, 1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+#endif
 };
 static unsigned int Index[] = {
         0, 1, 2,
@@ -53,9 +62,9 @@ glm::mat4 Projection;
 glm::mat4 View;
 glm::mat4 Model;
 glm::mat4 MVP;
-#if  USE_RHI_VULKAN
-glm::vec3 Eye    = glm::vec3(0, 0, 0);
-glm::vec3 Target = glm::vec3(0, 0, -1);
+#if 0
+glm::vec3 Eye    = glm::vec3(0, 150, 610);
+glm::vec3 Target = glm::vec3(0, 150, 609);
 #else
 glm::vec3 Eye    = glm::vec3(0, 0, 0);
 glm::vec3 Target = glm::vec3(0, 0, -1);
@@ -68,6 +77,29 @@ static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 
 RHIBuffer* RHIUBO_ = nullptr;
 
+
+static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float far1) {
+    float f = 1.0f / tan(fovY / 2.0f);
+
+    return glm::mat4(
+        f / aspect, 0.0f,  0.0f,                    0.0f,
+        0.0f,       f,    0.0f,                    0.0f,
+        0.0f,       0.0f,  far1 / (far1 - near1),      1.0f,
+        0.0f,       0.0f, -far1 * near1 / (far1 - near1), 0.0f
+    );
+}
+
+glm::mat4 OpenGLPerspective(float fovY, float aspect, float near1, float far1) {
+    float f = 1.0f / tan(fovY / 2.0f);
+
+    return glm::mat4(
+        f / aspect, 0.0f,  0.0f,                              0.0f,
+        0.0f,       f,     0.0f,                              0.0f,
+        0.0f,       0.0f, -(far1 + near1) / (far1 - near1),      -1.0f,
+        0.0f,       0.0f, -2.0f * far1 * near1 / (far1 - near1),  0.0f
+    );
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
     glViewport(0, 0, width, height);
@@ -78,7 +110,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    float step = 10.f;
+    float step = 2.f;
     switch (key)
     {
         case GLFW_KEY_W:
@@ -107,15 +139,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
     }
     Model = glm::mat4(1.0);
-#if USE_RHI_VULKAN
-    View = glm::lookAtRH(Eye, Target, Up);
-#else
-    View = glm::lookAtRH(Eye, Target, Up);
-#endif
     Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
+#if USE_RHI_VULKAN
+    View = VulkanLeftHandedViewMatrix(Eye, Target, Up);
+    //Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+    Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
+#else
+    View = OpenGLLeftHandedViewMatrix(Eye, Target, Up);
+#endif
+
     MVP = Projection * View * Model;
 
-  //  MVP = glm::mat4(1.0);
+    //MVP = glm::mat4(1.0);
     RHIUBO_->Update(sizeof(MVP), &MVP);
 
     std::cout << "Eye " << Eye.x << " "<< Eye.y << " "<< Eye.z << " " << std::endl;
@@ -230,9 +265,11 @@ void Engine::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+#if 1
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
-
-  //  CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
+#else
+    CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
+#endif
 }
 
 
@@ -282,10 +319,15 @@ void Engine::CreateUBO()
 {
     glm::vec4 p;
     Model = glm::mat4(1.0);
+
+    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
 #if USE_RHI_VULKAN
-    View = glm::lookAtRH(Eye, Target, Up);
+    View = VulkanLeftHandedViewMatrix(Eye, Target, Up);
+   // Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+  //  Projection = OpenGLPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+    Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
 #else
-    View = glm::lookAtRH(Eye, Target, Up);
+    View = OpenGLLeftHandedViewMatrix(Eye, Target, Up);
 #endif
     p = View * glm::vec4(0, 0, 1000, 0.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
@@ -293,7 +335,7 @@ void Engine::CreateUBO()
     p = View * glm::vec4(0, 0, 1000, 1.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
 
-    Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+
     MVP = Projection * View * Model;
     p = MVP * glm::vec4(0, 0, 1000, 0.0);
     std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
