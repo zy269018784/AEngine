@@ -1,7 +1,7 @@
 #pragma once
 #include "IWindow.h"
 #ifdef PROJECT_USE_MFC
-#include <QWindow>
+
 #endif
 
 class MFCWindow : public IWindow
@@ -12,7 +12,7 @@ public:
     virtual void Run() override final;
 #ifdef PROJECT_USE_MFC
 public:
-    QWindow *GetHandle();
+
 #endif
 public:
     void SetTitle(const char *Title) override final;
@@ -30,7 +30,7 @@ public:
 #endif
 private:
 #ifdef PROJECT_USE_MFC
-    QWindow *Handle;
+
 #endif
 };
 
