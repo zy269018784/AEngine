@@ -43,8 +43,29 @@ int SimpleBLEMain(int argc, char **argv)
             std::cout << "xiao mi 14 found" << std::endl;
         }
 	}
-    XiaoMi14Pro.connect();
+    if (XiaoMi14Pro.initialized()) {
+        std::cout << "is_connectable " << XiaoMi14Pro.is_connectable() << std::endl;
+        std::cout << "is_paired " << XiaoMi14Pro.is_paired() << std::endl;
+        if (XiaoMi14Pro.is_paired())
+        {
+            XiaoMi14Pro.unpair();
+            std::cout << "is_paired " << XiaoMi14Pro.is_paired() << std::endl;
+        }
+        std::cout << "is_connected " << XiaoMi14Pro.is_connected() << std::endl;
+        XiaoMi14Pro.connect();
+        std::cout << "is_paired " << XiaoMi14Pro.is_paired() << std::endl;
+        std::cout << "is_connected " << XiaoMi14Pro.is_connected() << std::endl;
 
+        if (XiaoMi14Pro.is_connected())
+        {
+            XiaoMi14Pro.disconnect();
+            std::cout << "is_connected " << XiaoMi14Pro.is_connected() << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "initialized " << XiaoMi14Pro.initialized() << std::endl;
+    }
 #endif
 	return 0;
 }	
