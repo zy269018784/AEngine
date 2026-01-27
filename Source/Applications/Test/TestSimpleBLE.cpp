@@ -37,7 +37,9 @@ int SimpleBLEMain(int argc, char **argv)
 	              << "Peripheral address: " << peripheral.address()  << " "
                   << std::endl;
 
-        if (peripheral.identifier() == "zy  xiaomi  14  pro")
+       // if (peripheral.identifier() == "zy  xiaomi  14  pro")
+       //if (peripheral.identifier() == "MatePad Pro")
+       if (peripheral.identifier() == "TRANYOO-i4")
         {
             XiaoMi14Pro = peripheral;
             std::cout << "xiao mi 14 found" << std::endl;
@@ -55,6 +57,23 @@ int SimpleBLEMain(int argc, char **argv)
         XiaoMi14Pro.connect();
         std::cout << "is_paired " << XiaoMi14Pro.is_paired() << std::endl;
         std::cout << "is_connected " << XiaoMi14Pro.is_connected() << std::endl;
+
+        if (XiaoMi14Pro.is_connected()) {
+            std::cout << "services " << XiaoMi14Pro.services().size() << std::endl;
+            for (int ServiceIndex = 0; ServiceIndex < XiaoMi14Pro.services().size(); ServiceIndex++) {
+                SimpleBLE::Service &Service = XiaoMi14Pro.services()[ServiceIndex];
+                int CharacteristicsCount = Service.characteristics().size();
+                for (int CharacteristicsIndex = 0;
+                     CharacteristicsIndex < CharacteristicsCount; CharacteristicsIndex++) {
+                    SimpleBLE::Characteristic &Characteristic = Service.characteristics()[CharacteristicsIndex];
+                    int DescriptorCount = Characteristic.descriptors().size();
+                    for (int DescriptorIndex = 0; DescriptorIndex < DescriptorCount; DescriptorIndex++) {
+                        SimpleBLE::Descriptor &Descriptor = Characteristic.descriptors()[DescriptorIndex];
+                        std::cout << "Descriptor.uuid " << Descriptor.uuid() << std::endl;
+                    }
+                }
+            }
+        }
 
         if (XiaoMi14Pro.is_connected())
         {

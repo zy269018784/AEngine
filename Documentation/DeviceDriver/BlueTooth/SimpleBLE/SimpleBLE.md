@@ -12,7 +12,6 @@ SimpleBLE::Peripheral
     connect
 
 SimpleBLE::Service
-
 SimpleBLE::Characteristic
 SimpleBLE::Descriptor
 
