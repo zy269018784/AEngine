@@ -57,6 +57,10 @@ if (${USE_D3D12})
 	message (STATUS "USE_D3D12 OK")
 endif ()
 
+if (${USE_BLUEZ})
+	list(APPEND LIBRARYS bluetooth)
+endif ()
+
 if (${USE_FFMPEG})
 	list(APPEND INCLUDE_PATH ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
 	list(APPEND LINK_PATH    ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)

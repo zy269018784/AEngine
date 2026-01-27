@@ -163,6 +163,9 @@ if (${USE_D3D12})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_D3D12)
 endif ()
 
+if (${USE_BLUEZ})
+    target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_BLUEZ)
+endif ()
 
 if (${USE_MODBUS})
     target_compile_definitions (${APP_NAME} PUBLIC PROJECT_USE_MODBUS)
