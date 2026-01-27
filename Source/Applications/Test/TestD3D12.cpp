@@ -1,4 +1,5 @@
-﻿// 简化的修复版本
+﻿#ifdef PROJECT_USE_D3D12
+// 简化的修复版本
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
@@ -379,3 +380,4 @@ int TestD3D12(int argc, char **argv)
     Cleanup();
     return 0;
 }
+#endif
