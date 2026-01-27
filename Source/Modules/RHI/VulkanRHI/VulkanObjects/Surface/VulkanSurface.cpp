@@ -287,7 +287,24 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
 
     for (const auto& availablePresentMode : PresentModes)
     {
+        std::cout << "availablePresentMode " << availablePresentMode << std::endl;
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+        {
+            CurrentPresentMode = availablePresentMode;
+            break;
+        }
+
+        else if (availablePresentMode == VK_PRESENT_MODE_FIFO_KHR)
+        {
+            CurrentPresentMode = availablePresentMode;
+            break;
+        }
+        else if (availablePresentMode == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
+        {
+            CurrentPresentMode = availablePresentMode;
+            break;
+        }
+        else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
         {
             CurrentPresentMode = availablePresentMode;
             break;

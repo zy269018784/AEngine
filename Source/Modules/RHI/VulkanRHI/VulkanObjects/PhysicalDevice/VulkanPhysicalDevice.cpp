@@ -457,8 +457,8 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 	VulkanDevice* Device = new VulkanDevice(this, DeviceHandle);
 	//Device->pPhysicalDevice = this;
 	//std::cout << "PresentQueueFamilyIndex " << PresentQueueFamilyIndex << std::endl;
-	if (PresentQueueFamilyIndices.size() == 0)
-		std::cout << "No Queue Famliy support present" << std::endl;
+	//if (PresentQueueFamilyIndices.size() == 0)
+	//	std::cout << "No Queue Famliy support present" << std::endl;
 
 	/*
 		给第一个Present Queue Family创建1个Queue
