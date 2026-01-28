@@ -203,6 +203,7 @@ void VulkanSwapChain::CreateImageViews()
 
 void VulkanSwapChain::Resize(float Width, float Height)
 {
+    std::cout << " VulkanSwapChain::Resize " << SwapChainImageFormat << std::endl;
     Cleanup();
 
     SwapChainImageFormat    = Surface->CurrentFormat.format;

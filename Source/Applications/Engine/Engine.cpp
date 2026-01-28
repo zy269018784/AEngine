@@ -66,7 +66,7 @@ glm::mat4 MVP;
 glm::vec3 Eye    = glm::vec3(0, 150, 610);
 glm::vec3 Target = glm::vec3(0, 150, 609);
 #else
-glm::vec3 Eye    = glm::vec3(0, 0, 540);
+glm::vec3 Eye    = glm::vec3(0, 0, 1000);
 glm::vec3 Target = glm::vec3(0, 0, -1);
 #endif
 #if USE_RHI_VULKAN
@@ -102,12 +102,12 @@ glm::mat4 OpenGLPerspective(float fovY, float aspect, float near1, float far1) {
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
-    glViewport(0, 0, width, height);
-
+   // glViewport(0, 0, width, height);
+    printf("Window resized to %dx%d\n", width, height);
     RHIWindow2_->Resize(width, height);
 
     // You might also want to update projection matrices here
-    printf("Window resized to %dx%d\n", width, height);
+    //printf("Window resized to %dx%d\n", width, height);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -211,6 +211,8 @@ Engine::Engine(IWindow* InWindow)
     RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
+
+    AddBox(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
 }
 
 Engine::~Engine()
@@ -269,7 +271,8 @@ void Engine::Draw()
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
 #if 1
-    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+    //CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+    CommandBuffer->RHIDrawIndexedPrimitive(EBO.size(), 1, 0, 0, 0);
 #else
     CommandBuffer->RHIDrawIndexedPrimitive(model.EBOData.size(), 1, 0, 0, 0);
 #endif
@@ -302,7 +305,8 @@ void Engine::Run()
 void Engine::CreateVBO()
 {
 #if 1
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, VBO.size() * sizeof(glm::vec3), VBO.data());
 #else
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
 #endif
@@ -311,7 +315,8 @@ void Engine::CreateVBO()
 void Engine::CreateEBO()
 {
 #if 1
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    //RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, EBO.size() * sizeof(glm::vec3), EBO.data());
 #else
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
 #endif

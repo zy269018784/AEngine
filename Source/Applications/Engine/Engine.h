@@ -14,7 +14,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Model/Model.h"
-
+#include "VBO.h"
 #define USE_RHI_VULKAN 1
 /*
     spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
@@ -81,4 +81,7 @@ private:
     RHISampler* RHISampler_ = nullptr;
 private:
     Model model;
+
+    std::vector<float> VBO;
+    std::vector<std::uint32_t> EBO;
 };
