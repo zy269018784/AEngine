@@ -104,15 +104,18 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust viewport to match new window dimensions
    // glViewport(0, 0, width, height);
     printf("Window resized to %dx%d\n", width, height);
+#if USE_RHI_VULKAN
     RHIWindow2_->Resize(width, height);
-
+#else
+    glViewport(0, 0, width, height);
+#endif
     // You might also want to update projection matrices here
     //printf("Window resized to %dx%d\n", width, height);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    float step = 2.f;
+    float step = 20.f;
     switch (key)
     {
         case GLFW_KEY_W:
@@ -337,26 +340,9 @@ void Engine::CreateUBO()
 #else
     View = OpenGLLeftHandedViewMatrix(Eye, Target, Up);
 #endif
-    p = View * glm::vec4(0, 0, 1000, 0.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-
-    p = View * glm::vec4(0, 0, 1000, 1.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-
 
     MVP = Projection * View * Model;
-    p = MVP * glm::vec4(0, 0, 1000, 0.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
 
-    p = MVP * glm::vec4(0, 0, 1000, 1.0);
-    std::cout << "p " << p.x << " "<< p.y << " "<< p.z << " "<< p.w << " " << std::endl;
-    //MVP = glm::mat4(1.0);
-    //MVP = glm::mat4(1.0, 0.0, 0.0, 0.0,
-    //                0.0, 1.0, 0.0, 0.0,
-    //                0.0, 0.0, 1.0, 0.0,
-    //                0.0, 0.0, 0.0, 1.0);
-
-   // MVP = glm::mat4(1.0);
     RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
     RHIUBO_ = RHIUBO;
 }
@@ -454,7 +440,7 @@ void Engine::CreateGraphicsPipeline()
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
-    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #endif
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
