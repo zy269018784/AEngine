@@ -15,6 +15,13 @@
 
 #include "Model/Model.h"
 #include "VBO.h"
+#ifdef PROJECT_USE_SFML
+    #include <SFML/Audio.hpp>
+    #include <SFML/Graphics.hpp>
+    #include <SFML/Audio/Music.hpp>
+#endif
+
+
 #define USE_RHI_VULKAN 1
 /*
     spirv-cross.exe --version 460 Engine.spv --output Engine_vert.glsl
@@ -84,4 +91,6 @@ private:
 
     std::vector<float> VBO;
     std::vector<std::uint32_t> EBO;
+
+    sf::Music *Music;
 };

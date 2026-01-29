@@ -10,7 +10,7 @@
     #include <bluetooth/bluetooth.h>
     #include <bluetooth/hci.h>
     #include <bluetooth/hci_lib.h>
-#endif
+
 
 #include <iostream>
 
@@ -180,3 +180,4 @@ int BluezMain(int argc, char **argv) {
     printf("Scan completed.\n");
     return 0;
 }
+#endif

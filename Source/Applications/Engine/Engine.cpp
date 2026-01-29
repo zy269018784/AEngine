@@ -6,6 +6,7 @@
 #endif
 #include "CoordSystem.h"
 #include <iostream>
+
 /*
     VBO1三角形: 红色和黄色
     (0, 1)      (1, 1)
@@ -214,7 +215,8 @@ Engine::Engine(IWindow* InWindow)
     RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
-
+    //Music = new sf::Music("1，ogg");
+    //Music->play();
     AddBox(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
 }
 

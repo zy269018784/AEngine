@@ -7,10 +7,12 @@ int SerialPortMain(int argc, char **argv);
 int ModelMain(int argc, char **argv);
 //int TestD3D12(int argc, char **argv);
 //int TestD3D12RHI(int argc, char **argv);
-int BluezMain(int argc, char **argv);
+//int BluezMain(int argc, char **argv);
+int SFMLMain(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    return BluezMain(argc, argv);
+    return SFMLMain(argc, argv);
+  //  return BluezMain(argc, argv);
     return SimpleBLEMain(argc, argv);
    // return TestD3D12RHI(argc, argv);
     //return TestD3D12(argc, argv);

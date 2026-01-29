@@ -24,7 +24,8 @@ int MusicPlayer(int argc, char** argv)
 int Play(char *file)
 {
 #ifdef PROJECT_USE_SFML
-    auto Music = new sf::Music("ikutaerika.mp3");
+    //auto Music = new sf::Music("ikutaerika.mp3");
+    auto Music = new sf::Music("1，ogg");
 #endif
     std::cout << "play start" << std::endl;
 #ifdef PROJECT_USE_SFML
