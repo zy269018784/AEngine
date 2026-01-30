@@ -56,6 +56,8 @@ private:
         VBO
     */
     RHIBuffer* RHIVBO = nullptr;
+
+    RHIBuffer* RHIVBO_Color = nullptr;
     /*
         EBO
     */

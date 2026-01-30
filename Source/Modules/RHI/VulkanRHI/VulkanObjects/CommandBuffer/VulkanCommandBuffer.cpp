@@ -169,7 +169,10 @@ void VulkanCommandBuffer::RHISetStencilReference(RHIStencilFace FaceMask, uint32
 
 void VulkanCommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
 {
-	CmdSetDepthTestEnable(Enable);
+	if (Enable)
+		CmdSetDepthTestEnable(VK_TRUE);
+	else
+		CmdSetDepthTestEnable(VK_FALSE);
 }
 
 void VulkanCommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)

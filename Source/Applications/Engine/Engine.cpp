@@ -78,6 +78,7 @@ static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 
 RHIBuffer* RHIUBO_ = nullptr;
 RHIWindow* RHIWindow2_ = nullptr;
+sf::Music *pMusic;
 
 static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float far1) {
     float f = 1.0f / tan(fovY / 2.0f);
@@ -142,6 +143,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         case GLFW_KEY_D:
             Eye.x += step;
             Target.x += step;
+            break;
+        case GLFW_KEY_O:
+            pMusic->play();
+            break;
+        case GLFW_KEY_P:
+            pMusic->pause();
             break;
     }
     Model = glm::mat4(1.0);
@@ -215,9 +222,10 @@ Engine::Engine(IWindow* InWindow)
     RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
-    //Music = new sf::Music("1，ogg");
-    //Music->play();
-    AddBox(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
+    Music = new sf::Music("1.ogg");
+    Music->play();
+    pMusic = Music;
+    AddBox2(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
 }
 
 Engine::~Engine()
@@ -268,7 +276,7 @@ void Engine::Draw()
     /*
         开启深度测试, 这个也要开启
     */
-    CommandBuffer->RHISetDepthBoundsTestEnable(false);
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
     /*
 
     */
