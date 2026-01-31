@@ -85,7 +85,7 @@ static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float 
 
     return glm::mat4(
         f / aspect, 0.0f,  0.0f,                    0.0f,
-        0.0f,       f,    0.0f,                    0.0f,
+        0.0f,       -f,    0.0f,                    0.0f,
         0.0f,       0.0f,  far1 / (far1 - near1),      1.0f,
         0.0f,       0.0f, -far1 * near1 / (far1 - near1), 0.0f
     );
@@ -155,8 +155,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
 #if USE_RHI_VULKAN
     View = VulkanLeftHandedViewMatrix(Eye, Target, Up);
-    //Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
-    Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
+    Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+   // Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 10000.0f);
 #else
     View = OpenGLLeftHandedViewMatrix(Eye, Target, Up);
 #endif
@@ -223,7 +223,7 @@ Engine::Engine(IWindow* InWindow)
     std::cout << "RHIApplication 3" << std::endl;
 #endif
     Music = new sf::Music("1.ogg");
-    Music->play();
+   // Music->play();
     pMusic = Music;
     AddBox2(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
 }
@@ -344,9 +344,18 @@ void Engine::CreateUBO()
     Projection = glm::perspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
 #if USE_RHI_VULKAN
     View = VulkanLeftHandedViewMatrix(Eye, Target, Up);
-   // Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+    Projection = VulkanPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
   //  Projection = OpenGLPerspective(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
-    Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+  //  Projection = glm::perspectiveLH_NO(glm::radians(90.0f), 800.0f / 600.0f, 0.001f, 100000.0f);
+    /*
+    Projection[1][1] = -1.0f;  // 翻转Y轴
+    glm::mat4 clip_correction = glm::mat4(
+        1.0f,  0.0f, 0.0f, 0.0f,
+        0.0f, -1.0f, 0.0f, 0.0f,  // Y轴翻转
+        0.0f,  0.0f, 0.5f, 0.0f,  // Z: [-1,1] -> [0,1]
+        0.0f,  0.0f, 0.5f, 1.0f
+    );
+    glm::mat4 Projection = clip_correction * Projection;*/
 #else
     View = OpenGLLeftHandedViewMatrix(Eye, Target, Up);
 #endif

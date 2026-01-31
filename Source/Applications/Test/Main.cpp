@@ -9,8 +9,10 @@ int ModelMain(int argc, char **argv);
 //int TestD3D12RHI(int argc, char **argv);
 //int BluezMain(int argc, char **argv);
 int SFMLMain(int argc, char **argv);
+int RHIExample();
 int main(int argc, char** argv)
 {
+    return RHIExample();
     return SFMLMain(argc, argv);
   //  return BluezMain(argc, argv);
     return SimpleBLEMain(argc, argv);

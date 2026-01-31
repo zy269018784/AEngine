@@ -29,7 +29,7 @@ static unsigned int Index[] = {
 };
 #endif
 
-RHIApplicationTriangleIndexed::RHIApplicationTriangleIndexed(GLFWwindow* InWindow)
+RHIApplicationTriangleIndexed::RHIApplicationTriangleIndexed(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -37,14 +37,17 @@ RHIApplicationTriangleIndexed::RHIApplicationTriangleIndexed(GLFWwindow* InWindo
 
 void RHIApplicationTriangleIndexed::Init()
 {
+    std::cout << "1" << std::endl;
     /*
         创建VBO
     */
     CreateVBO();
+    std::cout << "2" << std::endl;
     /*
         创建EBO
     */
     CreateEBO();
+    std::cout << "3" << std::endl;
     /*
          创建顶点描述
      */
@@ -53,10 +56,13 @@ void RHIApplicationTriangleIndexed::Init()
         创建图形管线
     */
     CreateGraphicsPipeline();
+
+    std::cout << "2" << std::endl;
 }
 
 void RHIApplicationTriangleIndexed::CreateVBO()
 {
+    std::cout << "pRHI " << pRHI << std::endl;
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 }
 

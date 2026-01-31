@@ -31,7 +31,7 @@ void Example_Triangle(IWindow* Window)
 	App.Run();
 }
 
-void Example_TriangleIndexed(GLFWwindow* Window)
+void Example_TriangleIndexed(IWindow* Window)
 {
 	RHIApplicationTriangleIndexed App(Window);
 	App.Run();
@@ -160,13 +160,13 @@ int RHIExample()
 	*/
 	//Example_Model(Window->GetHandle());
 	//Example_Triangle(Window);
-	//Example_TriangleIndexed(Window->GetHandle());
+	Example_TriangleIndexed(Window);
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());
 	//Example_SSBO(Window->GetHandle());
 	//Example_Texture1D(Window->GetHandle());
 	//Example_Texture1DArray(Window->GetHandle());
-	Example_Texture2D(Window);
+	//Example_Texture2D(Window);
 	
 	//Example_Texture2DArray(Window->GetHandle());
 	//Example_Texture3D(Window->GetHandle());

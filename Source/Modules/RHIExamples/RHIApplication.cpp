@@ -59,6 +59,12 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     std::cout << "RHIApplication End" << std::endl;
 }
 
+RHIApplication::RHIApplication(GLFWwindow* Window)
+
+{
+
+}
+
 RHIApplication::~RHIApplication()
 {
     delete VertexShader; 

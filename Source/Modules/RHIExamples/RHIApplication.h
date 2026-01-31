@@ -38,7 +38,7 @@ class RHIApplication
 {
 public:
     RHIApplication(IWindow* Window);
-    RHIApplication(GLFWwindow* Window) {};
+    RHIApplication(GLFWwindow* Window);
     virtual ~RHIApplication();
     virtual void Run();
     virtual void Resize(int w, int h);
