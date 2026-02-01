@@ -54,7 +54,7 @@ void VulkanCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 
 void VulkanCommandBuffer::RHISetViewport(const RHIViewport& viewport)
 {
-	VkViewport Viewport = { viewport.Viewport()[0], viewport.Viewport()[1], viewport.Viewport()[2], viewport.Viewport()[3] };
+	VkViewport Viewport = { viewport.Viewport()[0], viewport.Viewport()[1], viewport.Viewport()[2], viewport.Viewport()[3] , 0.0, 1.0 };
 	CmdSetViewport(0, 1, &Viewport);
 }
 
