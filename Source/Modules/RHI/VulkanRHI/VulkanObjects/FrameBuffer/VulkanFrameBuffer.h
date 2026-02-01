@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Vulkan.h"
 #include "RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
@@ -11,6 +11,7 @@ public:
 	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle();
+	void CreateDepthBuffer();
 private:
 	/*
 		Vulkan API Wrapper
@@ -20,4 +21,7 @@ private:
 private:
 	VkFramebuffer Handle = VK_NULL_HANDLE;
 	VulkanDevice* Device = nullptr;
+	VkImageView ImageViewDepthBuffer;
+	VkImage depthImage;
+	VkDeviceMemory depthImageMemory;
 };

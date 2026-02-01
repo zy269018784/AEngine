@@ -44,12 +44,20 @@ void VulkanGraphicsPipeline::Create()
 	DepthStencilStateCreateInfo.depthWriteEnable		= DepthWriteEnable;
 	// 2.3 DepthCompareOp
 	DepthStencilStateCreateInfo.depthCompareOp			= ToVkCompareOp(DepthCompareOp);
-	DepthStencilStateCreateInfo.depthBoundsTestEnable	= VK_FALSE;
-	DepthStencilStateCreateInfo.back;
-	DepthStencilStateCreateInfo.front;
-	DepthStencilStateCreateInfo.minDepthBounds;
-	DepthStencilStateCreateInfo.maxDepthBounds;
+	DepthStencilStateCreateInfo.depthBoundsTestEnable	= VK_TRUE;
+	//DepthStencilStateCreateInfo.back;
+	//DepthStencilStateCreateInfo.front;
+	DepthStencilStateCreateInfo.minDepthBounds			= 0.0f;
+	DepthStencilStateCreateInfo.maxDepthBounds			= 1.0f;
 
+
+	DepthStencilStateCreateInfo.depthTestEnable = VK_TRUE;      // 启用深度测试
+	DepthStencilStateCreateInfo.depthWriteEnable = VK_TRUE;     // 启用深度写入
+	DepthStencilStateCreateInfo.depthCompareOp = VK_COMPARE_OP_LESS;  // 这是关键！
+	DepthStencilStateCreateInfo.depthBoundsTestEnable = VK_FALSE;
+	DepthStencilStateCreateInfo.minDepthBounds = 0.0f;
+	DepthStencilStateCreateInfo.maxDepthBounds = 1.0f;
+	DepthStencilStateCreateInfo.stencilTestEnable = VK_FALSE;
 	/*
 		3. Stencil Test
 	*/
