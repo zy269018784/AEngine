@@ -8,6 +8,7 @@
         4   3       2   
         5       0   1   
 */
+#if 0
 static float VertexAttributes[] = {
     // VBO1                                     // VBO2
     -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,       -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
@@ -17,6 +18,20 @@ static float VertexAttributes[] = {
     -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,       -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
     -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
 };
+#else
+
+static float VertexAttributes[] = {
+    // VBO1                                     // VBO2
+    -0.5f, -0.5f, 0.6f, 1.0f, 0.0f, 0.0f,       -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+     0.5f, -0.5f, 0.6f, 0.0f, 1.0f, 0.0f,        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+     0.5f,  0.5f, 0.6f, 0.0f, 0.0f, 1.0f,        0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+     0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f,       0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+     0.5f,  0.5f, 0.5f, 1.0f, 1.0f, 0.0f,      -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+    -0.5f,  0.5f, 0.5f, 1.0f, 1.0f, 0.0f,      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+};
+#endif
+
+
 #if USE_RHI_VULKAN
 static unsigned int Index[] = {
     5, 4, 3,
@@ -37,17 +52,14 @@ RHIApplicationTriangleIndexed::RHIApplicationTriangleIndexed(IWindow* InWindow)
 
 void RHIApplicationTriangleIndexed::Init()
 {
-    std::cout << "1" << std::endl;
     /*
         创建VBO
     */
     CreateVBO();
-    std::cout << "2" << std::endl;
     /*
         创建EBO
     */
     CreateEBO();
-    std::cout << "3" << std::endl;
     /*
          创建顶点描述
      */
@@ -56,13 +68,10 @@ void RHIApplicationTriangleIndexed::Init()
         创建图形管线
     */
     CreateGraphicsPipeline();
-
-    std::cout << "2" << std::endl;
 }
 
 void RHIApplicationTriangleIndexed::CreateVBO()
 {
-    std::cout << "pRHI " << pRHI << std::endl;
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 }
 
@@ -80,11 +89,11 @@ void RHIApplicationTriangleIndexed::CreateSRB()
 
 void RHIApplicationTriangleIndexed::CreateVertexDescriptioin()
 {
-#if 0
+#if 1
     /*
         使用VBO1
     */
-    //VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
+    VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
 #else
     /*
         使用VBO2
@@ -134,7 +143,7 @@ void RHIApplicationTriangleIndexed::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
@@ -159,6 +168,12 @@ void RHIApplicationTriangleIndexed::Draw()
     CommandBuffer->RHISetScissor(Scissor);
 
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+
+    CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
 
