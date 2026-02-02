@@ -71,7 +71,7 @@ glm::vec3 Eye    = glm::vec3(0, 0, 1000);
 glm::vec3 Target = glm::vec3(0, 0, -1);
 #endif
 #if USE_RHI_VULKAN
-static glm::vec3 Up= glm::vec3(0.0, -1.0, 0.0);
+static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #else
 static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 #endif
@@ -84,7 +84,7 @@ static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float 
     float f = 1.0f / tan(fovY / 2.0f);
 
     return glm::mat4(
-        f / aspect, 0.0f,  0.0f,                    0.0f,
+        -f / aspect, 0.0f,  0.0f,                    0.0f,
         0.0f,       -f,    0.0f,                    0.0f,
         0.0f,       0.0f,  far1 / (far1 - near1),      1.0f,
         0.0f,       0.0f, -far1 * near1 / (far1 - near1), 0.0f
@@ -226,6 +226,7 @@ Engine::Engine(IWindow* InWindow)
    // Music->play();
     pMusic = Music;
     AddBox2(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
+    AddPlane(VBO, EBO,  glm::vec3(-10000, -100, -10000), glm::vec3(10000, 100, 10000));
 }
 
 Engine::~Engine()
