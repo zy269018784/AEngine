@@ -9,7 +9,7 @@
 VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView)
     : Device(InDevice)
 {
-    CreateDepthBuffer();
+    CreateDepthBuffer(SwapChainExtent.width, SwapChainExtent.height);
 
     std::array<VkImageView, 2> attachments = {
         ImageView,  // 颜色附件
@@ -55,14 +55,14 @@ void VulkanFrameBuffer::DestroyFramebuffer(const VkAllocationCallbacks* Allocato
     Device->DestroyFramebuffer(Handle, Allocator);
 }
 
-void VulkanFrameBuffer::CreateDepthBuffer()
+void VulkanFrameBuffer::CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height)
 {
     VkFormat depthFormat = VK_FORMAT_D24_UNORM_S8_UINT;
     // 2. 创建深度图像
     VkImageCreateInfo imageInfo{};
     imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     imageInfo.imageType = VK_IMAGE_TYPE_2D;
-    imageInfo.extent = {800, 600, 1};
+    imageInfo.extent = { Width, Height, 1};
     imageInfo.mipLevels = 1;
     imageInfo.arrayLayers = 1;
     imageInfo.format = depthFormat;

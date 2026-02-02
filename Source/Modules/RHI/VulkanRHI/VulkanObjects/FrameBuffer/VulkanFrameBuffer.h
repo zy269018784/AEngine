@@ -11,7 +11,7 @@ public:
 	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle();
-	void CreateDepthBuffer();
+	void CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height);
 private:
 	/*
 		Vulkan API Wrapper
