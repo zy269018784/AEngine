@@ -98,7 +98,7 @@ void AddBox(std::vector<float> &VBO, std::vector<std::uint32_t> &EBO, glm::vec3 
 
 void AddBox2(std::vector<float> &VBO, std::vector<std::uint32_t> &EBO, glm::vec3 AA, glm::vec3 BB)
 {
-    int VBOOffset = VBO.size();
+    int VBOOffset = VBO.size() / 5;
     int Offset = 0;
     // 下面
     // 0
@@ -215,4 +215,32 @@ void AddBox2(std::vector<float> &VBO, std::vector<std::uint32_t> &EBO, glm::vec3
         EBO.emplace_back(3 + VBOOffset + Offset);
         EBO.emplace_back(0 + VBOOffset + Offset);
     }
+}
+
+void AddPlane(std::vector<float> &VBO, std::vector<std::uint32_t> &EBO, glm::vec3 AA, glm::vec3 BB)
+{
+    int VBOOffset = VBO.size() / 5;
+    // 下面
+    // 0, 0
+    VBO.push_back(AA.x); VBO.push_back(AA.y); VBO.push_back(AA.z);
+    VBO.push_back(0); VBO.push_back(0);
+
+    // 0, 1
+    VBO.push_back(AA.x); VBO.push_back(AA.y); VBO.push_back(BB.z);
+    VBO.push_back(0); VBO.push_back(0);
+
+    // 1, 0
+    VBO.push_back(BB.x); VBO.push_back(AA.y); VBO.push_back(AA.z);
+    VBO.push_back(0); VBO.push_back(0);
+
+    // 1, 1
+    VBO.push_back(BB.x); VBO.push_back(AA.y); VBO.push_back(BB.z);
+    VBO.push_back(0); VBO.push_back(0);
+
+    EBO.emplace_back(VBOOffset + 0);
+    EBO.emplace_back(VBOOffset + 1);
+    EBO.emplace_back(VBOOffset + 2);
+    EBO.emplace_back(VBOOffset + 2);
+    EBO.emplace_back(VBOOffset + 3);
+    EBO.emplace_back(VBOOffset + 0);
 }
