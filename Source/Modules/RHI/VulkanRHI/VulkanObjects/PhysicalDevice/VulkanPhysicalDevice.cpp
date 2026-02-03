@@ -75,6 +75,11 @@ VkPhysicalDevice VulkanPhysicalDevice::GetHandle()
 	return Handle;
 }
 
+VkPhysicalDeviceFeatures VulkanPhysicalDevice::GetGeatures() const
+{
+	return Features;
+}
+
 std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const
 {
 	return QueueFamilies.size();

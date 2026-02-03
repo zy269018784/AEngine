@@ -314,7 +314,8 @@ void VulkanCommandBuffer::CmdSetDepthWriteEnable(VkBool32 DepthWriteEnable)
 
 void VulkanCommandBuffer::CmdSetDepthBoundsTestEnable(VkBool32 DepthBoundsTestEnable)
 {
-	vkCmdSetDepthBoundsTestEnable(Handle, DepthBoundsTestEnable);
+	if (Device->GetPhysicalDevice()->GetGeatures().depthBounds)
+		vkCmdSetDepthBoundsTestEnable(Handle, DepthBoundsTestEnable);
 }
 
 void VulkanCommandBuffer::CmdSetDepthBounds(float MinDepthBounds, float MaxDepthBounds)

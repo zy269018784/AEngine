@@ -290,3 +290,11 @@ enum class RHIShaderType : uint8_t
 	ClosestHit,
 	Miss 
 };
+
+/*
+	RHI特性
+ */
+enum class RHIFeatures {
+	IndexUInt16,
+	IndexUInt32
+};
