@@ -229,7 +229,7 @@ void VulkanSwapChain::Resize(float Width, float Height)
         创建Render Pass
     */
     RenderPass = new VulkanRenderPass(Device, GetFormat());
-
+    return;
     /*
         创建Frame Buffer
     */

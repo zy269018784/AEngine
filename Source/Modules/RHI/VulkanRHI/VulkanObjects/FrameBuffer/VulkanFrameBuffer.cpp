@@ -33,6 +33,8 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     {
         throw std::runtime_error("failed to create framebuffer!");
     }
+
+    std::cout << "framebuffer " << Handle << std::endl;
 }
 
 VulkanFrameBuffer::~VulkanFrameBuffer()

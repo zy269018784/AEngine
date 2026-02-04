@@ -90,6 +90,7 @@ RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 	NewVulkanWindow->CreateFrameBuffer();
 	NewVulkanWindow->CreateCommandBuffer();
 	NewVulkanWindow->CreateSyncObject();
+
 	return NewVulkanWindow;
 }
 #endif

@@ -184,7 +184,7 @@ Frame 5:
 		GraphicsCommandBuffers[0];
 	Begin Frame
 */
-void VulkanWindow::RHIBeginFrame()
+void VulkanWindow:: RHIBeginFrame()
 {	
 	//std::cout << "Frame Index " << FrameIndex << std::endl;
 	VulkanFrame* Frame = Frames[FrameIndex];
