@@ -294,7 +294,33 @@ enum class RHIShaderType : uint8_t
 /*
 	RHI特性
  */
-enum class RHIFeatures {
-	IndexUInt16,
-	IndexUInt32
+enum class RHIFeatures : std::uint32_t {
+	/*
+	 * Shader Features
+	 */
+	VertexShader,
+	FragmentShader,
+	ComputeShader,
+	GeometryShader,
+	TessellationControlShader,
+	TessellationEvaluationShader,
+	/*
+	 * Texture Features
+	 */
+	Texture1D,
+	Texture2D,
+	Texture3D,
+	TextureCubeMap,
+	Texture1DArray,
+	Texture2DArray,
+	Texture3DArray,
+	TextureCubeMapArray,
+	/*
+	 * Depth Bound Feature
+	 */
+	DepthBoundsTest,
+	/*
+	 *  Viewport Features
+	 */
+	MultiViewport,
 };
