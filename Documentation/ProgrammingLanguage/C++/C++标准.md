@@ -12,6 +12,10 @@
         unique_ptr
         shared_ptr
 14:
+    std::variant
+    std::optional
+    std::any
+    std::apply
 17:
     折叠表达式 (Fold Expressions)
     [[nodiscard]]属性
