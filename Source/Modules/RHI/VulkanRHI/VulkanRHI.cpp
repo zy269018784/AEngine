@@ -185,6 +185,7 @@ RHITexture* VulkanRHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::ui
 	return Texture;
 }
 
+
 RHITexture* VulkanRHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize)
 {
 	VulkanTexture* Texture = new VulkanTexture1DArray(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, ArraySize);

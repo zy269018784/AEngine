@@ -2,6 +2,7 @@
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Window/VulkanFrame.h"
+#include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
 #include  <iostream>
 #include  <stdexcept>
 #include <SFML/Window/Keyboard.hpp>
@@ -345,29 +346,27 @@ void VulkanWindow::Resize(float Width, float Height)
 
 void VulkanWindow::CreateSwapChain()
 {
-	SwapChain = new VulkanSwapChain(Device, Surface);
+	RenderTarget = new VulkanSwapChainRenderTarget();
+	RenderTarget->SwapChain = new VulkanSwapChain(Device, Surface);
+	SwapChain = RenderTarget->SwapChain;
+
+
+	//SwapChain = new VulkanSwapChain(Device, Surface);
 }
 
 void VulkanWindow::CreateRenderPass()
 {
-	//SwapChain->RenderPass = new VulkanRenderPass(Device, SwapChain->GetFormat());
+
 }
 
 void VulkanWindow::CreateFrameBuffer()
 {
-	//auto ImageViews = SwapChain->GetImageViews();
-	//SwapChain->FrameBuffers.resize(SwapChain->GetImageCount());
-	//for (int i = 0; i < SwapChain->FrameBuffers.size(); i++)
-	//{
-	//	auto Handle = ImageViews[i];
-	//	SwapChain->FrameBuffers[i] = new VulkanFrameBuffer(Device, SwapChain->RenderPass, { SwapChain->GetWidth(), SwapChain->GetHeight()}, Handle);
-	//}
+
 }
 
 void VulkanWindow::CreateCommandBuffer()
 {
 	GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
-	//GraphicsCommandBuffers.resize(2);
 	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
 	{
 		/*

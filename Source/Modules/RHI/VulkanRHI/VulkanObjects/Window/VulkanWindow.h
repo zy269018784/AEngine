@@ -9,6 +9,9 @@
 #include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanObjects/Window/VulkanFrame.h"
 #include <vector>
+
+class VulkanSwapChainRenderTarget;
+
 class VulkanWindow : public RHIWindow
 {
 public:
@@ -77,4 +80,6 @@ private:
 		FrameIndex: [0, 1]
 	*/
 	std::uint32_t					FrameIndex = 0;
+
+	VulkanSwapChainRenderTarget *RenderTarget = nullptr;
 };

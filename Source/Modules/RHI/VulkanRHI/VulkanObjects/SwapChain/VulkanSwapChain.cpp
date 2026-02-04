@@ -140,6 +140,7 @@ void VulkanSwapChain::CreateSwapChain()
     CreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     CreateInfo.surface = Surface->GetHandle();
     CreateInfo.minImageCount = ImageCount;
+
     CreateInfo.imageFormat = SwapChainImageFormat;
     CreateInfo.imageColorSpace = SwapChainClorSpace;
     CreateInfo.imageExtent = SwapChainExtent;
