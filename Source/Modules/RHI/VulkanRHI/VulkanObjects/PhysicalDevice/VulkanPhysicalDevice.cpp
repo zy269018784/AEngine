@@ -19,6 +19,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 		获取物理设备属性
 	*/
 	GetPhysicalDeviceProperties(&PhysicalDeviceProperties);
+
 	/*
 		获取Layer属性
 	*/

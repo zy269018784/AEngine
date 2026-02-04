@@ -291,14 +291,14 @@
 /*
 *	Chapter. Depth Test
 *	1. API Table
-*												OpenGL							ES
-*		glDepthMask								1.0								1.0
-*		glDepthFunc								1.0								1.0
-*		glDepthBoundsEXT						EXT_depth_bounds_test			Not Support
-* 		glEnable(GL_DEPTH_TEST) 				1.0								1.0
-*		glDisable(GL_DEPTH_TEST)				1.0								1.0
+*												                                                  OpenGL							ES
+*		glDepthMask								                                         1.0								 1.0
+*		glDepthFunc								                                         1.0								 1.0
+*		glDepthBoundsEXT						EXT_depth_bounds_test			              Not Support
+* 	glEnable(GL_DEPTH_TEST) 				                                1.0								 1.0
+*		glDisable(GL_DEPTH_TEST)				                                1.0								 1.0
 *		glEnable(GL_DEPTH_BOUNDS_TEST_EXT)		EXT_depth_bounds_test			Not Support
-*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT) 	EXT_depth_bounds_test			Not Support
+*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT) 	EXT_depth_bounds_test		Not Support
 */
 
 /*
