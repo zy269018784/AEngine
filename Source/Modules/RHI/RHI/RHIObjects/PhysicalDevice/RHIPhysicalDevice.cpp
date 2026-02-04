@@ -26,80 +26,80 @@ RHIPhysicalDevice::~RHIPhysicalDevice()
 }
 
 // Shader Features 查询函数实现
-bool RHIPhysicalDevice::IsFragmentShaderSupported() const
+bool RHIPhysicalDevice::IsFragmentShaderSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::FragmentShader)];
 }
 
-bool RHIPhysicalDevice::IsComputeShaderSupported() const
+bool RHIPhysicalDevice::IsComputeShaderSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::ComputeShader)];
 }
 
-bool RHIPhysicalDevice::IsGeometryShaderSupported() const
+bool RHIPhysicalDevice::IsGeometryShaderSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::GeometryShader)];
 }
 
-bool RHIPhysicalDevice::IsTessellationControlShaderSupported() const
+bool RHIPhysicalDevice::IsTessellationControlShaderSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::TessellationControlShader)];
 }
 
-bool RHIPhysicalDevice::IsTessellationEvaluationShaderSupported() const
+bool RHIPhysicalDevice::IsTessellationEvaluationShaderSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::TessellationEvaluationShader)];
 }
 
 // Texture Features 查询函数实现
-bool RHIPhysicalDevice::IsTexture1DSupported() const
+bool RHIPhysicalDevice::IsTexture1DSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture1D)];
 }
 
-bool RHIPhysicalDevice::IsTexture2DSupported() const
+bool RHIPhysicalDevice::IsTexture2DSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture2D)];
 }
 
-bool RHIPhysicalDevice::IsTexture3DSupported() const
+bool RHIPhysicalDevice::IsTexture3DSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture3D)];
 }
 
-bool RHIPhysicalDevice::IsTextureCubeMapSupported() const
+bool RHIPhysicalDevice::IsTextureCubeMapSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::TextureCubeMap)];
 }
 
-bool RHIPhysicalDevice::IsTexture1DArraySupported() const
+bool RHIPhysicalDevice::IsTexture1DArraySupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture1DArray)];
 }
 
-bool RHIPhysicalDevice::IsTexture2DArraySupported() const
+bool RHIPhysicalDevice::IsTexture2DArraySupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture2DArray)];
 }
 
-bool RHIPhysicalDevice::IsTexture3DArraySupported() const
+bool RHIPhysicalDevice::IsTexture3DArraySupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::Texture3DArray)];
 }
 
-bool RHIPhysicalDevice::IsTextureCubeMapArraySupported() const
+bool RHIPhysicalDevice::IsTextureCubeMapArraySupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::TextureCubeMapArray)];
 }
 
 // Depth Features 查询函数实现
-bool RHIPhysicalDevice::IsDepthBoundsTestSupported() const
+bool RHIPhysicalDevice::IsDepthBoundsTestSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)];
 }
 
 // Viewport Features 查询函数实现
-bool RHIPhysicalDevice::IsMultiViewportSupported() const
+bool RHIPhysicalDevice::IsMultiViewportSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)];
 }

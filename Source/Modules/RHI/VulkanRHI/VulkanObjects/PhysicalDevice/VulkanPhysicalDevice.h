@@ -3,7 +3,7 @@
 #include <optional>
 #include <vector>
 #include <cstdint>
-
+#include "RHIObjects/PhysicalDevice/RHIPhysicalDevice.h"
 
 
 class VulkanSurface;
@@ -15,12 +15,14 @@ class VulkanQueueFamily;
 	1. 检查物理设备扩展支持
 	2. 每个物理设备的queue family 创建队列
 */
-class VulkanPhysicalDevice
+class VulkanPhysicalDevice : public RHIPhysicalDevice
 {
 public:
 	VulkanPhysicalDevice();
 	VulkanPhysicalDevice(VkPhysicalDevice h);
 	~VulkanPhysicalDevice();
+protected:
+	void InitFeatures() override final;
 public:
 	/*
 		获取句柄
@@ -126,7 +128,7 @@ private:
 	/*
 		Features
 	*/
-	VkPhysicalDeviceFeatures				Features;
+	VkPhysicalDeviceFeatures				VulkanFeatures;
 	/*
 		主机可见Memory Tyoe Indices
 	*/

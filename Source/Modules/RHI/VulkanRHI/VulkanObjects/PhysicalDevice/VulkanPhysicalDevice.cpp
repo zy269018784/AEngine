@@ -46,8 +46,9 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	/*
 		获取Feature
 	*/
-	GetPhysicalDeviceFeatures(&Features);
-	//std::cout << " Features.geometryShader ============================" << " " << Features.geometryShader << std::endl;
+
+	InitFeatures();
+
 	/*
 		获取内存属性
 	*/
@@ -70,6 +71,13 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	std::cout << __FUNCTION__  << " " << Handle << std::endl;
 }
 
+void VulkanPhysicalDevice::InitFeatures()
+{
+	GetPhysicalDeviceFeatures(&VulkanFeatures);
+	Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)] = VulkanFeatures.depthBounds;
+	Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)] = VulkanFeatures.multiViewport;
+}
+
 VkPhysicalDevice VulkanPhysicalDevice::GetHandle()
 {
 	return Handle;
@@ -77,7 +85,7 @@ VkPhysicalDevice VulkanPhysicalDevice::GetHandle()
 
 VkPhysicalDeviceFeatures VulkanPhysicalDevice::GetGeatures() const
 {
-	return Features;
+	return VulkanFeatures;
 }
 
 std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const
@@ -305,61 +313,61 @@ void VulkanPhysicalDevice::PrintFeatures()
 		<< std::endl;
 
 	std::cout
-		<< "\t\t" << "\trobustBufferAccess " << Features.robustBufferAccess << "\n"
-		<< "\t\t" << "\tfullDrawIndexUint32 " << Features.fullDrawIndexUint32 << "\n"
-		<< "\t\t" << "\timageCubeArray " << Features.imageCubeArray << "\n"
-		<< "\t\t" << "\tindependentBlend " << Features.independentBlend << "\n"
-		<< "\t\t" << "\tgeometryShader " << Features.geometryShader << "\n"
-		<< "\t\t" << "\ttessellationShader " << Features.tessellationShader << "\n"
-		<< "\t\t" << "\tsampleRateShading " << Features.sampleRateShading << "\n"
-		<< "\t\t" << "\tdualSrcBlend " << Features.dualSrcBlend << "\n"
-		<< "\t\t" << "\tlogicOp " << Features.logicOp << "\n"
-		<< "\t\t" << "\tmultiDrawIndirect " << Features.multiDrawIndirect << "\n"
-		<< "\t\t" << "\tdrawIndirectFirstInstance " << Features.drawIndirectFirstInstance << "\n"
-		<< "\t\t" << "\tdepthClamp " << Features.depthClamp << "\n"
-		<< "\t\t" << "\tdepthBiasClamp " << Features.depthBiasClamp << "\n"
-		<< "\t\t" << "\tfillModeNonSolid " << Features.fillModeNonSolid << "\n"
-		<< "\t\t" << "\tdepthBounds " << Features.depthBounds << "\n"
-		<< "\t\t" << "\twideLines " << Features.wideLines << "\n"
-		<< "\t\t" << "\tlargePoints " << Features.largePoints << "\n"
-		<< "\t\t" << "\talphaToOne " << Features.alphaToOne << "\n"
-		<< "\t\t" << "\tmultiViewport " << Features.multiViewport << "\n"
-		<< "\t\t" << "\tsamplerAnisotropy " << Features.samplerAnisotropy << "\n"
-		<< "\t\t" << "\ttextureCompressionETC2 " << Features.textureCompressionETC2 << "\n"
-		<< "\t\t" << "\ttextureCompressionASTC_LDR " << Features.textureCompressionASTC_LDR << "\n"
-		<< "\t\t" << "\ttextureCompressionBC " << Features.textureCompressionBC << "\n"
-		<< "\t\t" << "\tocclusionQueryPrecise " << Features.occlusionQueryPrecise << "\n"
-		<< "\t\t" << "\tpipelineStatisticsQuery " << Features.pipelineStatisticsQuery << "\n"
-		<< "\t\t" << "\tvertexPipelineStoresAndAtomics " << Features.vertexPipelineStoresAndAtomics << "\n"
-		<< "\t\t" << "\tfragmentStoresAndAtomics " << Features.fragmentStoresAndAtomics << "\n"
-		<< "\t\t" << "\tshaderTessellationAndGeometryPointSize " << Features.shaderTessellationAndGeometryPointSize << "\n"
-		<< "\t\t" << "\tshaderImageGatherExtended " << Features.shaderImageGatherExtended << "\n"
-		<< "\t\t" << "\tshaderStorageImageExtendedFormats " << Features.shaderStorageImageExtendedFormats << "\n"
-		<< "\t\t" << "\tshaderStorageImageMultisample " << Features.shaderStorageImageMultisample << "\n"
-		<< "\t\t" << "\tshaderStorageImageReadWithoutFormat " << Features.shaderStorageImageReadWithoutFormat << "\n"
-		<< "\t\t" << "\tshaderStorageImageWriteWithoutFormat " << Features.shaderStorageImageWriteWithoutFormat << "\n"
-		<< "\t\t" << "\tshaderUniformBufferArrayDynamicIndexing " << Features.shaderUniformBufferArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderSampledImageArrayDynamicIndexing " << Features.shaderSampledImageArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderStorageBufferArrayDynamicIndexing " << Features.shaderStorageBufferArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderStorageImageArrayDynamicIndexing " << Features.shaderStorageImageArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderClipDistance " << Features.shaderClipDistance << "\n"
-		<< "\t\t" << "\tshaderCullDistance " << Features.shaderCullDistance << "\n"
-		<< "\t\t" << "\tshaderFloat64 " << Features.shaderFloat64 << "\n"
-		<< "\t\t" << "\tshaderInt64 " << Features.shaderInt64 << "\n"
-		<< "\t\t" << "\tshaderInt16 " << Features.shaderInt16 << "\n"
-		<< "\t\t" << "\tshaderResourceResidency " << Features.shaderResourceResidency << "\n"
-		<< "\t\t" << "\tshaderResourceMinLod " << Features.shaderResourceMinLod << "\n"
-		<< "\t\t" << "\tsparseBinding " << Features.sparseBinding << "\n"
-		<< "\t\t" << "\tsparseResidencyBuffer " << Features.sparseResidencyBuffer << "\n"
-		<< "\t\t" << "\tsparseResidencyImage2D " << Features.sparseResidencyImage2D << "\n"
-		<< "\t\t" << "\tsparseResidencyImage3D " << Features.sparseResidencyImage3D << "\n"
-		<< "\t\t" << "\tsparseResidency2Samples " << Features.sparseResidency2Samples << "\n"
-		<< "\t\t" << "\tsparseResidency4Samples " << Features.sparseResidency4Samples << "\n"
-		<< "\t\t" << "\tsparseResidency8Samples " << Features.sparseResidency8Samples << "\n"
-		<< "\t\t" << "\tsparseResidency16Samples " << Features.sparseResidency16Samples << "\n"
-		<< "\t\t" << "\tsparseResidencyAliased " << Features.sparseResidencyAliased << "\n"
-		<< "\t\t" << "\tvariableMultisampleRate " << Features.variableMultisampleRate << "\n"
-		<< "\t\t" << "\tinheritedQueries " << Features.inheritedQueries << "\n"
+		<< "\t\t" << "\trobustBufferAccess " << VulkanFeatures.robustBufferAccess << "\n"
+		<< "\t\t" << "\tfullDrawIndexUint32 " << VulkanFeatures.fullDrawIndexUint32 << "\n"
+		<< "\t\t" << "\timageCubeArray " << VulkanFeatures.imageCubeArray << "\n"
+		<< "\t\t" << "\tindependentBlend " << VulkanFeatures.independentBlend << "\n"
+		<< "\t\t" << "\tgeometryShader " << VulkanFeatures.geometryShader << "\n"
+		<< "\t\t" << "\ttessellationShader " << VulkanFeatures.tessellationShader << "\n"
+		<< "\t\t" << "\tsampleRateShading " << VulkanFeatures.sampleRateShading << "\n"
+		<< "\t\t" << "\tdualSrcBlend " << VulkanFeatures.dualSrcBlend << "\n"
+		<< "\t\t" << "\tlogicOp " << VulkanFeatures.logicOp << "\n"
+		<< "\t\t" << "\tmultiDrawIndirect " << VulkanFeatures.multiDrawIndirect << "\n"
+		<< "\t\t" << "\tdrawIndirectFirstInstance " << VulkanFeatures.drawIndirectFirstInstance << "\n"
+		<< "\t\t" << "\tdepthClamp " << VulkanFeatures.depthClamp << "\n"
+		<< "\t\t" << "\tdepthBiasClamp " << VulkanFeatures.depthBiasClamp << "\n"
+		<< "\t\t" << "\tfillModeNonSolid " << VulkanFeatures.fillModeNonSolid << "\n"
+		<< "\t\t" << "\tdepthBounds " << VulkanFeatures.depthBounds << "\n"
+		<< "\t\t" << "\twideLines " << VulkanFeatures.wideLines << "\n"
+		<< "\t\t" << "\tlargePoints " << VulkanFeatures.largePoints << "\n"
+		<< "\t\t" << "\talphaToOne " << VulkanFeatures.alphaToOne << "\n"
+		<< "\t\t" << "\tmultiViewport " << VulkanFeatures.multiViewport << "\n"
+		<< "\t\t" << "\tsamplerAnisotropy " << VulkanFeatures.samplerAnisotropy << "\n"
+		<< "\t\t" << "\ttextureCompressionETC2 " << VulkanFeatures.textureCompressionETC2 << "\n"
+		<< "\t\t" << "\ttextureCompressionASTC_LDR " << VulkanFeatures.textureCompressionASTC_LDR << "\n"
+		<< "\t\t" << "\ttextureCompressionBC " << VulkanFeatures.textureCompressionBC << "\n"
+		<< "\t\t" << "\tocclusionQueryPrecise " << VulkanFeatures.occlusionQueryPrecise << "\n"
+		<< "\t\t" << "\tpipelineStatisticsQuery " << VulkanFeatures.pipelineStatisticsQuery << "\n"
+		<< "\t\t" << "\tvertexPipelineStoresAndAtomics " << VulkanFeatures.vertexPipelineStoresAndAtomics << "\n"
+		<< "\t\t" << "\tfragmentStoresAndAtomics " << VulkanFeatures.fragmentStoresAndAtomics << "\n"
+		<< "\t\t" << "\tshaderTessellationAndGeometryPointSize " << VulkanFeatures.shaderTessellationAndGeometryPointSize << "\n"
+		<< "\t\t" << "\tshaderImageGatherExtended " << VulkanFeatures.shaderImageGatherExtended << "\n"
+		<< "\t\t" << "\tshaderStorageImageExtendedFormats " << VulkanFeatures.shaderStorageImageExtendedFormats << "\n"
+		<< "\t\t" << "\tshaderStorageImageMultisample " << VulkanFeatures.shaderStorageImageMultisample << "\n"
+		<< "\t\t" << "\tshaderStorageImageReadWithoutFormat " << VulkanFeatures.shaderStorageImageReadWithoutFormat << "\n"
+		<< "\t\t" << "\tshaderStorageImageWriteWithoutFormat " << VulkanFeatures.shaderStorageImageWriteWithoutFormat << "\n"
+		<< "\t\t" << "\tshaderUniformBufferArrayDynamicIndexing " << VulkanFeatures.shaderUniformBufferArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderSampledImageArrayDynamicIndexing " << VulkanFeatures.shaderSampledImageArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderStorageBufferArrayDynamicIndexing " << VulkanFeatures.shaderStorageBufferArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderStorageImageArrayDynamicIndexing " << VulkanFeatures.shaderStorageImageArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderClipDistance " << VulkanFeatures.shaderClipDistance << "\n"
+		<< "\t\t" << "\tshaderCullDistance " << VulkanFeatures.shaderCullDistance << "\n"
+		<< "\t\t" << "\tshaderFloat64 " << VulkanFeatures.shaderFloat64 << "\n"
+		<< "\t\t" << "\tshaderInt64 " << VulkanFeatures.shaderInt64 << "\n"
+		<< "\t\t" << "\tshaderInt16 " << VulkanFeatures.shaderInt16 << "\n"
+		<< "\t\t" << "\tshaderResourceResidency " << VulkanFeatures.shaderResourceResidency << "\n"
+		<< "\t\t" << "\tshaderResourceMinLod " << VulkanFeatures.shaderResourceMinLod << "\n"
+		<< "\t\t" << "\tsparseBinding " << VulkanFeatures.sparseBinding << "\n"
+		<< "\t\t" << "\tsparseResidencyBuffer " << VulkanFeatures.sparseResidencyBuffer << "\n"
+		<< "\t\t" << "\tsparseResidencyImage2D " << VulkanFeatures.sparseResidencyImage2D << "\n"
+		<< "\t\t" << "\tsparseResidencyImage3D " << VulkanFeatures.sparseResidencyImage3D << "\n"
+		<< "\t\t" << "\tsparseResidency2Samples " << VulkanFeatures.sparseResidency2Samples << "\n"
+		<< "\t\t" << "\tsparseResidency4Samples " << VulkanFeatures.sparseResidency4Samples << "\n"
+		<< "\t\t" << "\tsparseResidency8Samples " << VulkanFeatures.sparseResidency8Samples << "\n"
+		<< "\t\t" << "\tsparseResidency16Samples " << VulkanFeatures.sparseResidency16Samples << "\n"
+		<< "\t\t" << "\tsparseResidencyAliased " << VulkanFeatures.sparseResidencyAliased << "\n"
+		<< "\t\t" << "\tvariableMultisampleRate " << VulkanFeatures.variableMultisampleRate << "\n"
+		<< "\t\t" << "\tinheritedQueries " << VulkanFeatures.inheritedQueries << "\n"
 		<< std::endl;
 }
 
@@ -447,7 +455,7 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 	DeviceCreateInfo.enabledLayerCount = 0;
 	DeviceCreateInfo.ppEnabledLayerNames = nullptr;
 	DeviceCreateInfo.flags = 0;
-	DeviceCreateInfo.pEnabledFeatures = &Features;
+	DeviceCreateInfo.pEnabledFeatures = &VulkanFeatures;
 
 	VkDevice DeviceHandle;
 	VkResult Result = CreateDevice(&DeviceCreateInfo, nullptr, &DeviceHandle);

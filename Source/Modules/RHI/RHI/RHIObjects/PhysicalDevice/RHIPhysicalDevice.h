@@ -6,26 +6,24 @@ class RHIPhysicalDevice
 public:
     RHIPhysicalDevice();
     virtual ~RHIPhysicalDevice();
-
-    bool IsVertexShaderSupported() const;
-    bool IsFragmentShaderSupported() const;
-    bool IsComputeShaderSupported() const;
-    bool IsGeometryShaderSupported() const;
-    bool IsTessellationControlShaderSupported() const;
-    bool IsTessellationEvaluationShaderSupported() const;
-
-    bool IsTexture1DSupported() const;
-    bool IsTexture2DSupported() const;
-    bool IsTexture3DSupported() const;
-    bool IsTextureCubeMapSupported() const;
-    bool IsTexture1DArraySupported() const;
-    bool IsTexture2DArraySupported() const;
-    bool IsTexture3DArraySupported() const;
-    bool IsTextureCubeMapArraySupported() const;
-
-    bool IsDepthBoundsTestSupported() const;
-
-    bool IsMultiViewportSupported() const;
+    bool IsVertexShaderSupported();
+    bool IsFragmentShaderSupported();
+    bool IsComputeShaderSupported();
+    bool IsGeometryShaderSupported();
+    bool IsTessellationControlShaderSupported();
+    bool IsTessellationEvaluationShaderSupported();
+    bool IsTexture1DSupported();
+    bool IsTexture2DSupported();
+    bool IsTexture3DSupported();
+    bool IsTextureCubeMapSupported();
+    bool IsTexture1DArraySupported();
+    bool IsTexture2DArraySupported();
+    bool IsTexture3DArraySupported();
+    bool IsTextureCubeMapArraySupported();
+    bool IsDepthBoundsTestSupported();
+    bool IsMultiViewportSupported();
+protected:
+    virtual void InitFeatures() =0;
 protected:
     std::map<std::uint32_t, bool> Features;
 };
