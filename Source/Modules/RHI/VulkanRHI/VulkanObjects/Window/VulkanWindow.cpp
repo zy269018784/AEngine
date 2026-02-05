@@ -346,8 +346,8 @@ void VulkanWindow::Resize(float Width, float Height)
 
 void VulkanWindow::CreateSwapChain()
 {
-	RenderTarget = new VulkanSwapChainRenderTarget();
-	RenderTarget->SwapChain = new VulkanSwapChain(Device, Surface);
+	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface);
+	//RenderTarget->SwapChain = new VulkanSwapChain(Device, Surface);
 	SwapChain = RenderTarget->SwapChain;
 
 

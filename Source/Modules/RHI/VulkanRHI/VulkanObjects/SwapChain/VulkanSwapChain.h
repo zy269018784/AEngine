@@ -35,7 +35,7 @@ protected:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
-private:
+public:
 	/*
 		句柄
 	*/

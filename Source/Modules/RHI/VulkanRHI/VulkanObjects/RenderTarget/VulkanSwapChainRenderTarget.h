@@ -13,12 +13,22 @@
 class VulkanRenderPass;
 class VulkanFrameBuffer;
 class VulkanSwapChain;
+class VulkanSurface;
+class VulkanDevice;
 class VulkanSwapChainRenderTarget
 {
 public:
-    VulkanSwapChainRenderTarget();
+    VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
     ~VulkanSwapChainRenderTarget();
 private:
+    /*
+        Surface
+    */
+    VulkanSurface*							Surface;
+    /*
+        设备
+    */
+    VulkanDevice							*Device;
 public:
     /*
         Image
