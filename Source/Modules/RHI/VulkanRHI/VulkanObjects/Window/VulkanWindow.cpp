@@ -186,7 +186,9 @@ Frame 5:
 	Begin Frame
 */
 void VulkanWindow:: RHIBeginFrame()
-{	
+{
+	RenderTarget->RHIBeginFrame();
+	return;
 	//std::cout << "Frame Index " << FrameIndex << std::endl;
 	VulkanFrame* Frame = RenderTarget->Frames[RenderTarget->FrameIndex];
 
@@ -232,6 +234,8 @@ void VulkanWindow:: RHIBeginFrame()
 
 void VulkanWindow::RHIEndFrame()
 {
+	RenderTarget->RHIEndFrame();
+	return;
 	/*
 		current frame's command buffer
 	*/

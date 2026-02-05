@@ -6,6 +6,8 @@
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Window/VulkanFrame.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/Queue/VulkanQueue.h"
 #include <iostream>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
@@ -85,4 +87,116 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
 void VulkanSwapChainRenderTarget::RHIEndRenderPass()
 {
     GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
+}
+
+void VulkanSwapChainRenderTarget::RHIBeginFrame()
+{
+    //std::cout << "Frame Index " << FrameIndex << std::endl;
+    VulkanFrame* Frame = Frames[FrameIndex];
+
+    /*
+        等待fence变为signaled(RHIEndFrame中QueueSubmit把该fence变为signaled状态)
+    */
+    Frame->ImageFence->Wait();
+    Frame->ImageFence->Reset();
+
+    //VkSemaphore SwapchainImageAvailableSemaphore = frameRes[LastImageIndex].SwapchainImageAvailableSemaphore->GetHandle();
+    VkSemaphore SwapchainImageAvailableSemaphore = Frame->ImageAvailableSemaphore->GetHandle();
+    /*
+        acquire next image
+        SwapchainImageAvailableSemaphore变为Signaled状态
+    */
+    if (SwapChain->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to acquire next image\n");
+    }
+
+    /*
+        current command buffer
+    */
+    VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+    /*
+        reset command buffer
+    */
+    if (CommandBuffer->ResetCommandBuffer(0) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to reset command buffer!");
+    }
+
+    /*
+        begin recording a command buffer,
+    */
+    VkCommandBufferBeginInfo BeginInfo{};
+    BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    if (CommandBuffer->BeginCommandBuffer(&BeginInfo) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to begin recording command buffer!");
+    }
+}
+
+void VulkanSwapChainRenderTarget::RHIEndFrame()
+{
+    	/*
+		current frame's command buffer
+	*/
+	VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+	VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
+	/*
+		complete recording of a command buffer
+	*/
+	if (CommandBuffer->EndCommandBuffer() != VK_SUCCESS)
+	{
+		throw std::runtime_error("failed to record command buffer!");
+	}
+	/*
+		等待上一帧Image有空
+	*/
+	VkSemaphore SwapchainImageAvailableSemaphore	= Frames[FrameIndex]->ImageAvailableSemaphore->GetHandle();
+	VkSemaphore SwapchainImageDrawFinishedSemaphore = Frames[FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
+	VkFence Fence								    = Frames[FrameIndex]->ImageFence->GetHandle();
+	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+
+	/*
+		提交到队列, signal fence
+		等待SwapchainImageAvailableSemaphore变为Signaled状态
+		command buffer执行完后, 将GraphicsPipelineCompleteSemaphore变为Signaled状态
+	*/
+	//std::cout << " Device->Queues[0] " << Device->Queues[0]->GetHandle() << std::endl;
+	VkSubmitInfo SubmitInfo{};
+	SubmitInfo.sType				= VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	SubmitInfo.waitSemaphoreCount	= 1;
+	SubmitInfo.pWaitSemaphores		= &SwapchainImageAvailableSemaphore;
+	SubmitInfo.pWaitDstStageMask	= WaitStages;
+	SubmitInfo.commandBufferCount	= 1;
+	SubmitInfo.pCommandBuffers		= &CommandBufferHandle;
+	SubmitInfo.signalSemaphoreCount = 1;
+	SubmitInfo.pSignalSemaphores	= &SwapchainImageDrawFinishedSemaphore;
+	auto ret = Device->Queues[0]->QueueSubmit(1, &SubmitInfo, Fence);
+	if (VK_SUCCESS != ret)
+	{
+		std::cout << "ret " << ret << std::endl;
+		throw std::runtime_error("failed to submit draw command buffer!");
+	}
+
+	VkSwapchainKHR SwapChains[] = { SwapChain->GetHandle() };
+
+	/*
+		等待GraphicsPipelineCompleteSemaphore变为Signaled状态
+	*/
+	VkPresentInfoKHR PresentInfo{};
+	PresentInfo.sType				= VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	PresentInfo.waitSemaphoreCount	= 1;
+	PresentInfo.pWaitSemaphores		= &SwapchainImageDrawFinishedSemaphore;
+	PresentInfo.swapchainCount		= 1;
+	PresentInfo.pSwapchains			= SwapChains;
+	PresentInfo.pImageIndices		= &CurrentImageIndex;
+	vkQueuePresentKHR(Device->PresentQueue, &PresentInfo);
+	/*
+		更新上一帧索引
+	*/
+	//LastImageIndex = CurrentImageIndex;
+	/*
+		当前帧
+	*/
+	FrameIndex = (FrameIndex + 1) % 3;
 }
