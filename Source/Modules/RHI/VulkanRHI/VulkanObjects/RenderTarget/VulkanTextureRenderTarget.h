@@ -10,8 +10,10 @@ class VulkanTexture;
 class VulkanTextureRenderTarget : public VulkanRenderTarget
 {
 public:
-    VulkanTextureRenderTarget();
+    VulkanTextureRenderTarget(VulkanTexture *InTexture = nullptr);
     ~VulkanTextureRenderTarget();
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
+public:
+    VulkanTexture *Texture;
 };

@@ -1,7 +1,8 @@
 #include "VulkanTextureRenderTarget.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include <iostream>
-VulkanTextureRenderTarget::VulkanTextureRenderTarget()
+VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture)
+    : Texture(InTexture)
 {
 
 }
