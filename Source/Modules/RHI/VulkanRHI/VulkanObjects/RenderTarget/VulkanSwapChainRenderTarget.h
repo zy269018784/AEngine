@@ -15,12 +15,14 @@ class VulkanFrameBuffer;
 class VulkanSwapChain;
 class VulkanSurface;
 class VulkanDevice;
+class VulkanFrame;
 class VulkanSwapChainRenderTarget
 {
 public:
     VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
     ~VulkanSwapChainRenderTarget();
 private:
+public:
     /*
         Surface
     */
@@ -45,6 +47,10 @@ private:
         呈现模式
     */
     VkPresentModeKHR						SwapChainPresentMode;
+    /*
+        同步帧
+    */
+    std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
 public:
     /*
         Image

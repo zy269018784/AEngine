@@ -204,12 +204,12 @@ void VulkanSwapChain::Resize(float Width, float Height)
     std::cout << "ImageCount " << ImageCount << std::endl;
 
     CreateImageViews();
-
+#if 0
     /*
         创建Render Pass
     */
     RenderPass = new VulkanRenderPass(Device, GetFormat());
-#if 0
+
     /*
         创建Frame Buffer
     */

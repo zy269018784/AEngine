@@ -4,6 +4,7 @@
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
+#include "VulkanObjects/Window/VulkanFrame.h"
 #include <iostream>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
@@ -17,7 +18,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
     SwapChainPresentMode    = Surface->CurrentPresentMode;
 
     SwapChainImageViews = SwapChain->SwapChainImageViews;
-#if 0
+
+    Frames.resize(SwapChain->GetImageCount());
+    for (int i = 0; i < Frames.size(); i++)
+        Frames[i] = new VulkanFrame(Device, true);
+#if 1
     /*
         创建Render Pass
     */

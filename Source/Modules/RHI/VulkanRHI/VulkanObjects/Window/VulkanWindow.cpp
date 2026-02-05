@@ -15,9 +15,10 @@ VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice*
 
 VulkanWindow::~VulkanWindow()
 {
+#if 0
 	for (int i = 0; i < Frames.size(); i++)
 		delete Frames[i];
-
+#endif
 	/*
 		必须在Surface之前
 		vkDestroySurfaceKHR(): called before its associated VkSwapchainKHR was destroyed.
@@ -187,7 +188,7 @@ Frame 5:
 void VulkanWindow:: RHIBeginFrame()
 {	
 	//std::cout << "Frame Index " << FrameIndex << std::endl;
-	VulkanFrame* Frame = Frames[FrameIndex];
+	VulkanFrame* Frame = RenderTarget->Frames[FrameIndex];
 
 	/*
 		等待fence变为signaled(RHIEndFrame中QueueSubmit把该fence变为signaled状态)
@@ -246,9 +247,9 @@ void VulkanWindow::RHIEndFrame()
 	/*
 		等待上一帧Image有空
 	*/
-	VkSemaphore SwapchainImageAvailableSemaphore	= Frames[FrameIndex]->ImageAvailableSemaphore->GetHandle();
-	VkSemaphore SwapchainImageDrawFinishedSemaphore = Frames[FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
-	VkFence Fence								    = Frames[FrameIndex]->ImageFence->GetHandle();
+	VkSemaphore SwapchainImageAvailableSemaphore	= RenderTarget->Frames[FrameIndex]->ImageAvailableSemaphore->GetHandle();
+	VkSemaphore SwapchainImageDrawFinishedSemaphore = RenderTarget->Frames[FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
+	VkFence Fence								    = RenderTarget->Frames[FrameIndex]->ImageFence->GetHandle();
 	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
 	/*
@@ -306,8 +307,8 @@ void VulkanWindow::RHIBeginRenderPass()
 
 	VkRenderPassBeginInfo RenderPassInfo{};
 	RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	RenderPassInfo.renderPass			= SwapChain->RenderPass->GetHandle();
-	//RenderPassInfo.renderPass			= RenderTarget->RenderPass->GetHandle();
+	//RenderPassInfo.renderPass			= SwapChain->RenderPass->GetHandle();
+	RenderPassInfo.renderPass			= RenderTarget->RenderPass->GetHandle();
 	//RenderPassInfo.framebuffer			= SwapChain->FrameBuffers[CurrentImageIndex]->GetHandle();
 	RenderPassInfo.framebuffer			= RenderTarget->FrameBuffers[CurrentImageIndex]->GetHandle();
 	RenderPassInfo.renderArea.offset	= { 0, 0 };
@@ -384,8 +385,10 @@ void VulkanWindow::CreateCommandBuffer()
 
 void VulkanWindow::CreateSyncObject()
 {
+#if 0
 	Frames.resize(SwapChain->GetImageCount());
 	for (int i = 0; i < Frames.size(); i++)
 		Frames[i] = new VulkanFrame(Device, true);
+#endif
 }
 

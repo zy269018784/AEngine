@@ -54,11 +54,13 @@ private:
 	/*
 		Surface
 	*/
-	VulkanSurface* Surface; 
+	VulkanSurface* Surface;
+#if 0
 	/*
 		同步帧
 	*/
-	std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()	
+	std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
+#endif
 	/*
 		帧缓冲
 	*/
