@@ -15,6 +15,8 @@ class VulkanRenderTarget
 public:
     void RHIBeginRenderPass();
     void RHIEndRenderPass();
+    virtual void RHIBeginFrame() =0;
+    virtual void RHIEndFrame() =0;
 public:
     /*
         Image

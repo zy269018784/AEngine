@@ -22,8 +22,8 @@ class VulkanSwapChainRenderTarget : public VulkanRenderTarget
 public:
     VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
     ~VulkanSwapChainRenderTarget();
-    void RHIBeginFrame();
-    void RHIEndFrame();
+    virtual void RHIBeginFrame() override final;
+    virtual void RHIEndFrame() override final;
 private:
 public:
     /*
