@@ -48,13 +48,6 @@ public:
         同步帧
     */
     std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
-
-    std::uint32_t					CurrentImageIndex = 0;
-    /*
-        当前帧编号
-        FrameIndex: [0, 1]
-    */
-    std::uint32_t					FrameIndex = 0;
 public:
     VulkanSwapChain *SwapChain;
 };

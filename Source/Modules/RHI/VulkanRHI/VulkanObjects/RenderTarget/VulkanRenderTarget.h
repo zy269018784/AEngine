@@ -42,4 +42,12 @@ public:
         用于图像的command buffer
     */
     std::vector<VulkanCommandBuffer*>	GraphicsCommandBuffers;		// SwapChainImages.size()
+
+
+    std::uint32_t					CurrentImageIndex = 0;
+    /*
+        当前帧编号
+        FrameIndex: [0, 1]
+    */
+    std::uint32_t					FrameIndex = 0;
 };
