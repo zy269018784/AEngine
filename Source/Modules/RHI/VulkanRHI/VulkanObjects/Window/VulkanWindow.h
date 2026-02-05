@@ -18,16 +18,8 @@ public:
 	VulkanWindow() = default;
 	VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface);
 	~VulkanWindow();
-#if 0
-	void CreateSurface(VulkanInstance* Instance);
-	void QuerySurface();
-#endif
 	virtual void Resize(float Width, float Height) final override;
 	void CreateSwapChain();
-	void CreateRenderPass();
-	void CreateFrameBuffer();
-	void CreateCommandBuffer();
-	void CreateSyncObject();
 	virtual void GetExtent(float& x, float& y, float& w, float& h) final override;
 	virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() final override;
 	virtual void RHIBeginFrame()  final override;
