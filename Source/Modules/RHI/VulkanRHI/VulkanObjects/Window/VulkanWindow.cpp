@@ -25,7 +25,7 @@ VulkanWindow::~VulkanWindow()
 		The Vulkan spec states: All VkSwapchainKHR objects created for surface must have been destroyed prior to destroying surface
 		(https://vulkan.lunarg.com/doc/view/1.4.313.2/windows/antora/spec/latest/chapters/VK_KHR_surface/wsi.html#VUID-vkDestroySurfaceKHR-surface-01266)
 	*/
-	delete SwapChain;	
+	delete RenderTarget->SwapChain;
 
 	std::cout << "VulkanWindow::~VulkanWindow() delete Surface " << std::endl;
 	delete Surface;
@@ -34,13 +34,13 @@ VulkanWindow::~VulkanWindow()
 void VulkanWindow::GetExtent(float& x, float& y, float& w, float& h)
 {
 	x = y = 0;
-	w = SwapChain->GetWidth();
-	h = SwapChain->GetHeight();
+	w = RenderTarget->SwapChain->GetWidth();
+	h = RenderTarget->SwapChain->GetHeight();
 }
 
 RHICommandBuffer* VulkanWindow::CurrentGraphicsCommandBuffer()
 {
-	return RenderTarget->GraphicsCommandBuffers[CurrentImageIndex];
+	return RenderTarget->GraphicsCommandBuffers[RenderTarget->CurrentImageIndex];
 }
 
 /*
@@ -188,7 +188,7 @@ Frame 5:
 void VulkanWindow:: RHIBeginFrame()
 {	
 	//std::cout << "Frame Index " << FrameIndex << std::endl;
-	VulkanFrame* Frame = RenderTarget->Frames[FrameIndex];
+	VulkanFrame* Frame = RenderTarget->Frames[RenderTarget->FrameIndex];
 
 	/*
 		等待fence变为signaled(RHIEndFrame中QueueSubmit把该fence变为signaled状态)
@@ -202,7 +202,7 @@ void VulkanWindow:: RHIBeginFrame()
 		acquire next image
 		SwapchainImageAvailableSemaphore变为Signaled状态
 	*/
-	if (SwapChain->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex) != VK_SUCCESS)
+	if (RenderTarget->SwapChain->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &RenderTarget->CurrentImageIndex) != VK_SUCCESS)
 	{
 		throw std::runtime_error("failed to acquire next image\n");
 	}
@@ -210,7 +210,7 @@ void VulkanWindow:: RHIBeginFrame()
 	/*
 		current command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[FrameIndex];
+	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[RenderTarget->FrameIndex];
 	/*
 		reset command buffer
 	*/
@@ -235,7 +235,7 @@ void VulkanWindow::RHIEndFrame()
 	/*
 		current frame's command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[FrameIndex];
+	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[RenderTarget->FrameIndex];
 	VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
 	/*
 		complete recording of a command buffer
@@ -247,9 +247,9 @@ void VulkanWindow::RHIEndFrame()
 	/*
 		等待上一帧Image有空
 	*/
-	VkSemaphore SwapchainImageAvailableSemaphore	= RenderTarget->Frames[FrameIndex]->ImageAvailableSemaphore->GetHandle();
-	VkSemaphore SwapchainImageDrawFinishedSemaphore = RenderTarget->Frames[FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
-	VkFence Fence								    = RenderTarget->Frames[FrameIndex]->ImageFence->GetHandle();
+	VkSemaphore SwapchainImageAvailableSemaphore	= RenderTarget->Frames[RenderTarget->FrameIndex]->ImageAvailableSemaphore->GetHandle();
+	VkSemaphore SwapchainImageDrawFinishedSemaphore = RenderTarget->Frames[RenderTarget->FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
+	VkFence Fence								    = RenderTarget->Frames[RenderTarget->FrameIndex]->ImageFence->GetHandle();
 	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
 	/*
@@ -274,7 +274,7 @@ void VulkanWindow::RHIEndFrame()
 		throw std::runtime_error("failed to submit draw command buffer!");
 	}
 
-	VkSwapchainKHR SwapChains[] = { SwapChain->GetHandle() };
+	VkSwapchainKHR SwapChains[] = { RenderTarget->SwapChain->GetHandle() };
 
 	/*
 		等待GraphicsPipelineCompleteSemaphore变为Signaled状态
@@ -285,7 +285,7 @@ void VulkanWindow::RHIEndFrame()
 	PresentInfo.pWaitSemaphores		= &SwapchainImageDrawFinishedSemaphore;
 	PresentInfo.swapchainCount		= 1;
 	PresentInfo.pSwapchains			= SwapChains;
-	PresentInfo.pImageIndices		= &CurrentImageIndex;
+	PresentInfo.pImageIndices		= &RenderTarget->CurrentImageIndex;
 	vkQueuePresentKHR(Device->PresentQueue, &PresentInfo);
 	/*
 		更新上一帧索引
@@ -294,7 +294,7 @@ void VulkanWindow::RHIEndFrame()
 	/*
 		当前帧
 	*/
-	FrameIndex = (FrameIndex + 1) % 3;
+	RenderTarget->FrameIndex = (RenderTarget->FrameIndex + 1) % 3;
 }
 
 void VulkanWindow::RHIBeginRenderPass()
@@ -310,18 +310,18 @@ void VulkanWindow::RHIBeginRenderPass()
 	//RenderPassInfo.renderPass			= SwapChain->RenderPass->GetHandle();
 	RenderPassInfo.renderPass			= RenderTarget->RenderPass->GetHandle();
 	//RenderPassInfo.framebuffer			= SwapChain->FrameBuffers[CurrentImageIndex]->GetHandle();
-	RenderPassInfo.framebuffer			= RenderTarget->FrameBuffers[CurrentImageIndex]->GetHandle();
+	RenderPassInfo.framebuffer			= RenderTarget->FrameBuffers[RenderTarget->CurrentImageIndex]->GetHandle();
 	RenderPassInfo.renderArea.offset	= { 0, 0 };
-	RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
+	RenderPassInfo.renderArea.extent	= { RenderTarget->SwapChain->GetWidth(), RenderTarget->SwapChain->GetHeight() };
 	RenderPassInfo.clearValueCount		= 2;
 	RenderPassInfo.pClearValues			= ClearColor;
 
-	RenderTarget->GraphicsCommandBuffers[CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+	RenderTarget->GraphicsCommandBuffers[RenderTarget->CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanWindow::RHIEndRenderPass()
 {
-	RenderTarget->GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
+	RenderTarget->GraphicsCommandBuffers[RenderTarget->CurrentImageIndex]->CmdEndRenderPass();
 }
 
 void VulkanWindow::Draw()
@@ -341,7 +341,7 @@ void VulkanWindow::WaitDeviceIdle()
 */
 void VulkanWindow::Resize(float Width, float Height)
 {
-	SwapChain->Resize(Width, Height);
+	RenderTarget->SwapChain->Resize(Width, Height);
 	//delete SwapChain;
 	//delete RenderPass;
 }
@@ -350,7 +350,7 @@ void VulkanWindow::CreateSwapChain()
 {
 	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface);
 	//RenderTarget->SwapChain = new VulkanSwapChain(Device, Surface);
-	SwapChain = RenderTarget->SwapChain;
+	RenderTarget->SwapChain = RenderTarget->SwapChain;
 
 
 	//SwapChain = new VulkanSwapChain(Device, Surface);

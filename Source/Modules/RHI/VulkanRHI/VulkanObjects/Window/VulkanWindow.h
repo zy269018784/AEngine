@@ -37,11 +37,6 @@ public:
 	virtual void Draw() final override;
 	virtual void WaitDeviceIdle() final override;
 public:
-	//VulkanRenderPass* RenderPass;
-	/*
-		交换链
-	*/
-	VulkanSwapChain*					SwapChain;
 private:
 	/*
 		物理设备
@@ -55,33 +50,19 @@ private:
 		Surface
 	*/
 	VulkanSurface* Surface;
-#if 0
-	/*
-		同步帧
-	*/
-	std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
-#endif
-	/*
-		帧缓冲
-	*/
-	//std::vector<VulkanFrameBuffer*>		FrameBuffers;				// SwapChainImages.size()
-	/*
-		用于图像的command buffer
-	*/
-	//std::vector<VulkanCommandBuffer*>	GraphicsCommandBuffers;		// SwapChainImages.size()
 	/*
 		用于计算的command buffer
 	*/	
-	VulkanCommandBuffer*				ComputeCommandBuffer;		// 1个	
+	//VulkanCommandBuffer*				ComputeCommandBuffer;		// 1个
 	/*
 		CurrentImageIndex: [0, 2]
 	*/
-	std::uint32_t					CurrentImageIndex = 0;
+	//std::uint32_t					CurrentImageIndex = 0;
 	/*
 		当前帧编号
 		FrameIndex: [0, 1]
 	*/
-	std::uint32_t					FrameIndex = 0;
-
+	//std::uint32_t					FrameIndex = 0;
+public:
 	VulkanSwapChainRenderTarget *RenderTarget = nullptr;
 };

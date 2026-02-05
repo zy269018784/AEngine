@@ -14,6 +14,8 @@
 #include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
 #include "VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanObjects/Window/VulkanWindow.h"
+#include "VulkanObjects/RenderTarget/VulkanRenderTarget.h"
+#include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
 
 #include <iostream>
 
@@ -163,7 +165,7 @@ RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline()
 
 RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 {
-	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanWindow*)Window)->SwapChain->RenderPass);
+	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanWindow*)Window)->RenderTarget->SwapChain->RenderPass);
 	return Pipeline;
 }
 
