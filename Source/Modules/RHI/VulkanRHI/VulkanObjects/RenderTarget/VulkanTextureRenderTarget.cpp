@@ -9,3 +9,13 @@ VulkanTextureRenderTarget::~VulkanTextureRenderTarget()
 {
 
 }
+
+void VulkanTextureRenderTarget::RHIBeginFrame()
+{
+
+}
+
+void VulkanTextureRenderTarget::RHIEndFrame()
+{
+
+}

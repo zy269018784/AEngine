@@ -15,7 +15,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 {
     SwapChain = new VulkanSwapChain(Device, Surface);
 
-    ImageFormat    = Surface->CurrentFormat.format;
+    ImageFormat				= Surface->CurrentFormat.format;
     SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
     Resolution              = Surface->CurrentExtent;
     SwapChainPresentMode    = Surface->CurrentPresentMode;
