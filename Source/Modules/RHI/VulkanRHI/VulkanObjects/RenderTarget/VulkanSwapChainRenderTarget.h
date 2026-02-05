@@ -24,8 +24,6 @@ public:
     ~VulkanSwapChainRenderTarget();
     void RHIBeginFrame();
     void RHIEndFrame();
-    void RHIBeginRenderPass();
-    void RHIEndRenderPass();
 private:
 public:
     /*

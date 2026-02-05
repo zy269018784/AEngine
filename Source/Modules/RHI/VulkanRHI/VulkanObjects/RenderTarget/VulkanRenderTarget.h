@@ -13,6 +13,9 @@ class VulkanCommandBuffer;
 class VulkanRenderTarget
 {
 public:
+    void RHIBeginRenderPass();
+    void RHIEndRenderPass();
+public:
     /*
         Image
     */
