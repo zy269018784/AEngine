@@ -19,7 +19,6 @@ public:
 	VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface);
 	~VulkanWindow();
 	virtual void Resize(float Width, float Height) final override;
-	void CreateSwapChain();
 	virtual void GetExtent(float& x, float& y, float& w, float& h) final override;
 	virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() final override;
 	virtual void RHIBeginFrame()  final override;

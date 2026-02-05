@@ -87,8 +87,6 @@ RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 
 
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	NewVulkanWindow->CreateSwapChain();
-
 	return NewVulkanWindow;
 }
 #endif
