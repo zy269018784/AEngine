@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "RHIObjects/RHIRenderTarget.h"
+#include "VulkanRenderTarget.h"
 #include "Vulkan.h"
 #include <vector>
 /*
@@ -16,7 +17,7 @@ class VulkanSwapChain;
 class VulkanSurface;
 class VulkanDevice;
 class VulkanFrame;
-class VulkanSwapChainRenderTarget
+class VulkanSwapChainRenderTarget : public VulkanRenderTarget
 {
 public:
     VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
@@ -31,14 +32,6 @@ public:
         设备
     */
     VulkanDevice							*Device;
-    /*
-        分辨率
-    */
-    VkExtent2D								SwapChainExtent;
-    /*
-        Format
-    */
-    VkFormat								SwapChainImageFormat;
     /*
         色彩空间
     */
@@ -55,20 +48,20 @@ public:
     /*
         Image
     */
-    std::vector<VkImage>					SwapChainImages;
+    //std::vector<VkImage>					SwapChainImages;
     /*
         Image View
     */
-    std::vector<VkImageView>				SwapChainImageViews;
+    //std::vector<VkImageView>				SwapChainImageViews;
 
     /*
         Render Pass
     */
-    VulkanRenderPass*                       RenderPass;
+    //VulkanRenderPass*                       RenderPass;
     /*
         Framebuffers
     */
-    std::vector<VulkanFrameBuffer*>		    FrameBuffers;				// SwapChainImages.size()
+    //std::vector<VulkanFrameBuffer*>		    FrameBuffers;				// SwapChainImages.size()
 
     VulkanSwapChain *SwapChain;
 };

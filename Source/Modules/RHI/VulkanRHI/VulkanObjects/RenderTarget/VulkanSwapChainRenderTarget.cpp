@@ -12,12 +12,12 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 {
     SwapChain = new VulkanSwapChain(Device, Surface);
 
-    SwapChainImageFormat    = Surface->CurrentFormat.format;
+    ImageFormat    = Surface->CurrentFormat.format;
     SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
-    SwapChainExtent         = Surface->CurrentExtent;
+    Resolution              = Surface->CurrentExtent;
     SwapChainPresentMode    = Surface->CurrentPresentMode;
 
-    SwapChainImageViews = SwapChain->SwapChainImageViews;
+    ImageViews = SwapChain->SwapChainImageViews;
 
     Frames.resize(SwapChain->GetImageCount());
     for (int i = 0; i < Frames.size(); i++)
@@ -26,8 +26,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
     /*
         创建Render Pass
     */
-     RenderPass = new VulkanRenderPass(Device, SwapChainImageFormat);
-     SwapChain->RenderPass = RenderPass;
+     RenderPass = new VulkanRenderPass(Device, ImageFormat);
+     //SwapChain->RenderPass = RenderPass;
 #else
      RenderPass = SwapChain->RenderPass;
 #endif
@@ -42,7 +42,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
         auto Handle = SwapChain->SwapChainImageViews[i];
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { SwapChainExtent.width, SwapChainExtent.height }, Handle);
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle);
         //SwapChain->FrameBuffers[i] = FrameBuffers[i];
     }
 #endif
