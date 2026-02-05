@@ -50,19 +50,6 @@ private:
 		Surface
 	*/
 	VulkanSurface* Surface;
-	/*
-		用于计算的command buffer
-	*/	
-	//VulkanCommandBuffer*				ComputeCommandBuffer;		// 1个
-	/*
-		CurrentImageIndex: [0, 2]
-	*/
-	//std::uint32_t					CurrentImageIndex = 0;
-	/*
-		当前帧编号
-		FrameIndex: [0, 1]
-	*/
-	//std::uint32_t					FrameIndex = 0;
 public:
 	VulkanSwapChainRenderTarget *RenderTarget = nullptr;
 };

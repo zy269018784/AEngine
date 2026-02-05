@@ -22,6 +22,8 @@ class VulkanSwapChainRenderTarget : public VulkanRenderTarget
 public:
     VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
     ~VulkanSwapChainRenderTarget();
+    void RHIBeginRenderPass();
+    void RHIEndRenderPass();
 private:
 public:
     /*
