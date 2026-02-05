@@ -46,6 +46,15 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
         //SwapChain->FrameBuffers[i] = FrameBuffers[i];
     }
 #endif
+
+    GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
+    for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
+    {
+        /*
+            暂时用第0个Command Pool
+        */
+        GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
+    }
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()

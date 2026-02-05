@@ -68,7 +68,7 @@ private:
 	/*
 		用于图像的command buffer
 	*/
-	std::vector<VulkanCommandBuffer*>	GraphicsCommandBuffers;		// SwapChainImages.size()	
+	//std::vector<VulkanCommandBuffer*>	GraphicsCommandBuffers;		// SwapChainImages.size()
 	/*
 		用于计算的command buffer
 	*/	

@@ -40,7 +40,7 @@ void VulkanWindow::GetExtent(float& x, float& y, float& w, float& h)
 
 RHICommandBuffer* VulkanWindow::CurrentGraphicsCommandBuffer()
 {
-	return GraphicsCommandBuffers[CurrentImageIndex];
+	return RenderTarget->GraphicsCommandBuffers[CurrentImageIndex];
 }
 
 /*
@@ -210,7 +210,7 @@ void VulkanWindow:: RHIBeginFrame()
 	/*
 		current command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[FrameIndex];
 	/*
 		reset command buffer
 	*/
@@ -235,7 +235,7 @@ void VulkanWindow::RHIEndFrame()
 	/*
 		current frame's command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+	VulkanCommandBuffer* CommandBuffer = RenderTarget->GraphicsCommandBuffers[FrameIndex];
 	VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
 	/*
 		complete recording of a command buffer
@@ -316,12 +316,12 @@ void VulkanWindow::RHIBeginRenderPass()
 	RenderPassInfo.clearValueCount		= 2;
 	RenderPassInfo.pClearValues			= ClearColor;
 
-	GraphicsCommandBuffers[CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+	RenderTarget->GraphicsCommandBuffers[CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanWindow::RHIEndRenderPass()
 {
-	GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
+	RenderTarget->GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
 }
 
 void VulkanWindow::Draw()
@@ -368,6 +368,7 @@ void VulkanWindow::CreateFrameBuffer()
 
 void VulkanWindow::CreateCommandBuffer()
 {
+#if 0
 	GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
 	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
 	{
@@ -381,6 +382,7 @@ void VulkanWindow::CreateCommandBuffer()
 		暂时用第0个Command Pool
 	*/
 	ComputeCommandBuffer = Device->CreateCommandBuffer(Device->CommandPools[0]);
+#endif
 }
 
 void VulkanWindow::CreateSyncObject()

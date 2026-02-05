@@ -9,6 +9,7 @@
  */
 class VulkanRenderPass;
 class VulkanFrameBuffer;
+class VulkanCommandBuffer;
 class VulkanRenderTarget
 {
 public:
@@ -36,4 +37,9 @@ public:
         Framebuffers
     */
     std::vector<VulkanFrameBuffer*>		    FrameBuffers;				// SwapChainImages.size()
+
+    /*
+        用于图像的command buffer
+    */
+    std::vector<VulkanCommandBuffer*>	GraphicsCommandBuffers;		// SwapChainImages.size()
 };

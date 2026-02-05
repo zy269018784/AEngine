@@ -45,23 +45,5 @@ public:
     */
     std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
 public:
-    /*
-        Image
-    */
-    //std::vector<VkImage>					SwapChainImages;
-    /*
-        Image View
-    */
-    //std::vector<VkImageView>				SwapChainImageViews;
-
-    /*
-        Render Pass
-    */
-    //VulkanRenderPass*                       RenderPass;
-    /*
-        Framebuffers
-    */
-    //std::vector<VulkanFrameBuffer*>		    FrameBuffers;				// SwapChainImages.size()
-
     VulkanSwapChain *SwapChain;
 };
