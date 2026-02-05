@@ -1,4 +1,4 @@
-﻿#include "RHIApplicationTexture2D.h"
+﻿#include "RHIApplicationRenderTarget.h"
 #include "Vulkan/Common.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
@@ -37,14 +37,14 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture2D::
-RHIApplicationTexture2D(IWindow* InWindow)
+RHIApplicationRenderTarget::
+RHIApplicationRenderTarget(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
 }
 
-RHIApplicationTexture2D::~RHIApplicationTexture2D()
+RHIApplicationRenderTarget::~RHIApplicationRenderTarget()
 {
     delete RHIVBO;
     delete RHIEBO;
@@ -56,7 +56,7 @@ RHIApplicationTexture2D::~RHIApplicationTexture2D()
     delete RHISampler_;
 }   
 
-void RHIApplicationTexture2D::Init()
+void RHIApplicationRenderTarget::Init()
 {
     CreateVBO();
     CreateEBO();
@@ -66,17 +66,17 @@ void RHIApplicationTexture2D::Init()
     CreateGraphicsPipeline();
 }
 
-void RHIApplicationTexture2D::CreateVBO()
+void RHIApplicationRenderTarget::CreateVBO()
 {
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 }
 
-void RHIApplicationTexture2D::CreateEBO()
+void RHIApplicationRenderTarget::CreateEBO()
 {
     RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
 }
 
-void RHIApplicationTexture2D::CreateTexture()
+void RHIApplicationRenderTarget::CreateTexture()
 {
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
@@ -105,7 +105,7 @@ void RHIApplicationTexture2D::CreateTexture()
 }
 
 
-void RHIApplicationTexture2D::CreateSRB()
+void RHIApplicationRenderTarget::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
@@ -114,7 +114,7 @@ void RHIApplicationTexture2D::CreateSRB()
     SRB->Create();
 }
 
-void RHIApplicationTexture2D::CreateVertexDescriptioin()
+void RHIApplicationRenderTarget::CreateVertexDescriptioin()
 {
 #if 1
     /*
@@ -129,7 +129,7 @@ void RHIApplicationTexture2D::CreateVertexDescriptioin()
 #endif
 }
 
-void RHIApplicationTexture2D::CreateGraphicsPipeline()
+void RHIApplicationRenderTarget::CreateGraphicsPipeline()
 {
 #if 1
     auto vertShaderCode = ReadFile("Texture2D_vert.spv");
@@ -185,7 +185,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     delete FragmengShader;
 }
 
-void RHIApplicationTexture2D::Draw()
+void RHIApplicationRenderTarget::Draw()
 {
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
 
