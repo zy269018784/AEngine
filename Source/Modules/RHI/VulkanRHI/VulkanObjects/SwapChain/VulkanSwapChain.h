@@ -80,5 +80,5 @@ public:
 	/*
 		Framebuffers
 	*/
-	std::vector<VulkanFrameBuffer*>		FrameBuffers;				// SwapChainImages.size()
+	//std::vector<VulkanFrameBuffer*>		FrameBuffers;				// SwapChainImages.size()
 };

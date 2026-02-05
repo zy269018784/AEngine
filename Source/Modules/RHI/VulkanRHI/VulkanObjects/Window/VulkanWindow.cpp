@@ -25,8 +25,7 @@ VulkanWindow::~VulkanWindow()
 		(https://vulkan.lunarg.com/doc/view/1.4.313.2/windows/antora/spec/latest/chapters/VK_KHR_surface/wsi.html#VUID-vkDestroySurfaceKHR-surface-01266)
 	*/
 	delete SwapChain;	
-	
-	//delete SwapChain->RenderPass;
+
 	std::cout << "VulkanWindow::~VulkanWindow() delete Surface " << std::endl;
 	delete Surface;
 }
@@ -308,7 +307,9 @@ void VulkanWindow::RHIBeginRenderPass()
 	VkRenderPassBeginInfo RenderPassInfo{};
 	RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	RenderPassInfo.renderPass			= SwapChain->RenderPass->GetHandle();
-	RenderPassInfo.framebuffer			= SwapChain->FrameBuffers[CurrentImageIndex]->GetHandle();
+	//RenderPassInfo.renderPass			= RenderTarget->RenderPass->GetHandle();
+	//RenderPassInfo.framebuffer			= SwapChain->FrameBuffers[CurrentImageIndex]->GetHandle();
+	RenderPassInfo.framebuffer			= RenderTarget->FrameBuffers[CurrentImageIndex]->GetHandle();
 	RenderPassInfo.renderArea.offset	= { 0, 0 };
 	RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
 	RenderPassInfo.clearValueCount		= 2;

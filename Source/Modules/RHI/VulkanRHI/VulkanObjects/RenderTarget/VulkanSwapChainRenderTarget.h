@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHIObjects/RHIRenderTarget.h"
 #include "Vulkan.h"
 #include <vector>
@@ -29,6 +29,22 @@ private:
         设备
     */
     VulkanDevice							*Device;
+    /*
+        分辨率
+    */
+    VkExtent2D								SwapChainExtent;
+    /*
+        Format
+    */
+    VkFormat								SwapChainImageFormat;
+    /*
+        色彩空间
+    */
+    VkColorSpaceKHR							SwapChainClorSpace;
+    /*
+        呈现模式
+    */
+    VkPresentModeKHR						SwapChainPresentMode;
 public:
     /*
         Image
