@@ -15,6 +15,8 @@
 #include "RHIApplicationSamplerObject.h"
 #include "RHIApplicationGeometryShader.h"
 #include "RHIApplicationPlayer.h"
+#include "RHIApplicationRenderTarget.h"
+
 #include "Window/SDL3Window.h"
 #include "Window/GLFWWindow.h"
 #include "Window/X11Window.h"
@@ -123,6 +125,12 @@ void Example_Player(GLFWwindow* Window)
 	App.Run();
 }
 
+void Example_RenderTarget(IWindow* Window)
+{
+	RHIApplicationRenderTarget App(Window);
+	App.Run();
+}
+
 int RHIExample()
 {
 #ifdef PROJECT_USE_GLFW
@@ -160,7 +168,7 @@ int RHIExample()
 	*/
 	//Example_Model(Window->GetHandle());
 	//Example_Triangle(Window);
-	Example_TriangleIndexed(Window);
+	//Example_TriangleIndexed(Window);
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());
 	//Example_SSBO(Window->GetHandle());
@@ -176,6 +184,8 @@ int RHIExample()
 	//Example_GeometryShader(Window->GetHandle());
 	//Example_Scene(Window->GetHandle());
 	//Example_Player(Window->GetHandle());
+
+	Example_RenderTarget(Window);
 	CleanupWindow(Window->GetHandle());
 
 	return 0;
