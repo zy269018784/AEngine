@@ -974,6 +974,151 @@ inline VkFormat ToVkFormat(RHIPixelFormat PF)
 	return Format;
 }
 
+inline RHIPixelFormat ToRHIPixelFormat(VkFormat Format)
+{
+    switch (Format)
+    {
+    case VK_FORMAT_UNDEFINED:
+        return RHIPixelFormat::PF_Unknown;
+
+    // 深度模板
+    case VK_FORMAT_D24_UNORM_S8_UINT:
+    case VK_FORMAT_D32_SFLOAT_S8_UINT:
+        return RHIPixelFormat::PF_DepthStencil;
+
+    // 1通道 - 8位
+    case VK_FORMAT_R8_SINT:
+        return RHIPixelFormat::PF_R8_SINT;
+    case VK_FORMAT_R8_UINT:
+        return RHIPixelFormat::PF_R8_UINT;
+    case VK_FORMAT_R8_SNORM:
+        return RHIPixelFormat::PF_R8_SNORM;
+    case VK_FORMAT_R8_UNORM:
+        return RHIPixelFormat::PF_R8_UNORM;
+    case VK_FORMAT_R8_SRGB:
+        return RHIPixelFormat::PF_R8_SRGB;
+
+    // 2通道 - 8位
+    case VK_FORMAT_R8G8_SINT:
+        return RHIPixelFormat::PF_R8G8_SINT;
+    case VK_FORMAT_R8G8_UINT:
+        return RHIPixelFormat::PF_R8G8_UINT;
+    case VK_FORMAT_R8G8_SNORM:
+        return RHIPixelFormat::PF_R8G8_SNORM;
+    case VK_FORMAT_R8G8_UNORM:
+        return RHIPixelFormat::PF_R8G8_UNORM;
+    case VK_FORMAT_R8G8_SRGB:
+        return RHIPixelFormat::PF_R8G8_SRGB;
+
+    // 3通道 - 8位
+    case VK_FORMAT_R8G8B8_SINT:
+        return RHIPixelFormat::PF_R8G8B8_SINT;
+    case VK_FORMAT_R8G8B8_UINT:
+        return RHIPixelFormat::PF_R8G8B8_UINT;
+    case VK_FORMAT_R8G8B8_SNORM:
+        return RHIPixelFormat::PF_R8G8B8_SNORM;
+    case VK_FORMAT_R8G8B8_UNORM:
+        return RHIPixelFormat::PF_R8G8B8_UNORM;
+    case VK_FORMAT_R8G8B8_SRGB:
+        return RHIPixelFormat::PF_R8G8B8_SRGB;
+
+    // 4通道 - 8位
+    case VK_FORMAT_R8G8B8A8_SINT:
+        return RHIPixelFormat::PF_R8G8B8A8_SINT;
+    case VK_FORMAT_R8G8B8A8_UINT:
+        return RHIPixelFormat::PF_R8G8B8A8_UINT;
+    case VK_FORMAT_R8G8B8A8_SNORM:
+        return RHIPixelFormat::PF_R8G8B8A8_SNORM;
+    case VK_FORMAT_R8G8B8A8_UNORM:
+        return RHIPixelFormat::PF_R8G8B8A8_UNORM;
+    case VK_FORMAT_R8G8B8A8_SRGB:
+        return RHIPixelFormat::PF_R8G8B8A8_SRGB;
+
+    // 1通道 - 16位
+    case VK_FORMAT_R16_SINT:
+        return RHIPixelFormat::PF_R16_SINT;
+    case VK_FORMAT_R16_UINT:
+        return RHIPixelFormat::PF_R16_UINT;
+    case VK_FORMAT_R16_SNORM:
+        return RHIPixelFormat::PF_R16_SNORM;
+    case VK_FORMAT_R16_UNORM:
+        return RHIPixelFormat::PF_R16_UNORM;
+    case VK_FORMAT_R16_SFLOAT:
+        return RHIPixelFormat::PF_R16_FLOAT;
+
+    // 2通道 - 16位
+    case VK_FORMAT_R16G16_SINT:
+        return RHIPixelFormat::PF_R16G16_SINT;
+    case VK_FORMAT_R16G16_UINT:
+        return RHIPixelFormat::PF_R16G16_UINT;
+    case VK_FORMAT_R16G16_SNORM:
+        return RHIPixelFormat::PF_R16G16_SNORM;
+    case VK_FORMAT_R16G16_UNORM:
+        return RHIPixelFormat::PF_R16G16_UNORM;
+    case VK_FORMAT_R16G16_SFLOAT:
+        return RHIPixelFormat::PF_R16G16_FLOAT;
+
+    // 3通道 - 16位
+    case VK_FORMAT_R16G16B16_SINT:
+        return RHIPixelFormat::PF_R16G16B16_SINT;
+    case VK_FORMAT_R16G16B16_UINT:
+        return RHIPixelFormat::PF_R16G16B16_UINT;
+    case VK_FORMAT_R16G16B16_SNORM:
+        return RHIPixelFormat::PF_R16G16B16_SNORM;
+    case VK_FORMAT_R16G16B16_UNORM:
+        return RHIPixelFormat::PF_R16G16B16_UNORM;
+    case VK_FORMAT_R16G16B16_SFLOAT:
+        return RHIPixelFormat::PF_R16G16B16_FLOAT;
+
+    // 4通道 - 16位
+    case VK_FORMAT_R16G16B16A16_SINT:
+        return RHIPixelFormat::PF_R16G16B16A16_SINT;
+    case VK_FORMAT_R16G16B16A16_UINT:
+        return RHIPixelFormat::PF_R16G16B16A16_UINT;
+    case VK_FORMAT_R16G16B16A16_SNORM:
+        return RHIPixelFormat::PF_R16G16B16A16_SNORM;
+    case VK_FORMAT_R16G16B16A16_UNORM:
+        return RHIPixelFormat::PF_R16G16B16A16_UNORM;
+    case VK_FORMAT_R16G16B16A16_SFLOAT:
+        return RHIPixelFormat::PF_R16G16B16A16_FLOAT;
+
+    // 1通道 - 32位
+    case VK_FORMAT_R32_SINT:
+        return RHIPixelFormat::PF_R32_SINT;
+    case VK_FORMAT_R32_UINT:
+        return RHIPixelFormat::PF_R32_UINT;
+    case VK_FORMAT_R32_SFLOAT:
+        return RHIPixelFormat::PF_R32_FLOAT;
+
+    // 2通道 - 32位
+    case VK_FORMAT_R32G32_SINT:
+        return RHIPixelFormat::PF_R32G32_SINT;
+    case VK_FORMAT_R32G32_UINT:
+        return RHIPixelFormat::PF_R32G32_UINT;
+    case VK_FORMAT_R32G32_SFLOAT:
+        return RHIPixelFormat::PF_R32G32_FLOAT;
+
+    // 3通道 - 32位
+    case VK_FORMAT_R32G32B32_SINT:
+        return RHIPixelFormat::PF_R32G32B32_SINT;
+    case VK_FORMAT_R32G32B32_UINT:
+        return RHIPixelFormat::PF_R32G32B32_UINT;
+    case VK_FORMAT_R32G32B32_SFLOAT:
+        return RHIPixelFormat::PF_R32G32B32_FLOAT;
+
+    // 4通道 - 32位
+    case VK_FORMAT_R32G32B32A32_SINT:
+        return RHIPixelFormat::PF_R32G32B32A32_SINT;
+    case VK_FORMAT_R32G32B32A32_UINT:
+        return RHIPixelFormat::PF_R32G32B32A32_UINT;
+    case VK_FORMAT_R32G32B32A32_SFLOAT:
+        return RHIPixelFormat::PF_R32G32B32A32_FLOAT;
+
+    default:
+        return RHIPixelFormat::PF_Unknown;
+    }
+}
+
 inline VkPrimitiveTopology ToVkTopology(RHITopology Top)
 {
 	switch (Top)

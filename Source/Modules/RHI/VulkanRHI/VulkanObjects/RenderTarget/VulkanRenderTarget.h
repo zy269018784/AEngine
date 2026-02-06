@@ -1,5 +1,7 @@
 #pragma once
 #include "Vulkan.h"
+#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include <vector>
 /*
  *  Image
@@ -12,11 +14,6 @@ class VulkanFrameBuffer;
 class VulkanCommandBuffer;
 class VulkanRenderTarget
 {
-public:
-    void RHIBeginRenderPass();
-    void RHIEndRenderPass();
-    virtual void RHIBeginFrame() =0;
-    virtual void RHIEndFrame() =0;
 public:
     /*
         Image

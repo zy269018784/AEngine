@@ -2,7 +2,7 @@
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-
+#if  0
 void VulkanRenderTarget::RHIBeginRenderPass()
 {
     //VkClearValue ClearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
@@ -26,3 +26,4 @@ void VulkanRenderTarget::RHIEndRenderPass()
 {
     GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
 }
+#endif

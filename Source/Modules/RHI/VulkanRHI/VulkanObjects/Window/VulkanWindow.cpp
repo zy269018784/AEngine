@@ -3,6 +3,7 @@
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Window/VulkanFrame.h"
 #include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
+#include "VulkanObjects/Core/VulkanCore.h"
 #include  <iostream>
 #include  <stdexcept>
 #include <SFML/Window/Keyboard.hpp>
@@ -10,7 +11,7 @@
 VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface)
 	: PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
-	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface);
+	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface, ToRHIPixelFormat(Surface->CurrentFormat.format));
 }
 
 VulkanWindow::~VulkanWindow()

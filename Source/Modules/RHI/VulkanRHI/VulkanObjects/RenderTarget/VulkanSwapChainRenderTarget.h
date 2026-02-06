@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../../../RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "VulkanRenderTarget.h"
 #include "Vulkan.h"
 #include <vector>
@@ -17,11 +17,13 @@ class VulkanSwapChain;
 class VulkanSurface;
 class VulkanDevice;
 class VulkanFrame;
-class VulkanSwapChainRenderTarget : public VulkanRenderTarget
+class VulkanSwapChainRenderTarget : public VulkanRenderTarget, public RHISwapchainRenderTarget
 {
 public:
-    VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
+    VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat);
     ~VulkanSwapChainRenderTarget();
+    virtual void RHIBeginRenderPass() override final;
+    virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
 private:
