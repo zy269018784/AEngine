@@ -11,7 +11,7 @@
 VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface)
 	: PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
-	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface, ToRHIPixelFormat(Surface->CurrentFormat.format));
+	RenderTarget = new VulkanSwapChainRenderTarget(new VulkanSwapChain(Device, Surface), Device, Surface, ToRHIPixelFormat(Surface->CurrentFormat.format));
 }
 
 VulkanWindow::~VulkanWindow()

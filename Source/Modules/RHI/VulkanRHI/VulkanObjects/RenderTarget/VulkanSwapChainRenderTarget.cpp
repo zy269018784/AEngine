@@ -10,10 +10,10 @@
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include <iostream>
 
-VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat)
-    : Device(InDevice), Surface(InSurface),  RHISwapchainRenderTarget(InPixelFormat)
+VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat)
+    : SwapChain(InSwapChain),  Device(InDevice), Surface(InSurface),  RHISwapchainRenderTarget(InPixelFormat)
 {
-    SwapChain = new VulkanSwapChain(Device, Surface);
+   // SwapChain = new VulkanSwapChain(Device, Surface);
 
     ImageFormat				= Surface->CurrentFormat.format;
     SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;

@@ -20,7 +20,7 @@ class VulkanFrame;
 class VulkanSwapChainRenderTarget : public VulkanRenderTarget, public RHISwapchainRenderTarget
 {
 public:
-    VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat);
+    VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat);
     ~VulkanSwapChainRenderTarget();
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
