@@ -8,13 +8,12 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
+#include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
 
-VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat)
-    : SwapChain(InSwapChain),  Device(InDevice), Surface(InSurface),  RHISwapchainRenderTarget(InPixelFormat)
+VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
+    : SwapChain(InSwapChain),  Device(InDevice), RHISwapchainRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()))
 {
-   // SwapChain = new VulkanSwapChain(Device, Surface);
-
     ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 

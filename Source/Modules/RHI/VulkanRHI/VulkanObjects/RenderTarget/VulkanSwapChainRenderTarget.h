@@ -20,7 +20,7 @@ class VulkanFrame;
 class VulkanSwapChainRenderTarget : public VulkanRenderTarget, public RHISwapchainRenderTarget
 {
 public:
-    VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice, VulkanSurface* InSurface, RHIPixelFormat InPixelFormat);
+    VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice);
     ~VulkanSwapChainRenderTarget();
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
@@ -30,7 +30,7 @@ public:
     /*
         Surface
     */
-    VulkanSurface*							Surface;
+    //VulkanSurface*							Surface;
     /*
         设备
     */
