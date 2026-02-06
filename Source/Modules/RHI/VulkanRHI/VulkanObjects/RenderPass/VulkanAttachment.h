@@ -1,9 +1,9 @@
 #pragma once
-#include "RHIObjects/FrameBuffer/RHIAttachment.h"
+#include "../../../RHI/RHIObjects/RenderPass/RHIAttachment.h"
 class VulkanAttachment : public RHIAttachment
 {
 public:
-    VulkanAttachment(RHIAttachmentType InType);
+    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat);
     ~VulkanAttachment();
 };
 

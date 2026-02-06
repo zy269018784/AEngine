@@ -28,7 +28,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     /*
 		2. 创建Render Pass
     */
-	RenderPass = new VulkanRenderPass(Device, ImageFormat);
+	std::vector<RHIAttachment> InAttachments;
+	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments);
 
     /*
         3. 创建Frame Buffer

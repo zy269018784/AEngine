@@ -1,7 +1,7 @@
 #include "VulkanAttachment.h"
 
-VulkanAttachment::VulkanAttachment(RHIAttachmentType InType)
-    : RHIAttachment(InType)
+VulkanAttachment::VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat)
+    : RHIAttachment(InType, InPixelFormat)
 {
 
 }

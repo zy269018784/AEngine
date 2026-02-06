@@ -8,7 +8,8 @@ VulkanRenderPass::VulkanRenderPass()
 }
 
 
-VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat)
+VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
+    std::vector<RHIAttachment> InAttachments)
     : Device(InDevice)
 {
     std::cout << "VulkanRenderPass InFormat " << InFormat << std::endl;
