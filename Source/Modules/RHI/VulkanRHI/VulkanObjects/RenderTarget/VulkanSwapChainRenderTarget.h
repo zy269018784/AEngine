@@ -26,7 +26,6 @@ public:
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
-private:
 public:
     /*
         Surface
@@ -37,17 +36,11 @@ public:
     */
     VulkanDevice							*Device;
     /*
-        色彩空间
-    */
-    VkColorSpaceKHR							SwapChainClorSpace;
-    /*
-        呈现模式
-    */
-    VkPresentModeKHR						SwapChainPresentMode;
+        交换链
+     */
+    VulkanSwapChain                         *SwapChain;
     /*
         同步帧
     */
     std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
-public:
-    VulkanSwapChain *SwapChain;
 };

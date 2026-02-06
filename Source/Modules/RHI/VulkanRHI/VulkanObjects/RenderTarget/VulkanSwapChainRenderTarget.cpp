@@ -17,8 +17,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 
     ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
-    //SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
-    //SwapChainPresentMode    = Surface->CurrentPresentMode;
 
     ImageViews = SwapChain->SwapChainImageViews;
 	/*
