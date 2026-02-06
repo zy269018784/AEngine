@@ -1,6 +1,6 @@
 ﻿#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include <array>
-
+#include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include <iostream>
@@ -9,8 +9,16 @@
 VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView)
     : Device(InDevice)
 {
-    CreateDepthBuffer(SwapChainExtent.width, SwapChainExtent.height);
-
+    //CreateDepthBuffer(SwapChainExtent.width, SwapChainExtent.height);
+    VulkanTexture *Tex = new VulkanTexture(InDevice,
+        RHITextureType::Texture2D,
+        RHIPixelFormat::PF_DepthStencil,
+        1,
+        SwapChainExtent.width,
+        SwapChainExtent.height,
+        1,
+        1);
+    ImageViewDepthBuffer = Tex->ImageView->GetHandle();
     std::array<VkImageView, 2> attachments = {
         ImageView,  // 颜色附件
         ImageViewDepthBuffer           // 深度附件 ← 使用上面创建的深度图像视图

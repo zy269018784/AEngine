@@ -23,7 +23,14 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.arrayLayers      = InArraySize;
     CreateInfo.samples          = ToSampleCountFlagBits(InSampleCount);
     CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
-    CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;// usage; todo... 
+
+    CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+    /*
+        深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
+     */
+    if (InPixelFormat == RHIPixelFormat::PF_DepthStencil)
+        CreateInfo.usage        = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
     /*
         texture array报错
