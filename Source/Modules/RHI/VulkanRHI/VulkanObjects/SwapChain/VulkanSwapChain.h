@@ -72,9 +72,4 @@ public:
 		Image View
 	*/
 	std::vector<VkImageView>				SwapChainImageViews;
-public:
-	/*
-		Render Pass
-	*/
-	//VulkanRenderPass* RenderPass;
 };

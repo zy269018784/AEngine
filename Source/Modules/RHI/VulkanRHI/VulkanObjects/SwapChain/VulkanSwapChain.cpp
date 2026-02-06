@@ -27,11 +27,6 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     std::cout << "ImageCount " << ImageCount << std::endl;
 
     CreateImageViews();
-
-    /*
-        创建Render Pass
-    */
-    //RenderPass = new VulkanRenderPass(Device, GetFormat());
 }
 
 VulkanSwapChain::~VulkanSwapChain()
@@ -191,11 +186,6 @@ void VulkanSwapChain::Cleanup()
         释放交换链
     */
     Device->DestroySwapchainKHR(Handle, nullptr);
-
-    /*
-
-    */
-    //delete RenderPass;
 
     /*
         释放Image View
