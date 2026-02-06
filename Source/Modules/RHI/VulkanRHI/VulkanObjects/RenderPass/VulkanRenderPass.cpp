@@ -12,10 +12,6 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     std::vector<RHIAttachment> InColorAttachments, RHIAttachment InDepthAttachments)
     : Device(InDevice)
 {
-    std::cout << "VulkanRenderPass InAttachments "
-    << InColorAttachments.size() << " "
-    << std::endl;
-
     std::vector<VkAttachmentDescription> Attachments;
     std::vector<VkAttachmentReference> ColorAttachmentRefs;
     /*
@@ -61,6 +57,9 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
      * 3
      */
     VkSubpassDescription Subpass{};
+    /*
+     *  to do: 只支持图像管线, 不支持其他管线
+     */
     Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
     Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
     Subpass.pColorAttachments               = ColorAttachmentRefs.data();

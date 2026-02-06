@@ -4,6 +4,11 @@
 #include "RHIObjects/RenderPass/RHIAttachment.h"
 #include <vector>
 class VulkanDevice;
+/*
+ *	todo:
+ *		DepthAttachment.format                  = VK_FORMAT_D24_UNORM_S8_UINT;
+ *
+ */
 class VulkanRenderPass : public RHIRenderPass
 {
 public:
