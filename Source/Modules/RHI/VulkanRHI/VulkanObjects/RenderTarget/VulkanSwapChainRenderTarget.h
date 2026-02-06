@@ -28,10 +28,6 @@ public:
     virtual void RHIEndFrame() override final;
 public:
     /*
-        Surface
-    */
-    //VulkanSurface*							Surface;
-    /*
         设备
     */
     VulkanDevice							*Device;

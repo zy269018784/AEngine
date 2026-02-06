@@ -18,7 +18,7 @@ public:
     /*
         Image
     */
-    std::vector<VkImage>					Images;
+    //std::vector<VkImage>					Images;
     /*
         Image View
     */
