@@ -64,6 +64,7 @@ public:
 		呈现模式
 	*/
 	VkPresentModeKHR						SwapChainPresentMode;
+private:
 	/*
 		Image
 	*/

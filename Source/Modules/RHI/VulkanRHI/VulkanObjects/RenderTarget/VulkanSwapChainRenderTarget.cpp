@@ -17,7 +17,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 
-    ImageViews = SwapChain->SwapChainImageViews;
+    ImageViews = SwapChain->GetImageViews();
 	/*
 		1. 同步对象
 	*/
@@ -33,14 +33,12 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     /*
         3. 创建Frame Buffer
     */
-    std::cout << "SwapChainImageViews.size() " << SwapChain->SwapChainImageViews.size()  << std::endl;
-    FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
+    FrameBuffers.resize(ImageViews.size());
     //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
-        auto Handle = SwapChain->SwapChainImageViews[i];
+        auto Handle = ImageViews[i];
         FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle);
-        //SwapChain->FrameBuffers[i] = FrameBuffers[i];
     }
 
 	/*
