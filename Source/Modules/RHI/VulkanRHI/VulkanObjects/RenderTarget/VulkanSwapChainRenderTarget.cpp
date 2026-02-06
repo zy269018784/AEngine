@@ -15,10 +15,10 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 {
    // SwapChain = new VulkanSwapChain(Device, Surface);
 
-    ImageFormat				= Surface->CurrentFormat.format;
-    SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
-    Resolution              = Surface->CurrentExtent;
-    SwapChainPresentMode    = Surface->CurrentPresentMode;
+    ImageFormat				= SwapChain->GetFormat();
+	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
+    //SwapChainClorSpace      = Surface->CurrentFormat.colorSpace;
+    //SwapChainPresentMode    = Surface->CurrentPresentMode;
 
     ImageViews = SwapChain->SwapChainImageViews;
 	/*
