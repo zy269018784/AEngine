@@ -11,10 +11,10 @@ class VulkanAttachment;
 class VulkanFrameBuffer : public RHIFrameBuffer
 {
 public:
-	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView, std::vector<VulkanAttachment> *InAttachments);
+	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent, std::vector<VulkanAttachment> *InAttachments);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle();
-	void CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height);
+	//void CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height);
 private:
 	/*
 		Vulkan API Wrapper
@@ -24,7 +24,4 @@ private:
 private:
 	VkFramebuffer Handle = VK_NULL_HANDLE;
 	VulkanDevice* Device = nullptr;
-	VkImageView ImageViewDepthBuffer;
-	VkImage depthImage;
-	VkDeviceMemory depthImageMemory;
 };

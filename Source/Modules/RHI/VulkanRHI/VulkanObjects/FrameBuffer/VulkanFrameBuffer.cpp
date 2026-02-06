@@ -8,31 +8,14 @@
 #include <iostream>
 #include <stdexcept>
 
-VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView, std::vector<VulkanAttachment> *InAttachments)
+VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, std::vector<VulkanAttachment> *InAttachments)
     : Device(InDevice)
 {
-#if 1
-    //CreateDepthBuffer(SwapChainExtent.width, SwapChainExtent.height);
-    VulkanTexture *Tex = new VulkanTexture(InDevice,
-        RHITextureType::Texture2D,
-        RHIPixelFormat::PF_DepthStencil,
-        1,
-        SwapChainExtent.width,
-        SwapChainExtent.height,
-        1,
-        1);
-    ImageViewDepthBuffer = Tex->ImageView->GetHandle();
-#endif
-    ImageView = InAttachments[0][0].GetHandle();
-
     std::vector<VkImageView> attachments;
     for (int i = 0; i < InAttachments->size(); i++)
     {
         attachments.emplace_back(InAttachments[0][i].GetHandle());
     }
-    attachments.emplace_back(ImageViewDepthBuffer);
-
-
 
     VkFramebufferCreateInfo CreateInfo{};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -71,7 +54,10 @@ void VulkanFrameBuffer::DestroyFramebuffer(const VkAllocationCallbacks* Allocato
 {
     Device->DestroyFramebuffer(Handle, Allocator);
 }
-
+#if 0
+/*
+ * 留着作为创建深度附件二参考代码
+ */
 void VulkanFrameBuffer::CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height)
 {
     VkFormat depthFormat = VK_FORMAT_D24_UNORM_S8_UINT;
@@ -130,3 +116,4 @@ void VulkanFrameBuffer::CreateDepthBuffer(std::uint32_t Width, std::uint32_t Hei
         throw std::runtime_error("");
     }
 }
+#endif

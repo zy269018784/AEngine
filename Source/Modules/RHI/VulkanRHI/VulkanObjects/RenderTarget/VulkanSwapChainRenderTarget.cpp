@@ -9,6 +9,7 @@
 #include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/Core/VulkanCore.h"
+#include "VulkanObjects/Texture/VulkanTexture.h"
 #include <iostream>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
@@ -40,11 +41,20 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
+    	VulkanTexture *Tex = new VulkanTexture(InDevice,
+				RHITextureType::Texture2D,
+				RHIPixelFormat::PF_DepthStencil,
+				1,
+				Resolution.width,
+				Resolution.height,
+				1,
+				1);
+
     	std::vector<VulkanAttachment> InVKAttachments;
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
+    	InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
 
-        auto Handle = ImageViews[i];
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle, &InVKAttachments);
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height },  &InVKAttachments);
     }
 
 	/*
