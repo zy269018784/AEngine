@@ -1,7 +1,7 @@
 #include "VulkanAttachment.h"
 
-VulkanAttachment::VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat)
-    : RHIAttachment(InType, InPixelFormat)
+VulkanAttachment::VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat,  VkImageView InImageView)
+    : RHIAttachment(InType, InPixelFormat), ImageView(InImageView)
 {
 
 }
@@ -9,4 +9,9 @@ VulkanAttachment::VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InPi
 VulkanAttachment::~VulkanAttachment()
 {
 
+}
+
+VkImageView VulkanAttachment::GetHandle() const
+{
+    return ImageView;
 }

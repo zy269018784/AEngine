@@ -1,14 +1,17 @@
 ﻿#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include <array>
+
 #include "VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
+#include <array>
 #include <iostream>
 #include <stdexcept>
 
-VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView)
+VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, VkImageView ImageView, std::vector<VulkanAttachment> *InAttachments)
     : Device(InDevice)
 {
+#if 1
     //CreateDepthBuffer(SwapChainExtent.width, SwapChainExtent.height);
     VulkanTexture *Tex = new VulkanTexture(InDevice,
         RHITextureType::Texture2D,
@@ -19,21 +22,25 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
         1,
         1);
     ImageViewDepthBuffer = Tex->ImageView->GetHandle();
-    std::array<VkImageView, 2> attachments = {
-        ImageView,  // 颜色附件
-        ImageViewDepthBuffer           // 深度附件 ← 使用上面创建的深度图像视图
-    };
+#endif
+    ImageView = InAttachments[0][0].GetHandle();
+
+    std::vector<VkImageView> attachments;
+    for (int i = 0; i < InAttachments->size(); i++)
+    {
+        attachments.emplace_back(InAttachments[0][i].GetHandle());
+    }
+    attachments.emplace_back(ImageViewDepthBuffer);
+
+
 
     VkFramebufferCreateInfo CreateInfo{};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
     CreateInfo.renderPass       = InRenderPass->GetHandle();
-    CreateInfo.attachmentCount  = 1;
-    CreateInfo.pAttachments     = &ImageView;
     CreateInfo.width            = SwapChainExtent.width;
     CreateInfo.height           = SwapChainExtent.height;
     CreateInfo.layers           = 1;
-
-    CreateInfo.attachmentCount  = 2;
+    CreateInfo.attachmentCount  = attachments.size();
     CreateInfo.pAttachments     = attachments.data();
 
     VkResult Result = CreateFramebuffer(&CreateInfo, nullptr);

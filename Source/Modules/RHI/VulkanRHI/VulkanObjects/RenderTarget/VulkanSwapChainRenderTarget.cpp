@@ -6,7 +6,7 @@
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Window/VulkanFrame.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
@@ -35,12 +35,16 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     /*
         3. 创建Frame Buffer
     */
+
     FrameBuffers.resize(ImageViews.size());
     //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
+    	std::vector<VulkanAttachment> InVKAttachments;
+		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
+
         auto Handle = ImageViews[i];
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle);
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle, &InVKAttachments);
     }
 
 	/*
