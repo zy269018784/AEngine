@@ -6,7 +6,7 @@
 #include <limits>
 #include <stdexcept>
  
-VulkanSwapChain::VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurface)
+VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurface)
     : Device(InDevice), Surface(InSurface)
 { 
     SwapChainImageFormat    = Surface->CurrentFormat.format;
@@ -31,32 +31,11 @@ VulkanSwapChain::VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfac
     /*
         创建Render Pass
     */
-    RenderPass = new VulkanRenderPass(Device, GetFormat());
-#if 0
-    /*
-        创建Frame Buffer
-    */
-    auto ImageViews = GetImageViews();
-    FrameBuffers.resize(GetImageCount());
-    for (int i = 0; i < FrameBuffers.size(); i++)
-    {
-        auto Handle = ImageViews[i];
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { GetWidth(), GetHeight() }, Handle);
-    }
-#endif
+    //RenderPass = new VulkanRenderPass(Device, GetFormat());
 }
 
 VulkanSwapChain::~VulkanSwapChain()
 {
-#if 0
-    /*
-        释放Frame Buffer
-    */
-    for (int FrameBufferIndex = 0; FrameBufferIndex < FrameBuffers.size(); FrameBufferIndex++)
-    {
-        delete FrameBuffers[FrameBufferIndex];
-    }
-#endif
     /*
         释放交换链
     */
@@ -65,7 +44,7 @@ VulkanSwapChain::~VulkanSwapChain()
     /*
     
     */
-    delete RenderPass;
+    //delete RenderPass;
 
     /*
         释放Image View
@@ -204,36 +183,10 @@ void VulkanSwapChain::Resize(float Width, float Height)
     std::cout << "ImageCount " << ImageCount << std::endl;
 
     CreateImageViews();
-#if 0
-    /*
-        创建Render Pass
-    */
-    RenderPass = new VulkanRenderPass(Device, GetFormat());
-
-    /*
-        创建Frame Buffer
-    */
-    auto ImageViews = GetImageViews();
-    FrameBuffers.resize(GetImageCount());
-    for (int i = 0; i < FrameBuffers.size(); i++)
-    {
-        auto Handle = ImageViews[i];
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { GetWidth(), GetHeight() }, Handle);
-    }
-#endif
 }
 
 void VulkanSwapChain::Cleanup()
 {
-#if 0
-    /*
-        释放Frame Buffer
-    */
-    for (int FrameBufferIndex = 0; FrameBufferIndex < FrameBuffers.size(); FrameBufferIndex++)
-    {
-        delete FrameBuffers[FrameBufferIndex];
-    }
-#endif
     /*
         释放交换链
     */
@@ -242,7 +195,7 @@ void VulkanSwapChain::Cleanup()
     /*
 
     */
-    delete RenderPass;
+    //delete RenderPass;
 
     /*
         释放Image View

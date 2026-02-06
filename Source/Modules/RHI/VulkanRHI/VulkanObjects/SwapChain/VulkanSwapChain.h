@@ -76,9 +76,5 @@ public:
 	/*
 		Render Pass
 	*/
-	VulkanRenderPass* RenderPass;
-	/*
-		Framebuffers
-	*/
-	//std::vector<VulkanFrameBuffer*>		FrameBuffers;				// SwapChainImages.size()
+	//VulkanRenderPass* RenderPass;
 };

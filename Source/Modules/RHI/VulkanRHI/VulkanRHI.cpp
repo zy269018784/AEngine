@@ -159,7 +159,7 @@ RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline()
 
 RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 {
-	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanWindow*)Window)->RenderTarget->SwapChain->RenderPass);
+	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanWindow*)Window)->RenderTarget->RenderPass);
 	return Pipeline;
 }
 

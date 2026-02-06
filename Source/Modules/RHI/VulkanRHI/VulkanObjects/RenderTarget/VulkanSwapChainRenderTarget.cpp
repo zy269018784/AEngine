@@ -21,23 +21,20 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     SwapChainPresentMode    = Surface->CurrentPresentMode;
 
     ImageViews = SwapChain->SwapChainImageViews;
-
+	/*
+		1. 同步对象
+	*/
     Frames.resize(SwapChain->GetImageCount());
     for (int i = 0; i < Frames.size(); i++)
         Frames[i] = new VulkanFrame(Device, true);
-#if 1
-    /*
-        创建Render Pass
-    */
-     RenderPass = new VulkanRenderPass(Device, ImageFormat);
-     //SwapChain->RenderPass = RenderPass;
-#else
-     RenderPass = SwapChain->RenderPass;
-#endif
 
-#if 1
     /*
-        创建Frame Buffer
+		2. 创建Render Pass
+    */
+	RenderPass = new VulkanRenderPass(Device, ImageFormat);
+
+    /*
+        3. 创建Frame Buffer
     */
     std::cout << "SwapChainImageViews.size() " << SwapChain->SwapChainImageViews.size()  << std::endl;
     FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
@@ -48,8 +45,10 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
         FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height }, Handle);
         //SwapChain->FrameBuffers[i] = FrameBuffers[i];
     }
-#endif
 
+	/*
+		4. 创建command buffer
+	 */
     GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
     for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
     {
