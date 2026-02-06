@@ -29,7 +29,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 		2. 创建Render Pass
     */
 	std::vector<RHIAttachment> InAttachments;
-	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments);
+	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
     /*
         3. 创建Frame Buffer

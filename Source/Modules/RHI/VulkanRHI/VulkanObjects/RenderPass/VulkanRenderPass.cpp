@@ -9,29 +9,39 @@ VulkanRenderPass::VulkanRenderPass()
 
 
 VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
-    std::vector<RHIAttachment> InAttachments)
+    std::vector<RHIAttachment> InColorAttachments, RHIAttachment InDepthAttachments)
     : Device(InDevice)
 {
-    std::cout << "VulkanRenderPass InFormat " << InFormat << std::endl;
+    std::cout << "VulkanRenderPass InAttachments "
+    << InColorAttachments.size() << " "
+    << std::endl;
 
     std::vector<VkAttachmentDescription> Attachments;
+    std::vector<VkAttachmentReference> ColorAttachmentRefs;
+    /*
+     * 1
+     */
+    for (int i = 0; i < InColorAttachments.size(); i++)
+    {
+        VkAttachmentDescription ColorAttachment{};
+        ColorAttachment.format                  = InFormat;
+        ColorAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
+        ColorAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        ColorAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_STORE;
+        ColorAttachment.stencilLoadOp           = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        ColorAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
+        ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        Attachments.emplace_back(ColorAttachment);
 
-    VkAttachmentDescription ColorAttachment{};
-    ColorAttachment.format                  = InFormat;
-    ColorAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
-    ColorAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;
-    ColorAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_STORE;
-    ColorAttachment.stencilLoadOp           = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-    ColorAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
-    ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-    Attachments.emplace_back(ColorAttachment);
-
-    VkAttachmentReference ColorAttachmentRef{};
-    ColorAttachmentRef.attachment           = 0;
-    ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-
+        VkAttachmentReference ColorAttachmentRef{};
+        ColorAttachmentRef.attachment           = i;
+        ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+        ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
+    }
+    /*
+     * 2
+     */
     VkAttachmentDescription DepthAttachment{};
     DepthAttachment.format                  = VK_FORMAT_D24_UNORM_S8_UINT;
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
@@ -44,13 +54,16 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     Attachments.emplace_back(DepthAttachment);
 
     VkAttachmentReference DepthAttachmentRef{};
-    DepthAttachmentRef.attachment           = 1;  // 索引1（颜色是0）
+    DepthAttachmentRef.attachment           = ColorAttachmentRefs.size();
     DepthAttachmentRef.layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
+    /*
+     * 3
+     */
     VkSubpassDescription Subpass{};
     Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
-    Subpass.colorAttachmentCount            = 1;
-    Subpass.pColorAttachments               = &ColorAttachmentRef;
+    Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
+    Subpass.pColorAttachments               = ColorAttachmentRefs.data();
     Subpass.pDepthStencilAttachment         = &DepthAttachmentRef;
 
     VkRenderPassCreateInfo CreateInfo{};
