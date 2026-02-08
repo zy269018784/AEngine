@@ -9,7 +9,7 @@ class D3D11Device
 public:
 	D3D11Device();
 	~D3D11Device();
-    ID3D11Device* GetHandle();
+    ID3D11Device* GetHandle() { return Handle; };
     D3D11CommandBuffer* CreateCommandBuffer(D3D11CommandPool* CommandPool);
     void CreateCommandPool();
     void CreateQueue();

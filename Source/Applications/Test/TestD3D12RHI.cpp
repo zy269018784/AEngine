@@ -27,7 +27,7 @@
 #include "D3D12Objects/SwapChain/D3D12SwapChain.h"
 #include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/Factory/D3D12Factory.h"
-#if 0
+#if 11
 // 必须链接这些库
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
