@@ -46,6 +46,11 @@ void STDMETHODCALLTYPE D3D12CommandBuffer::IASetVertexBuffers(_In_ UINT StartSlo
     Handle->IASetVertexBuffers(StartSlot, NumViews, pViews);
 }
 
+void D3D12CommandBuffer::IASetIndexBuffer(const D3D12_INDEX_BUFFER_VIEW *pView)
+{
+    Handle->IASetIndexBuffer(pView);
+}
+
 void STDMETHODCALLTYPE D3D12CommandBuffer::DrawInstanced(_In_ UINT VertexCountPerInstance, _In_ UINT InstanceCount, _In_ UINT StartVertexLocation, _In_ UINT StartInstanceLocation)
 {
     Handle->DrawInstanced(VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);

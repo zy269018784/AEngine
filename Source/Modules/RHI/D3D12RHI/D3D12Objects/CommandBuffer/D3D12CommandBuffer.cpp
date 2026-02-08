@@ -23,17 +23,17 @@ ID3D12GraphicsCommandList* D3D12CommandBuffer::GetHandle()
 
 void D3D12CommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
-	Handle->IASetPrimitiveTopology(ToD3D12Topology(Topology));
+	IASetPrimitiveTopology(ToD3D12Topology(Topology));
 }
 
 void D3D12CommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {
-	Handle->DrawInstanced(VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	DrawInstanced(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
 void D3D12CommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount, std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
 {
-	Handle->DrawIndexedInstanced(IndexCount, InstanceCount, FirstIndex, VertexOffset, FirstInstance);
+	DrawIndexedInstanced(IndexCount, InstanceCount, FirstIndex, VertexOffset, FirstInstance);
 }
 
 void D3D12CommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
@@ -48,7 +48,11 @@ void D3D12CommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
 
 void D3D12CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat RHIIndexFormat)
 {
-
+	D3D12_INDEX_BUFFER_VIEW View;
+	View.BufferLocation = 0;
+	View.Format;
+	View.SizeInBytes = 0;
+	IASetIndexBuffer(&View);
 }
 
 void D3D12CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPipeline)
@@ -66,14 +70,14 @@ void D3D12CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, c
 void D3D12CommandBuffer::RHISetViewport(const RHIViewport& InViewport)
 {
 	D3D12_VIEWPORT Viewport = { 0.0f, 0.0f, (float)InViewport.Width(), (float)InViewport.Height(), 0.0f, 1.0f };
-	Handle->RSSetViewports(1, &Viewport);
+	RSSetViewports(1, &Viewport);
 }
 
 
 void D3D12CommandBuffer::RHISetScissor(const RHIScissor& InScissor)
 {
 	D3D12_RECT scissorRect = { 0, 0, (LONG)InScissor.Width(), (LONG)InScissor.Height() };
-	Handle->RSSetScissorRects(1, &scissorRect);
+	RSSetScissorRects(1, &scissorRect);
 }
 
 

@@ -1,7 +1,8 @@
 ﻿#include "D3D11CommandBuffer.h"
 
 #include "D3D11Objects/Core/D3D11Core.h"
-//#include "D3D11Objects/Device/D3D11Device.h"
+#include "D3D11Objects/Device/D3D11Device.h"
+#include "D3D11Objects/Resource/D3D11Buffer.h"
 //#include "D3D11CommandPool.h"
 //#include "D3D11RenderPass.h"
 //#include "D3D11Pipeline.h"
@@ -43,19 +44,19 @@ D3D11CommandBuffer::~D3D11CommandBuffer()
 
 void D3D11CommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
-	Handle->IASetPrimitiveTopology(ToD3D11Topology(Topology));
+	IASetPrimitiveTopology(ToD3D11Topology(Topology));
 }
 
 void D3D11CommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount,
 	std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {
-	Handle->DrawInstanced(VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	DrawInstanced(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
 void D3D11CommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount,
 	std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
 {
-	Handle->DrawIndexedInstanced(IndexCount, InstanceCount, FirstIndex, VertexOffset, FirstInstance);
+	DrawIndexedInstanced(IndexCount, InstanceCount, FirstIndex, VertexOffset, FirstInstance);
 }
 
 void D3D11CommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
@@ -70,13 +71,8 @@ void D3D11CommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
 
 void D3D11CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat IndexFormat)
 {
-#if 0
-	D3D11Buffer* D3D11Buffer = static_cast<D3D11Buffer*>(IndexBuffer);
-	if (D3D11Buffer)
-	{
-		Handle->IASetIndexBuffer(D3D11Buffer->GetNativeBuffer(), ConvertIndexFormat(IndexFormat), Offset);
-	}
-#endif
+	ID3D11Buffer *pIndexBuffer = ((D3D11Buffer*)IndexBuffer)->GetHandle();
+	IASetIndexBuffer(pIndexBuffer, ToD3D11IndexType(IndexFormat), Offset);
 }
 
 void D3D11CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPipeline)

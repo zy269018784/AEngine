@@ -106,6 +106,7 @@ public:
 		_In_  UINT NumViews,
 		_In_reads_opt_(NumViews)  const D3D12_VERTEX_BUFFER_VIEW* pViews);
 
+	void IASetIndexBuffer(const D3D12_INDEX_BUFFER_VIEW *pView);
 
 	/*
 		Draw 
