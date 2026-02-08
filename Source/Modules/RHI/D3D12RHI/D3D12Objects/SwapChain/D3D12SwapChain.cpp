@@ -20,6 +20,11 @@ D3D12SwapChain::D3D12SwapChain(D3D12Factory *InFactory, D3D12Queue *InQueue, D3D
     {
 
     }
+
+    HRESULT hr = Handle->QueryInterface(IID_PPV_ARGS(&Handle3));
+    if (SUCCEEDED(hr)) {
+        // 使用...
+    }
 }
 
 D3D12SwapChain::~D3D12SwapChain()
@@ -32,7 +37,17 @@ IDXGISwapChain1* D3D12SwapChain::GetHandle() const
     return Handle;
 }
 
+IDXGISwapChain3* D3D12SwapChain::GetHandle3() const
+{
+    return Handle3;
+}
+
 UINT D3D12SwapChain::GetCurrentBackBufferIndex(void)
 {
     return ((IDXGISwapChain3*)Handle)->GetCurrentBackBufferIndex();
+}
+
+HRESULT D3D12SwapChain::Present(UINT SyncInterval, UINT Flags)
+{
+    return Handle3->Present(SyncInterval, Flags);
 }

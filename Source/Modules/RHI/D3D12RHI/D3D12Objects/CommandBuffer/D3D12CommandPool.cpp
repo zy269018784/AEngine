@@ -23,6 +23,5 @@ D3D12CommandPool::~D3D12CommandPool()
 
 ID3D12CommandAllocator* D3D12CommandPool::GetHandle()
 {
-	std::cout << "GetHandle  " << Handle << std::endl;
 	return Handle;
 }

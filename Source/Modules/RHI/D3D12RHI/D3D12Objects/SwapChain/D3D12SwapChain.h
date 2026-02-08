@@ -9,10 +9,17 @@ public:
     D3D12SwapChain(D3D12Factory *InFactory, D3D12Queue *InQueue, D3D12Surface *InSurface);
     ~D3D12SwapChain();
     IDXGISwapChain1* GetHandle() const;
+    IDXGISwapChain3* GetHandle3() const;
 public:
+    /*
+     * D3D12 API Wrapper
+     */
     UINT GetCurrentBackBufferIndex( void);
+
+    HRESULT Present(UINT SyncInterval, UINT Flags);
 private:
     IDXGISwapChain1 *Handle = nullptr;
+    IDXGISwapChain3 *Handle3 = nullptr;
     D3D12Factory *Factory = nullptr;
     D3D12Surface *Surface = nullptr;
     D3D12Queue *Queue = nullptr;

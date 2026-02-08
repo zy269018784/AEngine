@@ -1,6 +1,7 @@
 ﻿#include "D3D12CommandBuffer.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
 #include "D3D12Objects/Core/D3D12Core.h"
 
 D3D12CommandBuffer::D3D12CommandBuffer(D3D12Device* InDevice, D3D12CommandPool* InCommandPool)
@@ -57,7 +58,8 @@ void D3D12CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_
 
 void D3D12CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPipeline)
 {
-
+	D3D12GraphicsPipeline* pGraphicsPipeline = dynamic_cast<D3D12GraphicsPipeline*>(GraphicsPipeline);
+    Handle->Reset(CommandPool->GetHandle(), pGraphicsPipeline->GetHandle());
 }
 
 void D3D12CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,

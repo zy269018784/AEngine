@@ -358,8 +358,10 @@ static void Render() {
 
     Window->RHIBeginFrame();
     // 重置命令
-    g_CommandAllocator->Reset();
-    g_CommandList->Reset(g_CommandAllocator.Get(), g_PipelineState.Get());
+    //g_CommandAllocator->Reset();
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+    //g_CommandList->Reset(g_CommandAllocator.Get(), g_PipelineState.Get());
 
     // 资源屏障：Present -> Render Target
     D3D12_RESOURCE_BARRIER barrier = {};
@@ -375,8 +377,6 @@ static void Render() {
     float w = 800;
     float h = 600;
     //Window->GetExtent(x, y, w, h);
-
-
 
     // 获取RTV
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
@@ -420,7 +420,8 @@ static void Render() {
     g_CommandQueue->ExecuteCommandLists(1, cmdLists);
 
     // 呈现
-    g_SwapChain->Present(1, 0);
+    Window->RHIEndFrame();
+
     WaitForGPU();
 }
 
