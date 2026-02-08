@@ -9,7 +9,7 @@ class D3D11CommandBuffer : public RHICommandBuffer
 public:
 	D3D11CommandBuffer(D3D11Device* InDevice, D3D11CommandPool* InCommandPool);
 	~D3D11CommandBuffer();
-	ID3D11GraphicsCommandList* GetHandle();
+	ID3D11DeviceContext* GetHandle();
 public:
 	/*
 		RHI API
@@ -72,68 +72,30 @@ public:
 	virtual void RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstBuffer, std::uint32_t RegionCount, const RHIBufferCopy* Regions) final override;
 public:
 	/*
-		D3D11 API Wrapper
+		RHI API
 	*/
-	void STDMETHODCALLTYPE ClearRenderTargetView(
-		_In_  D3D11_CPU_DESCRIPTOR_HANDLE RenderTargetView,
-		_In_  const FLOAT ColorRGBA[4],
-		_In_  UINT NumRects,
-		_In_reads_(NumRects)  const D3D11_RECT* pRects);
+	void RSSetViewports(UINT NumViewports, const D3D11_VIEWPORT* pViewports);
 
-	void STDMETHODCALLTYPE OMSetRenderTargets(
-		_In_  UINT NumRenderTargetDescriptors,
-		_In_opt_  const D3D11_CPU_DESCRIPTOR_HANDLE* pRenderTargetDescriptors,
-		_In_  BOOL RTsSingleHandleToDescriptorRange,
-		_In_opt_  const D3D11_CPU_DESCRIPTOR_HANDLE* pDepthStencilDescriptor);
+	void RSSetScissorRects(UINT NumRects, const D3D11_RECT* pRects);
 
-	void STDMETHODCALLTYPE SetGraphicsRootSignature(
-		_In_opt_  ID3D11RootSignature* pRootSignature);
+	void IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology);
 
+	void IASetVertexBuffers(UINT StartSlot, UINT NumBuffers, ID3D11Buffer *const *ppVertexBuffers, const UINT *pStrides, const UINT *pOffsets);
 
-	void STDMETHODCALLTYPE RSSetViewports(
-		_In_range_(0, D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE)  UINT NumViewports,
-		_In_reads_(NumViewports)  const D3D11_VIEWPORT* pViewports);
+	void IASetIndexBuffer(ID3D11Buffer *pIndexBuffer, DXGI_FORMAT Format, UINT Offset);
 
-	void STDMETHODCALLTYPE RSSetScissorRects(
-		_In_range_(0, D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE)  UINT NumRects,
-		_In_reads_(NumRects)  const D3D11_RECT* pRects);
+	void DrawIndexedInstanced(UINT IndexCountPerInstance,
+										 UINT InstanceCount,
+										 UINT StartIndexLocation,
+										 INT BaseVertexLocation,
+										 UINT StartInstanceLocation);
 
-	void STDMETHODCALLTYPE IASetPrimitiveTopology(
-		_In_  D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology);
-
-	void STDMETHODCALLTYPE IASetVertexBuffers(
-		_In_  UINT StartSlot,
-		_In_  UINT NumViews,
-		_In_reads_opt_(NumViews)  const D3D11_VERTEX_BUFFER_VIEW* pViews);
-
-
-	/*
-		Draw 
-	*/
-	void STDMETHODCALLTYPE DrawInstanced(
-		_In_  UINT VertexCountPerInstance,
-		_In_  UINT InstanceCount,
-		_In_  UINT StartVertexLocation,
-		_In_  UINT StartInstanceLocation);
-
-	void STDMETHODCALLTYPE DrawIndexedInstanced(
-		_In_  UINT IndexCountPerInstance,
-		_In_  UINT InstanceCount,
-		_In_  UINT StartIndexLocation,
-		_In_  INT BaseVertexLocation,
-		_In_  UINT StartInstanceLocation);
-
-	void STDMETHODCALLTYPE ResourceBarrier(
-		_In_  UINT NumBarriers,
-		_In_reads_(NumBarriers)  const D3D11_RESOURCE_BARRIER* pBarriers);
-
-	HRESULT STDMETHODCALLTYPE Close(void);
-
-	HRESULT STDMETHODCALLTYPE Reset(_In_  ID3D11CommandAllocator* pAllocator, _In_opt_  ID3D11PipelineState* pInitialState);
-
-	void STDMETHODCALLTYPE ClearState(_In_opt_  ID3D11PipelineState* pPipelineState);
+	void DrawInstanced(UINT VertexCountPerInstance,
+					   UINT InstanceCount,
+					   UINT StartVertexLocation,
+					   UINT StartInstanceLocation);
 private:
-	ID3D11GraphicsCommandList* Handle = nullptr;
+	ID3D11DeviceContext* Handle = nullptr;
 	D3D11CommandPool* CommandPool = nullptr;
 	D3D11Device* Device = nullptr;
 };

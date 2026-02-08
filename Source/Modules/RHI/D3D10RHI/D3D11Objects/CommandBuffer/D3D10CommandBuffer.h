@@ -9,7 +9,6 @@ class D3D10CommandBuffer : public RHICommandBuffer
 public:
 	D3D10CommandBuffer(D3D10Device* InDevice, D3D10CommandPool* InCommandPool);
 	~D3D10CommandBuffer();
-	ID3D10GraphicsCommandList* GetHandle();
 public:
 	/*
 		RHI API
@@ -74,66 +73,8 @@ public:
 	/*
 		D3D10 API Wrapper
 	*/
-	void STDMETHODCALLTYPE ClearRenderTargetView(
-		_In_  D3D10_CPU_DESCRIPTOR_HANDLE RenderTargetView,
-		_In_  const FLOAT ColorRGBA[4],
-		_In_  UINT NumRects,
-		_In_reads_(NumRects)  const D3D10_RECT* pRects);
 
-	void STDMETHODCALLTYPE OMSetRenderTargets(
-		_In_  UINT NumRenderTargetDescriptors,
-		_In_opt_  const D3D10_CPU_DESCRIPTOR_HANDLE* pRenderTargetDescriptors,
-		_In_  BOOL RTsSingleHandleToDescriptorRange,
-		_In_opt_  const D3D10_CPU_DESCRIPTOR_HANDLE* pDepthStencilDescriptor);
-
-	void STDMETHODCALLTYPE SetGraphicsRootSignature(
-		_In_opt_  ID3D10RootSignature* pRootSignature);
-
-
-	void STDMETHODCALLTYPE RSSetViewports(
-		_In_range_(0, D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE)  UINT NumViewports,
-		_In_reads_(NumViewports)  const D3D10_VIEWPORT* pViewports);
-
-	void STDMETHODCALLTYPE RSSetScissorRects(
-		_In_range_(0, D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE)  UINT NumRects,
-		_In_reads_(NumRects)  const D3D10_RECT* pRects);
-
-	void STDMETHODCALLTYPE IASetPrimitiveTopology(
-		_In_  D3D10_PRIMITIVE_TOPOLOGY PrimitiveTopology);
-
-	void STDMETHODCALLTYPE IASetVertexBuffers(
-		_In_  UINT StartSlot,
-		_In_  UINT NumViews,
-		_In_reads_opt_(NumViews)  const D3D10_VERTEX_BUFFER_VIEW* pViews);
-
-
-	/*
-		Draw 
-	*/
-	void STDMETHODCALLTYPE DrawInstanced(
-		_In_  UINT VertexCountPerInstance,
-		_In_  UINT InstanceCount,
-		_In_  UINT StartVertexLocation,
-		_In_  UINT StartInstanceLocation);
-
-	void STDMETHODCALLTYPE DrawIndexedInstanced(
-		_In_  UINT IndexCountPerInstance,
-		_In_  UINT InstanceCount,
-		_In_  UINT StartIndexLocation,
-		_In_  INT BaseVertexLocation,
-		_In_  UINT StartInstanceLocation);
-
-	void STDMETHODCALLTYPE ResourceBarrier(
-		_In_  UINT NumBarriers,
-		_In_reads_(NumBarriers)  const D3D10_RESOURCE_BARRIER* pBarriers);
-
-	HRESULT STDMETHODCALLTYPE Close(void);
-
-	HRESULT STDMETHODCALLTYPE Reset(_In_  ID3D10CommandAllocator* pAllocator, _In_opt_  ID3D10PipelineState* pInitialState);
-
-	void STDMETHODCALLTYPE ClearState(_In_opt_  ID3D10PipelineState* pPipelineState);
 private:
-	ID3D10GraphicsCommandList* Handle = nullptr;
 	D3D10CommandPool* CommandPool = nullptr;
 	D3D10Device* Device = nullptr;
 };

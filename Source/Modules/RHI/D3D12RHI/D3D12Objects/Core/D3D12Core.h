@@ -222,8 +222,8 @@ inline D3D12_CULL_MODE ToD3D12CullMode(RHICullMode RHICullMode)
         Mode = D3D12_CULL_MODE_BACK;
         break;
     case RHICullMode::Front_Back:
-        // D3D12 不支持同时剔除前后，使用背面剔除
-        Mode = D3D12_CULL_MODE_BACK;
+        // D3D12 不支持同时剔除前后，不剔除
+        Mode = D3D12_CULL_MODE_NONE;
         break;
     default:
         Mode = D3D12_CULL_MODE_NONE;
@@ -414,7 +414,7 @@ inline D3D12_BLEND ToD3D12Blend(RHIBlendFactor RHIBlendFactor)
     }
     return Blend;
 }
-
+#if 1
 inline D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12PrimitiveTopology(RHITopology RHITopology)
 {
     D3D12_PRIMITIVE_TOPOLOGY_TYPE Topology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -440,8 +440,8 @@ inline D3D12_PRIMITIVE_TOPOLOGY_TYPE ToD3D12PrimitiveTopology(RHITopology RHITop
     }
     return Topology;
 }
-
-inline D3D_PRIMITIVE_TOPOLOGY ToD3DPrimitiveTopology(RHITopology RHITopology)
+#endif
+inline D3D_PRIMITIVE_TOPOLOGY ToD3D12Topology(RHITopology RHITopology)
 {
     D3D_PRIMITIVE_TOPOLOGY Topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
     switch (RHITopology)
@@ -474,7 +474,7 @@ inline D3D_PRIMITIVE_TOPOLOGY ToD3DPrimitiveTopology(RHITopology RHITopology)
     return Topology;
 }
 
-inline D3D12_SHADER_VISIBILITY ToD3D12ShaderVisibility(RHIShaderType Type)
+inline D3D12_SHADER_VISIBILITY ToD3D12ShaderType(RHIShaderType Type)
 {
     D3D12_SHADER_VISIBILITY Visibility = D3D12_SHADER_VISIBILITY_VERTEX;
     switch (Type)
@@ -654,47 +654,4 @@ inline DXGI_FORMAT ToD3D12Format(RHIVertexInputAttribute::Format Format)
         break;
     }
     return fmt;
-}
-
-inline D3D12_PRIMITIVE_TOPOLOGY ToD3D12Topology(RHITopology Top)
-{
-    switch (Top)
-    {
-        case RHITopology::Points:
-            return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-
-        case RHITopology::Lines:
-            return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-
-        case RHITopology::LineStrip:
-            return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
-
-        case RHITopology::Triangles:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-        case RHITopology::TriangleStrip:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-
-        case RHITopology::TriangleFan:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLEFAN;  // 注意：D3D12 支持 TRIANGLEFAN
-
-        case RHITopology::LinesWithAdjacency:
-            return D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ;
-
-        case RHITopology::LineStripWithAdjacency:
-            return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ;
-
-        case RHITopology::TrianglesWithAdjacency:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ;
-
-        case RHITopology::TriangleStripWithAdjacency:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ;
-
-        case RHITopology::Patches:
-            // 注意：对于面片拓扑，D3D12 需要指定控制点数量
-            // 返回基础值，实际使用时需要根据控制点数量选择
-            return D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
-        default:
-            return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-    }
 }
