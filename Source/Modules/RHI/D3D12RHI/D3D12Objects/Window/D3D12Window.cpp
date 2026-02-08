@@ -8,6 +8,7 @@
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
 #include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
 #include "D3D12Objects/Factory/D3D12Factory.h"
+#include "D3D12Objects/Queue/D3D12Queue.h"
 
 D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface)
     : PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
@@ -58,6 +59,9 @@ void D3D12Window::RHIBeginFrame()
 
 void D3D12Window::RHIEndFrame()
 {
+    GraphicsCommandBuffers[0]->Close();
+    ID3D12CommandList* CmdLists[] = { GraphicsCommandBuffers[0]->GetHandle() };
+    Device->Queues[0]->ExecuteCommandLists(1, CmdLists);
     // 呈现
     SwapChain->Present(1, 0);
 }

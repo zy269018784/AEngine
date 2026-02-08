@@ -415,9 +415,9 @@ static void Render() {
     g_CommandList->ResourceBarrier(1, &barrier);
 
     // 执行命令列表
-    g_CommandList->Close();
-    ID3D12CommandList* cmdLists[] = { g_CommandList.Get() };
-    g_CommandQueue->ExecuteCommandLists(1, cmdLists);
+    // g_CommandList->Close();
+    // ID3D12CommandList* cmdLists[] = { g_CommandList.Get() };
+    // g_CommandQueue->ExecuteCommandLists(1, cmdLists);
 
     // 呈现
     Window->RHIEndFrame();
