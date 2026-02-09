@@ -42,5 +42,6 @@ private:
 public:
     D3D12SwapChain *SwapChain = nullptr;
     ID3D12DescriptorHeap *RTVHeap = nullptr;
+    ID3D12Resource* RenderTargets[2];
     D3D12Factory *Factory = nullptr;
 };

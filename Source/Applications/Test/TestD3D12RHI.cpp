@@ -55,7 +55,7 @@ static    ComPtr<ID3D12Device> g_Device;
 static    ComPtr<IDXGISwapChain3> g_SwapChain;
 static    ComPtr<ID3D12CommandQueue> g_CommandQueue;
 static    ComPtr<ID3D12DescriptorHeap> g_RtvHeap;
-static    ComPtr<ID3D12Resource> g_RenderTargets[FrameCount];
+//static    ComPtr<ID3D12Resource> g_RenderTargets[FrameCount];
 static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
 static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
 static    ComPtr<ID3D12Fence> g_Fence;
@@ -137,44 +137,23 @@ static bool Init() {
 #endif
     factory = ((D3D12Window *)Window)->Factory->GetHandle();
     ComPtr<IDXGISwapChain1> swapChain;
-#if 0
-    DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-    swapChainDesc.BufferCount = FrameCount;
-    swapChainDesc.Width = Width;
-    swapChainDesc.Height = Height;
-    swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-    swapChainDesc.SampleDesc.Count = 1;
-
-
-    if (FAILED(factory->CreateSwapChainForHwnd(g_CommandQueue.Get(), hwnd, &swapChainDesc, nullptr, nullptr, &swapChain))) {
-        return false;
-    }
-#else
+#if 1
     swapChain = ((D3D12Window *)Window)->SwapChain->GetHandle();
 #endif
     swapChain.As(&g_SwapChain);
     g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 
-    // 创建RTV堆
-    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-    rtvHeapDesc.NumDescriptors = FrameCount;
-    rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-    if (FAILED(g_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&g_RtvHeap)))) {
-        return false;
-    }
-
+    g_RtvHeap = ((D3D12Window *)Window)->RTVHeap;
 
     // 创建RTV
     SIZE_T rtvDescriptorSize = g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
 
     for (UINT i = 0; i < FrameCount; i++) {
-        if (FAILED(g_SwapChain->GetBuffer(i, IID_PPV_ARGS(&g_RenderTargets[i])))) {
+        if (FAILED(g_SwapChain->GetBuffer(i, IID_PPV_ARGS(&((D3D12Window *)Window)->RenderTargets[i])))) {
             return false;
         }
-        g_Device->CreateRenderTargetView(g_RenderTargets[i].Get(), nullptr, rtvHandle);
+        g_Device->CreateRenderTargetView(((D3D12Window *)Window)->RenderTargets[i], nullptr, rtvHandle);
         rtvHandle.ptr += rtvDescriptorSize;
     }
 #if 0
@@ -366,7 +345,7 @@ static void Render() {
     // 资源屏障：Present -> Render Target
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Transition.pResource = g_RenderTargets[g_FrameIndex].Get();
+    barrier.Transition.pResource = ((D3D12Window *)Window)->RenderTargets[g_FrameIndex];
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
