@@ -59,7 +59,10 @@ static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
 static    ComPtr<ID3D12Fence> g_Fence;
 static    HANDLE g_FenceEvent = nullptr;
 static    uint64_t g_FenceValue = 1;
-
+/*
+   顶点输入
+*/
+static std::vector<RHICommandBuffer::VertexInput> VertexInputs;
 
 // 三角形相关
 static ComPtr<ID3D12RootSignature> g_RootSignature;
@@ -298,9 +301,6 @@ static void Render() {
 
     Window->RHIBeginRenderPass();
 
-    // 设置管线状态
-    g_CommandList->SetGraphicsRootSignature(g_RootSignature.Get());
-
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
@@ -312,7 +312,11 @@ static void Render() {
 
     g_CommandList->IASetVertexBuffers(0, 1, &g_VertexBufferView);
 
+   // CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
+
+    Window->RHIEndRenderPass();
 
     // 呈现
     Window->RHIEndFrame();

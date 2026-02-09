@@ -60,6 +60,8 @@ void D3D12CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPip
 {
 	D3D12GraphicsPipeline* pGraphicsPipeline = dynamic_cast<D3D12GraphicsPipeline*>(GraphicsPipeline);
     Handle->Reset(CommandPool->GetHandle(), pGraphicsPipeline->GetHandle());
+
+	Handle->SetGraphicsRootSignature(pGraphicsPipeline->RootSignature);
 }
 
 void D3D12CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
