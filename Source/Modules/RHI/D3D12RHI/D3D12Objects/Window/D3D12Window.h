@@ -1,5 +1,6 @@
 #pragma once
 #include "RHIObjects/Window/RHIWindow.h"
+#include <D3D12_Includes.h>
 class D3D12PhysicalDevice;
 class D3D12Device;
 class D3D12Surface;
@@ -40,6 +41,6 @@ private:
     std::vector<D3D12CommandBuffer*>	GraphicsCommandBuffers;
 public:
     D3D12SwapChain *SwapChain = nullptr;
-
+    ID3D12DescriptorHeap *RTVHeap = nullptr;
     D3D12Factory *Factory = nullptr;
 };

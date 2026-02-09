@@ -18,8 +18,10 @@ public:
 
     HRESULT Present(UINT SyncInterval, UINT Flags);
 private:
+public:
     IDXGISwapChain1 *Handle = nullptr;
     IDXGISwapChain3 *Handle3 = nullptr;
+    ID3D12DescriptorHeap *RTVHeap = nullptr;
     D3D12Factory *Factory = nullptr;
     D3D12Surface *Surface = nullptr;
     D3D12Queue *Queue = nullptr;

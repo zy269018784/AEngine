@@ -25,6 +25,8 @@ D3D12SwapChain::D3D12SwapChain(D3D12Factory *InFactory, D3D12Queue *InQueue, D3D
     if (SUCCEEDED(hr)) {
         // 使用...
     }
+
+
 }
 
 D3D12SwapChain::~D3D12SwapChain()

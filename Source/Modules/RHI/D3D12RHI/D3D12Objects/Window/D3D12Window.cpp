@@ -13,7 +13,13 @@
 D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface)
     : PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)
 {
-
+    // 创建RTV堆
+    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+    rtvHeapDesc.NumDescriptors = 2;
+    rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+    if (FAILED(Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&RTVHeap)))) {
+        return;
+    }
 }
 
 D3D12Window::~D3D12Window()
@@ -59,6 +65,19 @@ void D3D12Window::RHIBeginFrame()
 
 void D3D12Window::RHIEndFrame()
 {
+#if 0
+    D3D12_RESOURCE_BARRIER barrier = {};
+    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier.Transition.pResource = g_RenderTargets[g_FrameIndex].Get();
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+    // 资源屏障：Render Target -> Present
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+    GraphicsCommandBuffers[0]->ResourceBarrier(1, &barrier);
+#endif
     GraphicsCommandBuffers[0]->Close();
     ID3D12CommandList* CmdLists[] = { GraphicsCommandBuffers[0]->GetHandle() };
     Device->Queues[0]->ExecuteCommandLists(1, CmdLists);
