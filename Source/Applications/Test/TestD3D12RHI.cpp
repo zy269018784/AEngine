@@ -282,22 +282,9 @@ static void Render() {
     CommandBuffer = Window->CurrentGraphicsCommandBuffer();
 
     Window->RHIBeginFrame();
-    // 重置命令
-    //g_CommandAllocator->Reset();
 
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
-    //g_CommandList->Reset(g_CommandAllocator.Get(), g_PipelineState.Get());
 
-    // 资源屏障：Present -> Render Target
-    D3D12_RESOURCE_BARRIER barrier = {};
-    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Transition.pResource = ((D3D12Window *)Window)->RenderTargets[ ((D3D12Window *)Window)->g_FrameIndex];
-    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-#if 0
-    g_CommandList->ResourceBarrier(1, &barrier);
-#endif
     float x = 0;
     float y = 0;
     float w = 800;
