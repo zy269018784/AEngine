@@ -16,13 +16,13 @@
 using namespace Microsoft::WRL;
 
 // 全局变量
-static ComPtr<ID3D10Device>           g_pDevice = nullptr;
-static ComPtr<IDXGISwapChain>         g_pSwapChain = nullptr;
-static ComPtr<ID3D10RenderTargetView> g_pRenderTargetView = nullptr;
-static ComPtr<ID3D10InputLayout>      g_pInputLayout = nullptr;
-static ComPtr<ID3D10Buffer>           g_pVertexBuffer = nullptr;
-static ComPtr<ID3D10VertexShader>     g_pVertexShader = nullptr;
-static ComPtr<ID3D10PixelShader>      g_pPixelShader = nullptr;
+static  ComPtr<ID3D10Device>           g_pDevice = nullptr;
+static  ComPtr<IDXGISwapChain>         g_pSwapChain = nullptr;
+static  ComPtr<ID3D10RenderTargetView> g_pRenderTargetView = nullptr;
+static  ComPtr<ID3D10InputLayout>      g_pInputLayout = nullptr;
+static  ComPtr<ID3D10Buffer>           g_pVertexBuffer = nullptr;
+static  ComPtr<ID3D10VertexShader>     g_pVertexShader = nullptr;
+static  ComPtr<ID3D10PixelShader>      g_pPixelShader = nullptr;
 
 // 顶点结构 - 使用 DirectXMath 类型
 struct Vertex

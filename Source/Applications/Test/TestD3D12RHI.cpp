@@ -142,6 +142,7 @@ static bool Init() {
     // 创建三角形
     return CreateTriangleResources();
 }
+std::vector<char> ReadFile(const std::string& filename);
 
 static bool CreateTriangleResources() {
     std::cout << "Creating triangle resources..." << std::endl;
@@ -193,11 +194,15 @@ static bool CreateTriangleResources() {
 #ifdef _DEBUG
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
-
-
+#if 0
+    auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
+    auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
+    VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+#else
     VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
     FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
-
+#endif
     std::cout << "CreateTriangleResources 1" << std::endl;
 #if 1
     SRB = RHI->RHICreateShaderResourceBindings();

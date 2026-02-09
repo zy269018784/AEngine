@@ -22,12 +22,12 @@ static float VertexAttributes[] = {
 
 static float VertexAttributes[] = {
     // VBO1                                     // VBO2
-    -0.5f, -0.5f, 0.4f, 1.0f, 0.0f, 0.0f,       -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f, -0.5f, 0.4f, 1.0f, 0.0f, 0.0f,        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.4f, 1.0f, 0.0f, 0.0f,        0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f,       0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-     0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 0.0f,      -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 0.0f,      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+    -0.5f, -0.5f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f,       -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  0.0f,
+     0.5f, -0.5f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f,        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+     0.5f,  0.5f, 0.4f, 1.0f, 0.0f, 0.0f, 0.0f,        0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+     0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,       0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+     0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,      -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    -0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 };
 #endif
 
@@ -129,13 +129,13 @@ void RHIApplicationTriangleIndexed::CreateGraphicsPipeline()
     */
     VertexInputLayout.SetAttributes({
         { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
-        { "",0, 1, RHIVertexInputAttribute::Format::Float3,  3 * sizeof(float), 0 },
+        { "",0, 1, RHIVertexInputAttribute::Format::Float4,  3 * sizeof(float), 0 },
         });
     /*
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-        { 12 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+        { 14 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
         });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout

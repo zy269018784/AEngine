@@ -14,10 +14,15 @@ int TestD3D12(int argc, char **argv);
 int TestD3D11(int argc, char **argv);
 int TestD3D10(int argc, char **argv);
 int TestD3D9(int argc, char **argv);
+int TestSpirvCross(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    return TestD3D9(argc, argv);
+    return RHIExample();
     return TestD3D12RHI(argc, argv);
+    return TestSpirvCross(argc, argv);
+
+    return TestD3D9(argc, argv);
+
     return RHIExample();
     return SFMLMain(argc, argv);
   //  return BluezMain(argc, argv);

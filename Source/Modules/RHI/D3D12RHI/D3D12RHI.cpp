@@ -7,7 +7,10 @@
 #include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
 #include "D3D12Objects/Surface/D3D12Surface.h"
-
+#include <spirv_cross/spirv.hpp>
+#include <spirv_cross/spirv_cross.hpp>
+#include <spirv_cross/spirv_hlsl.hpp>
+#include <iostream>
 D3D12RHI::D3D12RHI()
 {
 //	Device = new D3D12Device();
@@ -92,6 +95,19 @@ RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 
 RHIShader* D3D12RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize)
 {
+#if 0
+	spirv_cross::CompilerHLSL glsl(Code, CodeSize / 4);
+
+	auto options = glsl.get_hlsl_options();
+	// 设置合适的着色器模型版本
+	options.shader_model = 50;  // 或 60、61 等
+	// 启用现代语义
+	glsl.set_hlsl_options(options);
+
+	std::string source = glsl.compile();
+	std::cout << source << std::endl;
+	D3D12Shader* Shader = new D3D12Shader(Devices[GPUIndex], Type, (std::uint32_t *)source.data(), source.length());
+#endif
 	D3D12Shader* Shader = new D3D12Shader(Devices[GPUIndex], Type, Code, CodeSize);
 	return Shader;
 }
