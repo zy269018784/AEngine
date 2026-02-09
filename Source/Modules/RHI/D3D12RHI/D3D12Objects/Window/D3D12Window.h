@@ -43,5 +43,7 @@ public:
     D3D12SwapChain *SwapChain = nullptr;
     ID3D12DescriptorHeap *RTVHeap = nullptr;
     ID3D12Resource* RenderTargets[2];
+    SIZE_T rtvDescriptorSize;
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
     D3D12Factory *Factory = nullptr;
 };

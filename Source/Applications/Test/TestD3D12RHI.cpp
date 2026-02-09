@@ -144,7 +144,7 @@ static bool Init() {
     g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 
     g_RtvHeap = ((D3D12Window *)Window)->RTVHeap;
-
+#if 0
     // 创建RTV
     SIZE_T rtvDescriptorSize = g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
@@ -156,6 +156,7 @@ static bool Init() {
         g_Device->CreateRenderTargetView(((D3D12Window *)Window)->RenderTargets[i], nullptr, rtvHandle);
         rtvHandle.ptr += rtvDescriptorSize;
     }
+#endif
 #if 0
     // 创建命令分配器和列表
     if (FAILED(g_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_CommandAllocator)))) {

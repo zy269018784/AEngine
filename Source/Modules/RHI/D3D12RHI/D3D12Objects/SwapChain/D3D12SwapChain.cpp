@@ -53,3 +53,8 @@ HRESULT D3D12SwapChain::Present(UINT SyncInterval, UINT Flags)
 {
     return Handle3->Present(SyncInterval, Flags);
 }
+
+HRESULT D3D12SwapChain::GetBuffer(UINT Buffer, REFIID riid, void **ppSurface)
+{
+    return Handle3->GetBuffer(Buffer, riid, ppSurface);
+}

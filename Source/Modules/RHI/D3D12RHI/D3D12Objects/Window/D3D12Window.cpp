@@ -41,6 +41,18 @@ void D3D12Window::CreateSwapChain()
 {
     D3D12Queue *Queue = Device->Queues[0];
     SwapChain = new D3D12SwapChain(Factory, Queue, Surface);
+
+    // 创建RTV
+    SIZE_T rtvDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = RTVHeap->GetCPUDescriptorHandleForHeapStart();
+
+    for (UINT i = 0; i < 2; i++) {
+        if (FAILED(SwapChain->GetBuffer(i, IID_PPV_ARGS(&RenderTargets[i])))) {
+
+        }
+        Device->CreateRenderTargetView(RenderTargets[i], nullptr, rtvHandle);
+        rtvHandle.ptr += rtvDescriptorSize;
+    }
 }
 
 void D3D12Window::CreateCommandBuffer()

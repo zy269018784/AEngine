@@ -17,6 +17,8 @@ public:
     UINT GetCurrentBackBufferIndex( void);
 
     HRESULT Present(UINT SyncInterval, UINT Flags);
+
+    HRESULT GetBuffer(UINT Buffer, REFIID riid, void **ppSurface);
 private:
 public:
     IDXGISwapChain1 *Handle = nullptr;
