@@ -85,10 +85,10 @@ void D3D12Window::RHIBeginFrame()
 
 void D3D12Window::RHIEndFrame()
 {
-#if 0
+#if 1
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Transition.pResource = g_RenderTargets[g_FrameIndex].Get();
+    barrier.Transition.pResource = RenderTargets[g_FrameIndex];
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;

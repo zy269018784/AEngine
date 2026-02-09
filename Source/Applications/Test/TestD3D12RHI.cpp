@@ -112,20 +112,6 @@ static bool Init() {
 
     Window = RHI->RHICreateWindow(0, hwnd);
 
-    /*
-    // 创建设备
-    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&g_Device)))) {
-        std::cerr << "Failed to create device" << std::endl;
-        return false;
-    }*/
-#if 0
-    // 创建命令队列
-    D3D12_COMMAND_QUEUE_DESC queueDesc = {};
-    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-    if (FAILED(g_Device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_CommandQueue)))) {
-        return false;
-    }
-#endif
     g_CommandQueue = RHI->Devices[0]->Queues[0]->GetHandle();
 
     // 创建交换链
@@ -141,22 +127,9 @@ static bool Init() {
     swapChain.As(&g_SwapChain);
     ((D3D12Window *)Window)-> g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 
-
-#if 0
-    // 创建命令分配器和列表
-    if (FAILED(g_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_CommandAllocator)))) {
-        return false;
-    }
-#endif
     std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
     g_CommandAllocator = RHI->Devices[0]->CommandPools[0]->GetHandle();
-  //  RHI->Devices[0]->CommandPools[0]->GetHandle();
-    std::cout << "g_CommandAllocator " << g_CommandAllocator.Get() << std::endl;
-#if 0
-    if (FAILED(g_Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_CommandAllocator.Get(), nullptr, IID_PPV_ARGS(&g_CommandList)))) {
-        return false;
-    }
-#endif
+
     g_CommandList = ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle();
     g_CommandList->Close();
 
@@ -216,28 +189,15 @@ static bool CreateTriangleResources() {
         }
     )";
 
-    ComPtr<ID3DBlob> vertexShader, pixelShader;
     UINT compileFlags = 0;
 #ifdef _DEBUG
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-#if 0
-    if (FAILED(D3DCompile(vsCode, strlen(vsCode), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0, &vertexShader, &error))) {
-        std::cerr << "VS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
-        return false;
-    }
-    if (FAILED(D3DCompile(psCode, strlen(psCode), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0, &pixelShader, &error))) {
-        std::cerr << "PS compile failed: " << (char*)error->GetBufferPointer() << std::endl;
-        return false;
-    }
-#else
+
     VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
     FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
 
-    vertexShader = ((D3D12Shader *)VertexShader)->GetHandle();
-    pixelShader = ((D3D12Shader *)FragmengShader)->GetHandle();
-#endif
     std::cout << "CreateTriangleResources 1" << std::endl;
 #if 1
     SRB = RHI->RHICreateShaderResourceBindings();
@@ -335,7 +295,7 @@ static void Render() {
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-  #if 0
+#if 0
     g_CommandList->ResourceBarrier(1, &barrier);
 #endif
     float x = 0;
@@ -370,20 +330,10 @@ static void Render() {
 
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
-    //g_CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
     g_CommandList->IASetVertexBuffers(0, 1, &g_VertexBufferView);
-   // g_CommandList->DrawInstanced(3, 1, 0, 0);
+
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
-
-    // 资源屏障：Render Target -> Present
-    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-    g_CommandList->ResourceBarrier(1, &barrier);
-
-    // 执行命令列表
-    // g_CommandList->Close();
-    // ID3D12CommandList* cmdLists[] = { g_CommandList.Get() };
-    // g_CommandQueue->ExecuteCommandLists(1, cmdLists);
 
     // 呈现
     Window->RHIEndFrame();
