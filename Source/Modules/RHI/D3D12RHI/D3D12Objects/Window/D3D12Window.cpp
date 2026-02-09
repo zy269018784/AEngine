@@ -107,6 +107,14 @@ void D3D12Window::RHIEndFrame()
 
 void D3D12Window::RHIBeginRenderPass()
 {
+    // 获取RTV
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = RTVHeap->GetCPUDescriptorHandleForHeapStart();
+    rtvHandle.ptr +=  g_FrameIndex * Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+    // 清除为深灰色并设置渲染目标
+    const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GraphicsCommandBuffers[0]->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+    GraphicsCommandBuffers[0]->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
 }
 

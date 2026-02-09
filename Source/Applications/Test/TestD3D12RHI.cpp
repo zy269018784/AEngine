@@ -291,24 +291,11 @@ static void Render() {
     float h = 600;
     //Window->GetExtent(x, y, w, h);
 
-    // 获取RTV
-    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = ((D3D12Window *)Window)->RTVHeap->GetCPUDescriptorHandleForHeapStart();
-    rtvHandle.ptr +=  ((D3D12Window *)Window)->g_FrameIndex * g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
-    // 清除为深灰色并设置渲染目标
-    const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    g_CommandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-    g_CommandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
+    Window->RHIBeginRenderPass();
 
     // 设置管线状态
     g_CommandList->SetGraphicsRootSignature(g_RootSignature.Get());
-#if 0
-    // 设置视口和裁剪矩形
-    D3D12_VIEWPORT viewport = { 0.0f, 0.0f, (float)Width, (float)Height, 0.0f, 1.0f };
-    D3D12_RECT scissorRect = { 0, 0, (LONG)Width, (LONG)Height };
-    g_CommandList->RSSetViewports(1, &viewport);
-    g_CommandList->RSSetScissorRects(1, &scissorRect);
-#endif
+
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
