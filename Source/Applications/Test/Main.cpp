@@ -16,7 +16,7 @@ int TestD3D10(int argc, char **argv);
 int TestD3D9(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    return TestD3D11(argc, argv);
+    return TestD3D10(argc, argv);
     return TestD3D12RHI(argc, argv);
     return RHIExample();
     return SFMLMain(argc, argv);
