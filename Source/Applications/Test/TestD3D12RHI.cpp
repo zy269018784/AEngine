@@ -54,14 +54,12 @@ static    GLFWwindow* g_Window = nullptr;
 static    ComPtr<ID3D12Device> g_Device;
 static    ComPtr<IDXGISwapChain3> g_SwapChain;
 static    ComPtr<ID3D12CommandQueue> g_CommandQueue;
-static    ComPtr<ID3D12DescriptorHeap> g_RtvHeap;
-//static    ComPtr<ID3D12Resource> g_RenderTargets[FrameCount];
 static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
 static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
 static    ComPtr<ID3D12Fence> g_Fence;
 static    HANDLE g_FenceEvent = nullptr;
 static    uint64_t g_FenceValue = 1;
-static    uint32_t g_FrameIndex = 0;
+
 
 // 三角形相关
 static ComPtr<ID3D12RootSignature> g_RootSignature;
@@ -141,22 +139,9 @@ static bool Init() {
     swapChain = ((D3D12Window *)Window)->SwapChain->GetHandle();
 #endif
     swapChain.As(&g_SwapChain);
-    g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
+    ((D3D12Window *)Window)-> g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 
-    g_RtvHeap = ((D3D12Window *)Window)->RTVHeap;
-#if 0
-    // 创建RTV
-    SIZE_T rtvDescriptorSize = g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
 
-    for (UINT i = 0; i < FrameCount; i++) {
-        if (FAILED(g_SwapChain->GetBuffer(i, IID_PPV_ARGS(&((D3D12Window *)Window)->RenderTargets[i])))) {
-            return false;
-        }
-        g_Device->CreateRenderTargetView(((D3D12Window *)Window)->RenderTargets[i], nullptr, rtvHandle);
-        rtvHandle.ptr += rtvDescriptorSize;
-    }
-#endif
 #if 0
     // 创建命令分配器和列表
     if (FAILED(g_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_CommandAllocator)))) {
@@ -329,7 +314,7 @@ static void WaitForGPU() {
         g_Fence->SetEventOnCompletion(fence, g_FenceEvent);
         WaitForSingleObject(g_FenceEvent, INFINITE);
     }
-    g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
+     ((D3D12Window *)Window)->g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
 }
 
 static void Render() {
@@ -346,12 +331,13 @@ static void Render() {
     // 资源屏障：Present -> Render Target
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Transition.pResource = ((D3D12Window *)Window)->RenderTargets[g_FrameIndex];
+    barrier.Transition.pResource = ((D3D12Window *)Window)->RenderTargets[ ((D3D12Window *)Window)->g_FrameIndex];
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+  #if 0
     g_CommandList->ResourceBarrier(1, &barrier);
-
+#endif
     float x = 0;
     float y = 0;
     float w = 800;
@@ -359,8 +345,8 @@ static void Render() {
     //Window->GetExtent(x, y, w, h);
 
     // 获取RTV
-    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_RtvHeap->GetCPUDescriptorHandleForHeapStart();
-    rtvHandle.ptr += g_FrameIndex * g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = ((D3D12Window *)Window)->RTVHeap->GetCPUDescriptorHandleForHeapStart();
+    rtvHandle.ptr +=  ((D3D12Window *)Window)->g_FrameIndex * g_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
     // 清除为深灰色并设置渲染目标
     const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };

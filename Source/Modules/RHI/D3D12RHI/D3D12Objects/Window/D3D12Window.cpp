@@ -73,6 +73,14 @@ void D3D12Window::RHIBeginFrame()
    // CommandPool->Reset();
    // GraphicsCommandBuffers[0]->GetHandle()->Reset(CommandPool, g_PipelineState.Get());mmandBuffers[0]->GetHandle()->ResourceBarrier(1, &barrier);
 
+    // 资源屏障：Present -> Render Target
+    D3D12_RESOURCE_BARRIER barrier = {};
+    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+    barrier.Transition.pResource = RenderTargets[g_FrameIndex];
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+    GraphicsCommandBuffers[0]->ResourceBarrier(1, &barrier);
 }
 
 void D3D12Window::RHIEndFrame()
