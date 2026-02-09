@@ -10,8 +10,10 @@ int TestD3D12RHI(int argc, char **argv);
 //int BluezMain(int argc, char **argv);
 int SFMLMain(int argc, char **argv);
 int RHIExample();
+int TestD3D11(int argc, char **argv);
 int main(int argc, char** argv)
 {
+    return TestD3D11(argc, argv);
     return TestD3D12RHI(argc, argv);
     return RHIExample();
     return SFMLMain(argc, argv);
