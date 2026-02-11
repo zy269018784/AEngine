@@ -69,6 +69,17 @@ void QTWindow::SetPosition(int X, int Y)
 #endif
 }
 
+#ifdef OS_IS_WINDOWS
+HWND QTWindow::GetHWND()
+{
+    return {};
+}
+
+HINSTANCE QTWindow::GetHINSTANCE()
+{
+    return {};
+}
+#endif
 
 #ifdef PROJECT_USE_XCB
 xcb_connection_t *QTWindow::GetXCBConnection()

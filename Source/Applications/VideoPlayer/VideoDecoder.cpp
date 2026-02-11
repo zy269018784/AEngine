@@ -6,13 +6,13 @@ bool VideoDecoder::Open(const char* filename) {
 
     // 打开文件
     if (avformat_open_input(&formatCtx, filename, nullptr, nullptr) < 0) {
-        std::cerr << "无法打开文件: " << filename << std::endl;
+        //std::cerr << "无法打开文件: " << filename << std::endl;
         return false;
     }
 
     // 查找流信息
     if (avformat_find_stream_info(formatCtx, nullptr) < 0) {
-        std::cerr << "无法查找流信息" << std::endl;
+        //std::cerr << "无法查找流信息" << std::endl;
         return false;
     }
 
@@ -26,7 +26,7 @@ bool VideoDecoder::Open(const char* filename) {
     }
 
     if (videoStreamIndex == -1) {
-        std::cerr << "未找到视频流" << std::endl;
+       // std::cerr << "未找到视频流" << std::endl;
         return false;
     }
 
@@ -34,24 +34,24 @@ bool VideoDecoder::Open(const char* filename) {
     AVCodecParameters* codecParams = formatCtx->streams[videoStreamIndex]->codecpar;
     const AVCodec* codec = avcodec_find_decoder(codecParams->codec_id);
     if (!codec) {
-        std::cerr << "找不到解码器" << std::endl;
+       // std::cerr << "找不到解码器" << std::endl;
         return false;
     }
 
     // 创建解码器上下文
     codecCtx = avcodec_alloc_context3(codec);
     if (!codecCtx) {
-        std::cerr << "无法分配解码器上下文" << std::endl;
+      //  std::cerr << "无法分配解码器上下文" << std::endl;
         return false;
     }
 
     if (avcodec_parameters_to_context(codecCtx, codecParams) < 0) {
-        std::cerr << "无法复制编解码器参数到上下文" << std::endl;
+       // std::cerr << "无法复制编解码器参数到上下文" << std::endl;
         return false;
     }
 
     if (avcodec_open2(codecCtx, codec, nullptr) < 0) {
-        std::cerr << "无法打开解码器" << std::endl;
+   //     std::cerr << "无法打开解码器" << std::endl;
         return false;
     }
 
@@ -158,7 +158,7 @@ std::unique_ptr<VideoFrame> VideoDecoder::ConvertToRGB(AVFrame* frame) {
         );
 #endif
         if (!swsCtx) {
-            std::cerr << "无法创建缩放上下文" << std::endl;
+          //  std::cerr << "无法创建缩放上下文" << std::endl;
             return nullptr;
         }
     }

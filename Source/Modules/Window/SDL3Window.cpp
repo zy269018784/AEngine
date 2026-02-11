@@ -103,6 +103,18 @@ void SDL3Window::SetPosition(int X, int Y)
 
 }
 
+#ifdef OS_IS_WINDOWS
+HWND SDL3Window::GetHWND()
+{
+    return {};
+}
+
+HINSTANCE SDL3Window::GetHINSTANCE()
+{
+    return {};
+}
+#endif
+
 #ifdef PROJECT_USE_XCB
 xcb_connection_t *SDL3Window::GetXCBConnection()
 {

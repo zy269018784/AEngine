@@ -29,6 +29,11 @@ public:
     virtual Display* GetXlibDisplay() override final;
     virtual Window GetXlibWindow() override final;
 #endif
+#ifdef OS_IS_WINDOWS
+    virtual HWND GetHWND() override final;
+    virtual HINSTANCE GetHINSTANCE() override final;
+#endif
+
 private:
 #ifdef PROJECT_USE_QT
     QWindow *Handle;

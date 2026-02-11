@@ -42,7 +42,7 @@ bool VideoRenderer::Initialize() {
 
     // 初始化GLFW
     if (!glfwInit()) {
-        std::cerr << "GLFW初始化失败" << std::endl;
+        //std::cerr << "GLFW初始化失败" << std::endl;
         return false;
     }
 #if 1
@@ -87,6 +87,9 @@ bool VideoRenderer::Initialize() {
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
+#else
+    RHIWindow_ = pRHI->RHICreateWindow(Window->GetHINSTANCE(), Window->GetHWND());
+
 #endif
     //std::cout << "OpenGL版本: " << glGetString(GL_VERSION) << std::endl;
 
@@ -334,17 +337,18 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
 #endif
     // 更新纹理数据
 #if 1
-
+    std::cout << "Update 1" << std::endl;
     RHITexture2D->Update(0, 0, 0, 0, width, height, 1, data);
-
+    std::cout << "Update 2" << std::endl;
 #else
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 #endif
 
     RHIWindow_->RHIBeginFrame();
+    std::cout << "RenderFrame 9" << std::endl;
     RHIWindow_->RHIBeginRenderPass();
-
+    std::cout << "RenderFrame 10" << std::endl;
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
 
     float x = 0;
@@ -354,8 +358,12 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
     RHIWindow_->GetExtent(x, y, w, h);
   //  std::cout << "w " << w << " " << h << std::endl;
 
+    std::cout << "RenderFrame 1" << std::endl;
+
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
+
+    std::cout << "RenderFrame 2" << std::endl;
 
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
@@ -373,10 +381,10 @@ void VideoRenderer::RenderFrame(const uint8_t* data, int width, int height) {
 
     */
     CommandBuffer->RHISetStencilTestEnable(false);
-
+    std::cout << "RenderFrame 3" << std::endl;
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
-
+    std::cout << "RenderFrame 4" << std::endl;
     RHIWindow_->RHIEndRenderPass();
     RHIWindow_->RHIEndFrame();
 

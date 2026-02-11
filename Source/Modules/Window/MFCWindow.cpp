@@ -66,6 +66,18 @@ void MFCWindow::SetPosition(int X, int Y)
 #endif
 }
 
+#ifdef OS_IS_WINDOWS
+HWND MFCWindow::GetHWND()
+{
+    return {};
+}
+
+HINSTANCE MFCWindow::GetHINSTANCE()
+{
+    return {};
+}
+#endif
+
 #ifdef PROJECT_USE_XCB
 xcb_connection_t *MFCWindow::GetXCBConnection()
 {

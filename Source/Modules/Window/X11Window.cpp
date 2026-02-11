@@ -109,6 +109,17 @@ void X11Window::SetPosition(int X, int Y)
 #endif
 }
 
+#ifdef OS_IS_WINDOWS
+HWND X11Window::GetHWND()
+{
+    return {};
+}
+
+HINSTANCE X11Window::GetHINSTANCE()
+{
+    return {};
+}
+#endif
 
 #ifdef PROJECT_USE_Xlib
 xcb_connection_t *X11Window::GetXCBConnection()

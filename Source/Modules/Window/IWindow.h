@@ -6,7 +6,10 @@
 
 #ifdef PROJECT_USE_XCB
     #include <xcb/xcb.h>
+#endif
 
+#ifdef OS_IS_WINDOWS
+    #include <windows.h>
 #endif
 
 class IWindow
@@ -53,7 +56,11 @@ public:
     virtual Display* GetXlibDisplay() =0;
     virtual Window GetXlibWindow() =0;
 #endif
-protected:
+#ifdef OS_IS_WINDOWS
+    virtual HWND GetHWND() =0;
+    virtual HINSTANCE GetHINSTANCE() =0;
+#endif
+    protected:
     IWindow  *Parent;
     int Width;
     int Height;

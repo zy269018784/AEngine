@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     // 开始解码
     decoder.Start();
-
+    std::cout << "hello world" << std::endl;
     // 主渲染循环
     auto lastTime = std::chrono::steady_clock::now();
     double frameTime = 1.0 / 25.0; // 假设30fps
@@ -49,14 +49,19 @@ int main(int argc, char* argv[]) {
         double elapsed = std::chrono::duration<double>(currentTime - lastTime).count();
 
         if (elapsed >= frameTime) {
+            std::cout << "GetFrame 1" << std::endl;
             // 获取一帧
             auto frame = decoder.GetFrame();
+            std::cout << "GetFrame 2" << std::endl;
             if (frame) {
 #if 1
+
                 // 渲染帧
                 renderer.RenderFrame(frame->data.get(),
                     decoder.GetWidth(),
                     decoder.GetHeight());
+
+                std::cout << "RenderFrame 1" << std::endl;
 #endif
                 lastTime = currentTime;
             }
