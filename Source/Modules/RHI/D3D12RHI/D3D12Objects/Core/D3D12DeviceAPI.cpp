@@ -12,12 +12,21 @@ HRESULT D3D12Device::CreateCommittedResource(
     return Handle->CreateCommittedResource(pHeapProperties, HeapFlags, pDesc, InitialResourceState, pOptimizedClearValue, riidResource, ppvResource);
 }
 
-HRESULT STDMETHODCALLTYPE D3D12Device::CreateRootSignature(
-    _In_  UINT nodeMask,
-    _In_reads_(blobLengthInBytes)  const void* pBlobWithRootSignature,
-    _In_  SIZE_T blobLengthInBytes,
+HRESULT D3D12Device::CreateFence(
+            UINT64 InitialValue,
+            D3D12_FENCE_FLAGS Flags,
+            REFIID riid,
+            void **ppFence)
+{
+    return Handle->CreateFence(InitialValue, Flags, riid, ppFence);
+}
+
+HRESULT D3D12Device::CreateRootSignature(
+    UINT nodeMask,
+    const void* pBlobWithRootSignature,
+    SIZE_T blobLengthInBytes,
     REFIID riid,
-    _COM_Outptr_  void** ppvRootSignature)
+    void** ppvRootSignature)
 {
     return Handle->CreateRootSignature(nodeMask, pBlobWithRootSignature, blobLengthInBytes, riid, ppvRootSignature);
 }
@@ -41,24 +50,24 @@ HRESULT D3D12Device::CreateCommandQueue(
     return Handle->CreateCommandQueue(pDesc, riid, ppCommandQueue);
 }
 
-HRESULT STDMETHODCALLTYPE D3D12Device::CreateDescriptorHeap(
-    _In_  const D3D12_DESCRIPTOR_HEAP_DESC* pDescriptorHeapDesc,
+HRESULT D3D12Device::CreateDescriptorHeap(
+    const D3D12_DESCRIPTOR_HEAP_DESC* pDescriptorHeapDesc,
     REFIID riid,
-    _COM_Outptr_  void** ppvHeap)
+    void** ppvHeap)
 {
     return Handle->CreateDescriptorHeap(pDescriptorHeapDesc, riid, ppvHeap);
 }
 
-UINT STDMETHODCALLTYPE D3D12Device::GetDescriptorHandleIncrementSize(
-    _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType)
+UINT D3D12Device::GetDescriptorHandleIncrementSize(
+    D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType)
 {
     return Handle->GetDescriptorHandleIncrementSize(DescriptorHeapType);
 }
 
-void STDMETHODCALLTYPE D3D12Device::CreateRenderTargetView(
-    _In_opt_  ID3D12Resource* pResource,
-    _In_opt_  const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
-    _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor)
+void D3D12Device::CreateRenderTargetView(
+    ID3D12Resource* pResource,
+    const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
+    D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor)
 {
     return Handle->CreateRenderTargetView(pResource, pDesc, DestDescriptor);
 }

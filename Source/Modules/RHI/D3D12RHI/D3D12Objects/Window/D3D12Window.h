@@ -47,4 +47,5 @@ public:
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
     D3D12Factory *Factory = nullptr;
     uint32_t g_FrameIndex = 0;
+    ID3D12Fence *Fence;
 };

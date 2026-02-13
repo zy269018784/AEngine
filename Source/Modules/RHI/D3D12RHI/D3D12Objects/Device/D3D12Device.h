@@ -17,6 +17,12 @@ public:
     /*
         D3D12 API Wrapper
     */
+    HRESULT CreateFence(
+            UINT64 InitialValue,
+            D3D12_FENCE_FLAGS Flags,
+            REFIID riid,
+            void **ppFence);
+
     HRESULT CreateCommittedResource(
         const D3D12_HEAP_PROPERTIES* pHeapProperties,
         D3D12_HEAP_FLAGS HeapFlags,
@@ -26,12 +32,12 @@ public:
         REFIID riidResource,
         void** ppvResource);
 
-    HRESULT STDMETHODCALLTYPE CreateRootSignature(
-        _In_  UINT nodeMask,
-        _In_reads_(blobLengthInBytes)  const void* pBlobWithRootSignature,
-        _In_  SIZE_T blobLengthInBytes,
+    HRESULT CreateRootSignature(
+        UINT nodeMask,
+        const void* pBlobWithRootSignature,
+        SIZE_T blobLengthInBytes,
         REFIID riid,
-        _COM_Outptr_  void** ppvRootSignature);
+        void** ppvRootSignature);
 
     HRESULT CreateCommandAllocator(
         D3D12_COMMAND_LIST_TYPE type,
@@ -55,18 +61,17 @@ public:
     );
 
 
-    HRESULT STDMETHODCALLTYPE CreateDescriptorHeap(
-        _In_  const D3D12_DESCRIPTOR_HEAP_DESC* pDescriptorHeapDesc,
+    HRESULT  CreateDescriptorHeap(
+        const D3D12_DESCRIPTOR_HEAP_DESC* pDescriptorHeapDesc,
         REFIID riid,
-        _COM_Outptr_  void** ppvHeap);
+        void** ppvHeap);
 
-    UINT STDMETHODCALLTYPE GetDescriptorHandleIncrementSize(
-        _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType);
+    UINT  GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapType);
 
-    void STDMETHODCALLTYPE CreateRenderTargetView(
-        _In_opt_  ID3D12Resource* pResource,
-        _In_opt_  const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
-        _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
+    void  CreateRenderTargetView(
+        ID3D12Resource* pResource,
+        const D3D12_RENDER_TARGET_VIEW_DESC* pDesc,
+         D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
 
     HRESULT CreateGraphicsPipelineState(
            const D3D12_GRAPHICS_PIPELINE_STATE_DESC *pDesc,

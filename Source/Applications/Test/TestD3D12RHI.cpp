@@ -56,7 +56,7 @@ static    ComPtr<IDXGISwapChain3> g_SwapChain;
 static    ComPtr<ID3D12CommandQueue> g_CommandQueue;
 static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
 static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
-static    ComPtr<ID3D12Fence> g_Fence;
+//static    ComPtr<ID3D12Fence> g_Fence;
 static    HANDLE g_FenceEvent = nullptr;
 static    uint64_t g_FenceValue = 1;
 /*
@@ -135,11 +135,12 @@ static bool Init() {
 
     g_CommandList = ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle();
     g_CommandList->Close();
-
+#if 0
     // 创建围栏
     if (FAILED(g_Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&g_Fence)))) {
         return false;
     }
+#endif
     g_FenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
     // 创建三角形
@@ -275,11 +276,11 @@ static bool CreateTriangleResources() {
 
 static void WaitForGPU() {
     const UINT64 fence = g_FenceValue;
-    g_CommandQueue->Signal(g_Fence.Get(), fence);
+    g_CommandQueue->Signal(((D3D12Window *)Window)->Fence, fence);
     g_FenceValue++;
 
-    if (g_Fence->GetCompletedValue() < fence) {
-        g_Fence->SetEventOnCompletion(fence, g_FenceEvent);
+    if (((D3D12Window *)Window)->Fence->GetCompletedValue() < fence) {
+        ((D3D12Window *)Window)->Fence->SetEventOnCompletion(fence, g_FenceEvent);
         WaitForSingleObject(g_FenceEvent, INFINITE);
     }
      ((D3D12Window *)Window)->g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
