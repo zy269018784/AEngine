@@ -3,7 +3,7 @@
 #include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
 #include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
 #include "D3D12Objects/Core/D3D12Core.h"
-
+#include "D3D12Objects/Resource/D3D12Buffer.h"
 D3D12CommandBuffer::D3D12CommandBuffer(D3D12Device* InDevice, D3D12CommandPool* InCommandPool)
 	: Device(InDevice), CommandPool(InCommandPool)
 {
@@ -58,7 +58,7 @@ void D3D12CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_
 
 void D3D12CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPipeline)
 {
-	D3D12GraphicsPipeline* pGraphicsPipeline = dynamic_cast<D3D12GraphicsPipeline*>(GraphicsPipeline);
+	pGraphicsPipeline = dynamic_cast<D3D12GraphicsPipeline*>(GraphicsPipeline);
     Handle->Reset(CommandPool->GetHandle(), pGraphicsPipeline->GetHandle());
 
 	Handle->SetGraphicsRootSignature(pGraphicsPipeline->RootSignature);
@@ -67,7 +67,30 @@ void D3D12CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* GraphicsPip
 void D3D12CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
 	RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHIIndexFormat RHIIndexFormat)
 {
+	auto VIL = pGraphicsPipeline->GetVertexInputLayout();
+	if (Bindings)
+	{
+		std::vector<D3D12_VERTEX_BUFFER_VIEW> VertexBufferViews;
+		VertexBufferViews.resize(BindingCount);
 
+		// VBO Stream
+		for (int i = 0; i < BindingCount; i++)
+		{
+			D3D12Buffer *Buffer = dynamic_cast<D3D12Buffer*>(Bindings[i].first);
+			VertexBufferViews[i].BufferLocation = Buffer->GetGPUVirtualAddress() + Bindings[i].second;
+			VertexBufferViews[i].StrideInBytes  = VIL.Bindings[i].GetStride();
+			VertexBufferViews[i].SizeInBytes    = Buffer->GetSize();
+		}
+		Handle->IASetVertexBuffers(0, BindingCount, VertexBufferViews.data());
+	}
+
+	// EBO
+	if (RHIEBO)
+	{
+		//auto VulkanIndexType = ToVulkanIndexType(RHIIndexFormat);
+		//VkBuffer EBOHandle = ((VulkanBuffer*)RHIEBO)->GetHandle();
+		//CmdBindIndexBuffer(EBOHandle, IndexOffset, VulkanIndexType);
+	}
 }
 
 

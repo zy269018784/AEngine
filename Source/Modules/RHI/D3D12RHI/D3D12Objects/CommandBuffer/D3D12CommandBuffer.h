@@ -4,6 +4,7 @@
 
 class D3D12Device;
 class D3D12CommandPool;
+class D3D12GraphicsPipeline;
 class D3D12CommandBuffer : public RHICommandBuffer
 {
 public:
@@ -138,4 +139,5 @@ private:
 	ID3D12GraphicsCommandList* Handle = nullptr;
 	D3D12CommandPool* CommandPool = nullptr;
 	D3D12Device* Device = nullptr;
+	D3D12GraphicsPipeline* pGraphicsPipeline;
 };

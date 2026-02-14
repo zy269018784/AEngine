@@ -10,6 +10,7 @@ public:
     D3D12Buffer(D3D12Device* InDevice, RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
     ~D3D12Buffer();
     ID3D12Resource* GetHandle() const;
+    D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress( void);
     virtual void Update(std::uint32_t InSize, const void* InData) final override;
 private:
     ID3D12Resource* Handle;

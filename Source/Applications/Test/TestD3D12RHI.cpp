@@ -231,11 +231,11 @@ static bool CreateTriangleResources() {
     const UINT bufferSize = sizeof(vertices);
 
     VBO = RHI->RHICreateBuffer(RHIBuffer::VertexBuffer, RHIBuffer::Dynamic, bufferSize, vertices);
-
+    VertexInputs.push_back(std::make_pair(VBO, 0 * sizeof(float)));
     // 创建顶点缓冲区视图
     g_VertexBufferView.BufferLocation = ((D3D12Buffer *)VBO)->GetHandle()->GetGPUVirtualAddress();
-    g_VertexBufferView.StrideInBytes = sizeof(Vertex);
-    g_VertexBufferView.SizeInBytes = bufferSize;
+    g_VertexBufferView.StrideInBytes  = sizeof(Vertex);
+    g_VertexBufferView.SizeInBytes    = bufferSize;
 
     std::cout << "Triangle resources created successfully!" << std::endl;
     return true;
@@ -278,9 +278,9 @@ static void Render() {
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
 
-    ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->IASetVertexBuffers(0, 1, &g_VertexBufferView);
+   // ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->IASetVertexBuffers(0, 1, &g_VertexBufferView);
 
-   // CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), nullptr, 0, RHIIndexFormat::IndexUInt32);
 
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
 

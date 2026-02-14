@@ -49,3 +49,8 @@ void D3D12Buffer::Update(std::uint32_t InSize, const void* InData)
         Handle->Unmap(0, nullptr);
     }
 }
+
+D3D12_GPU_VIRTUAL_ADDRESS D3D12Buffer::GetGPUVirtualAddress( void)
+{
+    return Handle->GetGPUVirtualAddress();
+}
