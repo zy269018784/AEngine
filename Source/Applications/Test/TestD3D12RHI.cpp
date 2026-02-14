@@ -52,21 +52,15 @@ static const uint32_t Height = 600;
 // 全局变量
 static    GLFWwindow* g_Window = nullptr;
 static    ComPtr<ID3D12Device> g_Device;
-static    ComPtr<IDXGISwapChain3> g_SwapChain;
-static    ComPtr<ID3D12CommandQueue> g_CommandQueue;
 static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
-static    ComPtr<ID3D12CommandAllocator> g_CommandAllocator;
-//static    ComPtr<ID3D12Fence> g_Fence;
 static    HANDLE g_FenceEvent = nullptr;
-static    uint64_t g_FenceValue = 1;
+
 /*
    顶点输入
 */
 static std::vector<RHICommandBuffer::VertexInput> VertexInputs;
 
 // 三角形相关
-static ComPtr<ID3D12RootSignature> g_RootSignature;
-static ComPtr<ID3D12PipelineState> g_PipelineState;
 static ComPtr<ID3D12Resource> g_VertexBuffer;
 static D3D12_VERTEX_BUFFER_VIEW g_VertexBufferView;
 
@@ -115,8 +109,6 @@ static bool Init() {
 
     Window = RHI->RHICreateWindow(0, hwnd);
 
-    g_CommandQueue = RHI->Devices[0]->Queues[0]->GetHandle();
-
     // 创建交换链
     ComPtr<IDXGIFactory4> factory;
 #if 0
@@ -127,11 +119,9 @@ static bool Init() {
 #if 1
     swapChain = ((D3D12Window *)Window)->SwapChain->GetHandle();
 #endif
-    swapChain.As(&g_SwapChain);
-    ((D3D12Window *)Window)-> g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
+    ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
     std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
-    g_CommandAllocator = RHI->Devices[0]->CommandPools[0]->GetHandle();
 
     g_CommandList = ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle();
     g_CommandList->Close();
@@ -246,9 +236,7 @@ static bool CreateTriangleResources() {
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
     GraphicsPipeline->Create();
 
-    g_PipelineState = ((D3D12GraphicsPipeline*)GraphicsPipeline)->GetHandle();
 
-    g_RootSignature =  ((D3D12GraphicsPipeline*)GraphicsPipeline)->RootSignature;
 
 #else
 
@@ -275,15 +263,15 @@ static bool CreateTriangleResources() {
 }
 
 static void WaitForGPU() {
-    const UINT64 fence = g_FenceValue;
-    g_CommandQueue->Signal(((D3D12Window *)Window)->Fence, fence);
-    g_FenceValue++;
+    const UINT64 fence = ((D3D12Window *)Window)->FenceValue;
+    RHI->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
+    ((D3D12Window *)Window)->FenceValue++;
 
     if (((D3D12Window *)Window)->Fence->GetCompletedValue() < fence) {
         ((D3D12Window *)Window)->Fence->SetEventOnCompletion(fence, g_FenceEvent);
         WaitForSingleObject(g_FenceEvent, INFINITE);
     }
-     ((D3D12Window *)Window)->g_FrameIndex = g_SwapChain->GetCurrentBackBufferIndex();
+     ((D3D12Window *)Window)->g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 }
 
 static void Render() {
