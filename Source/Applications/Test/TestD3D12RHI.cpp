@@ -51,8 +51,6 @@ static const uint32_t Height = 600;
 
 // 全局变量
 static    GLFWwindow* g_Window = nullptr;
-static    HANDLE g_FenceEvent = nullptr;
-
 /*
    顶点输入
 */
@@ -103,28 +101,11 @@ static bool Init() {
 
     Window = RHI->RHICreateWindow(0, hwnd);
 
-    // 创建交换链
-    ComPtr<IDXGIFactory4> factory;
-#if 0
-    CreateDXGIFactory1(IID_PPV_ARGS(&factory));
-#endif
-    factory = ((D3D12Window *)Window)->Factory->GetHandle();
-    ComPtr<IDXGISwapChain1> swapChain;
-#if 1
-    swapChain = ((D3D12Window *)Window)->SwapChain->GetHandle();
-#endif
     ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
     std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
 
     ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
-#if 0
-    // 创建围栏
-    if (FAILED(g_Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&g_Fence)))) {
-        return false;
-    }
-#endif
-    g_FenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
     // 创建三角形
     return CreateTriangleResources();
@@ -241,8 +222,8 @@ static void WaitForGPU() {
     ((D3D12Window *)Window)->FenceValue++;
 
     if (((D3D12Window *)Window)->Fence->GetCompletedValue() < fence) {
-        ((D3D12Window *)Window)->Fence->SetEventOnCompletion(fence, g_FenceEvent);
-        WaitForSingleObject(g_FenceEvent, INFINITE);
+        ((D3D12Window *)Window)->Fence->SetEventOnCompletion(fence,  ((D3D12Window *)Window)->FenceEvent);
+        WaitForSingleObject( ((D3D12Window *)Window)->FenceEvent, INFINITE);
     }
      ((D3D12Window *)Window)->g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 }
@@ -280,14 +261,10 @@ static void Render() {
 
     // 呈现
     Window->RHIEndFrame();
-
-    WaitForGPU();
 }
 
 static void Cleanup() {
-    WaitForGPU();
-    
-    if (g_FenceEvent) CloseHandle(g_FenceEvent);
+
     if (g_Window) glfwDestroyWindow(g_Window);
     glfwTerminate();
 }

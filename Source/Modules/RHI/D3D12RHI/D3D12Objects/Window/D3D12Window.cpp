@@ -24,11 +24,13 @@ D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InD
     if (FAILED(Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&Fence)))) {
 
     }
+
+    FenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 D3D12Window::~D3D12Window()
 {
-
+    CloseHandle(FenceEvent);
 }
 
 void D3D12Window::GetExtent(float& x, float& y, float& w, float& h)
@@ -89,7 +91,7 @@ void D3D12Window::RHIBeginFrame()
 
 void D3D12Window::RHIEndFrame()
 {
-#if 1
+
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Transition.pResource = RenderTargets[g_FrameIndex];
@@ -101,12 +103,22 @@ void D3D12Window::RHIEndFrame()
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
     GraphicsCommandBuffers[0]->ResourceBarrier(1, &barrier);
-#endif
+
     GraphicsCommandBuffers[0]->Close();
     ID3D12CommandList* CmdLists[] = { GraphicsCommandBuffers[0]->GetHandle() };
     Device->Queues[0]->ExecuteCommandLists(1, CmdLists);
     // 呈现
     SwapChain->Present(1, 0);
+
+    const UINT64 fence = FenceValue;
+    Device->Queues[0]->GetHandle()->Signal(Fence, fence);
+    FenceValue++;
+
+    if (Fence->GetCompletedValue() < fence) {
+        Fence->SetEventOnCompletion(fence,FenceEvent);
+        WaitForSingleObject(FenceEvent, INFINITE);
+    }
+   g_FrameIndex =  SwapChain->GetCurrentBackBufferIndex();
 }
 
 void D3D12Window::RHIBeginRenderPass()
