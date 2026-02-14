@@ -51,8 +51,6 @@ static const uint32_t Height = 600;
 
 // 全局变量
 static    GLFWwindow* g_Window = nullptr;
-static    ComPtr<ID3D12Device> g_Device;
-static    ComPtr<ID3D12GraphicsCommandList> g_CommandList;
 static    HANDLE g_FenceEvent = nullptr;
 
 /*
@@ -61,7 +59,6 @@ static    HANDLE g_FenceEvent = nullptr;
 static std::vector<RHICommandBuffer::VertexInput> VertexInputs;
 
 // 三角形相关
-static ComPtr<ID3D12Resource> g_VertexBuffer;
 static D3D12_VERTEX_BUFFER_VIEW g_VertexBufferView;
 
 static D3D12RHI *RHI = nullptr;
@@ -105,7 +102,6 @@ static bool Init() {
 #endif
     HWND hwnd = glfwGetWin32Window(g_Window);
     RHI = new D3D12RHI();
-    g_Device =  RHI->Devices[0]->GetHandle();
 
     Window = RHI->RHICreateWindow(0, hwnd);
 
@@ -123,8 +119,7 @@ static bool Init() {
 
     std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
 
-    g_CommandList = ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle();
-    g_CommandList->Close();
+    ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
 #if 0
     // 创建围栏
     if (FAILED(g_Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&g_Fence)))) {
@@ -140,22 +135,7 @@ std::vector<char> ReadFile(const std::string& filename);
 
 static bool CreateTriangleResources() {
     std::cout << "Creating triangle resources..." << std::endl;
-#if 0
-    // 1. 创建空的根签名
-    D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
-    rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-    ComPtr<ID3DBlob> signature;
-    ComPtr<ID3DBlob> error;
-    if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error))) {
-        std::cerr << "Failed to serialize root signature" << std::endl;
-        return false;
-    }
-    if (FAILED(g_Device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&g_RootSignature)))) {
-        std::cerr << "Failed to create root signature" << std::endl;
-        return false;
-    }
-#endif
     // 2. 编译着色器
     const char* vsCode = R"(
         struct VS_IN {
@@ -251,10 +231,9 @@ static bool CreateTriangleResources() {
     const UINT bufferSize = sizeof(vertices);
 
     VBO = RHI->RHICreateBuffer(RHIBuffer::VertexBuffer, RHIBuffer::Dynamic, bufferSize, vertices);
-    g_VertexBuffer = ((D3D12Buffer *)VBO)->GetHandle();
 
     // 创建顶点缓冲区视图
-    g_VertexBufferView.BufferLocation = g_VertexBuffer->GetGPUVirtualAddress();
+    g_VertexBufferView.BufferLocation = ((D3D12Buffer *)VBO)->GetHandle()->GetGPUVirtualAddress();
     g_VertexBufferView.StrideInBytes = sizeof(Vertex);
     g_VertexBufferView.SizeInBytes = bufferSize;
 
@@ -299,7 +278,7 @@ static void Render() {
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
 
-    g_CommandList->IASetVertexBuffers(0, 1, &g_VertexBufferView);
+    ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->IASetVertexBuffers(0, 1, &g_VertexBufferView);
 
    // CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
 
