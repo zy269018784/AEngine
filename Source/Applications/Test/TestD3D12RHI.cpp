@@ -100,13 +100,13 @@ static bool Init() {
     RHI = new D3D12RHI();
 
     Window = RHI->RHICreateWindow(0, hwnd);
-
+#if 0
     ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
     std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
 
     ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
-
+#endif
     // 创建三角形
     return CreateTriangleResources();
 }

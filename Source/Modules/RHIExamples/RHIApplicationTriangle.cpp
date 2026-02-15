@@ -2,7 +2,7 @@
 #include "Vulkan/Common.h"
 
 
-#if USE_RHI_VULKAN
+#if 1
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
@@ -88,24 +88,45 @@ void RHIApplicationTriangle::CreateVertexDescriptioin()
 
 void RHIApplicationTriangle::CreateGraphicsPipeline()
 {
-#if 1
-    auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
-    auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
-    // 创建Shader
-    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex,   (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
-#else
-    auto vertShaderCode = ReadFile2("DrawTriangle_vert.glsl");
-    auto fragShaderCode = ReadFile2("DrawTriangle_frag.glsl");
-    const char* p1 = vertShaderCode.c_str();
-    const char* p2 = fragShaderCode.c_str();
+    const char* vsCode = R"(
+        struct VS_IN {
+            float3 pos : POSITION;
+            float4 col : COLOR;
+        };
+        struct PS_IN {
+            float4 pos : SV_POSITION;
+            float4 col : COLOR;
+        };
+        PS_IN main(VS_IN input) {
+            PS_IN output;
+            output.pos = float4(input.pos, 1.0);
+            output.col = input.col;
+            return output;
+        }
+    )";
 
-     std::cout << p1 << std::endl;
-     std::cout << p2 << std::endl;
-     // 创建Shader
-    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
-    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
-#endif
+    const char* psCode = R"(
+        struct PS_IN {
+            float4 pos : SV_POSITION;
+            float4 col : COLOR;
+        };
+        float4 main(PS_IN input) : SV_Target {
+            return input.col;
+        }
+    )";
+    if (1 != RHIIndex)
+    {
+        auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
+        auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
+        // 创建Shader
+        VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex,   (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+    }
+    else
+    {
+        VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
+    }
 
     RHIVertexInputLayout VertexInputLayout;
     /*
@@ -159,6 +180,13 @@ void RHIApplicationTriangle::Draw()
     CommandBuffer->RHISetScissor(Scissor);
    
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+
+    CommandBuffer->RHISetStencilTestEnable(false);
+
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), nullptr, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawPrimitive(6);
 }

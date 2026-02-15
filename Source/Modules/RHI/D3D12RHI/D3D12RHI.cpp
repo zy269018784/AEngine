@@ -7,6 +7,8 @@
 #include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
 #include "D3D12Objects/Surface/D3D12Surface.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12Objects/SwapChain/D3D12SwapChain.h"
 #include <spirv_cross/spirv.hpp>
 #include <spirv_cross/spirv_cross.hpp>
 #include <spirv_cross/spirv_hlsl.hpp>
@@ -44,6 +46,9 @@ RHIWindow* D3D12RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 	NewD3D12Window->CreateFactory();
 	NewD3D12Window->CreateSwapChain();
 	NewD3D12Window->CreateCommandBuffer();
+	NewD3D12Window-> g_FrameIndex =  NewD3D12Window->SwapChain->GetCurrentBackBufferIndex();
+
+	((D3D12CommandBuffer*)NewD3D12Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
 	return NewD3D12Window;
 }
 

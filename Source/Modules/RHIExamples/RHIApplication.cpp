@@ -9,19 +9,25 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
-#if USE_RHI_VULKAN
-#ifdef PROJECT_USE_VULKAN
-    pRHI = new VulkanRHI();
-   // pRHI->RHIUseGPU(0);
-#endif
+    RHIIndex = 0;
+    if (0 == RHIIndex)
+    {
+        pRHI = new VulkanRHI();
+    }
+    else if (1 == RHIIndex)
+    {
+        pRHI = new D3D12RHI();
+    }
+    else if (2 == RHIIndex)
+    {
+        /*
+            opengl需要
+        */
+       // glfwMakeContextCurrent(InWindow);
+        pRHI = new ES32RHI();
+    }
+    pRHI->RHIUseGPU(0);
 
-#else
-    /*
-        opengl需要
-    */
-   // glfwMakeContextCurrent(InWindow);
-    pRHI = new ES32RHI();
-#endif
 #ifdef PROJECT_USE_XCB1
     //Display* Display = glfwGetX11Display();
     //xcb_connection_t* connection = XGetXCBConnection(Display);

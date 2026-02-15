@@ -26,6 +26,14 @@ D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InD
     }
 
     FenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+
+
+#if 0
+     g_FrameIndex = SwapChain->GetCurrentBackBufferIndex();
+
+
+     GraphicsCommandBuffers[0]->GetHandle()->Close();
+#endif
 }
 
 D3D12Window::~D3D12Window()

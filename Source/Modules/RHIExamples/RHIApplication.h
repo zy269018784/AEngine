@@ -8,7 +8,7 @@
 #endif
 #include <GLFW/glfw3.h>
 
-
+#include "D3D12RHI.h"
 #ifdef OS_IS_WINDOWS
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
@@ -33,7 +33,7 @@
 #include <optional>
 #include <set>
 
-#define USE_RHI_VULKAN 1
+#define USE_RHI_VULKAN 0
 class RHIApplication
 {
 public:
@@ -46,6 +46,13 @@ private:
     virtual void Init();
     virtual void Draw();
     virtual void Render();
+public:
+    /*
+     *  0:  vulkan
+     *  1:  d3d
+     *  2:  opengl
+     */
+    int RHIIndex = 0;
 protected:
     /*
         GLFW窗口
