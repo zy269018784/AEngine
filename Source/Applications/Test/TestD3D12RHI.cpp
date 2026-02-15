@@ -195,7 +195,8 @@ static bool CreateTriangleResources() {
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
     GraphicsPipeline->Create();
 
-
+    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
 #else
 
@@ -228,13 +229,18 @@ static void WaitForGPU() {
      ((D3D12Window *)Window)->g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 }
 
-static void Render() {
+static void D3D12Draw()
+{
 
-    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+}
 
+static void Render()
+{
     Window->RHIBeginFrame();
-
-    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+    Window->RHIBeginRenderPass();
+    D3D12Draw();
+    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+   // CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     float x = 0;
     float y = 0;
@@ -242,7 +248,7 @@ static void Render() {
     float h = 600;
     //Window->GetExtent(x, y, w, h);
 
-    Window->RHIBeginRenderPass();
+
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);

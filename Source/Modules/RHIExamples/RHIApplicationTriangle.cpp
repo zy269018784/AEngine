@@ -167,11 +167,11 @@ void RHIApplicationTriangle::CreateGraphicsPipeline()
 void RHIApplicationTriangle::Draw()
 {
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
-
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
     float x = 0;
     float y = 0;
-    float w = 0;
-    float h = 0;
+    float w = 800;
+    float h = 600;
     RHIWindow_->GetExtent(x, y, w, h);
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
