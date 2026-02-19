@@ -394,6 +394,18 @@ static void D3D12Draw()
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
 
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), nullptr, 0, RHIIndexFormat::IndexUInt32);
 
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
