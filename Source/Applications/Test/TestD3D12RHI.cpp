@@ -388,6 +388,8 @@ static void D3D12Draw()
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
 
+    /* vulkan 必须*/
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
