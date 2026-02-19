@@ -68,7 +68,6 @@ void RHIApplicationTriangle::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->Create();
-    std::cout << "CreateSRB OK" << std::endl;
 }
 
 void RHIApplicationTriangle::CreateVertexDescriptioin()

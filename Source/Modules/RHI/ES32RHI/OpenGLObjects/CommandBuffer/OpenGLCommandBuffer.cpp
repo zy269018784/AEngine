@@ -324,6 +324,10 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 		int Location = Att.GetLocation();
 		int Binding = Att.GetBinding();
 		int Size = 0;
+		if (RHIVertexInputAttribute::Format::Float4 == Att.GetFormat())
+		{
+			Size = 4;
+		}
 		if (RHIVertexInputAttribute::Format::Float3 == Att.GetFormat())
 		{
 			Size = 3;

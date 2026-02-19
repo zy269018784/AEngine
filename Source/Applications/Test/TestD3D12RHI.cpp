@@ -50,7 +50,7 @@
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"
-int RHIIndex = 1;
+int RHIIndex = 0;
 static const uint32_t FrameCount = 2;
 static const uint32_t Width = 800;
 static const uint32_t Height = 600;
@@ -76,16 +76,37 @@ static RHICommandBuffer* CommandBuffer = nullptr;
 */
 RHIShaderResourceBindings* SRB = nullptr;
 
+
+#if 1
+/*
+    VBO1三角形: 红色和黄色
+    VBO1三角形: 蓝色和绿色
+*/
+static float VertexAttributes[] = {
+    // VBO1
+    0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+   -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+
+   -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f,
+   -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f,
+    0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f,
+};
+
+#endif
+
+
+
+
 struct Vertex {
     float position[3];
     float color[4];
 };
-
+static void CreateVBO();
+static void CreateVertexDescriptioin();
 static bool CreateTriangleResources();
-
-static void CreatePipeline() {
-
-}
+static void CreateSRB();
+static void CreateGraphicsPipeline();
 
 // 简化初始化
 static bool Init() {
@@ -141,6 +162,13 @@ static bool Init() {
 
     ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
 #endif
+    CreateVBO();
+    CreateVertexDescriptioin();
+    CreateGraphicsPipeline();
+
+    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+    return true;
     // 创建三角形
     return CreateTriangleResources();
 }
@@ -197,11 +225,8 @@ static bool CreateTriangleResources() {
     }
     std::cout << "CreateTriangleResources " << std::endl;
 #if 1
-    SRB = RHI->RHICreateShaderResourceBindings();
-    SRB->SetBindings({
 
-                     });
-    SRB->Create();
+    CreateSRB();
 #endif
     std::cout << "CreateTriangleResources 2" << std::endl;
 #if 1
@@ -240,20 +265,98 @@ static bool CreateTriangleResources() {
 #else
 
 #endif
-    // 5. 创建顶点缓冲区
-    Vertex vertices[] = {
-        { {  0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } }, // 上 - 红
-        { {  0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } }, // 右下 - 绿
-        { { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } }  // 左下 - 蓝
-    };
 
-    const UINT bufferSize = sizeof(vertices);
-
-    VBO = RHI->RHICreateBuffer(RHIBuffer::VertexBuffer, RHIBuffer::Dynamic, bufferSize, vertices);
-    VertexInputs.push_back(std::make_pair(VBO, 0 * sizeof(float)));
-
-    std::cout << "Triangle resources created successfully!" << std::endl;
     return true;
+}
+
+static void CreateVBO()
+{
+    VBO = RHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    std::cout << "CreateVBO OK" << std::endl;
+}
+
+static void CreateVertexDescriptioin()
+{
+    VertexInputs.push_back(std::make_pair(VBO, 0 * sizeof(float)));
+}
+
+static void CreateSRB()
+{
+    SRB = RHI->RHICreateShaderResourceBindings();
+    SRB->Create();
+}
+
+static void CreateGraphicsPipeline()
+{
+    // 2. 编译着色器
+    const char* vsCode = R"(
+        struct VS_IN {
+            float3 pos : POSITION;
+            float4 col : COLOR;
+        };
+        struct PS_IN {
+            float4 pos : SV_POSITION;
+            float4 col : COLOR;
+        };
+        PS_IN main(VS_IN input) {
+            PS_IN output;
+            output.pos = float4(input.pos, 1.0);
+            output.col = input.col;
+            return output;
+        }
+    )";
+
+    const char* psCode = R"(
+        struct PS_IN {
+            float4 pos : SV_POSITION;
+            float4 col : COLOR;
+        };
+        float4 main(PS_IN input) : SV_Target {
+            return input.col;
+        }
+    )";
+    if (1 != RHIIndex)
+    {
+        auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
+        auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
+        // 创建Shader
+        VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex,   (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+    }
+    else
+    {
+        VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
+    }
+
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+                                            { "POSITION", 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+                                            { "COLOR", 0, 1, RHIVertexInputAttribute::Format::Float4,  3 * sizeof(float), 0 },
+                                            // { 0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
+                                    });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+                                          { 7 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+                                  });
+
+    /*
+        用于创建Descriptor Set Layout和Pipeline Layout
+    */
+    GraphicsPipeline = RHI->RHICreateGraphicsPipeline(Window);
+    GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+    GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline->Create();
 }
 
 static void WaitForGPU() {
@@ -284,9 +387,6 @@ static void D3D12Draw()
 
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
-
-
-
 
 
     // 设置顶点缓冲区和绘制
