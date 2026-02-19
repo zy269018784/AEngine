@@ -1,4 +1,8 @@
-﻿#ifdef PROJECT_USE_D3D12
+﻿#include "ES32RHI.h"
+#include "VulkanRHI.h"
+#include "D3D12RHI.h"
+
+#ifdef PROJECT_USE_D3D12
 // 简化的修复版本
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
@@ -27,6 +31,8 @@
 #include "D3D12Objects/SwapChain/D3D12SwapChain.h"
 #include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/Factory/D3D12Factory.h"
+
+
 #if 11
 // 必须链接这些库
 #pragma comment(lib, "d3d12.lib")
@@ -44,7 +50,7 @@
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"
-
+int RHIIndex = 1;
 static const uint32_t FrameCount = 2;
 static const uint32_t Width = 800;
 static const uint32_t Height = 600;
@@ -57,7 +63,7 @@ static    GLFWwindow* g_Window = nullptr;
 static std::vector<RHICommandBuffer::VertexInput> VertexInputs;
 
 
-static D3D12RHI *RHI = nullptr;
+static RHI *RHI = nullptr;
 static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
@@ -85,9 +91,6 @@ static void CreatePipeline() {
 static bool Init() {
     // 初始化GLFW
     if (!glfwInit()) return false;
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
-    if (!g_Window) return false;
 
     // 启用调试层
 #if defined(_DEBUG)
@@ -96,10 +99,41 @@ static bool Init() {
         debugController->EnableDebugLayer();
     }
 #endif
-    HWND hwnd = glfwGetWin32Window(g_Window);
-    RHI = new D3D12RHI();
 
-    Window = RHI->RHICreateWindow(0, hwnd);
+
+    //RHI = new D3D12RHI();
+
+    if (0 == RHIIndex)
+    {
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
+        if (!g_Window) return false;
+        RHI = new VulkanRHI();
+    }
+    else if (1 == RHIIndex)
+    {
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
+        if (!g_Window) return false;
+        RHI = new D3D12RHI();
+    }
+    else if (2 == RHIIndex)
+    {
+        /*
+            opengl需要
+        */
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
+        if (!g_Window) return false;
+        glfwMakeContextCurrent(g_Window);
+        RHI = new ES32RHI();
+    }
+    HWND hwnd = glfwGetWin32Window(g_Window);
+    HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+    Window = RHI->RHICreateWindow(instacne, hwnd);
 #if 0
     ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
@@ -147,16 +181,21 @@ static bool CreateTriangleResources() {
 #ifdef _DEBUG
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
-#if 0
-    auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
-    auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
-    VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-    FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
-#else
-    VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
-    FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
-#endif
     std::cout << "CreateTriangleResources 1" << std::endl;
+    if (1 != RHIIndex)
+    {
+        auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
+        auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
+        std::cout << "RHICreateShader 1" << std::endl;
+        VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+        std::cout << "RHICreateShader 2" << std::endl;
+    } else
+    {
+        VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
+    }
+    std::cout << "CreateTriangleResources " << std::endl;
 #if 1
     SRB = RHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
@@ -188,7 +227,7 @@ static bool CreateTriangleResources() {
     GraphicsPipeline = RHI->RHICreateGraphicsPipeline(nullptr);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
@@ -219,7 +258,7 @@ static bool CreateTriangleResources() {
 
 static void WaitForGPU() {
     const UINT64 fence = ((D3D12Window *)Window)->FenceValue;
-    RHI->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
+    ((D3D12RHI *    )RHI)->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
     ((D3D12Window *)Window)->FenceValue++;
 
     if (((D3D12Window *)Window)->Fence->GetCompletedValue() < fence) {
@@ -231,30 +270,24 @@ static void WaitForGPU() {
 
 static void D3D12Draw()
 {
-
-}
-
-static void Render()
-{
-    Window->RHIBeginFrame();
-    Window->RHIBeginRenderPass();
-    D3D12Draw();
-    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
-   // CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
-
     float x = 0;
     float y = 0;
     float w = 800;
     float h = 600;
-    //Window->GetExtent(x, y, w, h);
+    Window->GetExtent(x, y, w, h);
 
-
+    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+   // CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
+
+
+
+
 
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
@@ -263,10 +296,25 @@ static void Render()
 
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
 
-    Window->RHIEndRenderPass();
+}
 
-    // 呈现
-    Window->RHIEndFrame();
+static void Render()
+{
+    while (!glfwWindowShouldClose(g_Window))
+    {
+        glfwPollEvents();
+        if (glfwGetKey(g_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            break;
+        }
+        Window->RHIBeginFrame();
+        Window->RHIBeginRenderPass();
+        D3D12Draw();
+        Window->RHIEndRenderPass();
+        Window->RHIEndFrame();
+
+        glfwSwapBuffers(g_Window);
+        glfwPollEvents();
+    }
 }
 
 static void Cleanup() {
