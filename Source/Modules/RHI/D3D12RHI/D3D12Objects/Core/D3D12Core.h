@@ -655,3 +655,156 @@ inline DXGI_FORMAT ToD3D12Format(RHIVertexInputAttribute::Format Format)
     }
     return fmt;
 }
+
+inline DXGI_FORMAT ToDxgiFormat(RHIPixelFormat PF)
+{
+    switch (PF)
+    {
+    case RHIPixelFormat::PF_Unknown:
+        return DXGI_FORMAT_UNKNOWN;
+
+        // 深度模板
+    case RHIPixelFormat::PF_DepthStencil:
+        // D3D12 常用的深度模板格式，对应 Vulkan 的 VK_FORMAT_D24_UNORM_S8_UINT
+        // 如果希望对应 VK_FORMAT_D32_SFLOAT_S8_UINT，可以使用 DXGI_FORMAT_D32_FLOAT_S8X24_UINT
+        return DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+        // 1通道 - 8位
+    case RHIPixelFormat::PF_R8_SINT:
+        return DXGI_FORMAT_R8_SINT;
+    case RHIPixelFormat::PF_R8_UINT:
+        return DXGI_FORMAT_R8_UINT;
+    case RHIPixelFormat::PF_R8_SNORM:
+        return DXGI_FORMAT_R8_SNORM;
+    case RHIPixelFormat::PF_R8_UNORM:
+        return DXGI_FORMAT_R8_UNORM;
+    case RHIPixelFormat::PF_R8_SRGB:
+        return DXGI_FORMAT_R8_UNORM; // 注意：DXGI 没有单独的 R8_SRGB，通常使用 R8_UNORM，在创建视图时通过 SRGB 标志处理
+        // 或者，如果需要精确对应，某些情况下可使用 DXGI_FORMAT_R8_TYPELESS 配合视图解释，但通常 R8_UNORM 足够
+        // 这里返回 R8_UNORM，并建议在创建视图时指定 SRGB
+
+        // 2通道 - 8位
+    case RHIPixelFormat::PF_R8G8_SINT:
+        return DXGI_FORMAT_R8G8_SINT;
+    case RHIPixelFormat::PF_R8G8_UINT:
+        return DXGI_FORMAT_R8G8_UINT;
+    case RHIPixelFormat::PF_R8G8_SNORM:
+        return DXGI_FORMAT_R8G8_SNORM;
+    case RHIPixelFormat::PF_R8G8_UNORM:
+        return DXGI_FORMAT_R8G8_UNORM;
+    case RHIPixelFormat::PF_R8G8_SRGB:
+        return DXGI_FORMAT_R8G8_UNORM; // 同 R8_SRGB 的情况
+
+        // 3通道 - 8位
+    case RHIPixelFormat::PF_R8G8B8_SINT:
+        // DXGI 没有直接的 R8G8B8 格式，通常使用 R8G8B8A8 并忽略 Alpha，或使用 Typeless 格式
+        // 这里返回 R8G8B8A8 对应的格式，实际使用时需要特别注意
+        return DXGI_FORMAT_R8G8B8A8_SINT;
+    case RHIPixelFormat::PF_R8G8B8_UINT:
+        return DXGI_FORMAT_R8G8B8A8_UINT;
+    case RHIPixelFormat::PF_R8G8B8_SNORM:
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
+    case RHIPixelFormat::PF_R8G8B8_UNORM:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+    case RHIPixelFormat::PF_R8G8B8_SRGB:
+        return DXGI_FORMAT_R8G8B8A8_UNORM; // SRGB 处理同上
+
+        // 4通道 - 8位
+    case RHIPixelFormat::PF_R8G8B8A8_SINT:
+        return DXGI_FORMAT_R8G8B8A8_SINT;
+    case RHIPixelFormat::PF_R8G8B8A8_UINT:
+        return DXGI_FORMAT_R8G8B8A8_UINT;
+    case RHIPixelFormat::PF_R8G8B8A8_SNORM:
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
+    case RHIPixelFormat::PF_R8G8B8A8_UNORM:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+    case RHIPixelFormat::PF_R8G8B8A8_SRGB:
+        return DXGI_FORMAT_R8G8B8A8_UNORM; // 注意：DXGI 有单独的 SRGB 格式，如 DXGI_FORMAT_R8G8B8A8_UNORM_SRGB
+        // 正确对应应该是：
+        // return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+        // 1通道 - 16位
+    case RHIPixelFormat::PF_R16_SINT:
+        return DXGI_FORMAT_R16_SINT;
+    case RHIPixelFormat::PF_R16_UINT:
+        return DXGI_FORMAT_R16_UINT;
+    case RHIPixelFormat::PF_R16_SNORM:
+        return DXGI_FORMAT_R16_SNORM;
+    case RHIPixelFormat::PF_R16_UNORM:
+        return DXGI_FORMAT_R16_UNORM;
+    case RHIPixelFormat::PF_R16_FLOAT:
+        return DXGI_FORMAT_R16_FLOAT;
+
+        // 2通道 - 16位
+    case RHIPixelFormat::PF_R16G16_SINT:
+        return DXGI_FORMAT_R16G16_SINT;
+    case RHIPixelFormat::PF_R16G16_UINT:
+        return DXGI_FORMAT_R16G16_UINT;
+    case RHIPixelFormat::PF_R16G16_SNORM:
+        return DXGI_FORMAT_R16G16_SNORM;
+    case RHIPixelFormat::PF_R16G16_UNORM:
+        return DXGI_FORMAT_R16G16_UNORM;
+    case RHIPixelFormat::PF_R16G16_FLOAT:
+        return DXGI_FORMAT_R16G16_FLOAT;
+
+        // 3通道 - 16位
+    case RHIPixelFormat::PF_R16G16B16_SINT:
+        // DXGI 没有 R16G16B16 格式，通常使用 R16G16B16A16 并忽略 Alpha
+        return DXGI_FORMAT_R16G16B16A16_SINT;
+    case RHIPixelFormat::PF_R16G16B16_UINT:
+        return DXGI_FORMAT_R16G16B16A16_UINT;
+    case RHIPixelFormat::PF_R16G16B16_SNORM:
+        return DXGI_FORMAT_R16G16B16A16_SNORM;
+    case RHIPixelFormat::PF_R16G16B16_UNORM:
+        return DXGI_FORMAT_R16G16B16A16_UNORM;
+    case RHIPixelFormat::PF_R16G16B16_FLOAT:
+        return DXGI_FORMAT_R16G16B16A16_FLOAT;
+
+        // 4通道 - 16位
+    case RHIPixelFormat::PF_R16G16B16A16_SINT:
+        return DXGI_FORMAT_R16G16B16A16_SINT;
+    case RHIPixelFormat::PF_R16G16B16A16_UINT:
+        return DXGI_FORMAT_R16G16B16A16_UINT;
+    case RHIPixelFormat::PF_R16G16B16A16_SNORM:
+        return DXGI_FORMAT_R16G16B16A16_SNORM;
+    case RHIPixelFormat::PF_R16G16B16A16_UNORM:
+        return DXGI_FORMAT_R16G16B16A16_UNORM;
+    case RHIPixelFormat::PF_R16G16B16A16_FLOAT:
+        return DXGI_FORMAT_R16G16B16A16_FLOAT;
+
+        // 1通道 - 32位
+    case RHIPixelFormat::PF_R32_SINT:
+        return DXGI_FORMAT_R32_SINT;
+    case RHIPixelFormat::PF_R32_UINT:
+        return DXGI_FORMAT_R32_UINT;
+    case RHIPixelFormat::PF_R32_FLOAT:
+        return DXGI_FORMAT_R32_FLOAT;
+
+        // 2通道 - 32位
+    case RHIPixelFormat::PF_R32G32_SINT:
+        return DXGI_FORMAT_R32G32_SINT;
+    case RHIPixelFormat::PF_R32G32_UINT:
+        return DXGI_FORMAT_R32G32_UINT;
+    case RHIPixelFormat::PF_R32G32_FLOAT:
+        return DXGI_FORMAT_R32G32_FLOAT;
+
+        // 3通道 - 32位
+    case RHIPixelFormat::PF_R32G32B32_SINT:
+        return DXGI_FORMAT_R32G32B32_SINT;
+    case RHIPixelFormat::PF_R32G32B32_UINT:
+        return DXGI_FORMAT_R32G32B32_UINT;
+    case RHIPixelFormat::PF_R32G32B32_FLOAT:
+        return DXGI_FORMAT_R32G32B32_FLOAT;
+
+        // 4通道 - 32位
+    case RHIPixelFormat::PF_R32G32B32A32_SINT:
+        return DXGI_FORMAT_R32G32B32A32_SINT;
+    case RHIPixelFormat::PF_R32G32B32A32_UINT:
+        return DXGI_FORMAT_R32G32B32A32_UINT;
+    case RHIPixelFormat::PF_R32G32B32A32_FLOAT:
+        return DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+    default:
+        return DXGI_FORMAT_UNKNOWN;
+    }
+}
