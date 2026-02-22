@@ -50,7 +50,7 @@
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"
-int RHIIndex = 0;
+int RHIIndex = 1;
 static const uint32_t FrameCount = 2;
 static const uint32_t Width = 800;
 static const uint32_t Height = 600;
@@ -389,8 +389,8 @@ static void D3D12Draw()
     CommandBuffer->RHISetScissor(Scissor);
 
     /* vulkan 必须*/
-    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
-
+  //  CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+#if 1
     // 设置顶点缓冲区和绘制
     CommandBuffer->RHISetPrimitiveTopology(RHITopology::Triangles);
 
@@ -405,7 +405,7 @@ static void D3D12Draw()
 
     */
     CommandBuffer->RHISetStencilTestEnable(false);
-
+#endif
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), nullptr, 0, RHIIndexFormat::IndexUInt32);
 
     CommandBuffer->RHIDrawPrimitive(3, 1, 0, 0);
