@@ -656,7 +656,171 @@ inline DXGI_FORMAT ToD3D12Format(RHIVertexInputAttribute::Format Format)
     return fmt;
 }
 
-inline DXGI_FORMAT ToDxgiFormat(RHIPixelFormat PF)
+inline D3D12_SRV_DIMENSION ToD3D12SrvDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+    case RHITextureType::Texture1D:
+        return D3D12_SRV_DIMENSION_TEXTURE1D;
+    case RHITextureType::Texture2D:
+        return D3D12_SRV_DIMENSION_TEXTURE2D;
+    case RHITextureType::Texture3D:
+        return D3D12_SRV_DIMENSION_TEXTURE3D;
+    case RHITextureType::Texture1DArray:
+        return D3D12_SRV_DIMENSION_TEXTURE1DARRAY;
+    case RHITextureType::Texture2DArray:
+        return D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+    case RHITextureType::TextureCubeMap:
+        return D3D12_SRV_DIMENSION_TEXTURECUBE;
+    case RHITextureType::TextureCubeMapArray:
+        return D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
+    case RHITextureType::Texture3DArray:
+        // D3D12 不支持 3D 纹理数组，Texture3D 本身就是数组形式（通过 depth 切片）
+        // 这里返回 TEXTURE3D，或者可以断言/错误处理
+        return D3D12_SRV_DIMENSION_TEXTURE3D;
+    default:
+        return D3D12_SRV_DIMENSION_UNKNOWN;
+    }
+}
+
+inline D3D12_RESOURCE_DIMENSION ToD3D12ResourceDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+        // 1D 纹理及其变体
+    case RHITextureType::Texture1D:
+    case RHITextureType::Texture1DArray:
+        return D3D12_RESOURCE_DIMENSION_TEXTURE1D;
+
+        // 2D 纹理及其变体（包括 Cube 和多采样）
+    case RHITextureType::Texture2D:
+    case RHITextureType::Texture2DArray:
+    //case RHITextureType::Texture2DMS:           // 2D 多采样
+    //case RHITextureType::Texture2DMSArray:      // 2D 多采样数组
+    case RHITextureType::TextureCubeMap:
+    case RHITextureType::TextureCubeMapArray:
+        return D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+
+        // 3D 纹理
+    case RHITextureType::Texture3D:
+    case RHITextureType::Texture3DArray:        // D3D12 将 3D 数组视为 TEXTURE3D，通过 depth 切片实现数组
+        return D3D12_RESOURCE_DIMENSION_TEXTURE3D;
+
+        // 未知类型
+    default:
+        // 这里可以添加断言或日志
+        return D3D12_RESOURCE_DIMENSION_UNKNOWN;
+    }
+}
+
+// 如果需要获取更详细的类型信息（如是否是多采样），可以使用以下辅助函数：
+
+
+
+
+// 如果需要 RTV (渲染目标视图) 维度
+inline D3D12_RTV_DIMENSION ToD3D12RtvDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+    case RHITextureType::Texture1D:
+        return D3D12_RTV_DIMENSION_TEXTURE1D;
+    case RHITextureType::Texture1DArray:
+        return D3D12_RTV_DIMENSION_TEXTURE1DARRAY;
+    case RHITextureType::Texture2D:
+        return D3D12_RTV_DIMENSION_TEXTURE2D;
+    case RHITextureType::Texture2DArray:
+        return D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+    //case RHITextureType::Texture2DMS:
+    //    return D3D12_RTV_DIMENSION_TEXTURE2DMS;
+    //case RHITextureType::Texture2DMSArray:
+    //    return D3D12_RTV_DIMENSION_TEXTURE2DMSARRAY;
+    case RHITextureType::Texture3D:
+        return D3D12_RTV_DIMENSION_TEXTURE3D;
+    case RHITextureType::TextureCubeMap:
+    case RHITextureType::TextureCubeMapArray:
+        // Cube 纹理不能直接作为 RTV，需要使用 2D 数组视图或单个面
+        // 这里返回 2D 数组维度，实际使用时需要指定具体的数组切片
+        return D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+    default:
+        return D3D12_RTV_DIMENSION_UNKNOWN;
+    }
+}
+
+// 如果需要 UAV (无序访问视图) 维度
+inline D3D12_UAV_DIMENSION ToD3D12UavDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+    case RHITextureType::Texture1D:
+        return D3D12_UAV_DIMENSION_TEXTURE1D;
+    case RHITextureType::Texture1DArray:
+        return D3D12_UAV_DIMENSION_TEXTURE1DARRAY;
+    case RHITextureType::Texture2D:
+        return D3D12_UAV_DIMENSION_TEXTURE2D;
+    case RHITextureType::Texture2DArray:
+        return D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+    case RHITextureType::Texture3D:
+        return D3D12_UAV_DIMENSION_TEXTURE3D;
+    case RHITextureType::TextureCubeMap:
+    case RHITextureType::TextureCubeMapArray:
+        // Cube 纹理不能直接作为 UAV，需要使用 2D 数组视图
+        return D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+    default:
+        return D3D12_UAV_DIMENSION_UNKNOWN;
+    }
+}
+
+// 如果需要 DSV (深度模板视图) 维度
+inline D3D12_DSV_DIMENSION ToD3D12DsvDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+    case RHITextureType::Texture1D:
+        return D3D12_DSV_DIMENSION_TEXTURE1D;
+    case RHITextureType::Texture1DArray:
+        return D3D12_DSV_DIMENSION_TEXTURE1DARRAY;
+    case RHITextureType::Texture2D:
+        return D3D12_DSV_DIMENSION_TEXTURE2D;
+    case RHITextureType::Texture2DArray:
+        return D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+    //case RHITextureType::Texture2DMS:
+    //    return D3D12_DSV_DIMENSION_TEXTURE2DMS;
+    //case RHITextureType::Texture2DMSArray:
+    //    return D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY;
+    case RHITextureType::TextureCubeMap:
+    case RHITextureType::TextureCubeMapArray:
+        // Cube 纹理不能直接作为 DSV，需要使用 2D 数组视图
+        return D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+    default:
+        return D3D12_DSV_DIMENSION_UNKNOWN;
+    }
+}
+
+// 综合版本 - 如果需要根据视图类型自动选择
+inline D3D12_RESOURCE_DIMENSION ToD3D12ResourceDimension(RHITextureType InType)
+{
+    switch (InType)
+    {
+    case RHITextureType::Texture1D:
+    case RHITextureType::Texture1DArray:
+        return D3D12_RESOURCE_DIMENSION_TEXTURE1D;
+    case RHITextureType::Texture2D:
+    case RHITextureType::Texture2DArray:
+    //case RHITextureType::Texture2DMS:
+    //case RHITextureType::Texture2DMSArray:
+    case RHITextureType::TextureCubeMap:
+    case RHITextureType::TextureCubeMapArray:
+        return D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+    case RHITextureType::Texture3D:
+    case RHITextureType::Texture3DArray:
+        return D3D12_RESOURCE_DIMENSION_TEXTURE3D;
+    default:
+        return D3D12_RESOURCE_DIMENSION_UNKNOWN;
+    }
+}
+
+inline DXGI_FORMAT ToD3D12Format(RHIPixelFormat PF)
 {
     switch (PF)
     {
