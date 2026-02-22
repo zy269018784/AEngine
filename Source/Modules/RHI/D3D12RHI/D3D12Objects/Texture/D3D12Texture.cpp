@@ -19,10 +19,44 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
     textureDesc.Format = ToD3D12Format(GetFormat()); // 常用格式，每个像素4个8位分量
     textureDesc.SampleDesc.Count = 1; // 多重采样计数，1表示不开启
     textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;    // 默认标志
+
+    D3D12_HEAP_PROPERTIES* pHeapProperties;
+
+    Device->CreateCommittedResource(pHeapProperties, // 默认堆
+    D3D12_HEAP_FLAG_NONE,
+    &textureDesc,
+    D3D12_RESOURCE_STATE_COPY_DEST,                     // 初始状态为拷贝目标
+    nullptr,
+    IID_PPV_ARGS(&Handle));
+
+    D3D12_RESOURCE_DESC uploadDesc = {};
+    uploadDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER; // 上传资源是缓冲区
+    uploadDesc.Width = GetX() * GetY();                       // 缓冲区大小
+
+    D3D12_HEAP_PROPERTIES* pHeapUploadProperties;
+    Device->CreateCommittedResource(
+        pHeapUploadProperties,
+        D3D12_HEAP_FLAG_NONE,
+        &uploadDesc,
+        D3D12_RESOURCE_STATE_GENERIC_READ,
+        nullptr,
+        IID_PPV_ARGS(&pUploadBuffer));
 }
 
 
 D3D12Texture::~D3D12Texture()
 {
 
+}
+
+void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
+{
+    // 2. 将图片数据映射到上传缓冲区
+    void* pMappedData = nullptr;
+    pUploadBuffer->Map(0, nullptr, &pMappedData);
+    memcpy(pMappedData, InData, Width * Height);
+    pUploadBuffer->Unmap(0, nullptr);
+
+    // 3. 使用命令列表将数据从上传缓冲区拷贝到纹理资源
+    //commandList->CopyResource(Handle, pUploadBuffer);
 }
