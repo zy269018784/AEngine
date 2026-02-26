@@ -256,7 +256,7 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
         1, &Barrier
     );
 
-    EndSingleTimeCommands(CommandBuffer);
+    GraphicsQueue->EndCommandBuffer(CommandBuffer);
 }
 
 
@@ -277,7 +277,7 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t He
     std::cout  << " CopyBufferToImage " << Width << " " << Height << " " << ArraySize << std::endl;
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
-    EndSingleTimeCommands(CommandBuffer);
+    GraphicsQueue->EndCommandBuffer(CommandBuffer);
 }
 
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOffset, int YOffset, int ZOffset, uint32_t Width, uint32_t Height, uint32_t Depth)
@@ -345,5 +345,5 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
 
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
-    EndSingleTimeCommands(CommandBuffer);
+    GraphicsQueue->EndCommandBuffer(CommandBuffer);
 }

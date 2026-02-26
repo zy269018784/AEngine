@@ -6,6 +6,9 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include <iostream>
+
+#include "VulkanObjects/Queue/VulkanQueue.h"
+
 class VulkanImage
 {
 public:
@@ -37,24 +40,6 @@ public:
 	*/
 	void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory);
 public:
-	/*
-		暂时存放
-	*/
-	void EndSingleTimeCommands(VulkanCommandBuffer* CommandBuffer) {
-		CommandBuffer->EndCommandBuffer();
-
-		auto Handle = CommandBuffer->GetHandle();
-
-		VkSubmitInfo submitInfo{};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &Handle;
-
-		vkQueueSubmit(GraphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
-		vkQueueWaitIdle(GraphicsQueue);
-
-		delete CommandBuffer;
-	}
 	void TransitionImageLayout(VkFormat format, VkImageLayout OldLayout, VkImageLayout NewLayout);
 
 	void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
@@ -82,7 +67,8 @@ public:
 	*/
 
 	VulkanCommandPool *CommandPool;
-	VkQueue GraphicsQueue;	
+	VulkanQueue *GraphicsQueue;
+	//VkQueue GraphicsQueue;
 	VkBuffer StagingBuffer;
 	VkDeviceMemory StagingBufferMemory;
 };
