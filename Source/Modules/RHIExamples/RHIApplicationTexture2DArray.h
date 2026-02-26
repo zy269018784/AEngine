@@ -23,7 +23,7 @@
 class RHIApplicationTexture2DArray : public RHIApplication
 {
 public:
-    RHIApplicationTexture2DArray(GLFWwindow* Window);
+    RHIApplicationTexture2DArray(IWindow* Window);
     ~RHIApplicationTexture2DArray();
 private:
     virtual void Init();

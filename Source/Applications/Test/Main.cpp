@@ -17,7 +17,7 @@ int TestD3D9(int argc, char **argv);
 int TestSpirvCross(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    //return RHIExample();
+    return RHIExample();
     return TestD3D12RHI(argc, argv);
     return TestSpirvCross(argc, argv);
 

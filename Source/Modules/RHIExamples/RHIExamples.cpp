@@ -82,7 +82,7 @@ void Example_Texture2D(IWindow* Window)
 	App.Run();
 }
 
-void Example_Texture2DArray(GLFWwindow* Window)
+void Example_Texture2DArray(IWindow* Window)
 {
 	RHIApplicationTexture2DArray App(Window);
 	App.Run();
@@ -167,7 +167,7 @@ int RHIExample()
 		Example_TextureCubeMapArray		OK,		
 	*/
 	//Example_Model(Window->GetHandle());
-	Example_Triangle(Window);
+	//Example_Triangle(Window);
 	//Example_TriangleIndexed(Window);
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());
@@ -176,7 +176,7 @@ int RHIExample()
 	//Example_Texture1DArray(Window->GetHandle());
 	//Example_Texture2D(Window);
 	
-	//Example_Texture2DArray(Window->GetHandle());
+	Example_Texture2DArray(Window);
 	//Example_Texture3D(Window->GetHandle());
 	//Example_TextureCubeMap(Window->GetHandle());
 	//Example_TextureCubeMapArray(Window->GetHandle());

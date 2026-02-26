@@ -39,7 +39,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture2DArray::RHIApplicationTexture2DArray(GLFWwindow* InWindow)
+RHIApplicationTexture2DArray::RHIApplicationTexture2DArray(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -84,8 +84,8 @@ void RHIApplicationTexture2DArray::CreateTexture()
         STBI_rgb_alpha统一转成4通道,
         有些vulkan设备不支持R8G8B8
     */
-    stbi_uc* pixels  = stbi_load("textures/TextureArray_1.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    stbi_uc* pixels2 = stbi_load("textures/TextureArray_2.png", &texWidth2, &texHeight2, &texChannels2, STBI_rgb_alpha);
+    stbi_uc* pixels  = stbi_load("textures/TextureArray_1.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels2 = stbi_load("textures/TextureArray_2.jpg", &texWidth2, &texHeight2, &texChannels2, STBI_rgb_alpha);
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
@@ -118,8 +118,8 @@ void RHIApplicationTexture2DArray::CreateTexture()
 #else
 #if 1
     RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2);    
-    RHITexture2DArray->Update(0, 0, 0, 0, 256, 256, 1, pixels);
-    RHITexture2DArray->Update(0, 0, 0, 1, 256, 256, 1, pixels2);
+    RHITexture2DArray->Update(0, 0, 0, 0, 1024, 1024, 1, pixels);
+    RHITexture2DArray->Update(0, 0, 0, 1, 1024, 1024, 1, pixels2);
 #elif 0
     GLuint Texture2DArray;
     glGenTextures(1, &Texture2DArray);
@@ -212,7 +212,7 @@ void RHIApplicationTexture2DArray::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
