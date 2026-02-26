@@ -1,6 +1,7 @@
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/Queue/VulkanQueueFamily.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include <iostream>
 
 VulkanQueue::VulkanQueue()
@@ -29,4 +30,21 @@ VulkanQueue::~VulkanQueue()
 VkQueue VulkanQueue::GetHandle()
 {
 	return Handle;
+}
+
+void VulkanQueue::EndCommandBuffer(VulkanCommandBuffer* CommandBuffer)
+{
+	CommandBuffer->EndCommandBuffer();
+
+	auto CommandBufferHandle = CommandBuffer->GetHandle();
+
+	VkSubmitInfo submitInfo{};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &CommandBufferHandle;
+
+	vkQueueSubmit(Handle, 1, &submitInfo, VK_NULL_HANDLE);
+	vkQueueWaitIdle(Handle);
+
+	delete CommandBuffer;
 }

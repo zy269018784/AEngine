@@ -199,7 +199,7 @@ void VulkanGraphicsPipeline::Create()
 		*/
 		VK_DYNAMIC_STATE_SCISSOR,
 
-		VK_DYNAMIC_STATE_PRIMITIVE_TOPOLOGY,
+		//VK_DYNAMIC_STATE_PRIMITIVE_TOPOLOGY,
 		/*
 			VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE specifies that the depthBoundsTestEnable state in VkPipelineDepthStencilStateCreateInfo
 			will be ignored and must be set dynamically with vkCmdSetDepthBoundsTestEnable before any draw call.

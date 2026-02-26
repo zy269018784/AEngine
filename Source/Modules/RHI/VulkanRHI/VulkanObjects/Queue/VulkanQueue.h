@@ -4,6 +4,7 @@
 
 class VulkanQueueFamily;
 class VulkanDevice;
+class VulkanCommandBuffer;
 class VulkanQueue
 {
 public:
@@ -12,6 +13,7 @@ public:
 	VulkanQueue(VulkanDevice* InDevice, VulkanQueueFamily* InQueueFamily, std::uint32_t InQueueIndex);
 	~VulkanQueue();
 	VkQueue GetHandle();
+	void EndCommandBuffer(VulkanCommandBuffer* CommandBuffer);
 public:
 	/*
 		Vulkan API Wrapper
