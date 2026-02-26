@@ -65,10 +65,6 @@ public:
 	/*
 		暂时存放
 	*/
-
-	VulkanCommandPool *CommandPool;
-	VulkanQueue *GraphicsQueue;
-	//VkQueue GraphicsQueue;
 	VkBuffer StagingBuffer;
 	VkDeviceMemory StagingBufferMemory;
 };

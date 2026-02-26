@@ -211,7 +211,8 @@ void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMe
 
 void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout, VkImageLayout NewLayout)
 {
-    VulkanCommandBuffer* CommandBuffer = CommandPool->BeginSingleTimeCommands();
+    VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
+
     VkImageMemoryBarrier Barrier{};
     Barrier.sType                           = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     Barrier.oldLayout                       = OldLayout;
@@ -256,13 +257,13 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
         1, &Barrier
     );
 
-    GraphicsQueue->EndCommandBuffer(CommandBuffer);
+    Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }
 
 
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t Height) 
 {
-    VulkanCommandBuffer* CommandBuffer = CommandPool->BeginSingleTimeCommands();
+    VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 
     VkBufferImageCopy Region{};
     Region.bufferOffset = 0;
@@ -277,12 +278,12 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t He
     std::cout  << " CopyBufferToImage " << Width << " " << Height << " " << ArraySize << std::endl;
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
-    GraphicsQueue->EndCommandBuffer(CommandBuffer);
+    Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }
 
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOffset, int YOffset, int ZOffset, uint32_t Width, uint32_t Height, uint32_t Depth)
 {
-    VulkanCommandBuffer* CommandBuffer = CommandPool->BeginSingleTimeCommands();
+    VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 
     uint32_t LayerCount = 1;
     uint32_t BaseArrayLayer = 0;
@@ -345,5 +346,5 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
 
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
-    GraphicsQueue->EndCommandBuffer(CommandBuffer);
+    Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }

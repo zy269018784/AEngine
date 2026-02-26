@@ -175,9 +175,6 @@ RHITexture* VulkanRHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::ui
 	VulkanTexture* Texture =  new VulkanTexture1D(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX);
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 }
 
@@ -187,12 +184,7 @@ RHITexture* VulkanRHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, st
 	VulkanTexture* Texture = new VulkanTexture1DArray(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, ArraySize);
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
-
-	//return new VulkanTexture1DArray(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, ArraySize);
 }
 
 RHITexture* VulkanRHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY)
@@ -200,9 +192,6 @@ RHITexture* VulkanRHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::ui
 	VulkanTexture *Texture = new VulkanTexture2D(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, SizeY);
 	Texture->CommandPool   = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 }
 
@@ -212,9 +201,6 @@ RHITexture* VulkanRHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, st
 
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 	
 }
@@ -224,9 +210,6 @@ RHITexture* VulkanRHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::ui
 	VulkanTexture* Texture = new VulkanTexture3D(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, SizeY, SizeZ);
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 }
 
@@ -235,9 +218,6 @@ RHITexture* VulkanRHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::
 	VulkanTexture* Texture = new VulkanTextureCubeMap(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, SizeY);
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 }
 
@@ -246,9 +226,6 @@ RHITexture* VulkanRHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, 
 	VulkanTexture* Texture = new VulkanTextureCubeMapArray(Devices[GPUIndex], RHIPixelFormat, NumMips, SizeX, SizeY, ArraySize);
 	Texture->CommandPool = GraphicsCommandPool;
 	Texture->graphicsQueue = Devices[GPUIndex]->Queues[0]->GetHandle();
-
-	Texture->Image->CommandPool = GraphicsCommandPool;
-	Texture->Image->GraphicsQueue = Devices[GPUIndex]->Queues[0];
 	return Texture;
 }
 
