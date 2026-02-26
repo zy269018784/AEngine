@@ -150,6 +150,7 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 		std::cout << "TextureCubeMapArray size " << Size << std::endl;
 		break;
 	}
+
 	/*
 		To do: 
 			staging buffer 放这里

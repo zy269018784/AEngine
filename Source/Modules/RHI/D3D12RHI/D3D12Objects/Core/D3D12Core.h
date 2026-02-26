@@ -796,7 +796,7 @@ inline D3D12_DSV_DIMENSION ToD3D12DsvDimension(RHITextureType InType)
         return D3D12_DSV_DIMENSION_UNKNOWN;
     }
 }
-
+#if 0
 // 综合版本 - 如果需要根据视图类型自动选择
 inline D3D12_RESOURCE_DIMENSION ToD3D12ResourceDimension(RHITextureType InType)
 {
@@ -819,7 +819,7 @@ inline D3D12_RESOURCE_DIMENSION ToD3D12ResourceDimension(RHITextureType InType)
         return D3D12_RESOURCE_DIMENSION_UNKNOWN;
     }
 }
-
+#endif
 inline DXGI_FORMAT ToD3D12Format(RHIPixelFormat PF)
 {
     switch (PF)
