@@ -12,18 +12,11 @@ class VulkanTexture : public RHITexture
 public:
 	VulkanTexture(VulkanDevice *Device, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize);
 	~VulkanTexture();
-	//void Update(const void* InData, std::uint32_t InSize);
 	void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override;
-private:
-	VkCommandBuffer BeginSingleTimeCommands();
-	void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
-	void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 public:
 	VulkanImage		*Image;
 	VulkanImageView	*ImageView;
 	VulkanDevice* Device;
-	VulkanCommandPool *CommandPool;
-	VkQueue graphicsQueue;
 };
 
 /*
