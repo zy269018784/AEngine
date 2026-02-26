@@ -50,7 +50,7 @@ ID3D12Resource* g_texture = nullptr;
 ID3D12RootSignature* g_rootSignature = nullptr;
 ID3D12PipelineState* g_pipelineState = nullptr;
 
-// 顶点缓冲区对象 - 改为全局变量，避免每帧创建
+// 顶点缓冲区对象
 ID3D12Resource* g_vertexBuffer = nullptr;
 D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
 
@@ -60,48 +60,33 @@ struct Vertex {
     DirectX::XMFLOAT2 texcoord;
 };
 
-// 简单的 4x4 纹理数据（RGBA，每个通道 8 位）
-void CreateTextureData(std::vector<uint8_t>& data) {
-    const UINT texWidth = 4;
-    const UINT texHeight = 4;
-    data.resize(texWidth * texHeight * 4);
-
-    // 创建一个简单的棋盘格图案
-    for (UINT y = 0; y < texHeight; ++y) {
-        for (UINT x = 0; x < texWidth; ++x) {
-            UINT index = (y * texWidth + x) * 4;
-
-            // 棋盘格：如果 (x+y) 是偶数，设置为红色，否则设置为绿色
-            if ((x + y) % 2 == 0) {
-                data[index + 0] = 255;  // R
-                data[index + 1] = 0;    // G
-                data[index + 2] = 0;    // B
-            } else {
-                data[index + 0] = 0;    // R
-                data[index + 1] = 255;  // G
-                data[index + 2] = 0;    // B
-            }
-            data[index + 3] = 255;       // A
-        }
-    }
-
-    // 打印纹理数据以便验证
-    std::cout << "Texture data created:" << std::endl;
-    for (UINT y = 0; y < texHeight; ++y) {
-        for (UINT x = 0; x < texWidth; ++x) {
-            UINT index = (y * texWidth + x) * 4;
-            std::cout << "(" << (int)data[index] << ","
-                      << (int)data[index+1] << ","
-                      << (int)data[index+2] << ","
-                      << (int)data[index+3] << ") ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 // 检查 HRESULT 的辅助宏
 #define CHECK_HR(hr) { if (FAILED(hr)) { std::cerr << "HRESULT failed at line " << __LINE__ << std::endl; return false; } }
 #define CHECK_HR_VOID(hr) { if (FAILED(hr)) { std::cerr << "HRESULT failed at line " << __LINE__ << std::endl; return; } }
+
+// 创建一个简单的测试纹理（红绿蓝渐变）
+void CreateTextureData(std::vector<uint8_t>& data) {
+    const UINT texWidth = 256;
+    const UINT texHeight = 256;
+    data.resize(texWidth * texHeight * 4);
+
+    for (UINT y = 0; y < texHeight; ++y) {
+        for (UINT x = 0; x < texWidth; ++x) {
+            UINT index = (y * texWidth + x) * 4;
+
+            // 创建彩色渐变：
+            // R: 从左到右渐变
+            // G: 从上到下渐变
+            // B: 对角渐变
+            data[index + 0] = (x * 255) / texWidth;      // R
+            data[index + 1] = (y * 255) / texHeight;     // G
+            data[index + 2] = ((x + y) * 255) / (texWidth + texHeight); // B
+            data[index + 3] = 255;  // Alpha
+        }
+    }
+
+    std::cout << "Texture data created (256x256 with RGB gradient)" << std::endl;
+}
 
 // 初始化 D3D12 设备
 bool InitD3D12(GLFWwindow* window) {
@@ -158,7 +143,7 @@ bool InitD3D12(GLFWwindow* window) {
     CHECK_HR(g_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&g_rtvHeap)));
     g_rtvDescriptorSize = g_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-    // 5. 创建 RTV（每个后备缓冲区的视图）
+    // 5. 创建 RTV
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_rtvHeap->GetCPUDescriptorHandleForHeapStart();
     for (UINT i = 0; i < FRAME_COUNT; ++i) {
         CHECK_HR(g_swapChain->GetBuffer(i, IID_PPV_ARGS(&g_renderTargets[i])));
@@ -182,16 +167,17 @@ bool InitD3D12(GLFWwindow* window) {
     }
 
     factory->Release();
+    std::cout << "D3D12 initialized successfully" << std::endl;
     return true;
 }
 
-// 创建顶点缓冲区 - 新增函数
+// 创建顶点缓冲区
 static bool CreateVertexBuffer() {
-    // 全屏三角形的三个顶点
+    // 创建一个简单的三角形，带有纹理坐标
     Vertex triangleVertices[] = {
-        { { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } },
-        { { 3.0f, -1.0f, 0.0f }, { 2.0f, 1.0f } },
-        { { -1.0f, 3.0f, 0.0f }, { 0.0f, -1.0f } }
+        { { 0.0f, 0.5f, 0.0f }, { 0.5f, 0.0f } },     // 顶部中间
+        { { 0.5f, -0.5f, 0.0f }, { 1.0f, 1.0f } },    // 右下
+        { { -0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f } }    // 左下
     };
 
     UINT vertexBufferSize = sizeof(triangleVertices);
@@ -237,9 +223,9 @@ static bool CreateVertexBuffer() {
     return true;
 }
 
-// 创建纹理和 SRV 描述符堆
+// 创建纹理和 SRV
 bool CreateTextureAndSRV() {
-    // 1. 创建 SRV 描述符堆（用于着色器访问纹理）
+    // 1. 创建 SRV 描述符堆
     D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
     srvHeapDesc.NumDescriptors = 1;
     srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -249,8 +235,8 @@ bool CreateTextureAndSRV() {
     // 2. 生成纹理数据
     std::vector<uint8_t> textureData;
     CreateTextureData(textureData);
-    const UINT texWidth = 4;
-    const UINT texHeight = 4;
+    const UINT texWidth = 256;
+    const UINT texHeight = 256;
 
     // 3. 创建纹理资源
     D3D12_RESOURCE_DESC textureDesc = {};
@@ -274,7 +260,7 @@ bool CreateTextureAndSRV() {
         IID_PPV_ARGS(&g_texture)
     ));
 
-    // 4. 创建上传堆并将数据上传到纹理
+    // 4. 创建上传堆
     UINT64 uploadBufferSize = GetRequiredIntermediateSize(g_texture, 0, 1);
     ID3D12Resource* textureUploadHeap = nullptr;
     CD3DX12_HEAP_PROPERTIES uploadHeapProps(D3D12_HEAP_TYPE_UPLOAD);
@@ -319,7 +305,7 @@ bool CreateTextureAndSRV() {
 
     textureUploadHeap->Release();
 
-    // 5. 创建 SRV（着色器资源视图）
+    // 5. 创建 SRV
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Format = textureDesc.Format;
@@ -327,11 +313,7 @@ bool CreateTextureAndSRV() {
     srvDesc.Texture2D.MipLevels = 1;
     g_device->CreateShaderResourceView(g_texture, &srvDesc, g_srvHeap->GetCPUDescriptorHandleForHeapStart());
 
-    // 添加调试输出
     std::cout << "Texture created successfully" << std::endl;
-    std::cout << "Texture format: " << textureDesc.Format << std::endl;
-    std::cout << "Texture size: " << texWidth << "x" << texHeight << std::endl;
-
     return true;
 }
 
@@ -371,21 +353,21 @@ ID3DBlob* CompileShader(const std::string& source, const std::string& entrypoint
 
 // 创建根签名和 PSO
 bool CreatePipeline() {
-    // 1. 创建根签名
+    // 1. 创建根签名 - 现在需要纹理和采样器
     CD3DX12_DESCRIPTOR_RANGE range;
     range.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
     CD3DX12_ROOT_PARAMETER rootParam;
     rootParam.InitAsDescriptorTable(1, &range, D3D12_SHADER_VISIBILITY_PIXEL);
 
-    // 创建静态采样器 - 确保寄存器匹配
+    // 创建静态采样器
     CD3DX12_STATIC_SAMPLER_DESC samplerDesc;
     samplerDesc.Init(
         0,                                  // shader register
         D3D12_FILTER_MIN_MAG_MIP_LINEAR,    // filter
-        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,   // addressU
-        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,   // addressV
-        D3D12_TEXTURE_ADDRESS_MODE_CLAMP    // addressW
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,    // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,    // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP     // addressW
     );
 
     CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
@@ -423,7 +405,6 @@ bool CreatePipeline() {
     };
 
     // 3. 编译着色器
-    // 顶点着色器
     const char* vsSource = R"(
         struct VSInput {
             float4 position : POSITION;
@@ -441,7 +422,6 @@ bool CreatePipeline() {
         }
     )";
 
-    // 像素着色器 - 使用纹理采样
     const char* psSource = R"(
         Texture2D g_texture : register(t0);
         SamplerState g_sampler : register(s0);
@@ -450,6 +430,7 @@ bool CreatePipeline() {
             float2 texcoord : TEXCOORD;
         };
         float4 main(PSInput input) : SV_TARGET {
+            // 采样纹理并返回颜色
             return g_texture.Sample(g_sampler, input.texcoord);
         }
     )";
@@ -464,8 +445,24 @@ bool CreatePipeline() {
     psoDesc.pRootSignature = g_rootSignature;
     psoDesc.VS = { reinterpret_cast<BYTE*>(vsBlob->GetBufferPointer()), vsBlob->GetBufferSize() };
     psoDesc.PS = { reinterpret_cast<BYTE*>(psBlob->GetBufferPointer()), psBlob->GetBufferSize() };
-    psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-    psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+
+    // 设置光栅化状态
+    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+    psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
+    psoDesc.RasterizerState.DepthBias = 0;
+    psoDesc.RasterizerState.DepthBiasClamp = 0.0f;
+    psoDesc.RasterizerState.SlopeScaledDepthBias = 0.0f;
+    psoDesc.RasterizerState.DepthClipEnable = TRUE;
+    psoDesc.RasterizerState.MultisampleEnable = FALSE;
+    psoDesc.RasterizerState.AntialiasedLineEnable = FALSE;
+    psoDesc.RasterizerState.ForcedSampleCount = 0;
+    psoDesc.RasterizerState.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+
+    // 设置混合状态
+    psoDesc.BlendState.RenderTarget[0].BlendEnable = FALSE;
+    psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
     psoDesc.DepthStencilState.DepthEnable = FALSE;
     psoDesc.DepthStencilState.StencilEnable = FALSE;
     psoDesc.SampleMask = UINT_MAX;
@@ -474,10 +471,16 @@ bool CreatePipeline() {
     psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
     psoDesc.SampleDesc.Count = 1;
 
-    CHECK_HR(g_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&g_pipelineState)));
+    hr = g_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&g_pipelineState));
+    if (FAILED(hr)) {
+        std::cerr << "Failed to create pipeline state" << std::endl;
+        vsBlob->Release();
+        psBlob->Release();
+        return false;
+    }
 
-    if (vsBlob) vsBlob->Release();
-    if (psBlob) psBlob->Release();
+    vsBlob->Release();
+    psBlob->Release();
 
     std::cout << "Pipeline created successfully" << std::endl;
     return true;
@@ -489,11 +492,9 @@ void WaitForPreviousFrame() {
 
     const UINT64 fenceValue = g_fenceValue[g_frameIndex];
 
-    // 提交信号
     HRESULT hr = g_commandQueue->Signal(g_fence, fenceValue);
     if (FAILED(hr)) return;
 
-    // 等待完成
     if (g_fence->GetCompletedValue() < fenceValue) {
         hr = g_fence->SetEventOnCompletion(fenceValue, g_fenceEvent);
         if (SUCCEEDED(hr)) {
@@ -511,7 +512,7 @@ void TestD3D12Texture2DRender() {
         return;
     }
 
-    // 获取当前帧的分配器
+    // 重置命令分配器和命令列表
     HRESULT hr = g_commandAllocator[g_frameIndex]->Reset();
     if (FAILED(hr)) {
         std::cerr << "Failed to reset command allocator" << std::endl;
@@ -523,14 +524,6 @@ void TestD3D12Texture2DRender() {
         std::cerr << "Failed to reset command list" << std::endl;
         return;
     }
-
-    // 确保纹理处于正确的状态
-    CD3DX12_RESOURCE_BARRIER textureBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
-        g_texture,
-        D3D12_RESOURCE_STATE_COPY_DEST,
-        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
-    );
-    g_commandList->ResourceBarrier(1, &textureBarrier);
 
     // 将渲染目标从呈现状态转换为渲染目标状态
     CD3DX12_RESOURCE_BARRIER rtBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -548,8 +541,8 @@ void TestD3D12Texture2DRender() {
     );
     g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
-    // 清屏为深蓝色背景
-    const float clearColor[] = { 0.1f, 0.2f, 0.4f, 1.0f };
+    // 清屏为蓝色背景
+    const float clearColor[] = { 0.0f, 0.0f, 1.0f, 1.0f };
     g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
     // 设置视口和裁剪矩形
@@ -558,8 +551,10 @@ void TestD3D12Texture2DRender() {
     g_commandList->RSSetViewports(1, &viewport);
     g_commandList->RSSetScissorRects(1, &scissorRect);
 
-    // 设置根签名和描述符堆
+    // 设置根签名
     g_commandList->SetGraphicsRootSignature(g_rootSignature);
+
+    // 设置描述符堆和根描述符表
     ID3D12DescriptorHeap* heaps[] = { g_srvHeap };
     g_commandList->SetDescriptorHeaps(1, heaps);
 
@@ -569,13 +564,9 @@ void TestD3D12Texture2DRender() {
     // 设置顶点缓冲区
     g_commandList->IASetVertexBuffers(0, 1, &g_vertexBufferView);
     g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    g_commandList->DrawInstanced(3, 1, 0, 0);
 
-    static int frameCount = 0;
-    frameCount++;
-    if (frameCount % 60 == 0) {
-        std::cout << "Rendered frame " << frameCount << std::endl;
-    }
+    // 绘制三角形
+    g_commandList->DrawInstanced(3, 1, 0, 0);
 
     // 准备呈现
     CD3DX12_RESOURCE_BARRIER presentBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -611,13 +602,11 @@ void TestD3D12Texture2DCleanup() {
 
     WaitForPreviousFrame();
 
-    // 释放顶点缓冲区
     if (g_vertexBuffer) {
         g_vertexBuffer->Release();
         g_vertexBuffer = nullptr;
     }
 
-    // 释放所有 COM 对象
     for (UINT i = 0; i < FRAME_COUNT; ++i) {
         if (g_renderTargets[i]) {
             g_renderTargets[i]->Release();
@@ -686,7 +675,7 @@ int TestD3D12Texture2D(int argc, char **argv) {
         return -1;
     }
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // 禁用 OpenGL
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "D3D12 + GLFW 2D Texture", nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
@@ -705,20 +694,18 @@ int TestD3D12Texture2D(int argc, char **argv) {
         return -1;
     }
 
-    std::cout << "D3D12 initialized successfully" << std::endl;
-
-    // 创建纹理和 SRV
-    if (!CreateTextureAndSRV()) {
-        std::cerr << "Failed to create texture" << std::endl;
+    // 创建顶点缓冲区
+    if (!CreateVertexBuffer()) {
+        std::cerr << "Failed to create vertex buffer" << std::endl;
         TestD3D12Texture2DCleanup();
         glfwDestroyWindow(window);
         glfwTerminate();
         return -1;
     }
 
-    // 创建顶点缓冲区
-    if (!CreateVertexBuffer()) {
-        std::cerr << "Failed to create vertex buffer" << std::endl;
+    // 创建纹理和 SRV
+    if (!CreateTextureAndSRV()) {
+        std::cerr << "Failed to create texture" << std::endl;
         TestD3D12Texture2DCleanup();
         glfwDestroyWindow(window);
         glfwTerminate();
