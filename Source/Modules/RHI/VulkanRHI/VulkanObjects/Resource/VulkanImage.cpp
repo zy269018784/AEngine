@@ -318,21 +318,7 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
         LayerCount = 1;
         break;
     }
-#if 0
-    std::cout << " CopyBufferToImage "
-        << " XOffset " << XOffset
-        << " YOffset " << YOffset
-        << " ZOffset " << ZOffset
-        << " Width " << Width
-        << " Height " << Height
-        << " Depth " << Depth
-        << " ArraySize " << ArraySize
 
-        << " LayerCount " << LayerCount
-        << " BaseArrayLayer " << BaseArrayLayer
-        << " MipLevel " << MipLevel
-        << std::endl;
-#endif
     VkBufferImageCopy Region{};
     Region.bufferOffset = 0;
     Region.bufferRowLength = 0;

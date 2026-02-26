@@ -31,10 +31,6 @@ public:
 	void DestroyImage(const VkAllocationCallbacks* Allocator);
 
 	void GetImageMemoryRequirements(VkMemoryRequirements* MemoryRequirements);
-//private:
-//	VkImageType ImageViewTypeToImageType(VkImageViewType ResourceType);
-//	VkImageCreateFlagBits ImageViewTypeToImageCreateFlagBits(VkImageViewType ResourceType);
-//	VkSampleCountFlagBits ToSampleCountFlagBits(std::uint32_t InSampleCount);
 	/*
 		临时创建staging buffer
 	*/
@@ -58,7 +54,7 @@ private:
 	*/
 	std::uint32_t ArraySize;
 	/*
-		纹理类型2
+		纹理类型
 	*/
 	RHITextureType Type;		
 public:
