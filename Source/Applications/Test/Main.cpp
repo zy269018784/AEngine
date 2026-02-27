@@ -25,13 +25,14 @@ int TestSpirvCross(int argc, char **argv);
 int main(int argc, char** argv)
 {
 
-    return TestVulkanRayTracingPipeline(argc, argv);
+    //return TestVulkanRayTracingPipeline(argc, argv);
+    return TestD3D12Texture2D(argc, argv);
     return TestD3D9Texture2D(argc, argv);
     return TestD3D10Texture2D(argc, argv);
     return TestD3D11Texture2D(argc, argv);
     return TestD3D11Texture2DArray(argc, argv);
     return TestD3D12Texture2DArray(argc, argv);
-    return TestD3D12Texture2D(argc, argv);
+
     return RHIExample();
     return TestD3D12RHI(argc, argv);
     return TestSpirvCross(argc, argv);
