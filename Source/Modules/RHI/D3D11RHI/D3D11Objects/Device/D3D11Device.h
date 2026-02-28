@@ -14,7 +14,7 @@ public:
     void CreateCommandPool();
     void CreateQueue();
 public:
-
+	HRESULT CreateTexture2D(const D3D11_TEXTURE2D_DESC *pDesc, const D3D11_SUBRESOURCE_DATA *pInitialData, ID3D11Texture2D **ppTexture2D);
 private:
 	ID3D11Device* Handle;
 public:

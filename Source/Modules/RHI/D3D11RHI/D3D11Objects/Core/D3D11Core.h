@@ -662,7 +662,159 @@ inline DXGI_FORMAT ToD3D11Format(RHIVertexInputAttribute::Format Format)
     return fmt;
 }
 
+inline DXGI_FORMAT ToD3D11Format(RHIPixelFormat PF)
+{
+    switch (PF)
+    {
+    case RHIPixelFormat::PF_Unknown:
+        return DXGI_FORMAT_UNKNOWN;
 
+        // 深度模板
+    case RHIPixelFormat::PF_DepthStencil:
+        // D3D11 常用的深度模板格式
+        // 注意：D3D11 创建深度模板视图时需要匹配的格式
+        return DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+        // 1通道 - 8位
+    case RHIPixelFormat::PF_R8_SINT:
+        return DXGI_FORMAT_R8_SINT;
+    case RHIPixelFormat::PF_R8_UINT:
+        return DXGI_FORMAT_R8_UINT;
+    case RHIPixelFormat::PF_R8_SNORM:
+        return DXGI_FORMAT_R8_SNORM;
+    case RHIPixelFormat::PF_R8_UNORM:
+        return DXGI_FORMAT_R8_UNORM;
+    case RHIPixelFormat::PF_R8_SRGB:
+        // D3D11 没有单独的 R8_SRGB，但可以在创建着色器资源视图时指定 SRGB
+        // 或者使用 DXGI_FORMAT_R8_UNORM 配合 D3D11_SHADER_RESOURCE_VIEW_DESC 的 Format 字段
+        return DXGI_FORMAT_R8_UNORM;
+
+        // 2通道 - 8位
+    case RHIPixelFormat::PF_R8G8_SINT:
+        return DXGI_FORMAT_R8G8_SINT;
+    case RHIPixelFormat::PF_R8G8_UINT:
+        return DXGI_FORMAT_R8G8_UINT;
+    case RHIPixelFormat::PF_R8G8_SNORM:
+        return DXGI_FORMAT_R8G8_SNORM;
+    case RHIPixelFormat::PF_R8G8_UNORM:
+        return DXGI_FORMAT_R8G8_UNORM;
+    case RHIPixelFormat::PF_R8G8_SRGB:
+        return DXGI_FORMAT_R8G8_UNORM; // 同上
+
+        // 3通道 - 8位
+    case RHIPixelFormat::PF_R8G8B8_SINT:
+        // D3D11 不支持直接的 R8G8B8 格式，必须使用 R8G8B8A8
+        // 在着色器中访问时，alpha 通道的值是未定义的
+        return DXGI_FORMAT_R8G8B8A8_SINT;
+    case RHIPixelFormat::PF_R8G8B8_UINT:
+        return DXGI_FORMAT_R8G8B8A8_UINT;
+    case RHIPixelFormat::PF_R8G8B8_SNORM:
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
+    case RHIPixelFormat::PF_R8G8B8_UNORM:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+    case RHIPixelFormat::PF_R8G8B8_SRGB:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+
+        // 4通道 - 8位
+    case RHIPixelFormat::PF_R8G8B8A8_SINT:
+        return DXGI_FORMAT_R8G8B8A8_SINT;
+    case RHIPixelFormat::PF_R8G8B8A8_UINT:
+        return DXGI_FORMAT_R8G8B8A8_UINT;
+    case RHIPixelFormat::PF_R8G8B8A8_SNORM:
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
+    case RHIPixelFormat::PF_R8G8B8A8_UNORM:
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+    case RHIPixelFormat::PF_R8G8B8A8_SRGB:
+        // D3D11 有专门的 SRGB 格式，应该使用这个
+        return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+        // 1通道 - 16位
+    case RHIPixelFormat::PF_R16_SINT:
+        return DXGI_FORMAT_R16_SINT;
+    case RHIPixelFormat::PF_R16_UINT:
+        return DXGI_FORMAT_R16_UINT;
+    case RHIPixelFormat::PF_R16_SNORM:
+        return DXGI_FORMAT_R16_SNORM;
+    case RHIPixelFormat::PF_R16_UNORM:
+        return DXGI_FORMAT_R16_UNORM;
+    case RHIPixelFormat::PF_R16_FLOAT:
+        return DXGI_FORMAT_R16_FLOAT;
+
+        // 2通道 - 16位
+    case RHIPixelFormat::PF_R16G16_SINT:
+        return DXGI_FORMAT_R16G16_SINT;
+    case RHIPixelFormat::PF_R16G16_UINT:
+        return DXGI_FORMAT_R16G16_UINT;
+    case RHIPixelFormat::PF_R16G16_SNORM:
+        return DXGI_FORMAT_R16G16_SNORM;
+    case RHIPixelFormat::PF_R16G16_UNORM:
+        return DXGI_FORMAT_R16G16_UNORM;
+    case RHIPixelFormat::PF_R16G16_FLOAT:
+        return DXGI_FORMAT_R16G16_FLOAT;
+
+        // 3通道 - 16位
+    case RHIPixelFormat::PF_R16G16B16_SINT:
+        // D3D11 不支持 R16G16B16，使用 R16G16B16A16
+        return DXGI_FORMAT_R16G16B16A16_SINT;
+    case RHIPixelFormat::PF_R16G16B16_UINT:
+        return DXGI_FORMAT_R16G16B16A16_UINT;
+    case RHIPixelFormat::PF_R16G16B16_SNORM:
+        return DXGI_FORMAT_R16G16B16A16_SNORM;
+    case RHIPixelFormat::PF_R16G16B16_UNORM:
+        return DXGI_FORMAT_R16G16B16A16_UNORM;
+    case RHIPixelFormat::PF_R16G16B16_FLOAT:
+        return DXGI_FORMAT_R16G16B16A16_FLOAT;
+
+        // 4通道 - 16位
+    case RHIPixelFormat::PF_R16G16B16A16_SINT:
+        return DXGI_FORMAT_R16G16B16A16_SINT;
+    case RHIPixelFormat::PF_R16G16B16A16_UINT:
+        return DXGI_FORMAT_R16G16B16A16_UINT;
+    case RHIPixelFormat::PF_R16G16B16A16_SNORM:
+        return DXGI_FORMAT_R16G16B16A16_SNORM;
+    case RHIPixelFormat::PF_R16G16B16A16_UNORM:
+        return DXGI_FORMAT_R16G16B16A16_UNORM;
+    case RHIPixelFormat::PF_R16G16B16A16_FLOAT:
+        return DXGI_FORMAT_R16G16B16A16_FLOAT;
+
+        // 1通道 - 32位
+    case RHIPixelFormat::PF_R32_SINT:
+        return DXGI_FORMAT_R32_SINT;
+    case RHIPixelFormat::PF_R32_UINT:
+        return DXGI_FORMAT_R32_UINT;
+    case RHIPixelFormat::PF_R32_FLOAT:
+        return DXGI_FORMAT_R32_FLOAT;
+
+        // 2通道 - 32位
+    case RHIPixelFormat::PF_R32G32_SINT:
+        return DXGI_FORMAT_R32G32_SINT;
+    case RHIPixelFormat::PF_R32G32_UINT:
+        return DXGI_FORMAT_R32G32_UINT;
+    case RHIPixelFormat::PF_R32G32_FLOAT:
+        return DXGI_FORMAT_R32G32_FLOAT;
+
+        // 3通道 - 32位
+    case RHIPixelFormat::PF_R32G32B32_SINT:
+        // D3D11 支持 R32G32B32 格式（用于顶点缓冲区等）
+        // 但对于纹理，可能需要注意硬件支持情况
+        return DXGI_FORMAT_R32G32B32_SINT;
+    case RHIPixelFormat::PF_R32G32B32_UINT:
+        return DXGI_FORMAT_R32G32B32_UINT;
+    case RHIPixelFormat::PF_R32G32B32_FLOAT:
+        return DXGI_FORMAT_R32G32B32_FLOAT;
+
+        // 4通道 - 32位
+    case RHIPixelFormat::PF_R32G32B32A32_SINT:
+        return DXGI_FORMAT_R32G32B32A32_SINT;
+    case RHIPixelFormat::PF_R32G32B32A32_UINT:
+        return DXGI_FORMAT_R32G32B32A32_UINT;
+    case RHIPixelFormat::PF_R32G32B32A32_FLOAT:
+        return DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+    default:
+        return DXGI_FORMAT_UNKNOWN;
+    }
+}
 
 // 着色器类型转换
 inline const char* ToD3D11ShaderType(RHIShaderType Type, std::uint32_t ShaderModel = 5)
@@ -685,82 +837,108 @@ inline const char* ToD3D11ShaderType(RHIShaderType Type, std::uint32_t ShaderMod
         return "vs_5_0";
     }
 }
-#if 0
-// 混合状态描述符转换
-inline void ToD3D11BlendDesc(const RHIBlendStateDesc& RHIBlendDesc, D3D11_BLEND_DESC& D3DBlendDesc)
+
+inline UINT RHIPixelFormatToBytesPerPixel(RHIPixelFormat PF)
 {
-    ZeroMemory(&D3DBlendDesc, sizeof(D3DBlendDesc));
-
-    D3DBlendDesc.AlphaToCoverageEnable = RHIBlendDesc.AlphaToCoverageEnable;
-    D3DBlendDesc.IndependentBlendEnable = RHIBlendDesc.IndependentBlendEnable;
-
-    for (int i = 0; i < 8; ++i)
+    switch (PF)
     {
-        if (i < RHIBlendDesc.AttachmentCount)
-        {
-            const RHIBlendAttachmentDesc& src = RHIBlendDesc.Attachments[i];
-            D3D11_RENDER_TARGET_BLEND_DESC& dst = D3DBlendDesc.RenderTarget[i];
+    // 深度模板格式
+    case RHIPixelFormat::PF_DepthStencil:
+        return 4; // D24_UNORM_S8_UINT 通常是4字节
 
-            dst.BlendEnable = src.BlendEnable;
-            dst.SrcBlend = ToD3D11Blend(src.SrcColorBlendFactor);
-            dst.DestBlend = ToD3D11Blend(src.DstColorBlendFactor);
-            dst.BlendOp = ToD3D11BlendOp(src.ColorBlendOp);
-            dst.SrcBlendAlpha = ToD3D11Blend(src.SrcAlphaBlendFactor);
-            dst.DestBlendAlpha = ToD3D11Blend(src.DstAlphaBlendFactor);
-            dst.BlendOpAlpha = ToD3D11BlendOp(src.AlphaBlendOp);
-            dst.RenderTargetWriteMask = src.ColorWriteMask;
-        }
-        else
-        {
-            D3DBlendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-        }
+    // 1通道 - 8位 (1字节)
+    case RHIPixelFormat::PF_R8_SINT:
+    case RHIPixelFormat::PF_R8_UINT:
+    case RHIPixelFormat::PF_R8_SNORM:
+    case RHIPixelFormat::PF_R8_UNORM:
+    case RHIPixelFormat::PF_R8_SRGB:
+        return 1;
+
+    // 2通道 - 8位 (2字节)
+    case RHIPixelFormat::PF_R8G8_SINT:
+    case RHIPixelFormat::PF_R8G8_UINT:
+    case RHIPixelFormat::PF_R8G8_SNORM:
+    case RHIPixelFormat::PF_R8G8_UNORM:
+    case RHIPixelFormat::PF_R8G8_SRGB:
+        return 2;
+
+    // 3通道 - 8位 (3字节，但注意D3D11可能用4字节对齐)
+    case RHIPixelFormat::PF_R8G8B8_SINT:
+    case RHIPixelFormat::PF_R8G8B8_UINT:
+    case RHIPixelFormat::PF_R8G8B8_SNORM:
+    case RHIPixelFormat::PF_R8G8B8_UNORM:
+    case RHIPixelFormat::PF_R8G8B8_SRGB:
+        return 3;  // 实际存储可能用4字节对齐，但这里是像素数据本身的大小
+
+    // 4通道 - 8位 (4字节)
+    case RHIPixelFormat::PF_R8G8B8A8_SINT:
+    case RHIPixelFormat::PF_R8G8B8A8_UINT:
+    case RHIPixelFormat::PF_R8G8B8A8_SNORM:
+    case RHIPixelFormat::PF_R8G8B8A8_UNORM:
+    case RHIPixelFormat::PF_R8G8B8A8_SRGB:
+        return 4;
+
+    // 1通道 - 16位 (2字节)
+    case RHIPixelFormat::PF_R16_SINT:
+    case RHIPixelFormat::PF_R16_UINT:
+    case RHIPixelFormat::PF_R16_SNORM:
+    case RHIPixelFormat::PF_R16_UNORM:
+    case RHIPixelFormat::PF_R16_FLOAT:
+        return 2;
+
+    // 2通道 - 16位 (4字节)
+    case RHIPixelFormat::PF_R16G16_SINT:
+    case RHIPixelFormat::PF_R16G16_UINT:
+    case RHIPixelFormat::PF_R16G16_SNORM:
+    case RHIPixelFormat::PF_R16G16_UNORM:
+    case RHIPixelFormat::PF_R16G16_FLOAT:
+        return 4;
+
+    // 3通道 - 16位 (6字节)
+    case RHIPixelFormat::PF_R16G16B16_SINT:
+    case RHIPixelFormat::PF_R16G16B16_UINT:
+    case RHIPixelFormat::PF_R16G16B16_SNORM:
+    case RHIPixelFormat::PF_R16G16B16_UNORM:
+    case RHIPixelFormat::PF_R16G16B16_FLOAT:
+        return 6;
+
+    // 4通道 - 16位 (8字节)
+    case RHIPixelFormat::PF_R16G16B16A16_SINT:
+    case RHIPixelFormat::PF_R16G16B16A16_UINT:
+    case RHIPixelFormat::PF_R16G16B16A16_SNORM:
+    case RHIPixelFormat::PF_R16G16B16A16_UNORM:
+    case RHIPixelFormat::PF_R16G16B16A16_FLOAT:
+        return 8;
+
+    // 1通道 - 32位 (4字节)
+    case RHIPixelFormat::PF_R32_SINT:
+    case RHIPixelFormat::PF_R32_UINT:
+    case RHIPixelFormat::PF_R32_FLOAT:
+        return 4;
+
+    // 2通道 - 32位 (8字节)
+    case RHIPixelFormat::PF_R32G32_SINT:
+    case RHIPixelFormat::PF_R32G32_UINT:
+    case RHIPixelFormat::PF_R32G32_FLOAT:
+        return 8;
+
+    // 3通道 - 32位 (12字节)
+    case RHIPixelFormat::PF_R32G32B32_SINT:
+    case RHIPixelFormat::PF_R32G32B32_UINT:
+    case RHIPixelFormat::PF_R32G32B32_FLOAT:
+        return 12;
+
+    // 4通道 - 32位 (16字节)
+    case RHIPixelFormat::PF_R32G32B32A32_SINT:
+    case RHIPixelFormat::PF_R32G32B32A32_UINT:
+    case RHIPixelFormat::PF_R32G32B32A32_FLOAT:
+        return 16;
+
+    case RHIPixelFormat::PF_Unknown:
+    default:
+        return 0;
     }
 }
-
-
-// 深度模板状态描述符转换
-inline void ToD3D11DepthStencilDesc(const RHIDepthStencilStateDesc& RHIDepthStencilDesc, D3D11_DEPTH_STENCIL_DESC& D3DDepthStencilDesc)
-{
-    ZeroMemory(&D3DDepthStencilDesc, sizeof(D3DDepthStencilDesc));
-
-    D3DDepthStencilDesc.DepthEnable = RHIDepthStencilDesc.DepthTestEnable;
-    D3DDepthStencilDesc.DepthWriteMask = RHIDepthStencilDesc.DepthWriteEnable ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-    D3DDepthStencilDesc.DepthFunc = ToD3D11DepthComparisonFunc(RHIDepthStencilDesc.DepthCompareOp);
-    D3DDepthStencilDesc.StencilEnable = RHIDepthStencilDesc.StencilTestEnable;
-    D3DDepthStencilDesc.StencilReadMask = RHIDepthStencilDesc.StencilReadMask;
-    D3DDepthStencilDesc.StencilWriteMask = RHIDepthStencilDesc.StencilWriteMask;
-
-    // 前向面
-    D3DDepthStencilDesc.FrontFace.StencilFailOp = ToD3D11StencilOp(RHIDepthStencilDesc.Front.StencilFailOp);
-    D3DDepthStencilDesc.FrontFace.StencilDepthFailOp = ToD3D11StencilOp(RHIDepthStencilDesc.Front.StencilDepthFailOp);
-    D3DDepthStencilDesc.FrontFace.StencilPassOp = ToD3D11StencilOp(RHIDepthStencilDesc.Front.StencilPassOp);
-    D3DDepthStencilDesc.FrontFace.StencilFunc = ToD3D11DepthComparisonFunc(RHIDepthStencilDesc.Front.StencilCompareOp);
-
-    // 后向面
-    D3DDepthStencilDesc.BackFace.StencilFailOp = ToD3D11StencilOp(RHIDepthStencilDesc.Back.StencilFailOp);
-    D3DDepthStencilDesc.BackFace.StencilDepthFailOp = ToD3D11StencilOp(RHIDepthStencilDesc.Back.StencilDepthFailOp);
-    D3DDepthStencilDesc.BackFace.StencilPassOp = ToD3D11StencilOp(RHIDepthStencilDesc.Back.StencilPassOp);
-    D3DDepthStencilDesc.BackFace.StencilFunc = ToD3D11DepthComparisonFunc(RHIDepthStencilDesc.Back.StencilCompareOp);
-}
-
-// 光栅化状态描述符转换
-inline void ToD3D11RasterizerDesc(const RHIRasterizationStateDesc& RHIRasterDesc, D3D11_RASTERIZER_DESC& D3DRasterDesc)
-{
-    ZeroMemory(&D3DRasterDesc, sizeof(D3DRasterDesc));
-
-    D3DRasterDesc.FillMode = ToD3D11PolygonMode(RHIRasterDesc.PolygonMode);
-    D3DRasterDesc.CullMode = ToD3D11CullMode(RHIRasterDesc.CullMode);
-    D3DRasterDesc.FrontCounterClockwise = ToD3D11FrontFace(RHIRasterDesc.FrontFace);
-    D3DRasterDesc.DepthBias = RHIRasterDesc.DepthBias;
-    D3DRasterDesc.DepthBiasClamp = RHIRasterDesc.DepthBiasClamp;
-    D3DRasterDesc.SlopeScaledDepthBias = RHIRasterDesc.SlopeScaledDepthBias;
-    D3DRasterDesc.DepthClipEnable = RHIRasterDesc.DepthClampEnable;
-    D3DRasterDesc.ScissorEnable = RHIRasterDesc.ScissorTestEnable;
-    D3DRasterDesc.MultisampleEnable = RHIRasterDesc.MultisampleEnable;
-    D3DRasterDesc.AntialiasedLineEnable = RHIRasterDesc.AntialiasedLineEnable;
-}
-#endif
-
 
 // 视口转换
 inline D3D11_VIEWPORT ToD3D11Viewport(const RHIViewport& Viewport)

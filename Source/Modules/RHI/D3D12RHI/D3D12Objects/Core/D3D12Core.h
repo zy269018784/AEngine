@@ -820,6 +820,7 @@ inline D3D12_RESOURCE_DIMENSION ToD3D12ResourceDimension(RHITextureType InType)
     }
 }
 #endif
+
 inline DXGI_FORMAT ToD3D12Format(RHIPixelFormat PF)
 {
     switch (PF)
