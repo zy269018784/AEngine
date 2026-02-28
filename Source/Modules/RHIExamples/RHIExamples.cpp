@@ -94,13 +94,13 @@ void Example_Texture3D(IWindow* Window)
 	App.Run();
 }
 
-void Example_TextureCubeMap(GLFWwindow* Window)
+void Example_TextureCubeMap(IWindow* Window)
 {
 	RHIApplicationTextureCubeMap App(Window);
 	App.Run();
 }
 
-void Example_TextureCubeMapArray(GLFWwindow* Window)
+void Example_TextureCubeMapArray(IWindow* Window)
 {
 	RHIApplicationTextureCubeMapArray App(Window);
 	App.Run();
@@ -140,7 +140,7 @@ int RHIExample()
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 1
+#if 0
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
 	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
@@ -174,11 +174,11 @@ int RHIExample()
 	//Example_SSBO(Window->GetHandle());
 	//Example_Texture1D(Window);
 	//Example_Texture1DArray(Window);
-	Example_Texture2D(Window);
+	//Example_Texture2D(Window);
 	//Example_Texture2DArray(Window);
 	//Example_Texture3D(Window);
-	//Example_TextureCubeMap(Window->GetHandle());
-	//Example_TextureCubeMapArray(Window->GetHandle());
+	Example_TextureCubeMap(Window);
+	//Example_TextureCubeMapArray(Window);
 	//Example_SampleObject(Window->GetHandle());
 	//Example_GeometryShader(Window->GetHandle());
 	//Example_Scene(Window->GetHandle());

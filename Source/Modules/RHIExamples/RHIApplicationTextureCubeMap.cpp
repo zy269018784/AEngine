@@ -24,7 +24,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTextureCubeMap::RHIApplicationTextureCubeMap(GLFWwindow* InWindow)
+RHIApplicationTextureCubeMap::RHIApplicationTextureCubeMap(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -160,7 +160,7 @@ void RHIApplicationTextureCubeMap::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
