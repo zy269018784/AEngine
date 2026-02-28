@@ -54,7 +54,12 @@ void RHITexture::UpdateImageData()
 		auto Depth   = GetZ();
 		std::uint32_t Offset = 0;
 		std::uint8_t *Pixels = nullptr;
-		if (GetType() == RHITextureType::Texture2D)
+		if (GetType() == RHITextureType::Texture1D)
+		{
+			Pixels = ((std::uint8_t *)GetData());
+			this->Update(0, 0, 0, 0, Width, 1, 1, Pixels);
+		}
+		else if (GetType() == RHITextureType::Texture2D)
 		{
 			Pixels = ((std::uint8_t *)GetData());
 			this->Update(0, 0, 0, 0, Width, Height, 1, Pixels);

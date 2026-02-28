@@ -214,7 +214,8 @@ void VulkanGraphicsPipeline::Create()
 
 	/*
 		PipelineLayout
-	*/	
+	*/
+
 	VkResult ret;
 	//if (ShaderResourceBindings)
 	{
@@ -225,9 +226,12 @@ void VulkanGraphicsPipeline::Create()
 		LayoutCreateInfo.pPushConstantRanges = nullptr;
 		LayoutCreateInfo.setLayoutCount = 0;
 		LayoutCreateInfo.pSetLayouts = nullptr;
+
 		if (ShaderResourceBindings)
 		{
+			std::cout << " GraphicsPipeline->Create 12" << std::endl;
 			auto DescSetLayout = ((VulkanShaderResourceBindings*)ShaderResourceBindings)->GetDescriptorSetLayout()->GetHandle();
+			std::cout << " GraphicsPipeline->Create 13" << std::endl;
 			LayoutCreateInfo.setLayoutCount = 1;
 			LayoutCreateInfo.pSetLayouts = &DescSetLayout;
 			std::cout << "ShaderResourceBindings is " << LayoutCreateInfo.setLayoutCount << std::endl;
@@ -261,6 +265,7 @@ void VulkanGraphicsPipeline::Create()
 	CreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 
     ret = Device->CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &CreateInfo, nullptr, &Handle);
+
 	if (ret != VK_SUCCESS) 
 	{
 		throw std::runtime_error("failed to create graphics pipeline!");

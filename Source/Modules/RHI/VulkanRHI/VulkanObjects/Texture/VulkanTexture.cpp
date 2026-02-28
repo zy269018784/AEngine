@@ -32,7 +32,7 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 	switch (GetType())
 	{
 	case RHITextureType::Texture1D:
-		Size = PixelSize * Width;
+		Size = 1 * Width;
 		break;
 	case RHITextureType::Texture1DArray:
 		Size = PixelSize * Width * Height;

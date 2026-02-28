@@ -65,13 +65,13 @@ void Example_SSBO(GLFWwindow* Window)
 	App.Run();
 }
 
-void Example_Texture1D(GLFWwindow* Window)
+void Example_Texture1D(IWindow* Window)
 {
 	RHIApplicationTexture1D App(Window);
 	App.Run();
 }
 
-void Example_Texture1DArray(GLFWwindow* Window)
+void Example_Texture1DArray(IWindow* Window)
 {
 	RHIApplicationTexture1DArray App(Window);
 	App.Run();
@@ -172,12 +172,11 @@ int RHIExample()
 	//Example_DepthTest(Window->GetHandle());
 	//Example_UBO(Window->GetHandle());
 	//Example_SSBO(Window->GetHandle());
-	//Example_Texture1D(Window->GetHandle());
-	//Example_Texture1DArray(Window->GetHandle());
+	Example_Texture1D(Window);
+	//Example_Texture1DArray(Window);
 	//Example_Texture2D(Window);
-	
 	//Example_Texture2DArray(Window);
-	Example_Texture3D(Window);
+	//Example_Texture3D(Window);
 	//Example_TextureCubeMap(Window->GetHandle());
 	//Example_TextureCubeMapArray(Window->GetHandle());
 	//Example_SampleObject(Window->GetHandle());

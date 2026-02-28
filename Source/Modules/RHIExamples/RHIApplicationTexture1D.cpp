@@ -37,7 +37,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture1D::RHIApplicationTexture1D(GLFWwindow* InWindow)
+RHIApplicationTexture1D::RHIApplicationTexture1D(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -58,12 +58,18 @@ RHIApplicationTexture1D::~RHIApplicationTexture1D()
 
 void RHIApplicationTexture1D::Init()
 {
+    std::cout << "Init 1" << std::endl;
     CreateVBO();
     CreateEBO();
+    std::cout << "Init 2" << std::endl;
     CreateTexture();
+    std::cout << "Init 3" << std::endl;
     CreateSRB();
+    std::cout << "Init 4" << std::endl;
     CreateVertexDescriptioin();
+    std::cout << "Init 5" << std::endl;
     CreateGraphicsPipeline();
+    std::cout << "Init 6" << std::endl;
 }
 
 void RHIApplicationTexture1D::CreateVBO()
@@ -105,42 +111,9 @@ void RHIApplicationTexture1D::CreateTexture()
     */ 
     RHISampler1D_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     unsigned char RGBA[4] = { 0, 0, 255, 255 };
-#if USE_RHI_VULKAN
-     RHITexture1D = pRHI->RHICreateTexture1D(RHIPixelFormat::PF_R8_UINT, 1, 4);
-    pRHI->RHIUpdateTexture(RHITexture1D, RGBA, 4);
-#else   
-    //RHITexture1D = pRHI->RHICreateTexture1D(RHIPixelFormat::PF_R8_UINT, 1, 4);
-    //RHITexture1D->Update(0, 0, 0, 0, 4, 1, 1, RGBA);
-    GLuint Texture1DHandle;
-    glGenTextures(1, &Texture1DHandle);
-    glBindTexture(GL_TEXTURE_1D, Texture1DHandle);
-    glTexStorage1D(GL_TEXTURE_1D, 1, GL_R8, 4);
-#if 0
-    glTexSubImage1D(GL_TEXTURE_1D, 0, 0, 4, GL_RED, GL_UNSIGNED_BYTE, (const void*)&RGBA);
-#else
-    glTexSubImage2D(
-        GL_TEXTURE_1D,      // 目标
-        0,                  // 层级（Mipmap级别，0是基础级别）
-        0,                  // x方向的偏移量（对应于1D纹理的索引）
-        0,                  // y方向的偏移量！！！ 关键：必须为0，因为只有一行
-        4,                   // 要更新的宽度
-        1,                  // 要更新的高度！！！ 关键：必须为1
-        GL_RED,            // 数据格式（必须与内部格式兼容）
-        GL_UNSIGNED_BYTE,   // 数据类型
-        (const void*)&RGBA      // 指向新数据的指针
-    );
-#endif
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // glTexParameteri(Target, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
-     // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glActiveTexture(GL_TEXTURE0);
-    glActiveTexture(GL_TEXTURE1);
-    glActiveTexture(GL_TEXTURE2);
-#endif
+    RHITexture1D = pRHI->RHICreateTexture1D(RHIPixelFormat::PF_R8_UINT, 1, 4, RGBA);
+   // RHITexture1D->Update(0, 0, 0, 0, 4, 1, 1, RGBA);
 }
 
 
@@ -151,7 +124,7 @@ void RHIApplicationTexture1D::CreateSRB()
            // RHIShaderResourceBinding::SampledTexture(1, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler2D_),
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture1D, RHISampler1D_)
     });
-    //SRB->Create();
+    SRB->Create();
 }
 
 void RHIApplicationTexture1D::CreateVertexDescriptioin()
@@ -211,7 +184,7 @@ void RHIApplicationTexture1D::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
