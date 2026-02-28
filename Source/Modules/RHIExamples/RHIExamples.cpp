@@ -88,7 +88,7 @@ void Example_Texture2DArray(IWindow* Window)
 	App.Run();
 }
 
-void Example_Texture3D(GLFWwindow* Window)
+void Example_Texture3D(IWindow* Window)
 {
 	RHIApplicationTexture3D App(Window);
 	App.Run();
@@ -140,7 +140,7 @@ int RHIExample()
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 1
+#if 0
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
 	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
@@ -174,10 +174,10 @@ int RHIExample()
 	//Example_SSBO(Window->GetHandle());
 	//Example_Texture1D(Window->GetHandle());
 	//Example_Texture1DArray(Window->GetHandle());
-	Example_Texture2D(Window);
+	//Example_Texture2D(Window);
 	
 	//Example_Texture2DArray(Window);
-	//Example_Texture3D(Window->GetHandle());
+	Example_Texture3D(Window);
 	//Example_TextureCubeMap(Window->GetHandle());
 	//Example_TextureCubeMapArray(Window->GetHandle());
 	//Example_SampleObject(Window->GetHandle());

@@ -44,3 +44,34 @@ void *RHITexture::GetData() const
 {
 	return Data;
 }
+
+void RHITexture::UpdateImageData()
+{
+	if (GetData())
+	{
+		auto Width	= GetX();
+		auto Height	= GetY();
+		auto Depth   = GetZ();
+		std::uint32_t Offset = 0;
+		std::uint8_t *Pixels = nullptr;
+		if (GetType() == RHITextureType::Texture2D)
+		{
+			Pixels = ((std::uint8_t *)GetData());
+			this->Update(0, 0, 0, 0, Width, Height, 1, Pixels);
+		}
+		else if (GetType() == RHITextureType::Texture2DArray)
+		{
+			for (int ArrayIndex = 0; ArrayIndex < GetArraySize(); ArrayIndex++)
+			{
+				Offset = GetX() * GetY() * 4 * ArrayIndex;
+				Pixels = ((std::uint8_t *)GetData()) + Offset;
+				this->Update(0, 0, 0, ArrayIndex, Width, Height, 1, Pixels);
+			}
+		}
+		else if (GetType() == RHITextureType::Texture3D)
+		{
+			Pixels = ((std::uint8_t *)GetData());
+			this->Update(0, 0, 0, 0, Width, Height, Depth, Pixels);
+		}
+	}
+}

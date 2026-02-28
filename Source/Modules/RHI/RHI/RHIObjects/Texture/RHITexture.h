@@ -15,7 +15,7 @@ public:
 	void *				GetData() const;
 
 	virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) = 0;
-
+	void UpdateImageData();
 private:
 	RHITextureType			TextureType{};
 	RHIPixelFormat			Format{};

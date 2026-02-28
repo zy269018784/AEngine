@@ -37,7 +37,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTexture3D::RHIApplicationTexture3D(GLFWwindow* InWindow)
+RHIApplicationTexture3D::RHIApplicationTexture3D(IWindow* InWindow)
     : RHIApplication(InWindow)
 {
 
@@ -95,12 +95,51 @@ void RHIApplicationTexture3D::CreateTexture()
     //    throw std::runtime_error("failed to load texture image!");
     //}
 
-    std::uint8_t* pixels = new std::uint8_t[32 * 32 * 32 * 4];
+
 
 
     std::cout << "aaaa 1" << std::endl;
     //RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_SRGB, 1, texWidth, texHeight);
-    RHITexture2D = pRHI->RHICreateTexture3D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32, 32);
+
+    std::vector<std::uint8_t> ImageData(32 * 32 * 3 * 4);
+    std::uint8_t* pixels = ImageData.data();
+    for (int layer = 0; layer < 3; layer++)
+    {
+        for (int col = 0; col < 32; col++)
+        {
+            for (int row = 0; row < 32; row++)
+            {
+                int offset = 4 * (layer * 32 * 32 + 32 * row + col);
+                if (layer == 0)
+                {
+                    pixels[offset + 0] = 255;
+                    pixels[offset + 1] = 0;
+                    pixels[offset + 2] = 0;
+                    pixels[offset + 3] = 255;
+                }
+
+                if (layer == 1)
+                {
+                    pixels[offset + 0] = 0;
+                    pixels[offset + 1] = 255;
+                    pixels[offset + 2] = 0;
+                    pixels[offset + 3] = 255;
+                }
+
+                if (layer == 2)
+                {
+                    pixels[offset + 0] = 0;
+                    pixels[offset + 1] = 0;
+                    pixels[offset + 2] = 255;
+                    pixels[offset + 3] = 255;
+                }
+            }
+        }
+    }
+    RHITexture2D = pRHI->RHICreateTexture3D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32, 3, pixels);
+  //  RHITexture2D->Update(0, 0, 0, 0, 32, 32, 3, pixels);
+#if 0
+    std::uint8_t* pixels = new std::uint8_t[32 * 32 * 32 * 4];
     for (int layer = 0; layer < 32; layer++)
     {
         for (int col = 0; col < 32; col++)
@@ -142,7 +181,7 @@ void RHIApplicationTexture3D::CreateTexture()
     RHITexture2D->Update(0, 0, 0, 0, 32, 32, 32, pixels);
     std::cout << "aaaa 2" << std::endl;
     //pRHI->RHIUpdateTexture(RHITexture2D, pixels, imageSize);
-
+#endif
 }
 
 
@@ -212,7 +251,7 @@ void RHIApplicationTexture3D::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
