@@ -86,7 +86,7 @@ void RHIApplicationTexture2D::CreateTexture()
         STBI_rgb_alpha统一转成4通道
     */
     //stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    stbi_uc* pixels = stbi_load("textures/1.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels = stbi_load("textures/asuka.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
@@ -98,9 +98,9 @@ void RHIApplicationTexture2D::CreateTexture()
         throw std::runtime_error("failed to load texture image!");
     }
 
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
 
-    RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
+   // RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
 #endif
 }
 
@@ -171,7 +171,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else

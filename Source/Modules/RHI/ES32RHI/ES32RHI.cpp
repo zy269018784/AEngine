@@ -91,29 +91,29 @@ RHIShader* ES32RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, siz
 	return Shader;
 }
 
-RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX)
+RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture1D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeY = 1;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
-RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize)
+RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture1DArray;
 	std::uint32_t SizeY = ArraySize;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
-RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY)
+RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
 
@@ -124,14 +124,14 @@ RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std:
 	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
-RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ)
+RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture3D;
 	std::uint32_t ArraySize = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
-RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY)
+RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 {
 	RHITextureType Type = RHITextureType::TextureCubeMap;
 	std::uint32_t ArraySize = 1;
@@ -139,10 +139,10 @@ RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::ui
 		实际没用到
 	*/
 	std::uint32_t SizeZ = 0;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
-RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize)
+RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::TextureCubeMapArray;
 	/*
@@ -150,7 +150,7 @@ RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, st
 	*/
 	std::uint32_t SizeZ = 0;
 	ArraySize *= 6;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
 void ES32RHI::RHIUpdateTexture(RHITexture* InTexture, const void* InData, std::uint32_t InSize)
