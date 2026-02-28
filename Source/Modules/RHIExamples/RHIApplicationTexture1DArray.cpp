@@ -76,7 +76,7 @@ void RHIApplicationTexture1DArray::CreateEBO()
 void RHIApplicationTexture1DArray::CreateTexture()
 {
 #ifdef PROJECT_USE_STB
-#if 0
+#if 1
     /*
         STBI_rgb_alpha统一转成4通道,
         有些vulkan设备不支持R8G8B8
@@ -104,7 +104,7 @@ void RHIApplicationTexture1DArray::CreateTexture()
     /*
         STBI_rgb_alpha统一转成4通道
     */
-    stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels = stbi_load("textures/asuka.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
 #endif
     RHISampler1DArray = pRHI->RHICreateSampler(RHIFilter::LINEAR, RHIFilter::LINEAR);
 #if 0
@@ -121,7 +121,7 @@ void RHIApplicationTexture1DArray::CreateTexture()
     RHITexture1DArray->Update(0, 0, 0, 1, 256, 256, 1, pixels2);
     delete PixelArray;
 #else
-#if 1
+#if 0
     RHITexture1DArray = pRHI->RHICreateTexture1DArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
     RHITexture1DArray->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
     //for (int i = 0; i < texHeight; i++)
@@ -190,7 +190,7 @@ void RHIApplicationTexture1DArray::CreateGraphicsPipeline()
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
     */
     VertexInputLayout.SetAttributes({
-        { "", 0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
         { "",0, 1, RHIVertexInputAttribute::Format::Float3,  3 * sizeof(float), 0 },
         { "",0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
         });
@@ -206,7 +206,7 @@ void RHIApplicationTexture1DArray::CreateGraphicsPipeline()
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Back);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else

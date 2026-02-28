@@ -229,9 +229,7 @@ void VulkanGraphicsPipeline::Create()
 
 		if (ShaderResourceBindings)
 		{
-			std::cout << " GraphicsPipeline->Create 12" << std::endl;
 			auto DescSetLayout = ((VulkanShaderResourceBindings*)ShaderResourceBindings)->GetDescriptorSetLayout()->GetHandle();
-			std::cout << " GraphicsPipeline->Create 13" << std::endl;
 			LayoutCreateInfo.setLayoutCount = 1;
 			LayoutCreateInfo.pSetLayouts = &DescSetLayout;
 			std::cout << "ShaderResourceBindings is " << LayoutCreateInfo.setLayoutCount << std::endl;
