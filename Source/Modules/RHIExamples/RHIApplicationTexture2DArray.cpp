@@ -86,6 +86,12 @@ void RHIApplicationTexture2DArray::CreateTexture()
     */
     stbi_uc* pixels  = stbi_load("textures/TextureArray_1.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* pixels2 = stbi_load("textures/TextureArray_2.jpg", &texWidth2, &texHeight2, &texChannels2, STBI_rgb_alpha);
+    std::uint32_t TextureSize = texWidth * texHeight * 4;
+    std::vector<std::uint8_t> ImageArrayData(TextureSize * 2);
+
+    std::memcpy(ImageArrayData.data(), pixels, TextureSize);                    // 拷贝第一个纹理
+    std::memcpy(ImageArrayData.data() + TextureSize, pixels2, TextureSize);    // 拷贝第二个纹理
+
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
@@ -102,45 +108,10 @@ void RHIApplicationTexture2DArray::CreateTexture()
     //pRHI->RHIUpdateTexture(RHITexture2D, pixels2, imageSize);
 
     RHISampler2DArray = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-#if USE_RHI_VULKAN
-    /*
-    
-    */
-    unsigned char* PixelArray = new  unsigned char[2 * imageSize];
-    memcpy(PixelArray,              pixels,   imageSize);
-    memcpy(PixelArray + imageSize,  pixels2,  imageSize);
 
-    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2);
-    pRHI->RHIUpdateTexture(RHITexture2DArray, PixelArray, 2 * imageSize); 
-    RHITexture2DArray->Update(0, 0, 0, 0, 256, 256, 1,  pixels);
-    RHITexture2DArray->Update(0, 0, 0, 1, 256, 256, 1,  pixels2);
-    delete PixelArray;
-#else
-#if 1
-    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2);    
-    RHITexture2DArray->Update(0, 0, 0, 0, 1024, 1024, 1, pixels);
-    RHITexture2DArray->Update(0, 0, 0, 1, 1024, 1024, 1, pixels2);
-#elif 0
-    GLuint Texture2DArray;
-    glGenTextures(1, &Texture2DArray);
-    glActiveTexture(GL_TEXTURE0);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D_ARRAY, Texture2DArray);
-
-    glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, 256, 256, 2);
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 1, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels2);
-#else
-    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2);
-    glActiveTexture(GL_TEXTURE0);
-    glActiveTexture(GL_TEXTURE1);
-
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-    glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, 1, 256, 256, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels2);
-#endif
-#endif
+    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, 1, texWidth, texHeight, 2, ImageArrayData.data());
+   // RHITexture2DArray->Update(0, 0, 0, 0, 1024, 1024, 1, pixels);
+   // RHITexture2DArray->Update(0, 0, 0, 1, 1024, 1024, 1, pixels2);
 #endif
 }
 

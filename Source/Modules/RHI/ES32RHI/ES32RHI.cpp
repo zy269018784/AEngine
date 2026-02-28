@@ -117,11 +117,11 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint
 }
 
 
-RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize)
+RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture2DArray;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ);
+	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
 RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ)

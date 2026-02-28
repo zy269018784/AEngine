@@ -101,7 +101,7 @@ public:
 		@param  ArraySize : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize) final override;
+	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) final override;
 
 	/**
 		@brief 创建3D纹理

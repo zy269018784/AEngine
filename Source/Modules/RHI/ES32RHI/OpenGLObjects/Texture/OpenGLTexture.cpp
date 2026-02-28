@@ -2,8 +2,8 @@
 #include "OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32PixelFormat.h"
 
-OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ)
-    : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize), Device(InDevice)
+OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
+    : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
     glGenTextures(1, &Handle);
     GLenum Target = ToOpenGLTextureType(InType);
@@ -69,6 +69,23 @@ OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixe
     // set texture filtering parameters
     glTexParameteri(Target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(Target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    if (GetData())
+    {
+        auto Width = GetX();
+        auto Height = GetY();
+        std::uint32_t Offset = 0;
+        std::uint8_t *Pixels = nullptr;
+        if (GetType() == RHITextureType::Texture2DArray)
+        {
+            for (int ArrayIndex = 0; ArrayIndex < GetArraySize(); ArrayIndex++)
+            {
+                Offset = GetX() * GetY() * 4 * ArrayIndex;
+                Pixels = ((std::uint8_t *)GetData()) + Offset;
+                this->Update(0, 0, 0, ArrayIndex, Width, Height, 1, Pixels);
+            }
+        }
+    }
 }
 
 

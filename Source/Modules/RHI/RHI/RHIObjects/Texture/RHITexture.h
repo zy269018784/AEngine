@@ -4,7 +4,7 @@
 class RHITexture
 {
 public:
-	RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize);
+	RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData = nullptr);
 	RHITextureType		GetType() const;
 	RHIPixelFormat		GetFormat() const;
 	std::uint32_t		GetX() const;
@@ -12,6 +12,7 @@ public:
 	std::uint32_t		GetZ() const;
 	std::uint32_t		GetNumMips() const;
 	std::uint32_t		GetArraySize() const;
+	void *				GetData() const;
 
 	virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) = 0;
 
@@ -23,4 +24,5 @@ private:
 	std::uint32_t			Z{};
 	std::uint32_t			ArraySize{};
 	std::uint32_t			NumMips{};
+	void *					Data = nullptr;
 };

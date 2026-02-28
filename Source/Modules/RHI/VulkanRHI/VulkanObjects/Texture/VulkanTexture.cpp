@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize)
-	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize), Device(InDevice)
+VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
+	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
 	VkImageAspectFlagBits Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 	if (InFormat == RHIPixelFormat::PF_DepthStencil) 
@@ -15,6 +15,23 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 	//std::cout << "InFormat " << (int)InFormat << " " << InX  << " "  << InY << " "  << InZ << " "  <<InArraySize << " "  << InNumMips << std::endl;
 	Image = new VulkanImage(InDevice, InType, InFormat, InX, InY, InZ, InArraySize, InNumMips, 1);
 	ImageView = new VulkanImageView(InDevice, Image, InType,  Aspect, InFormat, InNumMips, InArraySize);
+
+	if (GetData())
+	{
+		auto Width = GetX();
+		auto Height = GetY();
+		std::uint32_t Offset = 0;
+		std::uint8_t *Pixels = nullptr;
+		if (GetType() == RHITextureType::Texture2DArray)
+		{
+			for (int ArrayIndex = 0; ArrayIndex < GetArraySize(); ArrayIndex++)
+			{
+				Offset = GetX() * GetY() * 4 * ArrayIndex;
+				Pixels = ((std::uint8_t *)GetData()) + Offset;
+				this->Update(0, 0, 0, ArrayIndex, Width, Height, 1, Pixels);
+			}
+		}
+	}
 }
 
 VulkanTexture::~VulkanTexture()

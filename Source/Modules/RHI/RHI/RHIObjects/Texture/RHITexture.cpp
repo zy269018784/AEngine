@@ -1,7 +1,7 @@
 #include "RHIObjects/Texture/RHITexture.h"
 
-RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize)
-	: TextureType(InType), Format(InFormat), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips)
+RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData)
+	: TextureType(InType), Format(InFormat), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
 {
 }
 
@@ -38,4 +38,9 @@ std::uint32_t  RHITexture::GetNumMips() const
 std::uint32_t RHITexture::GetArraySize() const
 {
 	return ArraySize;
+}
+
+void *RHITexture::GetData() const
+{
+	return Data;
 }

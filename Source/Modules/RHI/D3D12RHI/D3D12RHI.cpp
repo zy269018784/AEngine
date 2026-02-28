@@ -159,7 +159,7 @@ RHITexture* D3D12RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uin
 	@param  ArraySize : 纹理宽度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize)
+RHITexture* D3D12RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 {
 	return nullptr;
 }
