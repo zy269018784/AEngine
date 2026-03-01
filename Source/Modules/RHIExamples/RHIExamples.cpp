@@ -140,7 +140,7 @@ int RHIExample()
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 1
+#if 0
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
 	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
@@ -163,7 +163,7 @@ int RHIExample()
 		Example_Texture1DArray			
 		Example_Texture2D				OK		OK	
 		Example_Texture2DArray			OK,		OK	
-		Example_TextureCubeMap			OK,		
+		Example_TextureCubeMap			OK,		OK
 		Example_TextureCubeMapArray		OK,		
 	*/
 	//Example_Model(Window->GetHandle());
@@ -177,8 +177,8 @@ int RHIExample()
 	//Example_Texture2D(Window);
 	//Example_Texture2DArray(Window);
 	//Example_Texture3D(Window);
-	Example_TextureCubeMap(Window);
-	//Example_TextureCubeMapArray(Window);
+	//Example_TextureCubeMap(Window);
+	Example_TextureCubeMapArray(Window);
 	//Example_SampleObject(Window->GetHandle());
 	//Example_GeometryShader(Window->GetHandle());
 	//Example_Scene(Window->GetHandle());

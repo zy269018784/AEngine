@@ -9,7 +9,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         pRHI = new VulkanRHI();
