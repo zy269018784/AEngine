@@ -1,5 +1,15 @@
 ﻿/*
-	1. 
+	1. https://blog.csdn.net/qq_46062107/article/details/154114881
+		XAML
+		数据绑定 (Data Binding)
+		依赖属性 (DependencyProperty)
+		路由事件 (Routed Event)
+		资源系统 (Resources)
+		命令系统
+		样式 (Style) 
+		模板 (Template)
+		Dispatcher		https://zhuanlan.zhihu.com/p/673867537
+		MVVM
 
 	2. 
 	Window
@@ -76,4 +86,10 @@
 		|	|	|	|	|-Polygon(多边形)
 		|	|	|	|	|-Path(路径)
 		|-Style
+
+	5. 路由事件
+		路由策略：
+			Bubbling（冒泡）：从事件源向上传递到根元素
+			Tunneling（隧道）：从根元素向下传递到事件源
+			Direct（直接）：仅作用于事件源，不路由
 */			 
