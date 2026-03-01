@@ -1,0 +1,14 @@
+Q_PROPERTY(type name
+           (READ getFunction [WRITE setFunction] |
+            MEMBER memberName [(READ getFunction | WRITE setFunction)])
+           [RESET resetFunction]
+           [NOTIFY notifySignal]
+           [REVISION int | REVISION(int[, int])]
+           [DESIGNABLE bool]
+           [SCRIPTABLE bool]
+           [STORED bool]
+           [USER bool]
+           [BINDABLE bindableProperty]
+           [CONSTANT]
+           [FINAL]
+           [REQUIRED])

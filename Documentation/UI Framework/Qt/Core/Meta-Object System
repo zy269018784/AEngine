@@ -1,0 +1,16 @@
+ meta-object system:
+    signals and slots mechanism for inter-object communication
+    run-time type information
+    the dynamic property system
+
+ QMetaObject::className获取类名
+ QMetaObject::newInstance实例化一个类
+
+
+
+
+
+
+
+
+
