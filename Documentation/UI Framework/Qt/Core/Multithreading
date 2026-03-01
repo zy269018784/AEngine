@@ -1,0 +1,13 @@
+QThreadPool
+QRunnable
+QThread
+
+
+QThread和QRunnable:
+    QThread继承QObject, QRunnable不继承QObject.
+    QThread可以使用信号槽, QRunnable不使用信号槽.
+    QThread通过start启动, QRunnable通过QThreadPool启动.
+    QThread线程对象需要手动去管理删除和释放, 而QRunnable则会在QThreadPool调用完成后自动释放.
+
+
+
