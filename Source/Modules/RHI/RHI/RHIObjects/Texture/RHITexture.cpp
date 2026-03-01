@@ -78,5 +78,22 @@ void RHITexture::UpdateImageData()
 			Pixels = ((std::uint8_t *)GetData());
 			this->Update(0, 0, 0, 0, Width, Height, Depth, Pixels);
 		}
+		else if (GetType() == RHITextureType::TextureCubeMap)
+		{
+#if 1
+			Pixels = ((std::uint8_t *)GetData()) + 0 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, Width, Height, 1,  Pixels);
+			Pixels = ((std::uint8_t *)GetData()) + 1 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, Width, Height, 1,  Pixels);
+			Pixels = ((std::uint8_t *)GetData()) + 2 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, Width, Height, 1,  Pixels);
+			Pixels = ((std::uint8_t *)GetData()) + 3 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Y, Width, Height, 1,  Pixels);
+			Pixels = ((std::uint8_t *)GetData()) + 4 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,       (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, Width, Height, 1,  Pixels);
+			Pixels = ((std::uint8_t *)GetData()) + 5 * (GetX() * GetY() * 4);
+			this->Update(0, 0, 0,       (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, Width, Height, 1,  Pixels);
+#endif
+		}
 	}
 }

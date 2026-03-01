@@ -77,6 +77,16 @@ void RHIApplicationTextureCubeMap::CreateTexture()
     stbi_uc* pixels4 = stbi_load("textures/skybox/bottom.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* pixels5 = stbi_load("textures/skybox/front.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* pixels6 = stbi_load("textures/skybox/back.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    std::uint32_t TextureSize = texWidth * texHeight * 4;
+    std::vector<std::uint8_t> TextureData(6 * TextureSize);
+
+    std::memcpy(TextureData.data() + 0 * TextureSize, pixels1, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() + 1 * TextureSize, pixels2, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() + 2 * TextureSize, pixels3, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() + 3 * TextureSize, pixels4, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() + 4 * TextureSize, pixels5, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() + 5 * TextureSize, pixels6, TextureSize);    // 拷贝第二个纹理
+
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
@@ -89,15 +99,16 @@ void RHIApplicationTextureCubeMap::CreateTexture()
    //}
 
     //RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_SRGB, 1, texWidth, texHeight);
-    RHITextureCubeMap = pRHI->RHICreateTextureCube(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
-
+    RHITextureCubeMap = pRHI->RHICreateTextureCube(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, TextureData.data());
+#if 0
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1,  pixels1);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1,  pixels2);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, texWidth, texHeight, 1,  pixels3);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Y, texWidth, texHeight, 1,  pixels4);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, texWidth, texHeight, 1,  pixels5);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, texWidth, texHeight, 1,  pixels6);
-    //pRHI->RHIUpdateTexture(RHITexture2D, pixels, imageSize);
+#endif
+
 #endif
 }
 
