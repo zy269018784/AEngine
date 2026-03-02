@@ -1,0 +1,1 @@
+std::async	启动一个异步任务,返回一个 std::future 对象.

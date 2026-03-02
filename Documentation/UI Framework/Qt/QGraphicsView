@@ -1,0 +1,24 @@
+enum	DragMode { NoDrag, ScrollHandDrag, RubberBandDrag }
+
+
+DragMode.NoDrag         拖拽已禁用
+DragMode.ScrollHandDrag 启用手形滚动模式
+DragMode.RubberBandDrag 启用框选模式
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
