@@ -68,7 +68,6 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
 {
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
-#ifdef PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */    
@@ -88,16 +87,26 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
     stbi_uc* skybox2_front  = stbi_load("textures/Storforsen2/posz.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* skybox2_back   = stbi_load("textures/Storforsen2/negz.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
 
+    std::uint32_t TextureSize = texWidth * texHeight * 4;
+    std::vector<std::uint8_t> TextureData(12 * TextureSize);
+
+    std::memcpy(TextureData.data() +  0 * TextureSize, pixels1, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() +  1 * TextureSize, pixels2, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() +  2 * TextureSize, pixels3, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() +  3 * TextureSize, pixels4, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() +  4 * TextureSize, pixels5, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() +  5 * TextureSize, pixels6, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() +  6 * TextureSize, skybox2_right, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() +  7 * TextureSize, skybox2_left, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() +  8 * TextureSize, skybox2_top, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() +  9 * TextureSize, skybox2_bottom, TextureSize);    // 拷贝第二个纹理
+    std::memcpy(TextureData.data() + 10 * TextureSize, skybox2_front, TextureSize);    // 拷贝第一个纹理
+    std::memcpy(TextureData.data() + 11 * TextureSize, skybox2_back, TextureSize);    // 拷贝第二个纹理
+
     VkDeviceSize imageSize = texWidth * texHeight * 4;
-    std::cout 
-        << "texWidth "   << texWidth   << " "
-        << "texHeight  " << texHeight  << " "
-        << "texChannels  " << texChannels << " "
-        << std::endl;
 
-#if 1
-    RHITextureCubeMapArray = pRHI->RHICreateTextureCubeArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 2);
-
+    RHITextureCubeMapArray = pRHI->RHICreateTextureCubeArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 2, TextureData.data());
+#if 0
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1, pixels1);
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1, pixels2);
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, texWidth, texHeight, 1, pixels3);
@@ -111,16 +120,6 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
     RHITextureCubeMapArray->Update(0, 0, 0, 6 + (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Y, texWidth, texHeight, 1, skybox2_bottom);
     RHITextureCubeMapArray->Update(0, 0, 0, 6 + (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, texWidth, texHeight, 1, skybox2_front );
     RHITextureCubeMapArray->Update(0, 0, 0, 6 + (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, texWidth, texHeight, 1, skybox2_back  );
-#else
-    RHITextureCubeMapArray = pRHI->RHICreateTextureCube(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1, pixels);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1, pixels);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, texWidth, texHeight, 1, pixels);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Y, texWidth, texHeight, 1, pixels);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, texWidth, texHeight, 1, pixels);
-    RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, texWidth, texHeight, 1, pixels);
-#endif
-    //pRHI->RHIUpdateTexture(RHITexture2D, pixels, imageSize);
 #endif
 }
 

@@ -48,11 +48,9 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 		break;
 	case RHITextureType::TextureCubeMap:
 		Size = PixelSize * Width * Height;
-		std::cout << "TextureCubeMap size " << Size << std::endl;
 		break;
 	case RHITextureType::TextureCubeMapArray:
 		Size = PixelSize * Width * Height * Depth;
-		std::cout << "TextureCubeMapArray size " << Size << std::endl;
 		break;
 	}
 

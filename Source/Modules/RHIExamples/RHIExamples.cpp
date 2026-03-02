@@ -140,7 +140,7 @@ int RHIExample()
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 0
+#if 1
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
 	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);

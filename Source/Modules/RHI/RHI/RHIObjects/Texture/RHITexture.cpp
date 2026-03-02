@@ -1,5 +1,8 @@
 #include "RHIObjects/Texture/RHITexture.h"
 
+#include <iostream>
+#include <ostream>
+
 RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData)
 	: TextureType(InType), Format(InFormat), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
 {
@@ -80,9 +83,8 @@ void RHITexture::UpdateImageData()
 		}
 		else if (GetType() == RHITextureType::TextureCubeMap)
 		{
-#if 1
 			Pixels = ((std::uint8_t *)GetData()) + 0 * (GetX() * GetY() * 4);
-			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, Width, Height, 1,  Pixels);
+			this->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, Width, Height, 1,  Pixels);
 			Pixels = ((std::uint8_t *)GetData()) + 1 * (GetX() * GetY() * 4);
 			this->Update(0, 0, 0,(int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, Width, Height, 1,  Pixels);
 			Pixels = ((std::uint8_t *)GetData()) + 2 * (GetX() * GetY() * 4);
@@ -93,7 +95,24 @@ void RHITexture::UpdateImageData()
 			this->Update(0, 0, 0,       (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, Width, Height, 1,  Pixels);
 			Pixels = ((std::uint8_t *)GetData()) + 5 * (GetX() * GetY() * 4);
 			this->Update(0, 0, 0,       (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, Width, Height, 1,  Pixels);
-#endif
+		}
+		else if (GetType() == RHITextureType::TextureCubeMapArray)
+		{
+			for (int ArrayIndex = 0; ArrayIndex < GetArraySize() / 6; ArrayIndex++)
+			{
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 0) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0, 6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, Width, Height, 1,  Pixels);
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 1) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0,6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, Width, Height, 1,  Pixels);
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 2) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0,6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, Width, Height, 1,  Pixels);
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 3) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0,6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Y, Width, Height, 1,  Pixels);
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 4) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0,6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Z, Width, Height, 1,  Pixels);
+				Pixels = ((std::uint8_t *)GetData()) + (6 * ArrayIndex + 5) * (GetX() * GetY() * 4);
+				this->Update(0, 0, 0,6 * ArrayIndex + (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_Z, Width, Height, 1,  Pixels);
+			}
 		}
 	}
 }
