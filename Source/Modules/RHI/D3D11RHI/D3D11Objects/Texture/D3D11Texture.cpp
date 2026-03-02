@@ -1,8 +1,8 @@
 ﻿#include "D3D11Objects/Texture/D3D11Texture.h"
 #include "D3D11Objects/Core/D3D11Core.h"
 #include "D3D11Objects/Device/D3D11Device.h"
-D3D11Texture::D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize)
-    : RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize), Device(InDevice)
+D3D11Texture::D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
+    : RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
     if (RHITextureType::Texture2D == InType)
     {
@@ -23,12 +23,12 @@ D3D11Texture::D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixe
         TextureDesc.MiscFlags           = 0;
 
         D3D11_SUBRESOURCE_DATA InitData = {};
-        InitData.pSysMem = nullptr;
+        InitData.pSysMem = GetData();
         InitData.SysMemPitch = GetX() * RHIPixelFormatToBytesPerPixel(GetFormat());
         InitData.SysMemSlicePitch = InitData.SysMemPitch * GetY();
 
-        ID3D11Texture2D* Texture2DHandle = reinterpret_cast<ID3D11Texture2D *>(&Handle);
-        Device->CreateTexture2D(&TextureDesc, &InitData, &Texture2DHandle);
+     //   ID3D11Texture2D* Texture2DHandle = reinterpret_cast<ID3D11Texture2D *>(&Handle);
+        Device->CreateTexture2D(&TextureDesc, &InitData, &Handle);
     }
     else if (RHITextureType::Texture2DArray == InType)
     {
@@ -47,6 +47,15 @@ D3D11Texture::D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixe
         TextureDesc.BindFlags           = D3D11_BIND_SHADER_RESOURCE;
         TextureDesc.CPUAccessFlags      = 0;
         TextureDesc.MiscFlags           = 0;
+
+        std::vector<D3D11_SUBRESOURCE_DATA> InitData(GetArraySize());
+        for (UINT i = 0; i < GetArraySize(); ++i) {
+            InitData[i].pSysMem = ((std::uint8_t *)GetData()) + (i * GetX() * GetY() * 4);
+            InitData[i].SysMemPitch = GetX() * 4;
+            InitData[i].SysMemSlicePitch = InitData[i].SysMemPitch * GetY();
+        }
+
+        Device->CreateTexture2D(&TextureDesc, InitData.data(), &Handle);
     }
 }
 
