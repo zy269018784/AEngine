@@ -57,12 +57,13 @@ D3D11Texture::~D3D11Texture()
 
 void D3D11Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
+#if 0
     // 2. 将图片数据映射到上传缓冲区
     void* pMappedData = nullptr;
     pUploadBuffer->Map(0, nullptr, &pMappedData);
     memcpy(pMappedData, InData, Width * Height);
     pUploadBuffer->Unmap(0, nullptr);
-
+#endif
     // 3. 使用命令列表将数据从上传缓冲区拷贝到纹理资源
     //commandList->CopyResource(Handle, pUploadBuffer);
 }

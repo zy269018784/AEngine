@@ -14,6 +14,7 @@ int TestD3D10Texture2D(int argc, char **argv);
 int TestD3D9Texture2D(int argc, char **argv);
 int TestD3D12Texture2DArray(int argc, char **argv);
 int TestD3D11Texture2DArray(int argc, char **argv);
+int TestD3D11RHITexture2D(int argc, char **argv);
 //int BluezMain(int argc, char **argv);
 int SFMLMain(int argc, char **argv);
 int RHIExample();
@@ -24,7 +25,8 @@ int TestD3D9(int argc, char **argv);
 int TestSpirvCross(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    return RHIExample();
+
+    return TestD3D11RHITexture2D(argc, argv);
     //return TestVulkanRayTracingPipeline(argc, argv);
     return TestD3D11Texture2D(argc, argv);
     return TestD3D12Texture2D(argc, argv);
@@ -34,7 +36,7 @@ int main(int argc, char** argv)
     return TestD3D11Texture2DArray(argc, argv);
     return TestD3D12Texture2DArray(argc, argv);
 
-
+  return RHIExample();
     return TestD3D12RHI(argc, argv);
     return TestSpirvCross(argc, argv);
 

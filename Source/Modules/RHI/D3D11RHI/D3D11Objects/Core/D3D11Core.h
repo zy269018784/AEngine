@@ -939,7 +939,7 @@ inline UINT RHIPixelFormatToBytesPerPixel(RHIPixelFormat PF)
         return 0;
     }
 }
-
+#if 0
 // 视口转换
 inline D3D11_VIEWPORT ToD3D11Viewport(const RHIViewport& Viewport)
 {
@@ -952,3 +952,4 @@ inline D3D11_VIEWPORT ToD3D11Viewport(const RHIViewport& Viewport)
     viewport.MaxDepth = Viewport.MaxDepth();
     return viewport;
 }
+#endif
