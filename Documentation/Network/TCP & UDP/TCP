@@ -1,0 +1,10 @@
+三次握手
+四次握手
+
+服务器:
+    bind
+    listen
+    accept
+
+客户端:
+    connect
