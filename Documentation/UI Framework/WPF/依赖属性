@@ -1,0 +1,27 @@
+好处:
+    依赖属性存储在WPF的属性系统中，仅在值被修改时占用内存。
+
+只有DependencyObject类及其派生类可以定义依赖属性DependencyProperty
+
+
+DependencyProperty类
+
+
+例子代码:
+    public class MyControl : Control
+    {
+        // 1. 注册依赖属性（必须：public static readonly）
+        public static readonly DependencyProperty MyTextProperty =
+            DependencyProperty.Register(
+                "MyText",           // 属性名
+                typeof(string),     // 属性类型
+                typeof(MyControl),  // 所属类
+                new PropertyMetadata(null)); // 元数据
+
+        // 2. 属性包装器（方便C#代码调用）
+        public string MyText
+        {
+            get { return (string)GetValue(MyTextProperty); }
+            set { SetValue(MyTextProperty, value); }
+        }
+    }

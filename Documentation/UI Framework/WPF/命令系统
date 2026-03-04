@@ -1,0 +1,13 @@
+四个主要概念:
+    命令
+    命令源
+    命令目标
+    命令绑定
+
+ICommandSource:
+
+ICommand:
+
+
+CommandBinding命令绑定:
+
