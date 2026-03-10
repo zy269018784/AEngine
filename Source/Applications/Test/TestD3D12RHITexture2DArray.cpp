@@ -129,6 +129,9 @@ static bool InitD3D12(GLFWwindow* window) {
 
     // 创建 D3D12 设备
     CHECK_HR(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&g_device)));
+    Device = new D3D12Device();
+    Device->Handle = g_device;
+
 
     // 2. 创建命令队列
     D3D12_COMMAND_QUEUE_DESC queueDesc = {};
@@ -285,6 +288,7 @@ static bool CreateTextureArrayAndSRV() {
     textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;  // 仍然是2D纹理，但有多个切片
 
     CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_DEFAULT);
+#if 0
     CHECK_HR(g_device->CreateCommittedResource(
         &heapProps,
         D3D12_HEAP_FLAG_NONE,
@@ -293,7 +297,10 @@ static bool CreateTextureArrayAndSRV() {
         nullptr,
         IID_PPV_ARGS(&g_textureArray)
     ));
-
+#else
+    Texture = new D3D12Texture(Device, RHITextureType::Texture2DArray, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, TEXTURE_WIDTH, TEXTURE_HEIGHT, 1, TEXTURE_COUNT, textureData.data());
+    g_textureArray = (ID3D12Resource*)Texture->Handle;
+#endif
     // 4. 创建上传堆
     UINT64 uploadBufferSize = GetRequiredIntermediateSize(g_textureArray, 0, TEXTURE_COUNT);
     ID3D12Resource* textureUploadHeap = nullptr;
