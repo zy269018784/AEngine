@@ -14,10 +14,6 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
     textureDesc.Format = ToD3D12Format(GetFormat()); // 常用格式，每个像素4个8位分量
     textureDesc.SampleDesc.Count = 1; // 多重采样计数，1表示不开启
     textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;    // 默认标志
-
-    textureDesc.MipLevels = 1;
-    textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
     textureDesc.DepthOrArraySize = 1;
     textureDesc.SampleDesc.Count = 1;
     textureDesc.SampleDesc.Quality = 0;
