@@ -32,7 +32,7 @@ int TestD3D9(int argc, char **argv);
 int TestSpirvCross(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    return TestD3D12RHITexture2DArray(argc, argv);
+    //return TestD3D12RHITexture2DArray(argc, argv);
     return TestD3D12RHITexture2D(argc, argv);
     return TestD3D11RHITexture2DArray(argc, argv);
     return TestD3D11RHITexture2D(argc, argv);

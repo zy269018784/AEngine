@@ -273,6 +273,7 @@ static bool CreateTextureAndSRV() {
     Texture = new D3D12Texture(Device, RHITextureType::Texture2D, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 1, 1, textureData.data());
     g_texture = (ID3D12Resource*)Texture->Handle;
 #endif
+#if 0
     // 4. 创建上传堆
     UINT64 uploadBufferSize = GetRequiredIntermediateSize(g_texture, 0, 1);
     ID3D12Resource* textureUploadHeap = nullptr;
@@ -286,7 +287,10 @@ static bool CreateTextureAndSRV() {
         nullptr,
         IID_PPV_ARGS(&textureUploadHeap)
     ));
-
+#else
+    ID3D12Resource* textureUploadHeap = nullptr;
+    textureUploadHeap = Texture->pUploadBuffer;
+#endif
     // 记录上传命令
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
