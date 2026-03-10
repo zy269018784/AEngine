@@ -40,19 +40,18 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
                                     nullptr,
                                     IID_PPV_ARGS(&Handle));
 
-    return;
-    D3D12_RESOURCE_DESC uploadDesc = {};
-    uploadDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER; // 上传资源是缓冲区
-    uploadDesc.Width = GetX() * GetY();                       // 缓冲区大小
-
-    D3D12_HEAP_PROPERTIES* pHeapUploadProperties;
+    // 4. 创建上传堆
+    UINT64 uploadBufferSize = GetRequiredIntermediateSize(Handle, 0, GetArraySize());
+    CD3DX12_HEAP_PROPERTIES uploadHeapProps(D3D12_HEAP_TYPE_UPLOAD);
+    CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize);
     Device->CreateCommittedResource(
-        pHeapUploadProperties,
+        &uploadHeapProps,
         D3D12_HEAP_FLAG_NONE,
-        &uploadDesc,
+        &bufferDesc,
         D3D12_RESOURCE_STATE_GENERIC_READ,
         nullptr,
-        IID_PPV_ARGS(&pUploadBuffer));
+        IID_PPV_ARGS(&pUploadBuffer)
+    );
 }
 
 

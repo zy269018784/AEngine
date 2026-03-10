@@ -13,5 +13,8 @@ public:
 public:
     D3D12Device* Device;
     ID3D12Resource* Handle = nullptr;
+    /*
+     * 上传堆
+     */
     ID3D12Resource* pUploadBuffer = nullptr;
 };
