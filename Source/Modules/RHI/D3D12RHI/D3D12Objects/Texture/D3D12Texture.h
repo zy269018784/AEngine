@@ -17,4 +17,9 @@ public:
      * 上传堆
      */
     ID3D12Resource* pUploadBuffer = nullptr;
+    /*
+     * 临时存放
+     */
+    ID3D12CommandAllocator* CommandPool = nullptr;
+    ID3D12GraphicsCommandList* CommandBuffer = nullptr;
 };

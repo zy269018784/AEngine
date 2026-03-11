@@ -52,6 +52,13 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
         nullptr,
         IID_PPV_ARGS(&pUploadBuffer)
     );
+
+
+    Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&CommandPool));
+    CommandPool->Reset();
+
+    Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, CommandPool, nullptr, IID_PPV_ARGS(&CommandBuffer));
+    CommandBuffer->Close();
 }
 
 
