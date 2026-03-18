@@ -1,4 +1,4 @@
-﻿#include "../IIC.h"
+﻿#include "IIC.h"
 #include <iostream>
 
 void IIC::Delay(int ms)

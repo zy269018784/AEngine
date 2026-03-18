@@ -1,3 +1,4 @@
+#if 0
 #include <Modules/Bus/Modbus/ModbusServer.h>
 #ifdef PROJECT_USE_QT
     #include <QDebug>
@@ -40,3 +41,4 @@ int TestModbusServer(int argc, char *argv[]) {
 #endif
     return 0;
 }
+#endif

@@ -13,8 +13,8 @@ void SSD1306::WriteCommand(uint8_t Cmd, uint8_t Data)
 void SSD1306::Initialize()
 {
     TurnOff();
-    OLED_WRITE_COMMAND(0x00);
-    OLED_WRITE_COMMAND(0x10);
+    //OLED_WRITE_COMMAND(0x00);
+    //OLED_WRITE_COMMAND(0x10);
     SetDisplayStartLine(0x0);
     /*
      * 亮度拉满

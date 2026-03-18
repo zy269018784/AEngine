@@ -18,10 +18,10 @@ file(GLOB_RECURSE SRC_LIST_GLAD             ${SRC_PREFIX}/Modules/glad/*.cpp ${S
 file(GLOB_RECURSE SRC_LIST_RHIExamples      ${SRC_PREFIX}/Modules/RHIExamples/*.cpp ${SRC_PREFIX}/Modules/RHIExamples/*.c ${SRC_PREFIX}/Modules/RHIExamples/*.h)
 file(GLOB_RECURSE SRC_LIST_Model            ${SRC_PREFIX}/Modules/Model/*.cpp ${SRC_PREFIX}/Modules/Model/*.c ${SRC_PREFIX}/Modules/Model/*.h)
 file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp ${SRC_PREFIX}/Modules/Window/*.c ${SRC_PREFIX}/Modules/Window/*.h)
-file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/Bus/*.cpp ${SRC_PREFIX}/Modules/Bus/*.c ${SRC_PREFIX}/Modules/Bus/*.h)
+#file(GLOB_RECURSE SRC_LIST_BUS              ${SRC_PREFIX}/Modules/Bus/*.cpp ${SRC_PREFIX}/Modules/Bus/*.c ${SRC_PREFIX}/Modules/Bus/*.h)
 file(GLOB_RECURSE SRC_LIST_DeviceDriver     ${SRC_PREFIX}/Modules/DeviceDriver/*.cpp ${SRC_PREFIX}/Modules/DeviceDriver/*.c ${SRC_PREFIX}/Modules/DeviceDriver/*.h)
 file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
-file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cpp ${SRC_PREFIX}/Modules/Bluetooth/*.c ${SRC_PREFIX}/Modules/Bluetooth/*.h)
+#file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cpp ${SRC_PREFIX}/Modules/Bluetooth/*.c ${SRC_PREFIX}/Modules/Bluetooth/*.h)
 
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
@@ -43,7 +43,7 @@ list (APPEND SRC_LIST
         ${SRC_LIST_RHIExamples}
         ${SRC_LIST_Model}
         ${SRC_LIST_Window}
-        ${SRC_LIST_BUS}
+        #${SRC_LIST_BUS}
         ${SRC_LIST_DeviceDriver}
         ${SRC_LIST_ModuleTest}
 )

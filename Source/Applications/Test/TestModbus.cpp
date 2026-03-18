@@ -1,3 +1,4 @@
+#if 0
 #ifdef PROJECT_USE_MODBUS
     #include <modbus/modbus-rtu.h>
     #include <modbus/modbus-tcp.h>
@@ -137,3 +138,4 @@ int ModbusRTUMain() {
     std::cout << "hello, modbus rtu" << std::endl;
     return 0;
 }
+#endif
