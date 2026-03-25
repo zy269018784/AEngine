@@ -17,6 +17,8 @@
 
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/Texture/D3D12Texture.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -58,6 +60,8 @@ static ID3D12Resource* g_vertexBuffer = nullptr;
 static D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
 static D3D12Device* Device = nullptr;
 static D3D12Texture* Texture = nullptr;
+static D3D12CommandPool *CommandPool[FRAME_COUNT] = {};
+static D3D12CommandBuffer *CommandBuffer = nullptr;
 
 
 // 顶点结构
@@ -114,12 +118,14 @@ static bool InitD3D12(GLFWwindow* window) {
     Device = new D3D12Device();
     Device->Handle = g_device;
 
-
+#if 0
     // 2. 创建命令队列
     D3D12_COMMAND_QUEUE_DESC queueDesc = {};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     CHECK_HR(g_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_commandQueue)));
+#endif
+    g_commandQueue = Device->CommandQueue;
 
     // 3. 创建交换链
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -161,8 +167,12 @@ static bool InitD3D12(GLFWwindow* window) {
     }
 
     // 6. 创建命令分配器和命令列表
-    for (UINT i = 0; i < FRAME_COUNT; ++i) {
-        CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
+
+    for (UINT i = 0; i < FRAME_COUNT; ++i)
+    {
+        CommandPool[i] = new D3D12CommandPool(Device);
+        g_commandAllocator[i] = CommandPool[i]->GetHandle();
+       // CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
     }
     CHECK_HR(g_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_commandAllocator[0], nullptr, IID_PPV_ARGS(&g_commandList)));
     CHECK_HR(g_commandList->Close());
@@ -291,10 +301,11 @@ static bool CreateTextureAndSRV() {
     ID3D12Resource* textureUploadHeap = nullptr;
     textureUploadHeap = Texture->pUploadBuffer;
 #endif
+
     // 记录上传命令
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
-
+#if 1
     D3D12_SUBRESOURCE_DATA textureSubData = {};
     textureSubData.pData = textureData.data();
     textureSubData.RowPitch = texWidth * 4;
@@ -314,6 +325,9 @@ static bool CreateTextureAndSRV() {
     // 执行命令列表
     ID3D12CommandList* commandLists[] = { g_commandList };
     g_commandQueue->ExecuteCommandLists(1, commandLists);
+#else
+    Texture->Update(0, 0, 0, 0, texWidth, texHeight, 1, textureData.data());
+#endif
 
     // 等待上传完成
     CHECK_HR(g_commandQueue->Signal(g_fence, 1));

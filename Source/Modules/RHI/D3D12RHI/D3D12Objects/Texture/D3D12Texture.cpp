@@ -69,6 +69,7 @@ D3D12Texture::~D3D12Texture()
 
 void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
+#if 0
     // 2. 将图片数据映射到上传缓冲区
     void* pMappedData = nullptr;
     pUploadBuffer->Map(0, nullptr, &pMappedData);
@@ -77,4 +78,27 @@ void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
 
     // 3. 使用命令列表将数据从上传缓冲区拷贝到纹理资源
     //commandList->CopyResource(Handle, pUploadBuffer);
+#endif
+
+    CommandPool->Reset();
+    CommandBuffer->Reset(CommandPool, nullptr);
+
+    D3D12_SUBRESOURCE_DATA textureSubData = {};
+    textureSubData.pData = InData;
+    textureSubData.RowPitch = Width * 4;
+    textureSubData.SlicePitch = textureSubData.RowPitch * Height;
+
+    UpdateSubresources(CommandBuffer, Handle, pUploadBuffer, 0, 0, 1, &textureSubData);
+
+    CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+        Handle,
+        D3D12_RESOURCE_STATE_COPY_DEST,
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+    );
+    CommandBuffer->ResourceBarrier(1, &barrier);
+
+    CommandBuffer->Close();
+
+    ID3D12CommandList* CommandBuffers[] = { CommandBuffer };
+    Device->CommandQueue->ExecuteCommandLists(1, CommandBuffers);
 }

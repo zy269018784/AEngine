@@ -83,4 +83,5 @@ public:
 public:
     std::vector<D3D12CommandPool*> CommandPools;
     std::vector<D3D12Queue*> Queues;
+    ID3D12CommandQueue *CommandQueue = nullptr;
 };

@@ -11,6 +11,11 @@ D3D12Device::D3D12Device()
         std::cerr << "Failed to create device" << std::endl;
     }
 
+    D3D12_COMMAND_QUEUE_DESC QueueDesc = {};
+    QueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+    QueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+    Handle->CreateCommandQueue(&QueueDesc, IID_PPV_ARGS(&CommandQueue));
+
     std::cout << "create device ok" << std::endl;
 }
 
@@ -29,6 +34,7 @@ D3D12CommandBuffer* D3D12Device::CreateCommandBuffer(D3D12CommandPool* CommandPo
 {
     D3D12CommandBuffer* CommandBuffer = new D3D12CommandBuffer(this, CommandPool);
     return CommandBuffer;
+
 }
 
 void D3D12Device::CreateCommandPool()
