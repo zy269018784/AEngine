@@ -10,6 +10,7 @@ int TestD3D12RHI(int argc, char **argv);
 int TestVulkanRayTracingPipeline(int argc, char **argv);
 int TestD3D12Texture2D(int argc, char **argv);
 int TestD3D11Texture2D(int argc, char **argv);
+int TestD3D12Cubemap(int argc, char **argv);
 int TestD3D10Texture2D(int argc, char **argv);
 int TestD3D9Texture2D(int argc, char **argv);
 int TestD3D12Texture2DArray(int argc, char **argv);
@@ -34,6 +35,7 @@ int TestIIC(int argc, char **argv);
 int main(int argc, char** argv)
 {
     //return TestIIC(argc, argv);
+    return TestD3D12Cubemap(argc, argv);
     return TestD3D12RHITexture2DArray(argc, argv);
     return TestD3D12RHITexture2D(argc, argv);
     return TestD3D11RHITexture2DArray(argc, argv);
