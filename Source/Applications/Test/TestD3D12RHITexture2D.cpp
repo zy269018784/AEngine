@@ -301,11 +301,11 @@ static bool CreateTextureAndSRV() {
     ID3D12Resource* textureUploadHeap = nullptr;
     textureUploadHeap = Texture->pUploadBuffer;
 #endif
-
+#if 0
     // 记录上传命令
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
-#if 1
+
     D3D12_SUBRESOURCE_DATA textureSubData = {};
     textureSubData.pData = textureData.data();
     textureSubData.RowPitch = texWidth * 4;

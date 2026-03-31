@@ -16,6 +16,8 @@
 #include <d3dx12.h>
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/Texture/D3D12Texture.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -63,6 +65,8 @@ static D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
 
 static D3D12Device* Device = nullptr;
 static D3D12Texture* Texture = nullptr;
+static D3D12CommandPool *CommandPool[FRAME_COUNT] = {};
+static D3D12CommandBuffer *CommandBuffer = nullptr;
 
 
 // 顶点结构 - 添加纹理数组索引
@@ -180,7 +184,10 @@ static bool InitD3D12(GLFWwindow* window) {
 
     // 6. 创建命令分配器和命令列表
     for (UINT i = 0; i < FRAME_COUNT; ++i) {
-        CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
+       // CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
+
+        CommandPool[i] = new D3D12CommandPool(Device);
+        g_commandAllocator[i] = CommandPool[i]->GetHandle();
     }
     CHECK_HR(g_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_commandAllocator[0], nullptr, IID_PPV_ARGS(&g_commandList)));
     CHECK_HR(g_commandList->Close());
@@ -319,6 +326,8 @@ static bool CreateTextureArrayAndSRV() {
     ID3D12Resource* textureUploadHeap = nullptr;
     textureUploadHeap = Texture->pUploadBuffer;
 #endif
+
+#if 0
     // 记录上传命令
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
@@ -345,7 +354,14 @@ static bool CreateTextureArrayAndSRV() {
     // 执行命令列表
     ID3D12CommandList* commandLists[] = { g_commandList };
     g_commandQueue->ExecuteCommandLists(1, commandLists);
-
+#elif 0
+    for (int ArrayIndex = 0; ArrayIndex < TEXTURE_COUNT; ArrayIndex++)
+    {
+        int Offset = TEXTURE_WIDTH * TEXTURE_HEIGHT * 4 * ArrayIndex;
+        uint8_t* Pixels = textureData.data() + (ArrayIndex * TEXTURE_WIDTH * TEXTURE_HEIGHT * 4);
+        Texture->Update(0, 0, 0, ArrayIndex, TEXTURE_WIDTH, TEXTURE_HEIGHT, 1, Pixels);
+    }
+#endif
     // 等待上传完成
     CHECK_HR(g_commandQueue->Signal(g_fence, 1));
     g_fence->SetEventOnCompletion(1, g_fenceEvent);

@@ -1,4 +1,8 @@
 ﻿#include "D3D12Objects/Texture/D3D12Texture.h"
+
+#include <iostream>
+#include <ostream>
+
 #include "D3D12Objects/Core/D3D12Core.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
@@ -59,6 +63,8 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
 
     Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, CommandPool, nullptr, IID_PPV_ARGS(&CommandBuffer));
     CommandBuffer->Close();
+
+    UpdateImageData();
 }
 
 
@@ -79,7 +85,7 @@ void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
     // 3. 使用命令列表将数据从上传缓冲区拷贝到纹理资源
     //commandList->CopyResource(Handle, pUploadBuffer);
 #endif
-
+    std::cout << "D3D12 ZOffset " << ZOffset << std::endl;
     CommandPool->Reset();
     CommandBuffer->Reset(CommandPool, nullptr);
 
@@ -88,7 +94,7 @@ void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
     textureSubData.RowPitch = Width * 4;
     textureSubData.SlicePitch = textureSubData.RowPitch * Height;
 
-    UpdateSubresources(CommandBuffer, Handle, pUploadBuffer, 0, 0, 1, &textureSubData);
+    UpdateSubresources(CommandBuffer, Handle, pUploadBuffer, 0, ZOffset, 1, &textureSubData);
 
     CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
         Handle,
