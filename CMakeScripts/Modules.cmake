@@ -22,7 +22,7 @@ file(GLOB_RECURSE SRC_LIST_Window           ${SRC_PREFIX}/Modules/Window/*.cpp $
 file(GLOB_RECURSE SRC_LIST_DeviceDriver     ${SRC_PREFIX}/Modules/DeviceDriver/*.cpp ${SRC_PREFIX}/Modules/DeviceDriver/*.c ${SRC_PREFIX}/Modules/DeviceDriver/*.h)
 file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
 #file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cpp ${SRC_PREFIX}/Modules/Bluetooth/*.c ${SRC_PREFIX}/Modules/Bluetooth/*.h)
-
+file(GLOB_RECURSE SRC_LIST_Arch           ${SRC_PREFIX}/Modules/Arch/*.cpp ${SRC_PREFIX}/Modules/Arch/*.c ${SRC_PREFIX}/Modules/Arch/*.h)
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
@@ -46,6 +46,7 @@ list (APPEND SRC_LIST
         #${SRC_LIST_BUS}
         ${SRC_LIST_DeviceDriver}
         ${SRC_LIST_ModuleTest}
+        ${SRC_LIST_Arch}
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")

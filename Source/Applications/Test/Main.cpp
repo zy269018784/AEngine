@@ -1,4 +1,5 @@
 #include  <iostream>
+#include <ApplicationProgramStatusRegister.h>
 int ModbusMain();
 int MQTTMain();
 int Live555Main(int argc, char** argv);
@@ -34,6 +35,8 @@ int TestSpirvCross(int argc, char **argv);
 int TestIIC(int argc, char **argv);
 int main(int argc, char** argv)
 {
+    void helloAPSR();
+    return 0;
     //return TestIIC(argc, argv);
     return TestD3D12Cubemap(argc, argv);
     return TestD3D12RHITexture2DArray(argc, argv);
