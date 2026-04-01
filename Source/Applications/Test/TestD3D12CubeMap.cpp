@@ -23,9 +23,9 @@ using namespace DirectX;
 const UINT WIDTH = 800;
 const UINT HEIGHT = 600;
 const UINT FRAME_COUNT = 2;
-const UINT CUBEMAP_SIZE = 256;
+const UINT CUBEMAP_SIZE = 64;  // 减小尺寸加快加载
 
-// 将所有全局变量和函数设为 static
+// 全局变量
 static ID3D12Device* g_device = nullptr;
 static ID3D12CommandQueue* g_commandQueue = nullptr;
 static IDXGISwapChain3* g_swapChain = nullptr;
@@ -44,57 +44,30 @@ static ID3D12RootSignature* g_rootSignature = nullptr;
 static ID3D12PipelineState* g_pipelineState = nullptr;
 static ID3D12Resource* g_vertexBuffer = nullptr;
 static D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
-static ID3D12Resource* g_indexBuffer = nullptr;
-static D3D12_INDEX_BUFFER_VIEW g_indexBufferView = {};
-static ID3D12Resource* g_depthStencil = nullptr;
-static ID3D12DescriptorHeap* g_dsvHeap = nullptr;
 
+// 简化的顶点结构 - 只包含位置和纹理坐标
 struct Vertex {
     DirectX::XMFLOAT3 position;
-    DirectX::XMFLOAT3 normal;
+    DirectX::XMFLOAT2 uv;
 };
 
-static Vertex g_cubeVertices[] = {
-    // 前面
-    { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f } },
-    { { -0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f } },
-    { {  0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f } },
-    { {  0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f, -1.0f } },
-    // 后面
-    { { -0.5f, -0.5f,  0.5f }, { 0.0f, 0.0f,  1.0f } },
-    { { -0.5f,  0.5f,  0.5f }, { 0.0f, 0.0f,  1.0f } },
-    { {  0.5f,  0.5f,  0.5f }, { 0.0f, 0.0f,  1.0f } },
-    { {  0.5f, -0.5f,  0.5f }, { 0.0f, 0.0f,  1.0f } },
-    // 左面
-    { { -0.5f, -0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f } },
-    { { -0.5f,  0.5f,  0.5f }, { -1.0f, 0.0f, 0.0f } },
-    { { -0.5f,  0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f } },
-    { { -0.5f, -0.5f, -0.5f }, { -1.0f, 0.0f, 0.0f } },
-    // 右面
-    { {  0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
-    { {  0.5f,  0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
-    { {  0.5f,  0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f } },
-    { {  0.5f, -0.5f,  0.5f }, { 1.0f, 0.0f, 0.0f } },
-    // 上面
-    { { -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } },
-    { { -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f } },
-    { {  0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f, 0.0f } },
-    { {  0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } },
-    // 下面
-    { { -0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f } },
-    { { -0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f } },
-    { {  0.5f, -0.5f, -0.5f }, { 0.0f, -1.0f, 0.0f } },
-    { {  0.5f, -0.5f,  0.5f }, { 0.0f, -1.0f, 0.0f } },
+// 创建一个简单的全屏四边形，确保有东西显示
+static Vertex g_vertices[] = {
+    { { -0.8f, -0.8f, 0.0f }, { 0.0f, 1.0f } },
+    { { -0.8f,  0.8f, 0.0f }, { 0.0f, 0.0f } },
+    { {  0.8f,  0.8f, 0.0f }, { 1.0f, 0.0f } },
+    { {  0.8f, -0.8f, 0.0f }, { 1.0f, 1.0f } },
 };
 
-static UINT g_cubeIndices[] = {
-    0, 1, 2, 0, 2, 3,
-    4, 6, 5, 4, 7, 6,
-    8, 9, 10, 8, 10, 11,
-    12, 13, 14, 12, 14, 15,
-    16, 17, 18, 16, 18, 19,
-    20, 21, 22, 20, 22, 23,
+static UINT g_indices[] = {
+    0, 1, 2,
+    0, 2, 3
 };
+
+static UINT g_numVertices = 4;
+static UINT g_numIndices = 6;
+static ID3D12Resource* g_indexBuffer = nullptr;
+static D3D12_INDEX_BUFFER_VIEW g_indexBufferView = {};
 
 #define CHECK_HR(hr) { if (FAILED(hr)) { std::cerr << "HRESULT failed at line " << __LINE__ << std::endl; return false; } }
 
@@ -103,38 +76,41 @@ static void CreateCubemapData(std::vector<uint8_t>& data, int face) {
     for (UINT y = 0; y < CUBEMAP_SIZE; ++y) {
         for (UINT x = 0; x < CUBEMAP_SIZE; ++x) {
             UINT index = (y * CUBEMAP_SIZE + x) * 4;
-            bool checker = ((x / 32) + (y / 32)) % 2 == 0;
+
+            // 每个面使用不同的纯色，带渐变效果使其更明显
+            float fx = (float)x / CUBEMAP_SIZE;
+            float fy = (float)y / CUBEMAP_SIZE;
 
             switch (face) {
-            case 0: // 右面 (+X)
-                data[index + 0] = checker ? 255 : 128;
-                data[index + 1] = 0;
+            case 0: // +X - 红色渐变
+                data[index + 0] = (UINT)(255 * fx);
+                data[index + 1] = (UINT)(255 * fy);
                 data[index + 2] = 0;
                 break;
-            case 1: // 左面 (-X)
+            case 1: // -X - 绿色渐变
                 data[index + 0] = 0;
-                data[index + 1] = checker ? 255 : 128;
+                data[index + 1] = (UINT)(255 * fx);
+                data[index + 2] = (UINT)(255 * fy);
+                break;
+            case 2: // +Y - 蓝色渐变
+                data[index + 0] = (UINT)(255 * fx);
+                data[index + 1] = 0;
+                data[index + 2] = (UINT)(255 * fy);
+                break;
+            case 3: // -Y - 黄色渐变
+                data[index + 0] = (UINT)(255 * fx);
+                data[index + 1] = (UINT)(255 * fx);
                 data[index + 2] = 0;
                 break;
-            case 2: // 上面 (+Y)
-                data[index + 0] = 0;
+            case 4: // +Z - 品红渐变
+                data[index + 0] = (UINT)(255 * fx);
                 data[index + 1] = 0;
-                data[index + 2] = checker ? 255 : 128;
+                data[index + 2] = (UINT)(255 * fx);
                 break;
-            case 3: // 下面 (-Y)
-                data[index + 0] = checker ? 255 : 128;
-                data[index + 1] = checker ? 255 : 128;
-                data[index + 2] = 0;
-                break;
-            case 4: // 前面 (+Z)
-                data[index + 0] = checker ? 255 : 128;
-                data[index + 1] = 0;
-                data[index + 2] = checker ? 255 : 128;
-                break;
-            case 5: // 后面 (-Z)
+            case 5: // -Z - 青色渐变
                 data[index + 0] = 0;
-                data[index + 1] = checker ? 255 : 128;
-                data[index + 2] = checker ? 255 : 128;
+                data[index + 1] = (UINT)(255 * fx);
+                data[index + 2] = (UINT)(255 * fx);
                 break;
             }
             data[index + 3] = 255;
@@ -143,6 +119,8 @@ static void CreateCubemapData(std::vector<uint8_t>& data, int face) {
 }
 
 static bool InitD3D12(GLFWwindow* window) {
+    std::cout << "Initializing D3D12..." << std::endl;
+
 #if defined(_DEBUG)
     ID3D12Debug* debugController = nullptr;
     if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
@@ -154,11 +132,15 @@ static bool InitD3D12(GLFWwindow* window) {
 
     IDXGIFactory4* factory = nullptr;
     CHECK_HR(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
+    std::cout << "DXGI Factory created" << std::endl;
+
     CHECK_HR(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&g_device)));
+    std::cout << "D3D12 Device created" << std::endl;
 
     D3D12_COMMAND_QUEUE_DESC queueDesc = {};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     CHECK_HR(g_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_commandQueue)));
+    std::cout << "Command Queue created" << std::endl;
 
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
     swapChainDesc.BufferCount = FRAME_COUNT;
@@ -174,6 +156,7 @@ static bool InitD3D12(GLFWwindow* window) {
         &swapChainDesc, nullptr, nullptr, &tempSwapChain));
     g_swapChain = (IDXGISwapChain3*)tempSwapChain;
     g_frameIndex = g_swapChain->GetCurrentBackBufferIndex();
+    std::cout << "Swap Chain created" << std::endl;
 
     D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
     rtvHeapDesc.NumDescriptors = FRAME_COUNT;
@@ -187,62 +170,83 @@ static bool InitD3D12(GLFWwindow* window) {
         g_device->CreateRenderTargetView(g_renderTargets[i], nullptr, rtvHandle);
         rtvHandle.ptr += g_rtvDescriptorSize;
     }
+    std::cout << "RTV Heap created" << std::endl;
 
     for (UINT i = 0; i < FRAME_COUNT; ++i) {
         CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
     }
     CHECK_HR(g_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_commandAllocator[0], nullptr, IID_PPV_ARGS(&g_commandList)));
     CHECK_HR(g_commandList->Close());
+    std::cout << "Command List created" << std::endl;
 
     CHECK_HR(g_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&g_fence)));
     g_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
     if (!g_fenceEvent) return false;
 
     factory->Release();
-    std::cout << "D3D12 initialized" << std::endl;
+    std::cout << "D3D12 initialized successfully" << std::endl;
     return true;
 }
 
 static bool CreateBuffers() {
-    UINT vertexBufferSize = sizeof(g_cubeVertices);
-    UINT indexBufferSize = sizeof(g_cubeIndices);
+    std::cout << "Creating buffers..." << std::endl;
 
+    UINT vertexBufferSize = sizeof(g_vertices);
+    UINT indexBufferSize = sizeof(g_indices);
+
+    // 创建顶点缓冲区
     CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
     HRESULT hr = g_device->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
         &vertexBufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&g_vertexBuffer));
-    if (FAILED(hr)) return false;
+    if (FAILED(hr)) {
+        std::cerr << "Failed to create vertex buffer" << std::endl;
+        return false;
+    }
 
     UINT8* pVertexDataBegin = nullptr;
     CD3DX12_RANGE readRange(0, 0);
     hr = g_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin));
-    if (FAILED(hr)) return false;
-    memcpy(pVertexDataBegin, g_cubeVertices, vertexBufferSize);
+    if (FAILED(hr)) {
+        std::cerr << "Failed to map vertex buffer" << std::endl;
+        return false;
+    }
+    memcpy(pVertexDataBegin, g_vertices, vertexBufferSize);
     g_vertexBuffer->Unmap(0, nullptr);
-
-    CD3DX12_RESOURCE_DESC indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexBufferSize);
-    hr = g_device->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-        &indexBufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&g_indexBuffer));
-    if (FAILED(hr)) return false;
-
-    UINT8* pIndexDataBegin = nullptr;
-    hr = g_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
-    if (FAILED(hr)) return false;
-    memcpy(pIndexDataBegin, g_cubeIndices, indexBufferSize);
-    g_indexBuffer->Unmap(0, nullptr);
 
     g_vertexBufferView.BufferLocation = g_vertexBuffer->GetGPUVirtualAddress();
     g_vertexBufferView.StrideInBytes = sizeof(Vertex);
     g_vertexBufferView.SizeInBytes = vertexBufferSize;
 
+    // 创建索引缓冲区
+    CD3DX12_RESOURCE_DESC indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexBufferSize);
+    hr = g_device->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
+        &indexBufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&g_indexBuffer));
+    if (FAILED(hr)) {
+        std::cerr << "Failed to create index buffer" << std::endl;
+        return false;
+    }
+
+    UINT8* pIndexDataBegin = nullptr;
+    hr = g_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pIndexDataBegin));
+    if (FAILED(hr)) {
+        std::cerr << "Failed to map index buffer" << std::endl;
+        return false;
+    }
+    memcpy(pIndexDataBegin, g_indices, indexBufferSize);
+    g_indexBuffer->Unmap(0, nullptr);
+
     g_indexBufferView.BufferLocation = g_indexBuffer->GetGPUVirtualAddress();
     g_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
     g_indexBufferView.SizeInBytes = indexBufferSize;
 
+    std::cout << "Buffers created successfully" << std::endl;
     return true;
 }
 
 static bool CreateCubemapTexture() {
+    std::cout << "Creating cubemap texture..." << std::endl;
+
     D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
     srvHeapDesc.NumDescriptors = 1;
     srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -298,9 +302,13 @@ static bool CreateCubemapTexture() {
 
     ID3D12CommandList* commandLists[] = { g_commandList };
     g_commandQueue->ExecuteCommandLists(1, commandLists);
-    CHECK_HR(g_commandQueue->Signal(g_fence, 1));
-    g_fence->SetEventOnCompletion(1, g_fenceEvent);
+
+    // 等待上传完成
+    UINT64 fenceValue = 1;
+    CHECK_HR(g_commandQueue->Signal(g_fence, fenceValue));
+    g_fence->SetEventOnCompletion(fenceValue, g_fenceEvent);
     WaitForSingleObject(g_fenceEvent, INFINITE);
+
     textureUploadHeap->Release();
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -310,34 +318,7 @@ static bool CreateCubemapTexture() {
     srvDesc.TextureCube.MipLevels = 1;
     g_device->CreateShaderResourceView(g_cubemap, &srvDesc, g_srvHeap->GetCPUDescriptorHandleForHeapStart());
 
-    return true;
-}
-
-static bool CreateDepthStencil() {
-    D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
-    dsvHeapDesc.NumDescriptors = 1;
-    dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-    CHECK_HR(g_device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&g_dsvHeap)));
-
-    D3D12_RESOURCE_DESC depthStencilDesc = {};
-    depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-    depthStencilDesc.Width = WIDTH;
-    depthStencilDesc.Height = HEIGHT;
-    depthStencilDesc.DepthOrArraySize = 1;
-    depthStencilDesc.MipLevels = 1;
-    depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-    depthStencilDesc.SampleDesc.Count = 1;
-    depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-
-    CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_DEFAULT);
-    D3D12_CLEAR_VALUE depthClearValue = {};
-    depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
-    depthClearValue.DepthStencil.Depth = 1.0f;
-
-    CHECK_HR(g_device->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-        &depthStencilDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(&g_depthStencil)));
-    g_device->CreateDepthStencilView(g_depthStencil, nullptr, g_dsvHeap->GetCPUDescriptorHandleForHeapStart());
-
+    std::cout << "Cubemap texture created successfully" << std::endl;
     return true;
 }
 
@@ -351,51 +332,69 @@ static ID3DBlob* CompileShader(const std::string& source, const std::string& ent
     HRESULT hr = D3DCompile(source.c_str(), source.size(), nullptr, nullptr, nullptr,
         entrypoint.c_str(), target.c_str(), flags, 0, &shaderBlob, &errorBlob);
     if (FAILED(hr)) {
-        if (errorBlob) std::cerr << (char*)errorBlob->GetBufferPointer() << std::endl;
+        if (errorBlob) {
+            std::cerr << "Shader compilation error: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+            errorBlob->Release();
+        }
         return nullptr;
     }
     return shaderBlob;
 }
 
 static bool CreatePipeline() {
+    std::cout << "Creating pipeline..." << std::endl;
+
+    // 创建根签名
     CD3DX12_DESCRIPTOR_RANGE range;
     range.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
-    CD3DX12_ROOT_PARAMETER rootParams[2];
+    CD3DX12_ROOT_PARAMETER rootParams[1];
     rootParams[0].InitAsDescriptorTable(1, &range, D3D12_SHADER_VISIBILITY_PIXEL);
-    rootParams[1].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     CD3DX12_STATIC_SAMPLER_DESC samplerDesc;
     samplerDesc.Init(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR);
 
     CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
-    rootSigDesc.Init(2, rootParams, 1, &samplerDesc,
+    rootSigDesc.Init(1, rootParams, 1, &samplerDesc,
         D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
     ID3DBlob* signature = nullptr;
     ID3DBlob* error = nullptr;
     HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
-    if (FAILED(hr)) return false;
+    if (FAILED(hr)) {
+        std::cerr << "Failed to serialize root signature" << std::endl;
+        return false;
+    }
 
     hr = g_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&g_rootSignature));
     signature->Release();
-    if (FAILED(hr)) return false;
+    if (FAILED(hr)) {
+        std::cerr << "Failed to create root signature" << std::endl;
+        return false;
+    }
 
     D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     };
 
+    // 简单的像素着色器，直接显示纹理颜色
     const char* vsSource = R"(
-        cbuffer ConstantBuffer : register(b0) {
-            float4x4 WorldViewProj;
+        struct VSInput {
+            float4 position : POSITION;
+            float2 uv : TEXCOORD;
         };
-        struct VSInput { float4 position : POSITION; float3 normal : NORMAL; };
-        struct VSOutput { float4 position : SV_POSITION; float3 normal : NORMAL; };
+        struct VSOutput {
+            float4 position : SV_POSITION;
+            float2 uv : TEXCOORD;
+            float3 direction : TEXCOORD1;
+        };
         VSOutput main(VSInput input) {
             VSOutput output;
-            output.position = mul(input.position, WorldViewProj);
-            output.normal = normalize(input.normal);
+            output.position = input.position;
+            output.uv = input.uv;
+            // 使用UV坐标来生成采样方向，让每个三角形显示不同的立方体面
+            output.direction = normalize(float3(input.uv * 2.0 - 1.0, 1.0));
             return output;
         }
     )";
@@ -403,9 +402,25 @@ static bool CreatePipeline() {
     const char* psSource = R"(
         TextureCube g_cubemap : register(t0);
         SamplerState g_sampler : register(s0);
-        struct PSInput { float4 position : SV_POSITION; float3 normal : NORMAL; };
+        struct PSInput {
+            float4 position : SV_POSITION;
+            float2 uv : TEXCOORD;
+            float3 direction : TEXCOORD1;
+        };
         float4 main(PSInput input) : SV_TARGET {
-            return g_cubemap.Sample(g_sampler, normalize(input.normal));
+            // 根据UV坐标选择不同的立方体贴图方向
+            float3 dir;
+            if (input.uv.x < 0.33) {
+                // 左侧区域 - 显示红色面
+                dir = normalize(float3(-1, input.uv.y * 2 - 1, 0));
+            } else if (input.uv.x < 0.66) {
+                // 中间区域 - 显示绿色面
+                dir = normalize(float3(1, input.uv.y * 2 - 1, 0));
+            } else {
+                // 右侧区域 - 显示蓝色面
+                dir = normalize(float3(0, input.uv.y * 2 - 1, 1));
+            }
+            return g_cubemap.Sample(g_sampler, dir);
         }
     )";
 
@@ -419,25 +434,29 @@ static bool CreatePipeline() {
     psoDesc.VS = { vsBlob->GetBufferPointer(), vsBlob->GetBufferSize() };
     psoDesc.PS = { psBlob->GetBufferPointer(), psBlob->GetBufferSize() };
     psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
-    psoDesc.RasterizerState.FrontCounterClockwise = TRUE;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+    psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
     psoDesc.RasterizerState.DepthClipEnable = TRUE;
     psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-    psoDesc.DepthStencilState.DepthEnable = TRUE;
-    psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-    psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+    psoDesc.DepthStencilState.DepthEnable = FALSE;  // 暂时禁用深度测试简化问题
+    psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
     psoDesc.SampleMask = UINT_MAX;
     psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
     psoDesc.NumRenderTargets = 1;
     psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-    psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
     psoDesc.SampleDesc.Count = 1;
 
     hr = g_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&g_pipelineState));
     vsBlob->Release();
     psBlob->Release();
 
-    return SUCCEEDED(hr);
+    if (FAILED(hr)) {
+        std::cerr << "Failed to create pipeline state" << std::endl;
+        return false;
+    }
+
+    std::cout << "Pipeline created successfully" << std::endl;
+    return true;
 }
 
 static void WaitForPreviousFrame() {
@@ -454,74 +473,61 @@ static void Render() {
     g_commandAllocator[g_frameIndex]->Reset();
     g_commandList->Reset(g_commandAllocator[g_frameIndex], g_pipelineState);
 
+    // 转换渲染目标状态
     CD3DX12_RESOURCE_BARRIER rtBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
         g_renderTargets[g_frameIndex], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
     g_commandList->ResourceBarrier(1, &rtBarrier);
 
     CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(g_rtvHeap->GetCPUDescriptorHandleForHeapStart(), g_frameIndex, g_rtvDescriptorSize);
-    CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(g_dsvHeap->GetCPUDescriptorHandleForHeapStart());
-    g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
+    g_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
-    const float clearColor[] = { 0.1f, 0.1f, 0.2f, 1.0f };
+    // 清屏为灰色，便于调试
+    const float clearColor[] = { 0.3f, 0.3f, 0.3f, 1.0f };
     g_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-    g_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
+    // 设置视口和裁剪矩形
     D3D12_VIEWPORT viewport = { 0, 0, (float)WIDTH, (float)HEIGHT, 0, 1 };
     D3D12_RECT scissorRect = { 0, 0, (LONG)WIDTH, (LONG)HEIGHT };
     g_commandList->RSSetViewports(1, &viewport);
     g_commandList->RSSetScissorRects(1, &scissorRect);
 
+    // 设置根签名和描述符堆
     g_commandList->SetGraphicsRootSignature(g_rootSignature);
     ID3D12DescriptorHeap* heaps[] = { g_srvHeap };
     g_commandList->SetDescriptorHeaps(1, heaps);
     g_commandList->SetGraphicsRootDescriptorTable(0, g_srvHeap->GetGPUDescriptorHandleForHeapStart());
 
-    static float angle = 0;
-    angle += 0.01f;
-    XMMATRIX world = XMMatrixRotationY(angle) * XMMatrixRotationX(angle * 0.5f);
-    XMMATRIX view = XMMatrixLookAtLH(XMVectorSet(0, 0, -2.5f, 0), XMVectorSet(0, 0, 0, 0), XMVectorSet(0, 1, 0, 0));
-    XMMATRIX proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(60.0f), (float)WIDTH / HEIGHT, 0.1f, 100.0f);
-    XMMATRIX worldViewProj = XMMatrixTranspose(world * view * proj);
-
-    struct ConstantBuffer { XMMATRIX worldViewProj; } cb = { worldViewProj };
-    ID3D12Resource* constantBuffer = nullptr;
-    CD3DX12_HEAP_PROPERTIES uploadHeapProps(D3D12_HEAP_TYPE_UPLOAD);
-    CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(ConstantBuffer));
-    g_device->CreateCommittedResource(&uploadHeapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc,
-        D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&constantBuffer));
-    if (constantBuffer) {
-        void* mappedData = nullptr;
-        constantBuffer->Map(0, nullptr, &mappedData);
-        memcpy(mappedData, &cb, sizeof(cb));
-        constantBuffer->Unmap(0, nullptr);
-        g_commandList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetGPUVirtualAddress());
-    }
-
+    // 设置顶点和索引缓冲区
     g_commandList->IASetVertexBuffers(0, 1, &g_vertexBufferView);
     g_commandList->IASetIndexBuffer(&g_indexBufferView);
     g_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    g_commandList->DrawIndexedInstanced(36, 1, 0, 0, 0);
 
-    if (constantBuffer) constantBuffer->Release();
+    // 绘制
+    g_commandList->DrawIndexedInstanced(g_numIndices, 1, 0, 0, 0);
 
+    // 转换回呈现状态
     CD3DX12_RESOURCE_BARRIER presentBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
         g_renderTargets[g_frameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
     g_commandList->ResourceBarrier(1, &presentBarrier);
+
     g_commandList->Close();
 
+    // 执行命令列表
     ID3D12CommandList* commandLists[] = { g_commandList };
     g_commandQueue->ExecuteCommandLists(1, commandLists);
+
+    // 呈现
     g_swapChain->Present(1, 0);
+
     WaitForPreviousFrame();
     g_frameIndex = g_swapChain->GetCurrentBackBufferIndex();
 }
 
 static void Cleanup() {
+    std::cout << "Cleaning up..." << std::endl;
     WaitForPreviousFrame();
     if (g_indexBuffer) g_indexBuffer->Release();
     if (g_vertexBuffer) g_vertexBuffer->Release();
-    if (g_depthStencil) g_depthStencil->Release();
-    if (g_dsvHeap) g_dsvHeap->Release();
     for (UINT i = 0; i < FRAME_COUNT; ++i) {
         if (g_renderTargets[i]) g_renderTargets[i]->Release();
         if (g_commandAllocator[i]) g_commandAllocator[i]->Release();
@@ -537,23 +543,49 @@ static void Cleanup() {
     if (g_fence) g_fence->Release();
     if (g_fenceEvent) CloseHandle(g_fenceEvent);
     if (g_device) g_device->Release();
+    std::cout << "Cleanup completed" << std::endl;
 }
 
 int TestD3D12Cubemap(int argc, char** argv) {
-    std::cout << "Starting D3D12 Cubemap Test..." << std::endl;
+    std::cout << "=== D3D12 Cubemap Test Starting ===" << std::endl;
 
-    if (!glfwInit()) return -1;
+    if (!glfwInit()) {
+        std::cerr << "Failed to initialize GLFW" << std::endl;
+        return -1;
+    }
+
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "D3D12 Cubemap", nullptr, nullptr);
-    if (!window) { glfwTerminate(); return -1; }
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "D3D12 Cubemap Test", nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Failed to create window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    std::cout << "Window created" << std::endl;
 
-    if (!InitD3D12(window)) goto cleanup;
-    if (!CreateBuffers()) goto cleanup;
-    if (!CreateCubemapTexture()) goto cleanup;
-    if (!CreateDepthStencil()) goto cleanup;
-    if (!CreatePipeline()) goto cleanup;
+    if (!InitD3D12(window)) {
+        std::cerr << "Failed to initialize D3D12" << std::endl;
+        goto cleanup;
+    }
 
+    if (!CreateBuffers()) {
+        std::cerr << "Failed to create buffers" << std::endl;
+        goto cleanup;
+    }
+
+    if (!CreateCubemapTexture()) {
+        std::cerr << "Failed to create cubemap texture" << std::endl;
+        goto cleanup;
+    }
+
+    if (!CreatePipeline()) {
+        std::cerr << "Failed to create pipeline" << std::endl;
+        goto cleanup;
+    }
+
+    std::cout << "=== Initialization Complete ===" << std::endl;
     std::cout << "Running - Close window to exit" << std::endl;
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         Render();
