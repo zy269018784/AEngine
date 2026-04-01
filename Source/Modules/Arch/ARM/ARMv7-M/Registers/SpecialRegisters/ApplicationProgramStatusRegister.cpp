@@ -1,5 +1,6 @@
 #include <iostream>
 
-void helloAPSR() {
+void helloAPSR()
+{
     std::cout << "Hello APS!" << std::endl;
 }

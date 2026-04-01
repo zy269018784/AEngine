@@ -1,5 +1,5 @@
 #include  <iostream>
-#include <ApplicationProgramStatusRegister.h>
+#include <../../Modules/Arch/ARM/ARMv7-M/Registers/SpecialRegisters/ApplicationProgramStatusRegister.h>
 int ModbusMain();
 int MQTTMain();
 int Live555Main(int argc, char** argv);
@@ -35,7 +35,7 @@ int TestSpirvCross(int argc, char **argv);
 int TestIIC(int argc, char **argv);
 int main(int argc, char** argv)
 {
-    void helloAPSR();
+    helloAPSR();
     return 0;
     //return TestIIC(argc, argv);
     return TestD3D12Cubemap(argc, argv);
