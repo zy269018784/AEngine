@@ -78,7 +78,9 @@ static glm::vec3 Up= glm::vec3(0.0, 1.0, 0.0);
 
 RHIBuffer* RHIUBO_ = nullptr;
 RHIWindow* RHIWindow2_ = nullptr;
+#ifdef PROJECT_USE_SFML
 sf::Music *pMusic;
+#endif
 
 static glm::mat4 VulkanPerspective(float fovY, float aspect, float near1, float far1) {
     float f = 1.0f / tan(fovY / 2.0f);
@@ -145,10 +147,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             Target.x += step;
             break;
         case GLFW_KEY_O:
+#ifdef PROJECT_USE_SFML
             pMusic->play();
+#endif
             break;
         case GLFW_KEY_P:
+#ifdef PROJECT_USE_SFML
             pMusic->pause();
+#endif
             break;
     }
     Model = glm::mat4(1.0);
@@ -222,9 +228,11 @@ Engine::Engine(IWindow* InWindow)
     RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
+#ifdef PROJECT_USE_SFML
     Music = new sf::Music("1.ogg");
    // Music->play();
     pMusic = Music;
+#endif
     AddBox2(VBO, EBO,  glm::vec3(-100, -100, -200), glm::vec3(100, 100, -100));
     AddPlane(VBO, EBO,  glm::vec3(-10000, -100, -10000), glm::vec3(10000, 100, 10000));
 }

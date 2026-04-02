@@ -8,7 +8,10 @@
 #endif
 #include <GLFW/glfw3.h>
 
+#ifdef PROJECT_USE_D3D12
 #include "D3D12RHI.h"
+#endif
+
 #ifdef OS_IS_WINDOWS
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif

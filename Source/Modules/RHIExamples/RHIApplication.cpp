@@ -16,7 +16,9 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     }
     else if (1 == RHIIndex)
     {
+#ifdef PROJECT_USE_D3D12
         pRHI = new D3D12RHI();
+#endif
     }
     else if (2 == RHIIndex)
     {
