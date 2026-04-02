@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_D3D12
 #include <iostream>
 #include <vector>
 #include <spirv_cross/spirv.hpp>
@@ -14,3 +15,4 @@ int TestSpirvCross(int argc, char **argv)
     std::cout << source << std::endl;
     return 0;
 }
+#endif

@@ -174,11 +174,11 @@ int RHIExample()
 	//Example_SSBO(Window->GetHandle());
 	//Example_Texture1D(Window);
 	//Example_Texture1DArray(Window);
-	//Example_Texture2D(Window);
+	Example_Texture2D(Window);
 	//Example_Texture2DArray(Window);
 	//Example_Texture3D(Window);
 	//Example_TextureCubeMap(Window);
-	Example_TextureCubeMapArray(Window);
+	//Example_TextureCubeMapArray(Window);
 	//Example_SampleObject(Window->GetHandle());
 	//Example_GeometryShader(Window->GetHandle());
 	//Example_Scene(Window->GetHandle());

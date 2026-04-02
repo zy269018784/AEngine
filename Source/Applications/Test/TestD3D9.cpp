@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_D3D12
 #include <iostream>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -297,3 +298,4 @@ int TestD3D9(int argc, char **argv)
     
     return 0;
 }
+#endif
