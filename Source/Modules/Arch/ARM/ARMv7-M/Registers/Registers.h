@@ -16,6 +16,7 @@
 
 /* SysTick Reload Value Register */
 #define SYST_RVR             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
+#define SYST_RVR_RELOAD_MASK  0x00FFFFFF
 
 /* SysTick Current Value Register */
 #define SYST_CVR             ( *( ( volatile uint32_t * ) 0xe000e018 ) )
