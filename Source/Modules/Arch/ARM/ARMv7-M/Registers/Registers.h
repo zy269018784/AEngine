@@ -139,3 +139,20 @@
 
 /* System Handler Control and State Register */
 #define SHCSR                ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
+
+/* System Handler Control and State Register */
+#define SHCSR                ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
+#define SHCSR_BIT_USGFAULTENA          ( 1UL << 18UL )  // Enable UsageFault exception
+#define SHCSR_BIT_BUSFAULTENA          ( 1UL << 17UL )  // Enable BusFault exception
+#define SHCSR_BIT_MEMFAULTENA          ( 1UL << 16UL )  // Enable MemManage exception
+#define SHCSR_BIT_SVCALLPENDED         ( 1UL << 15UL )  // SVCall pending
+#define SHCSR_BIT_BUSFAULTPENDED       ( 1UL << 14UL )  // BusFault pending
+#define SHCSR_BIT_MEMFAULTPENDED       ( 1UL << 13UL )  // MemManage pending
+#define SHCSR_BIT_USGFAULTPENDED       ( 1UL << 12UL )  // UsageFault pending
+#define SHCSR_BIT_SYSTICKACT           ( 1UL << 11UL )  // SysTick active
+#define SHCSR_BIT_PENDSVACT            ( 1UL << 10UL )  // PendSV active
+#define SHCSR_BIT_MONITORACT           ( 1UL << 8UL )   // Debug monitor active
+#define SHCSR_BIT_SVCALLACT            ( 1UL << 7UL )   // SVCall active
+#define SHCSR_BIT_USGFAULTACT          ( 1UL << 3UL )   // UsageFault active
+#define SHCSR_BIT_BUSFAULTACT          ( 1UL << 1UL )   // BusFault active
+#define SHCSR_BIT_MEMFAULTACT          ( 1UL << 0UL )   // MemManage active
