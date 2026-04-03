@@ -35,8 +35,8 @@ public:
 
     void onReadEvent(const char *portName, unsigned int readBufferLen)
     {
-        //std::cout << "onReadEvent " << portName << std::endl;
-       // return;
+        std::cout << "onReadEvent " << portName << std::endl;
+        return;
         if (readBufferLen > 0)
         {
             char *data = new char[readBufferLen + 1]; // '\0'
@@ -73,21 +73,27 @@ private:
 
 int SerialPortMain(int argc, char **argv)
 {
-    std::cout << "serial port main" << std::endl;
+    CSerialPort *sp = nullptr;
+    try {
+        sp = new CSerialPort();
+    } catch (const std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception" << std::endl;
+    }
 
-    CSerialPort sp;
-
-    MyListener listener(&sp);
+    MyListener *listener = new MyListener(sp);
     // connect for read
-    sp.connectReadEvent(&listener);
+    sp->connectReadEvent(listener);
     // connect for hot plug
-    sp.connectHotPlugEvent(&listener);
+    sp->connectHotPlugEvent(listener);
 #if 1
     std::vector<SerialPortInfo> m_availablePortsList = CSerialPortInfo::availablePortInfos();
 
 
     int availablePortCount = (int)m_availablePortsList.size();
 
+    std::cout << availablePortCount << " availablePortCount "  << std::endl;
     for (int i = 1; i <= availablePortCount; ++i)
     {
         SerialPortInfo serialPortInfo = m_availablePortsList[i - 1];
@@ -96,7 +102,7 @@ int SerialPortMain(int argc, char **argv)
                     <<  serialPortInfo.hardwareId << std::endl;
     }
     const char *portName = m_availablePortsList[1].portName;
-    sp.init(portName,              // windows:COM1 Linux:/dev/ttyS0
+    sp->init(portName,              // windows:COM1 Linux:/dev/ttyS0
             itas109::BaudRate9600, // baudrate
             itas109::ParityNone,   // parity
             itas109::DataBits8,    // data bit
@@ -104,13 +110,17 @@ int SerialPortMain(int argc, char **argv)
             itas109::FlowNone,     // flow
             4096                   // read buffer size
     );
-    sp.open();
-    if (sp.isOpen())
+    sp->open();
+    if (sp->isOpen())
     {
-        std::cout << "is opened "  << std::endl;
+        std::cout << portName << " is opened "  << std::endl;
     }
-    sp.setReadIntervalTimeout(0);         // read interval timeout 0ms
-    sp.setByteReadBufferFullNotify(3276); // 4096*0.8 // buffer full notify
+    else {
+        return -1;
+    }
+    sp->setOperateMode(itas109::SynchronousOperate);
+    sp->setReadIntervalTimeout(0);         // read interval timeout 0ms
+    sp->setByteReadBufferFullNotify(3276); // 4096*0.8 // buffer full notify
     char buffer[1024];
     int n = 0;
    // std::cout << "read " << n << std::endl;
@@ -118,12 +128,17 @@ int SerialPortMain(int argc, char **argv)
     //std::cout << buffer << std::endl;
     while(1)
     {
-       // n = sp.readData(buffer, 1024);
+       // n = sp->readData(buffer, 1024);
         //std::cout << "read " << n << std::endl;
-        sp.writeData("hello", 6);
+      //  sp->writeData("hello", 6);
+        n = sp->readData(buffer, 1024);
+        std::cout << "read " << n << std::endl;
+        buffer[n] = '\0';
+        std::cout << buffer << std::endl;
+
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     }
-    sp.close();
+    sp->close();
 #endif
     return 0;
 }
