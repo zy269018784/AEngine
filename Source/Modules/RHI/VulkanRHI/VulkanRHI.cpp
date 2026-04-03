@@ -109,11 +109,6 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 	VulkanDevice* Device = Devices[GPUIndex];
 
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	NewVulkanWindow->CreateSwapChain();
-	NewVulkanWindow->CreateRenderPass();
-	NewVulkanWindow->CreateFrameBuffer();
-	NewVulkanWindow->CreateCommandBuffer();
-	NewVulkanWindow->CreateSyncObject();
 	return NewVulkanWindow;
 }
 #endif
@@ -128,11 +123,6 @@ RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
 	VulkanDevice* Device = Devices[GPUIndex];
 
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	NewVulkanWindow->CreateSwapChain();
-	NewVulkanWindow->CreateRenderPass();
-	NewVulkanWindow->CreateFrameBuffer();
-	NewVulkanWindow->CreateCommandBuffer();
-	NewVulkanWindow->CreateSyncObject();
 	return NewVulkanWindow;
 }
 #endif

@@ -6,7 +6,9 @@
 #include "VulkanObjects/Core/VulkanCore.h"
 #include  <iostream>
 #include  <stdexcept>
+#ifdef PROJECT_USE_SFML
 #include <SFML/Window/Keyboard.hpp>
+#endif
 
 VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice* InDevice, VulkanSurface* InSurface)
 	: PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)

@@ -15,6 +15,7 @@
 
 #include "Model/Model.h"
 #include "VBO.h"
+
 #ifdef PROJECT_USE_SFML
     #include <SFML/Audio.hpp>
     #include <SFML/Graphics.hpp>
@@ -93,6 +94,7 @@ private:
 
     std::vector<float> VBO;
     std::vector<std::uint32_t> EBO;
-
+#ifdef PROJECT_USE_SFML
     sf::Music *Music;
+#endif
 };

@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_D3D12
 #include <iostream>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -378,3 +379,4 @@ int TestD3D11(int argc, char **argv)
     std::cout << "Application terminated successfully" << std::endl;
     return 0;
 }
+#endif

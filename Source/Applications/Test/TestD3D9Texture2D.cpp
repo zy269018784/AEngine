@@ -1,3 +1,4 @@
+#ifdef PROJECT_USE_D3D12
 #include <iostream>
 #include <vector>
 #include <string>
@@ -327,3 +328,4 @@ int TestD3D9Texture2D(int argc, char **argv) {
     std::cout << "Test completed successfully" << std::endl;
     return 0;
 }
+#endif

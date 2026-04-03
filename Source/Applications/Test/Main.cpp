@@ -35,6 +35,7 @@ int TestSpirvCross(int argc, char **argv);
 int TestIIC(int argc, char **argv);
 int main(int argc, char** argv)
 {
+    return RHIExample();
     helloAPSR();
     return 0;
     //return TestIIC(argc, argv);
@@ -52,7 +53,7 @@ int main(int argc, char** argv)
     return TestD3D11Texture2DArray(argc, argv);
     return TestD3D12Texture2DArray(argc, argv);
 
-    return RHIExample();
+
     return TestD3D12RHI(argc, argv);
     return TestSpirvCross(argc, argv);
 
