@@ -38,3 +38,12 @@ void ReloadSystick(uint32_t Value)
     SYST_RVR |= (SYST_RVR_RELOAD_MASK & Value);
 }
 
+void SysTickUseProcessorClock()
+{
+    SYST_CSR |= SYSTICK_CLKSOURCE_BIT;
+}
+
+void SysTickUseExternalReferenceClock()
+{
+    SYST_CSR &= ~SYSTICK_CLKSOURCE_BIT;
+}

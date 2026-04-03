@@ -73,8 +73,10 @@ private:
 
 int SerialPortMain(int argc, char **argv)
 {
-    CSerialPort sp;
     std::cout << "serial port main" << std::endl;
+
+    CSerialPort sp;
+
     MyListener listener(&sp);
     // connect for read
     sp.connectReadEvent(&listener);

@@ -35,6 +35,7 @@ int TestSpirvCross(int argc, char **argv);
 int TestIIC(int argc, char **argv);
 int main(int argc, char** argv)
 {
+    return SerialPortMain(argc, argv);
     return RHIExample();
     helloAPSR();
     return 0;
