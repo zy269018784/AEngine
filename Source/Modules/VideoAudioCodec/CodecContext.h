@@ -22,6 +22,8 @@ public:
     void SetPixelFormat(AVPixelFormat PixelFormat);
     int CodecOpen2(const AVCodec *codec, AVDictionary **options);
     AVCodecContext *GetHandle();
+    int SendFrame(const AVFrame *Frame);
+    int ReceivePacket(AVPacket *Pkt);
 private:
     AVCodecContext *Handle;
 };

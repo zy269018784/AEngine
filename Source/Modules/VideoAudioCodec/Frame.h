@@ -21,6 +21,8 @@ public:
     void SetWidth(int Width);
     void SetHeight(int Height);
     void SetPixelFormat(AVPixelFormat PixelFormat);
+    void MakeWritable();
+    int GetBuffer(int Align);
 private:
     AVFrame *Handle;
 };

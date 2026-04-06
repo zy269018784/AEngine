@@ -43,3 +43,13 @@ void Frame::SetPixelFormat(AVPixelFormat PixelFormat)
 {
     Handle->format = PixelFormat;
 }
+
+void Frame::MakeWritable()
+{
+    av_frame_make_writable(Handle);
+}
+
+int Frame::GetBuffer(int Align)
+{
+    return av_frame_get_buffer(Handle, Align);
+}

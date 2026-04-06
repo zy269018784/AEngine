@@ -73,3 +73,13 @@ int CodecContext::CodecOpen2(const AVCodec *codec, AVDictionary **options)
 {
     return avcodec_open2(Handle, codec, options);
 }
+
+int CodecContext::SendFrame(const AVFrame *Frame)
+{
+    return avcodec_send_frame(Handle, Frame);
+}
+
+int CodecContext::ReceivePacket(AVPacket *Pkt)
+{
+    return avcodec_receive_packet(Handle, Pkt);
+}

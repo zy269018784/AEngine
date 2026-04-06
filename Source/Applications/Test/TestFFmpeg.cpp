@@ -12,7 +12,7 @@ extern  "C"
     #include <libavutil/imgutils.h>
 }
 
-static void encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *pkt,
+static void encode(AVCodecContext *enc_ctx, CodecContext *Context, AVFrame *frame, AVPacket *pkt,
                    FILE *outfile)
 {
     int ret;
@@ -21,14 +21,15 @@ static void encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *pkt,
     if (frame)
         printf("Send frame %d\n", frame->pts);
 
-    ret = avcodec_send_frame(enc_ctx, frame);
+
+    ret = Context->SendFrame(frame);
     if (ret < 0) {
         fprintf(stderr, "Error sending a frame for encoding\n");
         exit(1);
     }
 
     while (ret >= 0) {
-        ret = avcodec_receive_packet(enc_ctx, pkt);
+        ret = Context->ReceivePacket(pkt);
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
             return;
         else if (ret < 0) {
@@ -69,6 +70,8 @@ int TestFFmpeg(int argc, char** argv)
         fprintf(stderr, "Codec '%s' not found\n", codec_name);
         exit(1);
     }
+
+    // 1.
     Context = new CodecContext(codec);
     c = Context->GetHandle();
     if (!c) {
@@ -115,9 +118,7 @@ int TestFFmpeg(int argc, char** argv)
     Frame1->SetPixelFormat(c->pix_fmt);
     Frame1->SetWidth(c->width);
     Frame1->SetHeight(c->height);
-
-    printf("before get buffer\n");
-    ret = av_frame_get_buffer(Frame1->GetHandle(), 0);
+    ret = Frame1->GetBuffer(0);
     if (ret < 0) {
         fprintf(stderr, "Could not allocate the video frame data\n");
         exit(1);
@@ -137,7 +138,7 @@ int TestFFmpeg(int argc, char** argv)
            av_frame_make_writable() checks that and allocates a new buffer
            for the frame only if necessary.
          */
-        ret = av_frame_make_writable(Frame1->GetHandle());
+        Frame1->MakeWritable();
         if (ret < 0)
             exit(1);
 
@@ -164,11 +165,11 @@ int TestFFmpeg(int argc, char** argv)
         Frame1->GetHandle()->pts = i;
 
         /* encode the image */
-        encode(c, Frame1->GetHandle(), pkt, f);
+        encode(c, Context, Frame1->GetHandle(), pkt, f);
     }
 
     /* flush the encoder */
-    encode(c, NULL, pkt, f);
+    encode(c, Context, NULL, pkt, f);
 
     /* Add sequence end code to have a real MPEG file.
        It makes only sense because this tiny examples writes packets
