@@ -10,6 +10,7 @@ extern  "C"
     #include <libavcodec/avcodec.h>
     #include <libavutil/opt.h>
     #include <libavutil/imgutils.h>
+    #include <libavformat/avformat.h>
 }
 
 static void encode(AVCodecContext *enc_ctx, CodecContext *Context, AVFrame *frame, AVPacket *pkt,
@@ -185,5 +186,41 @@ int TestFFmpeg(int argc, char** argv)
     delete Frame1;
     av_packet_free(&pkt);
 
+    return 0;
+}
+
+int TestFFmpegDemux(int argc, char** argv)
+{
+    int ret;
+    AVFormatContext *fmt_ctx = NULL;
+    ret = avformat_open_input(&fmt_ctx, argv[1], NULL, NULL);
+    if (ret < 0)
+    {
+        fprintf(stderr, "Cannot open input file\n");
+    }
+
+    ret = avformat_find_stream_info(fmt_ctx, NULL);
+    if (ret < 0)
+    {
+        fprintf(stderr, "Cannot find stream information\n");
+    }
+
+    printf("nb_streams %d\n", fmt_ctx->nb_streams);
+    for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++)
+    {
+        const AVCodec *codec = avcodec_find_decoder(fmt_ctx->streams[i]->codecpar->codec_id);
+        if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+        {
+            printf("[%d]video stream, codec %s\n", i, codec->long_name);
+        }
+        else if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
+        {
+            printf("[%d]audio stream, codec %s\n", i, codec->long_name);
+        }
+        else if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE)
+        {
+            printf("[%d]subtitle stream, codec %s\n", i, codec->long_name);
+        }
+    }
     return 0;
 }
