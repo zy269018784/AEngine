@@ -34,8 +34,10 @@ int TestD3D9(int argc, char **argv);
 int TestSpirvCross(int argc, char **argv);
 int TestIIC(int argc, char **argv);
 int TestSerialCom();
+int TestFFmpeg(int argc, char** argv);
 int main(int argc, char** argv)
 {
+    return TestFFmpeg(argc, argv);
     return TestSerialCom();
     return SerialPortMain(argc, argv);
     return RHIExample();
