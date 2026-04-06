@@ -191,7 +191,7 @@ int TestFFmpeg(int argc, char** argv)
 
 int TestFFmpegDemux(int argc, char** argv)
 {
-    int ret;
+    int ret = 0;
     AVFormatContext *fmt_ctx = NULL;
     ret = avformat_open_input(&fmt_ctx, argv[1], NULL, NULL);
     if (ret < 0)
