@@ -36,8 +36,10 @@ int TestIIC(int argc, char **argv);
 int TestSerialCom();
 int TestFFmpeg(int argc, char** argv);
 int TestFFmpegDemux(int argc, char** argv);
+int TestSWSContext(int argc, char** argv);
 int main(int argc, char** argv)
 {
+    return TestSWSContext(argc, argv);
     return TestFFmpegDemux(argc, argv);
     return TestFFmpeg(argc, argv);
 

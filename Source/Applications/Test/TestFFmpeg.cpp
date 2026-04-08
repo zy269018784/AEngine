@@ -11,6 +11,7 @@ extern  "C"
     #include <libavutil/opt.h>
     #include <libavutil/imgutils.h>
     #include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
 }
 
 static void encode(AVCodecContext *enc_ctx, CodecContext *Context, AVFrame *frame, AVPacket *pkt,
@@ -222,5 +223,97 @@ int TestFFmpegDemux(int argc, char** argv)
             printf("[%d]subtitle stream, codec %s\n", i, codec->long_name);
         }
     }
+    return 0;
+}
+
+int TestSWSContext(int argc, char** argv)
+{
+    printf("TestSWSContext\n");
+
+    uint8_t *src_data[4], *dst_data[4];
+    int src_linesize[4], dst_linesize[4];
+    enum AVPixelFormat src_pix_fmt = AV_PIX_FMT_RGB24, dst_pix_fmt = AV_PIX_FMT_YUV420P;
+
+    struct SwsContext *sws_ctx;
+
+    int w = 8, h = 8;
+
+    /* create scaling context */
+    sws_ctx = sws_getContext(w, h, src_pix_fmt,
+                             w, h, dst_pix_fmt,
+                             SWS_BILINEAR, NULL, NULL, NULL);
+#if 0
+    const int* src_coeffs = sws_getCoefficients(SWS_CS_ITU709);  // 输入使用 BT.709
+    const int* dst_coeffs = sws_getCoefficients(SWS_CS_ITU709);  // 输出也使用 BT.709
+
+    int src_range = 0; // 0 表示输入是有限范围 (TV Range)
+    int dst_range = 0; // 0 表示输出也是有限范围
+
+    // 2. 设置默认的亮度、对比度、饱和度 (这些是标准值)
+    int brightness = 0;
+    int contrast = 1 << 16;   // 1.0 用定点数表示
+    int saturation = 1 << 16; // 1.0 用定点数表示
+
+    // 3. 应用这些颜色空间细节
+    sws_setColorspaceDetails(sws_ctx,          // 你的 SwsContext
+                             src_coeffs,       // YUV -> RGB 的转换表 (这里我们设为了 BT.709)
+                             src_range,        // 输入范围
+                             dst_coeffs,       // RGB -> YUV 的转换表 (这里我们设为了 BT.709)
+                             dst_range,        // 输出范围
+                             brightness,
+                             contrast,
+                             saturation);
+#endif
+    av_image_alloc(src_data, src_linesize,w, h, src_pix_fmt, 16);
+
+    av_image_alloc(dst_data, dst_linesize,w, h, dst_pix_fmt, 1);
+    for (int i = 0; i < 4; i++)
+    {
+        printf("src_linesize %d dst_linesize %d\n", src_linesize[i], dst_linesize[i]);
+    }
+
+ //   for (int i = 0; i < 4; i++)
+    {
+        src_data[0][0 * 32 + 0]  = 255;
+        src_data[0][0 * 32 + 1]  = 100;
+        src_data[0][0 * 32 + 2]  = 30;
+
+
+        src_data[0][0 * 32 + 3]  = 254;
+        src_data[0][0 * 32 + 4]  = 100;
+        src_data[0][0 * 32 + 5]  = 30;
+
+
+        src_data[0][1 * 32 + 0]  = 253;
+        src_data[0][1 * 32 + 1]  = 100;
+        src_data[0][1 * 32 + 2]  = 30;
+
+
+        src_data[0][1 * 32 + 3]  = 252;
+        src_data[0][1 * 32 + 4] = 100;
+        src_data[0][1 * 32 + 5] = 30;
+    }
+
+    /* convert to destination format */
+    sws_scale(sws_ctx, (const uint8_t * const*)src_data,
+              src_linesize, 0, h, dst_data, dst_linesize);
+    printf("Y plane: ");
+    for(int i = 0; i < w * h; i++)
+        printf("%d ", dst_data[0][i]);  // 输出: 138 138 138 138
+    printf("\n");
+
+    printf("U plane:\n");
+    for (int i = 0; i < w * h / 4; i++)
+    {
+        printf("%d ", dst_data[1][i]);  // 输出: 75
+    }
+    printf("\n");
+
+    printf("V plane:\n");
+    for (int i = 0; i < w * h / 4; i++)
+    {
+        printf("%d ", dst_data[2][i]);
+    }
+    printf("\n");
     return 0;
 }
