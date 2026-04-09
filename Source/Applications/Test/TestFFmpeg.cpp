@@ -1,5 +1,6 @@
 #include <iostream>
 #include <VideoAudioCodec/CodecContext.h>
+#include <VideoAudioCodec/FormatContext.h>
 #include <VideoAudioCodec/Frame.h>
 
 #include <stdio.h>
@@ -193,32 +194,38 @@ int TestFFmpeg(int argc, char** argv)
 int TestFFmpegDemux(int argc, char** argv)
 {
     int ret = 0;
-    AVFormatContext *fmt_ctx = NULL;
-    ret = avformat_open_input(&fmt_ctx, argv[1], NULL, NULL);
+    printf("debug 1\n");
+    FormatContext *FC = new FormatContext();
+    //AVFormatContext *fmt_ctx = NULL;
+    //ret = avformat_open_input(&fmt_ctx, argv[1], NULL, NULL);
+    printf("debug 2\n");
+    ret = FC->OpenInput(argv[1],NULL, NULL);
     if (ret < 0)
     {
         fprintf(stderr, "Cannot open input file\n");
     }
 
-    ret = avformat_find_stream_info(fmt_ctx, NULL);
+    printf("debug 3\n");
+    ret = FC->FindStreamInfo(NULL);
     if (ret < 0)
     {
         fprintf(stderr, "Cannot find stream information\n");
     }
 
-    printf("nb_streams %d\n", fmt_ctx->nb_streams);
-    for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++)
+    printf("nb_streams %d\n", FC->GetStreamCount());
+    for (unsigned int i = 0; i < FC->GetStreamCount(); i++)
     {
-        const AVCodec *codec = avcodec_find_decoder(fmt_ctx->streams[i]->codecpar->codec_id);
-        if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+        const AVCodec *codec = avcodec_find_decoder(FC->GetGetStreamCodecID(i));
+        auto CodeType = FC->GetGetStreamCodecType(i);
+        if (CodeType == AVMEDIA_TYPE_VIDEO)
         {
             printf("[%d]video stream, codec %s\n", i, codec->long_name);
         }
-        else if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
+        else if (CodeType == AVMEDIA_TYPE_AUDIO)
         {
             printf("[%d]audio stream, codec %s\n", i, codec->long_name);
         }
-        else if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE)
+        else if (CodeType == AVMEDIA_TYPE_SUBTITLE)
         {
             printf("[%d]subtitle stream, codec %s\n", i, codec->long_name);
         }

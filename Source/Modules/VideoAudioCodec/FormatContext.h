@@ -4,16 +4,24 @@
 
 #ifndef ENGINE_FORMATCONTEXT_H
 #define ENGINE_FORMATCONTEXT_H
-#include <libavformat/avformat.h>
-
+extern  "C"
+{
+     #include <libavformat/avformat.h>
+}
 
 class FormatContext {
 public:
      FormatContext();
      ~FormatContext();
      int OpenInput(const char *url, const AVInputFormat *fmt, AVDictionary **options);
-     AVFormatContext GetHandle();
-private
+     int FindStreamInfo(AVDictionary **options);
+     int GetStreamCount() const;
+     AVStream *GetStream(int index) const;
+     enum AVMediaType GetGetStreamCodecType(int index) const;
+     enum AVCodecID   GetGetStreamCodecID(int index) const;
+
+     AVFormatContext *GetHandle();
+private:
      AVFormatContext *Handle;
 };
 

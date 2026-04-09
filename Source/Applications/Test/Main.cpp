@@ -39,9 +39,10 @@ int TestFFmpegDemux(int argc, char** argv);
 int TestSWSContext(int argc, char** argv);
 int main(int argc, char** argv)
 {
-    return TestSWSContext(argc, argv);
-    return TestFFmpegDemux(argc, argv);
     return TestFFmpeg(argc, argv);
+   // return TestSWSContext(argc, argv);
+    return TestFFmpegDemux(argc, argv);
+
 
     return TestSerialCom();
     return SerialPortMain(argc, argv);
