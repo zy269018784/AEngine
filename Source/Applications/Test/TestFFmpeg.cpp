@@ -53,12 +53,10 @@ int TestFFmpeg(int argc, char** argv)
     const char *filename, *codec_name;
     const AVCodec *codec;
     AVCodecContext *c= NULL;
-    CodecContext *Context = NULL;
+    //CodecContext *Context = NULL;
     Encoder *Encoder = NULL;
-    Frame *Frame1 = NULL;
     int i, ret, x, y;
     FILE *f;
-  //  AVFrame *frame;
     AVPacket *pkt;
     uint8_t endcode[] = { 0, 0, 1, 0xb7 };
 
@@ -79,9 +77,9 @@ int TestFFmpeg(int argc, char** argv)
     // 1.
    // Context = new CodecContext(codec);
     Encoder = new ::Encoder(codec_name);
-    Context = Encoder->CodecContext;
-    c = Context->GetHandle();
-    if (!c) {
+    //Context = Encoder->CodecContext;
+    c = Encoder->CodecContext->GetHandle();
+    if (!Encoder->CodecContext->GetHandle()) {
         fprintf(stderr, "Could not allocate video codec context\n");
         exit(1);
     }
@@ -105,7 +103,7 @@ int TestFFmpeg(int argc, char** argv)
         av_opt_set(c->priv_data, "preset", "slow", 0);
 
     /* open it */
-    ret = Context->CodecOpen2(codec, NULL);
+    ret = Encoder->CodecOpen2(NULL);
     if (ret < 0) {
        // fprintf(stderr, "Could not open codec: %s\n", av_err2str(ret));
         exit(1);
@@ -117,16 +115,13 @@ int TestFFmpeg(int argc, char** argv)
         exit(1);
     }
 
-   // Frame1 = new Frame();
-    Frame1 = Encoder->Frame;
-    if (!Frame1->GetHandle()) {
+
+    if (!Encoder->Frame->GetHandle()) {
         fprintf(stderr, "Could not allocate video frame\n");
         exit(1);
     }
-  //  Frame1->SetPixelFormat(c->pix_fmt);
-  //  Frame1->SetWidth(c->width);
- //   Frame1->SetHeight(c->height);
-    ret = Frame1->GetBuffer(0);
+
+    ret = Encoder->Frame->GetBuffer(0);
     if (ret < 0) {
         fprintf(stderr, "Could not allocate the video frame data\n");
         exit(1);
@@ -146,7 +141,7 @@ int TestFFmpeg(int argc, char** argv)
            av_frame_make_writable() checks that and allocates a new buffer
            for the frame only if necessary.
          */
-        Frame1->MakeWritable();
+        Encoder->Frame->MakeWritable();
         if (ret < 0)
             exit(1);
 
@@ -158,26 +153,26 @@ int TestFFmpeg(int argc, char** argv)
         /* Y */
         for (y = 0; y < c->height; y++) {
             for (x = 0; x < c->width; x++) {
-                Frame1->GetHandle()->data[0][y * Frame1->GetHandle()->linesize[0] + x] = x + y + i * 3;
+                Encoder->Frame->GetHandle()->data[0][y * Encoder->Frame->GetHandle()->linesize[0] + x] = x + y + i * 3;
             }
         }
 
         /* Cb and Cr */
         for (y = 0; y < c->height/2; y++) {
             for (x = 0; x < c->width/2; x++) {
-                Frame1->GetHandle()->data[1][y * Frame1->GetHandle()->linesize[1] + x] = 128 + y + i * 2;
-                Frame1->GetHandle()->data[2][y * Frame1->GetHandle()->linesize[2] + x] = 64 + x + i * 5;
+                Encoder->Frame->GetHandle()->data[1][y * Encoder->Frame->GetHandle()->linesize[1] + x] = 128 + y + i * 2;
+                Encoder->Frame->GetHandle()->data[2][y * Encoder->Frame->GetHandle()->linesize[2] + x] = 64 + x + i * 5;
             }
         }
 
-        Frame1->GetHandle()->pts = i;
+        Encoder->Frame->GetHandle()->pts = i;
 
         /* encode the image */
-        encode(c, Context, Frame1->GetHandle(), pkt, f);
+        encode(c, Encoder->CodecContext, Encoder->Frame->GetHandle(), pkt, f);
     }
 
     /* flush the encoder */
-    encode(c, Context, NULL, pkt, f);
+    encode(c, Encoder->CodecContext, NULL, pkt, f);
 
     /* Add sequence end code to have a real MPEG file.
        It makes only sense because this tiny examples writes packets
@@ -190,8 +185,7 @@ int TestFFmpeg(int argc, char** argv)
     fclose(f);
 
     delete Encoder;
-  //  delete Context;
-  //  delete Frame1;
+
     av_packet_free(&pkt);
 
     return 0;

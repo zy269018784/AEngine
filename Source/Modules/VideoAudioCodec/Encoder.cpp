@@ -20,6 +20,11 @@ Encoder::~Encoder()
     delete Frame;
 }
 
+int Encoder::CodecOpen2(AVDictionary **options)
+{
+    return CodecContext->CodecOpen2(Codec, NULL);
+}
+
 void Encoder::SetYUV(int Row, int Col, std::uint8_t Y, std::uint8_t U, std::uint8_t V)
 {
 

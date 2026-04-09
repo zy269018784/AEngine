@@ -14,6 +14,8 @@ class Encoder
 public:
     Encoder(const char *CodecName = nullptr);
     ~Encoder();
+
+    int CodecOpen2(AVDictionary **options);
     void SetPointer(uint8_t **data, int *Linesize, int ArraySize);
 
     void SetYUV(int Row, int Col, std::uint8_t Y, std::uint8_t U, std::uint8_t V);
