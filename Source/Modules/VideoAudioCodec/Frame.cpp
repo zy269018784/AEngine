@@ -53,3 +53,17 @@ int Frame::GetBuffer(int Align)
 {
     return av_frame_get_buffer(Handle, Align);
 }
+
+void Frame::SetYUV(int Row, int Col, std::uint8_t Y, std::uint8_t U, std::uint8_t V)
+{
+    Handle->data[0][Row * Handle->linesize[0] + Col] = Y;
+    Handle->data[1][Row * Handle->linesize[1] + Col] = U;
+    Handle->data[2][Row * Handle->linesize[2] + Col] = V;
+}
+
+void Frame::SetRGB(int Row, int Col, std::uint8_t R, std::uint8_t G, std::uint8_t B)
+{
+    Handle->data[0][Row * Handle->linesize[0] + Col] = R;
+    Handle->data[1][Row * Handle->linesize[1] + Col] = G;
+    Handle->data[2][Row * Handle->linesize[2] + Col] = B;
+}

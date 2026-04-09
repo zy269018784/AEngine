@@ -2,6 +2,7 @@
 #include <VideoAudioCodec/CodecContext.h>
 #include <VideoAudioCodec/FormatContext.h>
 #include <VideoAudioCodec/Frame.h>
+#include <VideoAudioCodec/Encoder.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,6 +54,7 @@ int TestFFmpeg(int argc, char** argv)
     const AVCodec *codec;
     AVCodecContext *c= NULL;
     CodecContext *Context = NULL;
+    Encoder *Encoder = NULL;
     Frame *Frame1 = NULL;
     int i, ret, x, y;
     FILE *f;
@@ -75,7 +77,9 @@ int TestFFmpeg(int argc, char** argv)
     }
 
     // 1.
-    Context = new CodecContext(codec);
+   // Context = new CodecContext(codec);
+    Encoder = new ::Encoder(codec_name);
+    Context = Encoder->CodecContext;
     c = Context->GetHandle();
     if (!c) {
         fprintf(stderr, "Could not allocate video codec context\n");
@@ -86,15 +90,15 @@ int TestFFmpeg(int argc, char** argv)
     if (!pkt)
         exit(1);
 
-    Context->SetBitRate(400000);
+    Encoder->SetBitRate(400000);
     /* resolution must be a multiple of two */
-    Context->SetWidth(352);
-    Context->SetHeight(288);
-    Context->SetFrameRate(25);
-    Context->SetTimeBase(25);
-    Context->SetGopSize(10);
-    Context->SetMaxBFrames(1);
-    Context->SetPixelFormat(AV_PIX_FMT_YUV420P);
+    Encoder->SetWidth(352);
+    Encoder->SetHeight(288);
+    Encoder->SetFrameRate(25);
+    Encoder->SetTimeBase(25);
+    Encoder->SetGopSize(10);
+    Encoder->SetMaxBFrames(1);
+    Encoder->SetPixelFormat(AV_PIX_FMT_YUV420P);
 
 
     if (codec->id == (enum AVCodecID)AV_CODEC_ID_H264)
@@ -113,14 +117,15 @@ int TestFFmpeg(int argc, char** argv)
         exit(1);
     }
 
-    Frame1 = new Frame();
+   // Frame1 = new Frame();
+    Frame1 = Encoder->Frame;
     if (!Frame1->GetHandle()) {
         fprintf(stderr, "Could not allocate video frame\n");
         exit(1);
     }
-    Frame1->SetPixelFormat(c->pix_fmt);
-    Frame1->SetWidth(c->width);
-    Frame1->SetHeight(c->height);
+  //  Frame1->SetPixelFormat(c->pix_fmt);
+  //  Frame1->SetWidth(c->width);
+ //   Frame1->SetHeight(c->height);
     ret = Frame1->GetBuffer(0);
     if (ret < 0) {
         fprintf(stderr, "Could not allocate the video frame data\n");
@@ -184,8 +189,9 @@ int TestFFmpeg(int argc, char** argv)
         fwrite(endcode, 1, sizeof(endcode), f);
     fclose(f);
 
-    delete Context;
-    delete Frame1;
+    delete Encoder;
+  //  delete Context;
+  //  delete Frame1;
     av_packet_free(&pkt);
 
     return 0;

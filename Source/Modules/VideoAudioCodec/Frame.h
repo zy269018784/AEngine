@@ -4,7 +4,7 @@
 
 #ifndef ENGINE_AVFRAME_H
 #define ENGINE_AVFRAME_H
-
+#include <cstdint>
 extern  "C"
 {
 #include <libavcodec/avcodec.h>
@@ -23,6 +23,8 @@ public:
     void SetPixelFormat(AVPixelFormat PixelFormat);
     void MakeWritable();
     int GetBuffer(int Align);
+    void SetYUV(int Row, int Col, std::uint8_t Y, std::uint8_t U, std::uint8_t V);
+    void SetRGB(int Row, int Col, std::uint8_t R, std::uint8_t G, std::uint8_t B);
 private:
     AVFrame *Handle;
 };
