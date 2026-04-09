@@ -66,17 +66,18 @@ int TestFFmpeg(int argc, char** argv)
     }
     filename = argv[1];
     codec_name = argv[2];
-
+#if 0
     /* find the mpeg1video encoder */
     codec = avcodec_find_encoder_by_name(codec_name);
     if (!codec) {
         fprintf(stderr, "Codec '%s' not found\n", codec_name);
         exit(1);
     }
-
+#endif
     // 1.
    // Context = new CodecContext(codec);
     Encoder = new ::Encoder(codec_name);
+    codec = Encoder->Codec;
     //Context = Encoder->CodecContext;
     c = Encoder->CodecContext->GetHandle();
     if (!Encoder->CodecContext->GetHandle()) {
