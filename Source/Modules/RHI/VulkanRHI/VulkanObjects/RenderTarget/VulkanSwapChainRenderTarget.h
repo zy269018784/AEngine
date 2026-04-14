@@ -30,13 +30,13 @@ public:
     /*
         设备
     */
-    VulkanDevice							*Device;
+    VulkanDevice						*Device;
     /*
         交换链
      */
-    VulkanSwapChain                         *SwapChain;
+    VulkanSwapChain                     *SwapChain;
     /*
         同步帧
     */
-    std::vector<VulkanFrame*>			Frames;						// SwapChainImages.size()
+    std::vector<VulkanFrame*>			Frames;						// 2
 };

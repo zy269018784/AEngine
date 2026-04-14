@@ -11,6 +11,7 @@
 #include "VulkanObjects/Core/VulkanCore.h"
 #include "VulkanObjects/Texture/VulkanTexture.h"
 #include <iostream>
+#include <numbers>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
     : SwapChain(InSwapChain),  Device(InDevice), RHISwapchainRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()))
@@ -19,10 +20,13 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 
     ImageViews = SwapChain->GetImageViews();
+
+	std::cout << "SwapChain->GetImageCount() " << SwapChain->GetImageCount() << std::endl;
 	/*
 		1. 同步对象
 	*/
-    Frames.resize(SwapChain->GetImageCount());
+	//Frames.resize(SwapChain->GetImageCount());
+	Frames.resize(2);
     for (int i = 0; i < Frames.size(); i++)
         Frames[i] = new VulkanFrame(Device, true);
 
@@ -87,7 +91,7 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
     size_t currentFrame = 0; [0, 1]
 	imageIndex: [0, 2]
 
-		imagesInFlight[0] = NULL
+	imagesInFlight[0] = NULL
 	imagesInFlight[1] = NULL
 	imagesInFlight[2] = NULL
 	inFlightFences[0] signaled
@@ -220,15 +224,16 @@ Frame 5:
 */
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
-    //std::cout << "Frame Index " << FrameIndex << std::endl;
+	//std::cout << "Frame Index " << FrameIndex << " " << Frames.size() << std::endl;
     VulkanFrame* Frame = Frames[FrameIndex];
-
     /*
         等待fence变为signaled(RHIEndFrame中QueueSubmit把该fence变为signaled状态)
     */
     Frame->ImageFence->Wait();
+	/*
+	 *  fence变为unsignaled
+	 */
     Frame->ImageFence->Reset();
-
     //VkSemaphore SwapchainImageAvailableSemaphore = frameRes[LastImageIndex].SwapchainImageAvailableSemaphore->GetHandle();
     VkSemaphore SwapchainImageAvailableSemaphore = Frame->ImageAvailableSemaphore->GetHandle();
     /*
@@ -239,6 +244,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     {
         throw std::runtime_error("failed to acquire next image\n");
     }
+	std::cout << "Frame Index " << FrameIndex << " CurrentImageIndex " << CurrentImageIndex << std::endl;
 
     /*
         current command buffer
@@ -328,7 +334,7 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	/*
 		当前帧
 	*/
-	FrameIndex = (FrameIndex + 1) % 3;
+	FrameIndex = (FrameIndex + 1) % Frames.size();
 }
 
 void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
