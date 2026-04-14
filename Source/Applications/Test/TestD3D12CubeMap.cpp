@@ -7,6 +7,10 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
+#ifdef PROJECT_USE_STB
+    #include <stb_image.h>
+#endif
+
 // D3D12 必需的头文件
 #include <d3d12.h>
 #include <dxgi1_4.h>
@@ -54,15 +58,15 @@ struct Vertex {
 
 // 创建一个简单的全屏四边形，确保有东西显示
 static Vertex g_vertices[] = {
-    { { -0.8f, -0.8f, 0.0f }, { 0.0f, 1.0f } },
-    { { -0.8f,  0.8f, 0.0f }, { 0.0f, 0.0f } },
-    { {  0.8f,  0.8f, 0.0f }, { 1.0f, 0.0f } },
-    { {  0.8f, -0.8f, 0.0f }, { 1.0f, 1.0f } },
+    { { -1.0f, -1.0f, 0.0f }, { 0.0f, 0.0f } },
+    { {  1.0f, -1.0f, 0.0f }, { 1.0f, 0.0f } },
+    { {  1.0f,  1.0f, 0.0f }, { 1.0f, 1.0f } },
+    { { -1.0f,  1.0f, 0.0f }, { 0.0f, 1.0f } },
 };
 
 static UINT g_indices[] = {
     0, 1, 2,
-    0, 2, 3
+    2, 3, 0
 };
 
 static UINT g_numVertices = 4;
@@ -84,34 +88,34 @@ static void CreateCubemapData(std::vector<uint8_t>& data, int face) {
 
             switch (face) {
             case 0: // +X - 红色渐变
-                data[index + 0] = (UINT)(255 * fx);
-                data[index + 1] = (UINT)(255 * fy);
-                data[index + 2] = 0;
+                data[index + 0] = 0;
+                data[index + 1] = 255;
+                data[index + 2] = 255;
                 break;
             case 1: // -X - 绿色渐变
-                data[index + 0] = 0;
-                data[index + 1] = (UINT)(255 * fx);
-                data[index + 2] = (UINT)(255 * fy);
+                data[index + 0] = 255;
+                data[index + 1] = 0;
+                data[index + 2] = 0;
                 break;
             case 2: // +Y - 蓝色渐变
-                data[index + 0] = (UINT)(255 * fx);
-                data[index + 1] = 0;
-                data[index + 2] = (UINT)(255 * fy);
+                data[index + 0] = 255;
+                data[index + 1] = 255;
+                data[index + 2] = 0;
                 break;
             case 3: // -Y - 黄色渐变
-                data[index + 0] = (UINT)(255 * fx);
-                data[index + 1] = (UINT)(255 * fx);
+                data[index + 0] = 0;
+                data[index + 1] = 255;
                 data[index + 2] = 0;
                 break;
             case 4: // +Z - 品红渐变
-                data[index + 0] = (UINT)(255 * fx);
-                data[index + 1] = 0;
-                data[index + 2] = (UINT)(255 * fx);
+                data[index + 0] = 255;
+                data[index + 1] = 255;
+                data[index + 2] = 0;
                 break;
             case 5: // -Z - 青色渐变
                 data[index + 0] = 0;
-                data[index + 1] = (UINT)(255 * fx);
-                data[index + 2] = (UINT)(255 * fx);
+                data[index + 1] = 0;
+                data[index + 2] = 255;
                 break;
             }
             data[index + 3] = 255;
@@ -280,14 +284,29 @@ static bool CreateCubemapTexture() {
 
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
+    /*
+            STBI_rgb_alpha统一转成4通道
+        */
+        int texWidth, texHeight, texChannels;
+        stbi_uc* pixels[6];
+        pixels[0] = stbi_load("textures/skybox/right.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+        pixels[1] = stbi_load("textures/skybox/left.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+        pixels[2] = stbi_load("textures/skybox/top.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+        pixels[3] = stbi_load("textures/skybox/bottom.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+        pixels[4] = stbi_load("textures/skybox/front.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+        pixels[5] = stbi_load("textures/skybox/back.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
 
     UINT64 currentOffset = 0;
     for (UINT face = 0; face < 6; ++face) {
         std::vector<uint8_t> textureData;
         CreateCubemapData(textureData, face);
 
+
+
+
+
         D3D12_SUBRESOURCE_DATA subresourceData = {};
-        subresourceData.pData = textureData.data();
+        subresourceData.pData = pixels[face];
         subresourceData.RowPitch = CUBEMAP_SIZE * 4;
         subresourceData.SlicePitch = subresourceData.RowPitch * CUBEMAP_SIZE;
 
@@ -421,7 +440,16 @@ static bool CreatePipeline() {
                 // 右侧区域 - 显示蓝色面
                 dir = normalize(float3(0, input.uv.y * 2 - 1, 1));
             }
-            return g_cubemap.Sample(g_sampler, dir);
+            // 左边
+           // input.uv = input.uv * 2 - float2(1.0, 1.0);
+            dir = normalize(float3(1, input.uv.x * 2 - 1, input.uv.y * 2 - 1));
+            // 右边
+            //dir = float3(1, input.uv.x, input.uv.y);
+            // 下边
+            //dir = float3(input.uv.x, -1, input.uv.y);
+            // 上边
+            //dir = float3(input.position.x,  input.position.y, -1);
+            return g_cubemap.Sample(g_sampler, normalize(dir));
         }
     )";
 

@@ -37,8 +37,12 @@ int TestSerialCom();
 int TestFFmpeg(int argc, char** argv);
 int TestFFmpegDemux(int argc, char** argv);
 int TestSWSContext(int argc, char** argv);
+int TestOpenGL(int argc, char* argv[]);
 int main(int argc, char** argv)
 {
+    return RHIExample();
+    return TestOpenGL(argc, argv);
+    return TestD3D12Cubemap(argc, argv);
     return TestFFmpeg(argc, argv);
    // return TestSWSContext(argc, argv);
     return TestFFmpegDemux(argc, argv);
