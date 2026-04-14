@@ -48,7 +48,6 @@ void VulkanTextureRenderTarget::RHIEndFrame()
         current frame's command buffer
     */
     VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
-    VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
     /*
         complete recording of a command buffer
     */
