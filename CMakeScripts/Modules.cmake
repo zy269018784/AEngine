@@ -1,4 +1,12 @@
 
+file(GLOB SUB_MODULES LIST_DIRECTORIES true ${SRC_PREFIX}/Modules/*)
+
+list(REMOVE_ITEM SUB_MODULES "${SRC_PREFIX}/Modules/Arch")
+
+foreach(SUB_DIR ${SUB_MODULES})
+    get_filename_component(DIR_NAME ${SUB_DIR} NAME)
+    message(STATUS "找到子模块: ${DIR_NAME}")
+endforeach()
 
 file(GLOB_RECURSE SRC_LIST_Applications     ${SRC_PREFIX}/Applications/*.cpp ${SRC_PREFIX}/Applications/*.c ${SRC_PREFIX}/Applications/*.h)
 file(GLOB_RECURSE SRC_LIST_Audio            ${SRC_PREFIX}/Modules/Audio/*.cpp ${SRC_PREFIX}/Modules/Audio/*.c ${SRC_PREFIX}/Modules/Audio/*.h)
@@ -23,7 +31,8 @@ file(GLOB_RECURSE SRC_LIST_DeviceDriver     ${SRC_PREFIX}/Modules/DeviceDriver/*
 file(GLOB_RECURSE SRC_LIST_ModuleTest       ${SRC_PREFIX}/Modules/ModuleTest/*.cpp ${SRC_PREFIX}/Modules/ModuleTest/*.c ${SRC_PREFIX}/Modules/ModuleTest/*.h)
 #file(GLOB_RECURSE SRC_LIST_Bluetooth        ${SRC_PREFIX}/Modules/Bluetooth/*.cpp ${SRC_PREFIX}/Modules/Bluetooth/*.c ${SRC_PREFIX}/Modules/Bluetooth/*.h)
 file(GLOB_RECURSE SRC_LIST_Arch             ${SRC_PREFIX}/Modules/Arch/*.cpp ${SRC_PREFIX}/Modules/Arch/*.c ${SRC_PREFIX}/Modules/Arch/*.h)
-file(GLOB_RECURSE SRC_LIST_VideoAudioCodec          ${SRC_PREFIX}/Modules/VideoAudioCodec/*.cpp ${SRC_PREFIX}/Modules/VideoAudioCodec/*.c ${SRC_PREFIX}/Modules/VideoAudioCodec/*.h)
+file(GLOB_RECURSE SRC_LIST_VideoAudioCodec  ${SRC_PREFIX}/Modules/VideoAudioCodec/*.cpp ${SRC_PREFIX}/Modules/VideoAudioCodec/*.c ${SRC_PREFIX}/Modules/VideoAudioCodec/*.h)
+file(GLOB_RECURSE SRC_LIST_CompileTools     ${SRC_PREFIX}/CompileTools/*.cpp ${SRC_PREFIX}/CompileTools/*.c ${SRC_PREFIX}/CompileTools/*.h)
 #message(STATUS "SRC_LIST_Applications ${SRC_LIST_Applications}")
 #message(STATUS "SRC_LIST_Audio ${SRC_LIST_Audio}")
 #message(STATUS "SRC_LIST_MultiMedia ${SRC_LIST_MultiMedia}")
@@ -49,6 +58,7 @@ list (APPEND SRC_LIST
         ${SRC_LIST_ModuleTest}
         ${SRC_LIST_Arch}
         ${SRC_LIST_VideoAudioCodec}
+        ${SRC_LIST_CompileTools}
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
