@@ -126,7 +126,8 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 
 RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
-	return nullptr;
+	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);
+	return Surface;
 }
 #endif
 #ifdef RHI_USE_Xlib_KHR
@@ -145,7 +146,8 @@ RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
 
 RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
 {
-	return nullptr;
+	VulkanSurface *Surface = new VulkanSurface(Instance, Disp, Win);
+	return Surface;
 }
 
 #endif

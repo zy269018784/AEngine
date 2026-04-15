@@ -74,6 +74,69 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     }
 }
 
+VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
+	: Device(InDevice), RHISwapchainRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format))
+{
+	SwapChain = new VulkanSwapChain(Device, InSurface);
+
+	ImageFormat				= SwapChain->GetFormat();
+	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
+
+	ImageViews = SwapChain->GetImageViews();
+
+	std::cout << "SwapChain->GetImageCount() " << SwapChain->GetImageCount() << std::endl;
+	/*
+		1. 同步对象
+	*/
+	//Frames.resize(SwapChain->GetImageCount());
+	Frames.resize(2);
+	for (int i = 0; i < Frames.size(); i++)
+		Frames[i] = new VulkanFrame(Device, true);
+
+	/*
+		2. 创建Render Pass
+	*/
+	std::vector<RHIAttachment> InAttachments;
+	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
+
+	/*
+		3. 创建Frame Buffer
+	*/
+
+	FrameBuffers.resize(ImageViews.size());
+	//SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
+	for (int i = 0; i < FrameBuffers.size(); i++)
+	{
+		VulkanTexture *Tex = new VulkanTexture(InDevice,
+				RHITextureType::Texture2D,
+				RHIPixelFormat::PF_DepthStencil,
+				1,
+				Resolution.width,
+				Resolution.height,
+				1,
+				1);
+
+		std::vector<VulkanAttachment> InVKAttachments;
+		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
+		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
+
+		FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height },  &InVKAttachments);
+	}
+
+	/*
+		4. 创建command buffer
+	 */
+	GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
+	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
+	{
+		/*
+			暂时用第0个Command Pool
+		*/
+		GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
+	}
+}
+
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 {
 

@@ -3,6 +3,14 @@ file(GLOB SUB_MODULES LIST_DIRECTORIES true ${SRC_PREFIX}/Modules/*)
 
 list(REMOVE_ITEM SUB_MODULES "${SRC_PREFIX}/Modules/Arch")
 
+if (NOT WIN32)
+    list(REMOVE_ITEM SUB_MODULES "${SRC_PREFIX}/Modules/Arch")
+endif ()
+
+if (NOT USE_D3D12)
+    message(STATUS "D3D12 not enabled")
+endif ()
+
 foreach(SUB_DIR ${SUB_MODULES})
     get_filename_component(DIR_NAME ${SUB_DIR} NAME)
     message(STATUS "找到子模块: ${DIR_NAME}")
@@ -67,6 +75,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list (APPEND SRC_LIST ${SRC_LIST_D3D10RHI})
     list (APPEND SRC_LIST ${SRC_LIST_D3D9RHI})
 endif ()
+
 
 if (${USE_VULKAN})
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
