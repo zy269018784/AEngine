@@ -6,7 +6,7 @@
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include "RHIObjects/Window/RHIWindow.h"
-
+class RHISurface;
 class RHI
 {
 public:
@@ -32,24 +32,28 @@ public:
 	*/
 #ifdef RHI_USE_WIN32_KHR
 	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) = 0;
+	virtual RHISurface* RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd) = 0;
 #endif
 	/*
 		Wayland
 	*/
 #ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
+	virtual RHISurface* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*
 		XCB
 	*/
 #ifdef RHI_USE_XCB_KHR
 	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
+	virtual RHISurface* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
 #endif
 	/*
 		Xlib
 	*/
 #ifdef RHI_USE_Xlib_KHR
 	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) = 0;
+	virtual RHISurface* RHICreateWindow(Display* Disp, Window Win) = 0;
 #endif
 	/*
 		管线Pipeline

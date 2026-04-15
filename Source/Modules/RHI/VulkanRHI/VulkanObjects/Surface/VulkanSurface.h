@@ -3,9 +3,8 @@
 #include "Vulkan.h"
 #include "VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-
-
-class VulkanSurface
+#include "RHIObjects/Surface/RHISurface.h"
+class VulkanSurface : public RHISurface
 {
 public:
 	VulkanSurface();

@@ -89,10 +89,22 @@ RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
 	return NewVulkanWindow;
 }
+
+RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
+{
+	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
+	return Surface;
+}
+
 #endif
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR 
 RHIWindow* VulkanRHI::RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface)
+{
+	return nullptr;
+}
+
+RHISurface* VulkanRHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
 }
@@ -111,6 +123,11 @@ RHIWindow* VulkanRHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
 	return NewVulkanWindow;
 }
+
+RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
+{
+	return nullptr;
+}
 #endif
 #ifdef RHI_USE_Xlib_KHR
 RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
@@ -125,6 +142,12 @@ RHIWindow* VulkanRHI::RHICreateWindow(Display* Disp, Window Win)
 	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
 	return NewVulkanWindow;
 }
+
+RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
+{
+	return nullptr;
+}
+
 #endif
 
 RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)

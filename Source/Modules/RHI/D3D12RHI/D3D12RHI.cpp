@@ -52,12 +52,21 @@ RHIWindow* D3D12RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 	return NewD3D12Window;
 }
 
+RHISurface* D3D12RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
+{
+	return nullptr;
+}
 #endif
 /*
 	Wayland
 */
 #ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 RHIWindow* D3D12RHI::RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface)
+{
+	return nullptr;
+}
+
+RHISurface* D3D12RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
 }
@@ -71,7 +80,18 @@ RHIWindow* D3D12RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t 
 	return nullptr;
 }
 
-RHIWindow* D3D12RHI::RHICreateWindow(Display* Disp, Window Win) {
+RHISurface* D3D12RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
+{
+	return nullptr;
+}
+
+RHIWindow* D3D12RHI::RHICreateWindow(Display* Disp, Window Win)
+{
+	return nullptr;
+}
+
+RHISurface* D3D12RHI::RHICreateSurface(Display* Disp, Window Win)
+{
 	return nullptr;
 }
 #endif
