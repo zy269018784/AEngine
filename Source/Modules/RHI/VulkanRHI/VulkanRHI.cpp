@@ -93,6 +93,10 @@ RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
 RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+
+
 	return Surface;
 }
 
@@ -152,6 +156,12 @@ RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
 
 #endif
 
+RHIRenderTarget *VulkanRHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
+{
+	RHIRenderTarget *RenderTarget = new VulkanSwapChainRenderTarget(Devices[GPUIndex], reinterpret_cast<VulkanSurface *>(InSurface));
+	return RenderTarget;
+}
+
 RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, nullptr);
@@ -174,7 +184,14 @@ RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline()
 
 RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIWindow* Window)
 {
-	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanWindow*)Window)->RenderTarget->RenderPass);
+	VulkanRenderPass *RenderPass = dynamic_cast<VulkanRenderPass *>(((VulkanWindow*)Window)->RenderTarget->GetRenderPass());
+	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], RenderPass);
+	return Pipeline;
+}
+
+RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
+{
+	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], ((VulkanRenderPass*)RenderPass));
 	return Pipeline;
 }
 

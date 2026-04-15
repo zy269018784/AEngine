@@ -5,3 +5,13 @@ RHIRenderTarget::RHIRenderTarget(RHIPixelFormat InPixelFormat)
 {
 
 }
+
+RHIRenderPass *RHIRenderTarget::GetRenderPass() const
+{
+    return RenderPass;
+}
+
+RHICommandBuffer* RHIRenderTarget::CurrentGraphicsCommandBuffer() const
+{
+    return GraphicsCommandBuffers[0];
+}

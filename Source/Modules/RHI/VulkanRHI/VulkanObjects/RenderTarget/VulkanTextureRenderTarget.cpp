@@ -7,7 +7,7 @@
 #include "VulkanObjects/Texture/VulkanTexture.h"
 
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture)
-    : Texture(InTexture),  RHITextureRenderTarget(InTexture->GetFormat())
+    : Texture(InTexture),  VulkanRenderTarget(InTexture->GetFormat())
 {
 
 }
@@ -22,7 +22,7 @@ void VulkanTextureRenderTarget::RHIBeginFrame()
     /*
         current command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[FrameIndex]);
     /*
         reset command buffer
     */
@@ -47,7 +47,7 @@ void VulkanTextureRenderTarget::RHIEndFrame()
     /*
         current frame's command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[FrameIndex]);
     /*
         complete recording of a command buffer
     */
@@ -55,6 +55,10 @@ void VulkanTextureRenderTarget::RHIEndFrame()
     {
         throw std::runtime_error("failed to record command buffer!");
     }
+}
+
+void VulkanTextureRenderTarget::GetExtent(float &x, float &y, float &w, float &h) {
+
 }
 
 void VulkanTextureRenderTarget::RHIBeginRenderPass()
@@ -66,17 +70,17 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
 
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    RenderPassInfo.renderPass			= RenderPass->GetHandle();
+    RenderPassInfo.renderPass			= dynamic_cast<VulkanRenderPass*>(RenderPass)->GetHandle();
     RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= Resolution;
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
 
-    GraphicsCommandBuffers[CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanTextureRenderTarget::RHIEndRenderPass()
 {
-    GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
+    dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
 }

@@ -8,7 +8,7 @@
  *  Framebuffery
  */
 class VulkanTexture;
-class VulkanTextureRenderTarget : public VulkanRenderTarget, public RHITextureRenderTarget
+class VulkanTextureRenderTarget : public VulkanRenderTarget
 {
 public:
     VulkanTextureRenderTarget(VulkanTexture *InTexture = nullptr);
@@ -17,6 +17,7 @@ public:
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
+    virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
 public:
     VulkanTexture *Texture;
 };

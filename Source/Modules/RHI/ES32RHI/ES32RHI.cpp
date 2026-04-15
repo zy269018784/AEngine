@@ -7,6 +7,7 @@
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
 #include "OpenGLObjects/Resource/OpenGLSampler.h"
 #include "RHIObjects/Core/RHICore.h"
+#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include <iostream>
 
 ES32RHI::ES32RHI()
@@ -82,6 +83,12 @@ RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 }
 #endif
 
+//RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
+RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
+{
+	return nullptr;
+}
+
 RHIBuffer* ES32RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 { 
 	return nullptr;
@@ -100,10 +107,15 @@ RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline()
 }
 
 RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
-{ 
-	OpenGLGraphicsPipeline* Pipeline;
-	Pipeline = new OpenGLGraphicsPipeline();
+{
+	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
 	//((OpenGLWindow *)Window)->CommandBuffer->GraphicsPipeline = Pipeline;
+	return Pipeline;
+}
+
+RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
+{
+	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
 	return Pipeline;
 }
 

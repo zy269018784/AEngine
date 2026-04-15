@@ -4,9 +4,11 @@
 #include "RHIObjects/Shader/RHIShader.h"
 #include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include "RHIObjects/Window/RHIWindow.h"
 class RHISurface;
+class RHISwapChainRenderTarget;
 class RHI
 {
 public:
@@ -55,12 +57,20 @@ public:
 	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) = 0;
 	virtual RHISurface* RHICreateWindow(Display* Disp, Window Win) = 0;
 #endif
+
+	/*
+	 * RenderTarget
+	 */
+	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) = 0;
+
 	/*
 		管线Pipeline
 	*/
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() = 0;
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow *Window) = 0;
+
+	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) = 0;
 
 	virtual RHIShader* RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize) = 0;
 

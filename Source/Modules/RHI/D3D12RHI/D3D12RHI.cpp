@@ -96,6 +96,11 @@ RHISurface* D3D12RHI::RHICreateSurface(Display* Disp, Window Win)
 }
 #endif
 
+RHIRenderTarget *D3D12RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
+{
+	return nullptr;
+}
+
 RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	return nullptr;
@@ -113,6 +118,12 @@ RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline()
 }
 
 RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
+{
+	D3D12GraphicsPipeline* Pipeline = new D3D12GraphicsPipeline(Devices[GPUIndex]);
+	return Pipeline;
+}
+
+RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
 {
 	D3D12GraphicsPipeline* Pipeline = new D3D12GraphicsPipeline(Devices[GPUIndex]);
 	return Pipeline;

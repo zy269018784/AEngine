@@ -51,6 +51,10 @@ public:
 	virtual RHISurface* RHICreateSurface(Display* Disp, Window Win) final override;
 #endif
 
+	/*
+	 * RenderTarget
+	 */
+	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
 	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;
@@ -58,6 +62,7 @@ public:
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() final override;
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow* Window) final override;
+	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) final override;
 
 	virtual RHIShader* RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize) final override;
 

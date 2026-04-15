@@ -250,7 +250,7 @@ static bool CreateTriangleResources() {
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-    GraphicsPipeline = RHI->RHICreateGraphicsPipeline(nullptr);
+    GraphicsPipeline = RHI->RHICreateGraphicsPipeline((RHIRenderPass *)0);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);

@@ -214,7 +214,11 @@ void RHIApplicationScene::CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
+#if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
+#else
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
+#endif
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::Back);
@@ -231,13 +235,18 @@ void RHIApplicationScene::CreateGraphicsPipeline()
 
 void RHIApplicationScene::Draw()
 {
-    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
-
     float x = 0;
     float y = 0;
     float w = 0;
     float h = 0;
+
+#if USE_RHIWindow
+    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
+#else
+    auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
+    RenderTarget->GetExtent(x, y, w, h);
+#endif
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);

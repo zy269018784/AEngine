@@ -8,6 +8,8 @@
 #endif
 #include <GLFW/glfw3.h>
 
+#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
+
 #ifdef PROJECT_USE_D3D12
 #include "D3D12RHI.h"
 #endif
@@ -35,7 +37,7 @@
 #include <limits>
 #include <optional>
 #include <set>
-
+#define USE_RHIWindow 1
 class RHIApplication
 {
 public:
@@ -55,12 +57,17 @@ public:
      *  2:  opengl
      */
     int RHIIndex = 0;
-protected:
+public:
     /*
         GLFW窗口
     */
     IWindow* Window = nullptr;
+#if 1
     RHIWindow* RHIWindow_ = nullptr;
+#else
+    RHISurface* Surface = nullptr;
+    RHIRenderTarget *RenderTarget = nullptr;
+#endif
     /*
         RHI
     */

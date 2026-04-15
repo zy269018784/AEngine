@@ -1,8 +1,7 @@
 #pragma once
 #include "Vulkan.h"
-#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
-#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include <vector>
+#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
 /*
  *  Image
  *  Image View
@@ -12,8 +11,13 @@
 class VulkanRenderPass;
 class VulkanFrameBuffer;
 class VulkanCommandBuffer;
-class VulkanRenderTarget
+class RHIRenderTarget;
+class RHICommandBuffer;
+class VulkanRenderTarget : public RHIRenderTarget
 {
+public:
+    VulkanRenderTarget(RHIPixelFormat InPixelFormat);
+    virtual void Resize(float Width, float Height) = 0;
 public:
     /*
         Image
@@ -34,7 +38,7 @@ public:
     /*
         Render Pass
     */
-    VulkanRenderPass*                       RenderPass;
+    //VulkanRenderPass*                       RenderPass;
     /*
         Framebuffers
     */
@@ -43,10 +47,8 @@ public:
     /*
         用于图像的command buffer
     */
-    std::vector<VulkanCommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
+    //std::vector<VulkanCommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
 
-
-    std::uint32_t					CurrentImageIndex = 0;
     /*
         当前帧编号
         FrameIndex: [0, 1]

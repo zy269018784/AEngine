@@ -65,8 +65,15 @@ public:
 	virtual RHISurface* RHICreateSurface(Display* Disp, Window Win) final override;
 #endif
 
+	/*
+	 * RenderTarget
+	 */
+	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
+
+
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() final override;
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow* Window) final override;
+	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) final override;
 
 	virtual RHIShaderResourceBindings* RHICreateShaderResourceBindings() final override;
 

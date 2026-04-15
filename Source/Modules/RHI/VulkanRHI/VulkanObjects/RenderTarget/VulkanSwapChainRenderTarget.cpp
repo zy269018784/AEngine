@@ -10,11 +10,12 @@
 #include "VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanObjects/Core/VulkanCore.h"
 #include "VulkanObjects/Texture/VulkanTexture.h"
+#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include <iostream>
 #include <numbers>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
-    : SwapChain(InSwapChain),  Device(InDevice), RHISwapchainRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()))
+    : SwapChain(InSwapChain),  Device(InDevice), VulkanRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()))
 {
     ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
@@ -35,7 +36,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     */
 	std::vector<RHIAttachment> InAttachments;
 	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
+	RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
     /*
         3. 创建Frame Buffer
@@ -58,7 +59,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
     	InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
 
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height },  &InVKAttachments);
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },  &InVKAttachments);
     }
 
 	/*
@@ -75,7 +76,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 }
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
-	: Device(InDevice), RHISwapchainRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format))
+	: Device(InDevice), VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format))
 {
 	SwapChain = new VulkanSwapChain(Device, InSurface);
 
@@ -121,7 +122,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
 
-		FrameBuffers[i] = new VulkanFrameBuffer(Device, RenderPass, { Resolution.width, Resolution.height },  &InVKAttachments);
+		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },  &InVKAttachments);
 	}
 
 	/*
@@ -187,7 +188,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     /*
         current command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
     /*
         reset command buffer
     */
@@ -213,7 +214,7 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	/*
 		current frame's command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = GraphicsCommandBuffers[FrameIndex];
+	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
 	VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
 	/*
 		complete recording of a command buffer
@@ -283,17 +284,28 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
 
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    RenderPassInfo.renderPass			= RenderPass->GetHandle();
+    RenderPassInfo.renderPass			= (dynamic_cast<VulkanRenderPass *>(RenderPass))->GetHandle();
     RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= Resolution;
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
 
-    GraphicsCommandBuffers[CurrentImageIndex]->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanSwapChainRenderTarget::RHIEndRenderPass()
 {
-    GraphicsCommandBuffers[CurrentImageIndex]->CmdEndRenderPass();
+    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
+}
+
+void VulkanSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
+{
+	x = y = 0;
+	w = SwapChain->GetWidth();
+	h = SwapChain->GetHeight();
+}
+
+void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
+	SwapChain->Resize(Width, Height);
 }

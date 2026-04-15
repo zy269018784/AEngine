@@ -43,6 +43,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
         return;
     }
     RHIWindow_ = pRHI->RHICreateWindow(connection, xcb_window);
+    Surface = pRHI->RHICreateSurface(connection, xcb_window);
     std::cout << "glfwGetX11Window" << std::endl;
 #endif
 
@@ -50,6 +51,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
+    Surface = pRHI->RHICreateSurface(Disp, Win);
 #endif
 
 
@@ -61,7 +63,12 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     std::cout << "RHIApplication 2" << std::endl;
+#if 1
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+#else
+    Surface = pRHI->RHICreateSurface(instacne, hwnd);
+    this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
+#endif
     std::cout << "RHIApplication 3" << std::endl;
 #endif
     std::cout << "RHIApplication End" << std::endl;
@@ -83,7 +90,10 @@ RHIApplication::~RHIApplication()
     delete RHIEBO;
     delete SRB;
     delete GraphicsPipeline;
-    delete RHIWindow_;
+#if 0
+    delete RenderTarget;
+    delete Surface;
+#endif
     delete pRHI;
 }
 
@@ -94,17 +104,25 @@ void RHIApplication::Run()
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
+#if 1
         RHIWindow_->RHIBeginFrame();
         RHIWindow_->RHIBeginRenderPass();
         Draw();
         RHIWindow_->RHIEndRenderPass();
         RHIWindow_->RHIEndFrame();
+#else
+        RenderTarget->RHIBeginFrame();
+        RenderTarget->RHIBeginRenderPass();
+        Draw();
+        RenderTarget->RHIEndRenderPass();
+        RenderTarget->RHIEndFrame();
+#endif
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
     }
-    RHIWindow_->WaitDeviceIdle();
+   // RHIWindow_->WaitDeviceIdle();
 
 #else
     while (!glfwWindowShouldClose(Window))
