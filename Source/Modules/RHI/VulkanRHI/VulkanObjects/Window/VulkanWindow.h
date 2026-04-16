@@ -28,7 +28,6 @@ public:
 	virtual void Draw() final override;
 	virtual void WaitDeviceIdle() final override;
 public:
-private:
 	/*
 		物理设备
 	*/

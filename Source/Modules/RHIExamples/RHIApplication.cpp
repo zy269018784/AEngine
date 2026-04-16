@@ -1,9 +1,15 @@
 ﻿#include <RHIApplication.h>
+
+#include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
+#include "VulkanObjects/Window/VulkanWindow.h"
 #ifdef PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
 #include "Window/GLFWWindow.h"
+
+
+
 RHIApplication::RHIApplication(IWindow* InWindow)
     : Window(InWindow)
 {
@@ -63,8 +69,11 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     std::cout << "RHIApplication 2" << std::endl;
-#if 1
+#if USE_RHIWindow
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+  //  this->RenderTarget = (RHIRenderTarget *)(((VulkanWindow *)RHIWindow_)->RenderTarget);
+    this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(((VulkanWindow *)RHIWindow_)->Surface);
+    ((VulkanWindow *)RHIWindow_)->RenderTarget = (VulkanSwapChainRenderTarget *)(this->RenderTarget);
 #else
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
@@ -104,7 +113,7 @@ void RHIApplication::Run()
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
-#if 1
+#if 0
         RHIWindow_->RHIBeginFrame();
         RHIWindow_->RHIBeginRenderPass();
         Draw();

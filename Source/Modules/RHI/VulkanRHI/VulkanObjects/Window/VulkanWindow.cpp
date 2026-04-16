@@ -16,7 +16,7 @@ VulkanWindow::VulkanWindow(VulkanPhysicalDevice* InPhysicalDevice, VulkanDevice*
 	// 方式1
 	//RenderTarget = new VulkanSwapChainRenderTarget(new VulkanSwapChain(Device, Surface), Device);
 	// 方式2
-	RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface);
+	//RenderTarget = new VulkanSwapChainRenderTarget(Device, Surface);
 }
 
 VulkanWindow::~VulkanWindow()
