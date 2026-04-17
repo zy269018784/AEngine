@@ -34,7 +34,7 @@ static float VertexAttributes[] = {
 #endif
 
 RHIApplicationTriangle::RHIApplicationTriangle(IWindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
 
 }

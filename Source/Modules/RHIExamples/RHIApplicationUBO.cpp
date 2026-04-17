@@ -40,7 +40,7 @@ static unsigned int Index[] = {
 };
 
 RHIApplicationUBO::RHIApplicationUBO(GLFWwindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
    
 }

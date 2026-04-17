@@ -10,14 +10,14 @@
 
 
 
-RHIApplication::RHIApplication(IWindow* InWindow)
-    : Window(InWindow)
+RHIApplication::RHIApplication()
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
     RHIIndex = 2;
     if (0 == RHIIndex)
     {
+        Window = new GLFWWindow(IWindow::Vulkan);
         pRHI = new VulkanRHI();
     }
     else if (1 == RHIIndex)
@@ -28,6 +28,10 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     }
     else if (2 == RHIIndex)
     {
+        GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+        tmpWin->MakeContextCurrent();
+
+        Window = tmpWin;
         /*
             opengl需要
         */
@@ -35,6 +39,8 @@ RHIApplication::RHIApplication(IWindow* InWindow)
         pRHI = new ES32RHI();
     }
     pRHI->RHIUseGPU(0);
+
+
 
 #ifdef PROJECT_USE_XCB1
     //Display* Display = glfwGetX11Display();
@@ -83,10 +89,6 @@ RHIApplication::RHIApplication(IWindow* InWindow)
     std::cout << "RHIApplication End" << std::endl;
 }
 
-RHIApplication::RHIApplication(GLFWwindow* Window)
-{
-
-}
 
 RHIApplication::~RHIApplication()
 {

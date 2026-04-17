@@ -42,7 +42,7 @@ static unsigned int Index[] = {
 };
 
 RHIApplicationPlayer::RHIApplicationPlayer(GLFWwindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 { 
    
 }

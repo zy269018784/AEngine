@@ -39,7 +39,7 @@ static unsigned int Index[] = {
 
 RHIApplicationTexture2D::
 RHIApplicationTexture2D(IWindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
 
 }

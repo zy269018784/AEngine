@@ -76,9 +76,9 @@ void Example_Texture1DArray(IWindow* Window)
 	RHIApplicationTexture1DArray App(Window);
 	App.Run();
 }
-void Example_Texture2D(IWindow* Window)
+void Example_Texture2D()
 {
-	RHIApplicationTexture2D App(Window);
+	RHIApplicationTexture2D App(nullptr);
 	App.Run();
 }
 
@@ -136,17 +136,12 @@ int RHIExample()
 #ifdef PROJECT_USE_GLFW
 	glfwInit();
 #endif
+
 #ifdef PROJECT_USE_SDL3
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 0
-	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
-#else
-	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::OpenGL46);
-	GLFWWindow *Window = new GLFWWindow(IWindow::OpenGL46);
-	Window->MakeContextCurrent();
-#endif
+
 	/*									OpenGL	Vulkan
 		Example_Triangle				OK
 		Example_TriangleIndexed			OK
@@ -169,7 +164,7 @@ int RHIExample()
 	//Example_SSBO(Window->GetHandle());
 	//Example_Texture1D(Window);
 	//Example_Texture1DArray(Window);
-	Example_Texture2D(Window);
+	Example_Texture2D();
 	//Example_Texture2DArray(Window);
 	//Example_Texture3D(Window);
 	//Example_TextureCubeMap(Window);
@@ -178,11 +173,7 @@ int RHIExample()
 	//Example_GeometryShader(Window->GetHandle());
 	//Example_Scene(Window->GetHandle());
 	//Example_Player(Window->GetHandle());
-
-
-
 	//Example_RenderTarget(Window);
-	CleanupWindow(Window->GetHandle());
 
 	return 0;
 }

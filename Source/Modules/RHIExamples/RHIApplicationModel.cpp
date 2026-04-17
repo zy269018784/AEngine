@@ -31,7 +31,7 @@ std::vector<unsigned int> EBOData = {
 #endif
 
 RHIApplicationModel::RHIApplicationModel(GLFWwindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
 
 }

@@ -39,7 +39,7 @@ static unsigned int Index[] = {
 
 RHIApplicationRenderTarget::
 RHIApplicationRenderTarget(IWindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
 
 }

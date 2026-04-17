@@ -45,7 +45,7 @@ static unsigned int Index[] = {
 #endif
 
 RHIApplicationTriangleIndexed::RHIApplicationTriangleIndexed(IWindow* InWindow)
-    : RHIApplication(InWindow)
+    : RHIApplication()
 {
 
 }
