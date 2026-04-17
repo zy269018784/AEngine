@@ -8,7 +8,7 @@ class VulkanDevice;
 
 
 #ifdef RHI_USE_WIN32_KHR
-	extern PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR_1;
+	extern PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
 #endif
 #if RHI_USE_PLATFORM_WAYLAND_KHR
 	extern PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;

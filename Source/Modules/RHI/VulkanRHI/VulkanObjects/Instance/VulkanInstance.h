@@ -46,6 +46,8 @@ public:
 	VkResult EnumeratePhysicalDeviceGroups(std::uint32_t* PhysicalDeviceGroupCount, VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties);
 
 	void DestroySurfaceKHR(VkSurfaceKHR Surface, const VkAllocationCallbacks* Allocator = nullptr);
+
+	PFN_vkVoidFunction GetInstanceProcAddr(const char* Name);
 private:
 	VkInstance Handle;
 	/*

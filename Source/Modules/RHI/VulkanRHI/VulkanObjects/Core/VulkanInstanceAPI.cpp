@@ -45,3 +45,7 @@ void VulkanInstance::DestroySurfaceKHR(VkSurfaceKHR Surface, const VkAllocationC
     vkDestroySurfaceKHR(Handle, Surface, Allocator);
 }
 
+PFN_vkVoidFunction VulkanInstance::GetInstanceProcAddr(const char* Name)
+{
+    return vkGetInstanceProcAddr(Handle, Name);
+}
