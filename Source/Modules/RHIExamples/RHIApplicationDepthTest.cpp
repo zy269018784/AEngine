@@ -30,7 +30,7 @@ static unsigned int Index[] = {
 };
 #endif
 
-RHIApplicationDepthTest::RHIApplicationDepthTest(GLFWwindow* InWindow)
+RHIApplicationDepthTest::RHIApplicationDepthTest()
     : RHIApplication()
 {
 

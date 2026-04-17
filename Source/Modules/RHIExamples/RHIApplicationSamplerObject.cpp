@@ -74,7 +74,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationSamplerObject::RHIApplicationSamplerObject(GLFWwindow* InWindow)
+RHIApplicationSamplerObject::RHIApplicationSamplerObject()
     : RHIApplication()
 {
 

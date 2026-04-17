@@ -29,7 +29,7 @@
 class RHIApplicationScene : public RHIApplication
 {
 public:
-    RHIApplicationScene(GLFWwindow* Window);
+    RHIApplicationScene();
     ~RHIApplicationScene();
 private:
     virtual void Init();

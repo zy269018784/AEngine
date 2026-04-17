@@ -20,7 +20,7 @@
 class RHIApplicationModel : public RHIApplication
 {
 public:
-    RHIApplicationModel(GLFWwindow* Window);
+    RHIApplicationModel();
 private:
     virtual void Init();
     virtual void Draw();

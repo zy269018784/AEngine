@@ -24,7 +24,7 @@
 class RHIApplicationSamplerObject : public RHIApplication
 {
 public:
-    RHIApplicationSamplerObject(GLFWwindow* Window);
+    RHIApplicationSamplerObject();
     ~RHIApplicationSamplerObject();
 private:
     virtual void Init();

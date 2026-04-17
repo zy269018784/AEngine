@@ -24,7 +24,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationTextureCubeMap::RHIApplicationTextureCubeMap(IWindow* InWindow)
+RHIApplicationTextureCubeMap::RHIApplicationTextureCubeMap()
     : RHIApplication()
 {
 

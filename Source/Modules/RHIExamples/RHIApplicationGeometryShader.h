@@ -22,7 +22,7 @@
 class RHIApplicationGeometryShader : public RHIApplication
 {
 public:
-    RHIApplicationGeometryShader(GLFWwindow* Window);
+    RHIApplicationGeometryShader();
 private:
     virtual void Init();
     virtual void Draw();

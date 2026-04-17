@@ -37,8 +37,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationRenderTarget::
-RHIApplicationRenderTarget(IWindow* InWindow)
+RHIApplicationRenderTarget::RHIApplicationRenderTarget()
     : RHIApplication()
 {
 

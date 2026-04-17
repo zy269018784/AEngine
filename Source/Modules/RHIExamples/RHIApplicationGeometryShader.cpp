@@ -29,7 +29,7 @@ static unsigned int Index[] = {
 };
 #endif
 
-RHIApplicationGeometryShader::RHIApplicationGeometryShader(GLFWwindow* InWindow)
+RHIApplicationGeometryShader::RHIApplicationGeometryShader()
     : RHIApplication()
 {
 

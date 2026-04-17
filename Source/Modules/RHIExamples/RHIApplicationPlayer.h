@@ -28,7 +28,7 @@
 class RHIApplicationPlayer : public RHIApplication
 {
 public:
-    RHIApplicationPlayer(GLFWwindow* Window);
+    RHIApplicationPlayer();
     ~RHIApplicationPlayer();
 private:
     virtual void Init();

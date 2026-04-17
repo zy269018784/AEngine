@@ -39,7 +39,7 @@ static unsigned int Index[] = {
     3, 4, 5
 };
 
-RHIApplicationSSBO::RHIApplicationSSBO(GLFWwindow* InWindow)
+RHIApplicationSSBO::RHIApplicationSSBO()
     : RHIApplication()
 {
 

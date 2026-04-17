@@ -22,7 +22,7 @@
 class RHIApplicationRenderTarget : public RHIApplication
 {
 public:
-    RHIApplicationRenderTarget(IWindow* Window);
+    RHIApplicationRenderTarget();
     ~RHIApplicationRenderTarget();
 private:
     virtual void Init();

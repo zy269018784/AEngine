@@ -20,7 +20,7 @@
 class RHIApplicationUBO : public RHIApplication
 {
 public:
-    RHIApplicationUBO(GLFWwindow* Window);
+    RHIApplicationUBO();
 private:
     virtual void Init();
     virtual void Draw();

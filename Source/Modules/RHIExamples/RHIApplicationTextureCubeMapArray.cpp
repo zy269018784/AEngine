@@ -26,7 +26,7 @@ static unsigned int Index[] = {
 };
 
 
-RHIApplicationTextureCubeMapArray::RHIApplicationTextureCubeMapArray(IWindow* InWindow)
+RHIApplicationTextureCubeMapArray::RHIApplicationTextureCubeMapArray()
     : RHIApplication()
 {
 

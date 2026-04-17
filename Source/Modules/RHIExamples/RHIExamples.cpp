@@ -21,113 +21,113 @@
 #include "Window/GLFWWindow.h"
 #include "Window/X11Window.h"
 #include "Vulkan/Common.h"
-void Example_Model(GLFWwindow* Window)
+void Example_Model()
 {
-	RHIApplicationModel App(Window);
+	RHIApplicationModel App;
 	App.Run();
 }
 
-void Example_Triangle(IWindow* Window)
+void Example_Triangle()
 {
-	RHIApplicationTriangle App(Window);
+	RHIApplicationTriangle App;
 	App.Run();
 }
 
-void Example_TriangleIndexed(IWindow* Window)
+void Example_TriangleIndexed()
 {
-	RHIApplicationTriangleIndexed App(Window);
+	RHIApplicationTriangleIndexed App;
 	App.Run();
 }
 
-void Example_DepthTest(GLFWwindow* Window)
+void Example_DepthTest()
 {
-	RHIApplicationDepthTest App(Window);
-	App.Run();
-}
-
-
-void Example_Scene(GLFWwindow* Window)
-{
-	RHIApplicationScene App(Window);
+	RHIApplicationDepthTest App;
 	App.Run();
 }
 
 
-void Example_UBO(GLFWwindow* Window)
+void Example_Scene()
 {
-	RHIApplicationUBO App(Window);
+	RHIApplicationScene App;
 	App.Run();
 }
 
-void Example_SSBO(GLFWwindow* Window)
+
+void Example_UBO()
 {
-	RHIApplicationSSBO App(Window);
+	RHIApplicationUBO App;
 	App.Run();
 }
 
-void Example_Texture1D(IWindow* Window)
+void Example_SSBO()
 {
-	RHIApplicationTexture1D App(Window);
+	RHIApplicationSSBO App;
 	App.Run();
 }
 
-void Example_Texture1DArray(IWindow* Window)
+void Example_Texture1D()
 {
-	RHIApplicationTexture1DArray App(Window);
+	RHIApplicationTexture1D App;
+	App.Run();
+}
+
+void Example_Texture1DArray()
+{
+	RHIApplicationTexture1DArray App;
 	App.Run();
 }
 void Example_Texture2D()
 {
-	RHIApplicationTexture2D App(nullptr);
+	RHIApplicationTexture2D App;
 	App.Run();
 }
 
-void Example_Texture2DArray(IWindow* Window)
+void Example_Texture2DArray()
 {
-	RHIApplicationTexture2DArray App(Window);
+	RHIApplicationTexture2DArray App;
 	App.Run();
 }
 
-void Example_Texture3D(IWindow* Window)
+void Example_Texture3D()
 {
-	RHIApplicationTexture3D App(Window);
+	RHIApplicationTexture3D App;
 	App.Run();
 }
 
-void Example_TextureCubeMap(IWindow* Window)
+void Example_TextureCubeMap()
 {
-	RHIApplicationTextureCubeMap App(Window);
+	RHIApplicationTextureCubeMap App;
 	App.Run();
 }
 
-void Example_TextureCubeMapArray(IWindow* Window)
+void Example_TextureCubeMapArray()
 {
-	RHIApplicationTextureCubeMapArray App(Window);
+	RHIApplicationTextureCubeMapArray App;
 	App.Run();
 }
 
 
-void Example_SampleObject(GLFWwindow* Window)
+void Example_SampleObject()
 {
-	RHIApplicationSamplerObject App(Window);
+	RHIApplicationSamplerObject App;
 	App.Run();
 }
 
-void Example_GeometryShader(GLFWwindow* Window)
+void Example_GeometryShader()
 {
-	RHIApplicationGeometryShader App(Window);
+	RHIApplicationGeometryShader App;
 	App.Run();
 }
 
-void Example_Player(GLFWwindow* Window)
+void Example_Player()
 {
-	RHIApplicationPlayer App(Window);
+	RHIApplicationPlayer App;
 	App.Run();
 }
 
-void Example_RenderTarget(IWindow* Window)
+void Example_RenderTarget()
 {
-	RHIApplicationRenderTarget App(Window);
+	RHIApplicationRenderTarget App;
 	App.Run();
 }
 
@@ -156,24 +156,24 @@ int RHIExample()
 		Example_TextureCubeMap			OK,		OK
 		Example_TextureCubeMapArray		OK,		
 	*/
-	//Example_Model(Window->GetHandle());
-	//Example_Triangle(Window);
-	//Example_TriangleIndexed(Window);
-	//Example_DepthTest(Window->GetHandle());
-	//Example_UBO(Window->GetHandle());
-	//Example_SSBO(Window->GetHandle());
-	//Example_Texture1D(Window);
-	//Example_Texture1DArray(Window);
+	//Example_Model();
+	//Example_Triangle();
+	//Example_TriangleIndexed();
+	//Example_DepthTest();
+	//Example_UBO();
+	//Example_SSBO();
+	//Example_Texture1D();
+	//Example_Texture1DArray();
 	Example_Texture2D();
-	//Example_Texture2DArray(Window);
-	//Example_Texture3D(Window);
-	//Example_TextureCubeMap(Window);
-	//Example_TextureCubeMapArray(Window);
-	//Example_SampleObject(Window->GetHandle());
-	//Example_GeometryShader(Window->GetHandle());
-	//Example_Scene(Window->GetHandle());
-	//Example_Player(Window->GetHandle());
-	//Example_RenderTarget(Window);
+	//Example_Texture2DArray();
+	//Example_Texture3D();
+	//Example_TextureCubeMap();
+	//Example_TextureCubeMapArray();
+	//Example_SampleObject();
+	//Example_GeometryShader();
+	//Example_Scene();
+	//Example_Player();
+	//Example_RenderTarget();
 
 	return 0;
 }

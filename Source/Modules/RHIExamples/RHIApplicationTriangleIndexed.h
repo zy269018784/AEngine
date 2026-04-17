@@ -20,7 +20,7 @@
 class RHIApplicationTriangleIndexed : public RHIApplication
 {
 public:
-    RHIApplicationTriangleIndexed(IWindow* Window);
+    RHIApplicationTriangleIndexed();
 private:
     virtual void Init();
     virtual void Draw();

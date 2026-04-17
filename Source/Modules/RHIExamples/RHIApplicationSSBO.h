@@ -20,7 +20,7 @@
 class RHIApplicationSSBO : public RHIApplication
 {
 public:
-    RHIApplicationSSBO(GLFWwindow* Window);
+    RHIApplicationSSBO();
     ~RHIApplicationSSBO();
 private:
     virtual void Init();

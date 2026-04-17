@@ -22,7 +22,7 @@
 class RHIApplicationTextureCubeMapArray : public RHIApplication
 {
 public:
-    RHIApplicationTextureCubeMapArray(IWindow* Window);
+    RHIApplicationTextureCubeMapArray();
     ~RHIApplicationTextureCubeMapArray();
 private:
     virtual void Init();

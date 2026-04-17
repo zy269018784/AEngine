@@ -20,7 +20,7 @@
 class RHIApplicationDepthTest : public RHIApplication
 {
 public:
-    RHIApplicationDepthTest(GLFWwindow* Window);
+    RHIApplicationDepthTest();
 private:
     virtual void Init();
     virtual void Draw();
