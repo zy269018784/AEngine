@@ -168,7 +168,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-#if 0
+#if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
@@ -196,7 +196,7 @@ void RHIApplicationTexture2D::Draw()
     float w = 0;
     float h = 0;
 
-#if 0
+#if USE_RHIWindow
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
 #else

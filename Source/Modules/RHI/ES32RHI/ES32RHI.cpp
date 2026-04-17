@@ -6,9 +6,13 @@
 #include "OpenGLObjects/Window/OpenGLWindow.h"
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
 #include "OpenGLObjects/Resource/OpenGLSampler.h"
+#include "OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+
 #include <iostream>
+
+#include "OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 
 ES32RHI::ES32RHI()
 {
@@ -86,7 +90,7 @@ RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 //RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 {
-	return nullptr;
+	return new OpenGLSwapChainRenderTarget(nullptr, nullptr);
 }
 
 RHIBuffer* ES32RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)

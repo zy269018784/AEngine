@@ -140,17 +140,12 @@ int RHIExample()
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 
-#if 1
-	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::Vulkan);
+#if 0
 	GLFWWindow *Window = new GLFWWindow(IWindow::Vulkan);
-	//SDL3Window *Window2 = new SDL3Window(IWindow::Vulkan);
 #else
 	//GLFW_RHIWindow::RHIWindow* Window = new GLFW_RHIWindow::RHIWindow(800, 600, GLFW_RHIWindow::RHIWindow::GraphicsAPI::OpenGL46);
 	GLFWWindow *Window = new GLFWWindow(IWindow::OpenGL46);
 	Window->MakeContextCurrent();
-
-	//SDL3Window *Window2 = new SDL3Window(IWindow::OpenGL46);
-	//X11Window *Window3 = new X11Window();
 #endif
 	/*									OpenGL	Vulkan
 		Example_Triangle				OK

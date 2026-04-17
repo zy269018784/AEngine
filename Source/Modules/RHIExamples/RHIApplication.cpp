@@ -15,7 +15,7 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         pRHI = new VulkanRHI();
@@ -84,7 +84,6 @@ RHIApplication::RHIApplication(IWindow* InWindow)
 }
 
 RHIApplication::RHIApplication(GLFWwindow* Window)
-
 {
 
 }
@@ -113,7 +112,7 @@ void RHIApplication::Run()
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
-#if 0
+#if USE_RHIWindow
         RHIWindow_->RHIBeginFrame();
         RHIWindow_->RHIBeginRenderPass();
         Draw();
