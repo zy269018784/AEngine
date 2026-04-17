@@ -16,7 +16,7 @@
 #include "RHIApplicationGeometryShader.h"
 #include "RHIApplicationPlayer.h"
 #include "RHIApplicationRenderTarget.h"
-
+#include "RHIApplicationTextureRenderTarget.h"
 #include "Window/SDL3Window.h"
 #include "Window/GLFWWindow.h"
 #include "Window/X11Window.h"
@@ -76,9 +76,16 @@ void Example_Texture1DArray()
 	RHIApplicationTexture1DArray App;
 	App.Run();
 }
+
 void Example_Texture2D()
 {
 	RHIApplicationTexture2D App;
+	App.Run();
+}
+
+void Example_TextureRenderTarget()
+{
+	RHIApplicationTextureRenderTarget App;
 	App.Run();
 }
 
@@ -164,7 +171,7 @@ int RHIExample()
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
-	Example_Texture2D();
+	//Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
 	//Example_TextureCubeMap();
@@ -174,6 +181,7 @@ int RHIExample()
 	//Example_Scene();
 	//Example_Player();
 	//Example_RenderTarget();
+	Example_TextureRenderTarget();
 
 	return 0;
 }
