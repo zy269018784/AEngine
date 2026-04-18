@@ -10,7 +10,7 @@
 #include "RHIObjects/Window/RHIWindow.h"
 #include "RHIObjects/Texture/RHITexture2D.h"
 #include "RHIObjects/Shader/RHIShader.h"
-
+#include "Window/IWindow.h"
 
 /*
     spirv-cross.exe --version 460 Texture2D.spv --output Texture2D_vert.glsl
@@ -19,20 +19,47 @@
     glslangValidator.exe -V --glsl-version 460 -S frag Texture2D_frag.glsl -o Texture2D_frag.spv -e main
 */
 
-class RHIApplicationTextureRenderTarget : public RHIApplication
+class RHIApplicationTextureRenderTarget
 {
 public:
     RHIApplicationTextureRenderTarget();
     ~RHIApplicationTextureRenderTarget();
+    void Run();
+    void Resize(int w, int h);
 private:
-    virtual void Init();
-    virtual void Draw();
+    void Init();
+    void Draw();
     void CreateVBO();
     void CreateEBO();
     void CreateTexture();
     void CreateSRB();
     void CreateVertexDescriptioin();
     void CreateGraphicsPipeline();
+    void CreateGraphicsPipeline2();
+public:
+    /*
+     *  0:  vulkan
+     *  1:  d3d
+     *  2:  opengl
+     */
+    int RHIIndex = 0;
+public:
+    /*
+        GLFW窗口
+    */
+    IWindow* Window = nullptr;
+#if USE_RHIWindow
+    RHIWindow* RHIWindow_ = nullptr;
+    RHIRenderTarget *RenderTarget = nullptr;
+#else
+    RHISurface* Surface = nullptr;
+    RHIRenderTarget *RenderTarget = nullptr;
+    RHIRenderTarget *TextureRenderTarget = nullptr;
+#endif
+    /*
+        RHI
+    */
+    RHI* pRHI = nullptr;
 private:
     RHIBuffer* RHIVBO = nullptr;   
     RHIBuffer* RHIEBO = nullptr;
