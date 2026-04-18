@@ -13,7 +13,7 @@ extern  "C"
     #include <libavutil/opt.h>
     #include <libavutil/imgutils.h>
     #include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
+    #include <libswscale/swscale.h>
 }
 
 static void encode(AVCodecContext *enc_ctx, CodecContext *Context, AVFrame *frame, AVPacket *pkt,
@@ -323,5 +323,28 @@ int TestSWSContext(int argc, char** argv)
         printf("%d ", dst_data[2][i]);
     }
     printf("\n");
+    return 0;
+}
+
+
+int TestMuxMp3(int argc, char** argv)
+{
+    const char *filename = "1.mp2";
+    AVFormatContext *oc;
+    const AVOutputFormat *fmt;
+    avformat_alloc_output_context2(&oc, NULL, NULL, filename);
+    if (!oc) {
+        printf("Could not deduce output format from file extension: using MPEG.\n");
+        avformat_alloc_output_context2(&oc, NULL, "mpeg", filename);
+    }
+    fmt = oc->oformat;
+
+    if (fmt->video_codec != AV_CODEC_ID_NONE) {
+        printf("has video stream: %d %s\n", fmt->video_codec, avcodec_get_name(fmt->video_codec));
+    }
+    if (fmt->audio_codec != AV_CODEC_ID_NONE) {
+        printf("has audio stream: %d %s\n", fmt->audio_codec, avcodec_get_name(fmt->audio_codec));
+    }
+
     return 0;
 }
