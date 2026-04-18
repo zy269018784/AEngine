@@ -14,7 +14,7 @@ RHIApplication::RHIApplication()
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
-    RHIIndex = 2;
+    RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);

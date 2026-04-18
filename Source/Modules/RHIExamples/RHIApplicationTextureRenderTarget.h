@@ -43,4 +43,14 @@ private:
     std::vector<RHICommandBuffer::VertexInput> VertexInputs;
     RHIShaderResourceBindings* SRB = nullptr;
     RHIGraphicsPipeline* GraphicsPipeline = nullptr;
+private:
+    RHIBuffer* RHIVBO2 = nullptr;
+    RHIBuffer* RHIEBO2 = nullptr;
+    RHITexture* RHITexture2D2 = nullptr;
+    RHISampler* RHISampler_2 = nullptr;
+    RHIShader* VertexShader2 = nullptr;
+    RHIShader* FragmengShader2 = nullptr;
+    std::vector<RHICommandBuffer::VertexInput> VertexInputs2;
+    RHIShaderResourceBindings* SRB2 = nullptr;
+    RHIGraphicsPipeline* GraphicsPipeline2 = nullptr;
 };

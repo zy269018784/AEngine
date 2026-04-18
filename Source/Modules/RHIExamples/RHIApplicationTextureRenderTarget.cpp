@@ -3,38 +3,30 @@
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
 #endif
-/*
-    VBO1三角形: 红色和黄色
-    VBO1三角形: 蓝色和绿色
-*/
 static float VertexAttributes[] = {
-    // VBO1                                    // VBO2
-    // pos               uv                    // pos              uv
-    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f,  1.0f, 0.0f,            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-                        
-     0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,           -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f
+    // pos               uv
+    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
+     0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
 };
 
-//static float VertexAttributes[] = {
-//    // VBO1                                                    
-//    // pos              color              uv                  
-//    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  0.0f, 0.0f,         
-//     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 0.0f,         
-//     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  1.0f, 1.0f,         
-//
-//     0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  1.0f, 1.0f,         
-//    -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,         
-//    -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  0.0f, 0.0f,         
-//};
-
+static float VertexAttributes2[] = {
+    // pos               uv
+    -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+     1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
+    -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
+};
 
 static unsigned int Index[] = {
     0, 1, 2,
-    3, 4, 5
+    2, 3, 0
+};
+
+static unsigned int Index2[] = {
+    0, 1, 2,
+    2, 3, 0
 };
 
 RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
@@ -68,6 +60,8 @@ void RHIApplicationTextureRenderTarget::Init()
 void RHIApplicationTextureRenderTarget::CreateVBO()
 {
     RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO2 = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes2), VertexAttributes2);
+
 }
 
 void RHIApplicationTextureRenderTarget::CreateEBO()
@@ -115,17 +109,7 @@ void RHIApplicationTextureRenderTarget::CreateSRB()
 
 void RHIApplicationTextureRenderTarget::CreateVertexDescriptioin()
 {
-#if 1
-    /*
-        使用VBO1
-    */
     VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
-#else
-    /*
-        使用VBO2
-    */
-    VertexInputs.push_back(std::make_pair(RHIVBO, 5 * sizeof(float)));
-#endif
 }
 
 void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline()
@@ -162,7 +146,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline()
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-        { 10 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+        { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
     });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
