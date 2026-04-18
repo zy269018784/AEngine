@@ -15,7 +15,7 @@
 #include <numbers>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
-    : SwapChain(InSwapChain),  Device(InDevice), VulkanRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()))
+    : SwapChain(InSwapChain),  VulkanRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()), InDevice)
 {
     ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
@@ -76,7 +76,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 }
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
-	: Device(InDevice), VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format))
+	: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
 {
 	SwapChain = new VulkanSwapChain(Device, InSurface);
 

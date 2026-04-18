@@ -1,7 +1,7 @@
 #include "VulkanRenderTarget.h"
 
-VulkanRenderTarget::VulkanRenderTarget(RHIPixelFormat InPixelFormat)
-    : RHIRenderTarget(InPixelFormat)
+VulkanRenderTarget::VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
+    : RHIRenderTarget(InPixelFormat), Device(InDevice)
 {
 
 }

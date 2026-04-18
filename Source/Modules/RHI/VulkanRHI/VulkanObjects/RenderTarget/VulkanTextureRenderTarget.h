@@ -11,7 +11,7 @@ class VulkanTexture;
 class VulkanTextureRenderTarget : public VulkanRenderTarget
 {
 public:
-    VulkanTextureRenderTarget(VulkanTexture *InTexture = nullptr);
+    VulkanTextureRenderTarget(VulkanTexture *InTexture, VulkanDevice *InDevice);
     ~VulkanTextureRenderTarget();
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;

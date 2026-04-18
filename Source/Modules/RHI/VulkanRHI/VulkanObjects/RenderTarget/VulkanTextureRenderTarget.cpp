@@ -6,9 +6,15 @@
 
 #include "VulkanObjects/Texture/VulkanTexture.h"
 
-VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture)
-    : Texture(InTexture),  VulkanRenderTarget(InTexture->GetFormat())
+VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture, VulkanDevice *InDevice)
+    : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
 {
+    /*
+        1. 创建Render Pass
+    */
+    std::vector<RHIAttachment> InAttachments;
+    InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
 }
 

@@ -33,7 +33,7 @@ public:
     /*
         设备
     */
-    VulkanDevice						*Device;
+   // VulkanDevice						*Device;
     /*
         交换链
      */

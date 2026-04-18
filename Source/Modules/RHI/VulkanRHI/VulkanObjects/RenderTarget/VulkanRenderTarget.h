@@ -2,6 +2,7 @@
 #include "Vulkan.h"
 #include <vector>
 #include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+
 /*
  *  Image
  *  Image View
@@ -13,12 +14,17 @@ class VulkanFrameBuffer;
 class VulkanCommandBuffer;
 class RHIRenderTarget;
 class RHICommandBuffer;
+class VulkanDevice;
 class VulkanRenderTarget : public RHIRenderTarget
 {
 public:
-    VulkanRenderTarget(RHIPixelFormat InPixelFormat);
+    VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice);
     virtual void Resize(float Width, float Height) = 0;
 public:
+    /*
+        设备
+    */
+    VulkanDevice						*Device;
     /*
         Image
     */
