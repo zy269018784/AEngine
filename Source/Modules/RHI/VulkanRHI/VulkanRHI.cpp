@@ -162,6 +162,12 @@ RHIRenderTarget *VulkanRHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface
 	return RenderTarget;
 }
 
+RHIRenderTarget *VulkanRHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
+{
+	RHIRenderTarget *RenderTarget = new VulkanTextureRenderTarget(Devices[GPUIndex], InTexture);
+	return RenderTarget;
+}
+
 RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, nullptr);

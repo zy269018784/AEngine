@@ -62,6 +62,7 @@ public:
 	 * RenderTarget
 	 */
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) = 0;
+	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) = 0;
 
 	/*
 		管线Pipeline

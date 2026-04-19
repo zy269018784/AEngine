@@ -69,6 +69,7 @@ public:
 	 * RenderTarget
 	 */
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
+	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
 
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() final override;
