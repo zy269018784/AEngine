@@ -11,13 +11,15 @@ class VulkanTexture;
 class VulkanTextureRenderTarget : public VulkanRenderTarget
 {
 public:
-    VulkanTextureRenderTarget(VulkanTexture *InTexture, VulkanDevice *InDevice);
+    VulkanTextureRenderTarget(VulkanDevice *InDevice, VulkanTexture *InTexture);
+  //  VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice);
     ~VulkanTextureRenderTarget();
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
     virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
+    virtual void Resize(float Width, float Height) final override;
 public:
     VulkanTexture *Texture;
 };

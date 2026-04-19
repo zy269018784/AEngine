@@ -6,7 +6,7 @@
 
 #include "VulkanObjects/Texture/VulkanTexture.h"
 
-VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture, VulkanDevice *InDevice)
+VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
     : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
 {
     /*
@@ -17,7 +17,13 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanTexture *InTexture, V
     RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
 }
+#if 0
+VulkanTextureRenderTarget::VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
+    : VulkanRenderTarget(InPixelFormat, InDevice)
+{
 
+}
+#endif
 VulkanTextureRenderTarget::~VulkanTextureRenderTarget()
 {
 
@@ -89,4 +95,9 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
 void VulkanTextureRenderTarget::RHIEndRenderPass()
 {
     dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
+}
+
+void VulkanTextureRenderTarget::Resize(float Width, float Height)
+{
+
 }

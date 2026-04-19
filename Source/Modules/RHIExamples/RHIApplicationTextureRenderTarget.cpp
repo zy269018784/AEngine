@@ -176,6 +176,7 @@ void RHIApplicationTextureRenderTarget::Init()
     CreateVBO();
     CreateEBO();
     CreateTexture();
+	CreateTextureRT();
     CreateSRB();
     CreateVertexDescriptioin();
     CreateGraphicsPipeline();
@@ -223,8 +224,8 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
 void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-  	RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
-
+    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+	pRHI->RHICreateTextureRenderTarget(RHITextureRT);
 }
 
 

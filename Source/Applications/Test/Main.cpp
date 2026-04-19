@@ -41,7 +41,7 @@ int TestOpenGL(int argc, char* argv[]);
 int TestMuxMp3(int argc, char** argv);
 int main(int argc, char** argv)
 {
-    return TestMuxMp3(argc, argv);
+ //   return TestMuxMp3(argc, argv);
     return RHIExample();
     return TestOpenGL(argc, argv);
     return TestD3D12Cubemap(argc, argv);

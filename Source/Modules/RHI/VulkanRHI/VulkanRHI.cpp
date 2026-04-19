@@ -16,6 +16,7 @@
 #include "VulkanObjects/Window/VulkanWindow.h"
 #include "VulkanObjects/RenderTarget/VulkanRenderTarget.h"
 #include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
+#include "VulkanObjects/RenderTarget/VulkanTextureRenderTarget.h"
 
 #include <iostream>
 
@@ -164,7 +165,7 @@ RHIRenderTarget *VulkanRHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface
 
 RHIRenderTarget *VulkanRHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
 {
-	RHIRenderTarget *RenderTarget = new VulkanTextureRenderTarget(Devices[GPUIndex], InTexture);
+	RHIRenderTarget* RenderTarget = new VulkanTextureRenderTarget(Devices[GPUIndex], (VulkanTexture *)InTexture);
 	return RenderTarget;
 }
 

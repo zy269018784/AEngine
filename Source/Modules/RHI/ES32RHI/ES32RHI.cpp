@@ -93,6 +93,11 @@ RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 	return new OpenGLSwapChainRenderTarget(nullptr, nullptr);
 }
 
+RHIRenderTarget *ES32RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
+{
+	return nullptr;
+}
+
 RHIBuffer* ES32RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 { 
 	return nullptr;

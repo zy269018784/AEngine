@@ -101,6 +101,11 @@ RHIRenderTarget *D3D12RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 	return nullptr;
 }
 
+RHIRenderTarget *D3D12RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
+{
+	return nullptr;
+}
+
 RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	return nullptr;

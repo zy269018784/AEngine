@@ -56,7 +56,7 @@ public:
     RHISurface* Surface = nullptr;
     RHIRenderTarget *RenderTarget = nullptr;
     RHIRenderTarget *TextureRenderTarget = nullptr;
-    RHITexture* RHITexture2DRT = nullptr;
+    RHITexture* RHITextureRT = nullptr;
     RHISampler* RHISamplerRT = nullptr;
 #endif
     /*
