@@ -103,6 +103,7 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
 #else
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
+
 #endif
     std::cout << "RHIApplication 3" << std::endl;
 #endif
@@ -219,6 +220,13 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
 #endif
 }
 
+void RHIApplicationTextureRenderTarget::CreateTextureRT()
+{
+	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+  	RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
+
+}
+
 
 void RHIApplicationTextureRenderTarget::CreateSRB()
 {
@@ -230,7 +238,7 @@ void RHIApplicationTextureRenderTarget::CreateSRB()
 
     SRB2 = pRHI->RHICreateShaderResourceBindings();
     SRB2->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISamplerRT)
     });
     SRB2->Create();
 }

@@ -32,6 +32,7 @@ private:
     void CreateVBO();
     void CreateEBO();
     void CreateTexture();
+    void CreateTextureRT();
     void CreateSRB();
     void CreateVertexDescriptioin();
     void CreateGraphicsPipeline();
@@ -55,6 +56,8 @@ public:
     RHISurface* Surface = nullptr;
     RHIRenderTarget *RenderTarget = nullptr;
     RHIRenderTarget *TextureRenderTarget = nullptr;
+    RHITexture* RHITexture2DRT = nullptr;
+    RHISampler* RHISamplerRT = nullptr;
 #endif
     /*
         RHI
