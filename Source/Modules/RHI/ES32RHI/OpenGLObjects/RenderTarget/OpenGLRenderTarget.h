@@ -6,6 +6,7 @@ class OpenGLRenderTarget : public RHIRenderTarget
 {
 public:
     OpenGLRenderTarget(RHIPixelFormat InPixelFormat);
+    virtual void WaitDeviceIdle() final override;
 };
 
 

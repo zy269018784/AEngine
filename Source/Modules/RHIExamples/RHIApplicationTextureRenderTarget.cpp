@@ -146,7 +146,7 @@ void RHIApplicationTextureRenderTarget::Run()
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
     }
-    // RHIWindow_->WaitDeviceIdle();
+     RenderTarget->WaitDeviceIdle();
 
 #else
     while (!glfwWindowShouldClose(Window))

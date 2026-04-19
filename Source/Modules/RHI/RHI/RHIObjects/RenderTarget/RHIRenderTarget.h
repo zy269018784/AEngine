@@ -13,6 +13,7 @@ public:
     RHICommandBuffer* CurrentGraphicsCommandBuffer() const;
     virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
     virtual void Resize(float Width, float Height) = 0;
+    virtual void WaitDeviceIdle() = 0;
 public:
     virtual void RHIBeginRenderPass() = 0;
     virtual void RHIEndRenderPass() = 0;

@@ -5,3 +5,8 @@ OpenGLRenderTarget::OpenGLRenderTarget(RHIPixelFormat InPixelFormat)
 {
 
 }
+
+void OpenGLRenderTarget::WaitDeviceIdle()
+{
+
+}

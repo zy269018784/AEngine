@@ -20,6 +20,7 @@ class VulkanRenderTarget : public RHIRenderTarget
 public:
     VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice);
     virtual void Resize(float Width, float Height) = 0;
+    virtual void WaitDeviceIdle() final override;
 public:
     /*
         设备
