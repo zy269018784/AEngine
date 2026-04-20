@@ -154,7 +154,7 @@ enum class RHILogicOp : uint8_t
 enum class RHIPixelFormat : unsigned long long
 {
 	// 深度模板
-	PF_DepthStencil = 0,		// DepthStencil
+	PF_DepthStencil = 0,	   // DepthStencil
 	PF_DepthStencil_D24_S8,    // 明确要求 24位深度+8位模板
 	PF_DepthStencil_D32_S8,    // 明确要求 32位深度+8位模板
 	PF_DepthOnly_D32,          // 仅32位深度
