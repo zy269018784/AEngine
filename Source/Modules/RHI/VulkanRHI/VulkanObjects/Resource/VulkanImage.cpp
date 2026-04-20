@@ -33,6 +33,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         case RHIPixelFormat::PF_DepthOnly_D16:
             CreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
             break;
+        default:
+            CreateInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+            break;
     }
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
     /*

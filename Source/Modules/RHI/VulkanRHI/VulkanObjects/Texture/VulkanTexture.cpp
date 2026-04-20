@@ -6,25 +6,25 @@
 VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
 	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
-	VkImageAspectFlags Aspect = 0;
+	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 	switch (InFormat) {
 		case RHIPixelFormat::PF_DepthStencil:
-			Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 			break;
 		case RHIPixelFormat::PF_DepthStencil_D24_S8:
-			Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 			break;
 		case RHIPixelFormat::PF_DepthStencil_D32_S8:
-			Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 			break;
 		case RHIPixelFormat::PF_DepthOnly_D32:
-			Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 			break;
 		case RHIPixelFormat::PF_DepthOnly_D16:
-			Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 			break;
 		default:
-			Aspect |= VK_IMAGE_ASPECT_COLOR_BIT;
+			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 	}
 
 	Image = new VulkanImage(InDevice, InType, InFormat, InX, InY, InZ, InArraySize, InNumMips, 1);

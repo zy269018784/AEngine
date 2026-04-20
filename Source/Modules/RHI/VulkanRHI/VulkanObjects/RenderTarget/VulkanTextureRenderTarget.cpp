@@ -44,10 +44,13 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
                 InTexture->GetY(),
                 1,
                 1);
-
+        std::cout
+        << "texture size "
+        <<  InTexture->GetX()
+        << " " << InTexture->GetY() << std::endl;
         std::vector<VulkanAttachment> InVKAttachments;
         InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[0]));
-        //InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
+        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
 
         FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
     }
