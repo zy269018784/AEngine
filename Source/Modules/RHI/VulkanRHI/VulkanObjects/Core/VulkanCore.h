@@ -1176,3 +1176,24 @@ inline VkPrimitiveTopology ToVkTopology(RHITopology Top)
 			return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	}
 }
+
+inline VkFormat ToVkFormat(RHIAttachmentType type)
+{
+	switch (type)
+	{
+		case RHIAttachmentType::DepthStencil_D24_S8:
+			return VK_FORMAT_D24_UNORM_S8_UINT;
+
+		case RHIAttachmentType::DepthStencil_D32_S8:
+			return VK_FORMAT_D32_SFLOAT_S8_UINT;
+
+		case RHIAttachmentType::DepthOnly_D32:
+			return VK_FORMAT_D32_SFLOAT;
+
+		case RHIAttachmentType::DepthOnly_D16:
+			return VK_FORMAT_D16_UNORM;
+
+		default:
+			return VK_FORMAT_UNDEFINED;
+	}
+}
