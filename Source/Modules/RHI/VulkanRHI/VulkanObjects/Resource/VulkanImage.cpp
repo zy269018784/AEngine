@@ -9,10 +9,6 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-    std::cout << "VulkanImage InPixelFormat " << (int)InPixelFormat << " "
-              << "VulkanImage ToVkFormat(InPixelFormat) " << ToVkFormat(InPixelFormat) << " "
-              << "InArraySize " << InArraySize << " "
-              << std::endl;
 	VkImageCreateInfo CreateInfo{};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
