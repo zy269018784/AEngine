@@ -870,6 +870,10 @@ inline VkFormat ToVkFormat(RHIPixelFormat PF)
 		Format = VK_FORMAT_R8G8B8A8_SRGB;
 		break;
 
+	case RHIPixelFormat::PF_B8G8R8A8_UNORM:
+		Format = VK_FORMAT_B8G8R8A8_UNORM;
+		break;
+
 		// 1通道 - 16位
 	case RHIPixelFormat::PF_R16_SINT:
 		Format = VK_FORMAT_R16_SINT;

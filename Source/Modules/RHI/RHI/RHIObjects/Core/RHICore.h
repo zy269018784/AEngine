@@ -186,6 +186,8 @@ enum class RHIPixelFormat : unsigned long long
 	PF_R8G8B8A8_UNORM,		//   8 bit unsigned byte		R	G	B	A
 	PF_R8G8B8A8_SRGB,		//   8 bit SRGB					R	G	B	A
 
+	PF_B8G8R8A8_UNORM,		//   8 bit unsigned byte		R	G	B	A
+
 	// 16 bit per component
 	PF_R16_SINT,			//  16 bit signed int			R
 	PF_R16_UINT,			//  16 bit unsigned int			R

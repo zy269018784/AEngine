@@ -41,6 +41,8 @@ OpenGLPixelFormatInfo OpenGLPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R8G8B8A8_SNORM,	GL_RGBA8_SNORM,		GL_RGBA,			GL_BYTE),
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R8G8B8A8_UNORM,	GL_RGBA8,				GL_RGBA,			GL_UNSIGNED_BYTE),
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R8G8B8A8_SRGB,		GL_SRGB8_ALPHA8,		GL_RGBA,			GL_UNSIGNED_BYTE),
+	// todo
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_B8G8R8A8_UNORM,	GL_RGBA8,				GL_RGBA,			GL_UNSIGNED_BYTE),
 
 	// 1通道 - 16位
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R16_SINT,			GL_R16I,				GL_RED_INTEGER,		GL_SHORT),

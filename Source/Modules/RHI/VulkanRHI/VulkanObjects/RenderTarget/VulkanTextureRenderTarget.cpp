@@ -12,7 +12,8 @@
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
     : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
 {
-
+    Resolution.width = InTexture->GetX();
+    Resolution.height = InTexture->GetY();
 #if 1
     // AMD Radeon RX580 2048SP
     RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
@@ -22,11 +23,15 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
     RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
+
+
+    std::cout << "VulkanSwapChainRenderTarget ImageFormat PF_R8G8B8A8_UNORM"  << std::endl;
     /*
         1. 创建Render Pass
     */
     std::vector<RHIAttachment> InAttachments;
-    InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+    //InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+    InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_B8G8R8A8_UNORM));
     RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(RHIPixelFormat::PF_R8G8B8A8_UNORM), InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
     ImageViews.push_back(InTexture->ImageView->GetHandle());
@@ -38,7 +43,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     {
         VulkanTexture *Tex = new VulkanTexture(InDevice,
                 RHITextureType::Texture2D,
-                RHIPixelFormat::PF_R8G8B8A8_UNORM,
+                DepthStencilPixelFormat,
                 1,
                 InTexture->GetX(),
                 InTexture->GetY(),
@@ -50,7 +55,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
         << " " << InTexture->GetY() << std::endl;
         std::vector<VulkanAttachment> InVKAttachments;
         InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[0]));
-        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
+        InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
 
         FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
     }
@@ -120,7 +125,10 @@ void VulkanTextureRenderTarget::RHIEndFrame()
 }
 
 void VulkanTextureRenderTarget::GetExtent(float &x, float &y, float &w, float &h) {
-
+    x = 0;
+    y = 0;
+    w = Resolution.width;
+    h = Resolution.height;
 }
 
 void VulkanTextureRenderTarget::RHIBeginRenderPass()

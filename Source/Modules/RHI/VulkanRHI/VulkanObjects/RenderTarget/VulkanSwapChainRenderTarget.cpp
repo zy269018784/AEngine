@@ -83,6 +83,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 
+	std::cout << "VulkanSwapChainRenderTarget ImageFormat " << ImageFormat << std::endl;
+
 	ImageViews = SwapChain->GetImageViews();
 #if 1
 	// AMD Radeon RX580 2048SP
