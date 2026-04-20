@@ -108,6 +108,8 @@ void VulkanInstance::EnumeratePhysicalDevices()
     std::vector<VkPhysicalDevice>			PhysicalDeviceHandles;
     PhysicalDeviceHandles.resize(PhysicalDeviceCount);
     EnumeratePhysicalDevices(&PhysicalDeviceCount, PhysicalDeviceHandles.data());
+
+
 #if 0
     /*
      *  check format
@@ -141,6 +143,7 @@ void VulkanInstance::EnumeratePhysicalDevices()
         PhysicalDevices[i]->PrintQueueFamilyProperties();
         PhysicalDevices[i]->PrintMemoryProperties();
         PhysicalDevices[i]->PrintFeatures();
+        PhysicalDevices[i]->QuerySupportedPixelFormats();
         std::cout << "\t==========================\t" << "GPU " << i << "\tEnd" << "\t====================================================" << std::endl;
     }
 }
