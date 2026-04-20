@@ -28,9 +28,16 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     /*
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
      */
-    if (InPixelFormat == RHIPixelFormat::PF_DepthStencil)
-        CreateInfo.usage        = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-
+    switch (InPixelFormat)
+    {
+        case RHIPixelFormat::PF_DepthStencil:
+        case RHIPixelFormat::PF_DepthStencil_D24_S8:
+        case RHIPixelFormat::PF_DepthStencil_D32_S8:
+        case RHIPixelFormat::PF_DepthOnly_D32:
+        case RHIPixelFormat::PF_DepthOnly_D16:
+            CreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+            break;
+    }
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
     /*
         texture array报错
