@@ -6,7 +6,10 @@ OpenGLPixelFormatInfo OpenGLPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_
 
 	// 深度模板
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthStencil,		GL_DEPTH24_STENCIL8,	GL_DEPTH_STENCIL,	GL_UNSIGNED_INT_24_8),
-
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthStencil_D24_S8,GL_DEPTH24_STENCIL8,	GL_DEPTH_STENCIL,	GL_UNSIGNED_INT_24_8),
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthStencil_D32_S8,GL_DEPTH32F_STENCIL8,	GL_DEPTH_STENCIL,	GL_FLOAT_32_UNSIGNED_INT_24_8_REV),
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthOnly_D32,		GL_DEPTH_COMPONENT32F,	GL_DEPTH_COMPONENT,	GL_FLOAT),
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthOnly_D16,		GL_DEPTH_COMPONENT16,	GL_DEPTH_COMPONENT,	GL_UNSIGNED_SHORT),
 	// 1通道 - 8位
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R8_SINT,			GL_R8I,				GL_RED_INTEGER,		GL_BYTE),
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R8_UINT,			GL_R8UI,				GL_RED_INTEGER,		GL_UNSIGNED_BYTE),
