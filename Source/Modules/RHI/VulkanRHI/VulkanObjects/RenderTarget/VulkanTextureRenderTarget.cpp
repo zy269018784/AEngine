@@ -12,6 +12,16 @@
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
     : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
 {
+
+#if 1
+    // AMD Radeon RX580 2048SP
+    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+    // 4060
+    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
     /*
         1. 创建Render Pass
     */
@@ -28,7 +38,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     {
         VulkanTexture *Tex = new VulkanTexture(InDevice,
                 RHITextureType::Texture2D,
-                RHIPixelFormat::PF_DepthStencil,
+                RHIPixelFormat::PF_R8G8B8A8_UNORM,
                 1,
                 InTexture->GetX(),
                 InTexture->GetY(),
@@ -37,7 +47,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
 
         std::vector<VulkanAttachment> InVKAttachments;
         InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[0]));
-        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
+        //InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
 
         FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
     }

@@ -21,6 +21,7 @@ public:
 	VulkanPhysicalDevice();
 	VulkanPhysicalDevice(VkPhysicalDevice h);
 	~VulkanPhysicalDevice();
+	virtual void QuerySupportedPixelFormats() override final;
 protected:
 	void InitFeatures() override final;
 public:
@@ -59,7 +60,10 @@ public:
 		Enumerate device layers
 	*/
 	VkResult EnumerateDeviceLayerProperties(uint32_t* pPropertyCount, VkLayerProperties* pProperties);
-
+	/*
+	 *  Lists physical device’s format capabilities
+	 */
+	void GetPhysicalDeviceFormatProperties(VkFormat format, VkFormatProperties*  pFormatProperties);
 	/*
 		Query the extensions available to a given physical device,
 	*/
@@ -145,4 +149,9 @@ public:
 		所有Queue Family Properties
 	*/
 	std::vector<VkQueueFamilyProperties>	QueueFamilyProperties;
+
+
+	bool SupportedPixelFormatsLinearTilingFeatures[(int)RHIPixelFormat::PF_MAX_];
+
+	bool SupportedPixelFormatsOptimalTilingFeatures[(int)RHIPixelFormat::PF_MAX_];
 };

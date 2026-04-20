@@ -72,6 +72,49 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	std::cout << __FUNCTION__  << " " << Handle << std::endl;
 }
 
+void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
+
+	//VkFormat format = VK_FORMAT_D32_SFLOAT_S8_UINT;
+	//VkFormatProperties formatProperties;
+
+	std::vector<VkFormat> Candidates = {
+		VK_FORMAT_D32_SFLOAT_S8_UINT,  // 32位深度 + 8位模板 (高精度，首选)
+		VK_FORMAT_D24_UNORM_S8_UINT,   // 24位深度 + 8位模板 (常见)
+		VK_FORMAT_D32_SFLOAT,          // 32位深度，仅深度 (如果不需要模板)
+		VK_FORMAT_D16_UNORM            // 16位深度，仅深度 (最低精度)
+	};
+
+
+	VkFormat chosenFormat = VK_FORMAT_UNDEFINED;
+	for (VkFormat format : Candidates) {
+		VkFormatProperties props;
+		vkGetPhysicalDeviceFormatProperties(Handle, format, &props);
+
+		// 检查是否可以作为深度模板附件使用
+		if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+		{
+			chosenFormat = format;
+			std::cout << "optimalTilingFeatures " << format << std::endl;
+			//break;
+		}
+		if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+		{
+			chosenFormat = format;
+			std::cout << "linearTilingFeatures " << format << std::endl;
+			//break;
+		}
+	}
+	//GetPhysicalDeviceFormatProperties(format, &formatProperties);
+//
+	//std::cout << "VK_FORMAT_R8G8B8A8_UNORM support:\n";
+	//std::cout << "Linear tiling features: "
+	//		  << formatProperties.linearTilingFeatures << "\n";
+	//std::cout << "Optimal tiling features: "
+	//		  << formatProperties.optimalTilingFeatures << "\n";
+	//std::cout << "Buffer features: "
+	//		  << formatProperties.bufferFeatures << "\n";
+}
+
 void VulkanPhysicalDevice::InitFeatures()
 {
 	GetPhysicalDeviceFeatures(&VulkanFeatures);

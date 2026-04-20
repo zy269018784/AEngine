@@ -14,6 +14,7 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     std::vector<RHIAttachment> InColorAttachments, RHIAttachment InDepthAttachments)
     : Device(InDevice)
 {
+    std::cout << "InDepthAttachments " << static_cast<int>(InDepthAttachments.GetAttachmentType()) << std::endl;
     std::vector<VkAttachmentDescription> Attachments;
     std::vector<VkAttachmentReference> ColorAttachmentRefs;
     /*
@@ -41,10 +42,16 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
      * 2
      */
     VkAttachmentDescription DepthAttachment{};
+
+    std::cout << "InDepthAttachments 2 " <<  static_cast<int>(InDepthAttachments.GetAttachmentType())  <<std::endl;
     /*
      * 有些设备不支持VK_FORMAT_D24_UNORM_S8_UINT
      */
     DepthAttachment.format                  = ToVkFormat(InDepthAttachments.GetAttachmentType());
+    if (DepthAttachment.format == VK_FORMAT_UNDEFINED) {
+        std::cout << "VK_FORMAT_UNDEFINED " <<  static_cast<int>(InDepthAttachments.GetAttachmentType())  <<std::endl;
+        DepthAttachment.format = VK_FORMAT_D32_SFLOAT_S8_UINT;
+    }
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
     DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
     DepthAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -76,7 +83,6 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     CreateInfo.pAttachments                 = Attachments.data();
     CreateInfo.subpassCount                 = 1;
     CreateInfo.pSubpasses                   = &Subpass;
-    std::cout << "vkCreateRenderPass start "  << InFormat << std::endl;
     VkResult Result = Device->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
     {
