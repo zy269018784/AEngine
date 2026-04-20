@@ -29,6 +29,7 @@ public:
 private:
     void Init();
     void Draw();
+	void Draw2();
     void CreateVBO();
     void CreateEBO();
     void CreateTexture();

@@ -136,11 +136,27 @@ void RHIApplicationTextureRenderTarget::Run()
         RHIWindow_->RHIEndRenderPass();
         RHIWindow_->RHIEndFrame();
 #else
+	std::cout << "RHI 1" << std::endl;
+        TextureRenderTarget->RHIBeginFrame();
+	std::cout << "RHI 2" << std::endl;
+        TextureRenderTarget->RHIBeginRenderPass();
+	std::cout << "RHI 3" << std::endl;
+        Draw2();
+        TextureRenderTarget->RHIEndRenderPass();
+	std::cout << "RHI 4" << std::endl;
+        TextureRenderTarget->RHIEndFrame();
+	std::cout << "RHI 5" << std::endl;
+
         RenderTarget->RHIBeginFrame();
+	std::cout << "RHI 6" << std::endl;
         RenderTarget->RHIBeginRenderPass();
+	std::cout << "RHI 7" << std::endl;
         Draw();
+	std::cout << "RHI 8" << std::endl;
         RenderTarget->RHIEndRenderPass();
+	std::cout << "RHI 9" << std::endl;
         RenderTarget->RHIEndFrame();
+	std::cout << "RHI 10" << std::endl;
 #endif
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -160,6 +176,7 @@ void RHIApplicationTextureRenderTarget::Run()
         Draw();
         RHIWindow_->RHIEndRenderPass();
         RHIWindow_->RHIEndFrame();
+
     }
     RHIWindow_->WaitDeviceIdle();
 #endif
@@ -173,13 +190,17 @@ void RHIApplicationTextureRenderTarget::Resize(int w, int h)
 
 void RHIApplicationTextureRenderTarget::Init()
 {
+	std::cout << "hello 1" << std::endl;
     CreateVBO();
     CreateEBO();
     CreateTexture();
 	CreateTextureRT();
     CreateSRB();
     CreateVertexDescriptioin();
+	std::cout << "hello 2" << std::endl;
     CreateGraphicsPipeline();
+	CreateGraphicsPipeline2();
+	std::cout << "hello 3" << std::endl;
 }
 
 void RHIApplicationTextureRenderTarget::CreateVBO()
@@ -225,7 +246,7 @@ void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
-	pRHI->RHICreateTextureRenderTarget(RHITextureRT);
+	TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHITextureRT);
 }
 
 
@@ -233,13 +254,13 @@ void RHIApplicationTextureRenderTarget::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextureRT, RHISamplerRT)
     });
     SRB->Create();
 
     SRB2 = pRHI->RHICreateShaderResourceBindings();
     SRB2->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISamplerRT)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
     });
     SRB2->Create();
 }
@@ -370,10 +391,9 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
     delete FragmengShader;
 }
 
-
-void RHIApplicationTextureRenderTarget::Draw()
+void RHIApplicationTextureRenderTarget::Draw2()
 {
-    float x = 0;
+ 	float x = 0;
     float y = 0;
     float w = 0;
     float h = 0;
@@ -382,8 +402,8 @@ void RHIApplicationTextureRenderTarget::Draw()
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
 #else
-    auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
-    RenderTarget->GetExtent(x, y, w, h);
+    auto CommandBuffer = TextureRenderTarget->CurrentGraphicsCommandBuffer();
+    TextureRenderTarget->GetExtent(x, y, w, h);
 #endif
 
     RHIViewport Viewport(0, 0, w, h);
@@ -407,5 +427,44 @@ void RHIApplicationTextureRenderTarget::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+}
+
+void RHIApplicationTextureRenderTarget::Draw()
+{
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+
+#if USE_RHIWindow
+    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
+    RHIWindow_->GetExtent(x, y, w, h);
+#else
+    auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
+    RenderTarget->GetExtent(x, y, w, h);
+#endif
+
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline2);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
+    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }

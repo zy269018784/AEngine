@@ -2,6 +2,8 @@
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanObjects/RenderPass/VulkanAttachment.h"
+#include "VulkanObjects/Texture/VulkanTexture.h"
 #include <iostream>
 
 #include "VulkanObjects/Texture/VulkanTexture.h"
@@ -16,6 +18,40 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
     RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
+    ImageViews.push_back(InTexture->ImageView->GetHandle());
+    /*
+        2. 创建Frame Buffer
+    */
+    FrameBuffers.resize(3);
+    for (int i = 0; i < FrameBuffers.size(); i++)
+    {
+        VulkanTexture *Tex = new VulkanTexture(InDevice,
+                RHITextureType::Texture2D,
+                RHIPixelFormat::PF_DepthStencil,
+                1,
+                InTexture->GetX(),
+                InTexture->GetY(),
+                1,
+                1);
+
+        std::vector<VulkanAttachment> InVKAttachments;
+        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[0]));
+        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, InTexture->ImageView->GetHandle()));
+
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
+    }
+
+     /*
+        3. 创建command buffer
+     */
+    GraphicsCommandBuffers.resize(3);
+    for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
+    {
+        /*
+            暂时用第0个Command Pool
+        */
+        GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
+    }
 }
 #if 0
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
