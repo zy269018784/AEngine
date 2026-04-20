@@ -71,7 +71,7 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     CreateInfo.pAttachments                 = Attachments.data();
     CreateInfo.subpassCount                 = 1;
     CreateInfo.pSubpasses                   = &Subpass;
-
+    std::cout << "vkCreateRenderPass start "  << InFormat << std::endl;
     VkResult Result = Device->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
     {

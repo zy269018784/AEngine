@@ -4,6 +4,7 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
 
 #include "VulkanObjects/Texture/VulkanTexture.h"
@@ -16,7 +17,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     */
     std::vector<RHIAttachment> InAttachments;
     InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
+    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(RHIPixelFormat::PF_R8G8B8A8_UNORM), InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
 
     ImageViews.push_back(InTexture->ImageView->GetHandle());
     /*
