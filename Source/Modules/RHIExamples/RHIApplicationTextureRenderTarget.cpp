@@ -4,7 +4,7 @@
 #include <stb_image.h>
 #endif
 #include "Window/GLFWWindow.h"
-static float VertexAttributes[] = {
+static float VertexAttributes2[] = {
     // pos               uv
     -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
      0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
@@ -12,7 +12,7 @@ static float VertexAttributes[] = {
     -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
 };
 
-static float VertexAttributes2[] = {
+static float VertexAttributes[] = {
     // pos               uv
     -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
      1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
@@ -136,6 +136,7 @@ void RHIApplicationTextureRenderTarget::Run()
         RHIWindow_->RHIEndRenderPass();
         RHIWindow_->RHIEndFrame();
 #else
+#if 1
 	std::cout << "RHI 1" << std::endl;
         TextureRenderTarget->RHIBeginFrame();
 	std::cout << "RHI 2" << std::endl;
@@ -146,9 +147,9 @@ void RHIApplicationTextureRenderTarget::Run()
 	std::cout << "RHI 4" << std::endl;
         TextureRenderTarget->RHIEndFrame();
 	std::cout << "RHI 5" << std::endl;
-
+#endif
+#if 1
         RenderTarget->RHIBeginFrame();
-	std::cout << "RHI 6" << std::endl;
         RenderTarget->RHIBeginRenderPass();
 	std::cout << "RHI 7" << std::endl;
         Draw();
@@ -157,6 +158,7 @@ void RHIApplicationTextureRenderTarget::Run()
 	std::cout << "RHI 9" << std::endl;
         RenderTarget->RHIEndFrame();
 	std::cout << "RHI 10" << std::endl;
+#endif
 #endif
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -373,7 +375,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
 #if USE_RHIWindow
     GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
-    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
+    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
 #endif
     GraphicsPipeline2->SetShaderResourceBindings(SRB2);
     GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
@@ -426,7 +428,7 @@ void RHIApplicationTextureRenderTarget::Draw2()
     */
     CommandBuffer->RHISetStencilTestEnable(false);
 
-    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
 
@@ -451,7 +453,7 @@ void RHIApplicationTextureRenderTarget::Draw()
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
 
-    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline2);
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     CommandBuffer->RHISetDepthTestEnable(true);
     CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
@@ -465,6 +467,6 @@ void RHIApplicationTextureRenderTarget::Draw()
     */
     CommandBuffer->RHISetStencilTestEnable(false);
 
-    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
