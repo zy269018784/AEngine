@@ -15,6 +15,10 @@ VkResult VulkanPhysicalDevice::EnumerateDeviceExtensionProperties(const char* pL
 	return vkEnumerateDeviceExtensionProperties(Handle, pLayerName, PropertyCount, Properties);
 }
 
+void VulkanPhysicalDevice::GetPhysicalDeviceFormatProperties(VkFormat format, VkFormatProperties*  pFormatProperties) {
+	vkGetPhysicalDeviceFormatProperties(Handle, format, pFormatProperties);
+}
+
 /*
 	Get Physical Device Properties
 */
