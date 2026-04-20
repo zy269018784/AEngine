@@ -84,7 +84,13 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 
 	ImageViews = SwapChain->GetImageViews();
-
+#if 1
+	// AMD Radeon RX580 2048SP
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+#else
+	// 4060
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+#endif
 	std::cout << "SwapChain->GetImageCount() " << SwapChain->GetImageCount() << std::endl;
 	/*
 		1. 同步对象
@@ -99,8 +105,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	*/
 	std::vector<RHIAttachment> InAttachments;
 	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
-
+	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM});
+	std::cout << "RenderPass = new VulkanRenderPass "  << std::endl;
 	/*
 		3. 创建Frame Buffer
 	*/
@@ -111,7 +117,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	{
 		VulkanTexture *Tex = new VulkanTexture(InDevice,
 				RHITextureType::Texture2D,
-				RHIPixelFormat::PF_DepthStencil,
+				//RHIPixelFormat::PF_DepthStencil_D24_S8,
+				RHIPixelFormat::PF_DepthStencil_D32_S8,
 				1,
 				Resolution.width,
 				Resolution.height,
@@ -120,11 +127,12 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 
 		std::vector<VulkanAttachment> InVKAttachments;
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
-		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
+		InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
 
 		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },  &InVKAttachments);
 	}
 
+	std::cout << "FrameBuffers[i] = new VulkanFrameBuffer "  << std::endl;
 	/*
 		4. 创建command buffer
 	 */
@@ -136,6 +144,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		*/
 		GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
 	}
+	std::cout << "GraphicsCommandBuffers[i] "  << std::endl;
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
@@ -183,7 +192,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     {
         throw std::runtime_error("failed to acquire next image\n");
     }
-	std::cout << "Frame Index " << FrameIndex << " CurrentImageIndex " << CurrentImageIndex << std::endl;
+	//std::cout << "Frame Index " << FrameIndex << " CurrentImageIndex " << CurrentImageIndex << std::endl;
 
     /*
         current command buffer
