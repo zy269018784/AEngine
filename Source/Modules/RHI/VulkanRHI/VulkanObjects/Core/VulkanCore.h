@@ -784,9 +784,24 @@ inline VkFormat ToVkFormat(RHIPixelFormat PF)
 
 		// 深度模板
 	case RHIPixelFormat::PF_DepthStencil:
-		Format = VK_FORMAT_D24_UNORM_S8_UINT; // 或 VK_FORMAT_D32_SFLOAT_S8_UINT
+		// to do
+		Format = VK_FORMAT_D24_UNORM_S8_UINT;
+		Format = VK_FORMAT_D32_SFLOAT_S8_UINT;
+		break;
+	case RHIPixelFormat::PF_DepthStencil_D24_S8:
+		Format = VK_FORMAT_D24_UNORM_S8_UINT;
+		break;
+	case RHIPixelFormat::PF_DepthStencil_D32_S8:
+		Format = VK_FORMAT_D32_SFLOAT_S8_UINT;
 		break;
 
+	case RHIPixelFormat::PF_DepthOnly_D32:
+		Format = VK_FORMAT_D32_SFLOAT;
+		break;
+
+	case RHIPixelFormat::PF_DepthOnly_D16:
+		Format = VK_FORMAT_D16_UNORM;
+		break;
 		// 1通道 - 8位
 	case RHIPixelFormat::PF_R8_SINT:
 		Format = VK_FORMAT_R8_SINT;
@@ -981,7 +996,7 @@ inline RHIPixelFormat ToRHIPixelFormat(VkFormat Format)
     case VK_FORMAT_UNDEFINED:
         return RHIPixelFormat::PF_Unknown;
 
-    // 深度模板
+    // 深度+模板
     case VK_FORMAT_D24_UNORM_S8_UINT:
     case VK_FORMAT_D32_SFLOAT_S8_UINT:
         return RHIPixelFormat::PF_DepthStencil;
