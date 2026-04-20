@@ -87,11 +87,13 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 #if 1
 	// AMD Radeon RX580 2048SP
 	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
 	// 4060
-	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
-	std::cout << "SwapChain->GetImageCount() " << SwapChain->GetImageCount() << std::endl;
+
 	/*
 		1. 同步对象
 	*/
@@ -106,7 +108,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	std::vector<RHIAttachment> InAttachments;
 	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
 	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, {DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM});
-	std::cout << "RenderPass = new VulkanRenderPass "  << std::endl;
+
 	/*
 		3. 创建Frame Buffer
 	*/
@@ -117,8 +119,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	{
 		VulkanTexture *Tex = new VulkanTexture(InDevice,
 				RHITextureType::Texture2D,
-				//RHIPixelFormat::PF_DepthStencil_D24_S8,
-				RHIPixelFormat::PF_DepthStencil_D32_S8,
+				DepthStencilPixelFormat,
 				1,
 				Resolution.width,
 				Resolution.height,
@@ -132,7 +133,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },  &InVKAttachments);
 	}
 
-	std::cout << "FrameBuffers[i] = new VulkanFrameBuffer "  << std::endl;
 	/*
 		4. 创建command buffer
 	 */
@@ -144,7 +144,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		*/
 		GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
 	}
-	std::cout << "GraphicsCommandBuffers[i] "  << std::endl;
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
