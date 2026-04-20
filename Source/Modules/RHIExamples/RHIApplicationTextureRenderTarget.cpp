@@ -137,27 +137,18 @@ void RHIApplicationTextureRenderTarget::Run()
         RHIWindow_->RHIEndFrame();
 #else
 #if 1
-	std::cout << "RHI 1" << std::endl;
         TextureRenderTarget->RHIBeginFrame();
-	std::cout << "RHI 2" << std::endl;
         TextureRenderTarget->RHIBeginRenderPass();
-	std::cout << "RHI 3" << std::endl;
         Draw2();
         TextureRenderTarget->RHIEndRenderPass();
-	std::cout << "RHI 4" << std::endl;
         TextureRenderTarget->RHIEndFrame();
-	std::cout << "RHI 5" << std::endl;
 #endif
 #if 1
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
-	std::cout << "RHI 7" << std::endl;
         Draw();
-	std::cout << "RHI 8" << std::endl;
         RenderTarget->RHIEndRenderPass();
-	std::cout << "RHI 9" << std::endl;
         RenderTarget->RHIEndFrame();
-	std::cout << "RHI 10" << std::endl;
 #endif
 #endif
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
