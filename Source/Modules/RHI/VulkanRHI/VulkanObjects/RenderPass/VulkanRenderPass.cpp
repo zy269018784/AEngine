@@ -2,6 +2,8 @@
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include <iostream>
 
+#include "VulkanObjects/Core/VulkanCore.h"
+
 VulkanRenderPass::VulkanRenderPass()
 {
 
@@ -40,9 +42,9 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
      */
     VkAttachmentDescription DepthAttachment{};
     /*
-     * 有些设备不支持
+     * 有些设备不支持VK_FORMAT_D24_UNORM_S8_UINT
      */
-    DepthAttachment.format                  = VK_FORMAT_D24_UNORM_S8_UINT;
+    DepthAttachment.format                  = ToVkFormat(InDepthAttachments.GetAttachmentType());
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
     DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
     DepthAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_DONT_CARE;
