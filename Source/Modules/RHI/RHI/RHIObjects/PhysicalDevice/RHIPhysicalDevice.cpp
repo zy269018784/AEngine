@@ -103,3 +103,4 @@ bool RHIPhysicalDevice::IsMultiViewportSupported()
 {
     return Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)];
 }
+

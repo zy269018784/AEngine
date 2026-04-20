@@ -22,6 +22,7 @@ public:
     bool IsTextureCubeMapArraySupported();
     bool IsDepthBoundsTestSupported();
     bool IsMultiViewportSupported();
+    virtual void QuerySupportedPixelFormats() = 0;
 protected:
     virtual void InitFeatures() =0;
 protected:
