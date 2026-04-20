@@ -39,6 +39,9 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
      * 2
      */
     VkAttachmentDescription DepthAttachment{};
+    /*
+     * 有些设备不支持
+     */
     DepthAttachment.format                  = VK_FORMAT_D24_UNORM_S8_UINT;
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
     DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
