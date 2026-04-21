@@ -39,8 +39,10 @@ int TestFFmpegDemux(int argc, char** argv);
 int TestSWSContext(int argc, char** argv);
 int TestOpenGL(int argc, char* argv[]);
 int TestMuxMp3(int argc, char** argv);
+int TestFLTK(int argc, char **argv);
 int main(int argc, char** argv)
 {
+    return TestFLTK(argc, argv);
  //   return TestMuxMp3(argc, argv);
     return RHIExample();
     return TestOpenGL(argc, argv);

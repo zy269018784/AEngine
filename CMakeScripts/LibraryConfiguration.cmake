@@ -58,7 +58,7 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif ()
 
 set (USE_IrrKlang   false)
-set (USE_FLTK       false)
+set (USE_FLTK       true)
 set (USE_wxWidget   false)
 set (USE_CEGUI      false)
 set (USE_MYGUI      false)

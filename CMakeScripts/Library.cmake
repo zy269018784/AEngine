@@ -335,20 +335,33 @@ endif ()
 if (${USE_FLTK})
 	list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
 	list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
-	list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images
-			xkbcommon
-			pthread
-			dl
-			m
-			dbus-1
-			glib-2.0
-			wayland-client
-			wayland-cursor
-			wayland-egl
-			cairo
-			gobject-2.0
-			gio-2.0
+	list (APPEND LIBRARYS		fltk  fltk_forms  fltk_gl fltk_images fltk_gl)
+	if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+		list (APPEND LIBRARYS
+				xkbcommon
+				pthread
+				dl
+				m
+				dbus-1
+				glib-2.0
+				wayland-client
+				wayland-cursor
+				wayland-egl
+				cairo
+				gobject-2.0
+				gio-2.0
+			)
+	else ()
+		list (APPEND LIBRARYS
+				gdiplus
+				ws2_32
+				user32
+				gdi32
+				opengl32
+				glu32
+				comctl32
 		)
+	endif ()
 
 	execute_process(
 			COMMAND fltk-config --cxxflags
