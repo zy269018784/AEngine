@@ -108,3 +108,8 @@ void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
     ID3D12CommandList* CommandBuffers[] = { CommandBuffer };
     Device->CommandQueue->ExecuteCommandLists(1, CommandBuffers);
 }
+
+void D3D12Texture::TransitionImageLayout(int dir)
+{
+
+}

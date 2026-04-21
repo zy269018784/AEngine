@@ -78,3 +78,19 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 	Image->CopyBufferToImage(Image->StagingBuffer, MipmapLevel, XOffset, YOffset, ZOffset, Width, Height, Depth);
 	Image->TransitionImageLayout(Format, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 }
+
+void VulkanTexture::TransitionImageLayout(int dir)
+{
+	VkImageLayout OldLayout;
+	VkImageLayout NewLayout;
+	if (0 == dir)
+	{
+		OldLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+		NewLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+	}
+	else {
+		OldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		NewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+	}
+	Image->TransitionImageLayout(ToVkFormat(GetFormat()), OldLayout, NewLayout);
+}

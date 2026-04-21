@@ -41,8 +41,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     /*
         texture array报错
     */
-    CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_UNDEFINED;
-    //CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+   // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_UNDEFINED;
+     //CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+     CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_PREINITIALIZED;
 
     VkResult Result = CreateImage(&CreateInfo, nullptr);
     if (VK_SUCCESS != Result)
@@ -253,6 +254,8 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
     }
     else {
         //throw std::invalid_argument("unsupported layout transition!");
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
     }
 
     CommandBuffer->CmdPipelineBarrier(

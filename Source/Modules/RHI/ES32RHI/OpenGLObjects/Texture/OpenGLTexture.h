@@ -11,6 +11,7 @@ public:
 	//void Update(const void* InData, std::uint32_t InSize);
 	void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override;
 	GLuint GetHandle() const;
+	void TransitionImageLayout(int dir) override final;
 private:
 	GLuint Handle;
 	RHIDevice* Device;

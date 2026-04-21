@@ -137,6 +137,7 @@ void RHIApplicationTextureRenderTarget::Run()
         RHIWindow_->RHIEndFrame();
 #else
 #if 1
+        RHITextureRT->TransitionImageLayout(1);
         TextureRenderTarget->RHIBeginFrame();
         TextureRenderTarget->RHIBeginRenderPass();
         Draw2();
@@ -144,6 +145,7 @@ void RHIApplicationTextureRenderTarget::Run()
         TextureRenderTarget->RHIEndFrame();
 #endif
 #if 1
+        RHITextureRT->TransitionImageLayout(0);
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
         Draw();

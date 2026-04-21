@@ -171,3 +171,8 @@ void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
         break;
     }
 }
+
+void OpenGLTexture::TransitionImageLayout(int dir)
+{
+
+}

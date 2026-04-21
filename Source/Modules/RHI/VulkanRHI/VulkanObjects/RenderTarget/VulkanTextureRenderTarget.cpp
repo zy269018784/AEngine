@@ -26,13 +26,17 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
 
 
     std::cout << "VulkanSwapChainRenderTarget ImageFormat PF_R8G8B8A8_UNORM"  << std::endl;
+
+    RHIAttachment Color1Attachment(RHIAttachmentType::Color1,  InTexture->GetFormat());
+    RHIAttachment DepthAttachment(DepthStencilType, DepthStencilPixelFormat);
+
     /*
         1. 创建Render Pass
     */
     std::vector<RHIAttachment> InAttachments;
-    //InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-    InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_B8G8R8A8_UNORM));
-    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(RHIPixelFormat::PF_R8G8B8A8_UNORM), InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
+    InAttachments.emplace_back(Color1Attachment);
+    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(RHIPixelFormat::PF_R8G8B8A8_UNORM), InAttachments, DepthAttachment);
+
 
     ImageViews.push_back(InTexture->ImageView->GetHandle());
     /*
@@ -49,13 +53,10 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
                 InTexture->GetY(),
                 1,
                 1);
-        std::cout
-        << "texture size "
-        <<  InTexture->GetX()
-        << " " << InTexture->GetY() << std::endl;
+
         std::vector<VulkanAttachment> InVKAttachments;
-        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[0]));
-        InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
+        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, InTexture->GetFormat(), ImageViews[0]));
+        InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 
         FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
     }

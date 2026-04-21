@@ -76,3 +76,8 @@ void D3D11Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
     // 3. 使用命令列表将数据从上传缓冲区拷贝到纹理资源
     //commandList->CopyResource(Handle, pUploadBuffer);
 }
+
+void D3D11Texture::TransitionImageLayout(int dir)
+{
+
+}

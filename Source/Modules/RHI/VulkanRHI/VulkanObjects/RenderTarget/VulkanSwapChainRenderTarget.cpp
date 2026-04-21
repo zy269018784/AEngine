@@ -1,4 +1,4 @@
-#include "VulkanSwapChainRenderTarget.h"
+﻿#include "VulkanSwapChainRenderTarget.h"
 #include "VulkanObjects/SwapChain/VulkanSwapChain.h"
 #include "VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanObjects/Device/VulkanDevice.h"

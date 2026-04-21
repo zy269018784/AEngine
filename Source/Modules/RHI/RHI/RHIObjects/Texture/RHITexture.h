@@ -16,6 +16,8 @@ public:
 
 	virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) = 0;
 	void UpdateImageData();
+
+	virtual void TransitionImageLayout(int dir) = 0;
 private:
 	RHITextureType			TextureType{};
 	RHIPixelFormat			Format{};

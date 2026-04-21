@@ -8,6 +8,7 @@ public:
     D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData = nullptr);
     ~D3D11Texture();
     virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override final;
+    void TransitionImageLayout(int dir) override final;
 public:
     D3D11Device* Device;
     //ID3D11Resource* Handle = nullptr;
