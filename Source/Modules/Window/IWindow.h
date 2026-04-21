@@ -60,7 +60,7 @@ public:
     virtual HWND GetHWND() =0;
     virtual HINSTANCE GetHINSTANCE() =0;
 #endif
-    protected:
+protected:
     IWindow  *Parent;
     int Width;
     int Height;

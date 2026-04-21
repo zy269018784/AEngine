@@ -16,6 +16,76 @@ FLTKWindow::~FLTKWindow() {
 
 
 
+void FLTKWindow::Run()
+{
+    
+}
+
+void FLTKWindow::SetTitle(const char *Title)
+{
+
+}
+
+void FLTKWindow::Resize(int W, int H)
+{
+
+}
+
+void FLTKWindow::SetWidth(int arg)
+{
+
+}
+
+void FLTKWindow::SetHeight(int arg)
+{
+}
+
+void FLTKWindow::SetPosition(int X, int Y)
+{
+
+}
+
+#ifdef OS_IS_WINDOWS
+HWND FLTKWindow::GetHWND()
+{
+    return 0;
+}
+
+HINSTANCE FLTKWindow::GetHINSTANCE()
+{
+    return 0;
+}
+#endif
+
+#ifdef PROJECT_USE_GLFW
+
+#ifdef PROJECT_USE_XCB
+xcb_connection_t *FLTKWindow::GetXCBConnection()
+{
+    Display* Display = glfwGetX11Display();
+    return XGetXCBConnection(Display);
+}
+
+xcb_window_t FLTKWindow::GetXCBWindow()
+{
+    return glfwGetX11Window(Handle);
+}
+#endif
+
+#ifdef PROJECT_USE_Xlib
+Display* FLTKWindow::GetXlibDisplay()
+{
+    return glfwGetX11Display();
+}
+
+Window FLTKWindow::GetXlibWindow()
+{
+    return glfwGetX11Window(Handle);
+}
+
+#endif
+
+#endif
 
 
 
