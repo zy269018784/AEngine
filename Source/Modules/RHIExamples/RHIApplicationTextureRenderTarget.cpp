@@ -149,6 +149,7 @@ void RHIApplicationTextureRenderTarget::Run()
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
+
 #endif
 #endif
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -405,7 +406,7 @@ void RHIApplicationTextureRenderTarget::Draw2()
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
 
-    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline2);
 
     CommandBuffer->RHISetDepthTestEnable(true);
     CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
