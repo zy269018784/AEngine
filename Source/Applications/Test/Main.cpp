@@ -43,10 +43,11 @@ int TestFLTK(int argc, char **argv);
 int Fltk_Vulkan(int argc, char** argv);
 int main(int argc, char** argv)
 {
+    return RHIExample();
     return Fltk_Vulkan(argc, argv);
     return TestFLTK(argc, argv);
  //   return TestMuxMp3(argc, argv);
-    return RHIExample();
+
     return TestOpenGL(argc, argv);
     return TestD3D12Cubemap(argc, argv);
     return TestFFmpeg(argc, argv);

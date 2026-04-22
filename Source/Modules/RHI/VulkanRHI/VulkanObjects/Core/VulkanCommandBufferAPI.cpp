@@ -33,10 +33,27 @@ void VulkanCommandBuffer::CmdPipelineBarrier(VkPipelineStageFlags		 SrcStageMask
 {
 	return vkCmdPipelineBarrier(Handle, SrcStageMask, DstStageMask, DependencyFlags, MemoryBarrierCount, MemoryBarriers, BufferMemoryBarrierCount, BufferMemoryBarriers, ImageMemoryBarrierCount, ImageMemoryBarriers);
 }
-
+/*
+ * typedef struct VkDependencyInfo {
+ * 		VkStructureType                  sType;
+ * 		const void*                      pNext;
+ * 		VkDependencyFlags                dependencyFlags;
+ * 		uint32_t                         memoryBarrierCount;
+ * 		const VkMemoryBarrier2*          pMemoryBarriers;
+ * 		uint32_t                         bufferMemoryBarrierCount;
+ * 		const VkBufferMemoryBarrier2*    pBufferMemoryBarriers;
+ * 		uint32_t                         imageMemoryBarrierCount;
+ * 		const VkImageMemoryBarrier2*     pImageMemoryBarriers;
+ * } VkDependencyInfo;
+ */
 void VulkanCommandBuffer::CmdPipelineBarrier2(const VkDependencyInfo* DependencyInfo)
 {
 	vkCmdPipelineBarrier2(Handle, DependencyInfo);
+}
+
+void VulkanCommandBuffer::CmdPipelineBarrier2KHR(const VkDependencyInfo* DependencyInfo)
+{
+	vkCmdPipelineBarrier2KHR(Handle, DependencyInfo);
 }
 
 /*

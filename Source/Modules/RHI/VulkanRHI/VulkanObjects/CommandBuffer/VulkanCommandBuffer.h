@@ -106,7 +106,7 @@ public:
 							uint32_t                     imageMemoryBarrierCount,
 							const VkImageMemoryBarrier*  ImageMemoryBarriers);
 	void CmdPipelineBarrier2(const VkDependencyInfo* DependencyInfo);
-
+	void CmdPipelineBarrier2KHR(const VkDependencyInfo* DependencyInfo);
 	/*
 		Render Pass
 	*/
