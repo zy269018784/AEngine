@@ -40,13 +40,14 @@ public:
 
     /*
      * RenderPass               Vulkan 1.0 Core
+     * Render Pass Objects: Superseded via dynamic rendering
      */
     PFN_vkCmdBeginRenderPass                vkCmdBeginRenderPass;
     PFN_vkCmdEndRenderPass                  vkCmdEndRenderPass;
     PFN_vkCmdNextSubpass                    vkCmdNextSubpass;
 
     /*
-     * RenderPass2               Vulkan 1.1 Core    VK_KHR_render_pass2
+     * RenderPass2               Vulkan 1.2 Core    VK_KHR_render_pass2
      */
     PFN_vkCmdBeginRenderPass2KHR            vkCmdBeginRenderPass2KHR;
     PFN_vkCmdEndRenderPass2KHR              vkCmdEndRenderPass2KHR;
