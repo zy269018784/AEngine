@@ -53,7 +53,7 @@ void VulkanCommandBuffer::CmdPipelineBarrier2(const VkDependencyInfo* Dependency
 
 void VulkanCommandBuffer::CmdPipelineBarrier2KHR(const VkDependencyInfo* DependencyInfo)
 {
-	this->vkCmdPipelineBarrier2KHR(Handle, DependencyInfo);
+	VulkanAPI::GetInstance()->vkCmdPipelineBarrier2KHR(Handle, DependencyInfo);
 }
 
 /*
@@ -89,31 +89,44 @@ void VulkanCommandBuffer::CmdNextSubpass2(const VkSubpassBeginInfo* SubpassBegin
 	vkCmdNextSubpass2(Handle, SubpassBeginInfo, SubpassEndInfo);
 }
 
-// Provided by VK_KHR_dynamic_rendering
-void VulkanCommandBuffer::CmdBeginRenderingKHR(const VkRenderingInfo* RenderingInfo)
-{
-	//vkCmdBeginRenderingKHR(Handle, RenderingInfo);
-}
-
-void VulkanCommandBuffer::CmdEndRenderingKHR()
-{
-	//vkCmdEndRenderingKHR(Handle);
-}
-
 void VulkanCommandBuffer::CmdBeginRenderPass2KHR(const VkRenderPassBeginInfo* RenderPassBegin, const VkSubpassBeginInfo* SubpassBeginInfo)
 {
-	//vkCmdBeginRenderPass2KHR(Handle, RenderPassBegin, SubpassBeginInfo);
+	VulkanAPI::GetInstance()->vkCmdBeginRenderPass2KHR(Handle, RenderPassBegin, SubpassBeginInfo);
 }
 
 void VulkanCommandBuffer::CmdEndRenderPass2KHR(const VkSubpassEndInfo* SubpassEndInfo)
 {
-	//vkCmdEndRenderPass2KHR(Handle, SubpassEndInfo);
+	VulkanAPI::GetInstance()->vkCmdEndRenderPass2KHR(Handle, SubpassEndInfo);
 }
 
 void VulkanCommandBuffer::CmdNextSubpass2KHR(const VkSubpassBeginInfo* SubpassBeginInfo, const VkSubpassEndInfo* SubpassEndInfo)
 {
-	//vkCmdNextSubpass2KHR(Handle, SubpassBeginInfo, SubpassEndInfo);
+	VulkanAPI::GetInstance()->vkCmdNextSubpass2KHR(Handle, SubpassBeginInfo, SubpassEndInfo);
 }
+
+/*
+ * Dynamic Rendering
+ */
+void VulkanCommandBuffer::CmdBeginRendering(const VkRenderingInfo* RenderingInfo)
+{
+	vkCmdBeginRendering(Handle, RenderingInfo);
+}
+
+void VulkanCommandBuffer::CmdEndRendering()
+{
+	vkCmdEndRendering(Handle);
+}
+
+void VulkanCommandBuffer::CmdBeginRenderingKHR(const VkRenderingInfo* RenderingInfo)
+{
+	VulkanAPI::GetInstance()->vkCmdBeginRenderingKHR(Handle, RenderingInfo);
+}
+
+void VulkanCommandBuffer::CmdEndRenderingKHR()
+{
+	VulkanAPI::GetInstance()->vkCmdEndRenderingKHR(Handle);
+}
+
 
 /*
 	Buffer
@@ -361,12 +374,12 @@ void VulkanCommandBuffer::CmdSetScissorWithCount(std::uint32_t ScissorCount, con
 /* Rasterizer */
 void VulkanCommandBuffer::CmdSetCullMode(VkCullModeFlags RHICullMode)
 {
-
+	vkCmdSetCullMode(Handle, RHICullMode);
 }
 
 void VulkanCommandBuffer::CmdSetFrontFace(VkFrontFace RHIFrontFace)
 {
-
+	vkCmdSetFrontFace(Handle, RHIFrontFace);
 }
 
 /* Viewport */

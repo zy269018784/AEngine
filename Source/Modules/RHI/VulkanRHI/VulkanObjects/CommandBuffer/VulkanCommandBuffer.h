@@ -116,12 +116,18 @@ public:
 	void CmdBeginRenderPass2(const VkRenderPassBeginInfo* RenderPassBegin, const VkSubpassBeginInfo* SubpassBeginInfo);
 	void CmdEndRenderPass2(const VkSubpassEndInfo* SubpassEndInfo);
 	void CmdNextSubpass2(const VkSubpassBeginInfo* SubpassBeginInfo, const VkSubpassEndInfo* SubpassEndInfo);
-	// Provided by VK_KHR_dynamic_rendering
-	void CmdBeginRenderingKHR(const VkRenderingInfo* RenderingInfo);
-	void CmdEndRenderingKHR();
 	void CmdBeginRenderPass2KHR(const VkRenderPassBeginInfo* RenderPassBegin, const VkSubpassBeginInfo* SubpassBeginInfo);
 	void CmdEndRenderPass2KHR(const VkSubpassEndInfo* SubpassEndInfo);
 	void CmdNextSubpass2KHR(const VkSubpassBeginInfo* SubpassBeginInfo, const VkSubpassEndInfo* SubpassEndInfo);
+
+	/*
+	 * Dynamic Rendering
+	 */
+	void CmdBeginRendering(const VkRenderingInfo* RenderingInfo);
+	void CmdEndRendering();
+	void CmdBeginRenderingKHR(const VkRenderingInfo* RenderingInfo);
+	void CmdEndRenderingKHR();
+
 	
 	/*
 		Buffer
@@ -309,6 +315,4 @@ private:
 	VkCommandBuffer		Handle = VK_NULL_HANDLE;
 	VulkanDevice*		Device = nullptr;
 	VulkanCommandPool*	CommandPool = nullptr;
-private:
-	PFN_vkCmdPipelineBarrier2KHR vkCmdPipelineBarrier2KHR;
 };

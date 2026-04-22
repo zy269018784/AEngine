@@ -36,3 +36,8 @@ void VulkanAPI::LoadSurfaceAPI()
     vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWaylandSurfaceKHR"));
 #endif
 }
+
+void VulkanAPI::LoadCommandBufferAPI()
+{
+    vkCmdPipelineBarrier2KHR = reinterpret_cast<PFN_vkCmdPipelineBarrier2KHR>(Instance->GetInstanceProcAddr("vkCmdPipelineBarrier2KHR"));
+}

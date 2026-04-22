@@ -9,6 +9,7 @@ public:
     static VulkanAPI *GetInstance(VulkanInstance *InInstance = nullptr);
 private:
     void LoadSurfaceAPI();
+    void LoadCommandBufferAPI();
 private:
     VulkanInstance *Instance;
 public:
@@ -38,10 +39,11 @@ public:
     PFN_vkCmdPipelineBarrier2KHR            vkCmdPipelineBarrier2KHR;
 
     /*
-     * Dynamic Rendering         Vulkan 1.3 Core    VK_KHR_dynamic_rendering
+     * RenderPass               Vulkan 1.0 Core
      */
-    PFN_vkCmdBeginRenderingKHR              vkCmdBeginRenderingKHR;
-    PFN_vkCmdEndRenderingKHR                vkCmdEndRenderingKHR;
+    PFN_vkCmdBeginRenderPass                vkCmdBeginRenderPass;
+    PFN_vkCmdEndRenderPass                  vkCmdEndRenderPass;
+    PFN_vkCmdNextSubpass                    vkCmdNextSubpass;
 
     /*
      * RenderPass2               Vulkan 1.1 Core    VK_KHR_render_pass2
@@ -49,6 +51,18 @@ public:
     PFN_vkCmdBeginRenderPass2KHR            vkCmdBeginRenderPass2KHR;
     PFN_vkCmdEndRenderPass2KHR              vkCmdEndRenderPass2KHR;
     PFN_vkCmdNextSubpass2KHR                vkCmdNextSubpass2KHR;
+
+    /*
+     * Dynamic Rendering         Vulkan 1.3 Core
+     */
+    PFN_vkCmdBeginRendering                 vkCmdBeginRendering;
+    PFN_vkCmdEndRendering                   vkCmdEndRendering;
+
+    /*
+     * Dynamic Rendering         Vulkan 1.3 Core    VK_KHR_dynamic_rendering
+     */
+    PFN_vkCmdBeginRenderingKHR              vkCmdBeginRenderingKHR;
+    PFN_vkCmdEndRenderingKHR                vkCmdEndRenderingKHR;
 
     /*
      * Event                    Vulkan 1.3 Core     VK_KHR_synchronization2
