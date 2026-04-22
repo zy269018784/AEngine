@@ -4,6 +4,7 @@
 #include <limits>
 
 #include "VulkanRHI.h"
+#include "VulkanObjects/Core/VulkanAPI.h"
 
 VulkanSurface::VulkanSurface()
 {
@@ -24,7 +25,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HW
     CreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
     CreateInfo.hwnd = Hwnd;
     CreateInfo.hinstance = Hinstance;
-    vkCreateWin32SurfaceKHR_1(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
 }
 #endif
 

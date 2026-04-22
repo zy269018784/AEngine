@@ -20,14 +20,7 @@
 
 #include <iostream>
 
-#if 1
-#ifdef RHI_USE_WIN32_KHR
-	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR_1;
-#endif
-#if RHI_USE_PLATFORM_WAYLAND_KHR
-PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
-#endif
-#endif
+
 VulkanRHI::VulkanRHI()
 {
 	/*
@@ -36,13 +29,6 @@ VulkanRHI::VulkanRHI()
 	CreateInstance();
 	CreateDevice();
 	CreateCommandPool();
-#ifdef RHI_USE_WIN32_KHR
-	//vkCreateWin32SurfaceKHR_1 = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWin32SurfaceKHR"));
-	vkCreateWin32SurfaceKHR_1 = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWin32SurfaceKHR"));
-#endif
-#if RHI_USE_PLATFORM_WAYLAND_KHR
-	PFN_vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWaylandSurfaceKHR"));
-#endif
 }
 
 

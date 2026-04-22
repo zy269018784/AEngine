@@ -1,5 +1,5 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-
+#include "VulkanObjects/Core/VulkanAPI.h"
 /*
 	Command Buffer
 */
@@ -53,7 +53,7 @@ void VulkanCommandBuffer::CmdPipelineBarrier2(const VkDependencyInfo* Dependency
 
 void VulkanCommandBuffer::CmdPipelineBarrier2KHR(const VkDependencyInfo* DependencyInfo)
 {
-	vkCmdPipelineBarrier2KHR(Handle, DependencyInfo);
+	this->vkCmdPipelineBarrier2KHR(Handle, DependencyInfo);
 }
 
 /*

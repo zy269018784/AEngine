@@ -1,6 +1,7 @@
 ﻿#include "VulkanRHI.h"
 #include "VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/Core/VulkanAPI.h"
 #include <iostream>
 
 
@@ -33,6 +34,8 @@ void VulkanRHI::CreateInstance()
     Instance->EnumerateExtensions();
     Instance->EnumerateLayers();
     Instance->EnumeratePhysicalDevices();
+
+    VulkanAPI::GetInstance(Instance);
 }
 
 void VulkanRHI::CreateDevice()

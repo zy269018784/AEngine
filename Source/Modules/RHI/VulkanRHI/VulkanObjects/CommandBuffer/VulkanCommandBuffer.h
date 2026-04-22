@@ -309,4 +309,6 @@ private:
 	VkCommandBuffer		Handle = VK_NULL_HANDLE;
 	VulkanDevice*		Device = nullptr;
 	VulkanCommandPool*	CommandPool = nullptr;
+private:
+	PFN_vkCmdPipelineBarrier2KHR vkCmdPipelineBarrier2KHR;
 };
