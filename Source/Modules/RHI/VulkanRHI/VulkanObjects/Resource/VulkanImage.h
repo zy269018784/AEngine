@@ -17,7 +17,8 @@ public:
 	
 	VulkanImage(VulkanDevice* InDevice, VkImage InHandle);
 	~VulkanImage();
-	VkImage GetHandle();
+	VkImage GetHandle() const;
+	VkImageCreateInfo GetCreateInfo() const;
 	void Update(const void* InData, std::uint32_t InSize);
 	//void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData);
 public:
@@ -56,7 +57,9 @@ private:
 	/*
 		纹理类型
 	*/
-	RHITextureType Type;		
+	RHITextureType Type;
+
+	VkImageCreateInfo CreateInfo;
 public:
 	/*
 		暂时存放

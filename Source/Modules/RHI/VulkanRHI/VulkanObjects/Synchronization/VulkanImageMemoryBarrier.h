@@ -1,16 +1,16 @@
-//
-// Created by 26901 on 2026/4/23.
-//
-
-#ifndef ENGINE_VKIMAGEMEMORYBARRIER_H
-#define ENGINE_VKIMAGEMEMORYBARRIER_H
-
-
-
-class VulkanImageMemoryBarrier {
-
+#pragma once
+#include "Vulkan.h"
+class VulkanImage;
+class VulkanImageMemoryBarrier
+{
+public:
+    VkImageMemoryBarrier GetHandle() const;
+    bool CheckError() const;
+private:
+    bool CheckNewLayout() const;
+    bool CheckSubresourceRange() const;
+private:
+    VkImageMemoryBarrier Handle;
+    VulkanImage *Image;
 };
 
-
-
-#endif //ENGINE_VKIMAGEMEMORYBARRIER_H

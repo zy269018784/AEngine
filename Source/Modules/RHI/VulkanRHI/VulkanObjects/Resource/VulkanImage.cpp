@@ -9,7 +9,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-	VkImageCreateInfo CreateInfo{};
+	CreateInfo = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
@@ -108,9 +108,13 @@ VulkanImage::~VulkanImage()
     delete DeviceMemory;
 }
 
-VkImage VulkanImage::GetHandle()
+VkImage VulkanImage::GetHandle() const
 {
     return Handle;
+}
+
+VkImageCreateInfo VulkanImage::GetCreateInfo() const {
+    return CreateInfo;
 }
 
 void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory)
