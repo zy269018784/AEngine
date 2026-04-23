@@ -41,8 +41,8 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     /*
         texture array报错
     */
-   // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_UNDEFINED;
-     //CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+     // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_UNDEFINED;
+     // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
      CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_PREINITIALIZED;
 
     VkResult Result = CreateImage(&CreateInfo, nullptr);
