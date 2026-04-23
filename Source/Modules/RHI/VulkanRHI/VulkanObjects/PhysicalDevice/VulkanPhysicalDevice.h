@@ -22,6 +22,7 @@ public:
 	VulkanPhysicalDevice(VkPhysicalDevice h);
 	~VulkanPhysicalDevice();
 	virtual void QuerySupportedPixelFormats() override final;
+	VkPhysicalDeviceLimits	GetPhysicalDeviceLimits() const;
 protected:
 	void InitFeatures() override final;
 public:
