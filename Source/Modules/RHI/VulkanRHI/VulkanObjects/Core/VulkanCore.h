@@ -1298,3 +1298,13 @@ inline bool IsStencilOnlyFormat(VkFormat Format)
 {
 	return true;
 }
+
+inline bool IsDepthStencilFormat(VkFormat Format)
+{
+	return true;
+}
+
+inline bool IsColorFormat(VkFormat Format)
+{
+	return true;
+}
