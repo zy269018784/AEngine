@@ -636,3 +636,7 @@ void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 	}
 	std::cout << "HostVisibleIndex " << HostVisibleIndex << std::endl;
 }
+
+VkPhysicalDeviceLimits	VulkanPhysicalDevice::GetPhysicalDeviceLimits() const {
+	return PhysicalDeviceProperties.limits;
+}
