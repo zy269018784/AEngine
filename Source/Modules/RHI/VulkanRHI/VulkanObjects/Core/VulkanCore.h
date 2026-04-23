@@ -1293,3 +1293,8 @@ inline bool IsDepthOnlyFormat(VkFormat Format)
 {
 	return true;
 }
+
+inline bool IsStencilOnlyFormat(VkFormat Format)
+{
+	return true;
+}
