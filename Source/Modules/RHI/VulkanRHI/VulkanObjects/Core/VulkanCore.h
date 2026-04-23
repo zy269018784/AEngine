@@ -1286,3 +1286,10 @@ inline bool IsColorFormat(VkFormat Format)
 {
 	return (VK_FORMAT_R4G4_UNORM_PACK8 <= Format && Format <= VK_FORMAT_ASTC_12x12_SRGB_BLOCK);
 }
+/*
+ * todo
+ */
+inline bool IsDepthOnlyFormat(VkFormat Format)
+{
+	return true;
+}
