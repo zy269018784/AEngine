@@ -1,5 +1,5 @@
 ﻿#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-
+#inclde  "VulkanObjects/PhysicalDevice/"
 #include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
@@ -25,7 +25,7 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     CreateInfo.layers           = 1;
     CreateInfo.attachmentCount  = attachments.size();
     CreateInfo.pAttachments     = attachments.data();
-
+    InDevice->GetPhysicalDevice();
     VkResult Result = CreateFramebuffer(&CreateInfo, nullptr);
     if (Result != VK_SUCCESS)
     {
