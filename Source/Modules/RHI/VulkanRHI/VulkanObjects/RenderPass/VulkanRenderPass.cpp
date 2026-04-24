@@ -93,7 +93,8 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
 }
 
 VulkanRenderPass::~VulkanRenderPass()
-{	
+{
+    std::cout << __FUNCTION__ << " " << Handle << std::endl;
      Device->DestroyRenderPass(Handle, nullptr);
 }
 

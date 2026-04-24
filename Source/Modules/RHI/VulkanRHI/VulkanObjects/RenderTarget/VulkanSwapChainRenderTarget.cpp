@@ -27,7 +27,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 		1. 同步对象
 	*/
 	Frames.resize(SwapChain->GetImageCount());
-//	Frames.resize(2);
     for (int i = 0; i < Frames.size(); i++)
         Frames[i] = new VulkanFrame(Device, true);
 
@@ -42,7 +41,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
         3. 创建Frame Buffer
     */
     FrameBuffers.resize(ImageViews.size());
-    //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
     	VulkanTexture *Tex = new VulkanTexture( InDevice,
