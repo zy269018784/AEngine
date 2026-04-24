@@ -1304,7 +1304,8 @@ inline bool IsDepthStencilFormat(VkFormat Format)
 	return true;
 }
 
-inline bool IsColorFormat(VkFormat Format)
+inline bool IsDepthOrStencilFormat(VkFormat Format)
 {
 	return true;
 }
+
