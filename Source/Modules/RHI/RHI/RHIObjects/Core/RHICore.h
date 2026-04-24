@@ -353,5 +353,6 @@ enum class RHIAttachmentType: std::uint32_t
 	DepthStencil_D32_S8,    // 明确要求 32位深度+8位模板
 	DepthOnly_D32,          // 仅32位深度
 	DepthOnly_D16,          // 仅16位深度
+	None,
 	Unknown
 };

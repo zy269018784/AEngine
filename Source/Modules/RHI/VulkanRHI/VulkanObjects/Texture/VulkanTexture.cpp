@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
+VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHIAttachmentType InAttachmentType,
+	std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
 	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
 	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -26,8 +27,40 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 		default:
 			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 	}
+	switch (InAttachmentType)
+	{
+		case RHIAttachmentType::Color1:
+		case RHIAttachmentType::Color2:
+		case RHIAttachmentType::Color3:
+		case RHIAttachmentType::Color4:
+		case RHIAttachmentType::Color5:
+		case RHIAttachmentType::Color6:
+		case RHIAttachmentType::Color7:
+		case RHIAttachmentType::Color8:
+		case RHIAttachmentType::Color9:
+		case RHIAttachmentType::Color10:
+		case RHIAttachmentType::Color11:
+		case RHIAttachmentType::Color12:
+		case RHIAttachmentType::Color13:
+		case RHIAttachmentType::Color14:
+		case RHIAttachmentType::Color15:
+		case RHIAttachmentType::Color16:
+			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+			break;
+		case RHIAttachmentType::DepthStencil:
+		case RHIAttachmentType::DepthStencil_D24_S8:    // 明确要求 24位深度+8位模板
+		case RHIAttachmentType::DepthStencil_D32_S8:    // 明确要求 32位深度+8位模板
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			break;
+		case RHIAttachmentType::DepthOnly_D32:          // 仅32位深度
+		case RHIAttachmentType::DepthOnly_D16:          // 仅16位深度
+			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
+			break;
+		default:
+			break;
+	}
 
-	Image = new VulkanImage(InDevice, InType, InFormat, InX, InY, InZ, InArraySize, InNumMips, 1);
+	Image = new VulkanImage(InDevice, InType, InFormat, InAttachmentType, InX, InY, InZ, InArraySize, InNumMips, 1);
 	ImageView = new VulkanImageView(InDevice, Image, InType,  Aspect, InFormat, InNumMips, InArraySize);
 
 	UpdateImageData();

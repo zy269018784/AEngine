@@ -130,7 +130,7 @@ void RHIApplicationTexture1DArray::CreateTexture()
     //    RHITexture1DArray->Update(0, 0, i, 0, texWidth, 1, 1, pixels + offset);
     //}
 #else
-     RHITexture1DArray = pRHI->RHICreateTexture1DArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32);
+     RHITexture1DArray = pRHI->RHICreateTexture1DArray(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32);
      RHITexture1DArray->Update(0, 0, 0, 0, 32, 32, 1, pixels);
      //RHITexture1DArray->Update(0, 0, 0, 0, 16, 1, 1, pixels);
      //RHITexture1DArray->Update(0, 0, 1, 0, 16, 1, 1, pixels + 64);

@@ -154,7 +154,7 @@ RHIShader* D3D12RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, si
 }
 
 
-RHITexture* D3D12RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data)
+RHITexture* D3D12RHI::RHICreateTexture1D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data)
 {
 	return nullptr;
 }
@@ -167,7 +167,7 @@ RHITexture* D3D12RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uin
 	@param  ArraySize : 纹理宽度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
+RHITexture* D3D12RHI::RHICreateTexture1DArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
 {
 	return nullptr;
 }
@@ -180,7 +180,7 @@ RHITexture* D3D12RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std
 	@param  SizeY : 纹理宽度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
+RHITexture* D3D12RHI::RHICreateTexture2D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 {
 	return nullptr;
 }
@@ -195,7 +195,7 @@ RHITexture* D3D12RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uin
 	@param  ArraySize : 纹理宽度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
+RHITexture* D3D12RHI::RHICreateTexture2DArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 {
 	return nullptr;
 }
@@ -209,7 +209,7 @@ RHITexture* D3D12RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std
 	@param  SizeZ : 纹理高度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
+RHITexture* D3D12RHI::RHICreateTexture3D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
 {
 	return nullptr;
 }
@@ -221,7 +221,7 @@ RHITexture* D3D12RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uin
 	@param  Size : 纹理长度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
+RHITexture* D3D12RHI::RHICreateTextureCube(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 {
 	return nullptr;
 }
@@ -234,7 +234,7 @@ RHITexture* D3D12RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::u
 	@param  Size : 纹理长度
 	@return 返回RHITexture
 */
-RHITexture* D3D12RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
+RHITexture* D3D12RHI::RHICreateTextureCubeArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 {
 	return nullptr;
 }

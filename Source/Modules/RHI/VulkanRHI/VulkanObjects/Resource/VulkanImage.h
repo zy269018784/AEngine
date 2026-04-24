@@ -4,16 +4,19 @@
 #include <VulkanObjects/Memory/VulkanDeviceMemory.h>
 #include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanObjects/Queue/VulkanQueue.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include <iostream>
 
-#include "VulkanObjects/Queue/VulkanQueue.h"
 
 class VulkanImage
 {
 public:
 	VulkanImage(VulkanDevice *InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
-				std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData = nullptr);
+				RHIAttachmentType InAttachmentType,
+				std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ,
+				std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount,
+				const void* InData = nullptr);
 	
 	VulkanImage(VulkanDevice* InDevice, VkImage InHandle);
 	~VulkanImage();

@@ -7,7 +7,7 @@ VkFramebufferCreateInfo VulkanFramebufferCreateInfo::GetHandle() const
 
 bool VulkanFramebufferCreateInfo::CheckError() const
 {
-    if (CreateInfo.sType != VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO)
+    if (Handle.sType != VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO)
         return false;
     return true;
 }

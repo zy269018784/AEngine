@@ -40,7 +40,7 @@ bool VulkanImageCreateInfo::CheckError() const {
      *  • VUID-VkImageCreateInfo-mipLevels-00947
      *  mipLevels must be greater than 0
      */
-    if (Handle.extent.mipLevels <= 0)
+    if (Handle.mipLevels <= 0)
     {
         std::cout << "VUID-VkImageCreateInfo-mipLevels-00947" << std::endl;
         Result = false;
@@ -49,7 +49,7 @@ bool VulkanImageCreateInfo::CheckError() const {
      *  • VUID-VkImageCreateInfo-arrayLayers-00948
      *  arrayLayers must be greater than 0
      */
-    if (Handle.extent.arrayLayers <= 0)
+    if (Handle.arrayLayers <= 0)
     {
         std::cout << "VUID-VkImageCreateInfo-arrayLayers-00948" << std::endl;
         Result = false;

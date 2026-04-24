@@ -99,7 +99,7 @@ void RHIApplicationTextureCubeMap::CreateTexture()
    //}
 
     //RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_SRGB, 1, texWidth, texHeight);
-    RHITextureCubeMap = pRHI->RHICreateTextureCube(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, TextureData.data());
+    RHITextureCubeMap = pRHI->RHICreateTextureCube(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, TextureData.data());
 #if 0
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1,  pixels1);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1,  pixels2);

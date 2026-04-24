@@ -144,7 +144,7 @@ void RHIApplicationSamplerObject::CreateTexture()
 
     for (int i = 0; i < 1; i++)
     {
-        RHITextures[i] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
+        RHITextures[i] = pRHI->RHICreateTexture2D(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight);
         RHITextures[i]->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
         pRHI->RHIUpdateTexture(RHITextures[i], pixels, imageSize);
     }

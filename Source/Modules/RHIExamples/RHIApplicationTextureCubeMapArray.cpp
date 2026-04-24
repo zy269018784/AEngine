@@ -105,7 +105,7 @@ void RHIApplicationTextureCubeMapArray::CreateTexture()
 
     VkDeviceSize imageSize = texWidth * texHeight * 4;
 
-    RHITextureCubeMapArray = pRHI->RHICreateTextureCubeArray(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 2, TextureData.data());
+    RHITextureCubeMapArray = pRHI->RHICreateTextureCubeArray(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 2, TextureData.data());
 #if 0
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1, pixels1);
     RHITextureCubeMapArray->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1, pixels2);
