@@ -108,19 +108,24 @@ RHIApplication::~RHIApplication()
     delete FragmengShader; 
    //delete GeometryShader;
    //delete ComputeShader;
-    delete RenderTarget;
-    delete RHIVBO;
-    delete RHIEBO;
-    delete SRB;
-    delete GraphicsPipeline;
     std::cout << "~RHIApplication 3" << std::endl;
+    delete RenderTarget;
+    std::cout << "~RHIApplication 4" << std::endl;
+    delete RHIVBO;
+    std::cout << "~RHIApplication 5" << std::endl;
+    delete RHIEBO;
+    std::cout << "~RHIApplication 6" << std::endl;
+    delete SRB;
+    std::cout << "~RHIApplication 7" << std::endl;
+    delete GraphicsPipeline;
+    std::cout << "~RHIApplication 8" << std::endl;
 #if 0
     delete RenderTarget;
     delete Surface;
 #endif
     delete Surface;
     delete pRHI;
-    std::cout << "~RHIApplication 3" << std::endl;
+    std::cout << "~RHIApplication 9" << std::endl;
 }
 
 void RHIApplication::Run()

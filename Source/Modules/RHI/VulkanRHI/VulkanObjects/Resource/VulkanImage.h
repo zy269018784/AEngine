@@ -67,6 +67,6 @@ public:
 	/*
 		暂时存放
 	*/
-	VkBuffer StagingBuffer;
-	VkDeviceMemory StagingBufferMemory;
+	VkBuffer StagingBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory StagingBufferMemory = VK_NULL_HANDLE;
 };

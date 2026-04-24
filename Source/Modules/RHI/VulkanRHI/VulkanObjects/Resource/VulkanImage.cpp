@@ -89,9 +89,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         throw std::runtime_error("Failed to create texture image!");
     }
 
-    std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
+   // std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
     GetImageMemoryRequirements(&MemoryRequirements);
-    std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
+   // std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
     VkMemoryAllocateInfo AllocateInfo = {
         VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
         nullptr,
@@ -101,10 +101,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
        // Device->GetPhysicalDevice()->HostVisibleIndex // why crash
     };
 
-    std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;
-
-    std::cout << "InPixelFormat: " <<   (int)InPixelFormat  << std::endl;
-    std::cout << "InSizeX: " <<   InSizeX << " " << InSizeY << " " << InSizeZ<< std::endl;
+    //std::cout << "Device->GetPhysicalDevice()->HostVisibleIndex: " << Device->GetPhysicalDevice()->HostVisibleIndex << std::endl;
+    //std::cout << "InPixelFormat: " <<   (int)InPixelFormat  << std::endl;
+    //std::cout << "InSizeX: " <<   InSizeX << " " << InSizeY << " " << InSizeZ<< std::endl;
 
     Result = DeviceMemory->AllocateMemory(&AllocateInfo, nullptr);
     if (VK_SUCCESS != Result)
@@ -138,12 +137,10 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, VkImage InHandle)
 
 VulkanImage::~VulkanImage()
 {
-    std::cout << "VulkanImage::~VulkanImage() " << Handle << std::endl;
-    Device->FreeMemory(StagingBufferMemory, nullptr);
     Device->DestroyBuffer(StagingBuffer, nullptr);
-    DestroyImage(nullptr);
-
+    Device->FreeMemory(StagingBufferMemory, nullptr);
     delete DeviceMemory;
+    DestroyImage(nullptr);
 }
 
 VkImage VulkanImage::GetHandle() const
@@ -169,6 +166,7 @@ void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags U
     {
         throw std::runtime_error("failed to create buffer!");
     }
+    std::cout << "CreateBuffer1 AAAAAA " << Buffer  << std::endl;
 
     VkMemoryRequirements MemoryRequirements;
     Device->GetBufferMemoryRequirements(Buffer, &MemoryRequirements);
@@ -208,7 +206,7 @@ void VulkanImage::Update(const void* InData, std::uint32_t InSize)
 
     Device->UnmapMemory(StagingBufferMemory);
 
-    //std::cout << "VulkanImage::Update end " << InSize << std::endl;
+
 }
 
 void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory) 

@@ -41,7 +41,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     /*
         3. 创建Frame Buffer
     */
-	Textures.resize(ImageViews.size());
     FrameBuffers.resize(ImageViews.size());
     //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)

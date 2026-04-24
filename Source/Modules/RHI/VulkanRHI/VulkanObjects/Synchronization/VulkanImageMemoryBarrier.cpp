@@ -1,4 +1,4 @@
-#include "VulkanImageMemoryBarrier.h"
+﻿#include "VulkanImageMemoryBarrier.h"
 #include "VulkanObjects/Resource/VulkanImage.h"
 #include "VulkanObjects/Core/VulkanCore.h"
 VkImageMemoryBarrier VulkanImageMemoryBarrier::GetHandle() const
