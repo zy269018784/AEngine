@@ -8,6 +8,10 @@ RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint
 {
 }
 
+RHITexture::~RHITexture() {
+
+}
+
 RHITextureType RHITexture::GetType() const
 {
 	return TextureType;

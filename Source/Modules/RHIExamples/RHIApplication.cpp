@@ -7,8 +7,16 @@
 #include <X11/Xlib-xcb.h>
 #endif
 #include "Window/GLFWWindow.h"
+RHIApplication *pApp;
+void window_close_callback(GLFWwindow* window)
+{
+    // 用户尝试关闭窗口时调用
+    printf("Window close requested!\n");
 
-
+    // 可以在这里执行清理操作，或询问用户是否保存
+    // 如果需要阻止窗口关闭，可以重新设置关闭标志
+    // glfwSetWindowShouldClose(window, GLFW_FALSE);
+}
 
 RHIApplication::RHIApplication()
 {
@@ -18,6 +26,8 @@ RHIApplication::RHIApplication()
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
+        glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
+        pApp = this;
         pRHI = new VulkanRHI();
     }
     else if (1 == RHIIndex)
@@ -92,22 +102,25 @@ RHIApplication::RHIApplication()
 
 RHIApplication::~RHIApplication()
 {
-    std::cout << "~RHIApplication()\n\n\n";
-    delete VertexShader; 
+    std::cout << "~RHIApplication 1" << std::endl;
+    delete VertexShader;
+    std::cout << "~RHIApplication 2" << std::endl;
     delete FragmengShader; 
-    delete GeometryShader; 
-    delete ComputeShader;
-    std::cout << "delete buffer------------------------\n\n\n";
+   //delete GeometryShader;
+   //delete ComputeShader;
+    delete RenderTarget;
     delete RHIVBO;
     delete RHIEBO;
-    std::cout << "delete buffer------------------------\n\n\n";
     delete SRB;
     delete GraphicsPipeline;
+    std::cout << "~RHIApplication 3" << std::endl;
 #if 0
     delete RenderTarget;
     delete Surface;
 #endif
+    delete Surface;
     delete pRHI;
+    std::cout << "~RHIApplication 3" << std::endl;
 }
 
 void RHIApplication::Run()
@@ -135,8 +148,7 @@ void RHIApplication::Run()
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
     }
-   // RHIWindow_->WaitDeviceIdle();
-
+    RenderTarget->WaitDeviceIdle();
 #else
     while (!glfwWindowShouldClose(Window))
     {

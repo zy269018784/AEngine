@@ -41,7 +41,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     /*
         3. 创建Frame Buffer
     */
-
+	Textures.resize(ImageViews.size());
     FrameBuffers.resize(ImageViews.size());
     //SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
@@ -55,6 +55,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 				Resolution.height,
 				1,
 				1);
+    	Textures.emplace_back(Tex);
 
     	std::vector<VulkanAttachment> InVKAttachments;
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
@@ -129,7 +130,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 				Resolution.height,
 				1,
 				1);
-
+		Textures.emplace_back(Tex);
 		std::vector<VulkanAttachment> InVKAttachments;
 		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
 		InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
@@ -152,7 +153,13 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 {
+	for (int i = 0; i < Textures.size(); i++)
+		delete Textures[i];
 
+	for (int i = 0; i < Frames.size(); i++)
+		delete Frames[i];
+
+	delete SwapChain;
 }
 
 /*

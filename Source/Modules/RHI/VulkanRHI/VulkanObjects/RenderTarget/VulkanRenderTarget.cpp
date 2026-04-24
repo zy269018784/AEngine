@@ -1,9 +1,19 @@
 #include "VulkanRenderTarget.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
-VulkanRenderTarget::VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
-    : RHIRenderTarget(InPixelFormat), Device(InDevice)
-{
+#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 
+VulkanRenderTarget::VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
+    : RHIRenderTarget(InPixelFormat), Device(InDevice) {
+}
+
+
+VulkanRenderTarget::~VulkanRenderTarget()
+{
+   // for (int i = 0; i < ImageViews.size(); i++)
+   //     delete ImageViews[i];
+
+    for (int i = 0; i < FrameBuffers.size(); i++)
+        delete FrameBuffers[i];
 }
 
 void VulkanRenderTarget::WaitDeviceIdle()

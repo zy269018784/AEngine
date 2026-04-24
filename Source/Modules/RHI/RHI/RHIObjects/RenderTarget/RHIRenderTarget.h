@@ -8,7 +8,7 @@ class RHIRenderTarget
 {
 public:
     RHIRenderTarget(RHIPixelFormat InPixelFormat);
-    virtual ~RHIRenderTarget() = default;
+    virtual ~RHIRenderTarget();
     RHIRenderPass *GetRenderPass() const;
     RHICommandBuffer* CurrentGraphicsCommandBuffer() const;
     virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;

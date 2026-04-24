@@ -1,9 +1,13 @@
 #include "RHIRenderTarget.h"
-
+#include "RHIObjects/RenderPass/RHIRenderPass.h"
 RHIRenderTarget::RHIRenderTarget(RHIPixelFormat InPixelFormat)
     : PixelFormat(InPixelFormat)
 {
 
+}
+
+RHIRenderTarget::~RHIRenderTarget() {
+    delete RenderPass;
 }
 
 RHIRenderPass *RHIRenderTarget::GetRenderPass() const

@@ -5,6 +5,7 @@ class RHITexture
 {
 public:
 	RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData = nullptr);
+	virtual ~RHITexture();
 	RHITextureType		GetType() const;
 	RHIPixelFormat		GetFormat() const;
 	std::uint32_t		GetX() const;

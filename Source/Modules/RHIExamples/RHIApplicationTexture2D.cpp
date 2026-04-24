@@ -45,6 +45,9 @@ RHIApplicationTexture2D::RHIApplicationTexture2D()
 
 RHIApplicationTexture2D::~RHIApplicationTexture2D()
 {
+    delete RHISampler_;
+    delete RHITexture2D;
+    return;
     delete RHIVBO;
     delete RHIEBO;
     delete RHITexture2D;
@@ -53,6 +56,8 @@ RHIApplicationTexture2D::~RHIApplicationTexture2D()
     delete GraphicsPipeline;
     delete SRB;
     delete RHISampler_;
+    delete RHISampler_;
+    delete RHITexture2D;
 }   
 
 void RHIApplicationTexture2D::Init()
@@ -186,6 +191,8 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     GraphicsPipeline->Create();
     delete VertexShader;
     delete FragmengShader;
+    VertexShader = nullptr;
+    FragmengShader = nullptr;
 }
 
 void RHIApplicationTexture2D::Draw()

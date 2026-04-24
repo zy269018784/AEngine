@@ -17,6 +17,7 @@ class VulkanSwapChain;
 class VulkanSurface;
 class VulkanDevice;
 class VulkanFrame;
+class VulkanTexture;
 class VulkanSwapChainRenderTarget : public VulkanRenderTarget
 {
 public:
@@ -30,6 +31,7 @@ public:
     virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
     virtual void Resize(float Width, float Height) final override;
 public:
+    std::vector<VulkanTexture *> Textures;
     /*
         设备
     */
