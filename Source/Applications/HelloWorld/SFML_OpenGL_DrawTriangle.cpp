@@ -81,7 +81,7 @@ void Init()
 }
 void CreateVBO()
 {
-    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
     std::cout << "CreateVBO OK" << std::endl;
 }
 

@@ -106,12 +106,12 @@ RHIRenderTarget *D3D12RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
 	return nullptr;
 }
 
-RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
+RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	return nullptr;
 }
 
-RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
+RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 {
 	D3D12Buffer* Buffer = new D3D12Buffer(Devices[GPUIndex], InType, InUsage, InSize, InData);
 	return Buffer;

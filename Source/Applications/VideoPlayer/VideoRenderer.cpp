@@ -212,10 +212,10 @@ void VideoRenderer::SetupQuad() {
     glBindVertexArray(VAO);
 #endif
 #if 1
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(vertices), vertices);
     //VBO = dynamic_cast<OpenGLBuffer *>(RHIVBO)->GetHandle();
 
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(indices), indices);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, sizeof(indices), indices);
     //EBO = dynamic_cast<OpenGLBuffer *>(RHIEBO)->GetHandle();
     std::cout << "CreateVBO OK" << std::endl;
     /*

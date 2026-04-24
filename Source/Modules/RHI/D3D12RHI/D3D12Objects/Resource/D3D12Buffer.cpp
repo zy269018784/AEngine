@@ -5,7 +5,7 @@ D3D12Buffer::D3D12Buffer()
 
 }
 
-D3D12Buffer::D3D12Buffer(D3D12Device* InDevice, RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
+D3D12Buffer::D3D12Buffer(D3D12Device* InDevice, RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
     : Device(InDevice), RHIBuffer(InType, InUsage, InSize)
 {
     // 创建上传堆

@@ -155,14 +155,14 @@ RHIRenderTarget *VulkanRHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
 	return RenderTarget;
 }
 
-RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
+RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 {
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, nullptr);
 
 	return Buffer;
 }
 
-RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
+RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 {
 	std::cout << "GPUIndex " << GPUIndex << std::endl;
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, InData);

@@ -70,19 +70,19 @@ void RHIApplicationSSBO::Init()
 
 void RHIApplicationSSBO::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 }
 
 void RHIApplicationSSBO::CreateEBO()
 {
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, sizeof(Index), Index);
 }
 
 void RHIApplicationSSBO::CreateSSBO()
 {
     for (int i = 0; i < 4; i++)
     {
-        RHISSBO[i] = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::StorageBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(SSBOData[i]), SSBOData[i]);
+        RHISSBO[i] = pRHI->RHICreateBuffer(RHIBufferType::StorageBuffer, RHIBufferUsageFlag::Static, sizeof(SSBOData[i]), SSBOData[i]);
     }
 }
 

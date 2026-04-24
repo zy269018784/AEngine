@@ -132,20 +132,20 @@ void RHIApplicationPlayer::CreateTexture()
 void RHIApplicationPlayer::CreateVBO()
 {
 #if USE_MODEL
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model1.VBOData.size() * sizeof(float), model1.VBOData.data());
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, model1.VBOData.size() * sizeof(float), model1.VBOData.data());
     std::cout << "model1.VBOData.size() " << model1.VBOData.size() << std::endl;
 #else
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes); 
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
 #endif
 }
 
 void RHIApplicationPlayer::CreateEBO()
 {
 #if USE_MODEL
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model1.EBOData.size() * sizeof(unsigned int), model1.EBOData.data());
+    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, model1.EBOData.size() * sizeof(unsigned int), model1.EBOData.data());
     std::cout << "model1.EBOData.size() " << model1.EBOData.size() << std::endl;
 #else
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, sizeof(Index), Index);
 #endif
 
 }
@@ -153,7 +153,7 @@ void RHIApplicationPlayer::CreateEBO()
 void RHIApplicationPlayer::CreateUBO()
 {
    // mvp = UBOData;
-    RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(mvp), &mvp);
+    RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::Static, sizeof(mvp), &mvp);
 }
 
 void RHIApplicationPlayer::CreateSRB()

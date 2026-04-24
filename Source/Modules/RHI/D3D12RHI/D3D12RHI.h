@@ -3,7 +3,7 @@
 #include "D3D12_Includes.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 #include "D3D12Objects/Queue/D3D12Queue.h"
-#include  "RHIObjects/Core/RHICore.h"
+#include "RHIObjects/Core/RHICore.h"
 class D3D12RHI : public RHI
 {
 public:
@@ -58,8 +58,8 @@ public:
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
 	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
 
-	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
-	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;
+	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
+	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() final override;
 

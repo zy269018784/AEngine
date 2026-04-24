@@ -10,7 +10,7 @@ OpenGLBuffer::OpenGLBuffer()
 }
 
 
-OpenGLBuffer::OpenGLBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
+OpenGLBuffer::OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 	: RHIBuffer(InType, InUsage, InSize),
 	Handle(0),
 	Type(InType),

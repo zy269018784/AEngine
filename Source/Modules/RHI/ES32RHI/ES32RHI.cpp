@@ -98,12 +98,12 @@ RHIRenderTarget *ES32RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
 	return nullptr;
 }
 
-RHIBuffer* ES32RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize)
+RHIBuffer* ES32RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
 { 
 	return nullptr;
 }
 
-RHIBuffer* ES32RHI::RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
+RHIBuffer* ES32RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 { 
 	OpenGLBuffer* Buffer = new OpenGLBuffer(InType, InUsage, InSize, InData);
 	return Buffer;

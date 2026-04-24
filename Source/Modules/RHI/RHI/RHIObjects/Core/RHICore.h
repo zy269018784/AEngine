@@ -356,3 +356,41 @@ enum class RHIAttachmentType: std::uint32_t
 	None,
 	Unknown
 };
+
+enum class RHITextureUsageFlag: std::uint32_t
+{
+	TransferSRC,
+	TransferDst,
+	ColorAttachment,
+	DepthStencilAttachment,
+	SampledTexture,
+	StorageTexture,
+};
+
+enum RHIBufferUsageFlag: std::uint32_t
+{
+	Immutable,
+	Stream,
+	Stream_DRAW,
+	Stream_READ,
+	Stream_COPY,
+	Static,
+	Static_DRAW,
+	Static_READ,
+	Static_COPY,
+	Dynamic,
+	Dynamic_DRAW,
+	Dynamic_READ,
+	Dynamic_COPY,
+};
+
+enum RHIBufferType : std::uint32_t
+{
+	VertexBuffer,
+	IndexBuffer,
+	UniformBuffer,
+	StorageBuffer,
+	IndirectBuffer,
+	TransferSrcBuffer,
+	TransferDstBuffer,
+};

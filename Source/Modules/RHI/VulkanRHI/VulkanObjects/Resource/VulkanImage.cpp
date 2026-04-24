@@ -20,7 +20,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.samples          = ToSampleCountFlagBits(InSampleCount);
     CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
 
-    CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+ //   CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     /*
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
      */
@@ -52,6 +52,12 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
             CreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
             break;
         default:
+            CreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
+            /*
+             * to do
+             * VUID-VkImageMemoryBarrier-oldLayout-01213
+             */
+             CreateInfo.usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
             break;
     }
 #if 0

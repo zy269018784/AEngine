@@ -1,36 +1,12 @@
 #pragma once
 #include <cstdint>
-
+#include "RHIObjects/Core/RHICore.h"
 class RHIBuffer
 {
 public:
-	enum RHIBufferType
-	{
-		VertexBuffer		= 0x1 << 1,
-		IndexBuffer			= 0x1 << 2,
-		UniformBuffer		= 0x1 << 3,
-		StorageBuffer		= 0x1 << 4,
-		IndirectBuffer		= 0x1 << 5,
-		TransferSrcBuffer	= 0x1 << 6,
-		TransferDstBuffer	= 0x1 << 7,
-	};
 
-	enum RHIBufferUsageFlag
-	{
-		Immutable		= 0,
-		Stream,
-		Stream_DRAW,
-		Stream_READ,
-		Stream_COPY,
-		Static				,
-		Static_DRAW			,
-		Static_READ			,
-		Static_COPY			,
-		Dynamic				,
-		Dynamic_DRAW		,
-		Dynamic_READ		,
-		Dynamic_COPY		,
-	};
+
+
 public:
 	RHIBuffer()
 	{

@@ -7,7 +7,7 @@ class OpenGLBuffer : public RHIBuffer
 {
 public:
 	OpenGLBuffer();
-	OpenGLBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
+	OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
 	~OpenGLBuffer();
 	void Bind();
 	bool IsDynamic() const;

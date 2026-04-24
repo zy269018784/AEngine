@@ -8,7 +8,7 @@ class VulkanBuffer : public RHIBuffer
 {
 public:
 	VulkanBuffer();
-	VulkanBuffer(VulkanDevice* Device, RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
+	VulkanBuffer(VulkanDevice* Device, RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
 	~VulkanBuffer();
 	VkBuffer GetHandle() const;
 	virtual void Update(std::uint32_t InSize, const void* InData) final override;

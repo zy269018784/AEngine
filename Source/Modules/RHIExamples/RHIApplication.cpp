@@ -92,12 +92,15 @@ RHIApplication::RHIApplication()
 
 RHIApplication::~RHIApplication()
 {
+    std::cout << "~RHIApplication()\n\n\n";
     delete VertexShader; 
     delete FragmengShader; 
     delete GeometryShader; 
-    delete ComputeShader; 
+    delete ComputeShader;
+    std::cout << "delete buffer------------------------\n\n\n";
     delete RHIVBO;
     delete RHIEBO;
+    std::cout << "delete buffer------------------------\n\n\n";
     delete SRB;
     delete GraphicsPipeline;
 #if 0

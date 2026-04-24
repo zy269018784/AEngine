@@ -272,7 +272,7 @@ static bool CreateTriangleResources() {
 
 static void CreateVBO()
 {
-    VBO = RHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    VBO = RHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
     std::cout << "CreateVBO OK" << std::endl;
 }
 

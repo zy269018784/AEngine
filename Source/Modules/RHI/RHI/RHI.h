@@ -85,7 +85,7 @@ public:
 		@param  InSize:			Buffer大小
 		@return 返回RHIBuffer
 	*/
-	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize) = 0;
+	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize) = 0;
 
 	/**
 		@brief 创建Buffer
@@ -95,7 +95,7 @@ public:
 		@param  InData:			Buffer数据
 		@return 返回RHIBuffer
 	*/
-	virtual RHIBuffer* RHICreateBuffer(RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) = 0;
+	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) = 0;
 
 	/*
 		纹理Texture

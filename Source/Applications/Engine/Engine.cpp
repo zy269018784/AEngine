@@ -327,20 +327,20 @@ void Engine::Run()
 void Engine::CreateVBO()
 {
 #if 1
-    //RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, VBO.size() * sizeof(glm::vec3), VBO.data());
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, VBO.size() * sizeof(glm::vec3), VBO.data());
 #else
-    RHIVBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::VertexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
 #endif
 }
 
 void Engine::CreateEBO()
 {
 #if 1
-    //RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(Index), Index);
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, EBO.size() * sizeof(glm::vec3), EBO.data());
+    //RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, EBO.size() * sizeof(glm::vec3), EBO.data());
 #else
-    RHIEBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::IndexBuffer, RHIBuffer::RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
 #endif
     std::cout << "model.EBOData.size() " << model.EBOData.size() << std::endl;
 }
@@ -371,7 +371,7 @@ void Engine::CreateUBO()
 
     MVP = Projection * View * Model;
 
-    RHIUBO = pRHI->RHICreateBuffer(RHIBuffer::RHIBufferType::UniformBuffer, RHIBuffer::RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
+    RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::Static, sizeof(MVP), &MVP);
     RHIUBO_ = RHIUBO;
 }
 

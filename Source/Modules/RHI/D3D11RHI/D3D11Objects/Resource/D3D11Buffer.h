@@ -7,7 +7,7 @@ class D3D11Buffer : public RHIBuffer
 {
 public:
     D3D11Buffer();
-    D3D11Buffer(D3D11Device* InDevice, RHIBuffer::RHIBufferType InType, RHIBuffer::RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
+    D3D11Buffer(D3D11Device* InDevice, RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData);
     ~D3D11Buffer();
     ID3D11Buffer* GetHandle() const;
     virtual void Update(std::uint32_t InSize, const void* InData) final override;
