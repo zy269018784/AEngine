@@ -2,14 +2,8 @@
 #include "VulkanObjects/Shader/VulkanShader.h"
 #include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
+#include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/Resource/VulkanBuffer.h"
-#include "VulkanObjects/Texture/VulkanTexture1D.h"
-#include <VulkanObjects/Texture/VulkanTexture2D.h>
-#include "VulkanObjects/Texture/VulkanTexture3D.h"
-#include "VulkanObjects/Texture/VulkanTextureCubeMap.h"
-#include "VulkanObjects/Texture/VulkanTextureCubeMapArray.h"
-#include "VulkanObjects/Texture/VulkanTexture1DArray.h"
-#include "VulkanObjects/Texture/VulkanTexture2DArray.h"
 #include "VulkanObjects/Resource/VulkanSampler.h"
 #include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
 #include "VulkanObjects/Surface/VulkanSurface.h"
