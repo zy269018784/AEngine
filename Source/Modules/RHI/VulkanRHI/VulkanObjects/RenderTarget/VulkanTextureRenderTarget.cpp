@@ -1,8 +1,11 @@
 ﻿#include "VulkanTextureRenderTarget.h"
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
+
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanAttachment.h"
+#include "VulkanObjects/RenderPass/VulkanDepthAttachment.h"
+#include "VulkanObjects/RenderPass/VulkanColorAttachment.h"
 #include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
@@ -16,26 +19,31 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     Resolution.height = InTexture->GetY();
 #if 1
     // AMD Radeon RX580 2048SP
-    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D32_S8;
+    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
     RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
-    // 4060
-    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+    // 4060 support
+    // AMD Radeon RX580 2048SP do not support
+    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
     RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
 
 
     std::cout << "VulkanSwapChainRenderTarget ImageFormat PF_R8G8B8A8_UNORM"  << std::endl;
 
-    RHIAttachment Color1Attachment(RHIAttachmentType::Color1,  InTexture->GetFormat());
-    RHIAttachment DepthAttachment(DepthStencilType, DepthStencilPixelFormat);
+    //RHIAttachment Color1Attachment(RHIAttachmentType::Color1,  InTexture->GetFormat());
+   // RHIAttachment DepthAttachment(DepthStencilType, DepthStencilPixelFormat);
 
     /*
         1. 创建Render Pass
     */
-    std::vector<RHIAttachment> InAttachments;
-    InAttachments.emplace_back(Color1Attachment);
-    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(RHIPixelFormat::PF_R8G8B8A8_UNORM), InAttachments, DepthAttachment);
+    std::vector<RHIColorAttachment> ColorAttachments;
+    ColorAttachments.emplace_back(RHIColorAttachment(RHIAttachmentType::Color1, InTexture->GetFormat()));
+
+    RHIDepthAttachment DepthAttachment(DepthStencilType);
+    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(InTexture->GetFormat()), ColorAttachments,DepthAttachment);
 
 
     ImageViews.push_back(InTexture->ImageView->GetHandle());
@@ -49,18 +57,25 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
                 RHITextureType::Texture2D,
                 DepthStencilPixelFormat,
                 RHITextureUsageFlag::DepthStencilAttachment,
-                DepthStencilType,
+                RHIDepthStencilType,
                 1,
                 InTexture->GetX(),
                 InTexture->GetY(),
                 1,
                 1);
-
+#if 0
         std::vector<VulkanAttachment> InVKAttachments;
         InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, InTexture->GetFormat(), ImageViews[0]));
         InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
+#endif
+        std::vector<RHIColorAttachment *> InColorAttachments;
+        InColorAttachments.emplace_back(new VulkanColorAttachment(ImageViews[i],RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
 
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },  &InVKAttachments);
+        std::vector<RHIDepthAttachment *> InDepthAttachments;
+        InDepthAttachments.emplace_back(new VulkanDepthAttachment(ImageViews[i], DepthStencilType));
+
+        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },
+			InColorAttachments, InDepthAttachments);
     }
 
      /*

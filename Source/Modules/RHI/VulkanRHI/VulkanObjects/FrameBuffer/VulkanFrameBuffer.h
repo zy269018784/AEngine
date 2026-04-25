@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Vulkan.h"
 #include "RHIObjects/FrameBuffer/RHIFrameBuffer.h"
+#include "RHIObjects/RenderPass/RHIColorAttachment.h"
+#include "RHIObjects/RenderPass/RHIDepthAttachment.h"
 #include <cstdint>
 #include <vector>
 
@@ -8,10 +10,13 @@ class VulkanDevice;
 class VulkanRenderPass;
 class VulkanFrameBuffer;
 class VulkanAttachment;
+class RHIColorAttachment;
+class RHIDepthAttachment;
 class VulkanFrameBuffer : public RHIFrameBuffer
 {
 public:
-	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent, std::vector<VulkanAttachment> *InAttachments);
+	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent,
+		std::vector<RHIColorAttachment *> &InColorAttachments, std::vector<RHIDepthAttachment *> &InDepthAttachments);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle();
 	//void CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height);

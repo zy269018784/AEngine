@@ -1,8 +1,8 @@
 ﻿#include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
 
-#include "VulkanObjects/Core/VulkanCore.h"
 
 VulkanRenderPass::VulkanRenderPass()
 {
@@ -11,19 +11,19 @@ VulkanRenderPass::VulkanRenderPass()
 
 
 VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
-    std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments)
+    std::vector<RHIColorAttachment> &InColorAttachments, RHIDepthAttachment &InDepthAttachments)
     : Device(InDevice)
 {
-    std::cout << "InDepthAttachments " << static_cast<int>(InDepthAttachments.GetAttachmentType()) << std::endl;
-    std::vector<VkAttachmentDescription> Attachments;
-    std::vector<VkAttachmentReference> ColorAttachmentRefs;
+    std::vector<VkAttachmentDescription> AttachmentDescriptions;
     /*
-     * 1
+     * 1. Color Attachments
      */
+    std::vector<VkAttachmentReference> ColorAttachmentRefs;
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
         VkAttachmentDescription ColorAttachment{};
-        ColorAttachment.format                  = InFormat;
+        //ColorAttachment.format                  = InFormat;
+        ColorAttachment.format                  = ToVkFormat(InColorAttachments[i].GetRHIPixelFormat());
         ColorAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
         ColorAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;
         ColorAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_STORE;
@@ -31,27 +31,19 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
         ColorAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
         ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-        Attachments.emplace_back(ColorAttachment);
+        AttachmentDescriptions.emplace_back(ColorAttachment);
 
         VkAttachmentReference ColorAttachmentRef{};
         ColorAttachmentRef.attachment           = i;
         ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
         ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
     }
+
     /*
-     * 2
+     * 2. Depth Attachments
      */
     VkAttachmentDescription DepthAttachment{};
-
-    std::cout << "InDepthAttachments 2 " <<  static_cast<int>(InDepthAttachments.GetAttachmentType())  <<std::endl;
-    /*
-     * 有些设备不支持VK_FORMAT_D24_UNORM_S8_UINT
-     */
     DepthAttachment.format                  = ToVkFormat(InDepthAttachments.GetAttachmentType());
-    //if (DepthAttachment.format == VK_FORMAT_UNDEFINED) {
-    //    std::cout << "VK_FORMAT_UNDEFINED " <<  static_cast<int>(InDepthAttachments.GetAttachmentType())  <<std::endl;
-    //    DepthAttachment.format = VK_FORMAT_D32_SFLOAT_S8_UINT;
-    //}
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
     DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
     DepthAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -59,7 +51,7 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     DepthAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
     DepthAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
     DepthAttachment.finalLayout             = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-    Attachments.emplace_back(DepthAttachment);
+    AttachmentDescriptions.emplace_back(DepthAttachment);
 
     VkAttachmentReference DepthAttachmentRef{};
     DepthAttachmentRef.attachment           = ColorAttachmentRefs.size();
@@ -79,8 +71,8 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
 
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-    CreateInfo.attachmentCount              = Attachments.size();
-    CreateInfo.pAttachments                 = Attachments.data();
+    CreateInfo.attachmentCount              = AttachmentDescriptions.size();
+    CreateInfo.pAttachments                 = AttachmentDescriptions.data();
     CreateInfo.subpassCount                 = 1;
     CreateInfo.pSubpasses                   = &Subpass;
     VkResult Result = Device->CreateRenderPass(&CreateInfo, nullptr, &Handle);

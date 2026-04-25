@@ -1201,6 +1201,27 @@ inline VkFormat ToVkFormat(RHIAttachmentType type)
 	}
 }
 
+inline VkFormat ToVkFormat(RHIDepthAttachmentType type)
+{
+	switch (type)
+	{
+		case RHIDepthAttachmentType::DepthStencil_D24_S8:
+			return VK_FORMAT_D24_UNORM_S8_UINT;
+
+		case RHIDepthAttachmentType::DepthStencil_D32_S8:
+			return VK_FORMAT_D32_SFLOAT_S8_UINT;
+
+		case RHIDepthAttachmentType::DepthOnly_D32:
+			return VK_FORMAT_D32_SFLOAT;
+
+		case RHIDepthAttachmentType::DepthOnly_D16:
+			return VK_FORMAT_D16_UNORM;
+
+		default:
+			return VK_FORMAT_UNDEFINED;
+	}
+}
+
 inline VkImageUsageFlags ToVkImageUsageFlags(RHITextureUsageFlag Flag)
 {
 	switch (Flag) {

@@ -2,18 +2,16 @@
 #include "Vulkan.h"
 #include "RHIObjects/RenderPass/RHIRenderPass.h"
 #include "RHIObjects/RenderPass/RHIAttachment.h"
+#include "RHIObjects/RenderPass/RHIColorAttachment.h"
+#include "RHIObjects/RenderPass/RHIDepthAttachment.h"
 #include <vector>
 class VulkanDevice;
-/*
- *	todo:
- *		DepthAttachment.format                  = VK_FORMAT_D24_UNORM_S8_UINT;
- *
- */
+
 class VulkanRenderPass : public RHIRenderPass
 {
 public:
 	VulkanRenderPass();
-	VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat, std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments);
+	VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat, std::vector<RHIColorAttachment> &InColorAttachments, RHIDepthAttachment &InDepthAttachments);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();
 private:

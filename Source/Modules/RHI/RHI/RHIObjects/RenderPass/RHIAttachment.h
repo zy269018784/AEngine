@@ -13,3 +13,4 @@ private:
     RHIAttachmentType Type;
     RHIPixelFormat    PixelFormat;
 };
+

@@ -3,18 +3,25 @@
 #include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/RenderPass/VulkanAttachment.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
+#include "VulkanObjects/RenderPass/VulkanColorAttachment.h"
+#include "VulkanObjects/RenderPass/VulkanDepthAttachment.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include <array>
 #include <iostream>
 #include <stdexcept>
 
-VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent, std::vector<VulkanAttachment> *InAttachments)
+VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent,
+   std::vector<RHIColorAttachment *> &InColorAttachments, std::vector<RHIDepthAttachment *> &InDepthAttachments)
     : Device(InDevice)
 {
     std::vector<VkImageView> attachments;
-    for (int i = 0; i < InAttachments->size(); i++)
+    for (int i = 0; i < InColorAttachments.size(); i++)
     {
-        attachments.emplace_back(InAttachments[0][i].GetHandle());
+        attachments.emplace_back(static_cast<VulkanColorAttachment *>(InColorAttachments[i])->GetHandle());
+    }
+    for (int i = 0; i < InDepthAttachments.size(); i++)
+    {
+        attachments.emplace_back(static_cast<VulkanDepthAttachment *>(InDepthAttachments[i])->GetHandle());
     }
 
     VkFramebufferCreateInfo CreateInfo{};
