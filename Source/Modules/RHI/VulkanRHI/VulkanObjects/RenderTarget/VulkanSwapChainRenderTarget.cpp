@@ -90,6 +90,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	std::cout << "VulkanSwapChainRenderTarget ImageFormat " << ImageFormat << std::endl;
 
 	ImageViews = SwapChain->GetImageViews();
+	RHIPixelFormat SwapChainRHIPixelFormat = ToRHIPixelFormat(ImageFormat);
 #if 1
 	// AMD Radeon RX580 2048SP
 	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D32_S8;
@@ -115,7 +116,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		2. 创建Render Pass
 	*/
 	std::vector<RHIColorAttachment> ColorAttachments;
-	ColorAttachments.emplace_back(RHIColorAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+	ColorAttachments.emplace_back(RHIColorAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
 
 	RHIDepthAttachment DepthAttachment(DepthStencilType);
 	RenderPass = new VulkanRenderPass(Device, ImageFormat, ColorAttachments,DepthAttachment);
@@ -139,19 +140,16 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 				1,
 				1);
 		Textures.emplace_back(Tex);
-#if 0
-		std::vector<VulkanAttachment> InVKAttachments;
-		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
-		InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
-#endif
+
 		std::vector<RHIColorAttachment *> InColorAttachments;
-		InColorAttachments.emplace_back(new VulkanColorAttachment(ImageViews[i],RHIAttachmentType::Color1, ToRHIPixelFormat(ImageFormat)));
+		InColorAttachments.emplace_back(new VulkanColorAttachment(ImageViews[i], RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
 
 		std::vector<RHIDepthAttachment *> InDepthAttachments;
 		InDepthAttachments.emplace_back(new VulkanDepthAttachment(Tex->ImageView->GetHandle(), DepthStencilType));
 
-		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },
-			InColorAttachments, InDepthAttachments);
+		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass),
+								{ Resolution.width, Resolution.height },
+												InColorAttachments, InDepthAttachments);
 	}
 
 	/*
