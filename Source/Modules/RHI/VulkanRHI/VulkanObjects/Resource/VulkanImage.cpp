@@ -106,9 +106,9 @@ void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags U
     VkResult Result = VK_SUCCESS;
 
     VkBufferCreateInfo CreateInfo{};
-    CreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    CreateInfo.size = Size;
-    CreateInfo.usage = Usage;
+    CreateInfo.sType       = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+    CreateInfo.size        = Size;
+    CreateInfo.usage       = Usage;
     CreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
     Result = Device->CreateBuffer(&CreateInfo, nullptr, &Buffer);
     if (VK_SUCCESS != Result)
@@ -257,7 +257,7 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }
 
-
+#if 0
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t Height) 
 {
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
@@ -277,6 +277,7 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t He
 
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }
+#endif
 
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOffset, int YOffset, int ZOffset, uint32_t Width, uint32_t Height, uint32_t Depth)
 {

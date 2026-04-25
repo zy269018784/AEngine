@@ -41,7 +41,7 @@ public:
 public:
 	void TransitionImageLayout(VkFormat format, VkImageLayout OldLayout, VkImageLayout NewLayout);
 
-	void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
+	//void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
 
 	void CopyBufferToImage(VkBuffer buffer, uint32_t mipLevel, int XOffset, int YOffset, int ZOffset, uint32_t Width, uint32_t Height, uint32_t Depth);
 
