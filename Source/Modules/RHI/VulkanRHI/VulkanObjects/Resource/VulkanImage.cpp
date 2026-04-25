@@ -5,7 +5,6 @@
 #include <cstring>
 VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
     RHITextureUsageFlag InUsage,
-    //RHIAttachmentType InAttachmentType,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
 	: Device(InDevice), Type(InType), ArraySize(InArraySize)
 {
