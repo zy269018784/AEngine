@@ -57,19 +57,19 @@ void RHIApplicationUBO::Init()
 
 void RHIApplicationUBO::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
 }
 
 void RHIApplicationUBO::CreateEBO()
 {
-    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, sizeof(Index), Index);
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::IndexBuffer, sizeof(Index), Index);
 }
 
 void RHIApplicationUBO::CreateUBO()
 {
     for (int i = 0; i < 4; i++)
     {
-        RHIUBO[i] = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::Static, sizeof(UBOData[i]), UBOData[i]);
+        RHIUBO[i] = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(UBOData[i]), UBOData[i]);
     }
 }
 

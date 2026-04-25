@@ -1,5 +1,6 @@
 #include "Vulkan.h"
 #include "VulkanObjects/Resource/VulkanBuffer.h"
+#include "VulkanObjects/Core/VulkanCore.h"
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -14,6 +15,7 @@ VulkanBuffer::VulkanBuffer(VulkanDevice* InDevice, RHIBufferType InType, RHIBuff
     DeviceMemoryHandle = new VulkanDeviceMemory(InDevice);
 
     VkBufferUsageFlags UsageFlags = 0x0;
+#if 0
     switch (InType)
     {
     case VertexBuffer:
@@ -38,7 +40,8 @@ VulkanBuffer::VulkanBuffer(VulkanDevice* InDevice, RHIBufferType InType, RHIBuff
         UsageFlags |= VK_BUFFER_USAGE_TRANSFER_DST_BIT;
         break;
     }
-
+#endif
+   UsageFlags = ToVkBufferUsageFlags(InType);
    VkResult Result = VK_SUCCESS;
    
    VkBufferCreateInfo CreateInfo;

@@ -59,7 +59,7 @@ void RHIApplicationTriangle::Init()
 
 void RHIApplicationTriangle::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, sizeof(VertexAttributes), VertexAttributes);
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
     std::cout << "CreateVBO OK" << std::endl;
 }
 

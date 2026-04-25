@@ -1291,6 +1291,66 @@ inline VkImageAspectFlags ToVkImageAspectFlags(RHITextureUsageFlag InUsage, RHIP
 	return Aspect;
 }
 
+inline VkBufferUsageFlags ToVkBufferUsageFlags(RHIBufferUsageFlag InType)
+{
+	VkBufferUsageFlags UsageFlags = 0x0;
+	switch (InType)
+	{
+	case RHIBufferUsageFlag::VertexBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		break;
+	case RHIBufferUsageFlag::IndexBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+		break;
+	case RHIBufferUsageFlag::UniformBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+		break;
+	case RHIBufferUsageFlag::StorageBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
+		break;
+	case RHIBufferUsageFlag::IndirectBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT;
+		break;
+	case RHIBufferUsageFlag::TransferSrcBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+		break;
+	case RHIBufferUsageFlag::TransferDstBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+		break;
+	}
+	return UsageFlags;
+}
+
+inline VkBufferUsageFlags ToVkBufferUsageFlags(RHIBufferType InType)
+{
+	VkBufferUsageFlags UsageFlags = 0x0;
+	switch (InType)
+	{
+	case RHIBufferType::VertexBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		break;
+	case RHIBufferType::IndexBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+		break;
+	case RHIBufferType::UniformBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+		break;
+	case RHIBufferType::StorageBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
+		break;
+	case RHIBufferType::IndirectBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT;
+		break;
+	case RHIBufferType::TransferSrcBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+		break;
+	case RHIBufferType::TransferDstBuffer:
+		UsageFlags |= VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+		break;
+	}
+	return UsageFlags;
+}
+
 // 判断是否为单平面格式
 inline bool IsSinglePlane(VkFormat Format)
 {

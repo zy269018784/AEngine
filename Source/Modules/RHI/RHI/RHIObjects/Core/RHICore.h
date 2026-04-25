@@ -387,8 +387,9 @@ enum class RHITImageUsageFlag: std::uint32_t
 	StorageTexture,
 };
 
-enum RHIBufferUsageFlag: std::uint32_t
+enum class RHIBufferUsageFlag: std::uint32_t
 {
+#if 0
 	Immutable,
 	Stream,
 	Stream_DRAW,
@@ -402,9 +403,17 @@ enum RHIBufferUsageFlag: std::uint32_t
 	Dynamic_DRAW,
 	Dynamic_READ,
 	Dynamic_COPY,
+#endif
+	TransferSrcBuffer,
+	TransferDstBuffer,
+	VertexBuffer,
+	IndexBuffer,
+	UniformBuffer,
+	StorageBuffer,
+	IndirectBuffer,
 };
 
-enum RHIBufferType : std::uint32_t
+enum class RHIBufferType : std::uint32_t
 {
 	VertexBuffer,
 	IndexBuffer,

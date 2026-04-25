@@ -16,7 +16,7 @@ public:
 	virtual void Update(std::uint32_t InSize, const void* InData) final override;
 public:
 	GLuint Handle;			// Buffer Object
-	GLenum Type;				// Target
+	//GLenum Type;			// Target
 	bool bStreamDraw;
 	GLenum Target = 0;
 };

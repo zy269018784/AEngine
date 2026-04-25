@@ -3,7 +3,6 @@
 
 OpenGLBuffer::OpenGLBuffer()
 	: Handle(0),
-	Type(0),
 	bStreamDraw(false)
 {
 
@@ -13,23 +12,23 @@ OpenGLBuffer::OpenGLBuffer()
 OpenGLBuffer::OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
 	: RHIBuffer(InType, InUsage, InSize),
 	Handle(0),
-	Type(InType),
+	//Type(InType),
 	bStreamDraw(false)
 {
 	glGenBuffers(1, &Handle);
     std::cout << "OpenGLBuffer " << Handle << std::endl;
-    switch (Type)
+    switch (GetType())
     {
-    case VertexBuffer:
+    case RHIBufferType::VertexBuffer:
         Target = GL_ARRAY_BUFFER;
         break;
-    case IndexBuffer:
+    case RHIBufferType::IndexBuffer:
         Target = GL_ELEMENT_ARRAY_BUFFER;
         break;
-    case UniformBuffer:
+    case RHIBufferType::UniformBuffer:
         Target = GL_UNIFORM_BUFFER;
         break;
-    case StorageBuffer:
+    case RHIBufferType::StorageBuffer:
         Target = GL_SHADER_STORAGE_BUFFER;
         /*
             330没有
@@ -37,13 +36,13 @@ OpenGLBuffer::OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std
         */
         //std::cout << "OpenGL 330 does not support SSBO" << std::endl;
         break;
-    case IndirectBuffer:
+    case RHIBufferType::IndirectBuffer:
         Target = GL_ARRAY_BUFFER;
         break;
-    case TransferSrcBuffer:
+    case RHIBufferType::TransferSrcBuffer:
         Target = GL_COPY_READ_BUFFER;
         break;
-    case TransferDstBuffer:
+    case RHIBufferType::TransferDstBuffer:
         Target = GL_COPY_WRITE_BUFFER;
         break;
     }
@@ -59,31 +58,31 @@ OpenGLBuffer::~OpenGLBuffer(void)
 void OpenGLBuffer::Bind()
 {
     GLenum Target;
-    switch (Type)
+    switch (GetType())
     {
-    case VertexBuffer:
+    case RHIBufferType::VertexBuffer:
         Target = GL_ARRAY_BUFFER;
         break;
-    case IndexBuffer:
+    case RHIBufferType::IndexBuffer:
         Target = GL_ELEMENT_ARRAY_BUFFER;
         break;
-    case UniformBuffer:
+    case RHIBufferType::UniformBuffer:
         Target = GL_UNIFORM_BUFFER;
         break;
-    case StorageBuffer:
+    case RHIBufferType::StorageBuffer:
         /*
             330没有
             Target = GL_SHADER_STORAGE_BUFFER;
         */
         std::cout << "OpenGL 330 does not support SSBO" << std::endl;
         break;
-    case IndirectBuffer:
+    case RHIBufferType::IndirectBuffer:
         Target = GL_ARRAY_BUFFER;
         break;
-    case TransferSrcBuffer:
+    case RHIBufferType::TransferSrcBuffer:
         Target = GL_COPY_READ_BUFFER;
         break;
-    case TransferDstBuffer:
+    case RHIBufferType::TransferDstBuffer:
         Target = GL_COPY_WRITE_BUFFER;
         break;
     }

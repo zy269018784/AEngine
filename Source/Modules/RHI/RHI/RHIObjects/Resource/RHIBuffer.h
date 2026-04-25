@@ -24,6 +24,7 @@ public:
 	virtual void Update(std::uint32_t InSize, const void* InData) = 0;
 
 	std::uint32_t GetSize() const { return Size; }
+	RHIBufferType GetType() const { return Type; }
 private:
 	RHIBufferType		Type{};
 	RHIBufferUsageFlag	Usage{};

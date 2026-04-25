@@ -74,18 +74,18 @@ void RHIApplicationModel::Init()
 void RHIApplicationModel::CreateVBO()
 {
 #if 1
-    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, VBOData.size() * sizeof(float), VBOData.data());
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, VBOData.size() * sizeof(float), VBOData.data());
 #else
-    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::Static, model.VBOData.size() * sizeof(float), model.VBOData.data());
+    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, model.VBOData.size() * sizeof(float), model.VBOData.data());
 #endif
 }
 
 void RHIApplicationModel::CreateEBO()
 {
 #if 1
-    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, EBOData.size() * sizeof(unsigned int), EBOData.data());
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::IndexBuffer, EBOData.size() * sizeof(unsigned int), EBOData.data());
 #else
-    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::Static, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
+    RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::IndexBuffer, model.EBOData.size() * sizeof(unsigned int), model.EBOData.data());
 #endif
 }
 
