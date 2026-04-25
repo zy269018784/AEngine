@@ -11,7 +11,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-	CreateInfo = {};
+	CreateInfo               = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
@@ -21,71 +21,16 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.arrayLayers      = InArraySize;
     CreateInfo.samples          = ToSampleCountFlagBits(InSampleCount);
     CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
-    CreateInfo.usage            = ToVkImageUsageFlags(InUsage);
-    // CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     /*
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
     */
-#if 0
-    switch (InAttachmentType)
-    {
-        case RHIAttachmentType::Color1:
-        case RHIAttachmentType::Color2:
-        case RHIAttachmentType::Color3:
-        case RHIAttachmentType::Color4:
-        case RHIAttachmentType::Color5:
-        case RHIAttachmentType::Color6:
-        case RHIAttachmentType::Color7:
-        case RHIAttachmentType::Color8:
-        case RHIAttachmentType::Color9:
-        case RHIAttachmentType::Color10:
-        case RHIAttachmentType::Color11:
-        case RHIAttachmentType::Color12:
-        case RHIAttachmentType::Color13:
-        case RHIAttachmentType::Color14:
-        case RHIAttachmentType::Color15:
-        case RHIAttachmentType::Color16:
-            CreateInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-            break;
-        case RHIAttachmentType::DepthStencil:
-        case RHIAttachmentType::DepthStencil_D24_S8:    // 明确要求 24位深度+8位模板
-        case RHIAttachmentType::DepthStencil_D32_S8:    // 明确要求 32位深度+8位模板
-        case RHIAttachmentType::DepthOnly_D32:          // 仅32位深度
-        case RHIAttachmentType::DepthOnly_D16:          // 仅16位深度
-            CreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-            break;
-        default:
-            CreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
-            /*
-             * to do
-             * VUID-VkImageMemoryBarrier-oldLayout-01213
-             */
-             CreateInfo.usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-            break;
-    }
-#endif
-#if 0
-    switch (InPixelFormat)
-    {
-        case RHIPixelFormat::PF_DepthStencil:
-        case RHIPixelFormat::PF_DepthStencil_D24_S8:
-        case RHIPixelFormat::PF_DepthStencil_D32_S8:
-        case RHIPixelFormat::PF_DepthOnly_D32:
-        case RHIPixelFormat::PF_DepthOnly_D16:
-            CreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-            break;
-        default:
-            CreateInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-            break;
-    }
-#endif
+    CreateInfo.usage            = ToVkImageUsageFlags(InUsage);
+
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
     /*
         texture array报错
     */
-     // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_UNDEFINED;
-     // CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-     CreateInfo.initialLayout    = VK_IMAGE_LAYOUT_PREINITIALIZED;
+    CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
 
     VkResult Result = CreateImage(&CreateInfo, nullptr);
     if (VK_SUCCESS != Result)
