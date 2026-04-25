@@ -14,7 +14,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
-    CreateInfo.extent        = { InSizeX, InSizeY, InSizeZ };
+    CreateInfo.extent           = { InSizeX, InSizeY, InSizeZ };
     CreateInfo.format           = ToVkFormat(InPixelFormat);
     CreateInfo.mipLevels        = InNumMips;
     CreateInfo.arrayLayers      = InArraySize;
@@ -112,7 +112,6 @@ void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags U
     {
         throw std::runtime_error("failed to create buffer!");
     }
-    std::cout << "CreateBuffer1 AAAAAA " << Buffer  << std::endl;
 
     VkMemoryRequirements MemoryRequirements;
     Device->GetBufferMemoryRequirements(Buffer, &MemoryRequirements);
@@ -261,15 +260,15 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t He
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 
     VkBufferImageCopy Region{};
-    Region.bufferOffset = 0;
-    Region.bufferRowLength = 0;
-    Region.bufferImageHeight = 0;
-    Region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    Region.imageSubresource.mipLevel = 0;
+    Region.bufferOffset                    = 0;
+    Region.bufferRowLength                 = 0;
+    Region.bufferImageHeight               = 0;
+    Region.imageSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+    Region.imageSubresource.mipLevel       = 0;
     Region.imageSubresource.baseArrayLayer = 0;
-    Region.imageSubresource.layerCount = ArraySize;
-    Region.imageOffset = { 0, 0, 0 };
-    Region.imageExtent = { Width, Height, 1 };
+    Region.imageSubresource.layerCount     = ArraySize;
+    Region.imageOffset                     = { 0, 0, 0 };
+    Region.imageExtent                     = { Width, Height, 1 };
     std::cout  << " CopyBufferToImage " << Width << " " << Height << " " << ArraySize << std::endl;
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
@@ -315,15 +314,15 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOff
     }
 
     VkBufferImageCopy Region{};
-    Region.bufferOffset = 0;
-    Region.bufferRowLength = 0;
-    Region.bufferImageHeight = 0;
-    Region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    Region.imageSubresource.mipLevel = MipLevel;
-    Region.imageSubresource.baseArrayLayer = BaseArrayLayer;
-    Region.imageSubresource.layerCount = LayerCount;
-    Region.imageOffset = { XOffset, YOffset, ZOffset };
-    Region.imageExtent = { Width, Height, Depth };
+    Region.bufferOffset                        = 0;
+    Region.bufferRowLength                     = 0;
+    Region.bufferImageHeight                   = 0;
+    Region.imageSubresource.aspectMask         = VK_IMAGE_ASPECT_COLOR_BIT;
+    Region.imageSubresource.mipLevel           = MipLevel;
+    Region.imageSubresource.baseArrayLayer     = BaseArrayLayer;
+    Region.imageSubresource.layerCount         = LayerCount;
+    Region.imageOffset                         = { XOffset, YOffset, ZOffset };
+    Region.imageExtent                         = { Width, Height, Depth };
 
     CommandBuffer->CmdCopyBufferToImage(Buffer, Handle, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &Region);
 
