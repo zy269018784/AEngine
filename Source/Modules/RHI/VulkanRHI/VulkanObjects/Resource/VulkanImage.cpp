@@ -59,6 +59,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     if (VK_SUCCESS != Result)
         std::cout << "BindBufferMemory failed : " << Result << std::endl;
 
+    /*
+     *   内存大小计算不对, pls fit this.
+     */
     if (InData)
     {
         std::uint8_t* p;

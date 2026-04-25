@@ -7,7 +7,7 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 	std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
 	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
-	Image = new VulkanImage(InDevice, InType, InFormat, InUsage, InX, InY, InZ, InArraySize, InNumMips, 1);
+	Image = new VulkanImage(InDevice, InType, InFormat, InUsage, InX, InY, InZ, InArraySize, InNumMips, 1, nullptr);
 	ImageView = new VulkanImageView(InDevice, Image, InType, InFormat, InUsage, InNumMips, InArraySize);
 
 	UpdateImageData();
