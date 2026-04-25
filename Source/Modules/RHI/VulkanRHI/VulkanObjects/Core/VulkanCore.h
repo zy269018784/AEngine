@@ -142,7 +142,6 @@ inline VkImageType ImageViewTypeToImageType(VkImageViewType ResourceType)
     VkImageType ImageType;
     switch (ResourceType)
     {
-
     case VK_IMAGE_VIEW_TYPE_1D:
     case VK_IMAGE_VIEW_TYPE_1D_ARRAY:
         ImageType = VK_IMAGE_TYPE_1D;
@@ -1199,6 +1198,50 @@ inline VkFormat ToVkFormat(RHIAttachmentType type)
 
 		default:
 			return VK_FORMAT_UNDEFINED;
+	}
+}
+
+inline VkImageUsageFlags ToVkImageUsageFlags(RHITextureUsageFlag Flag)
+{
+	switch (Flag) {
+		case RHITextureUsageFlag::TransferSRC:
+			return VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+		case RHITextureUsageFlag::TransferDst:
+			return VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+		case RHITextureUsageFlag::ColorAttachment:
+			return VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		case RHITextureUsageFlag::DepthStencilAttachment:
+			return VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+		case RHITextureUsageFlag::SampledTexture:
+			/*
+			* to do
+			* VUID-VkImageMemoryBarrier-oldLayout-01213
+			*/
+			return VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+		case RHITextureUsageFlag::StorageTexture:
+			return VK_IMAGE_USAGE_STORAGE_BIT;
+		default:
+			return 0;
+	}
+}
+
+inline VkImageUsageFlags ToVkImageUsageFlags(RHITImageUsageFlag Flag)
+{
+	switch (Flag) {
+		case RHITImageUsageFlag::TransferSRC:
+			return VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+		case RHITImageUsageFlag::TransferDst:
+			return VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+		case RHITImageUsageFlag::ColorAttachment:
+			return VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		case RHITImageUsageFlag::DepthStencilAttachment:
+			return VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+		case RHITImageUsageFlag::SampledTexture:
+			return VK_IMAGE_USAGE_SAMPLED_BIT;
+		case RHITImageUsageFlag::StorageTexture:
+			return VK_IMAGE_USAGE_STORAGE_BIT;
+		default:
+			return 0;
 	}
 }
 

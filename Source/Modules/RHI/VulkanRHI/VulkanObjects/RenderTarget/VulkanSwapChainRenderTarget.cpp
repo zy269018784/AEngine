@@ -43,9 +43,10 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
     FrameBuffers.resize(ImageViews.size());
     for (int i = 0; i < FrameBuffers.size(); i++)
     {
-    	VulkanTexture *Tex = new VulkanTexture( InDevice,
+    	VulkanTexture *Tex = new VulkanTexture(InDevice,
 				RHITextureType::Texture2D,
 				RHIPixelFormat::PF_DepthStencil,
+				RHITextureUsageFlag::DepthStencilAttachment,
 				RHIAttachmentType::DepthStencil,
 				1,
 				Resolution.width,
@@ -121,6 +122,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		VulkanTexture *Tex = new VulkanTexture(InDevice,
 				RHITextureType::Texture2D,
 				DepthStencilPixelFormat,
+				RHITextureUsageFlag::DepthStencilAttachment,
 				DepthStencilType,
 				1,
 				Resolution.width,

@@ -1,4 +1,4 @@
-#include "VulkanTextureRenderTarget.h"
+﻿#include "VulkanTextureRenderTarget.h"
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
@@ -48,6 +48,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
         VulkanTexture *Tex = new VulkanTexture(InDevice,
                 RHITextureType::Texture2D,
                 DepthStencilPixelFormat,
+                RHITextureUsageFlag::DepthStencilAttachment,
                 DepthStencilType,
                 1,
                 InTexture->GetX(),

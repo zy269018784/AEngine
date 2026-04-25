@@ -12,13 +12,11 @@ VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, R
 	RHIPixelFormat InPixelFormat, std::uint32_t InNumMips, std::uint32_t InArraySize)
 	: Device(InDevice)
 {
-	VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-
 	VkImageViewCreateInfo CreateInfo{};
 	CreateInfo.sType								= VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 	CreateInfo.flags;
 	CreateInfo.image								= InImage->GetHandle();
-	CreateInfo.viewType								= InResourceType;
+	CreateInfo.viewType								= ToVulkanImageViewType(InType);
 	CreateInfo.format								= ToVkFormat(InPixelFormat);
 	CreateInfo.components.r							= VK_COMPONENT_SWIZZLE_R;
 	CreateInfo.components.g							= VK_COMPONENT_SWIZZLE_G;

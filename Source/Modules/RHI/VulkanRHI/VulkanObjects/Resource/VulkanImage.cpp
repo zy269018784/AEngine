@@ -3,7 +3,9 @@
 #include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
 #include <cstring>
-VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat, RHIAttachmentType InAttachmentType,
+VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
+    RHITextureUsageFlag InUsage,
+    //RHIAttachmentType InAttachmentType,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
 	: Device(InDevice), Type(InType), ArraySize(InArraySize)
 {
@@ -19,11 +21,12 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.arrayLayers      = InArraySize;
     CreateInfo.samples          = ToSampleCountFlagBits(InSampleCount);
     CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
-
- //   CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+    CreateInfo.usage            = ToVkImageUsageFlags(InUsage);
+    // CreateInfo.usage            = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     /*
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
-     */
+    */
+#if 0
     switch (InAttachmentType)
     {
         case RHIAttachmentType::Color1:
@@ -60,6 +63,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
              CreateInfo.usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
             break;
     }
+#endif
 #if 0
     switch (InPixelFormat)
     {
@@ -89,9 +93,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
         throw std::runtime_error("Failed to create texture image!");
     }
 
-   // std::cout << "Handle: " << Handle << " Device " << Device << std::endl;
     GetImageMemoryRequirements(&MemoryRequirements);
-   // std::cout << "MemoryRequirements.size: " <<   MemoryRequirements.size << std::endl;
     VkMemoryAllocateInfo AllocateInfo = {
         VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
         nullptr,

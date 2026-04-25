@@ -367,6 +367,16 @@ enum class RHITextureUsageFlag: std::uint32_t
 	StorageTexture,
 };
 
+enum class RHITImageUsageFlag: std::uint32_t
+{
+	TransferSRC,
+	TransferDst,
+	ColorAttachment,
+	DepthStencilAttachment,
+	SampledTexture,
+	StorageTexture,
+};
+
 enum RHIBufferUsageFlag: std::uint32_t
 {
 	Immutable,
