@@ -47,7 +47,6 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 		case RHIAttachmentType::Color16:
 			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 			break;
-		case RHIAttachmentType::DepthStencil:
 		case RHIAttachmentType::DepthStencil_D24_S8:    // 明确要求 24位深度+8位模板
 		case RHIAttachmentType::DepthStencil_D32_S8:    // 明确要求 32位深度+8位模板
 			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;

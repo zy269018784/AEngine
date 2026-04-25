@@ -1,4 +1,4 @@
-#include "RHIApplicationScene.h"
+﻿#include "RHIApplicationScene.h"
 #include "Vulkan/Common.h"
 
 #include "Model/Model.h"

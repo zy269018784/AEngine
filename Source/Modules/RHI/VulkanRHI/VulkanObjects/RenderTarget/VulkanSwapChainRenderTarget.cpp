@@ -13,7 +13,7 @@
 #include "RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include <iostream>
 #include <numbers>
-
+#if 0
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
     : SwapChain(InSwapChain),  VulkanRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()), InDevice)
 {
@@ -74,6 +74,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
         GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
     }
 }
+#endif
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
 	: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
@@ -91,7 +92,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
-	// 4060
+	// 4060 support
+	// AMD Radeon RX580 2048SP do not support
 	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
@@ -107,10 +109,12 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	/*
 		2. 创建Render Pass
 	*/
-	std::vector<RHIAttachment> InAttachments;
-	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-	RenderPass = new VulkanRenderPass(Device, ImageFormat, InAttachments, RHIAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-	//std::cout << "DepthStencilType " << static_cast<int>(DepthStencilType) << " ImageFormat " << ImageFormat << std::endl;
+	std::vector<RHIAttachment> ColorAttachments;
+	RHIAttachment DepthAttachment(DepthStencilType, RHIPixelFormat::PF_R8G8B8A8_UNORM);
+	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+
+	RenderPass = new VulkanRenderPass(Device, ImageFormat, ColorAttachments,DepthAttachment);
+
 	/*
 		3. 创建Frame Buffer
 	*/

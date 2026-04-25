@@ -13,7 +13,7 @@ class VulkanRenderPass : public RHIRenderPass
 {
 public:
 	VulkanRenderPass();
-	VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat, std::vector<RHIAttachment> InColorAttachments, RHIAttachment InDepthAttachments);
+	VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat, std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();
 private:

@@ -21,7 +21,7 @@ class VulkanTexture;
 class VulkanSwapChainRenderTarget : public VulkanRenderTarget
 {
 public:
-    VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice);
+    //VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice);
     VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface);
     ~VulkanSwapChainRenderTarget();
     virtual void RHIBeginRenderPass() override final;
