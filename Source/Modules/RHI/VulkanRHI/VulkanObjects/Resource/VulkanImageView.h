@@ -7,8 +7,8 @@ class VulkanImageView
 public:
 	VulkanImageView();
 	VulkanImageView(VulkanDevice* InDevice, VulkanImage *InImage, RHITextureType InType,
-		//VkImageAspectFlags InaspectFlags,
-		RHIPixelFormat InPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t InNumMips, std::uint32_t InArraySize);
+					RHIPixelFormat InPixelFormat, RHITextureUsageFlag InUsage,
+					std::uint32_t InNumMips, std::uint32_t InArraySize);
 	~VulkanImageView();
 	VkImageView GetHandle();
 	VkImageView Handle;
