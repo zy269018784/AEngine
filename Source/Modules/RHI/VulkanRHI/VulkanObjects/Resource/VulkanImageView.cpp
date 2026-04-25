@@ -32,7 +32,7 @@ VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, R
 	{
 		throw std::runtime_error("Failed to create texture image view!");
 	}
-	std::cout << "CreateImageView ok "  << Handle << " InNumMips " << InNumMips << " InArraySize " << InArraySize << std::endl;
+	std::cout << "CreateImageView ok "  << Handle << std::endl;
 }
 
 VulkanImageView::~VulkanImageView()

@@ -1271,7 +1271,8 @@ inline VkImageAspectFlags ToVkImageAspectFlags(RHITextureUsageFlag InUsage, RHIP
 	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_NONE;
 	switch (InUsage)
 	{
-		case RHITextureUsageFlag::ColorAttachment:
+	case RHITextureUsageFlag::SampledTexture:
+	case RHITextureUsageFlag::ColorAttachment:
 			Aspect |= VK_IMAGE_ASPECT_COLOR_BIT;
 			break;
 		case RHITextureUsageFlag::DepthStencilAttachment:

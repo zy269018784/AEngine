@@ -10,7 +10,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-	CreateInfo               = {};
+	CreateInfo                  = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
