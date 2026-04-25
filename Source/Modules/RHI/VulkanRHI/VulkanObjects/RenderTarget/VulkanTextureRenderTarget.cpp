@@ -57,7 +57,6 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
                 RHITextureType::Texture2D,
                 DepthStencilPixelFormat,
                 RHITextureUsageFlag::DepthStencilAttachment,
-                RHIDepthStencilType,
                 1,
                 InTexture->GetX(),
                 InTexture->GetY(),

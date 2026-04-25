@@ -1051,7 +1051,8 @@ inline RHIPixelFormat ToRHIPixelFormat(VkFormat Format)
         return RHIPixelFormat::PF_R8G8B8A8_UNORM;
     case VK_FORMAT_R8G8B8A8_SRGB:
         return RHIPixelFormat::PF_R8G8B8A8_SRGB;
-
+    case VK_FORMAT_B8G8R8A8_UNORM:
+    	return RHIPixelFormat::PF_B8G8R8A8_UNORM;
     // 1通道 - 16位
     case VK_FORMAT_R16_SINT:
         return RHIPixelFormat::PF_R16_SINT;
@@ -1131,7 +1132,6 @@ inline RHIPixelFormat ToRHIPixelFormat(VkFormat Format)
         return RHIPixelFormat::PF_R32G32B32A32_UINT;
     case VK_FORMAT_R32G32B32A32_SFLOAT:
         return RHIPixelFormat::PF_R32G32B32A32_FLOAT;
-
     default:
         return RHIPixelFormat::PF_Unknown;
     }

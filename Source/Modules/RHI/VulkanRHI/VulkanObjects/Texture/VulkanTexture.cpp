@@ -3,11 +3,12 @@
 
 #include <iostream>
 
-VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage, RHIAttachmentType InAttachmentType,
+VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
 	std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
 	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
-	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;;
+#if 0
 	switch (InFormat) {
 		case RHIPixelFormat::PF_DepthStencil:
 			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
@@ -27,6 +28,26 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 		default:
 			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 	}
+#endif
+	switch (InUsage)
+	{
+		case RHITextureUsageFlag::ColorAttachment:
+			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
+			break;
+		case RHITextureUsageFlag::DepthStencilAttachment:
+			switch (InFormat)
+			{
+				case RHIPixelFormat::PF_DepthOnly_D32:
+				case RHIPixelFormat::PF_DepthOnly_D16:
+					Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT;
+				case RHIPixelFormat::PF_DepthStencil_D24_S8:
+				case RHIPixelFormat::PF_DepthStencil_D32_S8:
+					Aspect |= VK_IMAGE_ASPECT_STENCIL_BIT;
+					break;
+			}
+			break;
+	}
+#if 0
 	switch (InAttachmentType)
 	{
 		case RHIAttachmentType::Color1:
@@ -58,6 +79,7 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 		default:
 			break;
 	}
+#endif
 
 	Image = new VulkanImage(InDevice, InType, InFormat, InUsage, InX, InY, InZ, InArraySize, InNumMips, 1);
 	ImageView = new VulkanImageView(InDevice, Image, InType,  Aspect, InFormat, InNumMips, InArraySize);
