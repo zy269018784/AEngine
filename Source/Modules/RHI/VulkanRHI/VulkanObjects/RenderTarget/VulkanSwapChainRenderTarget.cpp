@@ -96,13 +96,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 #if 1
 	// AMD Radeon RX580 2048SP
 	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D32_S8;
-	RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
 	// 4060 support
 	// AMD Radeon RX580 2048SP do not support
 	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
-	RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
 
@@ -110,7 +108,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		1. 同步对象
 	*/
 	Frames.resize(SwapChain->GetImageCount());
-	//Frames.resize(2);
 	for (int i = 0; i < Frames.size(); i++)
 		Frames[i] = new VulkanFrame(Device, true);
 
