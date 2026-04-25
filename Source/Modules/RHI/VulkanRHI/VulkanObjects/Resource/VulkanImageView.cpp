@@ -8,8 +8,8 @@ VulkanImageView::VulkanImageView()
 
 }
 
-VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, RHITextureType InType,  VkImageAspectFlags InaspectFlags,
-	RHIPixelFormat InPixelFormat, std::uint32_t InNumMips, std::uint32_t InArraySize)
+VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, RHITextureType InType,
+	RHIPixelFormat InPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t InNumMips, std::uint32_t InArraySize)
 	: Device(InDevice)
 {
 	VkImageViewCreateInfo CreateInfo{};
@@ -22,7 +22,7 @@ VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, R
 	CreateInfo.components.g							= VK_COMPONENT_SWIZZLE_G;
 	CreateInfo.components.b							= VK_COMPONENT_SWIZZLE_B;
 	CreateInfo.components.a							= VK_COMPONENT_SWIZZLE_A;
-	CreateInfo.subresourceRange.aspectMask			= InaspectFlags;
+	CreateInfo.subresourceRange.aspectMask			= ToVkImageAspectFlags(InUsage, InPixelFormat);
 	CreateInfo.subresourceRange.baseMipLevel		= 0;
 	CreateInfo.subresourceRange.levelCount			= InNumMips;
 	CreateInfo.subresourceRange.baseArrayLayer		= 0;

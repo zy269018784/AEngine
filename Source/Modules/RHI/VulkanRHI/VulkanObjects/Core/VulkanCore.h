@@ -1266,6 +1266,30 @@ inline VkImageUsageFlags ToVkImageUsageFlags(RHITImageUsageFlag Flag)
 	}
 }
 
+inline VkImageAspectFlags ToVkImageAspectFlags(RHITextureUsageFlag InUsage, RHIPixelFormat InFormat)
+{
+	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_NONE;
+	switch (InUsage)
+	{
+		case RHITextureUsageFlag::ColorAttachment:
+			Aspect |= VK_IMAGE_ASPECT_COLOR_BIT;
+			break;
+		case RHITextureUsageFlag::DepthStencilAttachment:
+			switch (InFormat)
+			{
+				case RHIPixelFormat::PF_DepthOnly_D32:
+				case RHIPixelFormat::PF_DepthOnly_D16:
+						Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT;
+				case RHIPixelFormat::PF_DepthStencil_D24_S8:
+				case RHIPixelFormat::PF_DepthStencil_D32_S8:
+						Aspect |= VK_IMAGE_ASPECT_STENCIL_BIT;
+						break;
+			}
+			break;
+	}
+	return Aspect;
+}
+
 // 判断是否为单平面格式
 inline bool IsSinglePlane(VkFormat Format)
 {

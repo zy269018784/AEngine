@@ -7,82 +7,8 @@ VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIP
 	std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
 	: RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
-	VkImageAspectFlags Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;;
-#if 0
-	switch (InFormat) {
-		case RHIPixelFormat::PF_DepthStencil:
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-			break;
-		case RHIPixelFormat::PF_DepthStencil_D24_S8:
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-			break;
-		case RHIPixelFormat::PF_DepthStencil_D32_S8:
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-			break;
-		case RHIPixelFormat::PF_DepthOnly_D32:
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
-			break;
-		case RHIPixelFormat::PF_DepthOnly_D16:
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
-			break;
-		default:
-			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-	}
-#endif
-	switch (InUsage)
-	{
-		case RHITextureUsageFlag::ColorAttachment:
-			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-			break;
-		case RHITextureUsageFlag::DepthStencilAttachment:
-			switch (InFormat)
-			{
-				case RHIPixelFormat::PF_DepthOnly_D32:
-				case RHIPixelFormat::PF_DepthOnly_D16:
-					Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT;
-				case RHIPixelFormat::PF_DepthStencil_D24_S8:
-				case RHIPixelFormat::PF_DepthStencil_D32_S8:
-					Aspect |= VK_IMAGE_ASPECT_STENCIL_BIT;
-					break;
-			}
-			break;
-	}
-#if 0
-	switch (InAttachmentType)
-	{
-		case RHIAttachmentType::Color1:
-		case RHIAttachmentType::Color2:
-		case RHIAttachmentType::Color3:
-		case RHIAttachmentType::Color4:
-		case RHIAttachmentType::Color5:
-		case RHIAttachmentType::Color6:
-		case RHIAttachmentType::Color7:
-		case RHIAttachmentType::Color8:
-		case RHIAttachmentType::Color9:
-		case RHIAttachmentType::Color10:
-		case RHIAttachmentType::Color11:
-		case RHIAttachmentType::Color12:
-		case RHIAttachmentType::Color13:
-		case RHIAttachmentType::Color14:
-		case RHIAttachmentType::Color15:
-		case RHIAttachmentType::Color16:
-			Aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-			break;
-		case RHIAttachmentType::DepthStencil_D24_S8:    // 明确要求 24位深度+8位模板
-		case RHIAttachmentType::DepthStencil_D32_S8:    // 明确要求 32位深度+8位模板
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-			break;
-		case RHIAttachmentType::DepthOnly_D32:          // 仅32位深度
-		case RHIAttachmentType::DepthOnly_D16:          // 仅16位深度
-			Aspect = VK_IMAGE_ASPECT_DEPTH_BIT;
-			break;
-		default:
-			break;
-	}
-#endif
-
 	Image = new VulkanImage(InDevice, InType, InFormat, InUsage, InX, InY, InZ, InArraySize, InNumMips, 1);
-	ImageView = new VulkanImageView(InDevice, Image, InType,  Aspect, InFormat, InNumMips, InArraySize);
+	ImageView = new VulkanImageView(InDevice, Image, InType, InFormat, InUsage, InNumMips, InArraySize);
 
 	UpdateImageData();
 }
