@@ -1,30 +1,14 @@
 #pragma once
-#include <cstdint>
 #include "RHIObjects/Core/RHICore.h"
 class RHIBuffer
 {
 public:
-
-
-
-public:
-	RHIBuffer()
-	{
-	}
-
-	RHIBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
-		:  Type(InType), Usage(InUsage), Size(InSize)
-	{
-	}
-
-	virtual ~RHIBuffer()
-	{
-	}
-
+	RHIBuffer() = default;
+	RHIBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize);
+	virtual ~RHIBuffer();
+	std::uint32_t GetSize() const;
+	RHIBufferType GetType() const;
 	virtual void Update(std::uint32_t InSize, const void* InData) = 0;
-
-	std::uint32_t GetSize() const { return Size; }
-	RHIBufferType GetType() const { return Type; }
 private:
 	RHIBufferType		Type{};
 	RHIBufferUsageFlag	Usage{};

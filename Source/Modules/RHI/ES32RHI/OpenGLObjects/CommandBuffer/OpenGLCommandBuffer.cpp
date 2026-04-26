@@ -208,7 +208,7 @@ void OpenGLCommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphics
 				*/
 				if (RHIShaderResourceBinding::Type::StorageBuffer == Bindings[i].d.type)
 				{
-					GLuint Buffer = ((OpenGLBuffer*)Bindings[i].d.u.sbuf.buf)->Handle;
+					GLuint Buffer = ((OpenGLBuffer*)Bindings[i].d.u.sbuf.buf)->GetHandle();
 					GLintptr Offset = Bindings[i].d.u.sbuf.offset;
 					GLsizeiptr Size = Bindings[i].d.u.sbuf.maybeSize;
 
@@ -221,7 +221,7 @@ void OpenGLCommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphics
 
 				if (RHIShaderResourceBinding::Type::UniformBuffer == Bindings[i].d.type)
 				{
-					GLuint Buffer = ((OpenGLBuffer*)Bindings[i].d.u.sbuf.buf)->Handle;
+					GLuint Buffer = ((OpenGLBuffer*)Bindings[i].d.u.sbuf.buf)->GetHandle();
 					GLintptr Offset = Bindings[i].d.u.sbuf.offset;
 					GLsizeiptr Size = Bindings[i].d.u.sbuf.maybeSize;
 
@@ -287,11 +287,11 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 	*/
 	((OpenGLGraphicsPipeline*)GraphicsPipeline)->BindVAO();
 	OpenGLBuffer* RHIVBO = (OpenGLBuffer*)(Bindings->first);
-	glBindBuffer(GL_ARRAY_BUFFER, RHIVBO->Handle);
+	glBindBuffer(GL_ARRAY_BUFFER, RHIVBO->GetHandle());
 	if (RHIEBO)
 	{	
 		OpenGLBuffer* OpenGLEBO = (OpenGLBuffer*)(RHIEBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, OpenGLEBO->Handle);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, OpenGLEBO->GetHandle());
 	}
 #if 0
 #if 0
@@ -367,7 +367,7 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 			OpenGLBuffer* RHIVBO = (OpenGLBuffer*)(Bindings[i].first);
 			GLintptr Offset = Bindings[i].second;
 
-			glBindVertexBuffer(i, RHIVBO->Handle, Offset, Stride);
+			glBindVertexBuffer(i, RHIVBO->GetHandle(), Offset, Stride);
 
 		//	std::cout << i << " " << RHIVBO->Handle << " " << Offset << " " << Stride << std::endl;
 		}

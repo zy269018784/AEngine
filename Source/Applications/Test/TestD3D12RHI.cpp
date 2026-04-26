@@ -64,7 +64,7 @@ static    GLFWwindow* g_Window = nullptr;
 static std::vector<RHICommandBuffer::VertexInput> VertexInputs;
 
 
-static RHI *RHI = nullptr;
+static RHI *pRHI = nullptr;
 static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
@@ -123,21 +123,21 @@ static bool Init() {
 #endif
 
 
-    //RHI = new D3D12RHI();
+    //pRHI = new D3D12RHI();
 
     if (0 == RHIIndex)
     {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
         if (!g_Window) return false;
-        RHI = new VulkanRHI();
+        pRHI = new VulkanRHI();
     }
     else if (1 == RHIIndex)
     {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
         if (!g_Window) return false;
-        RHI = new D3D12RHI();
+        pRHI = new D3D12RHI();
     }
     else if (2 == RHIIndex)
     {
@@ -151,15 +151,15 @@ static bool Init() {
         g_Window = glfwCreateWindow(Width, Height, "D3D12 Triangle", nullptr, nullptr);
         if (!g_Window) return false;
         glfwMakeContextCurrent(g_Window);
-        RHI = new ES32RHI();
+        pRHI = new ES32RHI();
     }
     HWND hwnd = glfwGetWin32Window(g_Window);
     HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    Window = RHI->RHICreateWindow(instacne, hwnd);
+    Window = pRHI->RHICreateWindow(instacne, hwnd);
 #if 0
     ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
-    std::cout << "CommandPools " << RHI->Devices[0]->CommandPools.size() << std::endl;
+    std::cout << "CommandPools " << pRHI->Devices[0]->CommandPools.size() << std::endl;
 
     ((D3D12CommandBuffer*)Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
 #endif
@@ -216,13 +216,13 @@ static bool CreateTriangleResources() {
         auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
         auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
         std::cout << "RHICreateShader 1" << std::endl;
-        VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+        VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
         std::cout << "RHICreateShader 2" << std::endl;
     } else
     {
-        VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
-        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
+        VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
     }
     std::cout << "CreateTriangleResources " << std::endl;
 #if 1
@@ -250,7 +250,7 @@ static bool CreateTriangleResources() {
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-    GraphicsPipeline = RHI->RHICreateGraphicsPipeline((RHIRenderPass *)0);
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline((RHIRenderPass *)0);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -272,7 +272,7 @@ static bool CreateTriangleResources() {
 
 static void CreateVBO()
 {
-    VBO = RHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
+    VBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
     std::cout << "CreateVBO OK" << std::endl;
 }
 
@@ -283,7 +283,7 @@ static void CreateVertexDescriptioin()
 
 static void CreateSRB()
 {
-    SRB = RHI->RHICreateShaderResourceBindings();
+    SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->Create();
 }
 
@@ -321,13 +321,13 @@ static void CreateGraphicsPipeline()
         auto vertShaderCode = ReadFile("DrawTriangle_vert.spv");
         auto fragShaderCode = ReadFile("DrawTriangle_frag.spv");
         // 创建Shader
-        VertexShader= RHI->RHICreateShader(RHIShaderType::Vertex,   (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+        VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex,   (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
     }
     else
     {
-        VertexShader = RHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
-        FragmengShader = RHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
+        VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vsCode, strlen(vsCode));
+        FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)psCode, strlen(psCode));
     }
 
     RHIVertexInputLayout VertexInputLayout;
@@ -349,7 +349,7 @@ static void CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-    GraphicsPipeline = RHI->RHICreateGraphicsPipeline(Window);
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(Window);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -362,7 +362,7 @@ static void CreateGraphicsPipeline()
 
 static void WaitForGPU() {
     const UINT64 fence = ((D3D12Window *)Window)->FenceValue;
-    ((D3D12RHI *    )RHI)->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
+    ((D3D12RHI *    )pRHI)->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
     ((D3D12Window *)Window)->FenceValue++;
 
     if (((D3D12Window *)Window)->Fence->GetCompletedValue() < fence) {

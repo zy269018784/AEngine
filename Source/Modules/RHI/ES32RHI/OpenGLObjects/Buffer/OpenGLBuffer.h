@@ -1,7 +1,6 @@
 #pragma once
 #include <ES32.h>
 #include "RHIObjects/Resource/RHIBuffer.h"
-#include <cstdint>
 
 class OpenGLBuffer : public RHIBuffer
 {
@@ -14,9 +13,8 @@ public:
 	GLenum GetAccess() const;
 	GLuint GetHandle() const;
 	virtual void Update(std::uint32_t InSize, const void* InData) final override;
-public:
-	GLuint Handle;			// Buffer Object
-	//GLenum Type;			// Target
+private:
+	GLuint Handle;			
 	bool bStreamDraw;
 	GLenum Target = 0;
 };
