@@ -224,7 +224,7 @@ Engine::Engine(IWindow* InWindow)
 
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     std::cout << "RHIApplication 2" << std::endl;
-    RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
+    //RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
     RHIWindow2_ = RHIWindow_;
     std::cout << "RHIApplication 3" << std::endl;
 #endif
