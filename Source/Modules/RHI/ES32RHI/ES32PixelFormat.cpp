@@ -2,7 +2,6 @@
 
 OpenGLPixelFormatInfo OpenGLPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_MAX_)] = {
 	//					PixelFormat								InternalFormat								Format				Type
-	OpenGLPixelFormatInfo(RHIPixelFormat::PF_Unknown,			GL_NONE,				GL_NONE,			GL_NONE),
 
 	// 深度模板
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_DepthStencil,		GL_DEPTH24_STENCIL8,	GL_DEPTH_STENCIL,	GL_UNSIGNED_INT_24_8),
@@ -90,5 +89,7 @@ OpenGLPixelFormatInfo OpenGLPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_
 	// 4通道 - 32位
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R32G32B32A32_SINT,	GL_RGBA32I,			GL_RGBA_INTEGER,	GL_INT),
 	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R32G32B32A32_UINT,	GL_RGBA32UI,		GL_RGBA_INTEGER,	GL_UNSIGNED_INT),
-	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R32G32B32A32_FLOAT,	GL_RGBA32F,		GL_RGBA,			GL_FLOAT)
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_R32G32B32A32_FLOAT,	GL_RGBA32F,		GL_RGBA,			GL_FLOAT),
+	OpenGLPixelFormatInfo(RHIPixelFormat::PF_Unknown,			GL_NONE,				GL_NONE,			GL_NONE),
+
 };
