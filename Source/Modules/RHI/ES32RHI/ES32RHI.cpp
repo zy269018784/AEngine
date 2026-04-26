@@ -40,11 +40,6 @@ void ES32RHI::RHIUseGPU(std::uint32_t GPUIndex)
 //}
 
 #ifdef RHI_USE_WIN32_KHR
-RHIWindow* ES32RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
-{
-	return new OpenGLWindow();
-}
-
 RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	return nullptr;
@@ -52,11 +47,6 @@ RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 #endif
 
 #ifdef RHI_USE_PLATFORM_WAYLAND_KHR
-RHIWindow* ES32RHI::RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface)
-{
-	return new OpenGLWindow();
-}
-
 RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
@@ -64,11 +54,6 @@ RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surf
 #endif
 
 #ifdef RHI_USE_XCB_KHR
-RHIWindow* ES32RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
-{
-	return new OpenGLWindow();
-}
-
 RHISurface* ES32RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	return nullptr;
@@ -76,11 +61,6 @@ RHISurface* ES32RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t
 #endif
 
 #ifdef RHI_USE_Xlib_KHR
-RHIWindow* ES32RHI::RHICreateWindow(Display* Disp, Window Win)
-{
-	return new OpenGLWindow();
-}
-
 RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 {
 	return nullptr;

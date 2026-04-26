@@ -27,28 +27,24 @@ public:
 		Win32
 	*/
 #ifdef RHI_USE_WIN32_KHR
-	virtual RHIWindow* RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd) final override;
 	virtual RHISurface* RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd) final override;
 #endif
 	/*
 		Wayland
 	*/
 #ifdef RHI_USE_PLATFORM_WAYLAND_KHR
-	virtual RHIWindow* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) final override;
 	virtual RHISurface* RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface) final override;
 #endif
 	/*
 		XCB
 	*/
 #ifdef RHI_USE_XCB_KHR
-	virtual RHIWindow* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) final override;
 	virtual RHISurface* RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
 	/*
 		Xlib
 	*/
 #ifdef RHI_USE_Xlib_KHR
-	virtual RHIWindow* RHICreateWindow(Display* Disp, Window Win) final override;
 	virtual RHISurface* RHICreateSurface(Display* Disp, Window Win) final override;
 #endif
 

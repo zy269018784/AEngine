@@ -38,58 +38,27 @@ void D3D12RHI::RHIUseGPU(std::uint32_t GPUIndex)
 }
 
 #ifdef RHI_USE_WIN32_KHR
-RHIWindow* D3D12RHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
-{
-	D3D12Surface* Surface = new D3D12Surface(Hinstance, Hwnd);
-
-	D3D12Window* NewD3D12Window = new D3D12Window(nullptr, Devices[GPUIndex], Surface);
-	NewD3D12Window->CreateFactory();
-	NewD3D12Window->CreateSwapChain();
-	NewD3D12Window->CreateCommandBuffer();
-	NewD3D12Window-> g_FrameIndex =  NewD3D12Window->SwapChain->GetCurrentBackBufferIndex();
-
-	((D3D12CommandBuffer*)NewD3D12Window->CurrentGraphicsCommandBuffer())->GetHandle()->Close();
-	return NewD3D12Window;
-}
-
 RHISurface* D3D12RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	return nullptr;
 }
 #endif
-/*
-	Wayland
-*/
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
-RHIWindow* D3D12RHI::RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface)
-{
-	return nullptr;
-}
 
+#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
 RHISurface* D3D12RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
 }
 #endif
-/*
-	X11
-*/
-#ifdef RHI_USE_XCB_KHR
-RHIWindow* D3D12RHI::RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window)
-{
-	return nullptr;
-}
 
+#ifdef RHI_USE_XCB_KHR
 RHISurface* D3D12RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	return nullptr;
 }
+#endif
 
-RHIWindow* D3D12RHI::RHICreateWindow(Display* Disp, Window Win)
-{
-	return nullptr;
-}
-
+#ifdef RHI_USE_Xlib_KHR
 RHISurface* D3D12RHI::RHICreateSurface(Display* Disp, Window Win)
 {
 	return nullptr;
