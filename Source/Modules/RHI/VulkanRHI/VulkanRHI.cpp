@@ -44,33 +44,6 @@ void VulkanRHI::RHIUseGPU(std::uint32_t InGPUIndex)
 
 
 #ifdef RHI_USE_WIN32_KHR
-RHIWindow* VulkanRHI::RHICreateWindow(HINSTANCE Hinstance, HWND Hwnd)
-{
-	if (!Instance)
-	{
-		std::cout << "Instance is nullptr" << std::endl;
-		return nullptr;
-	}
-	/*
-	 *	创建Surface
-	 */
-	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
-
-	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
-
-	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
-
-	/*
-	 *	获取物理设备和逻辑设备
-	 */
-	VulkanPhysicalDevice* PhysicalDevice = Instance->GetVulkanPhysicalDevice(GPUIndex);
-	VulkanDevice* Device = Devices[GPUIndex];
-
-
-	VulkanWindow* NewVulkanWindow = new VulkanWindow(PhysicalDevice, Device, Surface);
-	return NewVulkanWindow;
-}
-
 RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);

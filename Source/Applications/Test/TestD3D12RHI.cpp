@@ -155,7 +155,7 @@ static bool Init() {
     }
     HWND hwnd = glfwGetWin32Window(g_Window);
     HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    Window = pRHI->RHICreateWindow(instacne, hwnd);
+  //  Window = pRHI->RHICreateWindow(instacne, hwnd);
 #if 0
     ((D3D12Window *)Window)-> g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
 
