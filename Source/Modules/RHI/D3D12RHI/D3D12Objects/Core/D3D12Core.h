@@ -825,10 +825,7 @@ inline DXGI_FORMAT ToD3D12Format(RHIPixelFormat PF)
 {
     switch (PF)
     {
-    case RHIPixelFormat::PF_Unknown:
-        return DXGI_FORMAT_UNKNOWN;
-
-        // 深度模板
+    // 深度模板
     case RHIPixelFormat::PF_DepthStencil:
         // D3D12 常用的深度模板格式，对应 Vulkan 的 VK_FORMAT_D24_UNORM_S8_UINT
         // 如果希望对应 VK_FORMAT_D32_SFLOAT_S8_UINT，可以使用 DXGI_FORMAT_D32_FLOAT_S8X24_UINT

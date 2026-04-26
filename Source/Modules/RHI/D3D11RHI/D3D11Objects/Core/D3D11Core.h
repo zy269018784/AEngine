@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "D3D11_Includes.h"
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/Core/RHIVertexInputAttribute.h"
@@ -666,10 +666,7 @@ inline DXGI_FORMAT ToD3D11Format(RHIPixelFormat PF)
 {
     switch (PF)
     {
-    case RHIPixelFormat::PF_Unknown:
-        return DXGI_FORMAT_UNKNOWN;
-
-        // 深度模板
+    // 深度模板
     case RHIPixelFormat::PF_DepthStencil:
         // D3D11 常用的深度模板格式
         // 注意：D3D11 创建深度模板视图时需要匹配的格式
@@ -933,8 +930,6 @@ inline UINT RHIPixelFormatToBytesPerPixel(RHIPixelFormat PF)
     case RHIPixelFormat::PF_R32G32B32A32_UINT:
     case RHIPixelFormat::PF_R32G32B32A32_FLOAT:
         return 16;
-
-    case RHIPixelFormat::PF_Unknown:
     default:
         return 0;
     }

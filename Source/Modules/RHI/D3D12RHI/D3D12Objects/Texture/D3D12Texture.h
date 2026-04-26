@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "D3D12_Includes.h"
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/Texture/RHITexture.h"

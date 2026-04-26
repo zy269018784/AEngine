@@ -777,10 +777,6 @@ inline VkFormat ToVkFormat(RHIPixelFormat PF)
 	VkFormat Format = VK_FORMAT_UNDEFINED;
 	switch (PF)
 	{
-	case RHIPixelFormat::PF_Unknown:
-		Format = VK_FORMAT_UNDEFINED;
-		break;
-
 		// 深度模板
 	case RHIPixelFormat::PF_DepthStencil:
 		// to do
@@ -996,9 +992,6 @@ inline RHIPixelFormat ToRHIPixelFormat(VkFormat Format)
 {
     switch (Format)
     {
-    case VK_FORMAT_UNDEFINED:
-        return RHIPixelFormat::PF_Unknown;
-
     // 深度+模板
     case VK_FORMAT_D24_UNORM_S8_UINT:
     case VK_FORMAT_D32_SFLOAT_S8_UINT:

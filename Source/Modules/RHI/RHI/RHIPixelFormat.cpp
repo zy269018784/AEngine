@@ -31,7 +31,7 @@ RHIPixelFormatInfo::RHIPixelFormatInfo(
 RHIPixelFormatInfo    GPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_MAX_)] =
 {
 	//					PixelFormat							Name					BlockSizeX	BlockSizeY	BlockSizeZ	BlockBytes	NumComponents 
-	RHIPixelFormatInfo(RHIPixelFormat::PF_Unknown,              "Unknown",              0,          0,          0,          0,          0),
+	//RHIPixelFormatInfo(RHIPixelFormat::PF_Unknown,              "Unknown",              0,          0,          0,          0,          0),
 
 	// 深度模板
 	RHIPixelFormatInfo(RHIPixelFormat::PF_DepthStencil,         "DepthStencil",         1,          1,          1,          4,          1),
@@ -118,10 +118,7 @@ std::uint32_t PixelFormatToSize(RHIPixelFormat InFormat)
 	std::uint32_t Size = 0;
 	switch (InFormat)
 	{
-	case RHIPixelFormat::PF_Unknown:
-		break;
 	case RHIPixelFormat::PF_R8_SINT:
-
 	case RHIPixelFormat::PF_R8_UINT:
 		Size = 1;
 		break;

@@ -1,7 +1,7 @@
 #include "RHIAttachment.h"
 
 RHIAttachment::RHIAttachment()
-: Type(RHIAttachmentType::Unknown), PixelFormat(RHIPixelFormat::PF_Unknown)
+: Type(RHIAttachmentType::Unknown)
 {
 
 }

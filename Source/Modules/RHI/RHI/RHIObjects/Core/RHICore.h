@@ -229,7 +229,8 @@ enum class RHIPixelFormat : std::int32_t
 	PF_R32G32B32A32_SINT,	//  32 bit signed int			R	G	B	A
 	PF_R32G32B32A32_UINT,	//  32 bit unsigned int			R	G	B	A
 	PF_R32G32B32A32_FLOAT,	//  32 bit half float			R	G	B	A
-	PF_MAX_
+	PF_MAX_,
+	PF_Unknown
 };
 
 enum class RHIFilter : uint8_t

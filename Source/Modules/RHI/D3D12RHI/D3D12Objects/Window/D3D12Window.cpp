@@ -1,4 +1,4 @@
-#include  "D3D12Window.h"
+﻿#include  "D3D12Window.h"
 #include "D3D12Objects/SwapChain/D3D12SwapChain.h"
 #include "D3D12Objects/Instance/D3D12Instance.h"
 #include "D3D12Objects/Device/D3D12Device.h"

@@ -1,4 +1,4 @@
-#include "RHIApplicationTextureRenderTarget.h"
+﻿#include "RHIApplicationTextureRenderTarget.h"
 #include "Vulkan/Common.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
@@ -232,7 +232,7 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
         throw std::runtime_error("failed to load texture image!");
     }
 
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
 
    // RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
 #endif
@@ -241,7 +241,7 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
 void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-    RHITextureRT = pRHI->RHICreateTexture2D(RHIAttachmentType::None, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
 	TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHITextureRT);
 }
 

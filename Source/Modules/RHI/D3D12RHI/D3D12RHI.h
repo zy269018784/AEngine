@@ -79,7 +79,7 @@ public:
 		@param  SizeX : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data = nullptr) final override;
 
 	/**
 		@brief 创建1D纹理数组
@@ -89,7 +89,7 @@ public:
 		@param  ArraySize : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1DArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data = nullptr) final override;
 
 	/**
 		@brief 创建2D纹理
@@ -99,7 +99,7 @@ public:
 		@param  SizeY : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) final override;
 
 
 	/**
@@ -111,7 +111,7 @@ public:
 		@param  ArraySize : 纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2DArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) final override;
 
 	/**
 		@brief 创建3D纹理
@@ -122,7 +122,7 @@ public:
 		@param  SizeZ : 纹理高度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture3D(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data = nullptr) final override;
 
 	/**
 		@brief 创建CubeMap纹理
@@ -131,7 +131,7 @@ public:
 		@param  Size : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCube(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) final override;
 
 
 	/**
@@ -141,7 +141,7 @@ public:
 		@param  Size : 纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCubeArray(RHIAttachmentType AttachmentType, RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) final override;
+	virtual RHITexture* RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) final override;
 
 	virtual void RHIUpdateTexture(RHITexture* Texture, const void* InData, std::uint32_t InSize) final override;
 
