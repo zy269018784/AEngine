@@ -151,7 +151,7 @@ enum class RHILogicOp : uint8_t
 	OR_INVERTED
 };
 
-enum class RHIPixelFormat : unsigned long long
+enum class RHIPixelFormat : std::int32_t
 {
 	// 深度模板
 	PF_DepthStencil = 0,	   // DepthStencil
@@ -229,8 +229,6 @@ enum class RHIPixelFormat : unsigned long long
 	PF_R32G32B32A32_SINT,	//  32 bit signed int			R	G	B	A
 	PF_R32G32B32A32_UINT,	//  32 bit unsigned int			R	G	B	A
 	PF_R32G32B32A32_FLOAT,	//  32 bit half float			R	G	B	A
-
-	PF_Unknown,
 	PF_MAX_
 };
 
