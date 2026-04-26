@@ -115,8 +115,26 @@ private:
 	/*
 		物理设备属性
 	*/
-	VkPhysicalDeviceProperties				PhysicalDeviceProperties;
+	VkPhysicalDeviceProperties					PhysicalDeviceProperties;
+	VkPhysicalDeviceProperties2					PhysicalDeviceProperties2;
+	VkPhysicalDeviceMaintenance3PropertiesKHR	Maintenance3Properties;
+	VkPhysicalDeviceMaintenance4PropertiesKHR	Maintenance4Properties;
+	VkPhysicalDeviceMaintenance5PropertiesKHR	Maintenance5Properties;
+	VkPhysicalDeviceMaintenance6PropertiesKHR	Maintenance6Properties;
+	VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
+	VkPhysicalDeviceMaintenance9PropertiesKHR	Maintenance9Properties;
 
+	VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
+	VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
+	VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
+	VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
+	VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
+	VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
+	/*
+		Features
+	*/
+	VkPhysicalDeviceFeatures				VulkanFeatures;
+	VkPhysicalDeviceFeatures2				VulkanFeatures2;
 	/*
 		支持的扩展
 	*/
@@ -130,10 +148,7 @@ private:
 		内存属性
 	*/
 	VkPhysicalDeviceMemoryProperties		MemoryProperties;
-	/*
-		Features
-	*/
-	VkPhysicalDeviceFeatures				VulkanFeatures;
+
 	/*
 		主机可见Memory Tyoe Indices
 	*/

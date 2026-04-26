@@ -20,6 +20,24 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	*/
 	GetPhysicalDeviceProperties(&PhysicalDeviceProperties);
 
+
+	Maintenance6Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES_KHR;
+	Maintenance6Properties.pNext = nullptr;
+
+	Maintenance5Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES_KHR;
+	Maintenance5Properties.pNext = &Maintenance6Properties;
+
+	Maintenance4Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES;
+	Maintenance4Properties.pNext = &Maintenance5Properties;
+
+	Maintenance3Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES;
+	Maintenance3Properties.pNext = &Maintenance4Properties;
+
+	PhysicalDeviceProperties2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
+	PhysicalDeviceProperties2.pNext  = &Maintenance4Properties;
+
+	GetPhysicalDeviceProperties2(&PhysicalDeviceProperties2);
+	printf("maintenance4Props.maxBufferSize: %llu\n", Maintenance4Properties.maxBufferSize);
 	/*
 		获取Layer属性
 	*/
@@ -118,6 +136,11 @@ void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
 void VulkanPhysicalDevice::InitFeatures()
 {
 	GetPhysicalDeviceFeatures(&VulkanFeatures);
+
+	VulkanFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+	VulkanFeatures2.pNext = nullptr;
+	GetPhysicalDeviceFeatures2(&VulkanFeatures2);
+
 	Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)] = VulkanFeatures.depthBounds;
 	Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)] = VulkanFeatures.multiViewport;
 }
