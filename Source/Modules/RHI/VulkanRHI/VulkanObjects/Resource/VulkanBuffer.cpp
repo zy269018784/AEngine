@@ -12,7 +12,7 @@ VulkanBuffer::VulkanBuffer()
 VulkanBuffer::VulkanBuffer(VulkanDevice* InDevice, RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)
     : Device(InDevice), RHIBuffer(InType, InUsage, InSize)
 {
-    DeviceMemoryHandle = new VulkanDeviceMemory(InDevice);
+   DeviceMemory = new VulkanDeviceMemory(InDevice);
     
    VkResult Result = VK_SUCCESS;
    
@@ -34,29 +34,29 @@ VulkanBuffer::VulkanBuffer(VulkanDevice* InDevice, RHIBufferType InType, RHIBuff
        MemoryRequirements.size,
        Device->GetPhysicalDevice()->HostVisibleIndex
    };
-   Result = DeviceMemoryHandle->AllocateMemory(&AllocateInfo, nullptr);
+   Result = DeviceMemory->AllocateMemory(&AllocateInfo, nullptr);
    if (VK_SUCCESS != Result)
        std::cout << "AllocateMemory failed : " << Result << std::endl;
 
-   Result = BindBufferMemory(DeviceMemoryHandle->GetHandle(), 0);
+   Result = BindBufferMemory(DeviceMemory->GetHandle(), 0);
    if (VK_SUCCESS != Result)
        std::cout << "BindBufferMemory failed : " << Result << std::endl;
 
    if (InData)
    {
        std::uint8_t* p;
-       Result = DeviceMemoryHandle->MapMemory(0, MemoryRequirements.size, 0, reinterpret_cast<void**>(&p));
+       Result = DeviceMemory->MapMemory(0, MemoryRequirements.size, 0, reinterpret_cast<void**>(&p));
        if (VK_SUCCESS != Result)
            std::cout << "MapMemory failed : " << Result << std::endl;
        std::memcpy(p, InData, InSize); 
-       DeviceMemoryHandle->UnmapMemory();
+       DeviceMemory->UnmapMemory();
    }
 }
 
 VulkanBuffer::~VulkanBuffer()
 { 
     std::cout << "~VulkanBuffer" << std::endl;
-    DeviceMemoryHandle->FreeMemory();
+    DeviceMemory->FreeMemory();
     DestroyBuffer(nullptr);
 }
 
@@ -67,16 +67,16 @@ VkBuffer VulkanBuffer::GetHandle() const
 
 //VkDeviceMemory VulkanBuffer::GetMemoryHandle() const
 //{
-//    return DeviceMemoryHandle->GetHandle();
+//    return DeviceMemory->GetHandle();
 //}
 
 void VulkanBuffer::Update(std::uint32_t InSize, const void* InData)
 {
     VkResult Result = VK_SUCCESS;
     std::uint8_t* p;
-    Result = DeviceMemoryHandle->MapMemory(0, MemoryRequirements.size, 0, reinterpret_cast<void**>(&p));
+    Result = DeviceMemory->MapMemory(0, MemoryRequirements.size, 0, reinterpret_cast<void**>(&p));
     if (VK_SUCCESS != Result)
         std::cout << "MapMemory failed : " << Result << std::endl;
     std::memcpy(p, InData, InSize);
-    DeviceMemoryHandle->UnmapMemory();
+    DeviceMemory->UnmapMemory();
 }

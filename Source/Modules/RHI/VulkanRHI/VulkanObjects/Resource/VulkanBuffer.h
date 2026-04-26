@@ -1,8 +1,8 @@
 #pragma once
 #include "VulkanObjects/Device/VulkanDevice.h"
-#include <VulkanObjects/Memory/VulkanDeviceMemory.h>
+#include "VulkanObjects/Memory/VulkanDeviceMemory.h"
 #include "RHIObjects/Resource/RHIBuffer.h"
-#include <cstdint>
+
 
 class VulkanBuffer : public RHIBuffer
 {
@@ -22,7 +22,7 @@ private:
 	void DestroyBuffer(const VkAllocationCallbacks* Allocator);
 private:
 	VkBuffer Handle;
-	VulkanDeviceMemory *DeviceMemoryHandle;
+	VulkanDeviceMemory *DeviceMemory;
 	VkMemoryRequirements MemoryRequirements;
 	VulkanDevice* Device;
 };
