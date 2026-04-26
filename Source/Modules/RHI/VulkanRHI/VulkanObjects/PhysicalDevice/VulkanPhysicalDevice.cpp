@@ -37,7 +37,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	PhysicalDeviceProperties2.pNext  = &Maintenance3Properties;
 
 	GetPhysicalDeviceProperties2(&PhysicalDeviceProperties2);
-	printf("maintenance3Props.maxPerSetDescriptors: %llu\n", Maintenance3Properties.maxPerSetDescriptors);
+	printf("maintenance3Props.maxPerSetDescriptors: %u\n", Maintenance3Properties.maxPerSetDescriptors);
 	printf("maintenance4Props.maxBufferSize: %llu\n", Maintenance4Properties.maxBufferSize);
 	/*
 		获取Layer属性
