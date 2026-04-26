@@ -18,8 +18,7 @@ public:
 	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent,
 		std::vector<RHIColorAttachment *> &InColorAttachments, std::vector<RHIDepthAttachment *> &InDepthAttachments);
 	~VulkanFrameBuffer();
-	VkFramebuffer GetHandle();
-	//void CreateDepthBuffer(std::uint32_t Width, std::uint32_t Height);
+	VkFramebuffer GetHandle() const;
 private:
 	/*
 		Vulkan API Wrapper
