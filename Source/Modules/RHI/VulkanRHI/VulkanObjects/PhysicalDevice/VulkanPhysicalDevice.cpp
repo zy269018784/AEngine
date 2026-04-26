@@ -138,12 +138,17 @@ void VulkanPhysicalDevice::InitFeatures()
 {
 	GetPhysicalDeviceFeatures(&VulkanFeatures);
 
-	VulkanFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
-	VulkanFeatures2.pNext = nullptr;
+	Vulkan12Features 		= {};
+	Vulkan12Features.sType  = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+
+	VulkanFeatures2.sType 	= VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+	VulkanFeatures2.pNext 	= &Vulkan12Features;
 	GetPhysicalDeviceFeatures2(&VulkanFeatures2);
 
 	Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)] = VulkanFeatures.depthBounds;
 	Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)] = VulkanFeatures.multiViewport;
+
+	std::cout << "imagelessFramebuffer " << Vulkan12Features.imagelessFramebuffer << std::endl;
 }
 
 VkPhysicalDevice VulkanPhysicalDevice::GetHandle()

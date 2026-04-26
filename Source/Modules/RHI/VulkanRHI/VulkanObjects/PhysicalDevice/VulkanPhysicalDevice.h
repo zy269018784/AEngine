@@ -123,7 +123,11 @@ private:
 	VkPhysicalDeviceMaintenance6PropertiesKHR	Maintenance6Properties;
 	VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
 	VkPhysicalDeviceMaintenance9PropertiesKHR	Maintenance9Properties;
-
+	/*
+		Features
+	*/
+	VkPhysicalDeviceFeatures					VulkanFeatures;
+	VkPhysicalDeviceFeatures2					VulkanFeatures2;
 	VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
 	VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
 	VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
@@ -131,10 +135,17 @@ private:
 	VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
 	VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
 	/*
-		Features
-	*/
-	VkPhysicalDeviceFeatures				VulkanFeatures;
-	VkPhysicalDeviceFeatures2				VulkanFeatures2;
+	 *   Vulkan Core 1.1
+	 */
+	VkPhysicalDeviceVulkan11Features 		    Vulkan11Features;
+	/*
+	 *   Vulkan Core 1.2
+	 */
+	VkPhysicalDeviceVulkan12Features 		    Vulkan12Features;
+	/*
+	 *   Vulkan Core 1.3
+	 */
+	VkPhysicalDeviceVulkan13Features 		    Vulkan13Features;
 	/*
 		支持的扩展
 	*/

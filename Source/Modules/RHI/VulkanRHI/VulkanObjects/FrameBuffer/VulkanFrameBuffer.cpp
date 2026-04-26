@@ -24,6 +24,8 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
         attachments.emplace_back(static_cast<VulkanDepthAttachment *>(InDepthAttachments[i])->GetHandle());
     }
 
+    VkPhysicalDeviceLimits Limits = InDevice->GetPhysicalDevice()->GetPhysicalDeviceLimits();
+
     VkFramebufferCreateInfo CreateInfo{};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
     CreateInfo.renderPass       = InRenderPass->GetHandle();
@@ -32,7 +34,56 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     CreateInfo.layers           = 1;
     CreateInfo.attachmentCount  = attachments.size();
     CreateInfo.pAttachments     = attachments.data();
-    InDevice->GetPhysicalDevice();
+
+    /*
+     *      • VUID-VkFramebufferCreateInfo-layers-00889
+     *      layers must be greater than 0
+     * */
+    if (CreateInfo.layers <= 0)
+    {
+        CreateInfo.layers = 1;
+    }
+    /*
+     *      • VUID-VkFramebufferCreateInfo-layers-00890
+     *      layers must be less than or equal to maxFramebufferLayers
+     * */
+    if (Limits.maxFramebufferWidth < CreateInfo.layers)
+    {
+        CreateInfo.layers = Limits.maxFramebufferLayers;
+    }
+    /*
+     *      • VUID-VkFramebufferCreateInfo-width-00885
+     *      width must be greater than 0
+     * */
+    if (CreateInfo.width <= 0)
+    {
+        CreateInfo.width = 1;
+    }
+    /*
+     *      • VUID-VkFramebufferCreateInfo-width-00886
+     *      width must be less than or equal to maxFramebufferWidth
+     * */
+    if (Limits.maxFramebufferWidth < CreateInfo.width)
+    {
+        CreateInfo.width = Limits.maxFramebufferWidth;
+    }
+    /*
+     *      • VUID-VkFramebufferCreateInfo-height-00887
+     *      height must be greater than 0
+     * */
+    if (CreateInfo.height <= 0)
+    {
+        CreateInfo.height = 1;
+    }
+    /*
+     *      • VUID-VkFramebufferCreateInfo-height-00888
+     *      height must be less than or equal to maxFramebufferHeight
+     * */
+    if (Limits.maxFramebufferHeight < CreateInfo.height)
+    {
+        CreateInfo.height = Limits.maxFramebufferHeight;
+    }
+
     VkResult Result = CreateFramebuffer(&CreateInfo, nullptr);
     if (Result != VK_SUCCESS)
     {

@@ -1,3 +1,4 @@
+#add_compile_options(/utf-8)
 #----------------------------------------------------f
 file(GLOB_RECURSE SRC_LIST_HelloWorld     ${SRC_PREFIX}/Applications/HelloWorld/*.cpp ${SRC_PREFIX}/Applications/HelloWorld/*.c ${SRC_PREFIX}/Applications/HelloWorld/*.h)
 
