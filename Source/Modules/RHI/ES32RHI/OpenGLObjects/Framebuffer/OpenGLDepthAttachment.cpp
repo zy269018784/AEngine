@@ -10,3 +10,9 @@ OpenGLDepthAttachment::~OpenGLDepthAttachment()
 {
 
 }
+
+
+GLuint OpenGLDepthAttachment::GetHandle() const
+{
+    return Texture->GetHandle();
+}
