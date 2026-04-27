@@ -7,7 +7,6 @@
 #include "VulkanObjects/Resource/VulkanSampler.h"
 #include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
 #include "VulkanObjects/Surface/VulkanSurface.h"
-#include "VulkanObjects/Window/VulkanWindow.h"
 #include "VulkanObjects/RenderTarget/VulkanRenderTarget.h"
 #include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
 #include "VulkanObjects/RenderTarget/VulkanTextureRenderTarget.h"
@@ -102,19 +101,6 @@ RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag I
 {
 	VulkanBuffer* Buffer = new VulkanBuffer(Devices[GPUIndex], InType, InUsage, InSize, InData);
 	return Buffer;
-}
-
-RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline()
-{
-	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], nullptr);
-	return Pipeline;
-}
-
-RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIWindow* Window)
-{
-	VulkanRenderPass *RenderPass = dynamic_cast<VulkanRenderPass *>(((VulkanWindow*)Window)->RenderTarget->GetRenderPass());
-	VulkanGraphicsPipeline* Pipeline = new VulkanGraphicsPipeline(Devices[GPUIndex], RenderPass);
-	return Pipeline;
 }
 
 RHIGraphicsPipeline* VulkanRHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)

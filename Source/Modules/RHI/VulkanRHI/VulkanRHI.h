@@ -60,14 +60,9 @@ public:
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
 	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
 
-
-	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() final override;
-	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow* Window) final override;
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) final override;
 
 	virtual RHIShaderResourceBindings* RHICreateShaderResourceBindings() final override;
-
-
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)  final override;
 	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData)  final override;

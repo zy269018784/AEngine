@@ -2,13 +2,9 @@
 #include <RHIApplication.h>
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
 #include <iostream>
-
 #include <RHI.h>
 #include "RHIObjects/Resource/RHIBuffer.h"
-#include "RHIObjects/Window/RHIWindow.h"
-#include "RHIObjects/Texture/RHITexture2D.h"
 #include "RHIObjects/Shader/RHIShader.h"
 
 

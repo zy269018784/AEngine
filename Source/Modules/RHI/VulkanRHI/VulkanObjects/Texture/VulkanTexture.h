@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Vulkan.h"
-#include "RHIObjects/Texture/RHITexture2D.h"
 #include "RHIObjects/Core/RHICore.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Resource/VulkanImage.h"

@@ -89,19 +89,6 @@ RHIBuffer* ES32RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InU
 	return Buffer;
 }
 
-RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline()
-{ 
-	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
-	return Pipeline;
-}
-
-RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
-{
-	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
-	//((OpenGLWindow *)Window)->CommandBuffer->GraphicsPipeline = Pipeline;
-	return Pipeline;
-}
-
 RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
 {
 	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();

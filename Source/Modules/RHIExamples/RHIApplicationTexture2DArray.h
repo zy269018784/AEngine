@@ -7,9 +7,6 @@
 
 #include <RHI.h>
 #include "RHIObjects/Resource/RHIBuffer.h"
-#include "RHIObjects/Window/RHIWindow.h"
-#include "RHIObjects/Texture/RHITexture2D.h"
-#include "RHIObjects/Texture/RHITexture2DArray.h"
 #include "RHIObjects/Shader/RHIShader.h"
 
 

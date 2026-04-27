@@ -6,7 +6,6 @@
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "RHIObjects/Texture/RHITexture.h"
-#include "RHIObjects/Window/RHIWindow.h"
 class RHISurface;
 class RHISwapChainRenderTarget;
 class RHI
@@ -63,10 +62,6 @@ public:
 	/*
 		管线Pipeline
 	*/
-	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline() = 0;
-
-	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIWindow *Window) = 0;
-
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) = 0;
 
 	virtual RHIShader* RHICreateShader(RHIShaderType Type, std::uint32_t* Code, size_t CodeSize) = 0;

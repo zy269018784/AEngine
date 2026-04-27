@@ -16,8 +16,6 @@
 
 #include <RHI.h>
 #include <RHIObjects/Resource/RHIBuffer.h>
-#include <RHIObjects/Window/RHIWindow.h>
-
 
 /*
     spirv-cross.exe --version 460 UBO_vert.spv --output UBO_vert.glsl

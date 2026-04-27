@@ -1,7 +1,7 @@
 ﻿#include <RHIApplication.h>
 
 #include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
-#include "VulkanObjects/Window/VulkanWindow.h"
+
 #ifdef PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>

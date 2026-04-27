@@ -86,16 +86,6 @@ RHIBuffer* D3D12RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag In
 	return Buffer;
 }
 
-RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline()
-{
-	return nullptr;
-}
-
-RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIWindow* Window)
-{
-	D3D12GraphicsPipeline* Pipeline = new D3D12GraphicsPipeline(Devices[GPUIndex]);
-	return Pipeline;
-}
 
 RHIGraphicsPipeline* D3D12RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
 {

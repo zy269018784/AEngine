@@ -1,3 +1,4 @@
+#if 0
 #pragma once
 #include "RHIObjects/Window/RHIWindow.h"
 #include <D3D12_Includes.h>
@@ -51,3 +52,4 @@ public:
     HANDLE FenceEvent = nullptr;
     uint64_t FenceValue = 1;
 };
+#endif

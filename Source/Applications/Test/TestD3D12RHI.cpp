@@ -69,7 +69,6 @@ static RHIBuffer *VBO = nullptr;
 static RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 static RHIShader* VertexShader = nullptr;
 static RHIShader* FragmengShader = nullptr;
-static RHIWindow* Window = nullptr;
 static RHICommandBuffer* CommandBuffer = nullptr;
 
 /*
@@ -167,7 +166,7 @@ static bool Init() {
     CreateVertexDescriptioin();
     CreateGraphicsPipeline();
 
-    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+   // CommandBuffer = Window->CurrentGraphicsCommandBuffer();
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
     return true;
     // 创建三角形
@@ -260,7 +259,7 @@ static bool CreateTriangleResources() {
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
     GraphicsPipeline->Create();
 
-    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+   // CommandBuffer = Window->CurrentGraphicsCommandBuffer();
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
 #else
@@ -349,7 +348,7 @@ static void CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(Window);
+    //GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(Window);
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -361,6 +360,7 @@ static void CreateGraphicsPipeline()
 }
 
 static void WaitForGPU() {
+#if 0
     const UINT64 fence = ((D3D12Window *)Window)->FenceValue;
     ((D3D12RHI *    )pRHI)->Devices[0]->Queues[0]->GetHandle()->Signal(((D3D12Window *)Window)->Fence, fence);
     ((D3D12Window *)Window)->FenceValue++;
@@ -370,6 +370,7 @@ static void WaitForGPU() {
         WaitForSingleObject( ((D3D12Window *)Window)->FenceEvent, INFINITE);
     }
      ((D3D12Window *)Window)->g_FrameIndex =  ((D3D12Window *)Window)->SwapChain->GetCurrentBackBufferIndex();
+#endif
 }
 
 static void D3D12Draw()
@@ -378,9 +379,9 @@ static void D3D12Draw()
     float y = 0;
     float w = 800;
     float h = 600;
-    Window->GetExtent(x, y, w, h);
+   // Window->GetExtent(x, y, w, h);
 
-    CommandBuffer = Window->CurrentGraphicsCommandBuffer();
+   // CommandBuffer = Window->CurrentGraphicsCommandBuffer();
    // CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     RHIViewport Viewport(0, 0, w, h);
@@ -421,11 +422,11 @@ static void Render()
         if (glfwGetKey(g_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             break;
         }
-        Window->RHIBeginFrame();
-        Window->RHIBeginRenderPass();
+       // Window->RHIBeginFrame();
+       // Window->RHIBeginRenderPass();
         D3D12Draw();
-        Window->RHIEndRenderPass();
-        Window->RHIEndFrame();
+       // Window->RHIEndRenderPass();
+       // Window->RHIEndFrame();
 
         glfwSwapBuffers(g_Window);
         glfwPollEvents();
