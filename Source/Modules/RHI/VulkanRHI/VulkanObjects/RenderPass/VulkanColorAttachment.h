@@ -1,5 +1,5 @@
 #pragma once
-#include "VulkanAttachment.h"
+#include "Vulkan.h"
 #include "RHIObjects/RenderPass/RHIColorAttachment.h"
 
 class VulkanColorAttachment : public RHIColorAttachment

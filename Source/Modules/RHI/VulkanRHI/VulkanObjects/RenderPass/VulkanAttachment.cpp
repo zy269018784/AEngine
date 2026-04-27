@@ -1,3 +1,4 @@
+#if 0
 #include "VulkanAttachment.h"
 
 VulkanAttachment::VulkanAttachment(VkImageView InImageView)
@@ -15,3 +16,4 @@ VkImageView VulkanAttachment::GetHandle() const
 {
     return ImageView;
 }
+#endif
