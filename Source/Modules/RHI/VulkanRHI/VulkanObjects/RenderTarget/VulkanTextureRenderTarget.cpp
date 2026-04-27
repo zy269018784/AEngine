@@ -3,9 +3,9 @@
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include "VulkanObjects/RenderPass/VulkanAttachment.h"
-#include "VulkanObjects/RenderPass/VulkanDepthAttachment.h"
-#include "VulkanObjects/RenderPass/VulkanColorAttachment.h"
+#include "VulkanObjects/FrameBuffer/VulkanAttachment.h"
+#include "VulkanObjects/FrameBuffer/VulkanDepthAttachment.h"
+#include "VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
 #include "VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
