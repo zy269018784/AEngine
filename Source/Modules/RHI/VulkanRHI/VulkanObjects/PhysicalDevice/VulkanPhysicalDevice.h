@@ -87,13 +87,26 @@ public:
 	*/
 	void GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* Features);
 	void GetPhysicalDeviceFeatures2(VkPhysicalDeviceFeatures2* Features);
-
+	void GetPhysicalDeviceFeatures2KHR(VkPhysicalDeviceFeatures2* Features);
 	/*
 		Get Physical Device Memory Properties
 	*/
 	void GetPhysicalDeviceMemoryProperties(VkPhysicalDeviceMemoryProperties* pMemoryProperties);
 	void GetPhysicalDeviceFormatProperties2(VkFormat Format, VkFormatProperties2* FormatProperties);
+	void GetPhysicalDeviceFormatProperties2KHR(VkFormat Format, VkFormatProperties2* FormatProperties);
 
+	VkResult GetPhysicalDeviceImageFormatProperties(VkFormat format,
+		VkImageType                                 type,
+		VkImageTiling                               tiling,
+		VkImageUsageFlags                           usage,
+		VkImageCreateFlags                          flags,
+		VkImageFormatProperties*                    pImageFormatProperties);
+
+	VkResult GetPhysicalDeviceImageFormatProperties2(const VkPhysicalDeviceImageFormatInfo2* ImageFormatInfo,
+		VkImageFormatProperties2*                   pImageFormatProperties);
+
+	VkResult GetPhysicalDeviceImageFormatProperties2KHR(const VkPhysicalDeviceImageFormatInfo2* ImageFormatInfo,
+		VkImageFormatProperties2* ImageFormatProperties);
 	/*
 		Device
 	*/
