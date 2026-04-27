@@ -1,8 +1,7 @@
 ﻿#include "VulkanObjects/Resource/VulkanImage.h"
 #include "VulkanObjects/Core/VulkanCore.h"
-#include "VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
-#include <cstring>
+
 VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
     RHITextureUsageFlag InUsage,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
@@ -19,12 +18,11 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     CreateInfo.mipLevels        = InNumMips;
     CreateInfo.arrayLayers      = InArraySize;
     CreateInfo.samples          = ToSampleCountFlagBits(InSampleCount);
-    CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
     /*
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
     */
     CreateInfo.usage            = ToVkImageUsageFlags(InUsage);
-
+    CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
     /*
         texture array报错
@@ -279,7 +277,9 @@ void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t He
 }
 #endif
 
-void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel, int XOffset, int YOffset, int ZOffset, uint32_t Width, uint32_t Height, uint32_t Depth)
+void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t MipLevel,
+    int XOffset, int YOffset, int ZOffset,
+    uint32_t Width, uint32_t Height, uint32_t Depth)
 {
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 

@@ -34,11 +34,12 @@ public:
 	void DestroyImage(const VkAllocationCallbacks* Allocator);
 
 	void GetImageMemoryRequirements(VkMemoryRequirements* MemoryRequirements);
+public:
 	/*
 		临时创建staging buffer
 	*/
 	void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory);
-public:
+
 	void TransitionImageLayout(VkFormat format, VkImageLayout OldLayout, VkImageLayout NewLayout);
 
 	//void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
