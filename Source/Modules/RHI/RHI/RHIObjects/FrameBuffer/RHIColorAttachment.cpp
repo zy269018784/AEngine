@@ -15,3 +15,9 @@ RHIPixelFormat RHIColorAttachment::GetRHIPixelFormat() const
 {
     return PixelFormat;
 }
+
+
+RHIAttachmentType RHIColorAttachment::GetAttachmentType() const
+{
+    return Type;
+}

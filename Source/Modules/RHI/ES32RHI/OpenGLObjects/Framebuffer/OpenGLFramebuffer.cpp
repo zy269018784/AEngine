@@ -1,5 +1,6 @@
 #include "OpenGLFramebuffer.h"
-
+#include "OpenGLObjects/Framebuffer/OpenGLColorAttachment.h"
+#include "OpenGLObjects/Framebuffer/OpenGLDepthAttachment.h"
 /*
     void glBindFramebuffer(GLenum target, GLuint framebuffer);
         target:
@@ -12,10 +13,34 @@
 
 
 * */
-
 OpenGLFramebuffer::OpenGLFramebuffer()
 {
     glGenFramebuffers(1, &Handle);
+}
+
+OpenGLFramebuffer::OpenGLFramebuffer(std::vector<RHIColorAttachment *> &InColorAttachments,
+    std::vector<RHIDepthAttachment *> &InDepthAttachments)
+    : OpenGLFramebuffer()
+{
+    for (int i = 0; i < InColorAttachments.size(); i++)
+    {
+        GLenum Target = GL_FRAMEBUFFER;
+        GLenum Attachment = GL_COLOR_ATTACHMENT0 + i;
+        GLenum Textarget = GL_TEXTURE_2D;
+        GLuint Texture = dynamic_cast<OpenGLColorAttachment *>(InColorAttachments[i])->GetHandle();
+        glFramebufferTexture2D(Target, Attachment, Textarget, Texture, 0);
+    }
+
+    for (int i = 0; i < InDepthAttachments.size(); i++)
+    {
+        GLenum Target = GL_FRAMEBUFFER;
+        GLenum Attachment = GL_COLOR_ATTACHMENT0 + i;
+        GLenum Textarget = GL_TEXTURE_2D;
+        GLuint Texture = dynamic_cast<OpenGLColorAttachment *>(InColorAttachments[i])->GetHandle();
+
+        InDepthAttachments[i]->GetAttachmentType();
+        glFramebufferTexture2D(Target, Attachment, Textarget, Texture, 0);
+    }
 }
 
 OpenGLFramebuffer::~OpenGLFramebuffer()

@@ -1,4 +1,4 @@
-#include "RHIAttachment.h"
+#include "../RenderPass/RHIAttachment.h"
 
 RHIAttachment::RHIAttachment()
 : Type(RHIAttachmentType::Unknown)

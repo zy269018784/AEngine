@@ -1,6 +1,6 @@
 #pragma once
 #include "OpenGL.h"
-#include "RHIObjects/RenderPass/RHIDepthAttachment.h"
+#include "../../../RHI/RHIObjects/FrameBuffer/RHIDepthAttachment.h"
 class OpenGLDepthAttachment : public RHIDepthAttachment
 {
 public:

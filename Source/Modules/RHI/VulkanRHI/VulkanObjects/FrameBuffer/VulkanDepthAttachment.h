@@ -1,6 +1,6 @@
 #pragma once
 #include "Vulkan.h"
-#include "RHIObjects/RenderPass/RHIDepthAttachment.h"
+#include "../../../RHI/RHIObjects/FrameBuffer/RHIDepthAttachment.h"
 class VulkanDepthAttachment : public RHIDepthAttachment
 {
 public:

@@ -11,6 +11,11 @@ OpenGLColorAttachment::~OpenGLColorAttachment()
 
 }
 
+GLuint OpenGLColorAttachment::GetHandle() const
+{
+    return Texture->GetHandle();
+}
+
 
 
 

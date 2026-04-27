@@ -1,8 +1,8 @@
 #pragma once
 #include "Vulkan.h"
 #include "RHIObjects/RenderPass/RHIRenderPass.h"
-#include "RHIObjects/RenderPass/RHIAttachment.h"
-#include "RHIObjects/RenderPass/RHIColorAttachment.h"
+#include "../../../RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
+#include "../../../RHI/RHIObjects/FrameBuffer/RHIColorAttachment.h"
 #include "RHIObjects/RenderPass/RHIDepthAttachment.h"
 #include <vector>
 class VulkanDevice;

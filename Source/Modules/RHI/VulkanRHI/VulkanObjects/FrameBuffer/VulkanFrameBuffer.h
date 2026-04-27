@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "Vulkan.h"
 #include "RHIObjects/FrameBuffer/RHIFrameBuffer.h"
-#include "RHIObjects/RenderPass/RHIColorAttachment.h"
-#include "RHIObjects/RenderPass/RHIDepthAttachment.h"
+#include "RHIObjects/FrameBuffer/RHIColorAttachment.h"
+#include "RHIObjects/FrameBuffer/RHIDepthAttachment.h"
 #include <cstdint>
 #include <vector>
 
