@@ -37,7 +37,7 @@
 #include <limits>
 #include <optional>
 #include <set>
-#define USE_RHIWindow 0
+
 class RHIApplication
 {
 public:
@@ -61,13 +61,10 @@ public:
         GLFW窗口
     */
     IWindow* Window = nullptr;
-#if USE_RHIWindow
-    RHIWindow* RHIWindow_ = nullptr;
-    RHIRenderTarget *RenderTarget = nullptr;
-#else
+
     RHISurface* Surface = nullptr;
     RHIRenderTarget *RenderTarget = nullptr;
-#endif
+
     /*
         RHI
     */

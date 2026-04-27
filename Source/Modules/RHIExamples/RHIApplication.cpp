@@ -1,5 +1,6 @@
 ﻿#include <RHIApplication.h>
 
+#include "RHIObjects/Surface/RHISurface.h"
 #include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
 
 #ifdef PROJECT_USE_XCB
@@ -22,7 +23,7 @@ RHIApplication::RHIApplication()
 {
    // return;
     std::cout << "RHIApplication 1" << std::endl;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
@@ -78,25 +79,13 @@ RHIApplication::RHIApplication()
 
 
 #ifdef OS_IS_WINDOWS
-    std::cout << "RHIApplication 1" << std::endl;
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
-
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
-
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    std::cout << "RHIApplication 2" << std::endl;
-#if USE_RHIWindow
-    RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
-  //  this->RenderTarget = (RHIRenderTarget *)(((VulkanWindow *)RHIWindow_)->RenderTarget);
-    this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(((VulkanWindow *)RHIWindow_)->Surface);
-    ((VulkanWindow *)RHIWindow_)->RenderTarget = (VulkanSwapChainRenderTarget *)(this->RenderTarget);
-#else
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
+#endif
+
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
-#endif
-    std::cout << "RHIApplication 3" << std::endl;
-#endif
-    std::cout << "RHIApplication End" << std::endl;
 }
 
 
@@ -118,49 +107,27 @@ RHIApplication::~RHIApplication()
 void RHIApplication::Run()
 {
     Init();
-#if 1
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
-#if USE_RHIWindow
-        RHIWindow_->RHIBeginFrame();
-        RHIWindow_->RHIBeginRenderPass();
-        Draw();
-        RHIWindow_->RHIEndRenderPass();
-        RHIWindow_->RHIEndFrame();
-#else
+
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
-#endif
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
     }
     RenderTarget->WaitDeviceIdle();
-#else
-    while (!glfwWindowShouldClose(Window))
-    {
-        glfwPollEvents();
-        //Render();
-
-        RHIWindow_->RHIBeginFrame();
-        RHIWindow_->RHIBeginRenderPass();
-        Draw();
-        RHIWindow_->RHIEndRenderPass();
-        RHIWindow_->RHIEndFrame();
-    } 
-    RHIWindow_->WaitDeviceIdle();
-#endif
 }
 
 void RHIApplication::Resize(int w, int h)
 {
     Window->Resize(w, h);
-    //glfwSetWindowSize(Window, w, h);
 }
 
 void RHIApplication::Init()
