@@ -22,6 +22,8 @@ OpenGLFramebuffer::OpenGLFramebuffer(std::vector<RHIColorAttachment *> &InColorA
     std::vector<RHIDepthAttachment *> &InDepthAttachments)
     : OpenGLFramebuffer()
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, Handle);
+
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
         GLenum Target = GL_FRAMEBUFFER;
