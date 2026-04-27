@@ -117,23 +117,33 @@ private:
 	*/
 	VkPhysicalDeviceProperties					PhysicalDeviceProperties;
 	VkPhysicalDeviceProperties2					PhysicalDeviceProperties2;
+	/*
+	 * VK_KHR_maintenance3
+	 */
 	VkPhysicalDeviceMaintenance3PropertiesKHR	Maintenance3Properties;
+	/*
+	 * VK_KHR_maintenance4
+	 */
 	VkPhysicalDeviceMaintenance4PropertiesKHR	Maintenance4Properties;
+	/*
+	 * VK_KHR_maintenance5
+	 */
 	VkPhysicalDeviceMaintenance5PropertiesKHR	Maintenance5Properties;
+	/*
+	 * VK_KHR_maintenance6
+	 */
 	VkPhysicalDeviceMaintenance6PropertiesKHR	Maintenance6Properties;
+	/*
+	 * VK_KHR_maintenance7
+	 */
 	VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
+	/*
+	 * VK_KHR_maintenance9
+	 */
 	VkPhysicalDeviceMaintenance9PropertiesKHR	Maintenance9Properties;
 	/*
 		Features
 	*/
-	VkPhysicalDeviceFeatures					VulkanFeatures;
-	VkPhysicalDeviceFeatures2					VulkanFeatures2;
-	VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
-	VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
-	VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
-	VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
-	VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
-	VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
 	/*
 	 *   Vulkan Core 1.1
 	 */
@@ -146,6 +156,34 @@ private:
 	 *   Vulkan Core 1.3
 	 */
 	VkPhysicalDeviceVulkan13Features 		    Vulkan13Features;
+	VkPhysicalDeviceFeatures					VulkanFeatures;
+	VkPhysicalDeviceFeatures2					VulkanFeatures2;
+	/*
+	 * VK_KHR_maintenance4
+	 */
+	VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
+	/*
+	 * VK_KHR_maintenance5
+	 */
+	VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
+	/*
+	 * VK_KHR_maintenance6
+	 */
+	VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
+	/*
+	 * VK_KHR_maintenance7
+	 */
+	VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
+	/*
+	 * VK_KHR_maintenance8
+	 */
+	VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
+
+	/*
+	 * VK_KHR_maintenance9
+	 */
+	VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
+
 	/*
 		支持的扩展
 	*/
