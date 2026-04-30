@@ -1,0 +1,6 @@
+启动服务
+git init --bare snooker.git
+git daemon --base-path=C:/git-server --export-all --reuseaddr --enable=receive-pack
+
+拉代码
+git clone git://192.168.168.67/snooker.git
