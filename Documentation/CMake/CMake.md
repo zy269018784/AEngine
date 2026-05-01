@@ -36,6 +36,8 @@ cmake
 	--open
 	--build
 	--target
+   --config Release
+   --config Debug
    -DCMAKE_TOOLCHAIN_FILE=toolchain.cmake
 
 
