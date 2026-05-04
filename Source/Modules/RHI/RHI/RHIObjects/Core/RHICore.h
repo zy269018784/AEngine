@@ -422,3 +422,99 @@ enum class RHIBufferType : std::uint32_t
 	TransferSrcBuffer,
 	TransferDstBuffer,
 };
+
+
+inline std::uint32_t GetRHIPixelFormatSize(RHIPixelFormat format)
+{
+    switch (format)
+    {
+        // 深度模板格式
+        case RHIPixelFormat::PF_DepthStencil_D24_S8:    return 4;  // 24位深度 + 8位模板 = 32位 = 4字节
+        case RHIPixelFormat::PF_DepthStencil_D32_S8:    return 5;  // 32位深度 + 8位模板 = 40位 = 5字节
+        case RHIPixelFormat::PF_DepthOnly_D32:          return 4;  // 32位深度 = 4字节
+        case RHIPixelFormat::PF_DepthOnly_D16:          return 2;  // 16位深度 = 2字节
+        case RHIPixelFormat::PF_DepthStencil:           return 4;  // 默认深度模板格式，通常为4字节
+
+        // 1通道 8位格式
+        case RHIPixelFormat::PF_R8_SINT:
+        case RHIPixelFormat::PF_R8_UINT:
+        case RHIPixelFormat::PF_R8_SNORM:
+        case RHIPixelFormat::PF_R8_UNORM:
+        case RHIPixelFormat::PF_R8_SRGB:                return 1;  // 1字节
+
+        // 2通道 8位格式
+        case RHIPixelFormat::PF_R8G8_SINT:
+        case RHIPixelFormat::PF_R8G8_UINT:
+        case RHIPixelFormat::PF_R8G8_SNORM:
+        case RHIPixelFormat::PF_R8G8_UNORM:
+        case RHIPixelFormat::PF_R8G8_SRGB:              return 2;  // 2字节
+
+        // 3通道 8位格式
+        case RHIPixelFormat::PF_R8G8B8_SINT:
+        case RHIPixelFormat::PF_R8G8B8_UINT:
+        case RHIPixelFormat::PF_R8G8B8_SNORM:
+        case RHIPixelFormat::PF_R8G8B8_UNORM:
+        case RHIPixelFormat::PF_R8G8B8_SRGB:            return 3;  // 3字节
+
+        // 4通道 8位格式
+        case RHIPixelFormat::PF_R8G8B8A8_SINT:
+        case RHIPixelFormat::PF_R8G8B8A8_UINT:
+        case RHIPixelFormat::PF_R8G8B8A8_SNORM:
+        case RHIPixelFormat::PF_R8G8B8A8_UNORM:
+        case RHIPixelFormat::PF_R8G8B8A8_SRGB:
+        case RHIPixelFormat::PF_B8G8R8A8_UNORM:         return 4;  // 4字节
+
+        // 1通道 16位格式
+        case RHIPixelFormat::PF_R16_SINT:
+        case RHIPixelFormat::PF_R16_UINT:
+        case RHIPixelFormat::PF_R16_SNORM:
+        case RHIPixelFormat::PF_R16_UNORM:
+        case RHIPixelFormat::PF_R16_FLOAT:              return 2;  // 2字节
+
+        // 2通道 16位格式
+        case RHIPixelFormat::PF_R16G16_SINT:
+        case RHIPixelFormat::PF_R16G16_UINT:
+        case RHIPixelFormat::PF_R16G16_SNORM:
+        case RHIPixelFormat::PF_R16G16_UNORM:
+        case RHIPixelFormat::PF_R16G16_FLOAT:           return 4;  // 2 * 2字节 = 4字节
+
+        // 3通道 16位格式
+        case RHIPixelFormat::PF_R16G16B16_SINT:
+        case RHIPixelFormat::PF_R16G16B16_UINT:
+        case RHIPixelFormat::PF_R16G16B16_SNORM:
+        case RHIPixelFormat::PF_R16G16B16_UNORM:
+        case RHIPixelFormat::PF_R16G16B16_FLOAT:        return 6;  // 3 * 2字节 = 6字节
+
+        // 4通道 16位格式
+        case RHIPixelFormat::PF_R16G16B16A16_SINT:
+        case RHIPixelFormat::PF_R16G16B16A16_UINT:
+        case RHIPixelFormat::PF_R16G16B16A16_SNORM:
+        case RHIPixelFormat::PF_R16G16B16A16_UNORM:
+        case RHIPixelFormat::PF_R16G16B16A16_FLOAT:     return 8;  // 4 * 2字节 = 8字节
+
+        // 1通道 32位格式
+        case RHIPixelFormat::PF_R32_SINT:
+        case RHIPixelFormat::PF_R32_UINT:
+        case RHIPixelFormat::PF_R32_FLOAT:              return 4;  // 4字节
+
+        // 2通道 32位格式
+        case RHIPixelFormat::PF_R32G32_SINT:
+        case RHIPixelFormat::PF_R32G32_UINT:
+        case RHIPixelFormat::PF_R32G32_FLOAT:           return 8;  // 2 * 4字节 = 8字节
+
+        // 3通道 32位格式
+        case RHIPixelFormat::PF_R32G32B32_SINT:
+        case RHIPixelFormat::PF_R32G32B32_UINT:
+        case RHIPixelFormat::PF_R32G32B32_FLOAT:        return 12; // 3 * 4字节 = 12字节
+
+        // 4通道 32位格式
+        case RHIPixelFormat::PF_R32G32B32A32_SINT:
+        case RHIPixelFormat::PF_R32G32B32A32_UINT:
+        case RHIPixelFormat::PF_R32G32B32A32_FLOAT:     return 16; // 4 * 4字节 = 16字节
+
+        case RHIPixelFormat::PF_Unknown:
+        case RHIPixelFormat::PF_MAX_:
+        default:
+            return 0;  // 未知格式返回0
+    }
+}
