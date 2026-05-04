@@ -1,4 +1,7 @@
 ﻿#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceFeatures.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceProperties.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceMemoryProperties.h"
 #include "VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Queue/VulkanQueueFamily.h"
@@ -13,32 +16,10 @@ VulkanPhysicalDevice::VulkanPhysicalDevice()
 VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 {
 	Handle = h;
-
+	Features = new VulkanPhysicalDeviceFeatures(this);
+	Properties = new VulkanPhysicalDeviceProperties(this);
+	MemoryProperties = new VulkanPhysicalDeviceMemoryProperties(this);
 	std::uint32_t Count;
-	/*
-		获取物理设备属性
-	*/
-	GetPhysicalDeviceProperties(&PhysicalDeviceProperties);
-
-
-	Maintenance6Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES_KHR;
-	Maintenance6Properties.pNext = nullptr;
-
-	Maintenance5Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES_KHR;
-	Maintenance5Properties.pNext = &Maintenance6Properties;
-
-	Maintenance4Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES;
-	Maintenance4Properties.pNext = &Maintenance5Properties;
-
-	Maintenance3Properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES;
-	Maintenance3Properties.pNext = &Maintenance4Properties;
-
-	PhysicalDeviceProperties2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
-	PhysicalDeviceProperties2.pNext  = &Maintenance3Properties;
-
-	GetPhysicalDeviceProperties2(&PhysicalDeviceProperties2);
-	printf("maintenance3Props.maxPerSetDescriptors: %u\n", Maintenance3Properties.maxPerSetDescriptors);
-	printf("maintenance4Props.maxBufferSize: %llu\n", Maintenance4Properties.maxBufferSize);
 	/*
 		获取Layer属性
 	*/
@@ -72,16 +53,16 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	/*
 		获取内存属性
 	*/
-	GetPhysicalDeviceMemoryProperties(&MemoryProperties);
+	//GetPhysicalDeviceMemoryProperties(&MemoryProperties);
 	/*
 		获取主机可见Memory Type索引
 	*/
-	for (std::uint32_t MemoryTypeIndex = 0; MemoryTypeIndex < MemoryProperties.memoryTypeCount; ++MemoryTypeIndex)
+	for (std::uint32_t MemoryTypeIndex = 0; MemoryTypeIndex < MemoryProperties->MemoryProperties.memoryTypeCount; ++MemoryTypeIndex)
 	{
-		if ((MemoryProperties.memoryTypes[MemoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+		if ((MemoryProperties->MemoryProperties.memoryTypes[MemoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
 			HostVisibleMemoryTypeIndices.emplace_back(MemoryTypeIndex);
 
-		if ((MemoryProperties.memoryTypes[MemoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT))
+		if ((MemoryProperties->MemoryProperties.memoryTypes[MemoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT))
 			DeviceLocalMemoryTypeIndices.emplace_back(MemoryTypeIndex);
 	}
 }
@@ -89,6 +70,9 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 VulkanPhysicalDevice::~VulkanPhysicalDevice()
 {
 	std::cout << __FUNCTION__  << " " << Handle << std::endl;
+	delete Features;
+	delete Properties;
+	delete MemoryProperties;
 }
 
 void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
@@ -136,6 +120,7 @@ void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
 
 void VulkanPhysicalDevice::InitFeatures()
 {
+#if 0
 	GetPhysicalDeviceFeatures(&VulkanFeatures);
 
 	Vulkan12Features 		= {};
@@ -145,10 +130,11 @@ void VulkanPhysicalDevice::InitFeatures()
 	VulkanFeatures2.pNext 	= &Vulkan12Features;
 	GetPhysicalDeviceFeatures2(&VulkanFeatures2);
 
-	Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)] = VulkanFeatures.depthBounds;
-	Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)] = VulkanFeatures.multiViewport;
+	Features[static_cast<std::uint32_t>(RHIFeatures::DepthBoundsTest)] = Features->Features.depthBounds;
+	Features[static_cast<std::uint32_t>(RHIFeatures::MultiViewport)] = Features->Features.multiViewport;
 
 	std::cout << "imagelessFramebuffer " << Vulkan12Features.imagelessFramebuffer << std::endl;
+#endif
 }
 
 VkPhysicalDevice VulkanPhysicalDevice::GetHandle()
@@ -158,7 +144,7 @@ VkPhysicalDevice VulkanPhysicalDevice::GetHandle()
 
 VkPhysicalDeviceFeatures VulkanPhysicalDevice::GetGeatures() const
 {
-	return VulkanFeatures;
+	return Features->Features;
 }
 
 std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const
@@ -173,15 +159,7 @@ VulkanQueueFamily* VulkanPhysicalDevice::GetQueueFamily(std::uint32_t Index) con
 
 std::uint32_t VulkanPhysicalDevice::FindMemoryType(std::uint32_t MemoryTypeFilter, VkMemoryPropertyFlags InMemoryProperties)
 {
-	std::uint32_t MemoryTypeIndex = -1;
-	for (MemoryTypeIndex = 0; MemoryTypeIndex < MemoryProperties.memoryTypeCount; MemoryTypeIndex++)
-	{
-		if ((MemoryTypeFilter & (1 << MemoryTypeIndex)) && ((MemoryProperties.memoryTypes[MemoryTypeIndex].propertyFlags & InMemoryProperties) == InMemoryProperties))
-		{
-			break;
-		}
-	}
-	return MemoryTypeIndex;
+	return MemoryProperties->FindMemoryType(MemoryTypeFilter, InMemoryProperties);
 }
 
 
@@ -249,11 +227,10 @@ void VulkanPhysicalDevice::PrintExtensions()
 
 void VulkanPhysicalDevice::PrintProperties()
 {
-
 	std::cout << "\t\tPhysical Device Properties" << std::endl;
-	std::cout << "\t\t\tDriver Version " << PhysicalDeviceProperties.driverVersion << std::endl;
-	std::cout << "\t\t\tDevice Name " << PhysicalDeviceProperties.deviceName << std::endl;
-	std::cout << "\t\t\tDevice Type " << PhysicalDeviceProperties.deviceType << std::endl;
+	std::cout << "\t\t\tDriver Version "		<< Properties->Properties.driverVersion << std::endl;
+	std::cout << "\t\t\tDevice Name "			<< Properties->Properties.deviceName << std::endl;
+	std::cout << "\t\t\tDevice Type "			<< Properties->Properties.deviceType << std::endl;
 }
 
 void VulkanPhysicalDevice::PrintQueueFamilyProperties()
@@ -310,54 +287,54 @@ void VulkanPhysicalDevice::PrintMemoryProperties()
 	std::cout << "\t\tMemory Properties " << std::endl;
 
 	std::cout
-		<< "\t\t\tMemory Type Count " << MemoryProperties.memoryTypeCount << " "
+		<< "\t\t\tMemory Type Count " << MemoryProperties->MemoryProperties.memoryTypeCount << " "
 		<< std::endl;
 
-	for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++)
+	for (uint32_t i = 0; i < MemoryProperties->MemoryProperties.memoryTypeCount; i++)
 	{
 		std::cout
-			<< "\t\t\t\t" << "[" << i << "]" << "Heap Index " << MemoryProperties.memoryTypes[i].heapIndex << " "
-			<< "\t\t\t\t" << "Property Flags " << MemoryProperties.memoryTypes[i].propertyFlags << " ";
+			<< "\t\t\t\t" << "[" << i << "]" << "Heap Index " << MemoryProperties->MemoryProperties.memoryTypes[i].heapIndex << " "
+			<< "\t\t\t\t" << "Property Flags " << MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags << " ";
 
-	
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_HOST_COHERENT_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_HOST_CACHED_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_PROTECTED_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_PROTECTED_BIT)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_PROTECTED_BIT" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD" << " ";
 		}
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV)
 		{
 			std::cout << "VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV" << " ";
 		}
 
-		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
+		if (MemoryProperties->MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
 		{
 			//HostVisibleIndex = i;
 
@@ -368,13 +345,13 @@ void VulkanPhysicalDevice::PrintMemoryProperties()
 	}
 
 	std::cout
-		<< "\t\t\tMemory Heap Count " << MemoryProperties.memoryHeapCount << " "
+		<< "\t\t\tMemory Heap Count " << MemoryProperties->MemoryProperties.memoryHeapCount << " "
 		<< std::endl;
-	for (uint32_t i = 0; i < MemoryProperties.memoryHeapCount; i++)
+	for (uint32_t i = 0; i < MemoryProperties->MemoryProperties.memoryHeapCount; i++)
 	{
 		std::cout
-			<< "\t\t\t\tSize " << MemoryProperties.memoryHeaps[i].size << " "
-			<< "\t\t\t\tFlags " << MemoryProperties.memoryHeaps[i].flags << " "
+			<< "\t\t\t\tSize " << MemoryProperties->MemoryProperties.memoryHeaps[i].size << " "
+			<< "\t\t\t\tFlags " << MemoryProperties->MemoryProperties.memoryHeaps[i].flags << " "
 			<< std::endl;
 	}
 }
@@ -385,64 +362,67 @@ void VulkanPhysicalDevice::PrintFeatures()
 		<< "\t\tFeatures" << " "
 		<< std::endl;
 
+
 	std::cout
-		<< "\t\t" << "\trobustBufferAccess " << VulkanFeatures.robustBufferAccess << "\n"
-		<< "\t\t" << "\tfullDrawIndexUint32 " << VulkanFeatures.fullDrawIndexUint32 << "\n"
-		<< "\t\t" << "\timageCubeArray " << VulkanFeatures.imageCubeArray << "\n"
-		<< "\t\t" << "\tindependentBlend " << VulkanFeatures.independentBlend << "\n"
-		<< "\t\t" << "\tgeometryShader " << VulkanFeatures.geometryShader << "\n"
-		<< "\t\t" << "\ttessellationShader " << VulkanFeatures.tessellationShader << "\n"
-		<< "\t\t" << "\tsampleRateShading " << VulkanFeatures.sampleRateShading << "\n"
-		<< "\t\t" << "\tdualSrcBlend " << VulkanFeatures.dualSrcBlend << "\n"
-		<< "\t\t" << "\tlogicOp " << VulkanFeatures.logicOp << "\n"
-		<< "\t\t" << "\tmultiDrawIndirect " << VulkanFeatures.multiDrawIndirect << "\n"
-		<< "\t\t" << "\tdrawIndirectFirstInstance " << VulkanFeatures.drawIndirectFirstInstance << "\n"
-		<< "\t\t" << "\tdepthClamp " << VulkanFeatures.depthClamp << "\n"
-		<< "\t\t" << "\tdepthBiasClamp " << VulkanFeatures.depthBiasClamp << "\n"
-		<< "\t\t" << "\tfillModeNonSolid " << VulkanFeatures.fillModeNonSolid << "\n"
-		<< "\t\t" << "\tdepthBounds " << VulkanFeatures.depthBounds << "\n"
-		<< "\t\t" << "\twideLines " << VulkanFeatures.wideLines << "\n"
-		<< "\t\t" << "\tlargePoints " << VulkanFeatures.largePoints << "\n"
-		<< "\t\t" << "\talphaToOne " << VulkanFeatures.alphaToOne << "\n"
-		<< "\t\t" << "\tmultiViewport " << VulkanFeatures.multiViewport << "\n"
-		<< "\t\t" << "\tsamplerAnisotropy " << VulkanFeatures.samplerAnisotropy << "\n"
-		<< "\t\t" << "\ttextureCompressionETC2 " << VulkanFeatures.textureCompressionETC2 << "\n"
-		<< "\t\t" << "\ttextureCompressionASTC_LDR " << VulkanFeatures.textureCompressionASTC_LDR << "\n"
-		<< "\t\t" << "\ttextureCompressionBC " << VulkanFeatures.textureCompressionBC << "\n"
-		<< "\t\t" << "\tocclusionQueryPrecise " << VulkanFeatures.occlusionQueryPrecise << "\n"
-		<< "\t\t" << "\tpipelineStatisticsQuery " << VulkanFeatures.pipelineStatisticsQuery << "\n"
-		<< "\t\t" << "\tvertexPipelineStoresAndAtomics " << VulkanFeatures.vertexPipelineStoresAndAtomics << "\n"
-		<< "\t\t" << "\tfragmentStoresAndAtomics " << VulkanFeatures.fragmentStoresAndAtomics << "\n"
-		<< "\t\t" << "\tshaderTessellationAndGeometryPointSize " << VulkanFeatures.shaderTessellationAndGeometryPointSize << "\n"
-		<< "\t\t" << "\tshaderImageGatherExtended " << VulkanFeatures.shaderImageGatherExtended << "\n"
-		<< "\t\t" << "\tshaderStorageImageExtendedFormats " << VulkanFeatures.shaderStorageImageExtendedFormats << "\n"
-		<< "\t\t" << "\tshaderStorageImageMultisample " << VulkanFeatures.shaderStorageImageMultisample << "\n"
-		<< "\t\t" << "\tshaderStorageImageReadWithoutFormat " << VulkanFeatures.shaderStorageImageReadWithoutFormat << "\n"
-		<< "\t\t" << "\tshaderStorageImageWriteWithoutFormat " << VulkanFeatures.shaderStorageImageWriteWithoutFormat << "\n"
-		<< "\t\t" << "\tshaderUniformBufferArrayDynamicIndexing " << VulkanFeatures.shaderUniformBufferArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderSampledImageArrayDynamicIndexing " << VulkanFeatures.shaderSampledImageArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderStorageBufferArrayDynamicIndexing " << VulkanFeatures.shaderStorageBufferArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderStorageImageArrayDynamicIndexing " << VulkanFeatures.shaderStorageImageArrayDynamicIndexing << "\n"
-		<< "\t\t" << "\tshaderClipDistance " << VulkanFeatures.shaderClipDistance << "\n"
-		<< "\t\t" << "\tshaderCullDistance " << VulkanFeatures.shaderCullDistance << "\n"
-		<< "\t\t" << "\tshaderFloat64 " << VulkanFeatures.shaderFloat64 << "\n"
-		<< "\t\t" << "\tshaderInt64 " << VulkanFeatures.shaderInt64 << "\n"
-		<< "\t\t" << "\tshaderInt16 " << VulkanFeatures.shaderInt16 << "\n"
-		<< "\t\t" << "\tshaderResourceResidency " << VulkanFeatures.shaderResourceResidency << "\n"
-		<< "\t\t" << "\tshaderResourceMinLod " << VulkanFeatures.shaderResourceMinLod << "\n"
-		<< "\t\t" << "\tsparseBinding " << VulkanFeatures.sparseBinding << "\n"
-		<< "\t\t" << "\tsparseResidencyBuffer " << VulkanFeatures.sparseResidencyBuffer << "\n"
-		<< "\t\t" << "\tsparseResidencyImage2D " << VulkanFeatures.sparseResidencyImage2D << "\n"
-		<< "\t\t" << "\tsparseResidencyImage3D " << VulkanFeatures.sparseResidencyImage3D << "\n"
-		<< "\t\t" << "\tsparseResidency2Samples " << VulkanFeatures.sparseResidency2Samples << "\n"
-		<< "\t\t" << "\tsparseResidency4Samples " << VulkanFeatures.sparseResidency4Samples << "\n"
-		<< "\t\t" << "\tsparseResidency8Samples " << VulkanFeatures.sparseResidency8Samples << "\n"
-		<< "\t\t" << "\tsparseResidency16Samples " << VulkanFeatures.sparseResidency16Samples << "\n"
-		<< "\t\t" << "\tsparseResidencyAliased " << VulkanFeatures.sparseResidencyAliased << "\n"
-		<< "\t\t" << "\tvariableMultisampleRate " << VulkanFeatures.variableMultisampleRate << "\n"
-		<< "\t\t" << "\tinheritedQueries " << VulkanFeatures.inheritedQueries << "\n"
+		<< "\t\t" << "\trobustBufferAccess " << Features->Features.robustBufferAccess << "\n"
+		<< "\t\t" << "\tfullDrawIndexUint32 " << Features->Features.fullDrawIndexUint32 << "\n"
+		<< "\t\t" << "\timageCubeArray " << Features->Features.imageCubeArray << "\n"
+		<< "\t\t" << "\tindependentBlend " << Features->Features.independentBlend << "\n"
+		<< "\t\t" << "\tgeometryShader " << Features->Features.geometryShader << "\n"
+		<< "\t\t" << "\ttessellationShader " << Features->Features.tessellationShader << "\n"
+		<< "\t\t" << "\tsampleRateShading " << Features->Features.sampleRateShading << "\n"
+		<< "\t\t" << "\tdualSrcBlend " << Features->Features.dualSrcBlend << "\n"
+		<< "\t\t" << "\tlogicOp " << Features->Features.logicOp << "\n"
+		<< "\t\t" << "\tmultiDrawIndirect " << Features->Features.multiDrawIndirect << "\n"
+		<< "\t\t" << "\tdrawIndirectFirstInstance " << Features->Features.drawIndirectFirstInstance << "\n"
+		<< "\t\t" << "\tdepthClamp " << Features->Features.depthClamp << "\n"
+		<< "\t\t" << "\tdepthBiasClamp " << Features->Features.depthBiasClamp << "\n"
+		<< "\t\t" << "\tfillModeNonSolid " << Features->Features.fillModeNonSolid << "\n"
+		<< "\t\t" << "\tdepthBounds " << Features->Features.depthBounds << "\n"
+		<< "\t\t" << "\twideLines " << Features->Features.wideLines << "\n"
+		<< "\t\t" << "\tlargePoints " << Features->Features.largePoints << "\n"
+		<< "\t\t" << "\talphaToOne " << Features->Features.alphaToOne << "\n"
+		<< "\t\t" << "\tmultiViewport " << Features->Features.multiViewport << "\n"
+		<< "\t\t" << "\tsamplerAnisotropy " << Features->Features.samplerAnisotropy << "\n"
+		<< "\t\t" << "\ttextureCompressionETC2 " << Features->Features.textureCompressionETC2 << "\n"
+		<< "\t\t" << "\ttextureCompressionASTC_LDR " << Features->Features.textureCompressionASTC_LDR << "\n"
+		<< "\t\t" << "\ttextureCompressionBC " << Features->Features.textureCompressionBC << "\n"
+		<< "\t\t" << "\tocclusionQueryPrecise " << Features->Features.occlusionQueryPrecise << "\n"
+		<< "\t\t" << "\tpipelineStatisticsQuery " << Features->Features.pipelineStatisticsQuery << "\n"
+		<< "\t\t" << "\tvertexPipelineStoresAndAtomics " << Features->Features.vertexPipelineStoresAndAtomics << "\n"
+		<< "\t\t" << "\tfragmentStoresAndAtomics " << Features->Features.fragmentStoresAndAtomics << "\n"
+		<< "\t\t" << "\tshaderTessellationAndGeometryPointSize " << Features->Features.shaderTessellationAndGeometryPointSize << "\n"
+		<< "\t\t" << "\tshaderImageGatherExtended " << Features->Features.shaderImageGatherExtended << "\n"
+		<< "\t\t" << "\tshaderStorageImageExtendedFormats " << Features->Features.shaderStorageImageExtendedFormats << "\n"
+		<< "\t\t" << "\tshaderStorageImageMultisample " << Features->Features.shaderStorageImageMultisample << "\n"
+		<< "\t\t" << "\tshaderStorageImageReadWithoutFormat " << Features->Features.shaderStorageImageReadWithoutFormat << "\n"
+		<< "\t\t" << "\tshaderStorageImageWriteWithoutFormat " << Features->Features.shaderStorageImageWriteWithoutFormat << "\n"
+		<< "\t\t" << "\tshaderUniformBufferArrayDynamicIndexing " << Features->Features.shaderUniformBufferArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderSampledImageArrayDynamicIndexing " << Features->Features.shaderSampledImageArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderStorageBufferArrayDynamicIndexing " << Features->Features.shaderStorageBufferArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderStorageImageArrayDynamicIndexing " << Features->Features.shaderStorageImageArrayDynamicIndexing << "\n"
+		<< "\t\t" << "\tshaderClipDistance " << Features->Features.shaderClipDistance << "\n"
+		<< "\t\t" << "\tshaderCullDistance " << Features->Features.shaderCullDistance << "\n"
+		<< "\t\t" << "\tshaderFloat64 " << Features->Features.shaderFloat64 << "\n"
+		<< "\t\t" << "\tshaderInt64 " << Features->Features.shaderInt64 << "\n"
+		<< "\t\t" << "\tshaderInt16 " << Features->Features.shaderInt16 << "\n"
+		<< "\t\t" << "\tshaderResourceResidency " << Features->Features.shaderResourceResidency << "\n"
+		<< "\t\t" << "\tshaderResourceMinLod " << Features->Features.shaderResourceMinLod << "\n"
+		<< "\t\t" << "\tsparseBinding " << Features->Features.sparseBinding << "\n"
+		<< "\t\t" << "\tsparseResidencyBuffer " << Features->Features.sparseResidencyBuffer << "\n"
+		<< "\t\t" << "\tsparseResidencyImage2D " << Features->Features.sparseResidencyImage2D << "\n"
+		<< "\t\t" << "\tsparseResidencyImage3D " << Features->Features.sparseResidencyImage3D << "\n"
+		<< "\t\t" << "\tsparseResidency2Samples " << Features->Features.sparseResidency2Samples << "\n"
+		<< "\t\t" << "\tsparseResidency4Samples " << Features->Features.sparseResidency4Samples << "\n"
+		<< "\t\t" << "\tsparseResidency8Samples " << Features->Features.sparseResidency8Samples << "\n"
+		<< "\t\t" << "\tsparseResidency16Samples " << Features->Features.sparseResidency16Samples << "\n"
+		<< "\t\t" << "\tsparseResidencyAliased " << Features->Features.sparseResidencyAliased << "\n"
+		<< "\t\t" << "\tvariableMultisampleRate " << Features->Features.variableMultisampleRate << "\n"
+		<< "\t\t" << "\tinheritedQueries " << Features->Features.inheritedQueries << "\n"
 		<< std::endl;
 }
+
+
 
 VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 {
@@ -528,7 +508,7 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 	DeviceCreateInfo.enabledLayerCount = 0;
 	DeviceCreateInfo.ppEnabledLayerNames = nullptr;
 	DeviceCreateInfo.flags = 0;
-	DeviceCreateInfo.pEnabledFeatures = &VulkanFeatures;
+	DeviceCreateInfo.pEnabledFeatures = &Features->Features;
 
 	VkDevice DeviceHandle;
 	VkResult Result = CreateDevice(&DeviceCreateInfo, nullptr, &DeviceHandle);
@@ -667,5 +647,5 @@ void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 }
 
 VkPhysicalDeviceLimits	VulkanPhysicalDevice::GetPhysicalDeviceLimits() const {
-	return PhysicalDeviceProperties.limits;
+	return Properties->Properties.limits;
 }

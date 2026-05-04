@@ -9,7 +9,9 @@
 class VulkanSurface;
 class VulkanDevice;
 class VulkanQueueFamily;
-
+class VulkanPhysicalDeviceFeatures;
+class VulkanPhysicalDeviceProperties;
+class VulkanPhysicalDeviceMemoryProperties;
 
 /*
 	1. 检查物理设备扩展支持
@@ -126,78 +128,6 @@ private:
 	*/
 	std::vector<VkLayerProperties>			LayerProperties;
 	/*
-		物理设备属性
-	*/
-	VkPhysicalDeviceProperties					PhysicalDeviceProperties;
-	VkPhysicalDeviceProperties2					PhysicalDeviceProperties2;
-	/*
-	 * VK_KHR_maintenance3
-	 */
-	VkPhysicalDeviceMaintenance3PropertiesKHR	Maintenance3Properties;
-	/*
-	 * VK_KHR_maintenance4
-	 */
-	VkPhysicalDeviceMaintenance4PropertiesKHR	Maintenance4Properties;
-	/*
-	 * VK_KHR_maintenance5
-	 */
-	VkPhysicalDeviceMaintenance5PropertiesKHR	Maintenance5Properties;
-	/*
-	 * VK_KHR_maintenance6
-	 */
-	VkPhysicalDeviceMaintenance6PropertiesKHR	Maintenance6Properties;
-	/*
-	 * VK_KHR_maintenance7
-	 */
-	VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
-	/*
-	 * VK_KHR_maintenance9
-	 */
-	VkPhysicalDeviceMaintenance9PropertiesKHR	Maintenance9Properties;
-	/*
-		Features
-	*/
-	/*
-	 *   Vulkan Core 1.1
-	 */
-	VkPhysicalDeviceVulkan11Features 		    Vulkan11Features;
-	/*
-	 *   Vulkan Core 1.2
-	 */
-	VkPhysicalDeviceVulkan12Features 		    Vulkan12Features;
-	/*
-	 *   Vulkan Core 1.3
-	 */
-	VkPhysicalDeviceVulkan13Features 		    Vulkan13Features;
-	VkPhysicalDeviceFeatures					VulkanFeatures;
-	VkPhysicalDeviceFeatures2					VulkanFeatures2;
-	/*
-	 * VK_KHR_maintenance4
-	 */
-	VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
-	/*
-	 * VK_KHR_maintenance5
-	 */
-	VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
-	/*
-	 * VK_KHR_maintenance6
-	 */
-	VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
-	/*
-	 * VK_KHR_maintenance7
-	 */
-	VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
-	/*
-	 * VK_KHR_maintenance8
-	 */
-	VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
-
-	/*
-	 * VK_KHR_maintenance9
-	 */
-	VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
-
-	/*
 		支持的扩展
 	*/
 	std::vector<VkExtensionProperties>		SupportedExtensions;
@@ -209,7 +139,7 @@ private:
 	/*
 		内存属性
 	*/
-	VkPhysicalDeviceMemoryProperties		MemoryProperties;
+	//VkPhysicalDeviceMemoryProperties		MemoryProperties;
 
 	/*
 		主机可见Memory Tyoe Indices
@@ -220,6 +150,10 @@ private:
 		Queue Families
 	*/
 	std::vector<VulkanQueueFamily*>			QueueFamilies;
+
+	VulkanPhysicalDeviceFeatures *Features;
+	VulkanPhysicalDeviceProperties *Properties;
+	VulkanPhysicalDeviceMemoryProperties *MemoryProperties;
 public:
 	std::uint32_t							HostVisibleIndex;	
 

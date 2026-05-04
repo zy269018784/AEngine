@@ -14,7 +14,7 @@ VulkanPhysicalDeviceFeatures::VulkanPhysicalDeviceFeatures(VulkanPhysicalDevice 
 
     //VkPhysicalDeviceDescriptorIndexingFeatures indexing_features{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT, nullptr };
     //AccelerationStructureFeatures.pNext = &indexing_features;
-
+    PhysicalDevice->GetPhysicalDeviceFeatures(&Features);
     PhysicalDevice->GetPhysicalDeviceFeatures2(&Features2);
 
     std::cout << "AccelerationStructureFeatures.accelerationStructure " << AccelerationStructureFeatures.accelerationStructure << std::endl;
