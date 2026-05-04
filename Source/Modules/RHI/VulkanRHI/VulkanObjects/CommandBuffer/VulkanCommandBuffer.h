@@ -1,6 +1,6 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+
 
 #include "RHIObjects/Core/RHIViewport.h"
 #include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
@@ -8,6 +8,7 @@
 #include <cstdint>
 
 class VulkanCommandPool;
+class VulkanDevice;
 class VulkanCommandBuffer : public RHICommandBuffer
 {;
 public:

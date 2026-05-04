@@ -1,4 +1,6 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Core/VulkanAPI.h"
 /*
 	Command Buffer

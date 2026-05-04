@@ -1,6 +1,5 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include <RHIPixelFormat.h>
 #include <vector>
 
@@ -9,6 +8,7 @@ class VulkanCommandBuffer;
 class VulkanSemaphore;
 class VulkanFence;
 class VulkanQueue;
+class VulkanPhysicalDevice;
 class VulkanDevice
 {
 public:

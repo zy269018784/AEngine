@@ -1,9 +1,10 @@
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Queue/VulkanQueue.h"
+#include "VulkanObjects/Queue/VulkanQueueFamily.h"
 #include "VulkanObjects/Synchronization/VulkanFence.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include "VulkanObjects/Queue/VulkanQueueFamily.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanObjects/Synchronization/VulkanSemaphore.h"
 #include <set>
 #include <iostream>

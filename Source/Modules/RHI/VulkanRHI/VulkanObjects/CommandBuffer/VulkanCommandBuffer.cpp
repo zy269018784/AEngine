@@ -1,5 +1,6 @@
 ﻿#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
+#include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
 #include "VulkanObjects/Resource/VulkanBuffer.h"

@@ -1,8 +1,9 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorPool.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
+
+class VulkanDescriptorPool;
+class VulkanDescriptorSetLayout;
+class VulkanDevice;
 class VulkanDescriptorSet
 {
 public:

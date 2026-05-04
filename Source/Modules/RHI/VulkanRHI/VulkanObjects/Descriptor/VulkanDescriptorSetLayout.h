@@ -1,10 +1,12 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include <vector>
 #include <map>
 #include <cstdint>
+
+class VulkanDevice;
 class VulkanDescriptorSetLayoutBinding
 {
 public:

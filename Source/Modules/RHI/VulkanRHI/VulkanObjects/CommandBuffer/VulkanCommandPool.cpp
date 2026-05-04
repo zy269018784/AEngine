@@ -1,5 +1,6 @@
 #include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
 #include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanObjects/Device/VulkanDevice.h"
 #include <stdexcept>
 #include <iostream>
 

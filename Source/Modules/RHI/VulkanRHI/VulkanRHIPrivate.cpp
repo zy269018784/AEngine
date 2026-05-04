@@ -1,6 +1,7 @@
 ﻿#include "VulkanRHI.h"
 #include "VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanObjects/Core/VulkanAPI.h"
 #include <iostream>
 

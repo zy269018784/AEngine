@@ -3,6 +3,7 @@
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+class VulkanDevice;
 
 class VulkanDescriptorPool
 {

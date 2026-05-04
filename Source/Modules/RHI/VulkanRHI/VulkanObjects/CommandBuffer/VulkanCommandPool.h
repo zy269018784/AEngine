@@ -1,8 +1,9 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include <cstdint>
 
 class VulkanCommandBuffer;
+class VulkanDevice;
 class VulkanCommandPool
 {
 public:
