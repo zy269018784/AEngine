@@ -2,6 +2,7 @@
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 VulkanPhysicalDeviceFormatProperties::VulkanPhysicalDeviceFormatProperties(VulkanPhysicalDevice *InPhysicalDevice)
+    : PhysicalDevice(InPhysicalDevice)
 {
     FormatProperties.resize(static_cast<size_t>(RHIPixelFormat::PF_MAX_));
     for (uint32_t PixelFormatIndex = 0; PixelFormatIndex < FormatProperties.size(); PixelFormatIndex++)

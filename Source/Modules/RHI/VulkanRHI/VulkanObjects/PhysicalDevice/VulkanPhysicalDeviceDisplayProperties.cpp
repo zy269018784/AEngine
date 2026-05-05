@@ -2,6 +2,7 @@
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 
 VulkanPhysicalDeviceDisplayProperties::VulkanPhysicalDeviceDisplayProperties(VulkanPhysicalDevice *InPhysicalDevice)
+    : PhysicalDevice(InPhysicalDevice)
 {
 #if 0
     std::uint32_t Count = 0;

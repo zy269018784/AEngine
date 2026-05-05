@@ -2,6 +2,7 @@
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 
 VulkanPhysicalDeviceImageFormatProperties::VulkanPhysicalDeviceImageFormatProperties(VulkanPhysicalDevice *InPhysicalDevice)
+    : PhysicalDevice(InPhysicalDevice)
 {
 
 }
