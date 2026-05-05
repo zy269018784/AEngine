@@ -1,9 +1,11 @@
 #pragma once
+#include "VulkanRHI/Vulkan.h"
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorPool.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
-#include <VulkanObjects/Descriptor/VulkanDescriptorSet.h>
+
+class VulkanDescriptorPool;
+class VulkanDescriptorSetLayout;
+class VulkanDescriptorSet;
+class VulkanDevice;
 
 class VulkanShaderResourceBindings : public RHIShaderResourceBindings
 {

@@ -1,9 +1,14 @@
-﻿#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
-#include "VulkanObjects/Resource/VulkanBuffer.h"
-#include "VulkanObjects/Resource/VulkanSampler.h"
-#include "VulkanObjects/Resource/VulkanImage.h"
-#include <VulkanObjects/Resource/VulkanImageView.h>
-#include <VulkanObjects/Texture/VulkanTexture.h>
+﻿#include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanBuffer.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanSampler.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanImage.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
+#include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorPool.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorSet.h"
+
 #include <cstring>
 #include <map>
 #include <iostream>
