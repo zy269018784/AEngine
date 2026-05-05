@@ -12,6 +12,11 @@ VulkanPhysicalDeviceMemoryProperties::~VulkanPhysicalDeviceMemoryProperties()
 
 }
 
+void VulkanPhysicalDeviceMemoryProperties::Print(int Tabs)
+{
+
+}
+
 std::uint32_t VulkanPhysicalDeviceMemoryProperties::FindMemoryType(std::uint32_t MemoryTypeFilter, VkMemoryPropertyFlags InMemoryProperties)
 {
     std::uint32_t MemoryTypeIndex = -1;

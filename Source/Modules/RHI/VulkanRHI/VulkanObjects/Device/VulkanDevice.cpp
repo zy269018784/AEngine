@@ -73,9 +73,9 @@ void VulkanDevice::CreateQueue()
 	}
 }
 
-void VulkanDevice::CreateCommandPoolForAllQueueFamliy(const std::vector<VkQueueFamilyProperties>& QueueFamilyProperties)
+void VulkanDevice::CreateCommandPoolForAllQueueFamliy(std::uint32_t QueueFamilyCount)
 {
-	for (uint32_t QeueFamilyIndex = 0; QeueFamilyIndex < QueueFamilyProperties.size(); QeueFamilyIndex++)
+	for (uint32_t QeueFamilyIndex = 0; QeueFamilyIndex < QueueFamilyCount; QeueFamilyIndex++)
 	{
 		VulkanCommandPool* CommandPool = new VulkanCommandPool(this);
 		CommandPool->Create(QeueFamilyIndex);

@@ -8,6 +8,7 @@ class VulkanPhysicalDeviceMemoryProperties
 public:
     VulkanPhysicalDeviceMemoryProperties(VulkanPhysicalDevice *InPhysicalDevice);
     ~VulkanPhysicalDeviceMemoryProperties();
+    void Print(int Tabs);
     std::uint32_t FindMemoryType(std::uint32_t MemoryTypeFilter, VkMemoryPropertyFlags InMemoryProperties);
 private:
 public:

@@ -5,6 +5,8 @@
 #include "VulkanObjects/Core/VulkanAPI.h"
 #include <iostream>
 
+#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceQueueFamilyProperties.h"
+
 
 void VulkanRHI::CreateInstance()
 {
@@ -50,7 +52,7 @@ void VulkanRHI::CreateDevice()
 
 void VulkanRHI::CreateCommandPool()
 {
-    Devices[GPUIndex]->CreateCommandPoolForAllQueueFamliy(Instance->GetVulkanPhysicalDevice(GPUIndex)->QueueFamilyProperties);
+    Devices[GPUIndex]->CreateCommandPoolForAllQueueFamliy(Instance->GetVulkanPhysicalDevice(GPUIndex)->GetQueueFamilyCount());
     std::cout << "Device->Device->CommandPools.size() " << Devices[GPUIndex]->CommandPools.size() << std::endl;
 
     GraphicsCommandPool = Devices[GPUIndex]->CommandPools[0];

@@ -27,7 +27,7 @@ public:
 	/*
 		Create Wrapper
 	*/
-	void CreateCommandPoolForAllQueueFamliy(const std::vector<VkQueueFamilyProperties> &QueueFamilyProperties);
+	void CreateCommandPoolForAllQueueFamliy(std::uint32_t QueueFamilyCount);
 	VulkanCommandPool* CreateCommandPool(uint32_t QeueFamilyIndex);
 	VulkanCommandBuffer* CreateCommandBuffer(VulkanCommandPool * CommandPool);
 	VulkanFence* CreateFence(bool Signaled = false);

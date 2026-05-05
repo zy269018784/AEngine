@@ -6,6 +6,7 @@ class VulkanPhysicalDeviceFeatures
 public:
     VulkanPhysicalDeviceFeatures(VulkanPhysicalDevice *InPhysicalDevice);
     ~VulkanPhysicalDeviceFeatures();
+    void Print(int Tabs);
 private:
 public:
     VulkanPhysicalDevice *PhysicalDevice;

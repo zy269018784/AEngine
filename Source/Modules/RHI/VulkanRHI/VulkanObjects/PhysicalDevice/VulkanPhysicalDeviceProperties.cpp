@@ -22,3 +22,8 @@ VulkanPhysicalDeviceProperties::~VulkanPhysicalDeviceProperties()
 {
 
 }
+
+void VulkanPhysicalDeviceProperties::Print(int Tabs)
+{
+
+}

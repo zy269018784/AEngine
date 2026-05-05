@@ -24,3 +24,8 @@ VulkanPhysicalDeviceFeatures::~VulkanPhysicalDeviceFeatures()
 {
 
 }
+
+void VulkanPhysicalDeviceFeatures::Print(int Tabs)
+{
+
+}

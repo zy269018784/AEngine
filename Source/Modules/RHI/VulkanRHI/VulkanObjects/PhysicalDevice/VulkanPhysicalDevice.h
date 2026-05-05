@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include "Vulkan.h"
+#include "RHIObjects/PhysicalDevice/RHIPhysicalDevice.h"
+#include "VulkanRHI/Vulkan.h"
 #include <optional>
 #include <vector>
 #include <cstdint>
-#include "RHIObjects/PhysicalDevice/RHIPhysicalDevice.h"
-
 
 class VulkanSurface;
 class VulkanDevice;
@@ -12,6 +11,7 @@ class VulkanQueueFamily;
 class VulkanPhysicalDeviceFeatures;
 class VulkanPhysicalDeviceProperties;
 class VulkanPhysicalDeviceMemoryProperties;
+class VulkanPhysicalDeviceQueueFamilyProperties;
 
 /*
 	1. 检查物理设备扩展支持
@@ -123,6 +123,10 @@ public:
 	VkResult GetPhysicalDeviceSurfaceSupportKHR(std::uint32_t QueueFamilyIndex,VkSurfaceKHR Surface, VkBool32* Supported);
 private:
 	VkPhysicalDevice Handle;
+	VulkanPhysicalDeviceFeatures *Features;
+	VulkanPhysicalDeviceProperties *Properties;
+	VulkanPhysicalDeviceMemoryProperties *MemoryProperties;
+	VulkanPhysicalDeviceQueueFamilyProperties *QueueFamilyProperties;
 	/*
 		所有Layer Properties
 	*/
@@ -151,16 +155,13 @@ private:
 	*/
 	std::vector<VulkanQueueFamily*>			QueueFamilies;
 
-	VulkanPhysicalDeviceFeatures *Features;
-	VulkanPhysicalDeviceProperties *Properties;
-	VulkanPhysicalDeviceMemoryProperties *MemoryProperties;
 public:
 	std::uint32_t							HostVisibleIndex;	
 
 	/*
 		所有Queue Family Properties
 	*/
-	std::vector<VkQueueFamilyProperties>	QueueFamilyProperties;
+	//std::vector<VkQueueFamilyProperties>	QueueFamilyProperties;
 
 
 	bool SupportedPixelFormatsLinearTilingFeatures[(int)RHIPixelFormat::PF_MAX_];

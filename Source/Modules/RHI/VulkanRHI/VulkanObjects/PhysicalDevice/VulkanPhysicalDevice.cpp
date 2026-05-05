@@ -8,6 +8,9 @@
 
 #include <iostream>
 #include <set>
+
+#include "VulkanPhysicalDeviceQueueFamilyProperties.h"
+
 VulkanPhysicalDevice::VulkanPhysicalDevice()
 {
 	Handle = VK_NULL_HANDLE;
@@ -19,6 +22,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	Features = new VulkanPhysicalDeviceFeatures(this);
 	Properties = new VulkanPhysicalDeviceProperties(this);
 	MemoryProperties = new VulkanPhysicalDeviceMemoryProperties(this);
+	QueueFamilyProperties = new VulkanPhysicalDeviceQueueFamilyProperties(this);
 	std::uint32_t Count;
 	/*
 		获取Layer属性
@@ -35,7 +39,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	EnumerateDeviceExtensionProperties(nullptr, &Count, nullptr);
 	SupportedExtensions.resize(Count);
 	EnumerateDeviceExtensionProperties(nullptr, &Count, SupportedExtensions.data());
-
+#if 0
 	/*
 		获取Queue Famliy属性
 	*/
@@ -43,7 +47,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	GetPhysicalDeviceQueueFamilyProperties(&Count, nullptr);
 	QueueFamilyProperties.resize(Count);
 	GetPhysicalDeviceQueueFamilyProperties(&Count, QueueFamilyProperties.data());
-
+#endif
 	/*
 		获取Feature
 	*/
@@ -73,6 +77,7 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	delete Features;
 	delete Properties;
 	delete MemoryProperties;
+	delete QueueFamilyProperties;
 }
 
 void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
@@ -151,11 +156,17 @@ std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const
 {
 	return QueueFamilies.size();
 }
-
+#if 0
+std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const {
+	return QueueFamilyProperties->GetQueueFamilyCount();
+}
+#endif
 VulkanQueueFamily* VulkanPhysicalDevice::GetQueueFamily(std::uint32_t Index) const
 {
 	return QueueFamilies[Index];
 }
+
+
 
 std::uint32_t VulkanPhysicalDevice::FindMemoryType(std::uint32_t MemoryTypeFilter, VkMemoryPropertyFlags InMemoryProperties)
 {
@@ -235,6 +246,8 @@ void VulkanPhysicalDevice::PrintProperties()
 
 void VulkanPhysicalDevice::PrintQueueFamilyProperties()
 {
+	QueueFamilyProperties->Print(3);
+#if 0
 	std::cout << "\t\tQueue Family Properties" << std::endl;
 	for (uint32_t i = 0; i < QueueFamilyProperties.size(); i++)
 	{
@@ -280,6 +293,7 @@ void VulkanPhysicalDevice::PrintQueueFamilyProperties()
 
 		std::cout << std::endl;
 	}
+#endif
 }
 
 void VulkanPhysicalDevice::PrintMemoryProperties()
@@ -431,11 +445,11 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 	*/
 	std::vector<VkDeviceQueueCreateInfo> QueueCreateInfos;
 	std::vector<std::vector<float>> QueuePriorityForEachQueueFamily;
-	for (int QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties.size(); QueueFamilyIndex++)
+	for (int QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties->QueueFamilyProperties.size(); QueueFamilyIndex++)
 	{
-		std::cout << "CreateDevice QueueFamilyIndex " << QueueFamilyIndex << " queueCount " << QueueFamilyProperties[QueueFamilyIndex].queueCount << std::endl;
+		std::cout << "CreateDevice QueueFamilyIndex " << QueueFamilyIndex << " queueCount " << QueueFamilyProperties->QueueFamilyProperties[QueueFamilyIndex].queueCount << std::endl;
 		std::vector<float> QueuePriority;
-		QueuePriority.resize(QueueFamilyProperties[QueueFamilyIndex].queueCount);
+		QueuePriority.resize(QueueFamilyProperties->QueueFamilyProperties[QueueFamilyIndex].queueCount);
 		for (int i = 0; i < QueuePriority.size(); i++)
 			QueuePriority[i] = 1.f;
 		QueuePriorityForEachQueueFamily.emplace_back(QueuePriority);
@@ -445,7 +459,7 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 		QueueCreateInfo.pNext = nullptr;
 		QueueCreateInfo.flags = 0;
 		QueueCreateInfo.queueFamilyIndex = QueueFamilyIndex;
-		QueueCreateInfo.queueCount = QueueFamilyProperties[QueueFamilyIndex].queueCount;
+		QueueCreateInfo.queueCount = QueueFamilyProperties->QueueFamilyProperties[QueueFamilyIndex].queueCount;
 		QueueCreateInfo.pQueuePriorities = QueuePriorityForEachQueueFamily[QueueFamilyIndex].data();
 		QueueCreateInfos.push_back(QueueCreateInfo);
 	}
@@ -614,8 +628,8 @@ bool VulkanPhysicalDevice::CheckExtensionSupport(std::vector<const char*> Requir
 void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 {
 	
-	std::cout << "Query ----------------- QueueFamilyProperties " << QueueFamilyProperties.size() << std::endl;
-	for (std::uint32_t QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties.size(); QueueFamilyIndex++)
+	std::cout << "Query ----------------- QueueFamilyProperties " << QueueFamilyProperties->QueueFamilyProperties.size() << std::endl;
+	for (std::uint32_t QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties->QueueFamilyProperties.size(); QueueFamilyIndex++)
 	{
 		VkBool32 PresentSupport = false;
 
