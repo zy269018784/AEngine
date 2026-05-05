@@ -155,11 +155,11 @@ private:
 	/*
 		Queue Families
 	*/
-	std::vector<VulkanQueueFamily*>			QueueFamilies;
+	std::vector<VulkanQueueFamily *>			QueueFamilies;
 	/*
 		待修改
 	*/
-	std::vector<std::uint32_t>				PresentQueueFamilyIndices;
+	//std::vector<std::uint32_t>				PresentQueueFamilyIndices;
 	/*
 		主机可见Memory Tyoe Indices
 	*/
