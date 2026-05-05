@@ -1,8 +1,8 @@
 #pragma once
 #include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
 #include "RHIObjects/Shader/RHIShader.h"
 
+class VulkanDevice;
 class VulkanShader : public RHIShader
 {
 public:
