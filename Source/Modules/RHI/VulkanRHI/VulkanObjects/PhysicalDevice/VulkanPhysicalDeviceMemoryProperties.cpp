@@ -20,49 +20,52 @@ void VulkanPhysicalDeviceMemoryProperties::Print(int Tabs)
 	std::cout
 		<< "\t\t\tMemory Type Count " << MemoryProperties.memoryTypeCount << " "
 		<< std::endl;
-
+	std::cout
+		<< "\t\t\t\t" << "Memory Type Index"  << "\t" << "Heap Index " << "\t"
+		<< "\t\t\t\t" << "Property Flags "  << "\n";
 	for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++)
 	{
+
 		std::cout
-			<< "\t\t\t\t" << "[" << i << "]" << "Heap Index " << MemoryProperties.memoryTypes[i].heapIndex << " "
-			<< "\t\t\t\t" << "Property Flags " << MemoryProperties.memoryTypes[i].propertyFlags << " ";
+			<< "\t\t\t\t" << "[" << i << "]"  << "\t\t" << MemoryProperties.memoryTypes[i].heapIndex << "\t"
+			<< "\t\t\t\t" << " " << MemoryProperties.memoryTypes[i].propertyFlags << " ";
 
 
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_HOST_COHERENT_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_HOST_COHERENT_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_HOST_CACHED_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_HOST_CACHED_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_PROTECTED_BIT)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_PROTECTED_BIT" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_PROTECTED_BIT" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD" << "\t";
 		}
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV)
 		{
-			std::cout << "VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV" << " ";
+			std::cout << "VK_MEMORY_PROPERTY_RDMA_CAPABLE_BIT_NV" << "\t";
 		}
 
 		if (MemoryProperties.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
