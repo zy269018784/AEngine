@@ -1,6 +1,6 @@
 #pragma once
-#include "Vulkan.h"
-#include <RHIPixelFormat.h>
+#include "VulkanRHI/Vulkan.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 #include <vector>
 
 class VulkanCommandPool;

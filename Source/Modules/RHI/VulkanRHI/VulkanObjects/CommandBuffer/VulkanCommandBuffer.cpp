@@ -1,15 +1,15 @@
-﻿#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include "VulkanObjects/Resource/VulkanBuffer.h"
-#include <VulkanObjects/Pipeline/VulkanGraphicsPipeline.h>
-#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
-#include "VulkanObjects/Core/VulkanCore.h"
+﻿#include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandPool.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
+#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanBuffer.h"
+#include "VulkanRHI/VulkanObjects/Pipeline/VulkanGraphicsPipeline.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorSet.h"
 #include <stdexcept>
 #include <iostream>
-
 
 VulkanCommandBuffer::VulkanCommandBuffer(VulkanDevice* InDevice, VulkanCommandPool* InCommandPool)
 	: Device(InDevice), CommandPool(InCommandPool)
