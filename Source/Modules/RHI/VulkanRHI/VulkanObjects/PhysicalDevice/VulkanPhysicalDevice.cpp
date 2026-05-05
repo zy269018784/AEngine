@@ -6,7 +6,7 @@
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceFormatProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceDisplayProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceImageFormatProperties.h"
-
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceExtensions.h"
 #include "VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Queue/VulkanQueueFamily.h"
@@ -33,35 +33,12 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	MemoryProperties = new VulkanPhysicalDeviceMemoryProperties(this);
 	QueueFamilyProperties = new VulkanPhysicalDeviceQueueFamilyProperties(this);
 	QueueFamilies = QueueFamilyProperties->CreateQueueFamilies();
-
-	std::uint32_t Count;
-
-	/*
-		获取Extension属性
-	*/
-	Count = 0;
-	EnumerateDeviceExtensionProperties(nullptr, &Count, nullptr);
-	SupportedExtensions.resize(Count);
-	EnumerateDeviceExtensionProperties(nullptr, &Count, SupportedExtensions.data());
-#if 0
-	/*
-		获取Queue Famliy属性
-	*/
-	Count = 0;
-	GetPhysicalDeviceQueueFamilyProperties(&Count, nullptr);
-	QueueFamilyProperties.resize(Count);
-	GetPhysicalDeviceQueueFamilyProperties(&Count, QueueFamilyProperties.data());
-#endif
+	SupportedExtensions = new VulkanPhysicalDeviceExtensions(this);
 	/*
 		获取Feature
 	*/
 
 	InitFeatures();
-
-	/*
-		获取内存属性
-	*/
-	//GetPhysicalDeviceMemoryProperties(&MemoryProperties);
 	/*
 		获取主机可见Memory Type索引
 	*/
@@ -86,6 +63,7 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	delete FormatProperties;
 	delete DisplayProperties ;
 	delete ImageFormatProperties;
+	delete SupportedExtensions;
 }
 
 void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
@@ -184,27 +162,7 @@ void VulkanPhysicalDevice::PrintLayers()
 
 void VulkanPhysicalDevice::PrintExtensions()
 {
-	/*
-		获取Extension数量
-	*/
-	uint32_t Count = 0;
-	EnumerateDeviceExtensionProperties(nullptr, &Count, nullptr);
-
-	/*
-		获取Extension
-	*/
-	SupportedExtensions.resize(Count);
-	EnumerateDeviceExtensionProperties(nullptr, &Count, SupportedExtensions.data());
-
-	std::cout << "\t\tPhysical Device Extensions " << std::endl;
-	for (uint32_t i = 0; i < Count; i++)
-	{
-		std::cout
-			<< "\t\t\t"
-			<< SupportedExtensions[i].extensionName << " "
-			//	<< ExtensionPropertyHandles[i].specVersion << " "
-			<< std::endl;
-	}
+	SupportedExtensions->Print(3);
 }
 
 void VulkanPhysicalDevice::PrintProperties()
@@ -225,10 +183,7 @@ void VulkanPhysicalDevice::PrintMemoryProperties()
 void VulkanPhysicalDevice::PrintFeatures()
 {
 	Features->Print(3);
-
 }
-
-
 
 VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 {
@@ -327,11 +282,6 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 
 
 	VulkanDevice* Device = new VulkanDevice(this, DeviceHandle);
-	//Device->pPhysicalDevice = this;
-	//std::cout << "PresentQueueFamilyIndex " << PresentQueueFamilyIndex << std::endl;
-	//if (PresentQueueFamilyIndices.size() == 0)
-	//	std::cout << "No Queue Famliy support present" << std::endl;
-
 	/*
 		给第一个Present Queue Family创建1个Queue
 		FIX 暂时创建prenset 队列
@@ -405,21 +355,11 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice2()
 
 bool VulkanPhysicalDevice::CheckExtensionSupport(std::vector<const char*> RequiredExtensions)
 {
-	/*
-		检查释放支持所有的扩展
-	*/
-	std::set<std::string> AllRequiredExtensions(RequiredExtensions.begin(), RequiredExtensions.end());
-	for (const auto& Extension : SupportedExtensions)
-	{
-		AllRequiredExtensions.erase(Extension.extensionName);
-	}
-
-	return AllRequiredExtensions.empty();
+	return SupportedExtensions->CheckExtensionSupport(RequiredExtensions);
 }
 
 void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 {
-	
 	std::cout << "Query ----------------- QueueFamilyProperties " << QueueFamilyProperties->QueueFamilyProperties.size() << std::endl;
 	for (std::uint32_t QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties->QueueFamilyProperties.size(); QueueFamilyIndex++)
 	{
