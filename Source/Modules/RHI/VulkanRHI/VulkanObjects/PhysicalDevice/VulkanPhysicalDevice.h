@@ -134,11 +134,6 @@ private:
 		Queue Families
 	*/
 	std::vector<VulkanQueueFamily*>			QueueFamilies;
-
-	/*
-		所有Layer Properties
-	*/
-	//std::vector<VkLayerProperties>			LayerProperties;
 	/*
 		支持的扩展
 	*/

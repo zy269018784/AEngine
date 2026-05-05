@@ -75,6 +75,7 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	delete Properties;
 	delete MemoryProperties;
 	delete QueueFamilyProperties;
+	delete LayerProperties;
 }
 
 void VulkanPhysicalDevice::QuerySupportedPixelFormats() {
