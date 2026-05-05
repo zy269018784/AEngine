@@ -12,7 +12,7 @@ class VulkanPhysicalDeviceFeatures;
 class VulkanPhysicalDeviceProperties;
 class VulkanPhysicalDeviceMemoryProperties;
 class VulkanPhysicalDeviceQueueFamilyProperties;
-
+class VulkanPhysicalDeviceLayerProperties;
 /*
 	1. 检查物理设备扩展支持
 	2. 每个物理设备的queue family 创建队列
@@ -129,10 +129,16 @@ private:
 	VulkanPhysicalDeviceProperties *Properties;
 	VulkanPhysicalDeviceMemoryProperties *MemoryProperties;
 	VulkanPhysicalDeviceQueueFamilyProperties *QueueFamilyProperties;
+	VulkanPhysicalDeviceLayerProperties *LayerProperties;
+	/*
+		Queue Families
+	*/
+	std::vector<VulkanQueueFamily*>			QueueFamilies;
+
 	/*
 		所有Layer Properties
 	*/
-	std::vector<VkLayerProperties>			LayerProperties;
+	//std::vector<VkLayerProperties>			LayerProperties;
 	/*
 		支持的扩展
 	*/
@@ -143,19 +149,10 @@ private:
 	*/
 	std::vector<std::uint32_t>				PresentQueueFamilyIndices;
 	/*
-		内存属性
-	*/
-	//VkPhysicalDeviceMemoryProperties		MemoryProperties;
-
-	/*
 		主机可见Memory Tyoe Indices
 	*/
 	std::vector<std::uint32_t>				HostVisibleMemoryTypeIndices;
 	std::vector<std::uint32_t>				DeviceLocalMemoryTypeIndices;	
-	/*
-		Queue Families
-	*/
-	std::vector<VulkanQueueFamily*>			QueueFamilies;
 
 public:
 	std::uint32_t							HostVisibleIndex;	

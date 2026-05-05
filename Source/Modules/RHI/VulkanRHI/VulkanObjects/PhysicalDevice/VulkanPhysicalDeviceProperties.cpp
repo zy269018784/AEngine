@@ -1,6 +1,6 @@
 ﻿#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceProperties.h"
-
+#include <iostream>
 VulkanPhysicalDeviceProperties::VulkanPhysicalDeviceProperties(VulkanPhysicalDevice *InPhysicalDevice)
     : PhysicalDevice(InPhysicalDevice)
 {
@@ -25,5 +25,15 @@ VulkanPhysicalDeviceProperties::~VulkanPhysicalDeviceProperties()
 
 void VulkanPhysicalDeviceProperties::Print(int Tabs)
 {
-
+    std::string Head1 = "";
+    std::string Head2 = "\t";
+    for (int i = 0; i < Tabs; i++)
+    {
+        Head1 += "\t";
+        Head2 += "\t";
+    }
+    std::cout << Head1 << "Physical Device Properties" << std::endl;
+    std::cout << Head2 << "Driver Version "		<< Properties.driverVersion << std::endl;
+    std::cout << Head2 << "Device Name "			<< Properties.deviceName << std::endl;
+    std::cout << Head2 << "Device Type "			<< Properties.deviceType << std::endl;
 }

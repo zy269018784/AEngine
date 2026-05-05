@@ -19,8 +19,8 @@ VulkanPhysicalDeviceQueueFamilyProperties::~VulkanPhysicalDeviceQueueFamilyPrope
 
 void VulkanPhysicalDeviceQueueFamilyProperties::Print(int Tabs)
 {
-    std::string Head1 = "\t";
-    std::string Head2 = "";
+    std::string Head1 = "";
+    std::string Head2 = "\t";
     for (int i = 0; i < Tabs; i++)
     {
         Head1 += "\t";
