@@ -13,6 +13,9 @@ class VulkanPhysicalDeviceProperties;
 class VulkanPhysicalDeviceMemoryProperties;
 class VulkanPhysicalDeviceQueueFamilyProperties;
 class VulkanPhysicalDeviceLayerProperties;
+class VulkanPhysicalDeviceFormatProperties;
+class VulkanPhysicalDeviceDisplayProperties;
+class VulkanPhysicalDeviceImageFormatProperties;
 /*
 	1. 检查物理设备扩展支持
 	2. 每个物理设备的queue family 创建队列
@@ -65,10 +68,12 @@ public:
 		Enumerate device layers
 	*/
 	VkResult EnumerateDeviceLayerProperties(uint32_t* pPropertyCount, VkLayerProperties* pProperties);
+
 	/*
 	 *  Lists physical device’s format capabilities
 	 */
 	void GetPhysicalDeviceFormatProperties(VkFormat format, VkFormatProperties*  pFormatProperties);
+
 	/*
 		Query the extensions available to a given physical device,
 	*/
@@ -83,6 +88,7 @@ public:
 	/*
 		Get Physical Device Queue Properties
 	*/
+
 	void GetPhysicalDeviceQueueFamilyProperties(std::uint32_t* QueueFamilyPropertyCount, VkQueueFamilyProperties* QueueFamilyProperties);
 	void GetPhysicalDeviceQueueFamilyProperties2(std::uint32_t* QueueFamilyPropertyCount, VkQueueFamilyProperties2* QueueFamilyProperties);
 
@@ -92,6 +98,7 @@ public:
 	void GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* Features);
 	void GetPhysicalDeviceFeatures2(VkPhysicalDeviceFeatures2* Features);
 	void GetPhysicalDeviceFeatures2KHR(VkPhysicalDeviceFeatures2* Features);
+
 	/*
 		Get Physical Device Memory Properties
 	*/
@@ -99,6 +106,15 @@ public:
 	void GetPhysicalDeviceFormatProperties2(VkFormat Format, VkFormatProperties2* FormatProperties);
 	void GetPhysicalDeviceFormatProperties2KHR(VkFormat Format, VkFormatProperties2* FormatProperties);
 
+	/*
+		Get Physical Device Display Properties
+	 */
+	VkResult GetPhysicalDeviceDisplayPropertiesKHR(uint32_t* PropertyCount, VkDisplayPropertiesKHR* Properties);
+	VkResult GetPhysicalDeviceDisplayProperties2KHR(uint32_t* PropertyCount, VkDisplayProperties2KHR* Properties);
+
+	/*
+		Get	Physical Device	Image Format Properties
+	 */
 	VkResult GetPhysicalDeviceImageFormatProperties(VkFormat format,
 		VkImageType                                 type,
 		VkImageTiling                               tiling,
@@ -111,10 +127,6 @@ public:
 
 	VkResult GetPhysicalDeviceImageFormatProperties2KHR(const VkPhysicalDeviceImageFormatInfo2* ImageFormatInfo,
 		VkImageFormatProperties2* ImageFormatProperties);
-	/*
-		Device
-	*/
-	VkResult CreateDevice(const VkDeviceCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator, VkDevice* Device);
 
 	/*
 		Surface
@@ -123,6 +135,11 @@ public:
 	VkResult GetPhysicalDeviceSurfaceFormatsKHR(VkSurfaceKHR Surface, uint32_t* SurfaceFormatCount, VkSurfaceFormatKHR* SurfaceFormats);
 	VkResult GetPhysicalDeviceSurfacePresentModesKHR(VkSurfaceKHR Surface, uint32_t* PresentModeCount, VkPresentModeKHR* PresentModes);
 	VkResult GetPhysicalDeviceSurfaceSupportKHR(std::uint32_t QueueFamilyIndex,VkSurfaceKHR Surface, VkBool32* Supported);
+
+	/*
+		Device
+	*/
+	VkResult CreateDevice(const VkDeviceCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator, VkDevice* Device);
 private:
 	VkPhysicalDevice Handle;
 	VulkanPhysicalDeviceFeatures *Features;
@@ -130,6 +147,9 @@ private:
 	VulkanPhysicalDeviceMemoryProperties *MemoryProperties;
 	VulkanPhysicalDeviceQueueFamilyProperties *QueueFamilyProperties;
 	VulkanPhysicalDeviceLayerProperties *LayerProperties;
+	VulkanPhysicalDeviceFormatProperties *FormatProperties;
+	VulkanPhysicalDeviceDisplayProperties *DisplayProperties;
+	VulkanPhysicalDeviceImageFormatProperties *ImageFormatProperties;
 	/*
 		Queue Families
 	*/
@@ -151,12 +171,6 @@ private:
 
 public:
 	std::uint32_t							HostVisibleIndex;	
-
-	/*
-		所有Queue Family Properties
-	*/
-	//std::vector<VkQueueFamilyProperties>	QueueFamilyProperties;
-
 
 	bool SupportedPixelFormatsLinearTilingFeatures[(int)RHIPixelFormat::PF_MAX_];
 

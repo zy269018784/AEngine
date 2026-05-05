@@ -3,6 +3,10 @@
 #include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceProperties.h"
 #include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceMemoryProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceLayerProperties.h"
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceFormatProperties.h"
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceDisplayProperties.h"
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceImageFormatProperties.h"
+
 #include "VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanObjects/Queue/VulkanQueueFamily.h"
@@ -20,6 +24,9 @@ VulkanPhysicalDevice::VulkanPhysicalDevice()
 VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 {
 	Handle = h;
+	FormatProperties = new VulkanPhysicalDeviceFormatProperties(this);
+	DisplayProperties = new VulkanPhysicalDeviceDisplayProperties(this);
+	ImageFormatProperties = new VulkanPhysicalDeviceImageFormatProperties(this);
 	LayerProperties = new VulkanPhysicalDeviceLayerProperties(this);
 	Features = new VulkanPhysicalDeviceFeatures(this);
 	Properties = new VulkanPhysicalDeviceProperties(this);
@@ -76,6 +83,9 @@ VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	delete MemoryProperties;
 	delete QueueFamilyProperties;
 	delete LayerProperties;
+	delete FormatProperties;
+	delete DisplayProperties ;
+	delete ImageFormatProperties;
 }
 
 void VulkanPhysicalDevice::QuerySupportedPixelFormats() {

@@ -58,6 +58,11 @@ void VulkanPhysicalDevice::GetPhysicalDeviceFeatures2(VkPhysicalDeviceFeatures2*
 	vkGetPhysicalDeviceFeatures2(Handle, Features);
 }
 
+void VulkanPhysicalDevice::GetPhysicalDeviceFeatures2KHR(VkPhysicalDeviceFeatures2* Features)
+{
+	//vkGetPhysicalDeviceFeatures2KHR(Handle, Features);
+}
+
 /*
 	Get Physical Device Memory Properties
 */
@@ -71,14 +76,45 @@ void VulkanPhysicalDevice::GetPhysicalDeviceFormatProperties2(VkFormat Format, V
 	vkGetPhysicalDeviceFormatProperties2(Handle, Format, FormatProperties);
 }
 
+
 /*
-	Device
-*/
-VkResult VulkanPhysicalDevice::CreateDevice(const VkDeviceCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator, VkDevice* Device)
+	Get Physical Device Display Properties
+ */
+VkResult VulkanPhysicalDevice::GetPhysicalDeviceDisplayPropertiesKHR(uint32_t* PropertyCount, VkDisplayPropertiesKHR* Properties)
 {
-	return vkCreateDevice(Handle, CreateInfo, Allocator, Device);
+	return vkGetPhysicalDeviceDisplayPropertiesKHR(Handle, PropertyCount, Properties);
 }
 
+VkResult VulkanPhysicalDevice::GetPhysicalDeviceDisplayProperties2KHR(uint32_t* PropertyCount, VkDisplayProperties2KHR* Properties)
+{
+	return vkGetPhysicalDeviceDisplayProperties2KHR(Handle, PropertyCount, Properties);
+}
+
+/*
+	Get	Physical Device	Image Format Properties
+ */
+VkResult VulkanPhysicalDevice::GetPhysicalDeviceImageFormatProperties(VkFormat format, VkImageType  type,
+                                                                      VkImageTiling tiling, VkImageUsageFlags usage,
+                                                                      VkImageCreateFlags flags, VkImageFormatProperties* pImageFormatProperties)
+{
+	return vkGetPhysicalDeviceImageFormatProperties(Handle, format, type, tiling, usage, flags, pImageFormatProperties);
+}
+
+VkResult VulkanPhysicalDevice::GetPhysicalDeviceImageFormatProperties2(const VkPhysicalDeviceImageFormatInfo2* ImageFormatInfo,
+																	   VkImageFormatProperties2* pImageFormatProperties)
+{
+	return vkGetPhysicalDeviceImageFormatProperties2(Handle, ImageFormatInfo, pImageFormatProperties);
+}
+
+VkResult VulkanPhysicalDevice::GetPhysicalDeviceImageFormatProperties2KHR(const VkPhysicalDeviceImageFormatInfo2* ImageFormatInfo,
+	                                                                      VkImageFormatProperties2* ImageFormatProperties)
+{
+	return vkGetPhysicalDeviceImageFormatProperties2(Handle, ImageFormatInfo, ImageFormatProperties);
+}
+
+/*
+	Surface
+*/
 VkResult VulkanPhysicalDevice::GetPhysicalDeviceSurfaceCapabilitiesKHR(VkSurfaceKHR Surface, VkSurfaceCapabilitiesKHR* SurfaceCapabilities)
 {
 	return vkGetPhysicalDeviceSurfaceCapabilitiesKHR(Handle, Surface, SurfaceCapabilities);
@@ -97,4 +133,12 @@ VkResult VulkanPhysicalDevice::GetPhysicalDeviceSurfacePresentModesKHR(VkSurface
 VkResult VulkanPhysicalDevice::GetPhysicalDeviceSurfaceSupportKHR(std::uint32_t QueueFamilyIndex, VkSurfaceKHR Surface, VkBool32* Supported)
 {
 	return vkGetPhysicalDeviceSurfaceSupportKHR(Handle, QueueFamilyIndex, Surface, Supported);
+}
+
+/*
+	Device
+*/
+VkResult VulkanPhysicalDevice::CreateDevice(const VkDeviceCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator, VkDevice* Device)
+{
+	return vkCreateDevice(Handle, CreateInfo, Allocator, Device);
 }
