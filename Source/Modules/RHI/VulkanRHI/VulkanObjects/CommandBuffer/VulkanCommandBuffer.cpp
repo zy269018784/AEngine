@@ -205,5 +205,5 @@ void VulkanCommandBuffer::RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstB
 	VkBuffer DstHandle = dynamic_cast<VulkanBuffer*>(SrcBuffer)->GetHandle();
 	//VkBufferCopy* VkRegions = new VkBufferCopy[RegionCount];
 	//std::memcpy(VkRegions, Regions, (const VkBufferCopy*)Regions);
-	vkCmdCopyBuffer(Handle, SrcHandle, DstHandle, RegionCount, (const VkBufferCopy*)Regions);
+	CmdCopyBuffer(SrcHandle, DstHandle, RegionCount, (const VkBufferCopy*)Regions);
 }
