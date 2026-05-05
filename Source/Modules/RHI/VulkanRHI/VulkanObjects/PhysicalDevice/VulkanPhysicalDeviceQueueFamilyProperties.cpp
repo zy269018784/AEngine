@@ -30,26 +30,6 @@ void VulkanPhysicalDeviceQueueFamilyProperties::Print(int Tabs)
     std::cout << Head2 << "Queue Family Properties" << std::endl;
     for (uint32_t i = 0; i < QueueFamilyProperties.size(); i++)
     {
-        VulkanQueueFamily* QueueFamily = new VulkanQueueFamily(i, QueueFamilyProperties[i].queueCount);
-
-        if (QueueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
-        {
-            QueueFamily->SetGraphics();
-        }
-
-        if (QueueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
-        {
-            QueueFamily->SetCompute();
-        }
-
-        if (QueueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
-        {
-            QueueFamily->SetTransfer();
-        }
-
-        QueueFamilies.push_back(QueueFamily);
-
-
         std::cout
             << Head1 << "Queue Count " << QueueFamilyProperties[i].queueCount << " "
             << Head1 << "Queue Flags " << QueueFamilyProperties[i].queueFlags << " ";
@@ -77,4 +57,32 @@ void VulkanPhysicalDeviceQueueFamilyProperties::Print(int Tabs)
 std::uint32_t VulkanPhysicalDeviceQueueFamilyProperties::GetQueueFamilyCount() const
 {
     return static_cast<std::uint32_t>(QueueFamilyProperties.size());
+}
+
+std::vector<VulkanQueueFamily *> VulkanPhysicalDeviceQueueFamilyProperties::CreateQueueFamilies() const
+{
+    std::vector<VulkanQueueFamily*>			QueueFamilies;
+    for (uint32_t  QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties.size(); QueueFamilyIndex++)
+    {
+        VulkanQueueFamily* QueueFamily = new VulkanQueueFamily(QueueFamilyIndex, QueueFamilyProperties[QueueFamilyIndex].queueCount);
+        VkQueueFlags QueueFlags = QueueFamilyProperties[QueueFamilyIndex].queueFlags;
+
+        if (QueueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            QueueFamily->SetGraphics();
+        }
+
+        if (QueueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            QueueFamily->SetCompute();
+        }
+
+        if (QueueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            QueueFamily->SetTransfer();
+        }
+
+        QueueFamilies.push_back(QueueFamily);
+    }
+    return QueueFamilies;
 }

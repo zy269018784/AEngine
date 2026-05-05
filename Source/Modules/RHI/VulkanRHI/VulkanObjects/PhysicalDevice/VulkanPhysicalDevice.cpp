@@ -23,6 +23,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice h)
 	Properties = new VulkanPhysicalDeviceProperties(this);
 	MemoryProperties = new VulkanPhysicalDeviceMemoryProperties(this);
 	QueueFamilyProperties = new VulkanPhysicalDeviceQueueFamilyProperties(this);
+	QueueFamilies = QueueFamilyProperties->CreateQueueFamilies();
 	std::uint32_t Count;
 	/*
 		获取Layer属性
@@ -156,17 +157,11 @@ std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const
 {
 	return QueueFamilies.size();
 }
-#if 0
-std::uint32_t VulkanPhysicalDevice::GetQueueFamilyCount() const {
-	return QueueFamilyProperties->GetQueueFamilyCount();
-}
-#endif
+
 VulkanQueueFamily* VulkanPhysicalDevice::GetQueueFamily(std::uint32_t Index) const
 {
 	return QueueFamilies[Index];
 }
-
-
 
 std::uint32_t VulkanPhysicalDevice::FindMemoryType(std::uint32_t MemoryTypeFilter, VkMemoryPropertyFlags InMemoryProperties)
 {

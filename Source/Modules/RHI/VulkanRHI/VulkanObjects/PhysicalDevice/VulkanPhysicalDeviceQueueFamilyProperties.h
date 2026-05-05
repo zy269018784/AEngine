@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include "VulkanRHI/Vulkan.h"
+#include <cstdint>
+#include <vector>
+
 class VulkanPhysicalDevice;
+class VulkanQueueFamily;
 class VulkanPhysicalDeviceQueueFamilyProperties
 {
 public:
@@ -8,6 +12,7 @@ public:
     ~VulkanPhysicalDeviceQueueFamilyProperties();
     void Print(int Tabs);
     std::uint32_t GetQueueFamilyCount() const;
+    std::vector<VulkanQueueFamily *> CreateQueueFamilies() const;
 private:
 public:
     VulkanPhysicalDevice *PhysicalDevice;

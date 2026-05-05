@@ -32,7 +32,9 @@ public:
 		获取句柄
 	*/
 	VkPhysicalDevice GetHandle();
-
+	/*
+	 * 获取Feature
+	 */
 	VkPhysicalDeviceFeatures GetGeatures() const;
 	/*
 		获取Queue Family数量

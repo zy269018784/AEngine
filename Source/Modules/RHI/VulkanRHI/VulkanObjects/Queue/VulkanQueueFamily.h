@@ -1,6 +1,7 @@
 #pragma once
+#include "VulkanRHI/Vulkan.h"
 #include <cstdint>
-#include "Vulkan.h"
+
 class VulkanDevice;
 class VulkanQueueFamily
 {
