@@ -286,7 +286,6 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 		给第一个Present Queue Family创建1个Queue
 		FIX 暂时创建prenset 队列
 	*/
-	//Device->GetPresentQueue(PresentQueueFamilyIndices[0], 0);
 	Device->GetPresentQueue(0, 0);
 	/*
 		为每个Queue Family创建最大数量的Queue
@@ -360,6 +359,7 @@ bool VulkanPhysicalDevice::CheckExtensionSupport(std::vector<const char*> Requir
 
 void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 {
+#if 0
 	std::cout << "Query ----------------- QueueFamilyProperties " << QueueFamilyProperties->QueueFamilyProperties.size() << std::endl;
 	for (std::uint32_t QueueFamilyIndex = 0; QueueFamilyIndex < QueueFamilyProperties->QueueFamilyProperties.size(); QueueFamilyIndex++)
 	{
@@ -374,7 +374,7 @@ void VulkanPhysicalDevice::Query(const VulkanSurface* Surface)
 				break;
 		}
 	}
-
+#endif
 	for (int i = 0; i < HostVisibleMemoryTypeIndices.size(); i++)
 	{
 		std::cout << "HostVisibleMemoryTypeIndices " << HostVisibleMemoryTypeIndices[i] << std::endl;
