@@ -33,7 +33,7 @@ void VulkanPhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperti
 }
 
 /*
-	Get Physical Device Queue Properties锛?
+	Get Physical Device Queue Properties
 */
 void VulkanPhysicalDevice::GetPhysicalDeviceQueueFamilyProperties(std::uint32_t* QueueFamilyPropertyCount, VkQueueFamilyProperties* QueueFamilyProperties)
 {
