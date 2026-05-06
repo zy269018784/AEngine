@@ -5,8 +5,8 @@ VulkanShader::VulkanShader(VulkanDevice* InDevice, RHIShaderType Type, std::uint
 {
 	VkShaderModuleCreateInfo CreateInfo{};
 	CreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	CreateInfo.codeSize = CodeSize;
-	CreateInfo.pCode = CodePtr;
+	CreateInfo.codeSize = GetSize();
+	CreateInfo.pCode = GetCode();
 	CreateShaderModule(&CreateInfo, nullptr);
 }
 

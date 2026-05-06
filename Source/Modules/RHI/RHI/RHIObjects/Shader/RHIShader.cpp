@@ -1,12 +1,9 @@
-#include "RHIObjects/Shader/RHIShader.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
+#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
 
-RHIShader::RHIShader()
-{
 
-}
-
-RHIShader::RHIShader(RHIShaderType Type, std::uint32_t* Code, size_t Size)
-	: Type_(Type), CodePtr(Code), CodeSize(Size)
+RHIShader::RHIShader(RHIShaderType InType, std::uint32_t* InCode, size_t InSize)
+	: Type(InType), Code(InCode), Size(InSize)
 	
 {
 
@@ -15,4 +12,19 @@ RHIShader::RHIShader(RHIShaderType Type, std::uint32_t* Code, size_t Size)
 RHIShader::~RHIShader()
 {
 
+}
+
+std::uint32_t* RHIShader::GetCode() const
+{
+	return Code;
+}
+
+size_t RHIShader::GetSize() const
+{
+	return Size;
+}
+
+RHIShaderType RHIShader::GetType() const
+{
+	return Type;
 }

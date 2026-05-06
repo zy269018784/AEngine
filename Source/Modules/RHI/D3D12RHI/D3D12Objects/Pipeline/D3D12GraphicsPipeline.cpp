@@ -80,15 +80,15 @@ void D3D12GraphicsPipeline::Create()
     for (int i = 0; i < Shaders.size(); i++)
     {
         ID3DBlob* Handle = ((D3D12Shader*)Shaders[i])->GetHandle();
-        if (Shaders[i]->Type_ == RHIShaderType::Vertex)
+        if (Shaders[i]->GetType() == RHIShaderType::Vertex)
         {
             CreateInfo.VS = { Handle->GetBufferPointer(), Handle->GetBufferSize()};
         }
-        else if (Shaders[i]->Type_ == RHIShaderType::Fragment)
+        else if (Shaders[i]->GetType() == RHIShaderType::Fragment)
         {
             CreateInfo.PS = { Handle->GetBufferPointer(), Handle->GetBufferSize() };
         }
-        else if (Shaders[i]->Type_ == RHIShaderType::Geometry)
+        else if (Shaders[i]->GetType() == RHIShaderType::Geometry)
         {
             CreateInfo.GS = { Handle->GetBufferPointer(), Handle->GetBufferSize() };
         }

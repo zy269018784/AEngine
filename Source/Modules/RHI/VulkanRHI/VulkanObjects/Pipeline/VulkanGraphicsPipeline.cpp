@@ -97,7 +97,7 @@ void VulkanGraphicsPipeline::Create()
 		ShaderStageCreateInfo.sType			= VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		ShaderStageCreateInfo.module		= ((VulkanShader *)Shaders[i])->GetHandle();
 		ShaderStageCreateInfo.pName			= "main";
-		ShaderStageCreateInfo.stage			= ToVkShaderStageFlagBits(Shaders[i]->Type_);
+		ShaderStageCreateInfo.stage			= ToVkShaderStageFlagBits(Shaders[i]->GetType());
 		ShaderStageCreateInfos.push_back(ShaderStageCreateInfo);
 	}
 

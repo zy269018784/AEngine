@@ -5,11 +5,14 @@
 class RHIShader 
 {
 public:
-	RHIShader();
-	RHIShader(RHIShaderType type, std::uint32_t* Code, size_t Size);
+	RHIShader() = delete;
+	RHIShader(RHIShaderType InType, std::uint32_t* InCode, size_t InSize);
 	virtual ~RHIShader();
-public:
-	std::uint32_t* CodePtr;
-	size_t CodeSize;
-	RHIShaderType Type_;
+	std::uint32_t* GetCode() const;
+	size_t GetSize() const;
+	RHIShaderType GetType() const;
+private:
+	std::uint32_t* Code;
+	size_t Size;
+	RHIShaderType Type;
 };
