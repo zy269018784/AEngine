@@ -13,8 +13,23 @@ VulkanRayTracingPipeline::~VulkanRayTracingPipeline() {
 
 }
 
-void VulkanRayTracingPipeline::Create()
-{}
+void VulkanRayTracingPipeline::Create() {
+	VkDevice                                    device;
+	VkDeferredOperationKHR                      deferredOperation;
+	VkPipelineCache                             pipelineCache;
+	uint32_t                                    createInfoCount;
+	const VkRayTracingPipelineCreateInfoKHR*    pCreateInfos;
+	const VkAllocationCallbacks*                pAllocator;
+	VkPipeline*                                 pPipelines;
+	vkCreateRayTracingPipelinesKHR(
+	device,
+	deferredOperation,
+	pipelineCache,
+	createInfoCount,
+	pCreateInfos,
+	pAllocator,
+	pPipelines);
+}
 
 #if 0
 void VulkanRayTracingPipeline::Create()
