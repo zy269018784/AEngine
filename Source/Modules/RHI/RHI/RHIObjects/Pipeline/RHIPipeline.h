@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include "RHIObjects/Shader/RHIShader.h"
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+//#include "RHIObjects/Shader/RHIShader.h"
+//#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include <vector>
-
+class RHIShader;
+class RHIShaderResourceBindings;
 class RHIPipeline
 {
 public:
@@ -21,7 +22,7 @@ public:
 	void SetShaderResourceBindings(RHIShaderResourceBindings* srb);
 public:
 	virtual void Create() = 0;
-
+protected:
 public:
 	/*
 		Shader

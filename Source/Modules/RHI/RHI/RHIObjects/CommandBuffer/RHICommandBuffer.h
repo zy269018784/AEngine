@@ -2,12 +2,14 @@
 #include "RHIObjects/Core/RHICore.h"
 #include "RHIObjects/Core/RHIViewport.h"
 #include "RHIObjects/Core/RHIScissor.h"
-#include "RHIObjects/RenderPass/RHIRenderPass.h"
-#include "RHIObjects/Resource/RHIBuffer.h"
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+//#include "RHIObjects/RenderPass/RHIRenderPass.h"
+//#include "RHIObjects/Resource/RHIBuffer.h"
+//#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+
+class RHIBuffer;
+class RHIRenderPass;
+class RHIGraphicsPipeline;
 //#include <utility>
-
-
 
 class RHICommandBuffer
 {

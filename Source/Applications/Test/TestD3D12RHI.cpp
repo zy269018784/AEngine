@@ -48,6 +48,7 @@
 #include "D3D12Objects/Shader/D3D12Shader.h"
 #include "D3D12Objects/Window/D3D12Window.h"
 #include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 using Microsoft::WRL::ComPtr;
 
 #include "D3D12RHI.h"

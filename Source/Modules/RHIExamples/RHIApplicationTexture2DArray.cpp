@@ -5,6 +5,8 @@
 #endif
 
 #include "OpenGLObjects/Texture/OpenGLTexture.h"
+#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色

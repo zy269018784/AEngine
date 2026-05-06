@@ -5,6 +5,8 @@
 #include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include <iostream>
 
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+
 void OpenGLCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
 

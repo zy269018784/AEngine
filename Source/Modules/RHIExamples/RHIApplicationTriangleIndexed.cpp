@@ -1,4 +1,6 @@
 ﻿#include "RHIApplicationTriangleIndexed.h"
+
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Vulkan/Common.h"
 
 /*

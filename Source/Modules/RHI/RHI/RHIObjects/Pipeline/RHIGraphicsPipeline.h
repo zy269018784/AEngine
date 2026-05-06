@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include "RHIObjects/Pipeline/RHIPipeline.h"
 #include "RHIObjects/Core/RHIVertexInputLayout.h"
-#include "RHIObjects/RenderPass/RHIRenderPass.h"
-#include "RHIObjects/Shader/RHIShader.h"
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+//#include "RHIObjects/RenderPass/RHIRenderPass.h"
 #include "RHIObjects/Core/RHICore.h"
-#include <cstdint>
-
+//#include "RHIObjects/Shader/RHIShader.h"
+//#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+//#include <cstdint>
+class RHIRenderPass;
 class RHIGraphicsPipeline : public RHIPipeline
 {
 public:

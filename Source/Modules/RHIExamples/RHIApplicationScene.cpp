@@ -2,6 +2,7 @@
 #include "Vulkan/Common.h"
 
 #include "Model/Model.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
 //Model model1;

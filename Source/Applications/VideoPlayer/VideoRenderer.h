@@ -6,7 +6,7 @@
 #include <chrono>
 #include <vector>
 #include "Window/GLFWWindow.h"
-#include "RHI/RHI/RHI.h"
+#include "RHI/RHI.h"
 #include "RHI/VulkanRHI/VulkanRHI.h"
 #include "RHI/ES32RHI/ES32RHI.h"
 #include "RHI/RHI/RHIObjects/Resource/RHIBuffer.h"

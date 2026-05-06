@@ -1,4 +1,8 @@
 ﻿#include "RHIApplicationSamplerObject.h"
+
+#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHIObjects/Texture/RHITexture.h"
 #include "Vulkan/Common.h"
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>

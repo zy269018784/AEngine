@@ -3,6 +3,9 @@
 #ifdef PROJECT_USE_STB
 #include <stb_image.h>
 #endif
+#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHIObjects/Texture/RHITexture.h"
 #include "Window/GLFWWindow.h"
 static float VertexAttributes2[] = {
     // pos               uv

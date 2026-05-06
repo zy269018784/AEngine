@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色

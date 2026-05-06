@@ -1,4 +1,7 @@
 ﻿#include "RHIApplicationUBO.h"
+
+#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Vulkan/Common.h"
 
 /*
