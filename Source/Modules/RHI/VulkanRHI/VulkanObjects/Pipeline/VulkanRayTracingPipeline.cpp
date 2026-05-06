@@ -21,6 +21,7 @@ void VulkanRayTracingPipeline::Create() {
 	const VkRayTracingPipelineCreateInfoKHR*    pCreateInfos;
 	const VkAllocationCallbacks*                pAllocator;
 	VkPipeline*                                 pPipelines;
+#if 0
 	vkCreateRayTracingPipelinesKHR(
 	device,
 	deferredOperation,
@@ -29,6 +30,7 @@ void VulkanRayTracingPipeline::Create() {
 	pCreateInfos,
 	pAllocator,
 	pPipelines);
+#endif
 }
 
 #if 0
