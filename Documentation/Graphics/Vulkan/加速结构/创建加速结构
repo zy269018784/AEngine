@@ -30,3 +30,21 @@ typedef struct VkAccelerationStructureGeometryKHR {
     VkAccelerationStructureGeometryDataKHR    geometry;
     VkGeometryFlagsKHR                        flags;
 } VkAccelerationStructureGeometryKHR;
+
+typedef union VkAccelerationStructureGeometryDataKHR {
+    VkAccelerationStructureGeometryTrianglesDataKHR    triangles;
+    VkAccelerationStructureGeometryAabbsDataKHR        aabbs;
+    VkAccelerationStructureGeometryInstancesDataKHR    instances;
+} VkAccelerationStructureGeometryDataKHR;
+
+typedef struct VkAccelerationStructureGeometryTrianglesDataKHR {
+    VkStructureType                  sType;
+    const void*                      pNext;
+    VkFormat                         vertexFormat;
+    VkDeviceOrHostAddressConstKHR    vertexData;
+    VkDeviceSize                     vertexStride;
+    uint32_t                         maxVertex;
+    VkIndexType                      indexType;
+    VkDeviceOrHostAddressConstKHR    indexData;
+    VkDeviceOrHostAddressConstKHR    transformData;
+} VkAccelerationStructureGeometryTrianglesDataKHR;
