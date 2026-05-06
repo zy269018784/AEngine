@@ -1,4 +1,5 @@
 #include "VulkanRHI/VulkanObjects/Pipeline/VulkanPipeline.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 #include <iostream>
 VulkanPipeline::VulkanPipeline()
 	: Device(nullptr), Handle(VK_NULL_HANDLE)

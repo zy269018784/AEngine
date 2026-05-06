@@ -1,5 +1,6 @@
 #pragma once
 #include "VulkanRHI/Vulkan.h"
+#include <vector>
 //#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 //#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorPool.h"
 class VulkanDevice;

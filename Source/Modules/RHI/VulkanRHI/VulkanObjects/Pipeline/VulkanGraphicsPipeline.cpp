@@ -2,7 +2,9 @@
 #include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanRHI/VulkanObjects/Shader/VulkanShader.h"
 #include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 #include <iostream>
 #include <stdexcept>
 
