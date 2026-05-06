@@ -11,13 +11,23 @@ VulkanPhysicalDeviceFormatProperties::VulkanPhysicalDeviceFormatProperties(Vulka
         PhysicalDevice->GetPhysicalDeviceFormatProperties(ToVkFormat(static_cast<RHIPixelFormat>(PixelFormatIndex)),
                 &FormatProperties[PixelFormatIndex]);
         std::cout << "PixelFormat " << PixelFormatIndex << " ";
+        std::cout << "linearTilingFeatures ";
         if (FormatProperties[PixelFormatIndex].linearTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT)
         {
-            std::cout << "linearTilingFeatures SAMPLED_IMAGE ";
+            std::cout << "SAMPLED_IMAGE ";
         }
+        if (FormatProperties[PixelFormatIndex].linearTilingFeatures & VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT)
+        {
+            std::cout << "STORAGE_IMAGE ";
+        }
+        std::cout << "optimalTilingFeatures ";
         if (FormatProperties[PixelFormatIndex].optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT)
         {
-            std::cout << "optimalTilingFeatures SAMPLED_IMAGE ";
+            std::cout << "SAMPLED_IMAGE ";
+        }
+        if (FormatProperties[PixelFormatIndex].optimalTilingFeatures & VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT)
+        {
+            std::cout << "STORAGE_IMAGE ";
         }
         std::cout << std::endl;
     }
