@@ -1,14 +1,22 @@
-﻿#include "VulkanRayTracingPipeline.h"
-#include "VulkanObjects/Core/VulkanCore.h"
-#include "VulkanObjects/Shader/VulkanShader.h"
+﻿#include "VulkanRHI/VulkanObjects/Pipeline/VulkanRayTracingPipeline.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShader.h"
 #include <stdexcept>
-#if 0
+
 VulkanRayTracingPipeline::VulkanRayTracingPipeline(VulkanDevice* InDevice)
 	: VulkanPipeline(InDevice)
 {
+	BindPoint = VK_PIPELINE_BIND_POINT_RAY_TRACING_KHR;
+}
+
+VulkanRayTracingPipeline::~VulkanRayTracingPipeline() {
 
 }
 
+void VulkanRayTracingPipeline::Create()
+{}
+
+#if 0
 void VulkanRayTracingPipeline::Create()
 {
 	/*

@@ -1,7 +1,9 @@
 #pragma once
-#include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorPool.h"
+#include "VulkanRHI/Vulkan.h"
+//#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+//#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorPool.h"
+class VulkanDevice;
+class VulkanDescriptorPool;
 class VulkanPipeline  
 {
 public:

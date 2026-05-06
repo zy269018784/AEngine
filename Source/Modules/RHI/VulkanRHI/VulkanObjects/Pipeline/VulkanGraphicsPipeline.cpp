@@ -1,11 +1,11 @@
-﻿#include "VulkanObjects/Pipeline/VulkanGraphicsPipeline.h"
-#include "VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanObjects/Shader/VulkanShader.h"
-#include "VulkanObjects/Core/VulkanCore.h"
-
-#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+﻿#include "VulkanRHI/VulkanObjects/Pipeline/VulkanGraphicsPipeline.h"
+#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShader.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include <iostream>
 #include <stdexcept>
+
 VulkanGraphicsPipeline::VulkanGraphicsPipeline(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass)
 	: VulkanPipeline(InDevice)
 {

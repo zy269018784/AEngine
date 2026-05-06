@@ -1,6 +1,6 @@
 #pragma once
-#include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/Vulkan.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 class VulkanPipelineLayout
 {
 public:
