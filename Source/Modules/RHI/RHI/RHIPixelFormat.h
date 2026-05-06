@@ -33,5 +33,3 @@ struct RHIPixelFormatInfo
 };
 
 extern RHIPixelFormatInfo GPixelFormats[static_cast<size_t>(RHIPixelFormat::PF_MAX_)];
-
-std::uint32_t PixelFormatToSize(RHIPixelFormat InFormat);

@@ -1,4 +1,5 @@
-#include "VulkanObjects/Shader/VulkanShader.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShader.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 
 VkResult VulkanShader::CreateShaderModule(const VkShaderModuleCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator)
 {
