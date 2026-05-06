@@ -1,0 +1,32 @@
+void vkCmdBuildAccelerationStructuresKHR(
+    VkCommandBuffer                             commandBuffer,
+    uint32_t                                    infoCount,
+    const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
+    const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
+
+typedef struct VkAccelerationStructureBuildGeometryInfoKHR {
+    VkStructureType                                     sType;
+    const void*                                         pNext;
+    VkAccelerationStructureTypeKHR                      type;
+    VkBuildAccelerationStructureFlagsKHR                flags;
+    VkBuildAccelerationStructureModeKHR                 mode;
+    VkAccelerationStructureKHR                          srcAccelerationStructure;
+    VkAccelerationStructureKHR                          dstAccelerationStructure;
+    uint32_t                                            geometryCount;
+    const VkAccelerationStructureGeometryKHR*           pGeometries;
+    const VkAccelerationStructureGeometryKHR* const*    ppGeometries;
+    VkDeviceOrHostAddressKHR                            scratchData;
+} VkAccelerationStructureBuildGeometryInfoKHR;
+
+typedef enum VkBuildAccelerationStructureModeKHR {
+    VK_BUILD_ACCELERATION_STRUCTURE_MODE_BUILD_KHR = 0,
+    VK_BUILD_ACCELERATION_STRUCTURE_MODE_UPDATE_KHR = 1,
+} VkBuildAccelerationStructureModeKHR;
+
+typedef struct VkAccelerationStructureGeometryKHR {
+    VkStructureType                           sType;
+    const void*                               pNext;
+    VkGeometryTypeKHR                         geometryType;
+    VkAccelerationStructureGeometryDataKHR    geometry;
+    VkGeometryFlagsKHR                        flags;
+} VkAccelerationStructureGeometryKHR;
