@@ -1,7 +1,6 @@
 #pragma once
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
-#include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
 
 class VulkanDevice;
 class VulkanDescriptorPool;
@@ -15,7 +14,7 @@ public:
 	VkPipeline GetHandle();
 	VkPipelineLayout GetPipelineLayout();
 	VkPipelineBindPoint GetPipelineBindPoint();
-public:
+protected:
 	VkPipeline			Handle = VK_NULL_HANDLE;
 	VkPipelineBindPoint BindPoint;
 	VkPipelineLayout	PipelineLayout = VK_NULL_HANDLE;

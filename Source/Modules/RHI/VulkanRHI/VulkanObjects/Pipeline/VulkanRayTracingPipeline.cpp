@@ -15,6 +15,21 @@ VulkanRayTracingPipeline::~VulkanRayTracingPipeline() {
 
 void VulkanRayTracingPipeline::Create()
 {
+	/*
+		1. Shader
+	*/
+	ShaderStageCreateInfos.clear();
+	for (int i = 0; i < Shaders.size(); i++)
+	{
+		VkPipelineShaderStageCreateInfo		ShaderStageCreateInfo{};
+		ShaderStageCreateInfo.sType			= VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+		ShaderStageCreateInfo.module		= ((VulkanShader *)Shaders[i])->GetHandle();
+		ShaderStageCreateInfo.pName			= "main";
+		ShaderStageCreateInfo.stage			= ToVkShaderStageFlagBits(Shaders[i]->GetType());
+		ShaderStageCreateInfos.push_back(ShaderStageCreateInfo);
+	}
+
+
 	VkDevice                                    device = VK_NULL_HANDLE;
 	VkDeferredOperationKHR                      deferredOperation = VK_NULL_HANDLE;
 	VkPipelineCache                             pipelineCache = VK_NULL_HANDLE;

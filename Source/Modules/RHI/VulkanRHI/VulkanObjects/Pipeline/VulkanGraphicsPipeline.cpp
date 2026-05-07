@@ -90,7 +90,7 @@ void VulkanGraphicsPipeline::Create()
 	/*
 		6. Shader
 	*/
-	std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
+	//std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
 	for (int i = 0; i < Shaders.size(); i++)
 	{
 		VkPipelineShaderStageCreateInfo		ShaderStageCreateInfo{};
