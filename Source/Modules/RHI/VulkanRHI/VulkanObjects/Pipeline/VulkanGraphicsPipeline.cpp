@@ -89,8 +89,8 @@ void VulkanGraphicsPipeline::Create()
 
 	/*
 		6. Shader
-	*/
-	//std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
+	*/;
+	ShaderStageCreateInfos.clear();
 	for (int i = 0; i < Shaders.size(); i++)
 	{
 		VkPipelineShaderStageCreateInfo		ShaderStageCreateInfo{};
@@ -111,12 +111,10 @@ void VulkanGraphicsPipeline::Create()
 		VertexInputBindingDescription.binding = i;
 		VertexInputBindingDescription.stride = VertexInputLayout.Bindings[i].GetStride();
 		VertexInputBindingDescription.inputRate = ToVkVertexInputRate(VertexInputLayout.Bindings[i].GetInstanceStepRate());
-
-		std::cout << "binding " << i << " " << "stride " << VertexInputBindingDescription.stride << " " << VertexInputBindingDescription.inputRate << std::endl;
 		VertexInputBindingDescriptions.push_back(VertexInputBindingDescription);
+		//std::cout << "binding " << i << " " << "stride " << VertexInputBindingDescription.stride << " " << VertexInputBindingDescription.inputRate << std::endl;
 	}
 
-	std::vector<VkVertexInputAttributeDescription> VkVertexInputAttributeDescriptions;
 	for (int i = 0; i < VertexInputLayout.Attributes.size(); i++)
 	{
 		VkVertexInputAttributeDescription VertexInputAttributeDescription;
@@ -125,16 +123,15 @@ void VulkanGraphicsPipeline::Create()
 		VertexInputAttributeDescription.location = VertexInputLayout.Attributes[i].GetLocation();
 		VertexInputAttributeDescription.offset = VertexInputLayout.Attributes[i].GetOffset();
 		VkVertexInputAttributeDescriptions.push_back(VertexInputAttributeDescription);
-
-		std::cout << "i " << i << " "
-			<< "binding " << VertexInputAttributeDescription.binding << " "
-			<< "format " << VertexInputAttributeDescription.format << " "
-			<< "location " << VertexInputAttributeDescription.location << " "
-			<< "offset " << VertexInputAttributeDescription.offset << " "
-			<< std::endl;
+		//std::cout << "i " << i << " "
+		//	<< "binding " << VertexInputAttributeDescription.binding << " "
+		//	<< "format " << VertexInputAttributeDescription.format << " "
+		//	<< "location " << VertexInputAttributeDescription.location << " "
+		//	<< "offset " << VertexInputAttributeDescription.offset << " "
+		//	<< std::endl;
 	}
 
-	VkPipelineVertexInputStateCreateInfo	VertexInputStateCreateInfo{};
+
 	VertexInputStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	VertexInputStateCreateInfo.pVertexAttributeDescriptions = VkVertexInputAttributeDescriptions.data();
 	VertexInputStateCreateInfo.vertexAttributeDescriptionCount = VkVertexInputAttributeDescriptions.size();
@@ -144,14 +141,12 @@ void VulkanGraphicsPipeline::Create()
 	/*
 		8. Blend
 	*/
-	VkPipelineColorBlendAttachmentState ColorBlendAttachment{};
 	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 	ColorBlendAttachment .blendEnable = VK_FALSE;
 
 	/*
 		9. Viewport
 	*/
-	VkPipelineViewportStateCreateInfo		ViewportStateCreateInfo{};
 	ViewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	ViewportStateCreateInfo.viewportCount = 1;
 	ViewportStateCreateInfo.scissorCount = 1;
@@ -164,7 +159,6 @@ void VulkanGraphicsPipeline::Create()
 
 
 
-	VkPipelineColorBlendStateCreateInfo		ColorBlendStateCreateInfo{};
 	ColorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 	ColorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
 	ColorBlendStateCreateInfo.logicOp = VK_LOGIC_OP_COPY;
@@ -209,7 +203,6 @@ void VulkanGraphicsPipeline::Create()
 		//VK_DYNAMIC_STATE_DEPTH_BOUNDS_TEST_ENABLE,
 	};
 
-	VkPipelineDynamicStateCreateInfo		DynamicStateCreateInfo{};
 	DynamicStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 	DynamicStateCreateInfo.pDynamicStates = DynamicStates;
 	DynamicStateCreateInfo.dynamicStateCount = sizeof(DynamicStates) / sizeof(DynamicStates[0]);
@@ -247,7 +240,6 @@ void VulkanGraphicsPipeline::Create()
 		}
 	}
 
-	VkGraphicsPipelineCreateInfo CreateInfo{};
 	CreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	CreateInfo.stageCount = ShaderStageCreateInfos.size();
 	CreateInfo.pStages = ShaderStageCreateInfos.data();
