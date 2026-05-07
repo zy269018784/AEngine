@@ -93,7 +93,7 @@ void VulkanGraphicsPipeline::Create()
 	std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
 	for (int i = 0; i < Shaders.size(); i++)
 	{
-		VkPipelineShaderStageCreateInfo			ShaderStageCreateInfo{};
+		VkPipelineShaderStageCreateInfo		ShaderStageCreateInfo{};
 		ShaderStageCreateInfo.sType			= VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		ShaderStageCreateInfo.module		= ((VulkanShader *)Shaders[i])->GetHandle();
 		ShaderStageCreateInfo.pName			= "main";
@@ -270,6 +270,6 @@ void VulkanGraphicsPipeline::Create()
 	{
 		throw std::runtime_error("failed to create graphics pipeline!");
 	}
-	std::cout << "vkCreateGraphicsPipelines ok AAAA " << GraphicsPipeline << std::endl;
+	std::cout << "vkCreateGraphicsPipelines ok AAAA " << Handle << std::endl;
 }
 

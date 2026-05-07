@@ -1,11 +1,11 @@
 #pragma once
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
-//#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
-//#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorPool.h"
+#include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
+
 class VulkanDevice;
 class VulkanDescriptorPool;
-class VulkanPipeline  
+class VulkanPipeline
 {
 public:
 	VulkanPipeline();
@@ -14,13 +14,11 @@ public:
 	~VulkanPipeline();
 	VkPipeline GetHandle();
 	VkPipelineLayout GetPipelineLayout();
-	//VkDescriptorSetLayout GetDescriptorSetLayout();
 	VkPipelineBindPoint GetPipelineBindPoint();
 public:
-	VkPipeline Handle;
+	VkPipeline			Handle = VK_NULL_HANDLE;
 	VkPipelineBindPoint BindPoint;
-	VkPipelineLayout		PipelineLayout = VK_NULL_HANDLE;
-	VulkanDevice* Device = nullptr;
-
+	VkPipelineLayout	PipelineLayout = VK_NULL_HANDLE;
+	VulkanDevice*		Device = nullptr;
 	std::vector<VkPipelineShaderStageCreateInfo> ShaderStageCreateInfos;
 };

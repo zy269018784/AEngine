@@ -481,15 +481,18 @@ VkResult VulkanDevice::DeviceWaitIdle()
 
 VkResult VulkanDevice::CreateRayTracingPipelinesKHR(VkDeferredOperationKHR DeferredOperation, VkPipelineCache PipelineCache, uint32_t CreateInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* Allocator, VkPipeline* Pipelines)
 {
-	return vkCreateRayTracingPipelinesKHR(Handle, DeferredOperation, PipelineCache, CreateInfoCount, pCreateInfos, Allocator, Pipelines);
+	return VK_SUCCESS;
+	//return vkCreateRayTracingPipelinesKHR(Handle, DeferredOperation, PipelineCache, CreateInfoCount, pCreateInfos, Allocator, Pipelines);
 }
 
 VkResult VulkanDevice::GetRayTracingCaptureReplayShaderGroupHandlesKHR(VkPipeline Pipeline, uint32_t FirstGroup, uint32_t GroupCount, size_t DataSize, void* pData)
 {
-	return vkGetRayTracingCaptureReplayShaderGroupHandlesKHR(Handle, Pipeline, FirstGroup, GroupCount, DataSize, pData);
+	return VK_SUCCESS;
+	//return vkGetRayTracingCaptureReplayShaderGroupHandlesKHR(Handle, Pipeline, FirstGroup, GroupCount, DataSize, pData);
 }
 
 VkDeviceSize VulkanDevice::GetRayTracingShaderGroupStackSizeKHR(VkPipeline Pipeline, uint32_t Group, VkShaderGroupShaderKHR GroupShader)
 {
-	return vkGetRayTracingShaderGroupStackSizeKHR(Handle, Pipeline, Group, GroupShader);
+	return VK_SUCCESS;
+	//return vkGetRayTracingShaderGroupStackSizeKHR(Handle, Pipeline, Group, GroupShader);
 }

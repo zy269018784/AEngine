@@ -1,6 +1,6 @@
 #pragma once
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "OpenGLObjects/Pipeline/OpenGLPipeline.h"
+#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGLPipeline.h"
 
 class OpenGLGraphicsPipeline : public RHIGraphicsPipeline, public OpenGLPipeline
 {

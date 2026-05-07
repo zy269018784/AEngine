@@ -1,17 +1,16 @@
 ﻿#pragma once
-//#include "RHIObjects/Shader/RHIShader.h"
-//#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include <vector>
+
 class RHIShader;
 class RHIShaderResourceBindings;
 class RHIPipeline
 {
 public:
-	enum RHIPipelineType
-	{
-		GraphicsPipeline = 0x1 << 1,
-		ComputePipeline = 0x1 << 2,
-	};
+	//enum RHIPipelineType
+	//{
+	//	GraphicsPipeline = 0x1 << 1,
+	//	ComputePipeline = 0x1 << 2,
+	//};
 	RHIPipeline() = default;
 	virtual ~RHIPipeline() = default;
 	/*

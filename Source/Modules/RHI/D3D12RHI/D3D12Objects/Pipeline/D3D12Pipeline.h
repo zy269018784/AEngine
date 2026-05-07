@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
 #include "D3D12_Includes.h"
 #include "D3D12Objects/Device/D3D12Device.h"
 class D3D12Pipeline

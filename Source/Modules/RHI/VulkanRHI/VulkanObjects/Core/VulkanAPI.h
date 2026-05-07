@@ -20,13 +20,14 @@ public:
 #if RHI_USE_PLATFORM_WAYLAND_KHR
     PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
 #endif
-
+#if 1
     PFN_vkCmdTraceRaysKHR vkCmdTraceRaysKHR;
     PFN_vkCreateRayTracingPipelinesKHR vkCreateRayTracingPipelinesKHR;
     PFN_vkGetRayTracingCaptureReplayShaderGroupHandlesKHR vkGetRayTracingCaptureReplayShaderGroupHandlesKHR;
     PFN_vkCmdTraceRaysIndirectKHR vkCmdTraceRaysIndirectKHR;
     PFN_vkGetRayTracingShaderGroupStackSizeKHR vkGetRayTracingShaderGroupStackSizeKHR;
     PFN_vkCmdSetRayTracingPipelineStackSizeKHR vkCmdSetRayTracingPipelineStackSizeKHR;
+#endif
 public:
     /*
      * Command Buffer API

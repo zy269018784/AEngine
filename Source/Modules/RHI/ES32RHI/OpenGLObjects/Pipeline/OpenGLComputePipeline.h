@@ -1,9 +1,8 @@
 #pragma once
-#include <OpenGLObjects/Pipeline/OpenGLPipeline.h>
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "RHIObjects/Shader/RHIShader.h"
+#include "RHI/RHIObjects/Pipeline/RHIComputePipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGLPipeline.h"
 
-class OpenGLComputePipeline : public RHIGraphicsPipeline, public OpenGLPipeline
+class OpenGLComputePipeline : public RHIComputePipeline, public OpenGLPipeline
 {
 
 };

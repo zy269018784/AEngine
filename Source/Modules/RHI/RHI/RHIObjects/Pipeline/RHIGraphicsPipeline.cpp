@@ -31,11 +31,6 @@ RHITopology RHIGraphicsPipeline::GetTopology() const
 void RHIGraphicsPipeline::SetVertexInputLayout(const RHIVertexInputLayout& InVertexInputLayout)
 {
 	VertexInputLayout = InVertexInputLayout;
-	//std::cout 
-	//	<< "SetVertexInputLayout " << VertexInputLayout.Attributes.size() << " "
-	//	<< "GetBinding " << VertexInputLayout.Attributes[0].GetBinding() << " "
-	//	<< "GetLocation " << VertexInputLayout.Attributes[0].GetLocation() << " "
-	//	<< std::endl;
 }
 
 RHIVertexInputLayout RHIGraphicsPipeline::GetVertexInputLayout() const
@@ -132,16 +127,3 @@ int RHIGraphicsPipeline::GetSampleCount() const
 {
 	return SampleCount;
 }
-
-/*
-	Render Pass
-*/
-//void RHIGraphicsPipeline::SetRenderPass(RHIRenderPass* RenderPass)
-//{
-//	RenderPass_ = RenderPass;
-//}
-//
-//RHIRenderPass* RHIGraphicsPipeline::GetRenderPass() const
-//{
-//	return RenderPass_;
-//}
