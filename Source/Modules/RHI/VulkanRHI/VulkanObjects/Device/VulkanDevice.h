@@ -283,7 +283,15 @@ public:
 		Wait Idle Operations
 	*/
 	VkResult DeviceWaitIdle();
-public:	
+
+	/*
+	 * Ray Tracing
+	 */
+	VkResult CreateRayTracingPipelinesKHR(VkDeferredOperationKHR DeferredOperation, VkPipelineCache PipelineCache, uint32_t CreateInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* Allocator, VkPipeline* Pipelines);
+	VkResult GetRayTracingCaptureReplayShaderGroupHandlesKHR(VkPipeline Pipeline, uint32_t FirstGroup, uint32_t GroupCount, size_t DataSize, void* pData);
+	VkDeviceSize GetRayTracingShaderGroupStackSizeKHR(VkPipeline Pipeline, uint32_t Group,VkShaderGroupShaderKHR GroupShader);public:
+
+public:
 	/*
 		Present Queue
 	*/

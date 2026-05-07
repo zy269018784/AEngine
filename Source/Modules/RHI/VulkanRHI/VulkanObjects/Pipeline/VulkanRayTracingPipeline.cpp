@@ -18,8 +18,8 @@ void VulkanRayTracingPipeline::Create() {
 	VkDeferredOperationKHR                      deferredOperation = VK_NULL_HANDLE;
 	VkPipelineCache                             pipelineCache = VK_NULL_HANDLE;
 	uint32_t                                    createInfoCount = 0;
-	const VkRayTracingPipelineCreateInfoKHR*    pCreateInfos = nullptr;
-	const VkAllocationCallbacks*                pAllocator = nullptr;
+	VkRayTracingPipelineCreateInfoKHR*    		pCreateInfos = nullptr;
+	VkAllocationCallbacks*                		pAllocator = nullptr;
 	VkPipeline*                                 pPipelines = nullptr;
 	VulkanAPI::GetInstance(nullptr)->vkCreateRayTracingPipelinesKHR(
 														device,
