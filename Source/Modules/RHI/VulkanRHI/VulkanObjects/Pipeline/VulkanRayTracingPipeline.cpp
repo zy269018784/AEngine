@@ -28,13 +28,40 @@ void VulkanRayTracingPipeline::Create()
 		ShaderStageCreateInfo.stage			= ToVkShaderStageFlagBits(Shaders[i]->GetType());
 		ShaderStageCreateInfos.push_back(ShaderStageCreateInfo);
 	}
+	/*
+		typedef struct VkRayTracingPipelineCreateInfoKHR {
+			VkStructureType                                      sType;
+			const void*                                          pNext;
+			VkPipelineCreateFlags                                flags;
+			uint32_t                                             stageCount;
+			const VkPipelineShaderStageCreateInfo*               pStages;
+			uint32_t                                             groupCount;
+			const VkRayTracingShaderGroupCreateInfoKHR*          pGroups;
+			uint32_t                                             maxPipelineRayRecursionDepth;
+			const VkPipelineLibraryCreateInfoKHR*                pLibraryInfo;
+			const VkRayTracingPipelineInterfaceCreateInfoKHR*    pLibraryInterface;
+			const VkPipelineDynamicStateCreateInfo*              pDynamicState;
+			VkPipelineLayout                                     layout;
+			VkPipeline                                           basePipelineHandle;
+			int32_t                                              basePipelineIndex;
+		} VkRayTracingPipelineCreateInfoKHR;
+	 */
+	CreateInfos		  				= {};
+	CreateInfos.sType 				= VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR;
+	CreateInfos.stageCount			= ShaderStageCreateInfos.size();
+	CreateInfos.pStages				= ShaderStageCreateInfos.data();
+	CreateInfos.groupCount			= ShaderGroupCreateInfos.size();
+	CreateInfos.pGroups				= ShaderGroupCreateInfos.data();
+	CreateInfos.pDynamicState		= &DynamicState;
 
-
+	/*
+	 * 创建
+	 */
 	VkDevice                                    device = VK_NULL_HANDLE;
 	VkDeferredOperationKHR                      deferredOperation = VK_NULL_HANDLE;
 	VkPipelineCache                             pipelineCache = VK_NULL_HANDLE;
 	uint32_t                                    createInfoCount = 0;
-	VkRayTracingPipelineCreateInfoKHR*    		pCreateInfos = nullptr;
+	VkRayTracingPipelineCreateInfoKHR*    		pCreateInfos = &CreateInfos;
 	VkAllocationCallbacks*                		pAllocator = nullptr;
 	VkPipeline*                                 pPipelines = nullptr;
 #if 0

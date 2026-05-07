@@ -69,6 +69,7 @@ void VulkanGraphicsPipeline::Create()
 		4. Multisample
 	*/
 	VkSampleMask SampleMask = { 0xFFFFFFFF };
+
 	VkPipelineMultisampleStateCreateInfo	MultisampleStateCreateInfo{};
 	MultisampleStateCreateInfo.sType					= VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 	// 4.1 SampleCount
