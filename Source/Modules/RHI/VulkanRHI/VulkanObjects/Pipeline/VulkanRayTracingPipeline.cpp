@@ -2,7 +2,7 @@
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Shader/VulkanShader.h"
 #include <stdexcept>
-
+#include "VulkanRHI/VulkanObjects/Core/VulkanAPI.h"
 VulkanRayTracingPipeline::VulkanRayTracingPipeline(VulkanDevice* InDevice)
 	: VulkanPipeline(InDevice)
 {
@@ -14,23 +14,22 @@ VulkanRayTracingPipeline::~VulkanRayTracingPipeline() {
 }
 
 void VulkanRayTracingPipeline::Create() {
-	VkDevice                                    device;
-	VkDeferredOperationKHR                      deferredOperation;
-	VkPipelineCache                             pipelineCache;
-	uint32_t                                    createInfoCount;
-	const VkRayTracingPipelineCreateInfoKHR*    pCreateInfos;
-	const VkAllocationCallbacks*                pAllocator;
-	VkPipeline*                                 pPipelines;
-#if 0
-	vkCreateRayTracingPipelinesKHR(
-	device,
-	deferredOperation,
-	pipelineCache,
-	createInfoCount,
-	pCreateInfos,
-	pAllocator,
-	pPipelines);
-#endif
+	VkDevice                                    device = VK_NULL_HANDLE;
+	VkDeferredOperationKHR                      deferredOperation = VK_NULL_HANDLE;
+	VkPipelineCache                             pipelineCache = VK_NULL_HANDLE;
+	uint32_t                                    createInfoCount = 0;
+	const VkRayTracingPipelineCreateInfoKHR*    pCreateInfos = nullptr;
+	const VkAllocationCallbacks*                pAllocator = nullptr;
+	VkPipeline*                                 pPipelines = nullptr;
+	VulkanAPI::GetInstance(nullptr)->vkCreateRayTracingPipelinesKHR(
+														device,
+														deferredOperation,
+														pipelineCache,
+														createInfoCount,
+														pCreateInfos,
+														pAllocator,
+														pPipelines);
+
 }
 
 #if 0

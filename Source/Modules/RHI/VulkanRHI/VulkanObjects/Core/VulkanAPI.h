@@ -10,6 +10,7 @@ public:
 private:
     void LoadSurfaceAPI();
     void LoadCommandBufferAPI();
+    void LoadRayTracingAPI();
 private:
     VulkanInstance *Instance;
 public:
@@ -19,6 +20,13 @@ public:
 #if RHI_USE_PLATFORM_WAYLAND_KHR
     PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
 #endif
+
+    PFN_vkCmdTraceRaysKHR vkCmdTraceRaysKHR;
+    PFN_vkCreateRayTracingPipelinesKHR vkCreateRayTracingPipelinesKHR;
+    PFN_vkGetRayTracingCaptureReplayShaderGroupHandlesKHR vkGetRayTracingCaptureReplayShaderGroupHandlesKHR;
+    PFN_vkCmdTraceRaysIndirectKHR vkCmdTraceRaysIndirectKHR;
+    PFN_vkGetRayTracingShaderGroupStackSizeKHR vkGetRayTracingShaderGroupStackSizeKHR;
+    PFN_vkCmdSetRayTracingPipelineStackSizeKHR vkCmdSetRayTracingPipelineStackSizeKHR;
 public:
     /*
      * Command Buffer API

@@ -6,6 +6,8 @@ VulkanAPI::VulkanAPI(VulkanInstance *InInstance)
     : Instance(InInstance)
 {
     LoadSurfaceAPI();
+    LoadCommandBufferAPI();
+    LoadRayTracingAPI();
 }
 
 VulkanAPI::~VulkanAPI()
@@ -40,4 +42,16 @@ void VulkanAPI::LoadSurfaceAPI()
 void VulkanAPI::LoadCommandBufferAPI()
 {
     vkCmdPipelineBarrier2KHR = reinterpret_cast<PFN_vkCmdPipelineBarrier2KHR>(Instance->GetInstanceProcAddr("vkCmdPipelineBarrier2KHR"));
+}
+
+void VulkanAPI::LoadRayTracingAPI()
+{
+    vkCmdTraceRaysKHR = reinterpret_cast<PFN_vkCmdTraceRaysKHR>(Instance->GetInstanceProcAddr("vkCmdTraceRaysKHR"));
+    vkCreateRayTracingPipelinesKHR = reinterpret_cast<PFN_vkCreateRayTracingPipelinesKHR>(Instance->GetInstanceProcAddr("vkCreateRayTracingPipelinesKHR"));
+    vkGetRayTracingCaptureReplayShaderGroupHandlesKHR = reinterpret_cast<PFN_vkGetRayTracingCaptureReplayShaderGroupHandlesKHR>(Instance->GetInstanceProcAddr("vkGetRayTracingCaptureReplayShaderGroupHandlesKHR"));
+    vkCmdTraceRaysIndirectKHR = reinterpret_cast<PFN_vkCmdTraceRaysIndirectKHR>(Instance->GetInstanceProcAddr("vkCmdTraceRaysIndirectKHR"));
+    vkGetRayTracingShaderGroupStackSizeKHR = reinterpret_cast<PFN_vkGetRayTracingShaderGroupStackSizeKHR>(Instance->GetInstanceProcAddr("vkGetRayTracingShaderGroupStackSizeKHR"));
+    vkCmdSetRayTracingPipelineStackSizeKHR = reinterpret_cast<PFN_vkCmdSetRayTracingPipelineStackSizeKHR>(Instance->GetInstanceProcAddr("vkCmdSetRayTracingPipelineStackSizeKHR"));
+
+
 }
