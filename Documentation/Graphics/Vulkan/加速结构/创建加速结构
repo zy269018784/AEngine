@@ -51,6 +51,9 @@ API:
         VkDeviceOrHostAddressConstKHR    transformData;
     } VkAccelerationStructureGeometryTrianglesDataKHR;
 
+流程:
+
+
 例子代码:
 
     VkCommandBuffer                                         commandBuffer,
