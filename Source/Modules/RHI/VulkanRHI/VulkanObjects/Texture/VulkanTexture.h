@@ -1,11 +1,12 @@
 ﻿#pragma once
-#include "Vulkan.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Resource/VulkanImage.h"
-#include "VulkanObjects/Resource/VulkanImageView.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
+#include "VulkanRHI/Vulkan.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 
+class VulkanDevice;
+class VulkanImage;
+class VulkanImageView;
+class VulkanCommandPool;
 class VulkanTexture : public RHITexture
 {
 public:

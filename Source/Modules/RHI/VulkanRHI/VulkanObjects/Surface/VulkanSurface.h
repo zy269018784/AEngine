@@ -1,9 +1,11 @@
 ﻿#pragma once
-#include "RHIPlatform.h"
-#include "Vulkan.h"
-#include "VulkanObjects/Instance/VulkanInstance.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "RHIObjects/Surface/RHISurface.h"
+#include "RHI/RHIPlatform.h"
+#include "RHI/RHIObjects/Surface/RHISurface.h"
+#include "VulkanRHI/Vulkan.h"
+#include <vector>
+
+class VulkanPhysicalDevice;
+class VulkanInstance;
 class VulkanSurface : public RHISurface
 {
 public:

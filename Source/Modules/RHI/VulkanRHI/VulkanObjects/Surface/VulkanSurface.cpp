@@ -1,10 +1,12 @@
-#include "VulkanObjects/Surface/VulkanSurface.h"
-
+#include "VulkanRHI/VulkanRHI.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanAPI.h"
+#include "VulkanRHI/VulkanObjects/Surface/VulkanSurface.h"
+#include "VulkanRHI/VulkanObjects/Instance/VulkanInstance.h"
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include <iostream>
 #include <limits>
 
-#include "VulkanRHI.h"
-#include "VulkanObjects/Core/VulkanAPI.h"
+
 
 VulkanSurface::VulkanSurface()
 {

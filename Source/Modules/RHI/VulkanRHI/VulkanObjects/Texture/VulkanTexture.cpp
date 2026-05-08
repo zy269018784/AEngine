@@ -1,6 +1,9 @@
-﻿#include "VulkanObjects/Texture/VulkanTexture.h"
-#include "VulkanObjects/Core/VulkanCore.h"
-
+﻿#include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanImage.h"
+#include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
+#include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandPool.h"
 #include <iostream>
 
 VulkanTexture::VulkanTexture(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,

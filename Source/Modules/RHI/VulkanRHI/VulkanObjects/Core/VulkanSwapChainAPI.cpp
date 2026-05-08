@@ -1,4 +1,5 @@
-#include "VulkanObjects/SwapChain/VulkanSwapChain.h"
+#include "VulkanRHI/VulkanObjects/SwapChain/VulkanSwapChain.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 
 VkResult VulkanSwapChain::AcquireNextImageKHR(uint64_t Timeout, VkSemaphore  Semaphore, VkFence Fence, uint32_t* ImageIndex)
 {
