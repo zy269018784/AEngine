@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include "RHIObjects/PhysicalDevice/RHIPhysicalDevice.h"
 #include "VulkanRHI/Vulkan.h"
-#include <optional>
 #include <vector>
-#include <cstdint>
 
 class VulkanSurface;
 class VulkanDevice;
