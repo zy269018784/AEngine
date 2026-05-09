@@ -1,4 +1,4 @@
-﻿#ifdef OS_IS_WINDOWS
+﻿#if OS_IS_WINDOWS
 #include "XAudio2DeviceManager.h"
 #include <iostream>
 #pragma comment(lib, "xaudio2.lib")

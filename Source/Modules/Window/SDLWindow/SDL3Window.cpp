@@ -1,7 +1,7 @@
 #include "../SDL3Window.h"
 #include <iostream>
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 extern "C"
 {
 #include <xcb/xcb.h>
@@ -12,7 +12,7 @@ extern "C"
 SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
     Handle = SDL_CreateWindow("SDL3 Hello World", 800, 600, 0);
     if (!Handle) {
         std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
@@ -21,7 +21,7 @@ SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     SDL_CreateRenderer(Handle, nullptr);
 
     Uint32 windowID = SDL_GetWindowID(Handle);
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
     X11Window = static_cast<xcb_window_t>(windowID);
     X11Connection = xcb_connect(nullptr, nullptr);
 #endif
@@ -32,13 +32,13 @@ SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
 
 SDL3Window::~SDL3Window()
 {
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
 }
 
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 SDL_Window* SDL3Window::GetHandle()
 {
     return Handle;
@@ -52,14 +52,14 @@ void SDL3Window::MakeContextCurrent(void)
 
 void SDL3Window::Run()
 {
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 }
 
 void SDL3Window::SetTitle(const char *Title)
 {
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
@@ -69,7 +69,7 @@ void SDL3Window::Resize(int W, int H)
 {
     Width  = W;
     Height = H;
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
@@ -78,7 +78,7 @@ void SDL3Window::Resize(int W, int H)
 void SDL3Window::SetWidth(int arg)
 {
     Width = arg;
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
@@ -87,7 +87,7 @@ void SDL3Window::SetWidth(int arg)
 void SDL3Window::SetHeight(int arg)
 {
     Height = arg;
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
@@ -97,13 +97,13 @@ void SDL3Window::SetPosition(int X, int Y)
 {
     this->X = X;
     this->Y = Y;
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 
 #endif
 
 }
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 HWND SDL3Window::GetHWND()
 {
     return {};
@@ -115,7 +115,7 @@ HINSTANCE SDL3Window::GetHINSTANCE()
 }
 #endif
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 xcb_connection_t *SDL3Window::GetXCBConnection()
 {
     return X11Connection;
@@ -126,7 +126,7 @@ xcb_window_t SDL3Window::GetXCBWindow()
     return X11Window;
 }
 #endif
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
 Display* SDL3Window::GetXlibDisplay()
 {
     return nullptr;

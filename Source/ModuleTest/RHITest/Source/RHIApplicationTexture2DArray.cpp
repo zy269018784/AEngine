@@ -1,6 +1,6 @@
 ﻿#include "RHIApplicationTexture2DArray.h"
 #include "Vulkan/Common.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 #endif
 
@@ -82,7 +82,7 @@ void RHIApplicationTexture2DArray::CreateTexture()
 
     int texWidth, texHeight, texChannels;
     int texWidth2, texHeight2, texChannels2;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道,
         有些vulkan设备不支持R8G8B8

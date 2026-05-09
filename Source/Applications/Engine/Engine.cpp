@@ -1,7 +1,7 @@
 ﻿#include "Engine.h"
 #include "Window/GLFWWindow.h"
 #include "Vulkan/Common.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     #include <stb_image.h>
 #endif
 #include "CoordSystem.h"
@@ -183,7 +183,7 @@ Engine::Engine(IWindow* InWindow)
     model.LoadModel("periwinkle_plant_1k.gltf");
     std::cout << "Engine start 2" << std::endl;
 #if USE_RHI_VULKAN
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
     pRHI = new VulkanRHI();
 
 #endif
@@ -197,7 +197,7 @@ Engine::Engine(IWindow* InWindow)
 #endif
     pRHI->RHIUseGPU(0);
     std::cout << "debug 1" << std::endl;
-#ifdef PROJECT_USE_XCB1
+#if  PROJECT_USE_XCB1
     xcb_window_t xcb_window =  Window->GetXCBWindow();
     xcb_connection_t* connection = Window->GetXCBConnection();
     if (!connection || xcb_window == XCB_NONE) {
@@ -209,14 +209,14 @@ Engine::Engine(IWindow* InWindow)
 #endif
     std::cout << "debug 2" << std::endl;
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
 #endif
     std::cout << "debug 3" << std::endl;
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
     std::cout << "RHIApplication 1" << std::endl;
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
 
@@ -381,7 +381,7 @@ void Engine::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */

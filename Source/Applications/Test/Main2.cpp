@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_embroidery
+﻿#if  PROJECT_USE_embroidery
 #define LIBEMBROIDERY_IMPLEMENTATION
 
 #include "embroidery.h"
@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#ifdef PROJECT_USE_embroidery
+#if  PROJECT_USE_embroidery
 void addTajimaSyncHole(EmbPattern* pattern, double x, double y) {
 
     if (!pattern) return;
@@ -28,7 +28,7 @@ void addTajimaSyncHole(EmbPattern* pattern, double x, double y) {
 #endif
 
 int main2() {
-#ifdef PROJECT_USE_embroidery
+#if  PROJECT_USE_embroidery
     // 1. 创建图案对象
     EmbPattern* pattern = emb_pattern_create();
     if (!pattern) {

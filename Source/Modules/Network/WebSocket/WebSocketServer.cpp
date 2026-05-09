@@ -1,6 +1,6 @@
 ﻿#include "WebSocketServer.h"
 #include <iostream>
-#ifdef PROJECT_USE_BOOST
+#if  PROJECT_USE_BOOST
 WebSocketServer::WebSocketServer(unsigned short port)
     :   
         Context(),

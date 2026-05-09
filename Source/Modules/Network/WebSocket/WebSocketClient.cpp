@@ -1,6 +1,6 @@
 ﻿#include "WebSocketClient.h"
 #include <iostream>
-#ifdef PROJECT_USE_BOOST
+#if  PROJECT_USE_BOOST
 WebSocketClient::WebSocketClient()
 	:   Context(),
         Handle(Context)

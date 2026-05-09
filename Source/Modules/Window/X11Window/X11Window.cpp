@@ -4,7 +4,7 @@
 X11Window::X11Window(IWindow *Parent)
     : IWindow(Parent)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
      X11Display = XOpenDisplay(NULL);
 
      Screen = DefaultScreen(X11Display);
@@ -23,7 +23,7 @@ X11Window::X11Window(IWindow *Parent)
 
 X11Window::~X11Window()
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     XDestroyWindow(X11Display, Handle);
     XCloseDisplay(X11Display);
 #endif
@@ -31,7 +31,7 @@ X11Window::~X11Window()
 
 void X11Window::Run()
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     XEvent event;
     while (1)
     {
@@ -45,7 +45,7 @@ void X11Window::Run()
 
 void X11Window::SetTitle(const char *Title)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     XTextProperty WindowTitle;
     XStringListToTextProperty((char **)&Title, 1, &WindowTitle);
     XSetWMName(X11Display, Handle, &WindowTitle);
@@ -54,7 +54,7 @@ void X11Window::SetTitle(const char *Title)
 
 void X11Window::Resize(int W, int H)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Width  = W;
     Height = H;
     //XResizeWindow(X11Display, Handle, Width, Height);
@@ -69,7 +69,7 @@ void X11Window::Resize(int W, int H)
 
 void X11Window::SetWidth(int arg)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Width  = arg;
     //XResizeWindow(X11Display, Handle, Width, Height);
 
@@ -83,7 +83,7 @@ void X11Window::SetWidth(int arg)
 
 void X11Window::SetHeight(int arg)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Height = arg;
     //XResizeWindow(X11Display, Handle, Width, Height);
     XWindowChanges changes;
@@ -96,7 +96,7 @@ void X11Window::SetHeight(int arg)
 
 void X11Window::SetPosition(int X, int Y)
 {
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     this->X = X;
     this->Y = Y;
     //XMoveWindow(X11Display, Handle, this->X, this->Y);
@@ -109,7 +109,7 @@ void X11Window::SetPosition(int X, int Y)
 #endif
 }
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 HWND X11Window::GetHWND()
 {
     return {};
@@ -121,7 +121,7 @@ HINSTANCE X11Window::GetHINSTANCE()
 }
 #endif
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
 xcb_connection_t *X11Window::GetXCBConnection()
 {
     return XGetXCBConnection(X11Display);

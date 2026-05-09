@@ -1,5 +1,5 @@
 #include <iostream>
-#ifdef PROJECT_USE_FFMPEG
+#if  PROJECT_USE_FFMPEG
 #include <VideoAudioCodec/CodecContext.h>
 #include <VideoAudioCodec/FormatContext.h>
 #include <VideoAudioCodec/Frame.h>

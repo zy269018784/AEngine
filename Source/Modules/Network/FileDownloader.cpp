@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_BOOST
+﻿#if  PROJECT_USE_BOOST
 #define BOOST_ASIO_DISABLE_SSL
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>

@@ -1,17 +1,17 @@
 ﻿#include "OggFileFormat.h"
 #include "PCM.h"
 
-#ifdef PROJECT_USE_OGG
+#if  PROJECT_USE_OGG
     #include <ogg/ogg.h>
 #endif
 
-#ifdef PROJECT_USE_VORBIS
+#if  PROJECT_USE_VORBIS
     #include <vorbis/vorbisenc.h>
 #endif
 
 int OggFileFormat::VorbisEncoder(class PCM* InPCM, std::string OutputFile)
 {
-#ifdef PROJECT_USE_OGG
+#if  PROJECT_USE_OGG
     FILE* ogg_file = fopen(OutputFile.data(), "wb");
     if (!ogg_file)
     {

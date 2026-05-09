@@ -1,7 +1,7 @@
 ﻿#include "Common.h"
 #include <iostream>
 #define GLFW_INCLUDE_VULKAN
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
 #endif
 
@@ -55,7 +55,7 @@ std::string ReadFile2(const std::string& filename)
 
     return vertexCode;
 }
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 GLFWwindow* InitWindow(int width, int height)
 {
 	glfwInit();
@@ -119,7 +119,7 @@ int TestVulkan()
     for (uint32_t i = 0; i < glfwExtensionCount; i++) {
         std::cout << "  " << glfwExtensions[i] << std::endl;
     }
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
     VkApplicationInfo AppInfo{};
     AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     AppInfo.pApplicationName = "Hello Triangle";

@@ -49,8 +49,8 @@ void OpenGLShaderResourceBindings::Create()
 			{
 				auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
 				auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
-#define OpenGL
-#ifdef OpenGL
+
+#if  1
 				glBindTextureUnit(TextureUnit, TextureHandle);
 #else
 				glActiveTexture(GL_TEXTURE0 + TextureUnit);

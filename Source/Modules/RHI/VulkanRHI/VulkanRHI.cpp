@@ -43,7 +43,7 @@ void VulkanRHI::RHIUseGPU(std::uint32_t InGPUIndex)
 }
 
 
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
 RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
@@ -63,7 +63,7 @@ RHISurface* VulkanRHI::RHICreateSurface(struct wl_display* display, struct wl_su
 }
 #endif
 
-#ifdef RHI_USE_XCB_KHR
+#if RHI_USE_XCB_KHR
 RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);
@@ -71,7 +71,7 @@ RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window
 }
 #endif
 
-#ifdef RHI_USE_Xlib_KHR
+#if RHI_USE_Xlib_KHR
 RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Disp, Win);

@@ -2,14 +2,14 @@
 
 FLTKWindow::FLTKWindow()
 {
-#ifdef PROJECT_USE_FTLK
+#if  PROJECT_USE_FTLK
     Handle = new Fl_Window(400, 300, "FLTK Input Example");
     //Handle->end();
 #endif
 }
 
 FLTKWindow::~FLTKWindow() {
-#ifdef PROJECT_USE_FTLK
+#if  PROJECT_USE_FTLK
    delete Handle;
 #endif
 }
@@ -45,7 +45,7 @@ void FLTKWindow::SetPosition(int X, int Y)
 
 }
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 HWND FLTKWindow::GetHWND()
 {
     return 0;
@@ -57,9 +57,9 @@ HINSTANCE FLTKWindow::GetHINSTANCE()
 }
 #endif
 
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 xcb_connection_t *FLTKWindow::GetXCBConnection()
 {
     Display* Display = glfwGetX11Display();
@@ -72,7 +72,7 @@ xcb_window_t FLTKWindow::GetXCBWindow()
 }
 #endif
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
 Display* FLTKWindow::GetXlibDisplay()
 {
     return glfwGetX11Display();

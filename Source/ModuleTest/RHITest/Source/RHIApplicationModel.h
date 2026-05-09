@@ -2,7 +2,7 @@
 #if 0
 #include <RHIApplication.h>
 #define GLFW_INCLUDE_VULKAN
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
 #endif
 

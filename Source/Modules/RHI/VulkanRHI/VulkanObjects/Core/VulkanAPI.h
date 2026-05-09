@@ -14,7 +14,7 @@ private:
 private:
     VulkanInstance *Instance;
 public:
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
     PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
 #endif
 #if RHI_USE_PLATFORM_WAYLAND_KHR

@@ -79,8 +79,11 @@ void Example_Texture1DArray()
 
 void Example_Texture2D()
 {
+	std::cout << "Example_Texture2D 1" << std::endl;
 	RHIApplicationTexture2D App;
+	std::cout << "Example_Texture2D 2" << std::endl;
 	App.Run();
+	std::cout << "Example_Texture2D 3" << std::endl;
 }
 
 void Example_TextureRenderTarget()
@@ -140,10 +143,11 @@ void Example_RenderTarget()
 
 int RHIExample()
 {
+	std::cout << "RHIExample 1" << std::endl;
 	glfwInit();
+	std::cout << "RHIExample 2" << std::endl;
 
-
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 

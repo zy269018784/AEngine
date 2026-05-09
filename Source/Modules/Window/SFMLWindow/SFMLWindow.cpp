@@ -76,7 +76,7 @@ void SFMLWindow::SetPosition(int X, int Y)
 #endif
 }
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 HWND SFMLWindow::GetHWND()
 {
     return {};
@@ -88,7 +88,7 @@ HINSTANCE SFMLWindow::GetHINSTANCE()
 }
 #endif
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 xcb_connection_t *SFMLWindow::GetXCBConnection()
 {
     return nullptr;
@@ -99,7 +99,7 @@ xcb_window_t SFMLWindow::GetXCBWindow()
     return 0;
 }
 #endif
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
 Display* SFMLWindow::GetXlibDisplay()
 {
     return nullptr;

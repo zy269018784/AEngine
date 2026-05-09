@@ -39,28 +39,28 @@ void ES32RHI::RHIUseGPU(std::uint32_t GPUIndex)
 //	return new OpenGLWindow();
 //}
 
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
 RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
 	return nullptr;
 }
 #endif
 
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_PLATFORM_WAYLAND_KHR
 RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
 }
 #endif
 
-#ifdef RHI_USE_XCB_KHR
+#if RHI_USE_XCB_KHR
 RHISurface* ES32RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	return nullptr;
 }
 #endif
 
-#ifdef RHI_USE_Xlib_KHR
+#if RHI_USE_Xlib_KHR
 RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 {
 	return nullptr;

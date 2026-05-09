@@ -1,10 +1,10 @@
-#ifdef PROJECT_USE_SIMPLEBLE
+#if  PROJECT_USE_SIMPLEBLE
 	#include <simpleble/SimpleBLE.h>
 #endif
 #include <iostream>
 int SimpleBLEMain(int argc, char **argv)
 {
-#ifdef PROJECT_USE_SIMPLEBLE
+#if  PROJECT_USE_SIMPLEBLE
 	std::cout << "SimpleBLE" << std::endl;
    if (!SimpleBLE::Adapter::bluetooth_enabled()) {
       std::cout << "Bluetooth is not enabled" << std::endl;

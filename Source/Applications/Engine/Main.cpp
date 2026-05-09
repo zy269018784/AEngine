@@ -7,7 +7,7 @@ int RHIExample();
 int main(int argc, char **argv)
 {
    // return RHIExample();
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     glfwInit();
 #endif
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     Engine *pEngine = new Engine(Window);
     pEngine->Run();
 
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     glfwTerminate();
 #endif
     return 0;

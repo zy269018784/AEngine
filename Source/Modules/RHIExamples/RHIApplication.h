@@ -2,29 +2,29 @@
 
 #include "ES32RHI.h"
 #include "RHI.h"
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
     #include "VulkanRHI.h"
     #define GLFW_INCLUDE_VULKAN
 #endif
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
 #endif
 
 #include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "RHIObjects/CommandBuffer//RHICommandBuffer.h"
 
-#ifdef PROJECT_USE_D3D12
+#if  PROJECT_USE_D3D12
 #include "D3D12RHI.h"
 #endif
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     #include <GLFW/glfw3native.h>
 #endif
 #include "Window/IWindow.h"

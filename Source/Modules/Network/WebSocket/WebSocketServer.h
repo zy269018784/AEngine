@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <thread>
-#ifdef PROJECT_USE_BOOST
+#if  PROJECT_USE_BOOST
 	#include <boost/beast.hpp>
 	#include <boost/asio.hpp>
 
@@ -16,7 +16,7 @@ public:
 private:
 	void DoAsyncAccept();
 private:
-#ifdef PROJECT_USE_BOOST
+#if  PROJECT_USE_BOOST
 	boost::asio::io_context Context;
 	boost::asio::ip::tcp::acceptor Acceptor;
 #endif

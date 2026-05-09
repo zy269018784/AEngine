@@ -29,7 +29,7 @@ VulkanAPI *VulkanAPI::GetInstance(VulkanInstance *InInstance)
 
 void VulkanAPI::LoadSurfaceAPI()
 {
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
     //vkCreateWin32SurfaceKHR_1 = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(vkGetInstanceProcAddr(Instance->GetHandle(), "vkCreateWin32SurfaceKHR"));
     vkCreateWin32SurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWin32SurfaceKHR"));
 #endif

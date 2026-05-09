@@ -83,7 +83,7 @@ bool VideoRenderer::Initialize() {
     pRHI = new ES32RHI();
     glViewport(0, 0, 1920, 1080);
 #endif
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);

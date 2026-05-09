@@ -3,7 +3,7 @@
 #include "Vulkan/Common.h"
 #include "Model/Model.h"
 
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
     #include <glm/glm.hpp>
     #include <glm/gtc/matrix_transform.hpp>
     #include <glm/gtc/type_ptr.hpp>
@@ -31,7 +31,7 @@ std::vector<unsigned int> EBOData = {
      0, 1, 2,
     3, 4, 5
 };
-#ifdef PROJECT_USE_STB_1
+#if  PROJECT_USE_STB_1
  Model model;
 #endif
 
@@ -43,10 +43,10 @@ RHIApplicationModel::RHIApplicationModel()
 
 void RHIApplicationModel::Init()
 {
-#ifdef PROJECT_USE_STB_1
+#if  PROJECT_USE_STB_1
     model.LoadModel("Television_01_4k/Television_01_4k.gltf");
 #endif
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
     // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(45.f), (float)800 / (float)600, 0.1f, 100.0f);
     glm::mat4 view      = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));

@@ -1,6 +1,6 @@
 #ifndef ENGINE_AVCODECCONTEXT_H
 #define ENGINE_AVCODECCONTEXT_H
-#ifdef PROJECT_USE_FFMPEG
+#if  PROJECT_USE_FFMPEG
 extern  "C"
 {
 #include <libavcodec/avcodec.h>
@@ -8,7 +8,7 @@ extern  "C"
 #endif
 class CodecContext
 {
-#ifdef PROJECT_USE_FFMPEG
+#if  PROJECT_USE_FFMPEG
 public:
     CodecContext(const AVCodec *codec = nullptr);
     ~CodecContext();

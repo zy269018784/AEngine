@@ -5,7 +5,7 @@
 	#define VK_USE_PLATFORM_ANDROID_KHR
 #endif
 
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
 	#define VK_USE_PLATFORM_WIN32_KHR
 #endif
 

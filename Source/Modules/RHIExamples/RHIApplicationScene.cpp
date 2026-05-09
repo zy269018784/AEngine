@@ -3,7 +3,7 @@
 
 #include "Model/Model.h"
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 //Model model1;
 #endif
@@ -27,7 +27,7 @@ static float VertexAttributes[] = {
     //-100.0f, -100.0f,  100.0f, 
     //-100.0f, -100.0f, -100.0f, 
 };
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
 static glm::mat4 UBOData = {
      1.0f, 0.0f, 0.0f, 0.0f,
      0.0f, 1.0f, 0.0f, 0.0f,
@@ -67,7 +67,7 @@ void RHIApplicationScene::Init()
     //glm::vec3 eye = glm::vec3(0, 0.3, 0.8);
     //glm::vec3 lookat = glm::vec3(0, 0.3, -1);
     //glm::vec3 up = glm::vec3(0, -1, 0);
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
 
     glm::vec3 eye       = glm::vec3(0,  0.4, -1.1);
     glm::vec3 lookat    = glm::vec3(0,  0.4,  0.0);
@@ -88,7 +88,7 @@ void RHIApplicationScene::Init()
     std::cout << "a " << a.x << " " << a.y << " " << a.z << " " << a.w << std::endl;
 #endif
 
-#ifdef PROJECT_USE_STB_1
+#if  PROJECT_USE_STB_1
     model1.LoadModel("namaqualand_boulder_02_2k/namaqualand_boulder_02_2k.gltf");
 #endif
 
@@ -109,7 +109,7 @@ void RHIApplicationScene::CreateTexture()
 
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB_1
+#if  PROJECT_USE_STB_1
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -135,7 +135,7 @@ void RHIApplicationScene::CreateTexture()
 #define USE_MODEL 1
 void RHIApplicationScene::CreateVBO()
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #if USE_MODEL_1
     RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, model1.VBOData.size() * sizeof(float), model1.VBOData.data());
 #else
@@ -147,7 +147,7 @@ void RHIApplicationScene::CreateVBO()
 
 void RHIApplicationScene::CreateEBO()
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #if USE_MODEL_1
     RHIEBO = pRHI->RHICreateBuffer(RHIBufferType::IndexBuffer, RHIBufferUsageFlag::IndexBuffer, model1.EBOData.size() * sizeof(unsigned int), model1.EBOData.data());
 #else
@@ -159,7 +159,7 @@ void RHIApplicationScene::CreateEBO()
 
 void RHIApplicationScene::CreateUBO()
 {
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
     RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(mvp), &mvp);
 #endif
 }
@@ -276,7 +276,7 @@ void RHIApplicationScene::Draw()
     CommandBuffer->RHISetStencilTestEnable(false);
 
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #if USE_MODEL
   //  CommandBuffer->RHIDrawIndexedPrimitive(model1.EBOData.size(), 1, 0, 0, 0);
 #else

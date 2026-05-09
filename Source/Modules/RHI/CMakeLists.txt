@@ -4,6 +4,8 @@ project (RHI)
 set (SRC_LIST "")
 set (USE_VULKAN_RHI true)
 
+
+
 file(GLOB_RECURSE SRC_LIST_RHI              ${PROJECT_SOURCE_DIR}/RHI/*.cpp
                                             ${PROJECT_SOURCE_DIR}/RHI/*.c
                                             ${PROJECT_SOURCE_DIR}/RHI/*.h)
@@ -76,12 +78,51 @@ target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
 
-add_library(${PROJECT_NAME}-Static	 ${SRC_LIST})
-target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
-target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
-target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
+#add_library(${PROJECT_NAME}-Static	 ${SRC_LIST})
+#target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
+#target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
+#target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
 
-
-
-
-
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_WIN32_KHR=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_PLATFORM_WAYLAND_KHR=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_XCB_KHR=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_Xlib_KHR=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_ANDROID_KHR=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_DirectFB_EXT=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_IOS_MVK=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_MacOS_MVK=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_Metal_EXT=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_QNX=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_VI_NN=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_FUCHSIA=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_GGP=0)
+target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_OHOS=0)
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_WIN32_KHR=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_PLATFORM_WAYLAND_KHR=1)
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_XCB_KHR=1)
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_Xlib_KHR=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_ANDROID_KHR=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    # iOS 平台代码
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_IOS_MVK=1)
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_Metal_EXT=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    # macOS 平台代码
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_MacOS_MVK=1)
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_Metal_EXT=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "QNX")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_QNX=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_VI_NN=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Fuchsia")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_FUCHSIA=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "GGP")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_GGP=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_OHOS=0)
+endif ()
+# 屏蔽windows的max宏, std::numeric_limits<uint32_t>::max()
+target_compile_definitions(${PROJECT_NAME} PUBLIC NOMINMAX)

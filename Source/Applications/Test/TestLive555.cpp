@@ -1,13 +1,13 @@
 // minimal_rtsp_client.cpp
 //extern "C"
 //{
-#ifdef PROJECT_USE_LIVE555
+#if  PROJECT_USE_LIVE555
     #include <liveMedia/liveMedia.hh>
     #include <BasicUsageEnvironment/BasicUsageEnvironment.hh>
 	UsageEnvironment* env;
 #endif
 //}
-#ifdef PROJECT_USE_LIVE555
+#if  PROJECT_USE_LIVE555
 // Callback handlers
 //static void continueAfterDESCRIBE(RTSPClient* rtspClient, int resultCode, char* resultString);
 void responseHandler(RTSPClient* rtspClient,
@@ -22,7 +22,7 @@ static void continueAfterPLAY(RTSPClient* rtspClient,
                               int resultCode, char* resultString);
 #endif
 int Live555Main(int argc, char** argv) {
-#ifdef PROJECT_USE_LIVE555
+#if  PROJECT_USE_LIVE555
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <rtsp-url>\n", argv[0]);
         return 1;

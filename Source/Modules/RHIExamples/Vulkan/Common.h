@@ -2,10 +2,10 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#ifdef  PROJECT_USE_VULKAN
+#if   PROJECT_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
 #endif
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
 GLFWwindow* InitWindow(int width, int height);
 void CleanupWindow(GLFWwindow* Window);

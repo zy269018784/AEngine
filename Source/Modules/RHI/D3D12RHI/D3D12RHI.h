@@ -27,25 +27,25 @@ public:
 	/*
 		Win32
 	*/
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
 	virtual RHISurface* RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd) final override;
 #endif
 	/*
 		Wayland
 	*/
-#ifdef RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_PLATFORM_WAYLAND_KHR
 	virtual RHISurface* RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface) final override;
 #endif
 	/*
 		XCB
 	*/
-#ifdef RHI_USE_XCB_KHR
+#if RHI_USE_XCB_KHR
 	virtual RHISurface* RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window) final override;
 #endif
 	/*
 		Xlib
 	*/
-#ifdef RHI_USE_Xlib_KHR
+#if RHI_USE_Xlib_KHR
 	virtual RHISurface* RHICreateSurface(Display* Disp, Window Win) final override;
 #endif
 

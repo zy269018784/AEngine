@@ -19,7 +19,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
     Handle = Surface;
 }
 
-#ifdef RHI_USE_WIN32_KHR
+#if RHI_USE_WIN32_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd)
     : Instance(InInstance)
 {
@@ -31,7 +31,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HW
 }
 #endif
 
-#ifdef RHI_USE_XCB_KHR
+#if RHI_USE_XCB_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
 {
     VkXcbSurfaceCreateInfoKHR createInfo{};
@@ -47,7 +47,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* conne
     }
 }
 #endif
-#ifdef RHI_USE_Xlib_KHR
+#if RHI_USE_Xlib_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win)
 {
     VkXlibSurfaceCreateInfoKHR CreateInfo{};
@@ -63,7 +63,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window W
 }
 #endif
 
-#ifdef RHI_USE_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* display, struct wl_surface* surface)
 {
     VkWaylandSurfaceCreateInfoKHR CreateInfo{};
@@ -79,7 +79,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* disp
 }
 #endif
 
-#ifdef RHI_USE_ANDROID_KHR
+#if RHI_USE_ANDROID_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* Win)
 {
     VkAndroidSurfaceCreateInfoKHR CreateInfo{};
@@ -94,7 +94,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* W
 }
 #endif
 
-#ifdef RHI_USE_DirectFB_EXT
+#if RHI_USE_DirectFB_EXT
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, DirectFB* dfb, IDirectFBSurface* surface)
 {
     VkDirectFBSurfaceCreateInfoEXT CreateInfo{};
@@ -110,7 +110,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, DirectFB* dfb, IDirectF
 }
 #endif
 
-#ifdef RHI_USE_IOS_MVK
+#if RHI_USE_IOS_MVK
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 {
     VkIOSSurfaceCreateInfoMVK CreateInfo{};
@@ -125,7 +125,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 }
 #endif
 
-#ifdef RHI_USE_MacOS_MVK
+#if RHI_USE_MacOS_MVK
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 {
     VkMacOSSurfaceCreateInfoMVK CreateInfo{};
@@ -140,7 +140,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 }
 #endif
 
-#ifdef RHI_USE_Metal_EXT
+#if RHI_USE_Metal_EXT
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const CAMetalLayer* Layer)
 {
     VkMetalSurfaceCreateInfoEXT CreateInfo{};
@@ -155,7 +155,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const CAMetalLayer* Lay
 }
 #endif
 
-#ifdef RHI_USE_QNX
+#if RHI_USE_QNX
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct _screen_context* context, struct _screen_window* window)
 {
     VkScreenSurfaceCreateInfoQNX CreateInfo{};
@@ -171,7 +171,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct _screen_context*
 }
 #endif
 
-#ifdef RHI_USE_VI_NN
+#if RHI_USE_VI_NN
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, void* window)
 {
     VkViSurfaceCreateInfoNN CreateInfo{};
@@ -186,7 +186,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, void* window)
 }
 #endif
 
-#ifdef RHI_USE_FUCHSIA
+#if RHI_USE_FUCHSIA
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, zx_handle_t imagePipeHandle)
 {
     VkImagePipeSurfaceCreateInfoFUCHSIA CreateInfo{};
@@ -201,7 +201,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, zx_handle_t imagePipeHa
 }
 #endif
 
-#ifdef RHI_USE_GGP
+#if RHI_USE_GGP
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, GgpStreamDescriptor StreamDescriptor)
 {
     VkStreamDescriptorSurfaceCreateInfoGGP CreateInfo{};
@@ -216,7 +216,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, GgpStreamDescriptor Str
 }
 #endif
 
-#ifdef RHI_USE_OHOS
+#if RHI_USE_OHOS
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, OHNativeWindow* window)
 {
     VkOHOSSurfaceCreateInfoOHOS CreateInfo{};

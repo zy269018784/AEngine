@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <string>
-#ifdef PROJECT_USE_BOOST
+#if  PROJECT_USE_BOOST
 	#include <boost/beast.hpp>
 	#include <boost/asio.hpp>
 

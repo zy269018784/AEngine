@@ -77,7 +77,7 @@ void VulkanWindow::initialize()
 m_instance = new QVulkanInstance();
 
     // Enable validation layers in debug builds
-#ifdef QT_DEBUG
+#if  QT_DEBUG
 m_instance->setLayers(QByteArrayList() << "VK_LAYER_KHRONOS_validation");
 #endif
 

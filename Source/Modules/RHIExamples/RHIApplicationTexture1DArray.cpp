@@ -1,6 +1,6 @@
 ﻿#include "RHIApplicationTexture1DArray.h"
 #include "Vulkan/Common.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 #endif
 
@@ -77,7 +77,7 @@ void RHIApplicationTexture1DArray::CreateEBO()
 
 void RHIApplicationTexture1DArray::CreateTexture()
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #if 1
     /*
         STBI_rgb_alpha统一转成4通道,

@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_BLUEZ
+﻿#if  PROJECT_USE_BLUEZ
     // scan_devices.c
     #include <stdio.h>
     #include <stdlib.h>

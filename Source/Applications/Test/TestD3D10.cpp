@@ -1,9 +1,9 @@
-﻿#ifdef PROJECT_USE_D3D12
+﻿#if  PROJECT_USE_D3D12
 #include <iostream>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
-#ifdef PROJECT_USE_D3D12
+#if  PROJECT_USE_D3D12
 #include <d3d10.h>
 #include <d3dcompiler.h>
 #include <dxgi.h>
@@ -122,7 +122,7 @@ bool InitD3D10(GLFWwindow* window, int width, int height)
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     
     UINT createDeviceFlags = 0;
-#ifdef _DEBUG
+#if  _DEBUG
     createDeviceFlags |= D3D10_CREATE_DEVICE_DEBUG;
     std::cout << "Debug mode enabled" << std::endl;
 #endif

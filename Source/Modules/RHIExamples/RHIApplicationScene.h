@@ -1,15 +1,15 @@
 #pragma once
 #include <RHIApplication.h>
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
 #endif
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
 #endif
 
 #include <iostream>
 
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
     #include <glm/glm.hpp>
     #include <glm/gtc/matrix_transform.hpp>
     #include <glm/gtc/type_ptr.hpp>
@@ -45,7 +45,7 @@ private:
     RHIBuffer* RHIUBO = nullptr;
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;

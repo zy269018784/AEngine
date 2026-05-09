@@ -6,7 +6,7 @@
 #include "Window/IWindow.h"
 
 #include "RHI.h"
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
     #include "VulkanRHI.h"
 #endif
 

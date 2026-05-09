@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_ALSA
+#if  PROJECT_USE_ALSA
 #include <alsa/asoundlib.h>
 #include <alsa/control.h>
 #endif
@@ -13,7 +13,7 @@
 void list_alsa_devices() ;
 int TestAlsa()
 {
-#ifdef PROJECT_USE_ALSA
+#if  PROJECT_USE_ALSA
     list_alsa_devices();
     int error;
 
@@ -85,7 +85,7 @@ int TestAlsa()
 }
 
 void list_alsa_devices() {
-#ifdef PROJECT_USE_ALSA
+#if  PROJECT_USE_ALSA
     char** hints;
     int err;
 

@@ -4,7 +4,8 @@
 #include "Rhi/RHIObjects/Shader/RHIShader.h"
 #include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Rhi/RHIObjects/Surface/RHISurface.h"
-#ifdef PROJECT_USE_XCB
+
+#if  PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
@@ -35,10 +36,6 @@ RHIApplication::RHIApplication()
 
         pApp = this;
         pRHI = CreateVulkanRHI();
-#ifdef PROJECT_USE_VULKAN
-        pRHI = new VulkanRHI();
-#endif
-
     }
     else if (1 == RHIIndex)
     {
@@ -59,14 +56,9 @@ RHIApplication::RHIApplication()
     }
     pRHI->RHIUseGPU(0);
 
+#if OS_IS_LINUX
 
-
-#ifdef PROJECT_USE_XCB1
-    //Display* Display = glfwGetX11Display();
-    //xcb_connection_t* connection = XGetXCBConnection(Display);
-    //xcb_window_t xcb_window = glfwGetX11Window(InWindow);
-
-
+#if 1
     xcb_window_t xcb_window =  Window->GetXCBWindow();
     xcb_connection_t* connection = Window->GetXCBConnection();
     if (!connection || xcb_window == XCB_NONE) {
@@ -76,27 +68,28 @@ RHIApplication::RHIApplication()
     RHIWindow_ = pRHI->RHICreateWindow(connection, xcb_window);
     Surface = pRHI->RHICreateSurface(connection, xcb_window);
     std::cout << "glfwGetX11Window" << std::endl;
-#endif
-
-#ifdef PROJECT_USE_Xlib
+#else
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
     Surface = pRHI->RHICreateSurface(Disp, Win);
 #endif
+#endif
 
-
-#ifdef OS_IS_WINDOWS
-#ifdef PROJECT_USE_GLFW
+#if OS_IS_WINDOWS
+    std::cout << "RHIApplication 2" << std::endl;
+   // HWND hwnd = Window->GetHWND();
+    //HINSTANCE instacne = Window->GetHINSTANCE();
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
 #endif
-
-#endif
+    std::cout << "RHIApplication 3" << std::endl;
+//#endif
 
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
+    std::cout << "RHIApplication 4" << std::endl;
 }
 
 
@@ -118,7 +111,7 @@ RHIApplication::~RHIApplication()
 void RHIApplication::Run()
 {
     Init();
-#ifdef PROJECT_USE_GLFW
+
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
@@ -128,15 +121,15 @@ void RHIApplication::Run()
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
-#ifdef PROJECT_USE_GLFW
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
-#endif
+
 
     }
-#endif
+
 
     RenderTarget->WaitDeviceIdle();
 }

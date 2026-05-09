@@ -1,5 +1,5 @@
 ﻿#pragma once
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 #include <windows.h>
 #include <mmsystem.h>
 #include <vector>

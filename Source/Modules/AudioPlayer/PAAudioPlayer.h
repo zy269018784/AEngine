@@ -1,6 +1,6 @@
 #pragma once
 #include "IAudioPlayer.h"
-#ifdef PROJECT_USE_PORTAUDIO
+#if  PROJECT_USE_PORTAUDIO
     #include <portaudio.h>
 #endif
 class PAAudioPlayer : public IAudioPlayer

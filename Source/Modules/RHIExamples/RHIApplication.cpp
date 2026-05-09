@@ -4,14 +4,14 @@
 #include "RHIObjects/Shader/RHIShader.h"
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "RHIObjects/Surface/RHISurface.h"
-//#ifdef PROJECT_USE_GLFW
-#ifdef PROJECT_USE_XCB
+//#if  PROJECT_USE_GLFW
+#if  PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
 #include "Window/GLFWWindow.h"
 RHIApplication *pApp;
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 void window_close_callback(GLFWwindow* window)
 {
     // 用户尝试关闭窗口时调用
@@ -31,25 +31,25 @@ RHIApplication::RHIApplication()
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
         glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
 #endif
         pApp = this;
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
         pRHI = new VulkanRHI();
 #endif
 
     }
     else if (1 == RHIIndex)
     {
-#ifdef PROJECT_USE_D3D12
+#if  PROJECT_USE_D3D12
         pRHI = new D3D12RHI();
 #endif
     }
     else if (2 == RHIIndex)
     {
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
         tmpWin->MakeContextCurrent();
 #endif
 
@@ -64,7 +64,7 @@ RHIApplication::RHIApplication()
 
 
 
-#ifdef PROJECT_USE_XCB1
+#if  PROJECT_USE_XCB1
     //Display* Display = glfwGetX11Display();
     //xcb_connection_t* connection = XGetXCBConnection(Display);
     //xcb_window_t xcb_window = glfwGetX11Window(InWindow);
@@ -81,7 +81,7 @@ RHIApplication::RHIApplication()
     std::cout << "glfwGetX11Window" << std::endl;
 #endif
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
@@ -89,8 +89,8 @@ RHIApplication::RHIApplication()
 #endif
 
 
-#ifdef OS_IS_WINDOWS
-#ifdef PROJECT_USE_GLFW
+#if OS_IS_WINDOWS
+#if  PROJECT_USE_GLFW
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
@@ -121,7 +121,7 @@ RHIApplication::~RHIApplication()
 void RHIApplication::Run()
 {
     Init();
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
@@ -131,7 +131,7 @@ void RHIApplication::Run()
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(glfwWin);

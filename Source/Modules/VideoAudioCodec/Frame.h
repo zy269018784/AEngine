@@ -5,7 +5,7 @@
 #ifndef ENGINE_AVFRAME_H
 #define ENGINE_AVFRAME_H
 #include <cstdint>
-#ifdef PROJECT_USE_FFMEPG
+#if  PROJECT_USE_FFMEPG
 extern  "C"
 {
 #include <libavcodec/avcodec.h>

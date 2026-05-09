@@ -4,7 +4,7 @@
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "RHIObjects/Texture/RHITexture.h"
 #include "Vulkan/Common.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 #endif
 /*
@@ -126,7 +126,7 @@ void RHIApplicationSamplerObject::CreateTexture()
     RHISamplers[3] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST, RHIAddressMode::CLAMP_TO_BORDER, RHIAddressMode::CLAMP_TO_BORDER);
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */

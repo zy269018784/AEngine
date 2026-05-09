@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_FFMEPG
+#if  PROJECT_USE_FFMEPG
 #include "Encoder.h"
 
 Encoder::Encoder(const char *CodecName)

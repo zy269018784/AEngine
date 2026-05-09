@@ -1,7 +1,7 @@
 ﻿#include "Model.h"
 #include <list>
 #include <iostream>
-#ifdef  PROJECT_USE_ASSIMP
+#if   PROJECT_USE_ASSIMP
 
 Model::Model()
 {

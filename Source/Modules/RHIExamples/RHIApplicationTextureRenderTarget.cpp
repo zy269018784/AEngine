@@ -1,6 +1,6 @@
 ﻿#include "RHIApplicationTextureRenderTarget.h"
 #include "Vulkan/Common.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 #endif
 #include "RHIObjects/Shader/RHIShaderResourceBinding.h"
@@ -41,19 +41,19 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
-#ifdef PROJECT_USE_VULKAN
+#if  PROJECT_USE_VULKAN
         pRHI = new VulkanRHI();
 #endif
     }
     else if (1 == RHIIndex)
     {
-#ifdef PROJECT_USE_D3D12
+#if  PROJECT_USE_D3D12
         pRHI = new D3D12RHI();
 #endif
     }
     else if (2 == RHIIndex)
     {
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
         tmpWin->MakeContextCurrent();
 
@@ -69,7 +69,7 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
 
 
 
-#ifdef PROJECT_USE_XCB1
+#if  PROJECT_USE_XCB1
     //Display* Display = glfwGetX11Display();
     //xcb_connection_t* connection = XGetXCBConnection(Display);
     //xcb_window_t xcb_window = glfwGetX11Window(InWindow);
@@ -86,7 +86,7 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
     std::cout << "glfwGetX11Window" << std::endl;
 #endif
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
     RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
@@ -94,10 +94,10 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
 #endif
 
 
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
     std::cout << "RHIApplication 1" << std::endl;
     HWND hwnd;HINSTANCE instacne;
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
 
     hwnd = glfwGetWin32Window(GLFWHandle);
@@ -134,7 +134,7 @@ RHIApplicationTextureRenderTarget::~RHIApplicationTextureRenderTarget()
 
 void RHIApplicationTextureRenderTarget::Run()
 {
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     Init();
 #if 1
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
@@ -227,7 +227,7 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */

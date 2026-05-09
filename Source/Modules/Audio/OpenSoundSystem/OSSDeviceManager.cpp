@@ -1,4 +1,4 @@
-﻿#ifdef OS_IS_LINUX
+﻿#if  OS_IS_LINUX
 #include "OSSDeviceManager.h"
 #include <iostream>
 #pragma comment(lib, "dsound.lib")

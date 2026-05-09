@@ -4,7 +4,7 @@
 
 #ifndef ENGINE_ENCODER_H
 #define ENGINE_ENCODER_H
-#ifdef PROJECT_USE_FFMEPG
+#if  PROJECT_USE_FFMEPG
 #include <cstdint>
 
 #include "Frame.h"

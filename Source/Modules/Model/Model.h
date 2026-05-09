@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
-#ifdef  PROJECT_USE_ASSIMP
+#if   PROJECT_USE_ASSIMP
 	#include <assimp/Importer.hpp>
 	#include <assimp/scene.h>
 	#include <assimp/postprocess.h>

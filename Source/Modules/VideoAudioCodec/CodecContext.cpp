@@ -1,6 +1,6 @@
 
 #include "CodecContext.h"
-#ifdef PROJECT_USE_FFMPEG
+#if  PROJECT_USE_FFMPEG
 CodecContext::CodecContext(const AVCodec *codec)
 {
     if (codec)

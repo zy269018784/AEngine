@@ -10,7 +10,7 @@
 /*
 	stb
 */
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	#define STBI_WINDOWS_UTF8
 	#include <stb_image.h>
 	#include <stb_image_write.h>
@@ -20,7 +20,7 @@
 /*
 	openexr
 */
-#ifdef PROJECT_USE_OPENEXR
+#if  PROJECT_USE_OPENEXR
 	#include <OpenEXR/ImfHeader.h>
 	#include <OpenEXR/ImfFrameBuffer.h>
 	#include <OpenEXR/ImfThreading.h>
@@ -39,7 +39,7 @@
 /*
 	webp
 */
-#ifdef PROJECT_USE_WEBP
+#if  PROJECT_USE_WEBP
 	#include <webp/encode.h>
 	#include <webp/decode.h>
 	#include <webp/mux.h>
@@ -274,7 +274,7 @@ ImageFile* ImageFile::Read(std::string filename)
 
 ImageFile* ImageFile::ReadPNG(const std::string filename)
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
@@ -305,7 +305,7 @@ ImageFile* ImageFile::ReadPNG(const std::string filename)
 
 ImageFile* ImageFile::ReadJPG(const std::string filename)
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
@@ -334,7 +334,7 @@ ImageFile* ImageFile::ReadJPG(const std::string filename)
 
 ImageFile* ImageFile::ReadTGA(const std::string filename)
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
@@ -363,7 +363,7 @@ ImageFile* ImageFile::ReadTGA(const std::string filename)
 
 ImageFile* ImageFile::ReadBMP(const std::string filename)
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	ImageFile* image = nullptr;
 	int width, height, channels;
 	std::uint8_t* data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
@@ -392,7 +392,7 @@ ImageFile* ImageFile::ReadBMP(const std::string filename)
 
 ImageFile* ImageFile::ReadHDR(const std::string filename)
 {
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	ImageFile* image = nullptr;
 	int width, height, channels;
 	float* data = stbi_loadf(filename.c_str(), &width, &height, &channels, 0);
@@ -446,7 +446,7 @@ ImageFile* ImageFile::ReadWEBP(const std::string filename)
 	if (webp_data.empty()) {
 		return {};
 	}
-#ifdef PROJECT_USE_WEBP
+#if  PROJECT_USE_WEBP
 	WebPBitstreamFeatures features;
 	VP8StatusCode status = WebPGetFeatures(webp_data.data(), webp_data.size(), &features);
 	//std::cout << "ReadWEBP features.has_alpha " << features.has_alpha << " " << features.width  << " " << features.height << std::endl;
@@ -514,7 +514,7 @@ bool ImageFile::WritePNG(std::string filename) const
 			}
 		}
 	}
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	stbi_write_png(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get(), 0);
 #endif
 	return true;
@@ -533,7 +533,7 @@ bool ImageFile::WriteJPG(std::string filename) const
 			}
 		}
 	}
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	stbi_write_jpg(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get(), 100);
 #endif
 	return true;
@@ -549,7 +549,7 @@ bool ImageFile::WriteTGA(std::string filename) const
 			}
 		}
 	}
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	stbi_write_tga(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get());
 #endif
 	return true;
@@ -565,7 +565,7 @@ bool ImageFile::WriteBMP(std::string filename) const
 			}
 		}
 	}
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	stbi_write_bmp(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel8.get());
 #endif
 	return true;
@@ -581,7 +581,7 @@ bool ImageFile::WriteHDR(std::string filename) const
 			}
 		}
 	}
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 	stbi_write_hdr(filename.c_str(), Resolution.X, Resolution.Y, NChannels(), Pixel32.get());
 #endif
 	return true;
@@ -589,7 +589,7 @@ bool ImageFile::WriteHDR(std::string filename) const
 
 bool ImageFile::WriteEXR(std::string filename) const
 {
-#ifdef PROJECT_USE_OPENEXR
+#if  PROJECT_USE_OPENEXR
 	Imf::Rgba* pixels = new Imf::Rgba[Resolution.X * Resolution.Y];
 
 	for (int row = 0; row < Resolution.Y; row++) {
@@ -635,7 +635,7 @@ bool ImageFile::WriteEXR(std::string filename) const
 */
 bool ImageFile::WriteWEBP(std::string filename) const
 {
-#ifdef PROJECT_USE_WEBP
+#if  PROJECT_USE_WEBP
 	std::uint8_t* output = nullptr;
 	size_t size = 0;
 	if (4 == NChannels())

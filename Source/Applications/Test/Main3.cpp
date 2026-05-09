@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_LVGL
+#if  PROJECT_USE_LVGL
 #include "lvgl/lvgl.h"
 #include <lvgl/src/drivers/lv_drivers.h>
 #include <lvgl/src/drivers/windows/lv_windows_display.h>

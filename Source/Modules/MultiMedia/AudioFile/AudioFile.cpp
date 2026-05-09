@@ -3,25 +3,25 @@
 #include <iostream>
 #include <stdio.h>
 
-#ifdef PROJECT_USE_FDKAAC
+#if  PROJECT_USE_FDKAAC
     #include <aacenc_lib.h>
     #include <aacdecoder_lib.h>
 #endif
 
-#ifdef PROJECT_USE_OPUS
+#if  PROJECT_USE_OPUS
     #include <opus.h>
 #endif
 
 
-#ifdef PROJECT_USE_OGG
+#if  PROJECT_USE_OGG
     #include <ogg/ogg.h>
 #endif
 
-#ifdef PROJECT_USE_VORBIS
+#if  PROJECT_USE_VORBIS
     #include <vorbis/vorbisenc.h>
 #endif
 
-#ifdef PROJECT_USE_TWOLAME
+#if  PROJECT_USE_TWOLAME
     #include <twolame.h>
 #endif
 
@@ -156,7 +156,7 @@ int AudioFile::EncodeToMP3(char* InputFilename, char* OutputFilename)
 
 int AudioFile::EncodeToAAC(char* InputFilename, char* OutputFilename)
 {
-#ifdef PROJECT_USE_FDKAAC
+#if  PROJECT_USE_FDKAAC
     // 初始化编码器
     HANDLE_AACENCODER hEncoder;
     if (aacEncOpen(&hEncoder, 0, 2) != AACENC_OK) {
@@ -278,7 +278,7 @@ int AudioFile::EncodeToAC3(char* InputFilename, char* OutputFilename)
 
 int AudioFile::EncodeToOPUS(char* InputFilename, char* OutputFilename)
 {
-#ifdef PROJECT_USE_OPUS
+#if  PROJECT_USE_OPUS
     // 打开PCM输入文件和Opus输出文件
     FILE* pcm_file = fopen(InputFilename, "rb");
     FILE* opus_file = fopen(OutputFilename, "wb");

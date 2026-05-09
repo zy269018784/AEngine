@@ -7,7 +7,7 @@
     #include <SFML/Audio/Music.hpp>
 #endif
 
-#ifdef PROJECT_USE_CEF
+#if  PROJECT_USE_CEF
 #include "cef_app.h"
 #include "cef_client.h"
 #include "cef_render_handler.h"
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     return RHIExample();
 }
 
-#ifdef PROJECT_USE_CEF
+#if  PROJECT_USE_CEF
 class MinimalClient : public CefClient
 {
 public:
@@ -48,7 +48,7 @@ int cef_main(int argc, char **argv) {
     CefWindowInfo window_info;
     CefBrowserSettings browser_settings;
 
-#ifdef _WIN32
+#if  _WIN32
     window_info.SetAsPopup(NULL, "CEF Window");
 #else
     window_info.SetAsWindowless(0); // Linux/Mac alternative

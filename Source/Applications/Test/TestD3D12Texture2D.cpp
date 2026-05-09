@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_D3D12
+#if  PROJECT_USE_D3D12
 #include <iostream>
 #include <vector>
 #include <string>

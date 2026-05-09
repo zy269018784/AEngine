@@ -5,7 +5,7 @@
 // 编译: g++ main.cpp -o triangle -lglfw -ldl
 // 运行: ./triangle
 // ============================================================================
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -116,7 +116,7 @@ int TestOpenGL(int argc, char* argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
+#if  __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // macOS 需要
 #endif
 

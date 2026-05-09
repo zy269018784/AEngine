@@ -6,7 +6,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
 #include <stb_image.h>
 #endif
 /*
@@ -68,12 +68,17 @@ RHIApplicationTexture2D::~RHIApplicationTexture2D()
 
 void RHIApplicationTexture2D::Init()
 {
+    std::cout << "1" << std::endl;
     CreateVBO();
     CreateEBO();
     CreateTexture();
+    std::cout << "2" << std::endl;
     CreateSRB();
+    std::cout << "3" << std::endl;
     CreateVertexDescriptioin();
+    std::cout << "4" << std::endl;
     CreateGraphicsPipeline();
+    std::cout << "5" << std::endl;
 }
 
 void RHIApplicationTexture2D::CreateVBO()
@@ -91,7 +96,7 @@ void RHIApplicationTexture2D::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */

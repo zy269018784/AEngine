@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_DXFRW
+#if  PROJECT_USE_DXFRW
 #include "libdxfrw.h"
 #include "drw_base.h"
 #include "drw_classes.h"

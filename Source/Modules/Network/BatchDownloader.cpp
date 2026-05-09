@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_BOOST
+﻿#if  PROJECT_USE_BOOST
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/asio.hpp>

@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_D3D12
+﻿#if  PROJECT_USE_D3D12
 // 简化的修复版本
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
@@ -200,7 +200,7 @@ bool CreateTriangleResources() {
 
     ComPtr<ID3DBlob> vertexShader, pixelShader;
     UINT compileFlags = 0;
-#ifdef _DEBUG
+#if  _DEBUG
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 

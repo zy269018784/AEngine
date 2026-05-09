@@ -1,5 +1,5 @@
 #if 0
-#ifdef PROJECT_USE_MODBUS
+#if  PROJECT_USE_MODBUS
     #include <modbus/modbus-rtu.h>
     #include <modbus/modbus-tcp.h>
 #endif
@@ -23,7 +23,7 @@ int ModbusTCPServerMain()
 {
     int ErrorCode = 0;
 
-#ifdef PROJECT_USE_MODBUS
+#if  PROJECT_USE_MODBUS
     modbus_t *mb;
     mb = modbus_new_tcp("127.0.0.1", 1502);
     modbus_mapping_t *mb_mapping = modbus_mapping_new_start_address(
@@ -64,7 +64,7 @@ int ModbusTCPServerMain()
 int ModbusTCPClientMain()
 {
     int ErrorCode = 0;
-#ifdef PROJECT_USE_MODBUS
+#if  PROJECT_USE_MODBUS
     modbus_t *mb;
     mb = modbus_new_tcp("127.0.0.1", 1502);
     ErrorCode = modbus_connect(mb);
@@ -92,7 +92,7 @@ int ModbusTCPClientMain()
 
 int ModbusTCPMain() {
     std::cout << "hello, modbus tcp" << std::endl;
-#ifdef PROJECT_USE_MODBUS
+#if  PROJECT_USE_MODBUS
     modbus_t *mb;
 
 

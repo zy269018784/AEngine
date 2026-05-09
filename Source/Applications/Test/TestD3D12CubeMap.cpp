@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_D3D12
+﻿#if  PROJECT_USE_D3D12
 #include <iostream>
 #include <vector>
 #include <string>
@@ -7,7 +7,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     #include <stb_image.h>
 #endif
 
@@ -346,7 +346,7 @@ static ID3DBlob* CompileShader(const std::string& source, const std::string& ent
     ID3DBlob* shaderBlob = nullptr;
     ID3DBlob* errorBlob = nullptr;
     UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
+#if  _DEBUG
     flags |= D3DCOMPILE_DEBUG;
 #endif
     HRESULT hr = D3DCompile(source.c_str(), source.size(), nullptr, nullptr, nullptr,

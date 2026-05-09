@@ -1,5 +1,5 @@
 #include "GLFWWindow.h"
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
     #include <xcb/xcb.h>
     #include <X11/Xlib-xcb.h>
     #include <X11/Xutil.h>
@@ -138,9 +138,9 @@ HINSTANCE GLFWWindow::GetHINSTANCE()
 }
 
 
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 
-#ifdef PROJECT_USE_XCB
+#if  PROJECT_USE_XCB
 xcb_connection_t *GLFWWindow::GetXCBConnection()
 {
     Display* Display = glfwGetX11Display();
@@ -153,7 +153,7 @@ xcb_window_t GLFWWindow::GetXCBWindow()
 }
 #endif
 
-#ifdef PROJECT_USE_Xlib
+#if  PROJECT_USE_Xlib
 Display* GLFWWindow::GetXlibDisplay()
 {
     return glfwGetX11Display();

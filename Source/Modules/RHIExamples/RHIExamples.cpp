@@ -140,11 +140,11 @@ void Example_RenderTarget()
 
 int RHIExample()
 {
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
 	glfwInit();
 #endif
 
-#ifdef PROJECT_USE_SDL3
+#if  PROJECT_USE_SDL3
 	SDL_Init(SDL_INIT_VIDEO);
 #endif
 

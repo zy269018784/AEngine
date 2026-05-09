@@ -1,5 +1,5 @@
 ﻿#pragma once
-#ifdef OS_IS_WINDOWS
+#if OS_IS_WINDOWS
 #include <mmdeviceapi.h>
 #include <functiondiscoverykeys_devpkey.h>
 #include <vector>

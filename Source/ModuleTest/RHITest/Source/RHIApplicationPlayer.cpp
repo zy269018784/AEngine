@@ -7,7 +7,7 @@
 #include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Rhi/RHIObjects/Texture/RHITexture.h"
 
-#ifdef PROJECT_USE_STB_1
+#if  PROJECT_USE_STB_1
     #include <stb_image.h>
     static Model model1;
 #endif
@@ -31,7 +31,7 @@ static float VertexAttributes[] = {
     //-100.0f, -100.0f,  100.0f, 
     //-100.0f, -100.0f, -100.0f, 
 };
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
 static glm::mat4 UBOData = {
      1.0f, 0.0f, 0.0f, 0.0f,
      0.0f, 1.0f, 0.0f, 0.0f,
@@ -72,7 +72,7 @@ void RHIApplicationPlayer::Init()
     //glm::vec3 eye = glm::vec3(0, 0.3, 0.590);
     //glm::vec3 lookat = glm::vec3(0, 0.3, -1);
     //glm::vec3 up = glm::vec3(0, -1, 0);
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
 
 
     glm::vec3 eye    = glm::vec3(0, 0, 0);
@@ -114,7 +114,7 @@ void RHIApplicationPlayer::CreateTexture()
 
 
     int texWidth, texHeight, texChannels;
-#ifdef PROJECT_USE_STB
+#if  PROJECT_USE_STB
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -162,7 +162,7 @@ void RHIApplicationPlayer::CreateEBO()
 void RHIApplicationPlayer::CreateUBO()
 {
 
-#ifdef PROJECT_USE_GLM
+#if  PROJECT_USE_GLM
    // mvp = UBOData;
    RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(mvp), &mvp);
 #endif

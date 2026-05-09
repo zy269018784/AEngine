@@ -1,4 +1,4 @@
-﻿#ifdef OS_IS_WINDOWS
+﻿#if OS_IS_WINDOWS
 #include "CoreAudioDeviceManager.h"
 #include <iostream>
 CoreAudioDeviceManager::CoreAudioDeviceManager()

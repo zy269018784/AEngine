@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_PORTAUDIO
+#if  PROJECT_USE_PORTAUDIO
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

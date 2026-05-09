@@ -42,7 +42,7 @@ int HelloX11()
 
 int HelloGLFW()
 {
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     glfwInit();
 #endif
     std::unique_ptr<IWindow> Window;
@@ -52,7 +52,7 @@ int HelloGLFW()
     Window->SetHeight(600);
     Window->SetPosition(960, 0);
     Window->Run();
-#ifdef PROJECT_USE_GLFW
+#if  PROJECT_USE_GLFW
     glfwTerminate();
 #endif
     return 0;
@@ -154,7 +154,7 @@ int ModuleTest(int argc, char **argv)
     return HelloSFMLAudioPlayer(argc, argv);
     return EncodeToMP3(argv[1], argv[2]);
     return TestPortaudio();
-#ifdef PROJECT_USE_FTLK
+#if  PROJECT_USE_FTLK
     std::cout << "PROJECT_USE_FTLK" << std::endl;
 #endif
     //HelloX11();

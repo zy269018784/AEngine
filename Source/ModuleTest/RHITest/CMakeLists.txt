@@ -41,3 +41,25 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI Window)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_LINUX=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_ANDROIS=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "iOS")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "QNX")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Fuchsia")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "GGP")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
+
+endif ()

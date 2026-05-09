@@ -1,27 +1,27 @@
 ﻿#include "PCM.h"
 #include <filesystem>
 #include <iostream>
-#ifdef PROJECT_USE_MP3LAME
+#if  PROJECT_USE_MP3LAME
 	#include <lame/lame.h>
 #endif
-#ifdef PROJECT_USE_OGG
+#if  PROJECT_USE_OGG
 	#include <ogg/ogg.h>
 #endif
-#ifdef PROJECT_USE_VORBIS
+#if  PROJECT_USE_VORBIS
 	#include <vorbis/vorbisenc.h>
 #endif
-#ifdef PROJECT_USE_FLAC
+#if  PROJECT_USE_FLAC
 	#define FLAC__NO_DLL
 	#include <FLAC/stream_encoder.h>
 #endif
-#ifdef PROJECT_USE_FDKAAC
+#if  PROJECT_USE_FDKAAC
 	#include <aacenc_lib.h>
 	#include <aacdecoder_lib.h>
 #endif
-#ifdef PROJECT_USE_TWOLAME
+#if  PROJECT_USE_TWOLAME
 #include <twolame.h>
 #endif
-#ifdef 	PROJECT_USE_LC3
+#if  	PROJECT_USE_LC3
 	#include <lc3.h>
 #endif
 
@@ -177,7 +177,7 @@ int PCM::Write(std::string OutputFilename) {
 
 int PCM::WriteMP2(std::string OutputFile)
 {
-#ifdef PROJECT_USE_TWOLAME
+#if  PROJECT_USE_TWOLAME
 	twolame_options * glopts = twolame_init();
 
 
@@ -241,7 +241,7 @@ int PCM::WriteMP2(std::string OutputFile)
 
 int PCM::WriteMP3(std::string OutputFile)
 {
-#ifdef PROJECT_USE_MP3LAME
+#if  PROJECT_USE_MP3LAME
 	FILE* MP3File = fopen(OutputFile.c_str(), "wb");
     if (!MP3File)
     {
@@ -313,7 +313,7 @@ int PCM::WriteMP3(std::string OutputFile)
 
 int PCM::WriteAAC(std::string OutputFile)
 {
-#ifdef PROJECT_USE_FDKAAC
+#if  PROJECT_USE_FDKAAC
 	HANDLE_AACENCODER Encoder;
 	AACENC_ERROR ErrorStatus;
 
@@ -405,7 +405,7 @@ int PCM::WriteOPUS(std::string OutputFile)
 }
 
 
-#ifdef PROJECT_USE_FLAC
+#if  PROJECT_USE_FLAC
 static FLAC__StreamEncoderWriteStatus FLAC_WriteCallback(
 	const FLAC__StreamEncoder* encoder,
 	const FLAC__byte buffer[],
@@ -423,7 +423,7 @@ static FLAC__StreamEncoderWriteStatus FLAC_WriteCallback(
 
 int PCM::WriteFLAC(std::string OutputFile)
 {
-#ifdef PROJECT_USE_FLAC
+#if  PROJECT_USE_FLAC
     unsigned sample_rate = GetSampleRate();
     /*
         通道数量
@@ -498,7 +498,7 @@ int PCM::WriteFLAC(std::string OutputFile)
 
 int PCM::WriteLC3(std::string OutputFile)
 {
-#ifdef 	PROJECT_USE_LC3
+#if  	PROJECT_USE_LC3
 
 #endif
 	return 0;
@@ -506,7 +506,7 @@ int PCM::WriteLC3(std::string OutputFile)
 
 int PCM::WriteOGG(std::string OutputFile)
 {
-#ifdef PROJECT_USE_OGG
+#if  PROJECT_USE_OGG
     FILE* ogg_file = fopen(OutputFile.data(), "wb");
     if (!ogg_file)
     {

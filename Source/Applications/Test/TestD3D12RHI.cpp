@@ -1,4 +1,4 @@
-﻿#ifdef PROJECT_USE_D3D12
+﻿#if  PROJECT_USE_D3D12
 #include "ES32RHI.h"
 #include "VulkanRHI.h"
 
@@ -208,7 +208,7 @@ static bool CreateTriangleResources() {
     )";
 
     UINT compileFlags = 0;
-#ifdef _DEBUG
+#if  _DEBUG
     compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
     std::cout << "CreateTriangleResources 1" << std::endl;

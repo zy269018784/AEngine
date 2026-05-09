@@ -1,5 +1,5 @@
 ﻿#pragma once
-#ifdef OS_IS_LINUX
+#if  OS_IS_LINUX
 
 #include <vector>
 

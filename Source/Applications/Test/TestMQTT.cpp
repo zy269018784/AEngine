@@ -1,9 +1,9 @@
-#ifdef PROJECT_USE_MQTT
+#if  PROJECT_USE_MQTT
 #include <mqtt/mqtt.h>
 #endif
 #include <stdio.h>
 #include <string.h>
-#ifdef PROJECT_USE_MQTT
+#if  PROJECT_USE_MQTT
 // 错误处理回调
 bool on_error(MQTTHandle *handle, MQTTConfig *config,
              MQTTErrorCode code) {
@@ -42,7 +42,7 @@ void on_connected(MQTTHandle *handle, void *context)
 
 int MQTTMain()
 {
-#ifdef PROJECT_USE_MQTT
+#if  PROJECT_USE_MQTT
     MQTTConfig config = {0};
     config.hostname = strdup("test.mosquitto.org");
     config.port = 1883;  // 非加密端口
