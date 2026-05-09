@@ -1,6 +1,6 @@
-#include "VulkanObjects/Descriptor/VulkanDescriptorSet.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorPool.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSet.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorPool.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSetLayout.h"
 #include <iostream>
 VulkanDescriptorSet::VulkanDescriptorSet(VulkanDevice* Device, VulkanDescriptorPool* InDescriptorPool, VulkanDescriptorSetLayout* DescriptorSetLayout)
     : Device(Device), DescriptorPool(InDescriptorPool)

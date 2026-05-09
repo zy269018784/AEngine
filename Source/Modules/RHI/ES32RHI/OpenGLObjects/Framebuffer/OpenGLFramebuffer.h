@@ -1,7 +1,7 @@
 #pragma once
-#include "ES32.h"
-#include "RHIObjects/FrameBuffer/RHIColorAttachment.h"
-#include "RHIObjects/FrameBuffer/RHIDepthAttachment.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIColorAttachment.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIDepthAttachment.h"
 #include <vector>
 class OpenGLFramebuffer
 {

@@ -1,7 +1,7 @@
 #if 0
 #pragma once
-#include "RHIObjects/Window/RHIWindow.h"
-#include <D3D12_Includes.h>
+#include "RHI/RHIObjects/Window/RHIWindow.h"
+#include "D3D12RHI/D3D12_Includes.h"
 class D3D12PhysicalDevice;
 class D3D12Device;
 class D3D12Surface;

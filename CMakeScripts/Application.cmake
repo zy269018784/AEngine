@@ -6,7 +6,7 @@ list(APPEND HelloWorld_SRC_LIST
         ${SRC_LIST_HelloWorld}
         ${SRC_LIST}
 )
-
+add_subdirectory()
 set(APP_NAME HelloWorld)
 add_executable(${APP_NAME} ${HelloWorld_SRC_LIST})
 target_include_directories (${APP_NAME}	PUBLIC ${INCLUDE_PATH})

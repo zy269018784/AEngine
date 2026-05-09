@@ -1,6 +1,6 @@
 #pragma once
-#include "VulkanObjects/Synchronization/VulkanFence.h"
-#include "VulkanObjects/Synchronization/VulkanSemaphore.h"
+#include "VulkanRHI/VulkanObjects//Synchronization/VulkanFence.h"
+#include "VulkanRHI/VulkanObjects//Synchronization/VulkanSemaphore.h"
 class VulkanDevice;
 class VulkanFrame
 {

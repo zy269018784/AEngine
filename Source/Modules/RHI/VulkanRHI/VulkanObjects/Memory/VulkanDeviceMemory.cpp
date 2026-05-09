@@ -1,4 +1,4 @@
-#include "VulkanObjects/Memory/VulkanDeviceMemory.h"
+#include "VulkanRHI/VulkanObjects//Memory/VulkanDeviceMemory.h"
 #include <iostream>
 VulkanDeviceMemory::VulkanDeviceMemory(VulkanDevice* InDevice)
 	: Device(InDevice)

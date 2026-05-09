@@ -1,6 +1,6 @@
 #pragma once
-#include "RHIObjects/Core/RHIVertexInputBinding.h"
-#include "RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputBinding.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
 #include <initializer_list>
 #include <vector>
 class RHIVertexInputLayout

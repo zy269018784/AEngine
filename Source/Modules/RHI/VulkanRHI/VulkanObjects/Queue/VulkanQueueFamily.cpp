@@ -1,5 +1,5 @@
 #include "VulkanQueueFamily.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 VulkanQueueFamily::VulkanQueueFamily(std::uint32_t Index, std::uint32_t Count)
 {
 	Handle = Index;

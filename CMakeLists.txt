@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project (Engine)
+project (HelloWorld)
 #[[
 	语言
 #]]
@@ -11,26 +11,21 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set (SRC_PREFIX ${PROJECT_SOURCE_DIR}/Source)
 
-include (CMakeScripts/LibraryConfiguration.cmake)
-include (CMakeScripts/Library.cmake)
-include (CMakeScripts/Modules.cmake)
+file(GLOB_RECURSE SRC_LIST_HelloWorld  	${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.cpp
+										${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.c
+										${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.h)
 
-message(STATUS "项目名称: ${PROJECT_NAME}")   
-message(STATUS "INCLUDE_PATH: ${INCLUDE_PATH}")   
-message(STATUS "LINK_PATH: ${LINK_PATH}")   
-message(STATUS "LIBRARYS: ${LIBRARYS}")   
+list(APPEND HelloWorld_SRC_LIST
+		${SRC_LIST_HelloWorld}
+		${SRC_LIST}
+)
 
-if (CMAKE_SYSTEM_NAME STREQUAL Windows)
-	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
-endif ()
+message (STATUS "PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}")
 
-#add_executable(${PROJECT_NAME} ${SRC_LIST})
-#target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
-#target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
-#target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Modules/RHI)
 
-include (CMakeScripts/Application.cmake)
-
-#include (CMakeScripts/CompileDefinitions.cmake)
+add_executable(${PROJECT_NAME} ${HelloWorld_SRC_LIST})
+target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
+target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH} RHI)
+target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})

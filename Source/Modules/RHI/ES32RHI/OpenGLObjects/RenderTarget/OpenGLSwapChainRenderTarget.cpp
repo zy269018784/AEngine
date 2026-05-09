@@ -1,6 +1,6 @@
 #include "OpenGLSwapChainRenderTarget.h"
-#include "OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
-#include "ES32.h"
+#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
+#include "ES32RHI/ES32.h"
 OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
     : OpenGLRenderTarget((RHIPixelFormat)0)
 {

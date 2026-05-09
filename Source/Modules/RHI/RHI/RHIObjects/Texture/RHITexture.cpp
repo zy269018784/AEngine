@@ -1,4 +1,4 @@
-#include "RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 
 #include <iostream>
 #include <ostream>

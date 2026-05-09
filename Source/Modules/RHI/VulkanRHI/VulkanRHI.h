@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "RHI.h"
-#include "Vulkan.h"
+#include "RHI/RHI.h"
+#include "VulkanRHI/Vulkan.h"
 
 class VulkanInstance;
 class VulkanCommandPool;

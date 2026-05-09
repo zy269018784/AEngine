@@ -1,4 +1,4 @@
-#include "RHIObjects/Core/RHIVertexInputBinding.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputBinding.h"
 
 RHIVertexInputBinding::RHIVertexInputBinding()
 {

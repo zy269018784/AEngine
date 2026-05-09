@@ -1,8 +1,8 @@
 #pragma once
-#include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "VulkanRHI/Vulkan.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSetLayout.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 class VulkanDevice;
 
 class VulkanDescriptorPool

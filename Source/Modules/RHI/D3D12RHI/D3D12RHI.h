@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "RHI.h"
-#include "D3D12_Includes.h"
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/Queue/D3D12Queue.h"
-#include "RHIObjects/Core/RHICore.h"
+#include "RHI/RHI.h"
+#include "D3D12RHI/D3D12_Includes.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12Objects/Queue/D3D12Queue.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 class D3D12RHI : public RHI
 {
 public:

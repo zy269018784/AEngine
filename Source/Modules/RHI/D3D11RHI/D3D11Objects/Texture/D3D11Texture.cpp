@@ -1,6 +1,6 @@
-﻿#include "D3D11Objects/Texture/D3D11Texture.h"
-#include "D3D11Objects/Core/D3D11Core.h"
-#include "D3D11Objects/Device/D3D11Device.h"
+﻿#include "D3D11RHI/D3D11Objects/Texture/D3D11Texture.h"
+#include "D3D11RHI/D3D11Objects/Core/D3D11Core.h"
+#include "D3D11RHI/D3D11Objects/Device/D3D11Device.h"
 D3D11Texture::D3D11Texture(D3D11Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
     : RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {

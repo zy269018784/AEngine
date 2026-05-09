@@ -1,17 +1,17 @@
 ﻿#include "D3D12RHI.h"
-#include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/Resource/D3D12Buffer.h"
-#include "D3D12Objects/Shader/D3D12Shader.h"
-#include "D3D12Objects/Shader/D3D12ShaderResourceBindings.h"
-#include "D3D12Objects/Window/D3D12Window.h"
-#include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
-#include "D3D12Objects/Surface/D3D12Surface.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
-#include "D3D12Objects/SwapChain/D3D12SwapChain.h"
-#include <spirv_cross/spirv.hpp>
-#include <spirv_cross/spirv_cross.hpp>
-#include <spirv_cross/spirv_hlsl.hpp>
+#include "D3D12RHI/D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12Objects/Resource/D3D12Buffer.h"
+#include "D3D12RHI/D3D12Objects/Shader/D3D12Shader.h"
+#include "D3D12RHI/D3D12Objects/Shader/D3D12ShaderResourceBindings.h"
+#include "D3D12RHI/D3D12Objects/Window/D3D12Window.h"
+#include "D3D12RHI/D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
+#include "D3D12RHI/D3D12Objects/Surface/D3D12Surface.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12RHI/D3D12Objects/SwapChain/D3D12SwapChain.h"
+//#include <spirv_cross/spirv.hpp>
+//#include <spirv_cross/spirv_cross.hpp>
+//#include <spirv_cross/spirv_hlsl.hpp>
 #include <iostream>
 D3D12RHI::D3D12RHI()
 {

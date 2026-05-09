@@ -2,7 +2,7 @@
 #include "Vulkan/Common.h"
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-#include "RHI.h"
+#include "RHI/RHI.h"
 #include <iostream>
 
 void Init();

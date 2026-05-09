@@ -1,6 +1,6 @@
 #include "OpenGLFramebuffer.h"
-#include "OpenGLObjects/Framebuffer/OpenGLColorAttachment.h"
-#include "OpenGLObjects/Framebuffer/OpenGLDepthAttachment.h"
+#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLColorAttachment.h"
+#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLDepthAttachment.h"
 /*
     void glBindFramebuffer(GLenum target, GLuint framebuffer);
         target:

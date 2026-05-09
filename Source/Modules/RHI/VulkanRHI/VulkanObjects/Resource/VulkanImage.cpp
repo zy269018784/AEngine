@@ -1,7 +1,7 @@
-﻿#include "VulkanObjects/Resource/VulkanImage.h"
-#include "VulkanObjects/Core/VulkanCore.h"
+﻿#include "VulkanRHI/VulkanObjects//Resource/VulkanImage.h"
+#include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
 #include <iostream>
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDevice.h"
 VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
     RHITextureUsageFlag InUsage,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)

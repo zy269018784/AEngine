@@ -1,7 +1,7 @@
 #pragma once
-#include "Vulkan.h"
-#include "RHIObjects/Resource/RHISampler.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/Vulkan.h"
+#include "RHI/RHIObjects/Resource/RHISampler.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 class VulkanSampler : public RHISampler
 {
 public:

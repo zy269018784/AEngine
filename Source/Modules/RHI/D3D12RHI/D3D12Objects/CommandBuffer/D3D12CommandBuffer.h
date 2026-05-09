@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "D3D12_Includes.h"
-#include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
+#include "D3D12RHI/D3D12_Includes.h"
+#include "RHI/RHIObjects/CommandBuffer/RHICommandBuffer.h"
 
 class D3D12Device;
 class D3D12CommandPool;

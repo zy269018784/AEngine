@@ -1,15 +1,15 @@
 ﻿#if 0
 #include  "D3D12Window.h"
-#include "D3D12Objects/SwapChain/D3D12SwapChain.h"
-#include "D3D12Objects/Instance/D3D12Instance.h"
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/Surface/D3D12Surface.h"
-#include "D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
-#include "D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
-#include "D3D12Objects/Factory/D3D12Factory.h"
-#include "D3D12Objects/Queue/D3D12Queue.h"
+#include "D3D12RHI/D3D12Objects/SwapChain/D3D12SwapChain.h"
+#include "D3D12RHI/D3D12Objects/Instance/D3D12Instance.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12Objects/Surface/D3D12Surface.h"
+#include "D3D12RHI/D3D12Objects/FrameBuffer/D3D12FrameBuffer.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12RHI/D3D12Objects/PhysicalDevice/D3D12PhysicalDevice.h"
+#include "D3D12RHI/D3D12Objects/Factory/D3D12Factory.h"
+#include "D3D12RHI/D3D12Objects/Queue/D3D12Queue.h"
 
 D3D12Window::D3D12Window(D3D12PhysicalDevice* InPhysicalDevice, D3D12Device* InDevice, D3D12Surface* InSurface)
     : PhysicalDevice(InPhysicalDevice), Device(InDevice), Surface(InSurface)

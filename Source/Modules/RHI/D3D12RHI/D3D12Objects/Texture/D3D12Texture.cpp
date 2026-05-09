@@ -1,10 +1,11 @@
-﻿#include "D3D12Objects/Texture/D3D12Texture.h"
-
+﻿#include "D3D12RHI/D3D12Objects/Texture/D3D12Texture.h"
+#include "D3D12RHI/D3D12Objects/Core/D3D12Core.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12_Includes.h"
 #include <iostream>
 #include <ostream>
 
-#include "D3D12Objects/Core/D3D12Core.h"
-#include "D3D12Objects/Device/D3D12Device.h"
+
 D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InArraySize, void *InData)
     : RHITexture(InType, InFormat, InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
@@ -44,10 +45,14 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
                                     nullptr,
                                     IID_PPV_ARGS(&Handle));
 
+
     // 4. 创建上传堆
-    UINT64 uploadBufferSize = GetRequiredIntermediateSize(Handle, 0, GetArraySize());
+    UINT64 uploadBufferSize = 0;
+
+    uploadBufferSize = GetRequiredIntermediateSize(Handle, 0, GetArraySize());
     CD3DX12_HEAP_PROPERTIES uploadHeapProps(D3D12_HEAP_TYPE_UPLOAD);
     CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize);
+
     Device->CreateCommittedResource(
         &uploadHeapProps,
         D3D12_HEAP_FLAG_NONE,
@@ -65,6 +70,7 @@ D3D12Texture::D3D12Texture(D3D12Device *InDevice, RHITextureType InType, RHIPixe
     CommandBuffer->Close();
 
     UpdateImageData();
+
 }
 
 
@@ -106,7 +112,9 @@ void D3D12Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset
     CommandBuffer->Close();
 
     ID3D12CommandList* CommandBuffers[] = { CommandBuffer };
+
     Device->CommandQueue->ExecuteCommandLists(1, CommandBuffers);
+
 }
 
 void D3D12Texture::TransitionImageLayout(int dir)

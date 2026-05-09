@@ -1,5 +1,5 @@
 #pragma once
-#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include <initializer_list>
 #include <vector>
 class RHIShaderResourceBindings

@@ -1,9 +1,9 @@
 ﻿#include "D3D12CommandBuffer.h"
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
-#include "D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
-#include "D3D12Objects/Core/D3D12Core.h"
-#include "D3D12Objects/Resource/D3D12Buffer.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12RHI/D3D12Objects/Pipeline/D3D12GraphicsPipeline.h"
+#include "D3D12RHI/D3D12Objects/Core/D3D12Core.h"
+#include "D3D12RHI/D3D12Objects/Resource/D3D12Buffer.h"
 D3D12CommandBuffer::D3D12CommandBuffer(D3D12Device* InDevice, D3D12CommandPool* InCommandPool)
 	: Device(InDevice), CommandPool(InCommandPool)
 {

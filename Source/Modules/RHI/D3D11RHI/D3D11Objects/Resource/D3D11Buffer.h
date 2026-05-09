@@ -1,6 +1,6 @@
 #pragma once
-#include "D3D11Objects/Device/D3D11Device.h"
-#include "RHIObjects/Resource/RHIBuffer.h"
+#include "D3D11RHI/D3D11Objects/Device/D3D11Device.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 #include <cstdint>
 
 class D3D11Buffer : public RHIBuffer

@@ -1,7 +1,7 @@
 #pragma once
 #if 0
-#include "RHIObjects/RenderPass/RHIAttachment.h"
-#include "VulkanObjects/Resource/VulkanImageView.h"
+#include "RHI/RHIObjects/RenderPass/RHIAttachment.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanImageView.h"
 
 class VulkanAttachment
 {

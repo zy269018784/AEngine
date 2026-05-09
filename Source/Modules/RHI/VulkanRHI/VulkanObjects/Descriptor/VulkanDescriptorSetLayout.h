@@ -1,7 +1,7 @@
 #pragma once
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include <vector>
 #include <map>
 #include <cstdint>

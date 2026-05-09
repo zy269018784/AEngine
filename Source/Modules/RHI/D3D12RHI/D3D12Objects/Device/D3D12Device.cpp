@@ -1,7 +1,7 @@
 ﻿#include "D3D12Device.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
-#include "D3D12Objects/Queue/D3D12Queue.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandPool.h"
+#include "D3D12RHI/D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
+#include "D3D12RHI/D3D12Objects/Queue/D3D12Queue.h"
 #include <iostream>
 D3D12Device::D3D12Device()
 {

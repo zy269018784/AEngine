@@ -1,5 +1,5 @@
-#include "VulkanObjects/Synchronization/VulkanFence.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Synchronization/VulkanFence.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 VkResult VulkanFence::CreateFence(const VkFenceCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator)
 {
 	return Device->CreateFence(CreateInfo, Allocator, &Handle);

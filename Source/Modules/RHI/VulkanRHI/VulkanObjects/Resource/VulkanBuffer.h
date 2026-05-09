@@ -1,7 +1,7 @@
 #pragma once
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Memory/VulkanDeviceMemory.h"
-#include "RHIObjects/Resource/RHIBuffer.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Memory/VulkanDeviceMemory.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 
 
 class VulkanBuffer : public RHIBuffer

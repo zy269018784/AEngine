@@ -1,11 +1,11 @@
-﻿#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include  "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "VulkanObjects/Texture/VulkanTexture.h"
+﻿#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanAttachment.h"
-#include "VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
+#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
+#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
 #include "VulkanDepthAttachment.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 #include <array>
 #include <iostream>
 #include <stdexcept>

@@ -1,8 +1,8 @@
 #pragma once
-#include "ES32.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Resource/RHISampler.h"
-#include "OpenGLObjects/Device/OpenGLDevice.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Resource/RHISampler.h"
+#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 class OpenGLSampler : public RHISampler
 {
 public:

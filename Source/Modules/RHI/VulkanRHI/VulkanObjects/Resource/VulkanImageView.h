@@ -1,7 +1,7 @@
 #pragma once
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Resource/VulkanImage.h"
-#include "RHIObjects/Texture/RHITexture.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanImage.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 class VulkanImageView
 {
 public:

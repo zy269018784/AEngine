@@ -1,6 +1,6 @@
 #pragma once
-#include "Vulkan.h"
-#include "RHIObjects/Shader/RHIShader.h"
+#include "VulkanRHI/Vulkan.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 
 class VulkanDevice;
 class VulkanShader : public RHIShader

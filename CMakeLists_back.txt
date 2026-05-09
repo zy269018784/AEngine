@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.20)
+project (Engine)
+#[[
+	语言
+#]]
+enable_language(C)
+set(CMAKE_C_STANDARD 11)        
+set(CMAKE_C_STANDARD_REQUIRED ON) 
+
+enable_language(CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set (SRC_PREFIX ${PROJECT_SOURCE_DIR}/Source)
+
+include (CMakeScripts/LibraryConfiguration.cmake)
+include (CMakeScripts/Library.cmake)
+include (CMakeScripts/Modules.cmake)
+
+message(STATUS "项目名称: ${PROJECT_NAME}")   
+message(STATUS "INCLUDE_PATH: ${INCLUDE_PATH}")   
+message(STATUS "LINK_PATH: ${LINK_PATH}")   
+message(STATUS "LIBRARYS: ${LIBRARYS}")   
+
+if (CMAKE_SYSTEM_NAME STREQUAL Windows)
+	source_group (TREE "${SRC_PREFIX}" PREFIX ${PROJECT_NAME} FILES ${SRC_LIST})
+endif ()
+
+#add_executable(${PROJECT_NAME} ${SRC_LIST})
+#target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
+#target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
+#target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+
+include (CMakeScripts/Application.cmake)
+
+#include (CMakeScripts/CompileDefinitions.cmake)

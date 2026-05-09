@@ -1,6 +1,6 @@
 #pragma once
-#include "RHI.h"
-#include "ES32.h"
+#include "RHI/RHI.h"
+#include "ES32RHI/ES32.h"
 class RHIRenderTarget;
 class ES32RHI : public RHI
 {

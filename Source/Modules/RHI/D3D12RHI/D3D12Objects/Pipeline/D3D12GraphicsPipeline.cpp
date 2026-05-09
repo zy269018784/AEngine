@@ -1,7 +1,7 @@
 ﻿#include "D3D12GraphicsPipeline.h"
-#include "D3D12_Includes.h"
-#include "D3D12Objects/Core/D3D12Core.h"
-#include "D3D12Objects/Shader/D3D12Shader.h"
+#include "D3D12RHI/D3D12_Includes.h"
+#include "D3D12RHI/D3D12Objects/Core/D3D12Core.h"
+#include "D3D12RHI/D3D12Objects/Shader/D3D12Shader.h"
 #include <iostream>
 
 D3D12GraphicsPipeline::   D3D12GraphicsPipeline(D3D12Device* InDevice)

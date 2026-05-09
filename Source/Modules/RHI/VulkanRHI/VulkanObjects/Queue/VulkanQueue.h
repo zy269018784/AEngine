@@ -1,5 +1,5 @@
 #pragma once
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 #include <cstdint>
 
 class VulkanQueueFamily;

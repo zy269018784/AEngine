@@ -1,11 +1,11 @@
 ﻿#include "VulkanRHI.h"
-#include "VulkanObjects/Instance/VulkanInstance.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "VulkanObjects/Core/VulkanAPI.h"
+#include "VulkanRHI/VulkanObjects//Instance/VulkanInstance.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects//Core/VulkanAPI.h"
 #include <iostream>
 
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceQueueFamilyProperties.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDeviceQueueFamilyProperties.h"
 
 
 void VulkanRHI::CreateInstance()

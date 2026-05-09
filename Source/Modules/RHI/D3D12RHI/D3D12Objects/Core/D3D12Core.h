@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "D3D12_Includes.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Core/RHIVertexInputAttribute.h"
-#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "RHIObjects/Shader/RHIShader.h"
+#include "D3D12RHI/D3D12_Includes.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 #include <d3d12.h>
 #include <cstdint>
 

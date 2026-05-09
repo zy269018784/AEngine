@@ -1,6 +1,6 @@
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
-#include "VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSetLayout.h"
+#include "VulkanRHI/VulkanObjects//Shader/VulkanShaderResourceBindings.h"
 #include <map>
 #include <iostream>
 #include <cstdint>

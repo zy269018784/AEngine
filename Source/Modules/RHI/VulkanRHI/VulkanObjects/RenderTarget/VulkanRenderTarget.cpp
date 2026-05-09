@@ -1,6 +1,6 @@
 #include "VulkanRenderTarget.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//FrameBuffer/VulkanFrameBuffer.h"
 
 VulkanRenderTarget::VulkanRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
     : RHIRenderTarget(InPixelFormat), Device(InDevice) {

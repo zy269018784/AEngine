@@ -1,7 +1,7 @@
-#include "Vulkan.h"
-#include "VulkanObjects/Resource/VulkanBuffer.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/Vulkan.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanBuffer.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
 #include <string>
 #include <cstring>
 #include <iostream>

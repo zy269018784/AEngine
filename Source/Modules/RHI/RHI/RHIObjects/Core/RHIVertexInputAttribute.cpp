@@ -1,4 +1,4 @@
-#include "RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
 
 RHIVertexInputAttribute::RHIVertexInputAttribute()
 {

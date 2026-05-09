@@ -6,7 +6,7 @@
 #undef PF_MAX
 #endif
 
-#include "RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 
 struct RHIPixelFormatInfo
 {

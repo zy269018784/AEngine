@@ -1,6 +1,6 @@
 #pragma once
-#include "D3D11_Includes.h"
-#include "RHIObjects/Texture/RHITexture.h"
+#include "D3D11RHI/D3D11_Includes.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 class D3D11Device;
 class D3D11Texture : public RHITexture
 {

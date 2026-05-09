@@ -1,8 +1,8 @@
 #pragma once
-#include "ES32.h"
-#include "RHIObjects/FrameBuffer/RHIColorAttachment.h"
-#include "RHIObjects/Texture/RHITexture.h"
-#include "OpenGLObjects/Texture/OpenGLTexture.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIColorAttachment.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 class OpenGLColorAttachment : public RHIColorAttachment
 {
 public:

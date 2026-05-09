@@ -1,5 +1,5 @@
 #include "OpenGLRenderTarget.h"
-#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 OpenGLRenderTarget::OpenGLRenderTarget(RHIPixelFormat InPixelFormat)
     : RHIRenderTarget(InPixelFormat)
 {

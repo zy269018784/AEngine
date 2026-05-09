@@ -1,7 +1,7 @@
-#include "Vulkan.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorPool.h"
-#include "VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/Vulkan.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorPool.h"
+#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSetLayout.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 #include <iostream>
 #include <cstring>
 #include <array>

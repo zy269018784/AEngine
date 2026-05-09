@@ -1,6 +1,6 @@
 #pragma once
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "OpenGLObjects/Device/OpenGLDevice.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 class OpenGLShaderResourceBindings : public RHIShaderResourceBindings
 {
 public:

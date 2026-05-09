@@ -1,5 +1,5 @@
 #pragma once
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 class VulkanDevice;
 class VulkanSemaphore
 {

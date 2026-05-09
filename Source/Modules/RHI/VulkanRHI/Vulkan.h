@@ -1,7 +1,5 @@
 ﻿#pragma once
-#ifdef PROJECT_USE_VULKAN
-
-#include "RHI/RHI/RHIPlatform.h"
+#include "RHI/RHIPlatform.h"
 
 #if RHI_USE_PLATFORM_ANDROID_KHR
 #define VK_USE_PLATFORM_ANDROID_KHR
@@ -36,7 +34,6 @@
 	#include <vulkan/vulkan_wayland.h>
 #endif
 
-#endif
 
 /*
 	1. Instance

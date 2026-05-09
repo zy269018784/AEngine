@@ -1,11 +1,11 @@
-﻿#include "OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
-#include "OpenGLObjects/Buffer/OpenGLBuffer.h"
-#include "OpenGLObjects/Core/OpenGLCore.h"
-#include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+﻿#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
+#include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
+#include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
+#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include <iostream>
 
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 
 void OpenGLCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
@@ -96,9 +96,9 @@ void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 	else
 		glEnable(GL_CULL_FACE);
 	if (InstanceCount > 1)
-		glDrawElementsInstanced(RHITopology, IndexCount, IndexType1, (const void *)VertexOffset, InstanceCount);
+		glDrawElementsInstanced(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset), InstanceCount);
 	else if (InstanceCount > 0)
-		glDrawElements(RHITopology, IndexCount, IndexType1, (const void*)VertexOffset);
+		glDrawElements(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset));
 }
 
 void OpenGLCommandBuffer::RHISetScissor(const RHIScissor& scissor)

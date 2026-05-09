@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "Vulkan.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include <VulkanObjects/Memory/VulkanDeviceMemory.h>
-#include "VulkanObjects/CommandBuffer/VulkanCommandPool.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
-#include "VulkanObjects/Queue/VulkanQueue.h"
-#include "RHIObjects/Texture/RHITexture.h"
+#include "VulkanRHI/Vulkan.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Memory/VulkanDeviceMemory.h"
+#include "VulkanRHI/VulkanObjects//CommandBuffer/VulkanCommandPool.h"
+#include "VulkanRHI/VulkanObjects//CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanRHI/VulkanObjects//Queue/VulkanQueue.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 #include <iostream>
 
 

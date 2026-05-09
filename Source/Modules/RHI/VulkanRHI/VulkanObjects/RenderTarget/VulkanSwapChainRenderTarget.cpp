@@ -13,8 +13,8 @@
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
-#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
-#include "RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 #include <iostream>
 #include <numbers>
 #if 0

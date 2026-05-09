@@ -10,7 +10,7 @@
 #include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
 #include <iostream>
 
-#include "VulkanObjects/Texture/VulkanTexture.h"
+#include "VulkanRHI/VulkanObjects//Texture/VulkanTexture.h"
 
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
     : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)

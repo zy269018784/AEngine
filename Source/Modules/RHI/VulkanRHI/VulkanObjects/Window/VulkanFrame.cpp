@@ -1,5 +1,5 @@
-#include "VulkanObjects/Window/VulkanFrame.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Window/VulkanFrame.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 #include <iostream>
 VulkanFrame::VulkanFrame(VulkanDevice* InDevice, bool InSignaled)
 	: Device(InDevice)

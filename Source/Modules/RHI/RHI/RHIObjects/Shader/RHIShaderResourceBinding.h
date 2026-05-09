@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "RHIObjects/Resource/RHIBuffer.h"
-#include "RHIObjects/Texture/RHITexture.h"
-#include "RHIObjects/Resource/RHISampler.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIObjects/Resource/RHISampler.h"
 
 class RHIShaderResourceBinding
 {

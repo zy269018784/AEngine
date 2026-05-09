@@ -1,5 +1,5 @@
 #pragma once
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 class VulkanDeviceMemory
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 #include "VulkanRHI/Vulkan.h"
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 
 class VulkanDescriptorPool;
 class VulkanDescriptorSetLayout;

@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Core/RHIViewport.h"
-#include "RHIObjects/Core/RHIScissor.h"
-//#include "RHIObjects/RenderPass/RHIRenderPass.h"
-//#include "RHIObjects/Resource/RHIBuffer.h"
-//#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHIViewport.h"
+#include "RHI/RHIObjects/Core/RHIScissor.h"
+//#include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
+//#include "RHI/RHIObjects/Resource/RHIBuffer.h"
+//#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 
 class RHIBuffer;
 class RHIRenderPass;

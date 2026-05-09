@@ -1,5 +1,5 @@
 #pragma once
-#include "RHIObjects/Pipeline/RHIPipeline.h"
+#include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
 
 class RHIComputePipeline : public RHIPipeline
 {

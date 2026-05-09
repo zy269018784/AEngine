@@ -1,9 +1,9 @@
 #pragma once
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 
 
-#include "RHIObjects/Core/RHIViewport.h"
-#include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
+#include "RHI/RHIObjects/Core/RHIViewport.h"
+#include "RHI/RHIObjects/CommandBuffer/RHICommandBuffer.h"
 
 #include <cstdint>
 

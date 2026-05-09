@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Core/RHIVertexInputAttribute.h"
-#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "RHIObjects/Shader/RHIShader.h"
-#include "Vulkan.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
+#include "VulkanRHI/Vulkan.h"
 #include <cstdint>
 
 inline VkIndexType ToVulkanIndexType(RHIIndexFormat RHIIndexFormat)

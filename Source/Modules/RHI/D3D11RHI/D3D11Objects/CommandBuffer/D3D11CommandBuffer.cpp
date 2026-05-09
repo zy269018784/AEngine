@@ -1,8 +1,8 @@
 ﻿#include "D3D11CommandBuffer.h"
 
-#include "D3D11Objects/Core/D3D11Core.h"
-#include "D3D11Objects/Device/D3D11Device.h"
-#include "D3D11Objects/Resource/D3D11Buffer.h"
+#include "D3D11RHI/D3D11Objects/Core/D3D11Core.h"
+#include "D3D11RHI/D3D11Objects/Device/D3D11Device.h"
+#include "D3D11RHI/D3D11Objects/Resource/D3D11Buffer.h"
 //#include "D3D11CommandPool.h"
 //#include "D3D11RenderPass.h"
 //#include "D3D11Pipeline.h"

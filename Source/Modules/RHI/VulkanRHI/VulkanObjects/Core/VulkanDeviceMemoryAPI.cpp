@@ -1,4 +1,4 @@
-#include "VulkanObjects/Memory/VulkanDeviceMemory.h"
+#include "VulkanRHI/VulkanObjects//Memory/VulkanDeviceMemory.h"
 
 
 VkResult VulkanDeviceMemory::AllocateMemory(const VkMemoryAllocateInfo* AllocateInfo, const VkAllocationCallbacks* Allocator)

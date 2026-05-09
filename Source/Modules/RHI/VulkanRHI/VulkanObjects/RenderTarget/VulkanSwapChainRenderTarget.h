@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
+#include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "VulkanRenderTarget.h"
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 #include <vector>
 /*
  *  Color Attachments

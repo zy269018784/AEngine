@@ -1,5 +1,5 @@
-#include "VulkanObjects/Synchronization/VulkanSemaphore.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Synchronization/VulkanSemaphore.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 #include <stdexcept>
 #include <iostream>
 VulkanSemaphore::VulkanSemaphore(VulkanDevice* InDevice) 

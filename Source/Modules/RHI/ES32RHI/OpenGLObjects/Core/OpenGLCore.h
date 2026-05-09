@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "ES32.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "ES32RHI/ES32.h"
 #include <iostream>
 
 inline GLenum  ToOpenGLIndexType(RHIIndexFormat RHIIndexFormat)

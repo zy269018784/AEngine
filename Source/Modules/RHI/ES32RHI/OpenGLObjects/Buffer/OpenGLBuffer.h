@@ -1,6 +1,6 @@
 #pragma once
-#include <ES32.h>
-#include "RHIObjects/Resource/RHIBuffer.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 
 class OpenGLBuffer : public RHIBuffer
 {

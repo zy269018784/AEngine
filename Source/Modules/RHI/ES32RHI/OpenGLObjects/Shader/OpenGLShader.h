@@ -1,6 +1,6 @@
 #pragma once
-#include <ES32.h>
-#include "RHIObjects/Shader/RHIShader.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 
 class OpenGLShader : public RHIShader
 {

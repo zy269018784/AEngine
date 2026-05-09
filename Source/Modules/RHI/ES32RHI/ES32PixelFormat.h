@@ -1,6 +1,6 @@
 #pragma once
-#include "ES32.h"
-#include "RHIPixelFormat.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIPixelFormat.h"
 
 struct OpenGLPixelFormatInfo
 {

@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "D3D12_Includes.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Texture/RHITexture.h"
+#include "D3D12RHI/D3D12_Includes.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 class D3D12Device;
 class D3D12Texture : public RHITexture
 {

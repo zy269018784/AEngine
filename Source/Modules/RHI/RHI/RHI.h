@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "RHIPlatform.h"
-//#include "RHIObjects/Resource/RHIBuffer.h"
-//#include "RHIObjects/Shader/RHIShader.h"
-//#include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
-#include "RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
-//#include "RHIObjects/Texture/RHITexture.h"
+//#include "RHI/RHIObjects/Resource/RHIBuffer.h"
+//#include "RHI/RHIObjects/Shader/RHIShader.h"
+//#include "RHI/RHIObjects/CommandBuffer/RHICommandBuffer.h"
+#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
+//#include "RHI/RHIObjects/Texture/RHITexture.h"
 class RHIBuffer;
 class RHIShader;
 class RHICommandBuffer;

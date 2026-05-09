@@ -1,5 +1,5 @@
-#include "VulkanObjects/Resource/VulkanSampler.h"
-#include "VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanSampler.h"
+#include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
 VulkanSampler::VulkanSampler()
 {
 

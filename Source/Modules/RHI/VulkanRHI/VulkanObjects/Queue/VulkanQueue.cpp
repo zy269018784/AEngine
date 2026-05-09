@@ -1,7 +1,7 @@
-#include "VulkanObjects/Queue/VulkanQueue.h"
-#include "VulkanObjects/Queue/VulkanQueueFamily.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
+#include "VulkanRHI/VulkanObjects//Queue/VulkanQueue.h"
+#include "VulkanRHI/VulkanObjects//Queue/VulkanQueueFamily.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//CommandBuffer/VulkanCommandBuffer.h"
 #include <iostream>
 
 VulkanQueue::VulkanQueue()

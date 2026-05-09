@@ -1,15 +1,15 @@
-﻿#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceFeatures.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceProperties.h"
-#include "VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceMemoryProperties.h"
+﻿#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDeviceFeatures.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDeviceProperties.h"
+#include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDeviceMemoryProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceLayerProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceFormatProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceDisplayProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceImageFormatProperties.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDeviceExtensions.h"
-#include "VulkanObjects/Surface/VulkanSurface.h"
-#include "VulkanObjects/Device/VulkanDevice.h"
-#include "VulkanObjects/Queue/VulkanQueueFamily.h"
+#include "VulkanRHI/VulkanObjects//Surface/VulkanSurface.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects//Queue/VulkanQueueFamily.h"
 
 #include <iostream>
 #include <set>

@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Vulkan.h"
+#include "VulkanRHI/Vulkan.h"
 #include <vector>
-#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 
 /*
  *  Image

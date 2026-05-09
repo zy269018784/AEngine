@@ -1,7 +1,7 @@
-﻿#include "ES32.h"
-#include "OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
-#include "OpenGLObjects/Resource/OpenGLSampler.h"
-#include "OpenGLObjects/Texture/OpenGLTexture.h"
+﻿#include "ES32RHI/ES32.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 
 #include <iostream>
 

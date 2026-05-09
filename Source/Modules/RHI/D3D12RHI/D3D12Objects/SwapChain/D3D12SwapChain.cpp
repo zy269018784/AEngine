@@ -1,8 +1,8 @@
 #include "D3D12SwapChain.h"
 
-#include "D3D12Objects/Factory/D3D12Factory.h"
-#include "D3D12Objects/Queue/D3D12Queue.h"
-#include "D3D12Objects/Surface/D3D12Surface.h"
+#include "D3D12RHI/D3D12Objects/Factory/D3D12Factory.h"
+#include "D3D12RHI/D3D12Objects/Queue/D3D12Queue.h"
+#include "D3D12RHI/D3D12Objects/Surface/D3D12Surface.h"
 
 D3D12SwapChain::D3D12SwapChain(D3D12Factory *InFactory, D3D12Queue *InQueue, D3D12Surface *InSurface)
     : Factory(InFactory), Queue(InQueue), Surface(InSurface)

@@ -1,7 +1,7 @@
 #pragma once
-#include <RHIObjects/RHIClearColor.h>
-#include <RHIObjects/RHIRenderArea.h>
-#include <RHIObjects/FrameBuffer/RHIFrameBuffer.h>
+#include "RHI/RHIObjects/RHIClearColor.h"
+#include "RHI/RHIObjects/RHIRenderArea.h"
+class RHIFrameBuffer;
 class RHIRenderPass
 {
 public:

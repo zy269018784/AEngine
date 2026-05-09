@@ -1,18 +1,18 @@
 ﻿#include "ES32RHI.h"
-#include "OpenGLObjects/Buffer/OpenGLBuffer.h"
-#include "OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
-#include "OpenGLObjects/Shader/OpenGLShader.h"
-#include "OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
-#include "OpenGLObjects/Window/OpenGLWindow.h"
-#include "OpenGLObjects/Texture/OpenGLTexture.h"
-#include "OpenGLObjects/Resource/OpenGLSampler.h"
-#include "OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShader.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Window/OpenGLWindow.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+#include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 
 #include <iostream>
 
-#include "OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 
 ES32RHI::ES32RHI()
 {

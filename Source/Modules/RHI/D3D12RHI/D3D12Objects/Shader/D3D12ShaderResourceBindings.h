@@ -1,6 +1,6 @@
 #pragma once
-#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "D3D12Objects/Device/D3D12Device.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
 
 class D3D12ShaderResourceBindings : public RHIShaderResourceBindings {
 public:

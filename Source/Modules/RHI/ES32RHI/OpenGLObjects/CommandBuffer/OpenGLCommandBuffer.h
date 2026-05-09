@@ -1,7 +1,7 @@
 #pragma once
-#include "ES32.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/CommandBuffer/RHICommandBuffer.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/CommandBuffer/RHICommandBuffer.h"
 #include <cstdint>
 
 class OpenGLCommandBuffer : public RHICommandBuffer

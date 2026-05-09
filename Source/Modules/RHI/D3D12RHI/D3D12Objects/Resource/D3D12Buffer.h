@@ -1,7 +1,7 @@
 #pragma once
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Resource/RHIBuffer.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 #include <cstdint>
 
 class D3D12Buffer : public RHIBuffer

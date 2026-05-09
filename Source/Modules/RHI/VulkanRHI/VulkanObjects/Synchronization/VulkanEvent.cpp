@@ -1,5 +1,5 @@
-#include <VulkanObjects/Synchronization/VulkanEvent.h>
-#include "VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Synchronization/VulkanEvent.h"
+#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 #include <stdexcept>
 #include <iostream>
 VulkanEvent::VulkanEvent(VulkanDevice* InDevice)

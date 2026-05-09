@@ -1,5 +1,5 @@
 #pragma once
-#include "RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
 #include <cstdlib> 
 class RHIShader 

@@ -1,4 +1,4 @@
-#include "VulkanObjects/Resource/VulkanSampler.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanSampler.h"
 
 VkResult VulkanSampler::CreateSampler(const VkSamplerCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator)
 {

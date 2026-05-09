@@ -3,7 +3,7 @@
 #include <iostream>
 #include <ostream>
 
-#include "D3D12Objects/Device/D3D12Device.h"
+#include "D3D12RHI/D3D12Objects/Device/D3D12Device.h"
 D3D12CommandPool::D3D12CommandPool(D3D12Device* InDevice)
 	: Device(InDevice)
 {

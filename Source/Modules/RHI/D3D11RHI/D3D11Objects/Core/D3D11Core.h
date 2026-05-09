@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "D3D11_Includes.h"
-#include "RHIObjects/Core/RHICore.h"
-#include "RHIObjects/Core/RHIVertexInputAttribute.h"
-#include "RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "RHIObjects/Shader/RHIShader.h"
+#include "D3D11RHI/D3D11_Includes.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 #include <d3d11.h>
 #include <d3d11_1.h>  // 如果需要D3D11.1特性
 #include <cstdint>

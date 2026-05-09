@@ -1,6 +1,6 @@
 ﻿#include "VulkanImageMemoryBarrier.h"
-#include "VulkanObjects/Resource/VulkanImage.h"
-#include "VulkanObjects/Core/VulkanCore.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanImage.h"
+#include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
 VkImageMemoryBarrier VulkanImageMemoryBarrier::GetHandle() const
 {
     return Handle;

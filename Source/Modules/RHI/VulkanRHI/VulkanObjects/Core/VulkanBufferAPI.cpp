@@ -1,4 +1,4 @@
-#include "VulkanObjects/Resource/VulkanBuffer.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanBuffer.h"
 
 void VulkanBuffer::GetBufferMemoryRequirements(VkMemoryRequirements* MemoryRequirements)
 {

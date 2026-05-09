@@ -1,4 +1,4 @@
-#include "VulkanObjects/Resource/VulkanImage.h"
+#include "VulkanRHI/VulkanObjects//Resource/VulkanImage.h"
 
 VkResult VulkanImage::BindImageMemory(VkDeviceMemory Memory, VkDeviceSize MemoryOffset)
 {

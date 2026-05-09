@@ -1,7 +1,7 @@
 #pragma once
-#include "ES32.h"
-#include "RHIObjects/Texture/RHITexture.h"
-#include "RHIObjects/Device/RHIDevice.h"
+#include "ES32RHI/ES32.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIObjects/Device/RHIDevice.h"
 
 class OpenGLTexture : public RHITexture
 {
