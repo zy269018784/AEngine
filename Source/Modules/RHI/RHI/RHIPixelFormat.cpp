@@ -20,10 +20,10 @@ RHIPixelFormatInfo::RHIPixelFormatInfo(
 }
 /*
 			   pixel			shader 读出的		采样器类型			过滤支持			采样函数
-	  SNORM:   [-128, 127] ->   [-1, 1]				sampler1D				
-	   SINT:   [   0，255] ->   [ 0, 1]				sampler1D			支持线性过滤		texture
-	   UINT:   [   0，255] ->   [ 0, 255]			usampler1D			仅支持最近邻		texelFetch
-
+	   SNORM:  [-128, 127] ->    [-1, 1]			sampler1D
+	   SINT:   [   0，255] ->    [ 0, 1]			sampler1D			支持线性过滤		texture
+	   UINT:   [   0，255] ->    [ 0, 255]			usampler1D			仅支持最近邻		texelFetch
+	   UNORM:  [0,   255] - >    [0, 1]             sampler1D           支持线性过滤     texture
 	   SINT：自动归一化，用于"颜色"数据，支持插值
 	   UINT：保持原始整数，用于"数据"存储，不支持插值
 	   需要平滑过渡的视觉效果用 SINT，需要精确整数数据用 UINT。
