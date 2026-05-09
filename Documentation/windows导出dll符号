@@ -1,0 +1,42 @@
+dumpbin /exports RHI.dll
+Microsoft (R) COFF/PE Dumper Version 14.50.35728.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file RHI.dll
+
+File Type: DLL
+
+  Section contains the following exports for RHI.dll
+
+    00000000 characteristics
+    FFFFFFFF time date stamp
+        0.00 version
+           1 ordinal base
+           5 number of functions
+           5 number of names
+
+    ordinal hint RVA      name
+
+          1    0 00001010 ??0RHI@@QEAA@AEBV0@@Z
+          2    1 00001030 ??0RHI@@QEAA@XZ
+          3    2 00001050 ??1RHI@@UEAA@XZ
+          4    3 00001060 ??4RHI@@QEAAAEAV0@AEBV0@@Z
+          5    4 000024E0 ??_7RHI@@6B@
+
+  Summary
+
+        3000 .data
+        1000 .pdata
+        2000 .rdata
+        1000 .reloc
+        1000 .rsrc
+        1000 .text
+
+
+undname ??0RHI@@QEAA@AEBV0@@Z
+Microsoft (R) C++ Name Undecorator
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Undecoration of :- "??0RHI@@QEAA@AEBV0@@Z"
+is :- "public: __cdecl RHI::RHI(class RHI const & __ptr64) __ptr64"
