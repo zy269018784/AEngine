@@ -12,12 +12,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-file(GLOB_RECURSE SRC_LIST_HelloWorld  	${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.cpp
-										${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.c
-										${PROJECT_SOURCE_DIR}/Source/Applications/HelloWorld/*.h)
+file(GLOB_RECURSE SRC_LIST_ModeuleTest  ${PROJECT_SOURCE_DIR}/Source/ModeuleTest/*.cpp
+										${PROJECT_SOURCE_DIR}/Source/ModeuleTest/*.c
+										${PROJECT_SOURCE_DIR}/Source/ModeuleTest/*.h)
 
-list(APPEND HelloWorld_SRC_LIST
-		${SRC_LIST_HelloWorld}
+list(APPEND ModeuleTest_SRC_LIST
+		${SRC_LIST_ModeuleTest}
 		${SRC_LIST}
 )
 
@@ -25,7 +25,7 @@ message (STATUS "PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Source/Modules/RHI)
 
-add_executable(${PROJECT_NAME} ${HelloWorld_SRC_LIST})
+add_executable(${PROJECT_NAME} ${ModeuleTest_SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
-target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH} RHI)
-target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
+target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI)

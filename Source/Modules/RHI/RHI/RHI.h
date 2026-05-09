@@ -13,7 +13,8 @@ class RHISurface;
 class RHITexture;
 class RHISwapChainRenderTarget;
 class RHISampler;
-class RHI
+class __declspec(dllexport) RHI
+//class RHI
 {
 public:
 	/*
