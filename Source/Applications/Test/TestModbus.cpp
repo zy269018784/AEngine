@@ -3,7 +3,7 @@
     #include <modbus/modbus-rtu.h>
     #include <modbus/modbus-tcp.h>
 #endif
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
     #include <QModbusServer>
 #endif
 #include <thread>

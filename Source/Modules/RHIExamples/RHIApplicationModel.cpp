@@ -2,9 +2,11 @@
 #include "Vulkan/Common.h"
 #include "Model/Model.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#ifdef PROJECT_USE_GLM
+    #include <glm/glm.hpp>
+    #include <glm/gtc/matrix_transform.hpp>
+    #include <glm/gtc/type_ptr.hpp>
+#endif
 
 #include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 
@@ -43,7 +45,7 @@ void RHIApplicationModel::Init()
 #ifdef PROJECT_USE_STB_1
     model.LoadModel("Television_01_4k/Television_01_4k.gltf");
 #endif
-
+#ifdef PROJECT_USE_GLM
     // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(45.f), (float)800 / (float)600, 0.1f, 100.0f);
     glm::mat4 view      = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -55,7 +57,7 @@ void RHIApplicationModel::Init()
     //glm::mat4 mvp = model * view * projection;
 
     glm::mat4 mvp = projection * view * model;
-
+#endif
     /*
         创建VBO
     */

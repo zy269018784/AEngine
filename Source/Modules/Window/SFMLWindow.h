@@ -1,5 +1,5 @@
 #pragma once
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     #include <SFML/Graphics.hpp>
 #endif
 
@@ -33,7 +33,7 @@ public:
     virtual Window GetXlibWindow() override final;
 #endif
 private:
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     sf::RenderWindow *Handle;
 #endif
 };

@@ -41,7 +41,9 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
+#ifdef PROJECT_USE_VULKAN
         pRHI = new VulkanRHI();
+#endif
     }
     else if (1 == RHIIndex)
     {
@@ -51,10 +53,12 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
     }
     else if (2 == RHIIndex)
     {
+#ifdef PROJECT_USE_GLFW
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
         tmpWin->MakeContextCurrent();
 
         Window = tmpWin;
+#endif
         /*
             opengl需要
         */
@@ -92,11 +96,14 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
 
 #ifdef OS_IS_WINDOWS
     std::cout << "RHIApplication 1" << std::endl;
+    HWND hwnd;HINSTANCE instacne;
+#ifdef PROJECT_USE_GLFW
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
 
-   	HWND hwnd = glfwGetWin32Window(GLFWHandle);
+    hwnd = glfwGetWin32Window(GLFWHandle);
 
-	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+	instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+#endif
     std::cout << "RHIApplication 2" << std::endl;
 #if USE_RHIWindow
     RHIWindow_ = pRHI->RHICreateWindow(instacne, hwnd);
@@ -127,6 +134,7 @@ RHIApplicationTextureRenderTarget::~RHIApplicationTextureRenderTarget()
 
 void RHIApplicationTextureRenderTarget::Run()
 {
+#ifdef PROJECT_USE_GLFW
     Init();
 #if 1
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
@@ -178,6 +186,7 @@ void RHIApplicationTextureRenderTarget::Run()
 
     }
     RHIWindow_->WaitDeviceIdle();
+#endif
 #endif
 }
 

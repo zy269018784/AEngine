@@ -1,4 +1,5 @@
-// SerialCom.cpp
+﻿// SerialCom.cpp
+#if PROJECT_USE_CSerialPort
 #include "SerialCom.h"
 #include <iostream>
 #include <cstring>
@@ -262,3 +263,4 @@ int TestSerialCom() {
 
     return 0;
 }
+#endif

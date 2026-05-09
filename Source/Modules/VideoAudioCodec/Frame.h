@@ -5,6 +5,7 @@
 #ifndef ENGINE_AVFRAME_H
 #define ENGINE_AVFRAME_H
 #include <cstdint>
+#ifdef PROJECT_USE_FFMEPG
 extern  "C"
 {
 #include <libavcodec/avcodec.h>
@@ -28,6 +29,6 @@ public:
 private:
     AVFrame *Handle;
 };
-
+#endif
 
 #endif //ENGINE_AVFRAME_H

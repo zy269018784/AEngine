@@ -1,7 +1,4 @@
-//
-// Created by zhouyue on 2026/4/6.
-//
-
+#ifdef PROJECT_USE_FFMEPG
 #include "FormatContext.h"
 
 FormatContext::FormatContext()
@@ -46,3 +43,4 @@ enum AVCodecID   FormatContext::GetGetStreamCodecID(int index) const
 AVFormatContext *FormatContext::GetHandle() {
     return Handle;
 }
+#endif

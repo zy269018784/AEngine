@@ -4,6 +4,7 @@
 
 #ifndef ENGINE_ENCODER_H
 #define ENGINE_ENCODER_H
+#ifdef PROJECT_USE_FFMEPG
 #include <cstdint>
 
 #include "Frame.h"
@@ -35,6 +36,6 @@ public:
     const AVCodec *Codec;
 private:
 };
-
+#endif
 
 #endif //ENGINE_ENCODER_H

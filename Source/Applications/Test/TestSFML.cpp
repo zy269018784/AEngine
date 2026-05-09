@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     #include <SFML/Audio.hpp>
     #include <SFML/Graphics.hpp>
     #include <SFML/Audio/Music.hpp>
@@ -9,7 +9,7 @@ int SFMLMain(int argc, char **argv)
 {
     std::cout << "play start" << std::endl;
 
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
  //   auto Music = new sf::Music("ikutaerika.mp3");
     auto Music = new sf::Music("1.ogg");
 

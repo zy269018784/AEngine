@@ -1,14 +1,17 @@
 ﻿#include <RHIApplication.h>
 
+#include "RHIObjects/Resource/RHIBuffer.h"
+#include "RHIObjects/Shader/RHIShader.h"
+#include "RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "RHIObjects/Surface/RHISurface.h"
-#include "VulkanObjects/RenderTarget/VulkanSwapChainRenderTarget.h"
-
+//#ifdef PROJECT_USE_GLFW
 #ifdef PROJECT_USE_XCB
 #include <xcb/xcb.h>
 #include <X11/Xlib-xcb.h>
 #endif
 #include "Window/GLFWWindow.h"
 RHIApplication *pApp;
+#ifdef PROJECT_USE_GLFW
 void window_close_callback(GLFWwindow* window)
 {
     // 用户尝试关闭窗口时调用
@@ -18,6 +21,7 @@ void window_close_callback(GLFWwindow* window)
     // 如果需要阻止窗口关闭，可以重新设置关闭标志
     // glfwSetWindowShouldClose(window, GLFW_FALSE);
 }
+#endif
 
 RHIApplication::RHIApplication()
 {
@@ -27,9 +31,14 @@ RHIApplication::RHIApplication()
     if (0 == RHIIndex)
     {
         Window = new GLFWWindow(IWindow::Vulkan);
+#ifdef PROJECT_USE_GLFW
         glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
+#endif
         pApp = this;
+#ifdef PROJECT_USE_VULKAN
         pRHI = new VulkanRHI();
+#endif
+
     }
     else if (1 == RHIIndex)
     {
@@ -40,7 +49,9 @@ RHIApplication::RHIApplication()
     else if (2 == RHIIndex)
     {
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+#ifdef PROJECT_USE_GLFW
         tmpWin->MakeContextCurrent();
+#endif
 
         Window = tmpWin;
         /*
@@ -79,10 +90,13 @@ RHIApplication::RHIApplication()
 
 
 #ifdef OS_IS_WINDOWS
+#ifdef PROJECT_USE_GLFW
     auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
+#endif
+
 #endif
 
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
@@ -107,6 +121,7 @@ RHIApplication::~RHIApplication()
 void RHIApplication::Run()
 {
     Init();
+#ifdef PROJECT_USE_GLFW
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
@@ -116,12 +131,16 @@ void RHIApplication::Run()
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
-
+#ifdef PROJECT_USE_GLFW
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
+#endif
+
     }
+#endif
+
     RenderTarget->WaitDeviceIdle();
 }
 
@@ -144,3 +163,4 @@ void RHIApplication::Render()
 {
 
 }
+//#endif

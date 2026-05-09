@@ -1,8 +1,9 @@
-﻿#include "ES32RHI.h"
+﻿#ifdef PROJECT_USE_D3D12
+#include "ES32RHI.h"
 #include "VulkanRHI.h"
 
 
-#ifdef PROJECT_USE_D3D12
+
 #include "D3D12RHI.h"
 // 简化的修复版本
 #define GLFW_EXPOSE_NATIVE_WIN32

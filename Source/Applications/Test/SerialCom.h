@@ -1,7 +1,7 @@
 // SerialCom.h
 #ifndef SERIAL_COM_H
 #define SERIAL_COM_H
-
+#if PROJECT_USE_CSerialPort
 #include <CSerialPort/SerialPort.h>
 #include <string>
 #include <functional>
@@ -54,5 +54,5 @@ private:
     // 接收线程函数
     void readThreadFunc();
 };
-
+#endif
 #endif // SERIAL_COM_H

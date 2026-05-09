@@ -1,3 +1,4 @@
+include (CMakeScripts/ModuleConfiguration.cmake)
 
 file(GLOB SUB_MODULES LIST_DIRECTORIES true ${SRC_PREFIX}/Modules/*)
 
@@ -49,62 +50,69 @@ message(STATUS "SRC_LIST_BUS ${SRC_LIST_BUS}")
 
 list (APPEND SRC_LIST
         #${SRC_LIST_Applications}
-        ${SRC_LIST_Audio}
-        ${SRC_LIST_AudioPlayer}
-        ${SRC_LIST_MultiMedia}
-        ${SRC_LIST_Network}
-        ${SRC_LIST_Type}
-        ${SRC_LIST_RHI}
-        ${SRC_LIST_ES32RHI}
+        #${SRC_LIST_Audio}
+        #${SRC_LIST_AudioPlayer}
+        #${SRC_LIST_MultiMedia}
+        #${SRC_LIST_Network}
+        #${SRC_LIST_Type}
+        #${SRC_LIST_RHI}
+        #${SRC_LIST_ES32RHI}
         #${SRC_LIST_OpenGL330RHI}
-        ${SRC_LIST_GLAD}
-        ${SRC_LIST_RHIExamples}
-        ${SRC_LIST_Model}
-        ${SRC_LIST_Window}
+        #${SRC_LIST_GLAD}
+        #${SRC_LIST_RHIExamples}
+        #${SRC_LIST_Model}
+        #${SRC_LIST_Window}
         #${SRC_LIST_BUS}
-        ${SRC_LIST_DeviceDriver}
-        ${SRC_LIST_ModuleTest}
-        ${SRC_LIST_Arch}
-        ${SRC_LIST_VideoAudioCodec}
-        ${SRC_LIST_CompileTools}
+        #${SRC_LIST_DeviceDriver}
+        #${SRC_LIST_ModuleTest}
+        #${SRC_LIST_Arch}
+        #${SRC_LIST_VideoAudioCodec}
+        #${SRC_LIST_CompileTools}
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
-    list (APPEND SRC_LIST ${SRC_LIST_D3D11RHI})
-    list (APPEND SRC_LIST ${SRC_LIST_D3D10RHI})
-    list (APPEND SRC_LIST ${SRC_LIST_D3D9RHI})
+
+if (${USE_AVCODEC})
+    list (APPEND SRC_LIST ${SRC_LIST_VideoAudioCodec})
 endif ()
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    if (${USE_D3D12})
+        list (APPEND SRC_LIST ${SRC_LIST_D3D12RHI})
+        list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D12RHI)
+    endif ()
+    if (${USE_D3D11})
+        list (APPEND SRC_LIST ${SRC_LIST_D3D11RHI})
+        list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D11RHI)
+    endif ()
+    if (${USE_D3D10})
+        list (APPEND SRC_LIST ${SRC_LIST_D3D10RHI})
+        list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D10RHI)
+    endif ()
+    if (${USE_D3D9})
+        list (APPEND SRC_LIST ${SRC_LIST_D3D9RHI})
+        list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D9RHI)
+    endif ()
+endif ()
 
 if (${USE_VULKAN})
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
+    list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/VulkanRHI)
 endif ()
 
-if (${USE_Bluez})
-    list (APPEND SRC_LIST ${SRC_LIST_Bluetooth})
-endif ()
+list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/ES32RHI)
+list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/OpenGL330RHI)
+
+#if (${USE_Bluez})
+#    list (APPEND SRC_LIST ${SRC_LIST_Bluetooth})
+#endif ()
 
 list (APPEND SRC_LIST ${SRC_PREFIX}/stb_image.cpp)
 
-list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
-
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/RHI)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/VulkanRHI)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/ES32RHI)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/OpenGL330RHI)
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D12RHI)
-    list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D11RHI)
-    list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D10RHI)
-    list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/D3D9RHI)
-endif ()
-
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
-list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/ModuleTest)
-
-message(STATUS "SRC_LIST_AudioPlayer ${SRC_LIST_AudioPlayer}")
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX} ${SRC_PREFIX}/Applications ${SRC_PREFIX}/Modules)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/RHI)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/glad)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHIExamples)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Model)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/Window)
+#list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/ModuleTest)

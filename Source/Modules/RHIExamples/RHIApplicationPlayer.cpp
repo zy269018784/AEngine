@@ -30,13 +30,15 @@ static float VertexAttributes[] = {
     //-100.0f, -100.0f,  100.0f, 
     //-100.0f, -100.0f, -100.0f, 
 };
-
+#ifdef PROJECT_USE_GLM
 static glm::mat4 UBOData = {
      1.0f, 0.0f, 0.0f, 0.0f,
      0.0f, 1.0f, 0.0f, 0.0f,
      0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f, 0.0f, 0.0f, 1.0f 
+     0.5f, 0.0f, 0.0f, 1.0f
 };
+
+#endif
 
 static unsigned int Index[] = {
     0, 1, 2,
@@ -69,6 +71,8 @@ void RHIApplicationPlayer::Init()
     //glm::vec3 eye = glm::vec3(0, 0.3, 0.590);
     //glm::vec3 lookat = glm::vec3(0, 0.3, -1);
     //glm::vec3 up = glm::vec3(0, -1, 0);
+#ifdef PROJECT_USE_GLM
+
 
     glm::vec3 eye    = glm::vec3(0, 0, 0);
     glm::vec3 lookat = glm::vec3(0, 0, -1);
@@ -87,7 +91,7 @@ void RHIApplicationPlayer::Init()
     auto a = mvp * glm::vec4(0, 0, -500, 1);
     a /= a.w;
     std::cout << "a " << a.x << " " << a.y << " " << a.z << " " << a.w << std::endl;
-
+#endif
    // model1.LoadModel("Television_01_4k/Television_01_4k.gltf");
 
     CreateVBO();
@@ -156,8 +160,11 @@ void RHIApplicationPlayer::CreateEBO()
 
 void RHIApplicationPlayer::CreateUBO()
 {
+
+#ifdef PROJECT_USE_GLM
    // mvp = UBOData;
-    RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(mvp), &mvp);
+   RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(mvp), &mvp);
+#endif
 }
 
 void RHIApplicationPlayer::CreateSRB()

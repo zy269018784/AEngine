@@ -1,11 +1,11 @@
 #if 0
 #include <Modules/Bus/Modbus/ModbusServer.h>
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
     #include <QDebug>
 #endif
 int TestModbusServer(int argc, char *argv[]) {
     ModbusServer Server;
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
 
 
     QModbusDataUnitMap reg;

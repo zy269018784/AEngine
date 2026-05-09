@@ -1,8 +1,9 @@
+#if PROJECT_USE_CSerialPort
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <vector>
-#ifdef PROJECT_USE_CSerialPort
+#if PROJECT_USE_CSerialPort
     #include <CSerialPort/SerialPort.h>
     #include <CSerialPort/SerialPortInfo.h>
 #endif
@@ -142,3 +143,4 @@ int SerialPortMain(int argc, char **argv)
 #endif
     return 0;
 }
+#endif

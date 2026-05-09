@@ -1,13 +1,16 @@
 #pragma once
 #include <RHIApplication.h>
 #define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
+#endif
 
 #include <iostream>
-
+#ifdef PROJECT_USE_GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 #ifdef PROJECT_USE_STB
     #include <stb_image.h>
@@ -43,10 +46,12 @@ private:
     RHIBuffer* RHIUBO = nullptr;
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
+#ifdef PROJECT_USE_GLM
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
     glm::mat4 mvp;
+#endif
     float fov;
 #ifdef PROJECT_USE_STB
     stbi_uc* pixels;

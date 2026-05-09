@@ -27,13 +27,14 @@ static float VertexAttributes[] = {
     //-100.0f, -100.0f,  100.0f, 
     //-100.0f, -100.0f, -100.0f, 
 };
-
+#ifdef PROJECT_USE_GLM
 static glm::mat4 UBOData = {
      1.0f, 0.0f, 0.0f, 0.0f,
      0.0f, 1.0f, 0.0f, 0.0f,
      0.0f, 0.0f, 1.0f, 0.0f,
      0.5f, 0.0f, 0.0f, 1.0f 
 };
+#endif
 
 static unsigned int Index[] = {
     0, 1, 2,
@@ -66,6 +67,7 @@ void RHIApplicationScene::Init()
     //glm::vec3 eye = glm::vec3(0, 0.3, 0.8);
     //glm::vec3 lookat = glm::vec3(0, 0.3, -1);
     //glm::vec3 up = glm::vec3(0, -1, 0);
+#ifdef PROJECT_USE_GLM
 
     glm::vec3 eye       = glm::vec3(0,  0.4, -1.1);
     glm::vec3 lookat    = glm::vec3(0,  0.4,  0.0);
@@ -84,6 +86,8 @@ void RHIApplicationScene::Init()
     auto a = mvp * glm::vec4(0, 0, -500, 1);
     a /= a.w;
     std::cout << "a " << a.x << " " << a.y << " " << a.z << " " << a.w << std::endl;
+#endif
+
 #ifdef PROJECT_USE_STB_1
     model1.LoadModel("namaqualand_boulder_02_2k/namaqualand_boulder_02_2k.gltf");
 #endif
@@ -155,8 +159,9 @@ void RHIApplicationScene::CreateEBO()
 
 void RHIApplicationScene::CreateUBO()
 {
-   // mvp = UBOData;
+#ifdef PROJECT_USE_GLM
     RHIUBO = pRHI->RHICreateBuffer(RHIBufferType::UniformBuffer, RHIBufferUsageFlag::UniformBuffer, sizeof(mvp), &mvp);
+#endif
 }
 
 void RHIApplicationScene::CreateSRB()

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
 #include <QWindow>
 #endif
 
@@ -11,7 +11,7 @@ public:
     QTWindow(IWindow *Parent = nullptr);
     ~QTWindow();
     virtual void Run() override final;
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
 public:
     QWindow *GetHandle();
 #endif
@@ -35,7 +35,7 @@ public:
 #endif
 
 private:
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
     QWindow *Handle;
 #endif
 };

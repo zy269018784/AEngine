@@ -142,15 +142,26 @@ void GLFWWindow::SetPosition(int X, int Y)
 #ifdef OS_IS_WINDOWS
 HWND GLFWWindow::GetHWND()
 {
+#ifdef PROJECT_USE_GLFW
     return glfwGetWin32Window(Handle);
+#else
+    return {};
+#endif
+
 }
 
 HINSTANCE GLFWWindow::GetHINSTANCE()
 {
+#ifdef PROJECT_USE_GLFW
     HWND hwnd = glfwGetWin32Window(Handle);
 
     HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+
     return instacne;
+#else
+    return {};
+#endif
+
 }
 #endif
 

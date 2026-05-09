@@ -17,8 +17,9 @@
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
 
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3native.h>
-
+#endif
 
 class GLFWWindow : public IWindow
 {

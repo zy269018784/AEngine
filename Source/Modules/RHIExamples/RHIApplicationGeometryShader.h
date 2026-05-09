@@ -3,8 +3,9 @@
 #ifdef PROJECT_USE_VULKAN
 #define GLFW_INCLUDE_VULKAN
 #endif
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
-
+#endif
 #include <iostream>
 
 #include <RHI.h>

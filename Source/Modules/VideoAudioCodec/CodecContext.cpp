@@ -1,6 +1,6 @@
 
 #include "CodecContext.h"
-
+#ifdef PROJECT_USE_FFMPEG
 CodecContext::CodecContext(const AVCodec *codec)
 {
     if (codec)
@@ -83,3 +83,4 @@ int CodecContext::ReceivePacket(AVPacket *Pkt)
 {
     return avcodec_receive_packet(Handle, Pkt);
 }
+#endif

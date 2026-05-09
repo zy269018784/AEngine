@@ -5,7 +5,7 @@
 // 编译: g++ main.cpp -o triangle -lglfw -ldl
 // 运行: ./triangle
 // ============================================================================
-
+#ifdef PROJECT_USE_GLFW
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -203,3 +203,4 @@ int TestOpenGL(int argc, char* argv[])
     glfwTerminate();
     return 0;
 }
+#endif

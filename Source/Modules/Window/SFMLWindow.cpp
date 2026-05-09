@@ -3,20 +3,20 @@
 SFMLWindow::SFMLWindow(IWindow *Parent)
     : IWindow(Parent)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     Handle = new sf::RenderWindow(sf::VideoMode({800, 600}), "SFML window");
 #endif
 }
 
 SFMLWindow::~SFMLWindow()
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     delete Handle;
 #endif
 }
 
 void SFMLWindow::Run() {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     while (Handle->isOpen())
         {
         while (const std::optional event = Handle->pollEvent())
@@ -31,14 +31,14 @@ void SFMLWindow::Run() {
 
 void SFMLWindow::SetTitle(const char *Title)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     Handle->setTitle(Title);
 #endif
 }
 
 void SFMLWindow::Resize(int W, int H)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     sf::Vector2u Size;
     Size.x = Width;
     Size.x = Height;
@@ -48,7 +48,7 @@ void SFMLWindow::Resize(int W, int H)
 
 void SFMLWindow::SetWidth(int arg)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     sf::Vector2u Size;
     Size.x = Width;
     Size.x = Height;
@@ -58,7 +58,7 @@ void SFMLWindow::SetWidth(int arg)
 
 void SFMLWindow::SetHeight(int arg)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     sf::Vector2u Size;
     Size.x = Width;
     Size.x = Height;
@@ -68,7 +68,7 @@ void SFMLWindow::SetHeight(int arg)
 
 void SFMLWindow::SetPosition(int X, int Y)
 {
-#ifdef PROJECT_USE_SFML
+#if PROJECT_USE_SFML
     this->X = X;
     this->Y = Y;
     sf::Vector2i Pos(this->X, this->Y);

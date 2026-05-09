@@ -6,7 +6,9 @@
     #include "VulkanRHI.h"
     #define GLFW_INCLUDE_VULKAN
 #endif
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
+#endif
 
 #include "RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 #include "RHIObjects/CommandBuffer//RHICommandBuffer.h"
@@ -22,9 +24,9 @@
 #ifdef PROJECT_USE_XCB
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
-
-#include <GLFW/glfw3native.h>
-
+#ifdef PROJECT_USE_GLFW
+    #include <GLFW/glfw3native.h>
+#endif
 #include "Window/IWindow.h"
 
 #include <iostream>

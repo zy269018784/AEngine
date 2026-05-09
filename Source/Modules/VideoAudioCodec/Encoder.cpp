@@ -1,7 +1,4 @@
-//
-// Created by zhouyue on 2026/4/10.
-//
-
+#ifdef PROJECT_USE_FFMEPG
 #include "Encoder.h"
 
 Encoder::Encoder(const char *CodecName)
@@ -78,3 +75,4 @@ void Encoder::SetGopSize(int Size)
     CodecContext->SetGopSize(Size);
 }
 
+#endif

@@ -1,4 +1,5 @@
 ﻿// FLTK_Vulkan_Triangle.cpp
+#if  PROJECT_USE_FTLK
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/x.H>
@@ -764,3 +765,4 @@ int Fltk_Vulkan(int argc, char** argv) {
     window.show(argc, argv);
     return Fl::run();
 }
+#endif

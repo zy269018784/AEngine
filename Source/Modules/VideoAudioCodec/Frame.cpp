@@ -1,7 +1,4 @@
-//
-// Created by zhouyue on 2026/4/6.
-//
-
+#ifdef PROJECT_USE_FFMEPG
 #include "Frame.h"
 
 Frame::Frame()
@@ -67,3 +64,4 @@ void Frame::SetRGB(int Row, int Col, std::uint8_t R, std::uint8_t G, std::uint8_
     Handle->data[1][Row * Handle->linesize[1] + Col] = G;
     Handle->data[2][Row * Handle->linesize[2] + Col] = B;
 }
+#endif

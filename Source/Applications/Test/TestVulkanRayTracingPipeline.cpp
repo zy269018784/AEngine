@@ -1,9 +1,11 @@
 // main.cpp
 // Vulkan + GLFW + Ray Tracing 最小示例
 // 编译: g++ -o vulkan_rt main.cpp -lglfw -lvulkan
-
+#ifdef PROJECT_USE_VULKEN
+#ifdef PROJECT_USE_GLFW
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#endif
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -647,3 +649,4 @@ int TestVulkanRayTracingPipeline(int argc, char **argv) {
 
     return EXIT_SUCCESS;
 }
+#endif

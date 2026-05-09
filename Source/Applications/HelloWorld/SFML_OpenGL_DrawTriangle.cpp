@@ -1,3 +1,4 @@
+#if 0
 #include "Vulkan/Common.h"
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
@@ -164,3 +165,4 @@ void CreateGraphicsPipeline()
     delete VertexShader;
     delete FragmengShader;
 }
+#endif

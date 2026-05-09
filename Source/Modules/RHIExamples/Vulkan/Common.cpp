@@ -1,7 +1,9 @@
 ﻿#include "Common.h"
 #include <iostream>
 #define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
+#endif
 
 #include <fstream>
 #include <sstream>
@@ -53,7 +55,7 @@ std::string ReadFile2(const std::string& filename)
 
     return vertexCode;
 }
-
+#ifdef PROJECT_USE_GLFW
 GLFWwindow* InitWindow(int width, int height)
 {
 	glfwInit();
@@ -158,3 +160,4 @@ int TestVulkan()
 
     return 0;
 }
+#endif

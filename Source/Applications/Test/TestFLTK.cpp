@@ -1,3 +1,4 @@
+#if PROJECT_USE_FTLK
 // fltk_gl46_triangle.cpp
 // 编译: g++ -o gl46 main.cpp -lfltk_gl -lfltk -lGL -ldl
 // GLAD 头文件 (需要先生成)
@@ -269,3 +270,4 @@ int TestFLTK(int argc, char** argv) {
 
     return Fl::run();
 }
+#endif

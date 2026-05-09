@@ -1,7 +1,9 @@
 #pragma once
 #include <RHIApplication.h>
 #define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
+#endif
 
 #include <iostream>
 #include <RHI.h>

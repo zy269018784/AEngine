@@ -1,4 +1,4 @@
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
 #include <QApplication>
 #endif
 
@@ -76,7 +76,7 @@ int HelloSFML()
 
 int HelloQT(int argc, char **argv)
 {
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
     QApplication app(argc, argv);
 #endif
     std::unique_ptr<IWindow> Window;
@@ -86,7 +86,7 @@ int HelloQT(int argc, char **argv)
     Window->SetHeight(600);
     Window->SetPosition(960, 0);
     Window->Run();
-#ifdef PROJECT_USE_QT
+#if PROJECT_USE_QT
     return app.exec();
 #else
     return 0;

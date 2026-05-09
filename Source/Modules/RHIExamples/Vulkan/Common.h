@@ -5,11 +5,12 @@
 #ifdef  PROJECT_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
 #endif
-
+#ifdef PROJECT_USE_GLFW
 #include <GLFW/glfw3.h>
-
-std::vector<char> ReadFile(const std::string& filename);
-std::string ReadFile2(const std::string& filename);
 GLFWwindow* InitWindow(int width, int height);
 void CleanupWindow(GLFWwindow* Window);
+#endif
+std::vector<char> ReadFile(const std::string& filename);
+std::string ReadFile2(const std::string& filename);
+
 int TestVulkan();
