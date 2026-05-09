@@ -1,6 +1,7 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
-class RHIDepthAttachment
+class RHIEXPORT RHIDepthAttachment
 {
 public:
     RHIDepthAttachment(RHIDepthAttachmentType InType);

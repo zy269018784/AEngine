@@ -1,9 +1,8 @@
 ﻿#pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
-#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "RHI/RHIObjects/Shader/RHIShader.h"
 
-class RHIRayTracingPipeline : public RHIPipeline
+class RHIEXPORT RHIRayTracingPipeline : public RHIPipeline
 {
 public:
 	RHIRayTracingPipeline() = default;

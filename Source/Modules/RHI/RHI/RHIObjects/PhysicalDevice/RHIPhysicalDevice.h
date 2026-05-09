@@ -1,7 +1,8 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <map>
-class RHIPhysicalDevice
+class RHIEXPORT RHIPhysicalDevice
 {
 public:
     RHIPhysicalDevice();

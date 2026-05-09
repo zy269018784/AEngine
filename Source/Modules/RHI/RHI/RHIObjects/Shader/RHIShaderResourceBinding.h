@@ -3,7 +3,7 @@
 #include "RHI/RHIObjects/Texture/RHITexture.h"
 #include "RHI/RHIObjects/Resource/RHISampler.h"
 
-class RHIShaderResourceBinding
+class RHIEXPORT RHIShaderResourceBinding
 {
 public:
 	enum class StageFlags

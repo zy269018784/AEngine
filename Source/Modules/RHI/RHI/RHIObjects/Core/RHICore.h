@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "RHI/RHIExport.h"
 #include <cstdint>
 typedef std::uint32_t RHIBool32;
 typedef std::uint64_t RHIDeviceAddress;
@@ -17,7 +18,7 @@ typedef std::int8_t  RHIInt8;
 typedef std::uint8_t RHIUInt8;
 
 
-typedef struct RHIBufferCopy {
+typedef struct RHIEXPORT RHIBufferCopy {
 	RHIDeviceSize SrcOffset;
 	RHIDeviceSize DstOffset;
 	RHIDeviceSize Size;
@@ -27,12 +28,12 @@ typedef struct RHIBufferCopy {
 /*
 	索引类型
 */
-enum class RHIIndexFormat {
+enum class RHIEXPORT RHIIndexFormat {
 	IndexUInt16,
 	IndexUInt32
 };
 
-enum class RHITopology
+enum class RHIEXPORT RHITopology
 {
 	Points,
 	Lines,
@@ -47,7 +48,7 @@ enum class RHITopology
 	Patches
 };
 
-enum class RHICullMode : uint8_t
+enum class RHIEXPORT RHICullMode : uint8_t
 {
 	CullModeNone,
 	Front,
@@ -55,20 +56,20 @@ enum class RHICullMode : uint8_t
 	Front_Back
 };
 
-enum class RHIFrontFace
+enum class RHIEXPORT RHIFrontFace
 {
 	CW,
 	CCW
 };
 
-enum class RHIPolygonMode
+enum class RHIEXPORT RHIPolygonMode
 {
 	Fill,
 	Line,
 	Point
 };
 
-enum class RHICompareOp
+enum class RHIEXPORT RHICompareOp
 {
 	Never,
 	CompareOpAlways,
@@ -80,7 +81,7 @@ enum class RHICompareOp
 	GreaterOrEqual
 };
 
-enum class RHIStencilOp
+enum class RHIEXPORT RHIStencilOp
 {
 	Keep,
 	Zero,
@@ -92,14 +93,14 @@ enum class RHIStencilOp
 	Invert
 };
 
-enum class RHIStencilFace
+enum class RHIEXPORT RHIStencilFace
 {
 	Front,
 	Back,
 	FrontAndBack
 };
 
-enum class RHIBlendFactor : uint8_t
+enum class RHIEXPORT RHIBlendFactor : uint8_t
 {
 	Zero,
 	One,
@@ -122,7 +123,7 @@ enum class RHIBlendFactor : uint8_t
 	OneMinusSrc1Alpha,
 };
 
-enum class RHIBlendOp : uint8_t
+enum class RHIEXPORT RHIBlendOp : uint8_t
 {
 	Add,
 	Sub,
@@ -131,7 +132,7 @@ enum class RHIBlendOp : uint8_t
 	Reverse_Sub
 };
 
-enum class RHILogicOp : uint8_t
+enum class RHIEXPORT RHILogicOp : uint8_t
 {
 	CLEAR,
 	SET,
@@ -151,7 +152,7 @@ enum class RHILogicOp : uint8_t
 	OR_INVERTED
 };
 
-enum class RHIPixelFormat : std::int32_t
+enum class RHIEXPORT RHIPixelFormat : std::int32_t
 {
 	// 深度模板
 	PF_DepthStencil = 0,	   // DepthStencil
@@ -233,13 +234,13 @@ enum class RHIPixelFormat : std::int32_t
 	PF_Unknown
 };
 
-enum class RHIFilter : uint8_t
+enum class RHIEXPORT RHIFilter : uint8_t
 {
 	NEAREST,
 	LINEAR
 };
 
-enum class RHIAddressMode : uint8_t
+enum class RHIEXPORT RHIAddressMode : uint8_t
 {
 	REPEAT,
 	MIRRORED_REPEAT,
@@ -247,7 +248,7 @@ enum class RHIAddressMode : uint8_t
 	CLAMP_TO_BORDER,
 };
 
-enum class RHICubeMapFace : int
+enum class RHIEXPORT RHICubeMapFace : int
 {
 	CUBE_MAP_POSITIVE_X = 0,
 	CUBE_MAP_NEGATIVE_X,
@@ -257,7 +258,7 @@ enum class RHICubeMapFace : int
 	CUBE_MAP_NEGATIVE_Z
 };
 
-enum class RHITextureType : uint8_t
+enum class RHIEXPORT RHITextureType : uint8_t
 {
 	Texture1D,
 	Texture2D,
@@ -269,7 +270,7 @@ enum class RHITextureType : uint8_t
 	TextureCubeMapArray
 };
 
-enum class RHIShaderType : uint8_t
+enum class RHIEXPORT RHIShaderType : uint8_t
 {
 	Vertex, 
 	Fragment, 
@@ -298,7 +299,7 @@ enum class RHIShaderType : uint8_t
 /*
 	RHI特性
  */
-enum class RHIFeatures : std::uint32_t {
+enum class RHIEXPORT RHIFeatures : std::uint32_t {
 	/*
 	 * Shader Features
 	 */
@@ -329,7 +330,7 @@ enum class RHIFeatures : std::uint32_t {
 	MultiViewport,
 };
 
-enum class RHIAttachmentType: std::uint32_t
+enum class RHIEXPORT RHIAttachmentType: std::uint32_t
 {
 	Color1,
 	Color2,
@@ -356,7 +357,7 @@ enum class RHIAttachmentType: std::uint32_t
 	Unknown
 };
 
-enum class RHIDepthAttachmentType: std::uint32_t
+enum class RHIEXPORT RHIDepthAttachmentType: std::uint32_t
 {
 	DepthStencil_D24_S8,    // 明确要求 24位深度+8位模板
 	DepthStencil_D32_S8,    // 明确要求 32位深度+8位模板
@@ -366,7 +367,7 @@ enum class RHIDepthAttachmentType: std::uint32_t
 };
 
 
-enum class RHITextureUsageFlag: std::uint32_t
+enum class RHIEXPORT RHITextureUsageFlag: std::uint32_t
 {
 	TransferSRC,
 	TransferDst,
@@ -376,7 +377,7 @@ enum class RHITextureUsageFlag: std::uint32_t
 	StorageTexture,
 };
 
-enum class RHITImageUsageFlag: std::uint32_t
+enum class RHIEXPORT RHITImageUsageFlag: std::uint32_t
 {
 	TransferSRC,
 	TransferDst,
@@ -386,7 +387,7 @@ enum class RHITImageUsageFlag: std::uint32_t
 	StorageTexture,
 };
 
-enum class RHIBufferUsageFlag: std::uint32_t
+enum class RHIEXPORT RHIBufferUsageFlag: std::uint32_t
 {
 #if 0
 	Immutable,
@@ -412,7 +413,7 @@ enum class RHIBufferUsageFlag: std::uint32_t
 	IndirectBuffer,
 };
 
-enum class RHIBufferType : std::uint32_t
+enum class RHIEXPORT RHIBufferType : std::uint32_t
 {
 	VertexBuffer,
 	IndexBuffer,

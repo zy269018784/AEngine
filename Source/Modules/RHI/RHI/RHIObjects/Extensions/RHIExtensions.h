@@ -1,6 +1,7 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include <set>
-class RHIExtensions
+class RHIEXPORT RHIExtensions
 {
 };
 

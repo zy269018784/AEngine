@@ -1,8 +1,11 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/RHIClearColor.h"
 #include "RHI/RHIObjects/RHIRenderArea.h"
+
 class RHIFrameBuffer;
-class RHIRenderPass
+
+class RHIEXPORT RHIRenderPass
 {
 public:
 	virtual ~RHIRenderPass();

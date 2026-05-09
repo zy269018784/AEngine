@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.20)
 project (RHI)
-set (LIBRARY_PATH C:/Projects/Library)
+#set (LIBRARY_PATH C:/Projects/Library)
 set (SRC_LIST "")
 set (USE_VULKAN_RHI true)
 
 file(GLOB_RECURSE SRC_LIST_RHI              ${PROJECT_SOURCE_DIR}/RHI/*.cpp
                                             ${PROJECT_SOURCE_DIR}/RHI/*.c
                                             ${PROJECT_SOURCE_DIR}/RHI/*.h)
+
 file(GLOB_RECURSE SRC_LIST_VulkanRHI        ${PROJECT_SOURCE_DIR}/VulkanRHI/*.cpp
                                             ${PROJECT_SOURCE_DIR}/VulkanRHI/*.c
                                             ${PROJECT_SOURCE_DIR}/VulkanRHI/*.h)
@@ -68,9 +69,6 @@ if (USE_VULKAN_RHI)
     list (APPEND LINK_PATH      ${LIBRARY_PATH}/Vulkan/lib)
     list (APPEND LIBRARYS		vulkan)
 endif ()
-
-set (LIBRARY_PATH C:/Projects/Library)
-
 
 add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
 

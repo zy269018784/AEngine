@@ -1,7 +1,8 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 
-class RHISwapchainRenderTarget : public RHIRenderTarget
+class RHIEXPORT RHISwapchainRenderTarget : public RHIRenderTarget
 {
 public:
     RHISwapchainRenderTarget(RHIPixelFormat InPixelFormat);

@@ -1,11 +1,9 @@
 ﻿#pragma once
-#include "RHIPlatform.h"
-//#include "RHI/RHIObjects/Resource/RHIBuffer.h"
-//#include "RHI/RHIObjects/Shader/RHIShader.h"
-//#include "RHI/RHIObjects/CommandBuffer/RHICommandBuffer.h"
-#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
-//#include "RHI/RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIPlatform.h"
+#include "RHI/RHIExport.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
+#include <cstdint>
+
 class RHIBuffer;
 class RHIShader;
 class RHICommandBuffer;
@@ -13,9 +11,21 @@ class RHISurface;
 class RHITexture;
 class RHISwapChainRenderTarget;
 class RHISampler;
-class __declspec(dllexport) RHI
-//class RHI
+class RHIGraphicsPipeline;
+class RHIRenderTarget;
+class RHIRenderPass;
+class RHIShaderResourceBindings;
+class RHI;
+
+RHIEXPORT RHI *CreateVulkanRHI();
+RHIEXPORT RHI *CreateES32RHI();
+RHIEXPORT RHI *CreateD3D12RHI();
+RHIEXPORT RHI *CreateD3D11RHI();
+RHIEXPORT RHI *CreateD3D10RHI();
+RHIEXPORT RHI *CreateD3D9RHI();
+class RHIEXPORT RHI
 {
+
 public:
 	/*
 		delete RHI会调用VulkanRHI的析构

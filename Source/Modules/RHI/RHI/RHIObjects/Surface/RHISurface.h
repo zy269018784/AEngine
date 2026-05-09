@@ -1,6 +1,6 @@
 #pragma once
-
-class RHISurface {
+#include "RHI/RHIExport.h"
+class RHIEXPORT RHISurface {
 public:
     virtual ~RHISurface();
 };

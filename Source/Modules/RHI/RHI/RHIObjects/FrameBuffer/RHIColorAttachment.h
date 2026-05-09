@@ -1,6 +1,7 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
-class RHIColorAttachment
+class RHIEXPORT RHIColorAttachment
 {
 public:
     RHIColorAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat);

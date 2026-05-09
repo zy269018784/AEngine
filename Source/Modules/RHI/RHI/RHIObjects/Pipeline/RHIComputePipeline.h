@@ -1,7 +1,8 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
 
-class RHIComputePipeline : public RHIPipeline
+class RHIEXPORT RHIComputePipeline : public RHIPipeline
 {
 
 };

@@ -1,0 +1,169 @@
+#include "GLFWWindow.h"
+#ifdef PROJECT_USE_XCB
+    #include <xcb/xcb.h>
+    #include <X11/Xlib-xcb.h>
+    #include <X11/Xutil.h>
+#endif
+
+#define GLFW_INCLUDE_VULKAN
+
+GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
+    : IWindow(Parent)
+{
+    switch (API)
+    {
+        case OpenGL33:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            break;
+        case OpenGL46:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            break;
+        case ES20:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            break;
+        case ES31:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            break;
+        case ES32:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            break;
+        case Vulkan:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+            break;
+        case D3D9:
+        case D3D10:
+        case D3D11:
+        case D3D12:
+        case Metal:
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+            break;
+        default:
+            break;
+    }
+    //glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+    Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
+    glfwMakeContextCurrent(Handle);
+
+}
+
+GLFWWindow::~GLFWWindow()
+{
+    glfwDestroyWindow(Handle);
+}
+
+
+GLFWwindow* GLFWWindow::GetHandle()
+{
+    return Handle;
+}
+
+void GLFWWindow::MakeContextCurrent(void)
+{
+    glfwMakeContextCurrent(Handle);
+}
+
+
+void GLFWWindow::Run()
+{
+    while (!glfwWindowShouldClose(Handle)) {
+       // glClearColor(1, 1, 1, 1);
+       // glClear(GL_COLOR_BUFFER_BIT);
+        glfwPollEvents();
+    }
+
+}
+
+void GLFWWindow::SetTitle(const char *Title)
+{
+    glfwSetWindowTitle(Handle, Title);
+}
+
+void GLFWWindow::Resize(int W, int H)
+{
+    Width  = W;
+    Height = H;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetWidth(int arg)
+{
+    Width = arg;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetHeight(int arg)
+{
+    Height = arg;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetPosition(int X, int Y)
+{
+    this->X = X;
+    this->Y = Y;
+    glfwSetWindowPos(Handle, this->X, this->Y);
+}
+
+
+HWND GLFWWindow::GetHWND()
+{
+    return glfwGetWin32Window(Handle);
+}
+
+HINSTANCE GLFWWindow::GetHINSTANCE()
+{
+
+    HWND hwnd = glfwGetWin32Window(Handle);
+
+    HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+
+    return instacne;
+
+
+}
+
+
+#ifdef PROJECT_USE_GLFW
+
+#ifdef PROJECT_USE_XCB
+xcb_connection_t *GLFWWindow::GetXCBConnection()
+{
+    Display* Display = glfwGetX11Display();
+    return XGetXCBConnection(Display);
+}
+
+xcb_window_t GLFWWindow::GetXCBWindow()
+{
+    return glfwGetX11Window(Handle);
+}
+#endif
+
+#ifdef PROJECT_USE_Xlib
+Display* GLFWWindow::GetXlibDisplay()
+{
+    return glfwGetX11Display();
+}
+
+Window GLFWWindow::GetXlibWindow()
+{
+    return glfwGetX11Window(Handle);
+}
+
+#endif
+
+#endif

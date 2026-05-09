@@ -2,16 +2,14 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/Core/RHIViewport.h"
 #include "RHI/RHIObjects/Core/RHIScissor.h"
-//#include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
-//#include "RHI/RHIObjects/Resource/RHIBuffer.h"
-//#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIExport.h"
 
-class RHIBuffer;
-class RHIRenderPass;
-class RHIGraphicsPipeline;
-//#include <utility>
+class RHIEXPORT RHIBuffer;
+class RHIEXPORT RHIRenderPass;
+class RHIEXPORT RHIGraphicsPipeline;
 
-class RHICommandBuffer
+
+class RHIEXPORT RHICommandBuffer
 {
 public:
 	using VertexInput = std::pair<RHIBuffer*, std::uint32_t>;

@@ -1,0 +1,32 @@
+#pragma once
+#include <RHIApplication.h>
+#define GLFW_INCLUDE_VULKAN
+#ifdef PROJECT_USE_GLFW
+#include <GLFW/glfw3.h>
+#endif
+
+#include <iostream>
+
+#include "RHI/rhi.h"
+#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
+#include "IWindow.h"
+
+/*
+    spirv-cross.exe --version 460 DrawTriangle_vert.spv --output DrawTriangle_vert.glsl
+    spirv-cross.exe --version 460 DrawTriangle_frag.spv --output DrawTriangle_frag.glsl
+    glslangValidator.exe -V --glsl-version 460 -S vert DrawTriangle_vert.glsl -o DrawTriangle_vert.spv -e main
+    glslangValidator.exe -V --glsl-version 460 -S frag DrawTriangle_frag.glsl -o DrawTriangle_frag.spv -e main
+*/
+
+class RHIApplicationTriangle : public RHIApplication
+{
+public:
+    RHIApplicationTriangle();
+private:
+    virtual void Init();
+    virtual void Draw();
+    void CreateVBO();
+    void CreateSRB();
+    void CreateVertexDescriptioin();
+    void CreateGraphicsPipeline();
+};

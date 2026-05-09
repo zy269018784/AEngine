@@ -1,4 +1,5 @@
 #pragma once
+#include "WindowExport.h"
 #ifdef PROJECT_USE_Xlib
    #include <X11/Xlib.h>
 #include <X11/Xlib-xcb.h>
@@ -8,11 +9,12 @@
     #include <xcb/xcb.h>
 #endif
 
-#ifdef OS_IS_WINDOWS
-    #include <windows.h>
-#endif
+#include <windows.h>
 
-class IWindow
+class IWindow;
+
+
+class WINDOWEXPORT IWindow
 {
 public:
     enum class Framework {
@@ -56,10 +58,10 @@ public:
     virtual Display* GetXlibDisplay() =0;
     virtual Window GetXlibWindow() =0;
 #endif
-#ifdef OS_IS_WINDOWS
+
     virtual HWND GetHWND() =0;
     virtual HINSTANCE GetHINSTANCE() =0;
-#endif
+
 protected:
     IWindow  *Parent;
     int Width;
@@ -67,3 +69,5 @@ protected:
     int X;
     int Y;
 };
+
+WINDOWEXPORT IWindow *CreateGLFWWindow(IWindow::GraphicsAPI API);

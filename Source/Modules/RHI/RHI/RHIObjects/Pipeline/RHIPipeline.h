@@ -1,9 +1,10 @@
 ﻿#pragma once
+#include "RHI/RHIExport.h"
 #include <vector>
 
 class RHIShader;
 class RHIShaderResourceBindings;
-class RHIPipeline
+class RHIEXPORT RHIPipeline
 {
 public:
 	//enum RHIPipelineType

@@ -1,7 +1,8 @@
 ﻿#pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
-class RHITexture
+class RHIEXPORT RHITexture
 {
 public:
 	RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData = nullptr);

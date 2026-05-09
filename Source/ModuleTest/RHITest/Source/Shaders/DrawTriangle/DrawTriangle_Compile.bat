@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert DrawTriangle_vert.glsl -o DrawTriangle_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag DrawTriangle_frag.glsl -o DrawTriangle_frag.spv -e main

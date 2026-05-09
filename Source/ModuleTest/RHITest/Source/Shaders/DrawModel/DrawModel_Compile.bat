@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert DrawModel_vert.glsl -o DrawModel_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag DrawModel_frag.glsl -o DrawModel_frag.spv -e main

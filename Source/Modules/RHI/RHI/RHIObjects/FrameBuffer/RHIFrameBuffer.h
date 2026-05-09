@@ -1,5 +1,6 @@
 #pragma once
-class RHIFrameBuffer
+#include "RHI/RHIExport.h"
+class RHIEXPORT RHIFrameBuffer
 {
 
 };

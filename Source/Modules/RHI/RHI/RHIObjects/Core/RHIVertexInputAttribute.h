@@ -1,6 +1,8 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include <cstdint>
-class RHIVertexInputAttribute
+
+class RHIEXPORT RHIVertexInputAttribute
 {
 public:
 	enum Format

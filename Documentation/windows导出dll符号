@@ -39,4 +39,4 @@ Microsoft (R) C++ Name Undecorator
 Copyright (C) Microsoft Corporation. All rights reserved.
 
 Undecoration of :- "??0RHI@@QEAA@AEBV0@@Z"
-is :- "public: __cdecl RHI::RHI(class RHI const & __ptr64) __ptr64"
+is :- "public: __cdecl RHI::RHI(class RHIEXPORT RHI const & __ptr64) __ptr64"

@@ -1,7 +1,9 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include <array>
 #include <cstdint>
-class RHIScissor
+
+class RHIEXPORT RHIScissor
 {
 public:
 	RHIScissor();

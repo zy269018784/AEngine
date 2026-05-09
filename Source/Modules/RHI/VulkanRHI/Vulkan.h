@@ -2,7 +2,7 @@
 #include "RHI/RHIPlatform.h"
 
 #if RHI_USE_PLATFORM_ANDROID_KHR
-#define VK_USE_PLATFORM_ANDROID_KHR
+	#define VK_USE_PLATFORM_ANDROID_KHR
 #endif
 
 #ifdef RHI_USE_WIN32_KHR
@@ -22,8 +22,8 @@
 #endif
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR
-#define VK_USE_PLATFORM_WAYLAND_KHR
-#define VK_ENABLE_BETA_EXTENSIONS
+	#define VK_USE_PLATFORM_WAYLAND_KHR
+	#define VK_ENABLE_BETA_EXTENSIONS
 #endif
 
 #include <vulkan/vulkan.h>

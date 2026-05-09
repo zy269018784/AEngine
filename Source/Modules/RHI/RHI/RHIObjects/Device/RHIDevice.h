@@ -1,6 +1,7 @@
 #pragma once
+#include "RHI/RHIExport.h"
 
-class RHIDevice
+class RHIEXPORT RHIDevice
 {
 public:
 	RHIDevice();

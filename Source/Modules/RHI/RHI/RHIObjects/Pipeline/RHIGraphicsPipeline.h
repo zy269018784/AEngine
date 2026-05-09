@@ -1,10 +1,11 @@
 ﻿#pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Pipeline/RHIPipeline.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 
 class RHIRenderPass;
-class RHIGraphicsPipeline : public RHIPipeline
+class RHIEXPORT RHIGraphicsPipeline : public RHIPipeline
 {
 public:	
 	RHIGraphicsPipeline();

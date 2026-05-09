@@ -1,6 +1,6 @@
 #pragma once
-
-class RHISampler
+#include "RHI/RHIExport.h"
+class RHIEXPORT RHISampler
 {
 public:
 	virtual ~RHISampler() {};

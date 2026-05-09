@@ -1,4 +1,4 @@
-#include "VulkanImageCreateInfo.h"
+﻿#include "VulkanImageCreateInfo.h"
 #include <iostream>
 
 VkImageCreateInfo VulkanImageCreateInfo::GetHandle() const

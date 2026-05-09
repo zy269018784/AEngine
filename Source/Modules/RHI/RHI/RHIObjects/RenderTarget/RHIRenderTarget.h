@@ -1,10 +1,12 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <vector>
+
 class RHIRenderPass;
 class RHICommandBuffer;
 
-class RHIRenderTarget
+class RHIEXPORT RHIRenderTarget
 {
 public:
     RHIRenderTarget(RHIPixelFormat InPixelFormat);

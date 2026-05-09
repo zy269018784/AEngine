@@ -1,8 +1,9 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
 #include <cstdlib> 
-class RHIShader 
+class RHIEXPORT RHIShader
 {
 public:
 	RHIShader() = delete;

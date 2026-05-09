@@ -1,6 +1,6 @@
 #pragma once
-
-class RHIClearColor
+#include "RHI/RHIExport.h"
+class RHIEXPORT RHIClearColor
 {
 public:
 	RHIClearColor();

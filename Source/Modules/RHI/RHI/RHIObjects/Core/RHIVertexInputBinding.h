@@ -1,7 +1,8 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include <cstdint>
 
-class RHIVertexInputBinding
+class RHIEXPORT RHIVertexInputBinding
 {
 public:
 	enum Classification { PerVertex, PerInstance };

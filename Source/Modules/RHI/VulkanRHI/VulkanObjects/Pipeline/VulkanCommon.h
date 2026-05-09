@@ -1,4 +1,5 @@
 #pragma once
+#if 0
 #include <vulkan/vulkan.h>
 #include <optional>
 #include <vector>
@@ -27,3 +28,4 @@ namespace vk {
 
 }
 
+#endif

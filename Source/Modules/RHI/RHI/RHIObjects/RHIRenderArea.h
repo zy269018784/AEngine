@@ -1,6 +1,7 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include <cstdint>
-class RHIRenderArea
+class RHIEXPORT RHIRenderArea
 {
 public:
 	RHIRenderArea();

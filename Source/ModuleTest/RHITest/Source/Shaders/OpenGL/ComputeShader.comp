@@ -1,0 +1,25 @@
+#version 460 core
+// 工作组数量4x4x1
+// 本地工作组大小8x8x1
+layout (local_size_x = 8,local_size_y = 8,local_size_z = 1) in;
+
+layout (std430, binding = 0) buffer ShaderStorageBlock
+{
+	vec4 Color[32][32];
+} ImageData;
+
+
+void main()
+{
+	vec4 color = vec4(1.f, 0, 0, 0);
+	if (gl_GlobalInvocationID.x < 16) 
+	{
+		color = vec4(0.f, 1.f, 0.f, 0.f);
+		if (gl_GlobalInvocationID.y < 16)
+		{
+			color = vec4(1.f, 1.f, 0.f, 0.f);
+		}
+	} else if (gl_GlobalInvocationID.y < 16)
+		color = vec4(0.f, 0.f, 1.f, 0.f);
+	ImageData.Color[gl_GlobalInvocationID.x][gl_GlobalInvocationID.y] = color;
+};

@@ -1,8 +1,9 @@
 #pragma once
+#include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include <initializer_list>
 #include <vector>
-class RHIShaderResourceBindings
+class RHIEXPORT RHIShaderResourceBindings
 {
 public:
 	RHIShaderResourceBindings();

@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "RHI/RHI.h"
 #include "VulkanRHI/Vulkan.h"
+#include <vector>
 
 class VulkanInstance;
 class VulkanCommandPool;
 class VulkanDevice;
-
 
 class VulkanRHI : public RHI
 {

@@ -1,9 +1,11 @@
 #pragma once
 #include "RHI/RHIObjects/Core/RHIVertexInputBinding.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "RHI/RHIExport.h"
+
 #include <initializer_list>
 #include <vector>
-class RHIVertexInputLayout
+class RHIEXPORT RHIVertexInputLayout
 {
 public:
 	RHIVertexInputLayout();
