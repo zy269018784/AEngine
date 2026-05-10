@@ -22,7 +22,7 @@ message (STATUS "HelloWorld CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_D
 message (STATUS "HelloWorld LIBRARY_PATH                ${LIBRARY_PATH}")
 
 if(NOT TARGET RHI)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/../Modules/RHI ${CMAKE_CURRENT_BINARY_DIR})
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/RHI ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})

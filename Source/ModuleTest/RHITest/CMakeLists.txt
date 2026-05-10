@@ -25,11 +25,11 @@ message (STATUS "RHITest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}
 message (STATUS "RHITest LIBRARY_PATH                ${LIBRARY_PATH}")
 
 if(NOT TARGET RHI)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../Modules/RHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/RHI)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/RHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/RHI)
 endif ()
 
 if(NOT TARGET Window)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../Modules/Window ${CMAKE_CURRENT_BINARY_DIR}/Modules/Window)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/Window ${CMAKE_CURRENT_BINARY_DIR}/Modules/Window)
 endif ()
 
 # 依赖库

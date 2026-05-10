@@ -20,4 +20,4 @@ message (STATUS "ALL_TARGET LIBRARY_PATH 				${LIBRARY_PATH}")
 
 #message (STATUS "ALL_TARGET ALL_TARGET_SOURCE_DIR 	${ALL_TARGET_SOURCE_DIR}")
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/ModuleTest ${CMAKE_CURRENT_BINARY_DIR}/ModuleTest)
+add_subdirectory(${PROJECT_SOURCE_DIR}/Source/ModuleTest ${CMAKE_CURRENT_BINARY_DIR}/ModuleTest)
