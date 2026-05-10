@@ -135,11 +135,15 @@ void Example_RenderTarget()
 	RHIApplicationRenderTarget App;
 	App.Run();
 }
-
+void error_callback(int error, const char* description)
+{
+	std::cerr << "GLFW Error (" << error << "): " << description << std::endl;
+}
 int RHIExample()
 {
 	std::cout << "RHIExample 1" << std::endl;
 	glfwInit();
+	glfwSetErrorCallback(error_callback);
 	std::cout << "RHIExample 2" << std::endl;
 
 #if  PROJECT_USE_SDL3
