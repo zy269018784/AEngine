@@ -1,7 +1,7 @@
 #pragma once
 #include "RHI/RHI.h"
-#include "ES32RHI/ES32.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
+#include "ES32RHI/ES32.h"
 
 class RHIRenderTarget;
 class ES32RHI : public RHI

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "RHI/RHIPlatform.h"
+
 #include "RHI/RHIObjects/Surface/RHISurface.h"
 #include "VulkanRHI/Vulkan.h"
 #include <vector>

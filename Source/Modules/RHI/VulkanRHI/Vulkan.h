@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "RHI/RHIPlatform.h"
-
 #if RHI_USE_PLATFORM_ANDROID_KHR
 	#define VK_USE_PLATFORM_ANDROID_KHR
 #endif
