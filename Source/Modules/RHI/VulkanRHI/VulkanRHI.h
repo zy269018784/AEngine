@@ -2,6 +2,7 @@
 #include "RHI/RHI.h"
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
+#include <cstddef>
 
 class VulkanInstance;
 class VulkanCommandPool;
