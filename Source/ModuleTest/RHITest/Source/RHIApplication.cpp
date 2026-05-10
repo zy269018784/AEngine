@@ -42,7 +42,11 @@ RHIApplication::RHIApplication()
     else if (2 == RHIIndex)
     {
         std::cout << "new GLFWWindow 111" << std::endl;
+#if OS_IS_WINDOWS
+        GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+#else
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES31);
+#endif
         std::cout << "new GLFWWindow 222" << std::endl;
         tmpWin->MakeContextCurrent();
 
