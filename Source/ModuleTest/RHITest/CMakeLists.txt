@@ -37,10 +37,17 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
 list (APPEND LIBRARYS		glfw3)
 
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
+
+#list (APPEND INCLUDE_PATH ${CMAKE_SOURCE_DIR}/../Modules)
+#list (APPEND INCLUDE_PATH ${CMAKE_SOURCE_DIR}/../Modules/RHI)
+
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
-target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI Window)
+target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI Window-Static)
+#target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} Window-Static)
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)

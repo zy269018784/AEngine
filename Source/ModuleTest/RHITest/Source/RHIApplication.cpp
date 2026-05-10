@@ -27,13 +27,11 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    std::cout << "RHIApplication 1" << std::endl;
     RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
         //glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
-
         pApp = this;
         pRHI = CreateVulkanRHI();
     }
@@ -77,15 +75,17 @@ RHIApplication::RHIApplication()
 #endif
 
 #if OS_IS_WINDOWS
-    std::cout << "RHIApplication 2" << std::endl;
    // HWND hwnd = Window->GetHWND();
     //HINSTANCE instacne = Window->GetHINSTANCE();
-    auto GLFWHandle = ((GLFWWindow *)Window)->GetHandle();
+    auto GLFWHandle = (dynamic_cast<GLFWWindow *>(Window))->GetHandle();
+    std::cout << "RHIApplication 3 " << glfwGetWin32Window << " GLFWHandle " << GLFWHandle << std::endl;
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
+    std::cout << "RHIApplication pRHI " << pRHI << " " << std::endl;
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
+    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
 #endif
-    std::cout << "RHIApplication 3" << std::endl;
 //#endif
 
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);

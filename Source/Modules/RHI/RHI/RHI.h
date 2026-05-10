@@ -3,6 +3,7 @@
 #include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
+#include <windows.h>
 
 class RHIBuffer;
 class RHIShader;
@@ -15,14 +16,8 @@ class RHIGraphicsPipeline;
 class RHIRenderTarget;
 class RHIRenderPass;
 class RHIShaderResourceBindings;
-class RHI;
 
-RHIEXPORT RHI *CreateVulkanRHI();
-RHIEXPORT RHI *CreateES32RHI();
-RHIEXPORT RHI *CreateD3D12RHI();
-RHIEXPORT RHI *CreateD3D11RHI();
-RHIEXPORT RHI *CreateD3D10RHI();
-RHIEXPORT RHI *CreateD3D9RHI();
+
 class RHIEXPORT RHI
 {
 
@@ -207,6 +202,13 @@ public:
 protected:
 	std::uint32_t							GPUIndex = 0;
 };
+
+RHIEXPORT RHI *CreateVulkanRHI();
+RHIEXPORT RHI *CreateES32RHI();
+RHIEXPORT RHI *CreateD3D12RHI();
+RHIEXPORT RHI *CreateD3D11RHI();
+RHIEXPORT RHI *CreateD3D10RHI();
+RHIEXPORT RHI *CreateD3D9RHI();
 
 /*
 	RHI能力:

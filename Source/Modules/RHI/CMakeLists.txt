@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 project (RHI)
 #set (LIBRARY_PATH C:/Projects/Library)
 set (SRC_LIST "")
-set (USE_VULKAN_RHI true)
+
+set (USE_VULKAN_RHI ${USE_VULKAN})
+MESSAGE(STATUS "USE_VULKAN_RHI ${USE_VULKAN_RHI}")
 
 
 
@@ -78,10 +80,10 @@ target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
 
-#add_library(${PROJECT_NAME}-Static	 ${SRC_LIST})
-#target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
-#target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
-#target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
+add_library(${PROJECT_NAME}-Static	 ${SRC_LIST})
+target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
+target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
+target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
 
 target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_WIN32_KHR=0)
 target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_PLATFORM_WAYLAND_KHR=0)
@@ -126,3 +128,4 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
 endif ()
 # 屏蔽windows的max宏, std::numeric_limits<uint32_t>::max()
 target_compile_definitions(${PROJECT_NAME} PUBLIC NOMINMAX)
+target_compile_definitions(${PROJECT_NAME}-Static PUBLIC NOMINMAX)

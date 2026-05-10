@@ -111,6 +111,13 @@ endif ()
 
 list (APPEND SRC_LIST ${SRC_LIST_RHI})
 
+if (USE_VULKAN)
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/Vulkan/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/Vulkan/lib)
+    list (APPEND LIBRARYS		vulkan)
+endif ()
+
+
 add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
 
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
@@ -123,6 +130,6 @@ target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
 
 
-
+target_compile_definitions (${PROJECT_NAME} PUBLIC WINDOWS_USE_VULKAN=${USE_VULKAN})
 
 

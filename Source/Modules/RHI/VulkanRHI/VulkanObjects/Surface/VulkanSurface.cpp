@@ -23,10 +23,13 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd)
     : Instance(InInstance)
 {
+    std::cout << "VulkanSurface::VulkanSurface " << std::endl;
     VkWin32SurfaceCreateInfoKHR CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
     CreateInfo.hwnd = Hwnd;
     CreateInfo.hinstance = Hinstance;
+    if (!VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR)
+        std::cout << "vkCreateWin32SurfaceKHR is null" << std::endl;
     VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
 }
 #endif

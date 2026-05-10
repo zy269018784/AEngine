@@ -6,7 +6,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#if  PROJECT_USE_STB
+#if  1
 #include <stb_image.h>
 #endif
 /*
@@ -96,13 +96,13 @@ void RHIApplicationTexture2D::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#if  PROJECT_USE_STB
+#if  1
     /*
         STBI_rgb_alpha统一转成4通道
     */
     //stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* pixels = stbi_load("textures/asuka.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    VkDeviceSize imageSize = texWidth * texHeight * 4;
+    auto imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
         << "texHeight  " << texHeight  << " "

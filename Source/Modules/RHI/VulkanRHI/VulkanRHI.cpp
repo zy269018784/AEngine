@@ -46,14 +46,13 @@ void VulkanRHI::RHIUseGPU(std::uint32_t InGPUIndex)
 #if RHI_USE_WIN32_KHR
 RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
+	std::cout << "VulkanRHI::RHICreateSurface " << std::endl;
 	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
+	std::cout << "VulkanRHI::RHICreateSurface " << Surface->GetHandle()  << std::endl;
 	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
 	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
-
-
 	return Surface;
 }
-
 #endif
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR

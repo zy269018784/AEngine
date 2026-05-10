@@ -1,11 +1,12 @@
 #include "GLFWWindow.h"
+
+#include <iostream>
+
 #if  PROJECT_USE_XCB
     #include <xcb/xcb.h>
     #include <X11/Xlib-xcb.h>
     #include <X11/Xutil.h>
 #endif
-
-#define GLFW_INCLUDE_VULKAN
 
 GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
@@ -55,10 +56,8 @@ GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
         default:
             break;
     }
-    //glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
     glfwMakeContextCurrent(Handle);
-
 }
 
 GLFWWindow::~GLFWWindow()
@@ -67,7 +66,7 @@ GLFWWindow::~GLFWWindow()
 }
 
 
-GLFWwindow* GLFWWindow::GetHandle()
+::GLFWwindow* GLFWWindow::GetHandle()
 {
     return Handle;
 }

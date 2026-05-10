@@ -5,9 +5,13 @@
     #define GLFW_EXPOSE_NATIVE_X11
 #endif
 
+
 #include <windows.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
+#if WINDOWS_USE_VULKAN
+    #define GLFW_INCLUDE_VULKAN
+#endif
 #include <GLFW/glfw3.h>
+#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
 #if OS_IS_WINDOWS
@@ -28,7 +32,7 @@ public:
     GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent = nullptr);
     ~GLFWWindow();
 
-    GLFWwindow* GetHandle();
+    ::GLFWwindow* GetHandle();
     void MakeContextCurrent(void);
 
     virtual void Run() override final;
@@ -55,6 +59,6 @@ public:
 //#endif
 
 private:
-    GLFWwindow* Handle;
+    ::GLFWwindow* Handle;
 };
 
