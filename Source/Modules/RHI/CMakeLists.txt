@@ -78,6 +78,12 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     #list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/D3D9RHI)
 endif ()
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    list(APPEND LIBRARYS X11 X11-xcb)
+    list(APPEND LIBRARYS xcb)
+    list(APPEND LIBRARYS wayland-client wayland-cursor  wayland-egl)
+#endif
+
 if (USE_VULKAN_RHI)
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
     #list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/VulkanRHI)
