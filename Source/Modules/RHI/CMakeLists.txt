@@ -82,7 +82,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     list(APPEND LIBRARYS X11 X11-xcb)
     list(APPEND LIBRARYS xcb)
     list(APPEND LIBRARYS wayland-client wayland-cursor  wayland-egl)
-#endif
+endif
 
 if (USE_VULKAN_RHI)
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
