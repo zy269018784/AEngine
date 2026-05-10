@@ -63,13 +63,11 @@ RHIApplication::RHIApplication()
         std::cerr << "Failed to get XCB connection/window" << std::endl;
         return;
     }
-    RHIWindow_ = pRHI->RHICreateWindow(connection, xcb_window);
     Surface = pRHI->RHICreateSurface(connection, xcb_window);
     std::cout << "glfwGetX11Window" << std::endl;
 #else
     Display *Disp = Window->GetXlibDisplay();
     ::Window Win = Window->GetXlibWindow();
-    RHIWindow_ = pRHI->RHICreateWindow(Disp, Win);
     Surface = pRHI->RHICreateSurface(Disp, Win);
 #endif
 #endif
