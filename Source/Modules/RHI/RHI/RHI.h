@@ -48,19 +48,19 @@ public:
 		Wayland
 	*/
 #if RHI_USE_PLATFORM_WAYLAND_KHR
-	virtual RHISurface* RHICreateWindow(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
+	virtual RHISurface* RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*
 		XCB
 	*/
 #if RHI_USE_XCB_KHR
-	virtual RHISurface* RHICreateWindow(xcb_connection_t* Connection, xcb_window_t Window) = 0;
+	virtual RHISurface* RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window) = 0;
 #endif
 	/*
 		Xlib
 	*/
 #if RHI_USE_Xlib_KHR
-	virtual RHISurface* RHICreateWindow(Display* Disp, Window Win) = 0;
+	virtual RHISurface* RHICreateSurface(Display* Disp, Window Win) = 0;
 #endif
 
 	/*
