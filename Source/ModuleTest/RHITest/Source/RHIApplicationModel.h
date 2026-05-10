@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include "RHI/RHI.h"
-#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 
 
 /*

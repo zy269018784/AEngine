@@ -5,9 +5,9 @@
 #endif
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "Rhi/RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 #include "GLFWWindow/GLFWWindow.h"
 static float VertexAttributes2[] = {
     // pos               uv

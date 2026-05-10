@@ -1,16 +1,5 @@
 #pragma once
 #include <RHIApplication.h>
-#if  PROJECT_USE_VULKAN
-#define GLFW_INCLUDE_VULKAN
-#endif
-#if  PROJECT_USE_GLFW
-#include <GLFW/glfw3.h>
-#endif
-#include <iostream>
-
-#include "RHI/RHI.h"
-#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
-
 
 /*
     spirv-cross.exe --version 460 DrawTriangle_vert.spv --output DrawTriangle_vert.glsl

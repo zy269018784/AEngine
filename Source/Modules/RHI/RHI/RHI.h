@@ -202,14 +202,7 @@ public:
 protected:
 	std::uint32_t							GPUIndex = 0;
 };
-
-RHIEXPORT RHI *CreateVulkanRHI();
-RHIEXPORT RHI *CreateES32RHI();
-RHIEXPORT RHI *CreateD3D12RHI();
-RHIEXPORT RHI *CreateD3D11RHI();
-RHIEXPORT RHI *CreateD3D10RHI();
-RHIEXPORT RHI *CreateD3D9RHI();
-
+RHIEXPORT RHI *CreateRHI(GraphicsAPI API);
 /*
 	RHI能力:
 		管线:

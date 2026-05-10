@@ -9,7 +9,7 @@
     #include <glm/gtc/type_ptr.hpp>
 #endif
 
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 
 /*
     VBO1三角形: 红色和黄色

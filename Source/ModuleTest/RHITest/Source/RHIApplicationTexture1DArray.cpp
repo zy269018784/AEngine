@@ -7,8 +7,8 @@
 //#include "OpenGLObjects/Texture/OpenGLTexture.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色

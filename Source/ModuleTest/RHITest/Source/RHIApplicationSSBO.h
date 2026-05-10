@@ -1,15 +1,6 @@
 #pragma once
 #include <RHIApplication.h>
-#define GLFW_INCLUDE_VULKAN
-#if  PROJECT_USE_GLFW
-#include <GLFW/glfw3.h>
-#endif
-
-#include <iostream>
-
 #include "RHI/RHI.h"
-#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
-
 
 /*
     spirv-cross.exe --version 460 SSBO_vert.spv --output SSBO_vert.glsl

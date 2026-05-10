@@ -1,7 +1,5 @@
 #include "RHIApplicationTriangle.h"
 #include "RHIApplicationTriangleIndexed.h"
-#include "RHIApplicationModel.h"
-#include "RHIApplicationScene.h"
 #include "RHIApplicationDepthTest.h"
 #include "RHIApplicationUBO.h"
 #include "RHIApplicationSSBO.h"
@@ -14,13 +12,10 @@
 #include "RHIApplicationTextureCubeMapArray.h"
 #include "RHIApplicationSamplerObject.h"
 #include "RHIApplicationGeometryShader.h"
-#include "RHIApplicationPlayer.h"
 #include "RHIApplicationRenderTarget.h"
 #include "RHIApplicationTextureRenderTarget.h"
-#include "SDLWindow/SDL3Window.h"
 #include "GLFWWindow/GLFWWindow.h"
-#include "X11Window/X11Window.h"
-#include "Vulkan/Common.h"
+
 void Example_Model()
 {
 	//RHIApplicationModel App;

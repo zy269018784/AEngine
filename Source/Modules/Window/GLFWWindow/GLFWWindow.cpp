@@ -118,7 +118,7 @@ void GLFWWindow::SetPosition(int X, int Y)
     glfwSetWindowPos(Handle, this->X, this->Y);
 }
 
-
+#if OS_IS_WINDOWS
 HWND GLFWWindow::GetHWND()
 {
     return glfwGetWin32Window(Handle);
@@ -132,14 +132,10 @@ HINSTANCE GLFWWindow::GetHINSTANCE()
     HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
     return instacne;
-
-
 }
+#endif
 
-
-#if  PROJECT_USE_GLFW
-
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
 xcb_connection_t *GLFWWindow::GetXCBConnection()
 {
     Display* Display = glfwGetX11Display();
@@ -150,9 +146,7 @@ xcb_window_t GLFWWindow::GetXCBWindow()
 {
     return glfwGetX11Window(Handle);
 }
-#endif
 
-#if  PROJECT_USE_Xlib
 Display* GLFWWindow::GetXlibDisplay()
 {
     return glfwGetX11Display();
@@ -162,7 +156,5 @@ Window GLFWWindow::GetXlibWindow()
 {
     return glfwGetX11Window(Handle);
 }
-
-#endif
 
 #endif

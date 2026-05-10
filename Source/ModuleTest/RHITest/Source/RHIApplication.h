@@ -10,8 +10,8 @@
 #include <GLFW/glfw3.h>
 #endif
 
-#include "Rhi/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
-#include "Rhi/RHIObjects/CommandBuffer//RHICommandBuffer.h"
+#include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
+#include "RHI/RHIObjects/CommandBuffer//RHICommandBuffer.h"
 
 #if  PROJECT_USE_D3D12
 #include "D3D12RHI.h"

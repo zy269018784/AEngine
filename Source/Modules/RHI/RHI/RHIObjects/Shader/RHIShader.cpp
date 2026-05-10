@@ -1,6 +1,4 @@
 #include "RHI/RHIObjects/Shader/RHIShader.h"
-#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
-
 
 RHIShader::RHIShader(RHIShaderType InType, std::uint32_t* InCode, size_t InSize)
 	: Type(InType), Code(InCode), Size(InSize)

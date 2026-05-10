@@ -23,6 +23,8 @@ message (STATUS "Window PROJECT_SOURCE_DIR          ${PROJECT_SOURCE_DIR}")
 message (STATUS "Window CMAKE_CURRENT_SOURCE_DIR 	${CMAKE_CURRENT_SOURCE_DIR}")
 message (STATUS "Window CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}")
 message (STATUS "Window LIBRARY_PATH                ${LIBRARY_PATH}")
+message (STATUS "Window USE_VULKAN                  ${USE_VULKAN}")
+message (STATUS "Window OS_IS_WINDOWS                  ${OS_IS_WINDOWS}")
 
 # 清空SRC_LIST
 set (SRC_LIST "")
@@ -129,7 +131,30 @@ target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
 
-
+# vulkan开关宏定义
 target_compile_definitions (${PROJECT_NAME} PUBLIC WINDOWS_USE_VULKAN=${USE_VULKAN})
+# OS宏定义
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
+    target_compile_definitions (${PROJECT_NAME}-Static PUBLIC OS_IS_WINDOWS=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_LINUX=1)
+    target_compile_definitions (${PROJECT_NAME}-Static PUBLIC OS_IS_LINUX=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_ANDROIS=1)
+    target_compile_definitions (${PROJECT_NAME}-Static PUBLIC OS_IS_ANDROIS=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "iOS")
 
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
+elseif (CMAKE_SYSTEM_NAME STREQUAL "QNX")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Fuchsia")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "GGP")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
+
+endif ()

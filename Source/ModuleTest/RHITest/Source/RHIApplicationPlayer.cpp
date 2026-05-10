@@ -2,10 +2,10 @@
 #include "RHIApplicationPlayer.h"
 #include "Vulkan/Common.h"
 #include "Model/Model.h"
-#include "Rhi/RHIObjects/Resource/RHISampler.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "Rhi/RHIObjects/Texture/RHITexture.h"
+#include "RHI/RHIObjects/Resource/RHISampler.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Texture/RHITexture.h"
 
 #if  PROJECT_USE_STB_1
     #include <stb_image.h>

@@ -3,10 +3,22 @@ project (RHI)
 #set (LIBRARY_PATH C:/Projects/Library)
 set (SRC_LIST "")
 
+set (USE_ES32_RHI   true)
 set (USE_VULKAN_RHI ${USE_VULKAN})
-MESSAGE(STATUS "USE_VULKAN_RHI ${USE_VULKAN_RHI}")
-
-
+set (USE_D3D12_RHI  true)
+set (USE_D3D11_RHI  true)
+set (USE_D3D10_RHI  true)
+set (USE_D3D9_RHI   true)
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set (USE_D3D12_RHI  false)
+    set (USE_D3D11_RHI  false)
+    set (USE_D3D10_RHI  false)
+    set (USE_D3D9_RHI   false)
+endif ()
+set (USE_D3D12_RHI  false)
+set (USE_D3D11_RHI  false)
+set (USE_D3D10_RHI  false)
+set (USE_D3D9_RHI   false)
 
 file(GLOB_RECURSE SRC_LIST_RHI              ${PROJECT_SOURCE_DIR}/RHI/*.cpp
                                             ${PROJECT_SOURCE_DIR}/RHI/*.c
@@ -84,6 +96,13 @@ add_library(${PROJECT_NAME}-Static	 ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}-Static	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
+
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_VULKAN_RHI=${USE_VULKAN_RHI})
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_ES32_RHI=${USE_ES32_RHI})
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_D3D12_RHI=${USE_D3D12_RHI})
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_D3D11_RHI=${USE_D3D11_RHI})
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_D3D10_RHI=${USE_D3D10_RHI})
+target_compile_definitions (${PROJECT_NAME} PUBLIC USE_D3D9_RHI=${USE_D3D9_RHI})
 
 target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_WIN32_KHR=0)
 target_compile_definitions (${PROJECT_NAME} PUBLIC RHI_USE_PLATFORM_WAYLAND_KHR=0)

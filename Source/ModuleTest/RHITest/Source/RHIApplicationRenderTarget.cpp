@@ -1,8 +1,8 @@
 ﻿#include "RHIApplicationRenderTarget.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Vulkan/Common.h"
 #if  PROJECT_USE_STB
 #include <stb_image.h>

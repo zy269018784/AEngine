@@ -26,6 +26,20 @@ typedef struct RHIEXPORT RHIBufferCopy {
 
 
 /*
+	图像API
+*/
+enum class RHIEXPORT GraphicsAPI : uint8_t{
+	Vulkan,
+	ES32,
+	D3D12,
+	D3D11,
+	D3D10,
+	D3D9,
+	Metal
+};
+
+
+/*
 	索引类型
 */
 enum class RHIEXPORT RHIIndexFormat {

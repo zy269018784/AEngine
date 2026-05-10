@@ -1,36 +1,68 @@
 #include "RHI/RHI.h"
-#include "VulkanRHI/VulkanRHI.h"
-#include "ES32RHI/ES32RHI.h"
-#include "D3D9RHI/D3D9RHI.h"
-#include "D3D10RHI/D3D10RHI.h"
-#include "D3D11RHI/D3D11RHI.h"
-#include "D3D12RHI/D3D12RHI.h"
 
+#if USE_VULKAN_RHI
+    #include "VulkanRHI/VulkanRHI.h"
+#endif
+#if USE_ES32_RHI
+    #include "ES32RHI/ES32RHI.h"
+#endif
+#if USE_D3D9_RHI
+    #include "D3D9RHI/D3D9RHI.h"
+#endif
+#if USE_D3D10_RHI
+    #include "D3D10RHI/D3D10RHI.h"
+#endif
+#if USE_D3D11_RHI
+    #include "D3D11RHI/D3D11RHI.h"
+#endif
+#if USE_D3D12_RHI
+    #include "D3D12RHI/D3D12RHI.h"
+#endif
 
-RHI *CreateVulkanRHI()
-{
-    return new VulkanRHI();
-}
+RHI *CreateRHI(GraphicsAPI API) {
+    RHI *pRHI = nullptr;
 
-RHI *CreateES32RHI()
-{
-    return new ES32RHI();
-}
-RHI *CreateD3D12RHI()
-{
-    return new D3D12RHI();
-}
-RHI *CreateD3D11RHI()
-{return nullptr;
-    //return new D3D11RHI();
-}
-RHI *CreateD3D10RHI()
-{return nullptr;
-    //return new D3D10RHI();
-}
-RHI *CreateD3D9RHI()
-{
-    return nullptr;
-    //return new D3D9RHI();
-}
+#if USE_VULKAN_RHI
+    if (GraphicsAPI::Vulkan == API)
+    {
+        pRHI = new VulkanRHI();
+    }
+#endif
 
+#if USE_ES32_RHI
+    if (GraphicsAPI::ES32 == API)
+    {
+        pRHI = new ES32RHI();
+    }
+#endif
+
+#if USE_D3D12_RHI
+    if (GraphicsAPI::D3D12 == API)
+    {
+        pRHI = new D3D12RHI();
+    }
+#endif
+
+#if USE_D3D11_RHI
+    if (GraphicsAPI::D3D11 == API)
+    {
+        pRHI = new D3D11RHI();
+    }
+#endif
+
+#if USE_D3D10_RHI
+    if (GraphicsAPI::D3D10 == API)
+    {
+        pRHI = new D3D10RHI();
+    }
+#endif
+
+#if USE_D3D9_RHI
+    if (GraphicsAPI::D3D9 == API)
+    {
+        pRHI = new D3D9RHI();
+    }
+#endif
+
+    return pRHI;
+}

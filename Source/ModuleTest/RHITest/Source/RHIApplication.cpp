@@ -1,9 +1,9 @@
 ﻿#include <RHIApplication.h>
 
-#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
-#include "Rhi/RHIObjects/Shader/RHIShader.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "Rhi/RHIObjects/Surface/RHISurface.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Surface/RHISurface.h"
 
 #if  PROJECT_USE_XCB
 #include <xcb/xcb.h>
@@ -33,11 +33,11 @@ RHIApplication::RHIApplication()
         Window = CreateGLFWWindow(IWindow::Vulkan);
         //glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
         pApp = this;
-        pRHI = CreateVulkanRHI();
+        pRHI = CreateRHI(GraphicsAPI::Vulkan);
     }
     else if (1 == RHIIndex)
     {
-        pRHI = CreateD3D12RHI();
+        pRHI = CreateRHI(GraphicsAPI::D3D12);
     }
     else if (2 == RHIIndex)
     {
@@ -50,7 +50,7 @@ RHIApplication::RHIApplication()
         */
        // glfwMakeContextCurrent(InWindow);
         //pRHI = new ES32RHI();
-        pRHI = CreateES32RHI();
+        pRHI = CreateRHI(GraphicsAPI::ES32);
     }
     pRHI->RHIUseGPU(0);
 
@@ -75,7 +75,7 @@ RHIApplication::RHIApplication()
 #endif
 
 #if OS_IS_WINDOWS
-   // HWND hwnd = Window->GetHWND();
+    // HWND hwnd = Window->GetHWND();
     //HINSTANCE instacne = Window->GetHINSTANCE();
     auto GLFWHandle = (dynamic_cast<GLFWWindow *>(Window))->GetHandle();
     std::cout << "RHIApplication 3 " << glfwGetWin32Window << " GLFWHandle " << GLFWHandle << std::endl;

@@ -1,5 +1,5 @@
 #pragma once
-#include "../IWindow.h"
+#include "IWindow.h"
 #if  PROJECT_USE_FTLK
     #include <FL/Fl.H>
     #include <FL/Fl_Window.H>

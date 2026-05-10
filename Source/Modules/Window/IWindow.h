@@ -1,15 +1,17 @@
 #pragma once
 #include "WindowExport.h"
-#if  PROJECT_USE_Xlib
-   #include <X11/Xlib.h>
-#include <X11/Xlib-xcb.h>
-#endif
 
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
+    // x11
+    #include <X11/Xlib.h>
+    #include <X11/Xlib-xcb.h>
+    // xcb
     #include <xcb/xcb.h>
 #endif
 
-#include <windows.h>
+#if OS_IS_WINDOWS
+    #include <windows.h>
+#endif
 
 class WINDOWEXPORT IWindow
 {
@@ -47,18 +49,16 @@ public:
     virtual void SetWidth(int arg) =0;
     virtual void SetHeight(int arg) =0;
     virtual void SetPosition(int X, int Y) =0;
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
     virtual xcb_connection_t *GetXCBConnection() =0;
     virtual xcb_window_t GetXCBWindow() =0;
-#endif
-#if  PROJECT_USE_Xlib
     virtual Display* GetXlibDisplay() =0;
     virtual Window GetXlibWindow() =0;
 #endif
-
+#if OS_IS_WINDOWS
     virtual HWND GetHWND() =0;
     virtual HINSTANCE GetHINSTANCE() =0;
-
+#endif
 protected:
     IWindow  *Parent;
     int Width;

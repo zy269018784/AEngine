@@ -1,13 +1,7 @@
 #pragma once
 #include <RHIApplication.h>
-#define GLFW_INCLUDE_VULKAN
-#if  PROJECT_USE_GLFW
-#include <GLFW/glfw3.h>
-#endif
-#include <iostream>
-
 #include <RHI/RHI.h>
-#include "Rhi/RHIObjects/Resource/RHIBuffer.h"
+#include "RHI/RHIObjects/Resource/RHIBuffer.h"
 
 
 /*

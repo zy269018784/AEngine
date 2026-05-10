@@ -1,7 +1,6 @@
 ﻿#include "RHIApplicationTextureCubeMapArray.h"
-
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBinding.h"
-#include "Rhi/RHIObjects/Shader/RHIShaderResourceBindings.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
+#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
