@@ -67,5 +67,5 @@ protected:
     int Y;
 };
 
-//WINDOWEXPORT IWindow *CreateGLFWWindow(IWindow::GraphicsAPI API);
-__declspec(dllexport) IWindow *CreateGLFWWindow(IWindow::GraphicsAPI API);
+WINDOWEXPORT IWindow *CreateGLFWWindow(IWindow::GraphicsAPI API);
+//__declspec(dllexport) IWindow *CreateGLFWWindow(IWindow::GraphicsAPI API);
