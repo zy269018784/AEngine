@@ -45,7 +45,7 @@ RHIApplication::RHIApplication()
 #if OS_IS_WINDOWS
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
 #else
-        GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES31);
+        GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES20);
 #endif
         std::cout << "new GLFWWindow 222" << std::endl;
         tmpWin->MakeContextCurrent();
