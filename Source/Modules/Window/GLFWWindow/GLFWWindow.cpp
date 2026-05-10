@@ -8,7 +8,7 @@
     #include <X11/Xutil.h>
 #endif
 
-GLFWWindow::GLFWWindow(GraphicsAPI API, IWindow *Parent)
+GLFWWindow::GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
     switch (API)
