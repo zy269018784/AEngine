@@ -2,7 +2,7 @@
 #include <RHIApplication.h>
 #include <iostream>
 
-#include "RHI/rhi.h"
+#include "RHI/RHI.h"
 #include "RHI/RHIObjects/Resource/RHIBuffer.h"
 #include "IWindow.h"
 

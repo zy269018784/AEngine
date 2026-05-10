@@ -1,6 +1,6 @@
 #pragma once
 #include <RHIApplication.h>
-#include "RHI/rhi.h"
+#include "RHI/RHI.h"
 #include "RHI/RHIObjects/Shader/RHIShader.h"
 
 
