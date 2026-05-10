@@ -3,8 +3,9 @@
 #include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
-#include <windows.h>
-
+#if OIS_IS_WINDOWS
+	#include <windows.h>
+#endif
 class RHIBuffer;
 class RHIShader;
 class RHICommandBuffer;
