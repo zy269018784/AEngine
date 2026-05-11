@@ -48,7 +48,13 @@ RHIApplication::RHIApplication()
     }
     else if (2 == RHIIndex)
     {
+#if OS_IS_WINDOWS
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+#elif
+#if OS_IS_LINUX
+        GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES21);
+#elif
+
 #if  PROJECT_USE_GLFW
         tmpWin->MakeContextCurrent();
 #endif
