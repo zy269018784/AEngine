@@ -46,21 +46,21 @@ RHI *CreateRHI(GraphicsAPI API) {
 #if USE_D3D11_RHI
     if (GraphicsAPI::D3D11 == API)
     {
-        pRHI = new D3D11RHI();
+       // pRHI = new D3D11RHI();
     }
 #endif
 
 #if USE_D3D10_RHI
     if (GraphicsAPI::D3D10 == API)
     {
-        pRHI = new D3D10RHI();
+        //pRHI = new D3D10RHI();
     }
 #endif
 
 #if USE_D3D9_RHI
     if (GraphicsAPI::D3D9 == API)
     {
-        pRHI = new D3D9RHI();
+        //pRHI = new D3D9RHI();
     }
 #endif
 

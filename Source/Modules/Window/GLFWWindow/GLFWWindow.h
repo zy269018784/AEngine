@@ -5,7 +5,7 @@
     #define GLFW_INCLUDE_VULKAN
 #endif
 
-#include <GLFW/glfw3.h>
+#include <glfw/glfw3.h>
 
 #if OS_IS_WINDOWS
     #define GLFW_EXPOSE_NATIVE_WIN32
@@ -13,7 +13,7 @@
 #if OS_IS_LINUX
     #define GLFW_EXPOSE_NATIVE_X11
 #endif
-#include <GLFW/glfw3native.h>
+#include <glfw/glfw3native.h>
 
 
 
