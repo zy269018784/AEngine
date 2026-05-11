@@ -50,10 +50,10 @@ RHIApplication::RHIApplication()
     {
 #if OS_IS_WINDOWS
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
-#elif
+#endif
 #if OS_IS_LINUX
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES21);
-#elif
+#endif
 
 #if  PROJECT_USE_GLFW
         tmpWin->MakeContextCurrent();
