@@ -29,6 +29,7 @@ public:
         OpenGL33,
         OpenGL46,
         ES20,
+        ES21,
         ES31,
         ES32,
         Vulkan,

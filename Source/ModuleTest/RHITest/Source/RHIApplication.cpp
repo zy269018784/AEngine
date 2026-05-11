@@ -1,5 +1,6 @@
 ﻿#include <RHIApplication.h>
 
+#include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include "RHI/RHIObjects/Resource/RHIBuffer.h"
 #include "RHI/RHIObjects/Shader/RHIShader.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"

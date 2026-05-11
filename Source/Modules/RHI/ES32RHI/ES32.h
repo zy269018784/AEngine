@@ -85,51 +85,51 @@
 /*
 *	Chapter. Pipeline
 *	1. API Table
-* 												OpenGL							OpenGL ES
-*		glCreateShader							2.0								2.0
-*		glShaderSource							2.0								2.0
-*		glCompileShader							2.0								2.0
-*		glReleaseShaderCompiler					2.0								2.0
-*		glDeleteShader							2.0								2.0
-*		glIsShader								2.0								2.0
-*		glShaderBinary							2.0								2.0
-*		glSpecializeShader						4.6 							Not Support
-*		glCreateProgram							2.0								2.0
-*		glDeleteProgram							2.0								2.0
-*		glAttachShader							2.0								2.0
-*		glDetachShader							2.0								2.0
-*		glLinkProgram							2.0								2.0
-*		glUseProgram							2.0								2.0
-*		glIsProgram								2.0								2.0
-*		glCreateShaderProgramv					4.1 							Not Support
-*		glProgramParameteri						4.0								3.1
-*		glGenProgramPipelines					4.1								3.1
-*		glDeleteProgramPipelines				4.1								3.1
-*		glCreateProgramPipelines				4.5								Not Support
-*		glBindProgramPipeline					4.1								3.1
-*		glUseProgramStages						4.1								3.1
-*		glIsProgramPipeline						4.1								3.1
-*		glActiveShaderProgram					4.1								3.1
-*		glGetProgramBinary						4.1								3.0
-*		glProgramBinary							4.1								3.0
-*		glGetShaderiv							2.0								2.0
-*		glGetProgramiv							2.0								2.0
-*		glGetProgramPipelineiv					4.1								3.1
-*		glGetAttachedShaders					2.0								2.0
-*		glGetShaderInfoLog						2.0								2.0
-*		glGetProgramInfoLog						2.0								2.0
+* 												                    OpenGL							OpenGL ES
+*		glCreateShader							          2.0								2.0
+*		glShaderSource							          2.0								2.0
+*		glCompileShader							         2.0								2.0
+*		glReleaseShaderCompiler					   2.0								2.0
+*		glDeleteShader							          2.0								2.0
+*		glIsShader								             2.0								2.0
+*		glShaderBinary							          2.0								2.0
+*		glSpecializeShader						       4.6 							Not Support
+*		glCreateProgram							         2.0								2.0
+*		glDeleteProgram							         2.0								2.0
+*		glAttachShader							          2.0								2.0
+*		glDetachShader							          2.0								2.0
+*		glLinkProgram							           2.0								2.0
+*		glUseProgram							            2.0								2.0
+*		glIsProgram								            2.0								2.0
+*		glCreateShaderProgramv					    4.1 							Not Support
+*		glProgramParameteri						      4.0								3.1
+*		glGenProgramPipelines					     4.1								3.1
+*		glDeleteProgramPipelines				   4.1								3.1
+*		glCreateProgramPipelines				   4.5								Not Support
+*		glBindProgramPipeline					     4.1								3.1
+*		glUseProgramStages						       4.1								3.1
+*		glIsProgramPipeline						      4.1								3.1
+*		glActiveShaderProgram					     4.1								3.1
+*		glGetProgramBinary						       4.1								3.0
+*		glProgramBinary							         4.1								3.0
+*		glGetShaderiv							           2.0								2.0
+*		glGetProgramiv							          2.0								2.0
+*		glGetProgramPipelineiv					    4.1								3.1
+*		glGetAttachedShaders					      2.0								2.0
+*		glGetShaderInfoLog						       2.0								2.0
+*		glGetProgramInfoLog						      2.0								2.0
 *		glGetProgramPipelineInfoLog				4.1								3.1
-*		glGetShaderSource						2.0								2.0
-*		glGetShaderPrecisionFormat				4.1								2.0
-*		glGetUniformfv							2.0								2.0
-*		glGetUniformdv							2.0								Not Support
-*		glGetUniformiv							2.0								2.0
-*		glGetUniformuiv							3.0								3.0
-*		glGetnUniformfv							4.5								Not Support
-*		glGetnUniformdv							4.5								Not Support
-*		glGetnUniformiv							4.5								Not Support
-*		glGetnUniformuiv						4.5								Not Support
-*		glShaderBinary							4.1								2.0
+*		glGetShaderSource						        2.0								2.0
+*		glGetShaderPrecisionFormat			 	4.1								2.0
+*		glGetUniformfv							          2.0								2.0
+*		glGetUniformdv							          2.0								Not Support
+*		glGetUniformiv							          2.0								2.0
+*		glGetUniformuiv							         3.0								3.0
+*		glGetnUniformfv							         4.5								Not Support
+*		glGetnUniformdv							         4.5								Not Support
+*		glGetnUniformiv							         4.5								Not Support
+*		glGetnUniformuiv						         4.5								Not Support
+*		glShaderBinary							          4.1								2.0
 *		glSpecializeShader
 *		glProgramBinary
 *	2. Pipeline Type

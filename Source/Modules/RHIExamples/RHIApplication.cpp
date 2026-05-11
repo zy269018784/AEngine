@@ -49,7 +49,7 @@ RHIApplication::RHIApplication()
     else if (2 == RHIIndex)
     {
 #if OS_IS_WINDOWS
-        GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+        GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES21);
 #endif
 #if OS_IS_LINUX
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES21);
