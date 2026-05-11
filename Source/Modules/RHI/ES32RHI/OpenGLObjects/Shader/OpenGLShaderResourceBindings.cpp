@@ -51,11 +51,14 @@ void OpenGLShaderResourceBindings::Create()
 				auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
 
 #if  1
+				// 要求opengl 4.5以上
 				glBindTextureUnit(TextureUnit, TextureHandle);
 #else
+				// 要求es 2.0以上	都支持
 				glActiveTexture(GL_TEXTURE0 + TextureUnit);
 				glBindTexture(GL_TEXTURE_2D, TextureHandle);
 #endif
+				// 要求opengl 3.3以上, es 3.0以上
 				glBindSampler(TextureUnit, SamplerHandle);
 				ActiveTextureUnits++;
 			}

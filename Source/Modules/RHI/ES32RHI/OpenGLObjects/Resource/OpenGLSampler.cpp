@@ -3,6 +3,8 @@
 
 OpenGLSampler::OpenGLSampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
 {
+	std::cout << "glGenSamplers" <<std::endl;
+	std::cout << "glGenSamplers" << glGenSamplers <<std::endl;
 	glGenSamplers(1, &Handle);
 
 	auto AddressModeU = ToOpenGLSamplerAddressMode(InAddressModeU);

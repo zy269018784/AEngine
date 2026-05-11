@@ -174,7 +174,8 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 	RHIAddressMode AddressModeU,
 	RHIAddressMode AddressModeV,
 	RHIAddressMode AddressModeW)
-{ 
+{
+	std::cout << "RHICreateSampler" <<std::endl;
 	OpenGLSampler* Sampler = new OpenGLSampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
 	return Sampler;
 }

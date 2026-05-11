@@ -1,5 +1,5 @@
 #include "RHI/RHI.h"
-
+#include  <iostream>
 #if USE_VULKAN_RHI
     #include "VulkanRHI/VulkanRHI.h"
 #endif
@@ -33,6 +33,7 @@ RHI *CreateRHI(GraphicsAPI API) {
     if (GraphicsAPI::ES32 == API)
     {
         pRHI = new ES32RHI();
+        std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
     }
 #endif
 

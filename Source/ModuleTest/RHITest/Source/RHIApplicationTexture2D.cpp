@@ -91,7 +91,7 @@ void RHIApplicationTexture2D::CreateEBO()
 
 void RHIApplicationTexture2D::CreateTexture()
 {
-    std::cout << "RHICreateSampler start" << std::endl;
+    std::cout << "RHICreateSampler start " << pRHI << std::endl;
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     std::cout << "RHICreateSampler end" << std::endl;
     int texWidth, texHeight, texChannels;

@@ -57,7 +57,10 @@ RHIApplication::RHIApplication()
         */
        // glfwMakeContextCurrent(InWindow);
         //pRHI = new ES32RHI();
+        std::cout << "CreateRHI(GraphicsAPI::ES32) 111" << std::endl;
         pRHI = CreateRHI(GraphicsAPI::ES32);
+        std::cout << "CreateRHI(GraphicsAPI::ES32) 222" << std::endl;
+;
     }
     pRHI->RHIUseGPU(0);
 

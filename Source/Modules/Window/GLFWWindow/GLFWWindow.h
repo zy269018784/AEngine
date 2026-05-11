@@ -4,7 +4,9 @@
 #if WINDOWS_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
 #endif
-
+#if OS_IS_LINUX
+#define GLFW_INCLUDE_ES32
+#endif
 #include <glfw/glfw3.h>
 
 #if OS_IS_WINDOWS
