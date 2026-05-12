@@ -33,8 +33,18 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
 list (APPEND LIBRARYS		fltk fltk_forms fltk_gl fltk_images fltk_jpeg fltk_png fltk_z )
 # fltk 链接了gdi+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 list (APPEND LIBRARYS		gdiplus ws2_32 comctl32 user32)
+endif ()
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+list (APPEND LIBRARYS		gdiplus ws2_32 comctl32 user32)
+endif ()
+	list (APPEND LIBRARYS		X11 Xext X11-xcb Xrender
+		Xfixes Xcursor Xinerama
+	)
+endif ()
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
 
