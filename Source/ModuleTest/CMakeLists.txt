@@ -18,4 +18,5 @@ message (STATUS "ModuleTest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_D
 message (STATUS "ModuleTest LIBRARY_PATH                ${LIBRARY_PATH}")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/RHITest)
+add_subdirectory(${PROJECT_SOURCE_DIR}/WindowTest)
 add_subdirectory(${PROJECT_SOURCE_DIR}/HelloWorld)
