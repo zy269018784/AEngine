@@ -1,15 +1,9 @@
-﻿#include <iostream>
-#include <glad/glad.h>
-
-#include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_X11
-#include <GLFW/glfw3native.h>
-
-int helotrianle(int argc, char **argv) ;
-
+﻿
+int OpenGL46_Triangle(int argc, char **argv);
+int OpenGL33_Triangle(int argc, char **argv);
+int OpenGL32_Triangle(int argc, char **argv);
+int OpenGL20_Triangle(int argc, char **argv);
 int main(int argc, char **argv) 
 {
-	return helotrianle(argc, argv);
-
-
+	return OpenGL32_Triangle(argc, argv);
 }

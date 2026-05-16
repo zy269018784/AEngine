@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
+list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source/glad)
 
 file(GLOB_RECURSE SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
                             ${PROJECT_SOURCE_DIR}/Source/*.c
@@ -28,10 +29,12 @@ message (STATUS "RHITest LIBRARY_PATH                ${LIBRARY_PATH}")
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
 list (APPEND LINK_PATH      /lib/aarch64-linux-gnu/)
-list (APPEND LIBRARYS		EGL)
-list (APPEND LIBRARYS		GLESv2)
 list (APPEND LIBRARYS		glfw3)
-list (APPEND LIBRARYS		X11 X11-xcb)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    list (APPEND LIBRARYS		EGL)
+    list (APPEND LIBRARYS		GLESv2)
+    list (APPEND LIBRARYS		X11 X11-xcb)
+endif ()
 
 
 
