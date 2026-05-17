@@ -1,30 +1,33 @@
 ﻿#include "ES32RHI/OpenGLObjects/Texture/ES32Texture.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/ES32PixelFormat.h"
-
+/*
+* ES 3.2 Texture
+*   创建     glGenTextures
+*   绑定     glBindTexture
+*   指定格式  glTexStorage2D, glTexStorage3D，
+*   上传数据  glTexSubImage2D, glTexSubImage3D
+ */
 ES32Texture::ES32Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
     : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
+    std::cout << "ES32Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);
-    GLenum Target = ToOpenGLTextureType(InType);
-    auto PixelFormat = OpenGLPixelFormats[int(InFormat)];
+    GLenum Target              = ToOpenGLTextureType(InType);
+    auto PixelFormat           = OpenGLPixelFormats[int(InFormat)];
+    auto InternalFormat = PixelFormat.InternalFormat;
+    auto Type           = PixelFormat.Type;
+    auto Format         = PixelFormat.Format;
+
     glBindTexture(Target, Handle);
     switch (InType)
     {
     case RHITextureType::Texture1D:
-        /*
-            InX: 纹理宽度
-        */
-        glTexStorage1D(GL_TEXTURE_1D, InNumMips, PixelFormat.InternalFormat, InX);
-        break;
     case RHITextureType::Texture1DArray:
-        /*
-            InX: 纹理宽度
-            InArraySize: 纹理数组大小
-        */
-        glTexStorage2D(GL_TEXTURE_1D_ARRAY, InNumMips, PixelFormat.InternalFormat, InX, InArraySize);
-        std::cout << "glTexStorage2D Texture1DArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << std::endl;
-        break;
+       /*
+           ES 32 not support
+       */
+       break;
     case RHITextureType::Texture2D:
         glTexStorage2D(GL_TEXTURE_2D, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
@@ -44,23 +47,15 @@ ES32Texture::ES32Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
             InZ: 纹理深度
         */
         glTexStorage3D(GL_TEXTURE_3D, InNumMips, PixelFormat.InternalFormat, InX, InY, InZ);
-        break;
+       break;
     case RHITextureType::TextureCubeMap:
-        std::cout << "glTexStorage2D TextureCubeMap " << InNumMips << " " <<  PixelFormat.InternalFormat << std::endl;
         glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
     case RHITextureType::TextureCubeMapArray:
-        /*
-            InX: 纹理宽度
-            InY: 纹理高度
-            InArraySize: 纹理数组大小
-            在OpenGL中, TextureCubeMapArray实际上是3D纹理, ArraySize为数组大小, Width为纹理宽度, Height为纹理高度, Depth等于ArraySize * 6.
-        */
-        glTexStorage3D(GL_TEXTURE_CUBE_MAP_ARRAY, InNumMips, PixelFormat.InternalFormat, InX, InY, InArraySize *  6);
-      //  glTexStorage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 1, GL_RGBA8, InX, InY, 12);
-
-        std::cout << "glTexStorage3D TextureCubeMapArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << " InY " << InY << " InZ " << InY << " InArraySize " << InArraySize << std::endl;
-        break;
+         /*
+             ES 32 not support
+         */
+         break;
     }
     // set the texture wrapping parameters
     glTexParameteri(Target, GL_TEXTURE_WRAP_S, GL_REPEAT);
