@@ -32,7 +32,6 @@ ES32Texture::ES32Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
         glTexStorage2D(GL_TEXTURE_2D, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
     case RHITextureType::Texture2DArray:
-        //glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, 256, 256, 2);
         /*
             InX: 纹理宽度
             InY: 纹理高度
@@ -98,20 +97,12 @@ void ES32Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
     {
     case RHITextureType::Texture1D:
         /*
-            ES 3.2没有glTexSubImage1D, 用glTexSubImage2D替代.
+            ES 32 not support
         */
-        glTexSubImage1D(Target, MipmapLevel, XOffset, Width, Format, Type, InData);
-        //glTexSubImage2D(Target, MipmapLevel, XOffset, 0, Width, 1, Format, Type, InData);
-        std::cout << "ES32Texture::Update 1D " << MipmapLevel << " XOffset " <<  XOffset << " Width " << Width << " Format " << Format << " Type " <<  Type << std::endl;
-        break;
     case RHITextureType::Texture1DArray:
         /*
-            更新2D纹理中的一层, 即更新1个1D纹理.
-             YOffset指定更新那一层.
-            更新TextureArray[YOffset]， 区域[XOffset, XOffset + Width].
+            ES 32 not support
         */
-        glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
-        std::cout << "ES32Texture::Update 1D Array MipmapLevel " << MipmapLevel << " XOffset " << XOffset << " YOffset " << YOffset << " Width " << Width << " Height " << Height << " Format " << Format << " Type " << Type << std::endl;
         break;
     case RHITextureType::Texture2D:
         /*
@@ -145,23 +136,9 @@ void ES32Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
-            更新3D纹理中的一层, 即更新1个CubeMap.
-            ZOffset指定更新那一层.
-            Depth指定更新多少面.
-            更新CubeMapArray[ZOffset, ZOffset + Depth]， 区域[XOffset, XOffset + Width, YOffset, YOffset + Width].
+            ES 32 not support
         */
-        glTexSubImage3D(Target, MipmapLevel, XOffset, YOffset, ZOffset, Width, Height, Depth, Format, Type, InData);
-        //glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, Handle);
-        //for (int layer = 0; layer < 2; layer++) {
-        //    for (int face = 0; face < 6; face++) {
-        //        glTexSubImage3D(GL_TEXTURE_CUBE_MAP_ARRAY,
-        //            0, 0, 0, layer * 6 + face,
-        //            Width, Height, 1,
-        //            GL_RGBA, GL_UNSIGNED_BYTE, InData);
-        //    }
-        //}
-        std::cout << "cube map array Target " << Target << " XOffset " << XOffset << " YOffset " << YOffset << " ZOffset " << ZOffset << " Width " << Width << " Height " << Height << " Depth " << Depth << " Format " << Format << std::endl;
-        break;
+       break;
     default:
         break;
     }

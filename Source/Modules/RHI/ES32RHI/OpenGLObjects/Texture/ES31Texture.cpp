@@ -1,35 +1,37 @@
 ﻿#include "ES32RHI/OpenGLObjects/Texture/ES31Texture.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/ES32PixelFormat.h"
-
+/*
+* ES 3.1 Texture
+*   创建     glGenTextures
+*   绑定     glBindTexture
+*   指定格式  glTexStorage2D, glTexStorage3D，
+*   上传数据  glTexSubImage2D, glTexSubImage3D
+ */
 ES31Texture::ES31Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
     : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
+    std::cout << "ES31Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);
-    GLenum Target = ToOpenGLTextureType(InType);
-    auto PixelFormat = OpenGLPixelFormats[int(InFormat)];
+    GLenum Target              = ToOpenGLTextureType(InType);
+    auto PixelFormat           = OpenGLPixelFormats[int(InFormat)];
+    auto InternalFormat = PixelFormat.InternalFormat;
+    auto Type           = PixelFormat.Type;
+    auto Format         = PixelFormat.Format;
+
     glBindTexture(Target, Handle);
     switch (InType)
     {
     case RHITextureType::Texture1D:
-        /*
-            InX: 纹理宽度
-        */
-        glTexStorage1D(GL_TEXTURE_1D, InNumMips, PixelFormat.InternalFormat, InX);
-        break;
     case RHITextureType::Texture1DArray:
-        /*
-            InX: 纹理宽度
-            InArraySize: 纹理数组大小
-        */
-        glTexStorage2D(GL_TEXTURE_1D_ARRAY, InNumMips, PixelFormat.InternalFormat, InX, InArraySize);
-        std::cout << "glTexStorage2D Texture1DArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << std::endl;
-        break;
+       /*
+           ES 32 not support
+       */
+       break;
     case RHITextureType::Texture2D:
         glTexStorage2D(GL_TEXTURE_2D, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
     case RHITextureType::Texture2DArray:
-        //glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, 256, 256, 2);
         /*
             InX: 纹理宽度
             InY: 纹理高度
@@ -44,23 +46,15 @@ ES31Texture::ES31Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
             InZ: 纹理深度
         */
         glTexStorage3D(GL_TEXTURE_3D, InNumMips, PixelFormat.InternalFormat, InX, InY, InZ);
-        break;
+       break;
     case RHITextureType::TextureCubeMap:
-        std::cout << "glTexStorage2D TextureCubeMap " << InNumMips << " " <<  PixelFormat.InternalFormat << std::endl;
         glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
         break;
     case RHITextureType::TextureCubeMapArray:
-        /*
-            InX: 纹理宽度
-            InY: 纹理高度
-            InArraySize: 纹理数组大小
-            在OpenGL中, TextureCubeMapArray实际上是3D纹理, ArraySize为数组大小, Width为纹理宽度, Height为纹理高度, Depth等于ArraySize * 6.
-        */
-        glTexStorage3D(GL_TEXTURE_CUBE_MAP_ARRAY, InNumMips, PixelFormat.InternalFormat, InX, InY, InArraySize *  6);
-      //  glTexStorage3D(GL_TEXTURE_CUBE_MAP_ARRAY, 1, GL_RGBA8, InX, InY, 12);
-
-        std::cout << "glTexStorage3D TextureCubeMapArray InNumMips " << InNumMips << " InternalFormat " << PixelFormat.InternalFormat << " InX " << InX << " InY " << InY << " InZ " << InY << " InArraySize " << InArraySize << std::endl;
-        break;
+         /*
+             ES 32 not support
+         */
+         break;
     }
     // set the texture wrapping parameters
     glTexParameteri(Target, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -103,20 +97,12 @@ void ES31Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
     {
     case RHITextureType::Texture1D:
         /*
-            ES 3.2没有glTexSubImage1D, 用glTexSubImage2D替代.
+            ES 32 not support
         */
-        glTexSubImage1D(Target, MipmapLevel, XOffset, Width, Format, Type, InData);
-        //glTexSubImage2D(Target, MipmapLevel, XOffset, 0, Width, 1, Format, Type, InData);
-        std::cout << "ES31Texture::Update 1D " << MipmapLevel << " XOffset " <<  XOffset << " Width " << Width << " Format " << Format << " Type " <<  Type << std::endl;
-        break;
     case RHITextureType::Texture1DArray:
         /*
-            更新2D纹理中的一层, 即更新1个1D纹理.
-             YOffset指定更新那一层.
-            更新TextureArray[YOffset]， 区域[XOffset, XOffset + Width].
+            ES 32 not support
         */
-        glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
-        std::cout << "ES31Texture::Update 1D Array MipmapLevel " << MipmapLevel << " XOffset " << XOffset << " YOffset " << YOffset << " Width " << Width << " Height " << Height << " Format " << Format << " Type " << Type << std::endl;
         break;
     case RHITextureType::Texture2D:
         /*
@@ -150,23 +136,9 @@ void ES31Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
-            更新3D纹理中的一层, 即更新1个CubeMap.
-            ZOffset指定更新那一层.
-            Depth指定更新多少面.
-            更新CubeMapArray[ZOffset, ZOffset + Depth]， 区域[XOffset, XOffset + Width, YOffset, YOffset + Width].
+            ES 32 not support
         */
-        glTexSubImage3D(Target, MipmapLevel, XOffset, YOffset, ZOffset, Width, Height, Depth, Format, Type, InData);
-        //glBindTexture(GL_TEXTURE_CUBE_MAP_ARRAY, Handle);
-        //for (int layer = 0; layer < 2; layer++) {
-        //    for (int face = 0; face < 6; face++) {
-        //        glTexSubImage3D(GL_TEXTURE_CUBE_MAP_ARRAY,
-        //            0, 0, 0, layer * 6 + face,
-        //            Width, Height, 1,
-        //            GL_RGBA, GL_UNSIGNED_BYTE, InData);
-        //    }
-        //}
-        std::cout << "cube map array Target " << Target << " XOffset " << XOffset << " YOffset " << YOffset << " ZOffset " << ZOffset << " Width " << Width << " Height " << Height << " Depth " << Depth << " Format " << Format << std::endl;
-        break;
+       break;
     default:
         break;
     }
