@@ -2,7 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/ES32PixelFormat.h"
 /*
-* ES 3.0 Texture
+* ES 3.2 Texture
 *   创建     glGenTextures
 *   绑定     glBindTexture
 *   指定格式  glTexStorage2D, glTexStorage3D，
@@ -25,7 +25,7 @@ ES30Texture::ES30Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
     case RHITextureType::Texture1D:
     case RHITextureType::Texture1DArray:
        /*
-           ES 32 not support
+           ES 30 not support
        */
        break;
     case RHITextureType::Texture2D:
@@ -52,7 +52,7 @@ ES30Texture::ES30Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
         break;
     case RHITextureType::TextureCubeMapArray:
          /*
-             ES 32 not support
+             ES 30 not support
          */
          break;
     }
@@ -97,11 +97,11 @@ void ES30Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
     {
     case RHITextureType::Texture1D:
         /*
-            ES 32 not support
+            ES 30 not support
         */
     case RHITextureType::Texture1DArray:
         /*
-            ES 32 not support
+            ES 30 not support
         */
         break;
     case RHITextureType::Texture2D:
@@ -136,7 +136,7 @@ void ES30Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
-            ES 32 not support
+            ES 30 not support
         */
        break;
     default:

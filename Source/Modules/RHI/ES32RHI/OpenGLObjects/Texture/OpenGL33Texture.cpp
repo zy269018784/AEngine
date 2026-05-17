@@ -67,7 +67,8 @@ OpenGL33Texture::OpenGL33Texture(RHIDevice* InDevice, RHITextureType InType, RHI
         break;
     case RHITextureType::TextureCubeMap:
         std::cout << "glTexStorage2D TextureCubeMap " << InNumMips << " " <<  PixelFormat.InternalFormat << std::endl;
-        glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
+        for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)
+            glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
         break;
     case RHITextureType::TextureCubeMapArray:
         /*

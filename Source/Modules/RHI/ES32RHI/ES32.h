@@ -292,7 +292,7 @@
 * 2.2 ES 2.0 Texture
 *  创建     glGenTextures
 *  绑定     glBindTexture
-*  指定格式  glTexImage1D, glTexImage2D
+*  指定格式  glTexImage2D
 *  上传数据  glTexSubImage2D
 *
 * 2.3 ES 3.0 Texture

@@ -25,7 +25,7 @@ ES31Texture::ES31Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
     case RHITextureType::Texture1D:
     case RHITextureType::Texture1DArray:
        /*
-           ES 32 not support
+           ES 31 not support
        */
        break;
     case RHITextureType::Texture2D:
@@ -52,7 +52,7 @@ ES31Texture::ES31Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
         break;
     case RHITextureType::TextureCubeMapArray:
          /*
-             ES 32 not support
+             ES 31 not support
          */
          break;
     }
@@ -97,11 +97,11 @@ void ES31Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
     {
     case RHITextureType::Texture1D:
         /*
-            ES 32 not support
+            ES 31 not support
         */
     case RHITextureType::Texture1DArray:
         /*
-            ES 32 not support
+            ES 31 not support
         */
         break;
     case RHITextureType::Texture2D:
@@ -136,7 +136,7 @@ void ES31Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
-            ES 32 not support
+            ES 31 not support
         */
        break;
     default:
