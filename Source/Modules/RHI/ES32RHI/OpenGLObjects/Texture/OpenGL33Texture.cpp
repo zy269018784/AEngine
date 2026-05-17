@@ -45,7 +45,6 @@ OpenGL33Texture::OpenGL33Texture(RHIDevice* InDevice, RHITextureType InType, RHI
             glTexImage2D(GL_TEXTURE_2D, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
         break;
     case RHITextureType::Texture2DArray:
-        //glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, 256, 256, 2);
         /*
             InX: 纹理宽度
             InY: 纹理高度
@@ -66,8 +65,7 @@ OpenGL33Texture::OpenGL33Texture(RHIDevice* InDevice, RHITextureType InType, RHI
             glTexImage3D(GL_TEXTURE_3D, MipmapIndex, InternalFormat, InX, InY, InZ, 0, Format, Type, nullptr);
         break;
     case RHITextureType::TextureCubeMap:
-        std::cout << "glTexStorage2D TextureCubeMap " << InNumMips << " " <<  PixelFormat.InternalFormat << std::endl;
-        for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)
+         for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)
             glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
         break;
     case RHITextureType::TextureCubeMapArray:
