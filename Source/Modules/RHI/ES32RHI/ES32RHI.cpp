@@ -5,6 +5,13 @@
 #include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Window/OpenGLWindow.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGL33Texture.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGL46Texture.h"
+#include "ES32RHI/OpenGLObjects/Texture/ES32Texture.h"
+#include "ES32RHI/OpenGLObjects/Texture/ES31Texture.h"
+#include "ES32RHI/OpenGLObjects/Texture/ES30Texture.h"
+#include "ES32RHI/OpenGLObjects/Texture/ES20Texture.h"
+
 #include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
@@ -123,7 +130,7 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	return new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
 

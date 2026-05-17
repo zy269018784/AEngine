@@ -146,10 +146,10 @@
 *	5. Program Pipeline Objects
 */
 
-/*	
+/*
 *	Chapter. Texture
 *	1. API Table
-*												                             OpenGL							ES
+*												                             OpenGL					ES
 *		glGenTextures							                   2.0								2.0
 *		glDeleteTextures				                   2.0								2.0
 *		glBindTexture							                   2.0								2.0
@@ -225,7 +225,6 @@
 *		glSamplerParameterIuiv
 * 	2. API Usage
 *		2.1
-*        
 *        void glTexImage2D(GLenum target,              // 目标
 * 	                        GLint level,
 * 	                        GLint internalformat,       // 内部格式
@@ -270,26 +269,62 @@
 *
 * 	  type:
 * 	       GL_UNSIGNED_BYTE
-* 	       GL_BYTE 
-* 	       GL_UNSIGNED_SHORT 
-* 	       GL_SHORT 
-* 	       GL_UNSIGNED_INT 
-* 	       GL_INT 
-* 	       GL_HALF_FLOAT 
-* 	       GL_FLOAT 
-* 	       GL_UNSIGNED_BYTE_3_3_2 
-* 	       GL_UNSIGNED_BYTE_2_3_3_REV 
-* 	       GL_UNSIGNED_SHORT_5_6_5 
-* 	       GL_UNSIGNED_SHORT_5_6_5_REV 
-* 	       GL_UNSIGNED_SHORT_4_4_4_4 
-* 	       GL_UNSIGNED_SHORT_4_4_4_4_REV 
-* 	       GL_UNSIGNED_SHORT_5_5_5_1 
-* 	       GL_UNSIGNED_SHORT_1_5_5_5_REV 
-* 	       GL_UNSIGNED_INT_8_8_8_8 
-* 	       GL_UNSIGNED_INT_8_8_8_8_REV 
+* 	       GL_BYTE
+* 	       GL_UNSIGNED_SHORT
+* 	       GL_SHORT
+* 	       GL_UNSIGNED_INT
+* 	       GL_INT
+* 	       GL_HALF_FLOAT
+* 	       GL_FLOAT
+* 	       GL_UNSIGNED_BYTE_3_3_2
+* 	       GL_UNSIGNED_BYTE_2_3_3_REV
+* 	       GL_UNSIGNED_SHORT_5_6_5
+* 	       GL_UNSIGNED_SHORT_5_6_5_REV
+* 	       GL_UNSIGNED_SHORT_4_4_4_4
+* 	       GL_UNSIGNED_SHORT_4_4_4_4_REV
+* 	       GL_UNSIGNED_SHORT_5_5_5_1
+* 	       GL_UNSIGNED_SHORT_1_5_5_5_REV
+* 	       GL_UNSIGNED_INT_8_8_8_8
+* 	       GL_UNSIGNED_INT_8_8_8_8_REV
 * 	       GL_UNSIGNED_INT_10_10_10_2
 * 	       GL_UNSIGNED_INT_2_10_10_10_REV
-* 	                           
+*
+* 2.2 ES 2.0 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexImage1D, glTexImage2D
+*  上传数据  glTexSubImage2D
+*
+* 2.3 ES 3.0 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexStorage2D, glTexStorage3D，
+*  上传数据  glTexSubImage2D, glTexSubImage3D
+*
+* 2.4 ES 3.1 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexStorage2D, glTexStorage3D，
+*  上传数据  glTexSubImage2D, glTexSubImage3D
+*
+* 2.5 ES 3.2 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexStorage2D, glTexStorage3D，
+*  上传数据  glTexSubImage2D, glTexSubImage3D
+*
+* 2.6 OpenGL 3.3 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexImage1D, glTexImage2D, glTexImage3D
+*  上传数据  glTexSubImage1D, glTexSubImage2D, glTexSubImage3D
+*
+* 2.7 OpenGL 4.6 Texture
+*  创建     glGenTextures
+*  绑定     glBindTexture
+*  指定格式  glTexStorage1D, glTexStorage2D, glTexStorage3D， glTextureStorage1D， glTextureStorage2D， glTextureStorage3D
+*  上传数据  glTexSubImage1D, glTexSubImage2D, glTexSubImage3D, glTextureSubImage1D, glTextureSubImage2D, glTextureSubImage3D
+*
 *	3. Sample Objects
 * 4. glsl
 *		4.1 1D Texture
