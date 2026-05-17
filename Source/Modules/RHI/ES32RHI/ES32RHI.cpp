@@ -130,7 +130,7 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeZ = 1;
-	return new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	return new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 }
 
 
