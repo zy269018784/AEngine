@@ -32,16 +32,16 @@
 *	2. OpenGL Update Table
 *								Update
 *		OpenGL 1.0				Basic texture mapping.
-*		OpenGL 1.1				Vertex arrays, Texture objects.
+*		OpenGL 1.1				Vertex arrays Texture objects.
 *		OpenGL 1.2				3D textures.
-*		OpenGL 1.3				Compressed textures, Cube map textures, Multisampling.
+*		OpenGL 1.3				Compressed textures Cube map textures Multisampling.
 *		OpenGL 1.4				Multiple draw arrays.
 *		OpenGL 1.5				VBO.
-*		OpenGL 2.0				GLSL 1.1, Non-power-of-two textures.
-*		OpenGL 2.1				GLSL 1.2, PBO.
-*		OpenGL 3.0				FBO, Conditional rendering, Texture arrays.
-*		OpenGL 3.1				UBO, TBO, Instanced rendering, Primitive restart.
-*		OpenGL 3.2				Geometry shader, Multisampled textures.
+*		OpenGL 2.0				GLSL 1.1 Non-power-of-two textures.
+*		OpenGL 2.1				GLSL 1.2 PBO.
+*		OpenGL 3.0				FBO Conditional rendering Texture arrays.
+*		OpenGL 3.1				UBO TBO Instanced rendering Primitive restart.
+*		OpenGL 3.2				Geometry shader Multisampled textures.
 *		OpenGL 3.3				Texture swizzle.
 *		OpenGL 4.0				Tessellation shader.
 *		OpenGL 4.1
@@ -54,18 +54,18 @@
 *								Update
 *		1.0						Fixed-function pipeline.
 *		1.1						Draw texture.
-*		2.0						Vertex shader, Fragment shader, Non-power-of-two textures.
-*		3.0						UBO, 3D textures, Sampler objects, Sync objects and fences, Texture compression (ETC2/EAC), Multiple render targets (up to 4), Transform feedback
+*		2.0						Vertex shader Fragment shader Non-power-of-two textures.
+*		3.0						UBO 3D textures Sampler objects Sync objects and fences Texture compression (ETC2/EAC) Multiple render targets (up to 4) Transform feedback
 *		3.1						Compute shader.
-*		3.2						Geometry shader, Tessellation shader.
+*		3.2						Geometry shader Tessellation shader.
 *		3.3
 *   4. OpenGL和ES对应版本
 *		OpenGL			ES			描述
 *		1.x				1.x			Fixed-function pipeline.
-*		2.0				2.0			Vertex shader, Fragment shader.
+*		2.0				2.0			Vertex shader Fragment shader.
 *		3.0~3.1			3.0			Multiple render targets.
 *		3.2~4.3			3.1			Compute shader.
-*		4.x				3.2			Geometry shader, Tessellation shader.
+*		4.x				3.2			Geometry shader Tessellation shader.
 */
 
 /*
@@ -149,71 +149,71 @@
 /*	
 *	Chapter. Texture
 *	1. API Table
-*												OpenGL							ES
-*		glGenTextures							2.0								2.0
-*		glDeleteTextures						2.0								2.0
-*		glBindTexture							2.0								2.0
-*		glActiveTexture							2.0								2.0
-*		glTexImage1D							2.0								Not Supported
-*		glTexImage2D							2.0								2.0
-*		glTexImage3D							2.0								3.0
-*		glTexSubImage1D							2.0								Not Supported
-*		glTextureSubImage1D						4.5								Not Supported
-*		glTexSubImage2D							2.0								2.0			
-*		glTextureSubImage2D						4.5								Not Supported
-*		glTexSubImage3D							2.0								3.0
-*		glTextureSubImage3D						4.5								Not Supported
-*		glTexImage2DMultisample					2.0								Not Supported
-*		glTexImage3DMultisample					3.2								Not Supported
-*		glTexStorage1D							4.2								Not Supported
-*		glTextureStorage1D						4.5								Not Supported
-*		glTexStorage2D							4.2								3.0
-*		glTextureStorage2D						4.5								Not Supported
-*		glTexStorage3D							4.2								3.0
-*		glTextureStorage3D						4.5								Not Supported
-*		glTexStorage2DMultisample				4.3								3.1
-*		glTextureStorage2DMultisample			4.5								Not Supported
-*		glTexStorage3DMultisample				4.3								3.2
-*		glTextureStorage3DMultisample			4.5								Not Supported
-*		glTexBuffer								3.1								3.2
-*		glTextureBuffer							4.5								Not Supported
-*		glTexBufferRange						4.3								3.2
-*		glTextureBufferRange					4.5								Not Supported
-*		glTexParameterf							2.0								2.0
-*		glTextureParameterf						4.5								Not Supported
-*		glTexParameteri							2.0								2.0	
-*		glTextureParameteri						4.5								Not Supported
-*		glTexParameterfv						2.0								2.0
-*		glTextureParameterfv					4.5								Not Supported
-*		glTexParameteriv						2.0								2.0
-*		glTextureParameteriv					4.5								Not Supported
-*		glTexParameterIiv						3.0								3.2
-*		glTextureParameterIiv					4.5								Not Supported
-*		glTexParameterIuiv						3.0								3.2
-*		glTextureParameterIuiv					4.5								Not Supported
-*		glTextureBarrier						4.5								Not Supported
-*		glTextureView							4.3								Not Supported
-*		glGenerateMipmap						3.0								2.0
-*		glGenerateTextureMipmap					4.5								Not Supported
-*		glCopyTexImage1D						2.0								Not Supported
-*		glCopyTexImage2D						2.0								2.0
-*		glCopyTexSubImage1D						2.0								Not Supported
-*		glCopyTextureSubImage1D					4.5								Not Supported
-*		glCopyTexSubImage2D						2.0								2.0
-*		glCopyTextureSubImage2D					4.5								Not Supported
-*		glCopyTexSubImage3D						2.0								3.0
-*		glCopyTextureSubImage3D					4.5								Not Supported
-*		glCompressedTexImage1D					2.0								Not Supported
-*		glCompressedTexImage2D					2.0								2.0
-*		glCompressedTexImage3D					2.0								3.0
-*		glCompressedTexSubImage1D				2.0								Not Supported
-*		glCompressedTextureSubImage1D			4.5								Not Supported
-*		glCompressedTexSubImage2D				2.0								2.0
-*		glCompressedTextureSubImage2D			4.5								Not Supported
-*		glCompressedTexSubImage3D				2.0								3.0
-*		glCompressedTextureSubImage3D			4.5								Not Supported
-*		glCopyImageSubData						4.3								3.2
-*		glBindTextureUnit						4.5								Not Supported
+*												                             OpenGL							ES
+*		glGenTextures							                   2.0								2.0
+*		glDeleteTextures				                   2.0								2.0
+*		glBindTexture							                   2.0								2.0
+*		glActiveTexture					                   2.0								2.0
+*		glTexImage1D							                    2.0								Not Supported
+*		glTexImage2D							                    2.0								2.0
+*		glTexImage3D							                    2.0								3.0
+*		glTexSubImage1D							                 2.0								Not Supported
+*		glTextureSubImage1D						              4.5								Not Supported
+*		glTexSubImage2D							                 2.0								2.0
+*		glTextureSubImage2D						              4.5								Not Supported
+*		glTexSubImage3D							                 2.0								3.0
+*		glTextureSubImage3D						              4.5								Not Supported
+*		glTexImage2DMultisample				            2.0								Not Supported
+*		glTexImage3DMultisample				            3.2								Not Supported
+*		glTexStorage1D							                  4.2								Not Supported
+*		glTextureStorage1D						               4.5								Not Supported
+*		glTexStorage2D							                  4.2								3.0
+*		glTextureStorage2D						               4.5								Not Supported
+*		glTexStorage3D							                  4.2								3.0
+*		glTextureStorage3D						               4.5								Not Supported
+*		glTexStorage2DMultisample				          4.3								3.1
+*		glTextureStorage2DMultisample			       4.5								Not Supported
+*		glTexStorage3DMultisample				          4.3								3.2
+*		glTextureStorage3DMultisample			       4.5								Not Supported
+*		glTexBuffer							   	                 3.1								3.2
+*		glTextureBuffer							                 4.5								Not Supported
+*		glTexBufferRange						                 4.3								3.2
+*		glTextureBufferRange					              4.5								Not Supported
+*		glTexParameterf							                 2.0								2.0
+*		glTextureParameterf						              4.5								Not Supported
+*		glTexParameteri							                 2.0								2.0
+*		glTextureParameteri						              4.5								Not Supported
+*		glTexParameterfv						                 2.0								2.0
+*		glTextureParameterfv					              4.5								Not Supported
+*		glTexParameteriv						                 2.0								2.0
+*		glTextureParameteriv					              4.5								Not Supported
+*		glTexParameterIiv						                3.0								3.2
+*		glTextureParameterIiv				              4.5								Not Supported
+*		glTexParameterIuiv						               3.0								3.2
+*		glTextureParameterIuiv			              4.5								Not Supported
+*		glTextureBarrier						                 4.5								Not Supported
+*		glTextureView						     	              4.3								Not Supported
+*		glGenerateMipmap						                 3.0								2.0
+*		glGenerateTextureMipmap		              4.5								Not Supported
+*		glCopyTexImage1D						                 2.0								Not Supported
+*		glCopyTexImage2D						                 2.0								2.0
+*		glCopyTexSubImage1D						              2.0								Not Supported
+*		glCopyTextureSubImage1D	               4.5								Not Supported
+*		glCopyTexSubImage2D						              2.0								2.0
+*		glCopyTextureSubImage2D		              4.5								Not Supported
+*		glCopyTexSubImage3D						              2.0								3.0
+*		glCopyTextureSubImage3D		              4.5								Not Supported
+*		glCompressedTexImage1D			              2.0								Not Supported
+*		glCompressedTexImage2D			              2.0								2.0
+*		glCompressedTexImage3D			              2.0								3.0
+*		glCompressedTexSubImage1D				          2.0								Not Supported
+*		glCompressedTextureSubImage1D			       4.5								Not Supported
+*		glCompressedTexSubImage2D				          2.0								2.0
+*		glCompressedTextureSubImage2D			       4.5								Not Supported
+*		glCompressedTexSubImage3D				          2.0								3.0
+*		glCompressedTextureSubImage3D			       4.5								Not Supported
+*		glCopyImageSubData						               4.3								3.2
+*		glBindTextureUnit						                4.5								Not Supported
 *		glGenSamplers
 *		glDeleteSamplers
 *		glBindSampler
@@ -226,66 +226,105 @@
 * 	2. API Usage
 *		2.1
 *        
-*        void glTexImage2D(GLenum target,
-* 	                      GLint level,
-* 	                      GLint internalformat,
-* 	                      GLsizei width,
-* 	                      GLsizei height,
-* 	                      GLint border,
-* 	                      GLenum format,
-* 	                      GLenum type,
-* 	                      const void * data);
+*        void glTexImage2D(GLenum target,              // 目标
+* 	                        GLint level,
+* 	                        GLint internalformat,       // 内部格式
+* 	                        GLsizei width,              // 图像宽度
+* 	                        GLsizei height,             // 图像高度
+* 	                        GLint border,               // 必须为0
+* 	                        GLenum format,              // 像素格式
+* 	                        GLenum type,
+* 	                        const void * data);
 *
 *        void glTexStorage2D(GLenum target,
-* 	                        GLsizei levels,
-* 	                        GLenum internalformat,
-* 	                        GLsizei width,
-* 	                        GLsizei height);
+* 	                          GLsizei levels,
+* 	                          GLenum internalformat,    // 内部格式
+* 	                          GLsizei width,            // 图像宽度
+* 	                          GLsizei height);          // 图像高度
 *
-*		void glTexSubImage2D(GLenum target,
-* 	                             GLint level,
-* 	                             GLint xoffset,
-* 	                             GLint yoffset,
-* 	                             GLsizei width,
-* 	                             GLsizei height,
-* 	                             GLenum format,
-* 	                             GLenum type,
-* 	                             const void * pixels);
+*		      void glTexSubImage2D(GLenum target,
+* 	                           GLint level,
+* 	                           GLint xoffset,           // x偏移
+* 	                           GLint yoffset,           // y偏移
+* 	                           GLsizei width,           // 图像宽度
+* 	                           GLsizei height,          // 图像高度
+* 	                           GLenum format,           // 像素格式
+* 	                           GLenum type,
+* 	                           const void * pixels);    // 像素数据
+* 	  format:
+* 	       GL_RED,
+* 	       GL_RG,
+* 	       GL_RGB,
+* 	       GL_BGR,
+* 	       GL_RGBA,
+* 	       GL_BGRA,
+* 	       GL_RED_INTEGER,
+* 	       GL_RG_INTEGER,
+* 	       GL_RGB_INTEGER,
+* 	       GL_BGR_INTEGER,
+* 	       GL_RGBA_INTEGER,
+* 	       GL_BGRA_INTEGER,
+* 	       GL_STENCIL_INDEX,
+* 	       GL_DEPTH_COMPONENT,
+* 	       GL_DEPTH_STENCIL
+*
+* 	  type:
+* 	       GL_UNSIGNED_BYTE
+* 	       GL_BYTE 
+* 	       GL_UNSIGNED_SHORT 
+* 	       GL_SHORT 
+* 	       GL_UNSIGNED_INT 
+* 	       GL_INT 
+* 	       GL_HALF_FLOAT 
+* 	       GL_FLOAT 
+* 	       GL_UNSIGNED_BYTE_3_3_2 
+* 	       GL_UNSIGNED_BYTE_2_3_3_REV 
+* 	       GL_UNSIGNED_SHORT_5_6_5 
+* 	       GL_UNSIGNED_SHORT_5_6_5_REV 
+* 	       GL_UNSIGNED_SHORT_4_4_4_4 
+* 	       GL_UNSIGNED_SHORT_4_4_4_4_REV 
+* 	       GL_UNSIGNED_SHORT_5_5_5_1 
+* 	       GL_UNSIGNED_SHORT_1_5_5_5_REV 
+* 	       GL_UNSIGNED_INT_8_8_8_8 
+* 	       GL_UNSIGNED_INT_8_8_8_8_REV 
+* 	       GL_UNSIGNED_INT_10_10_10_2
+* 	       GL_UNSIGNED_INT_2_10_10_10_REV
+* 	                           
 *	3. Sample Objects
-*   4. glsl
+* 4. glsl
 *		4.1 1D Texture
 *			uniform sampler1D texSampler;
 *			float u
-*			vec4 outColor = texture(texSampler, u);
+*			vec4 outColor = texture(texSampler u);
 *		4.2 1D Texture Array
 *			uniform sampler1DArray  texArraySampler;
 * 			float layer;
-*			vec2 UV = vec2(u, layer);
-*			vec4 outColor = texture(texArraySampler, UV);
+*			vec2 UV = vec2(u layer);
+*			vec4 outColor = texture(texArraySampler UV);
 *		4.3 2D Texture
 *			uniform sampler2D texSampler;
-*			vec4 outColor = texture(texSampler, vec2(u, v));
+*			vec4 outColor = texture(texSampler vec2(u v));
 *		4.4 2D Texture Array
 *			uniform sampler2DArray  texArraySampler;
 *			float layer;
-*			vec3 UVW = vec3(uv, layer);
-*			vec4 outColor = texture(texArraySampler, UVW);
+*			vec3 UVW = vec3(uv layer);
+*			vec4 outColor = texture(texArraySampler UVW);
 *		4.5 3D Texture
 *			uniform sampler3D texSampler;
-*			vec3 UVW = vec3(u, v, w);
-*			vec4 vec4 color = texture(texSampler, UVW);
+*			vec3 UVW = vec3(u v w);
+*			vec4 vec4 color = texture(texSampler UVW);
 *		4.6 CubeMap
 *			uniform samplerCube cubemap
 *			vec3 dir;
 *			vec3 UVW = normalize(dir);
-*			vec4 outColor = texture(cubemap, UVW);
+*			vec4 outColor = texture(cubemap UVW);
 *		4.7 CubeMap Array
 *			uniform samplerCubeArray cubemapArray;
 *			float layer;
 *			vec3 dir;
 *			vec3 UVW = normalize(dir);
-*			vec4 UVWZ = vec4(UVW, layer);
-*			vec4 outColor = texture(cubemapArray, vec4(normalize(inTexCoord), 0));
+*			vec4 UVWZ = vec4(UVW layer);
+*			vec4 outColor = texture(cubemapArray vec4(normalize(inTexCoord) 0));
 */
 
 /*
@@ -298,20 +337,20 @@
 * 	glEnable(GL_DEPTH_TEST) 				                                1.0								 1.0
 *		glDisable(GL_DEPTH_TEST)				                                1.0								 1.0
 *		glEnable(GL_DEPTH_BOUNDS_TEST_EXT)		EXT_depth_bounds_test			Not Support
-*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT) 	EXT_depth_bounds_test		Not Support
+*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT) EXT_depth_bounds_test		 Not Support
 */
 
 /*
 *	Chapter. Stencil Test
 * 	1. API Table
-* 												OpenGL							ES
-*		glDepthMask								2.0								2.0
-*		glDepthFunc								2.0								2.0
-*		glDepthBoundsEXT						EXT_depth_bounds_test			Not Support
-* 		glEnable(GL_DEPTH_TEST)					1.0								1.0
-*		glDisable(GL_DEPTH_TEST)				1.0								1.0
-*		glEnable(GL_DEPTH_BOUNDS_TEST_EXT)		EXT_depth_bounds_test			Not Support
-*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT) 	EXT_depth_bounds_test			Not Support
+* 												                                                  OpenGL					             ES
+*		glDepthMask								                                          2.0								             2.0
+*		glDepthFunc								                                          2.0								             2.0
+*		glDepthBoundsEXT					                                        EXT_depth_bounds_test			Not Support
+* 	glEnable(GL_DEPTH_TEST)					                                 1.0								             1.0
+*		glDisable(GL_DEPTH_TEST)				                                 1.0								             1.0
+*		glEnable(GL_DEPTH_BOUNDS_TEST_EXT)		                         EXT_depth_bounds_test			Not Support
+*		glDisable(GL_DEPTH_BOUNDS_TEST_EXT)                          EXT_depth_bounds_test			Not Support
 */
 
 /*
@@ -321,10 +360,10 @@
 /*
 *	Chapter. Viewport
  * 	1. API Table
-* 												OpenGL							ES
-*	glViewport									2.0								2.0
-*	glDepthRange								2.0								Not Support
-*	glDepthRangef								4.1								2.0
+* 												             OpenGL							ES
+*	glViewport									      2.0								  2.0
+*	glDepthRange							      2.0								Not Support
+*	glDepthRangef						      4.1								2.0
 *	glDepthRangeArray
 *	glDepthRangeArrayv
 *	glDepthRangeIndexed
@@ -342,34 +381,34 @@
 /*
 *	Chapter. FrameBuffer
 *	1. API Table
-*												OpenGL							ES
-*		glGenFramebuffers						3.0								2.0
-*		glDeleteFramebuffers					3.0								2.0
-*		glBindFramebuffer						3.0								2.0
+*												                               OpenGL							ES
+*		glGenFramebuffers						                  3.0								2.0
+*		glDeleteFramebuffers			                  3.0								2.0
+*		glBindFramebuffer						                  3.0								2.0
 *		glIsFramebuffer
 *		glFramebufferParameteri
-* 		glNamedFramebufferParameteri
+* 	glNamedFramebufferParameteri
 *		glGetFramebufferParameteriv
-* 		glGetNamedFramebufferParameteriv
-*		glFramebufferTexture					3.2
-*		glNamedFramebufferTexture				3.2
-*		glFramebufferTexture1D					3.0
-*		glFramebufferTexture2D					3.0								2.0
-*		glFramebufferTexture3D					3.0
-*		glDrawBuffer							1.0								Not Support
-*		glNamedFramebufferDrawBuffer			4.5 							Not Support
-*		glDrawBuffers							2.0								3.0
-*		glNamedFramebufferDrawBuffers			4.5 							Not Support
-*		glReadBuffer							1.0								3.0
-*		glNamedFramebufferReadBuffer			4.5 							Not Support
-*		glInvalidateFramebuffer					4.3								3.0
-*		glInvalidateNamedFramebufferData		4.5 							Not Support
-*		glInvalidateSubFramebuffer				4.3								3.0
-*		glInvalidateNamedFramebufferSubData		4.5 							Not Support
-*		glGenRenderbuffers						3.0								2.0
-*		glFramebufferRenderbuffer				3.0								2.0
-*		glNamedFramebufferRenderbuffer	
-*		glFramebufferTextureLayer				3.0								3.0
+* 	glGetNamedFramebufferParameteriv
+*		glFramebufferTexture					                3.2
+*		glNamedFramebufferTexture		              3.2
+*		glFramebufferTexture1D					              3.0
+*		glFramebufferTexture2D					              3.0								2.0
+*		glFramebufferTexture3D					              3.0
+*		glDrawBuffer							                      1.0								Not Support
+*		glNamedFramebufferDrawBuffer			          4.5 							Not Support
+*		glDrawBuffers						 	                    2.0								3.0
+*		glNamedFramebufferDrawBuffers		          4.5 							Not Support
+*		glReadBuffer							                      1.0								3.0
+*		glNamedFramebufferReadBuffer			          4.5 							Not Support
+*		glInvalidateFramebuffer					             4.3								3.0
+*		glInvalidateNamedFramebufferData		       4.5 							Not Support
+*		glInvalidateSubFramebuffer				           4.3								3.0
+*		glInvalidateNamedFramebufferSubData		    4.5 							Not Support
+*		glGenRenderbuffers						                 3.0								2.0
+*		glFramebufferRenderbuffer				            3.0								2.0
+*		glNamedFramebufferRenderbuffer
+*		glFramebufferTextureLayer				            3.0								3.0
 *		glNamedFramebufferTextureLayer
 *		glClearBufferfi
 *		glClearBufferfv
@@ -383,8 +422,8 @@
 *		glColorMaski
 *	2. Framebuffer Object
 *		glGenFramebuffers	
-* 		glDeleteFramebuffers
-* 		glBindFramebuffer	
+* 	glDeleteFramebuffers
+* 	glBindFramebuffer
 *		glIsFramebuffer
 *	2. Framebuffer Object Parameters
 *		glFramebufferParameteri
@@ -415,7 +454,7 @@
 *		glFramebufferTexture2D		
 *		glFramebufferTexture3D		
 *	2. Selecting Buffers for Writing
-* 		glDrawBuffer				
+* 	glDrawBuffer
 *		glNamedFramebufferDrawBuffer
 *		glDrawBuffers				
 *		glNamedFramebufferDrawBuffers
@@ -435,7 +474,7 @@
 *		glClearNamedFramebufferiv
 *		glClearBufferuiv
 *		glClearNamedFramebufferuiv
-* 		glClearBufferfi
+* 	glClearBufferfi
 *		glClearNamedFramebufferfi
 *	5. Invalidating Framebuffer Contents
 *		glInvalidateFramebuffer				
