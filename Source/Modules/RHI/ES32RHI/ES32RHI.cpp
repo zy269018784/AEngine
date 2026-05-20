@@ -1,9 +1,18 @@
 ﻿#include "ES32RHI.h"
 #include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 #include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
-#include "ES32RHI/OpenGLObjects/Shader/OpenGLShader.h"
-#include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Window/OpenGLWindow.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShader.h"
+
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGL46ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGL33ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES33ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES32ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES31ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES30ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES21ShaderResourceBindings.h"
+
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGL33Texture.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGL46Texture.h"
@@ -189,7 +198,7 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 
 RHIShaderResourceBindings* ES32RHI::RHICreateShaderResourceBindings() 
 {
-	return new OpenGLShaderResourceBindings(nullptr);
+	return new ES21ShaderResourceBindings(nullptr);
 }
 
 GLenum ToOpenGLFormat(RHIVertexInputAttribute::Format Format)

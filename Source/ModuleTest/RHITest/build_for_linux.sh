@@ -1,0 +1,1 @@
+cmake -S . -B /root/RHITestBuild -DCMAKE_BUILD_TYPE=Release -DLIBRARY_PATH=F:/Project/Library  -DUSE_VULKAN=false

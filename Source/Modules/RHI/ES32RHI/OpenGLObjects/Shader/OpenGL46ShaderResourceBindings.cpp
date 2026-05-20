@@ -1,0 +1,73 @@
+﻿#include "ES32RHI/ES32.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGL46ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+
+#include <iostream>
+
+OpenGL46ShaderResourceBindings::OpenGL46ShaderResourceBindings(OpenGLDevice* InDevice)
+
+{
+
+}
+
+OpenGL46ShaderResourceBindings::~OpenGL46ShaderResourceBindings()
+{
+
+}
+
+void OpenGL46ShaderResourceBindings::Create()
+{
+	int MaxUBOBindings  = 0;
+	int MaxSSBOBindings = 0;
+	int MaxTextureUnits = 0;
+
+	glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, &MaxUBOBindings);
+	glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &MaxSSBOBindings);
+	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &MaxTextureUnits);
+
+	std::cout << "MaxUBOBindings " << MaxUBOBindings << std::endl;
+	std::cout << "MaxSSBOBindings " << MaxSSBOBindings << std::endl;
+	std::cout << "MaxTextureUnits " << MaxTextureUnits << std::endl;
+
+	int ActiveTextureUnits = 0;
+	for (int BindingIndex = 0; BindingIndex < Bindings.size(); BindingIndex++)
+	{
+		if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::SampledImage)
+		{
+			/*
+				暂时没实现
+				vulkan必须有sampler
+			*/
+
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
+		else if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::CombinedImageSampler)
+		{
+			int TextureUnit = Bindings[BindingIndex].d.binding;
+			/*
+				不可以超过最大纹理单元
+			*/
+			if (TextureUnit < MaxTextureUnits)
+			{
+				auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
+				auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
+
+#if  1
+				// 要求opengl 4.5以上
+				glBindTextureUnit(TextureUnit, TextureHandle);
+#else
+				// 要求es 2.0以上	都支持
+				glActiveTexture(GL_TEXTURE0 + TextureUnit);
+				glBindTexture(GL_TEXTURE_2D, TextureHandle);
+#endif
+				// 要求opengl 3.3以上, es 3.0以上
+				glBindSampler(TextureUnit, SamplerHandle);
+				ActiveTextureUnits++;
+			}
+		}
+	}
+	std::cout << "OpenGL46ShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
+}
+
