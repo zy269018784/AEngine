@@ -28,7 +28,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 2;
+    RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -62,7 +62,9 @@ RHIApplication::RHIApplication()
         std::cout << "CreateRHI(GraphicsAPI::ES32) 222" << std::endl;
 ;
     }
+    std::cout << "RHIUseGPU 111 " << pRHI << std::endl;
     pRHI->RHIUseGPU(0);
+    std::cout << "RHIUseGPU 222" << std::endl;
 
 #if OS_IS_LINUX
 
@@ -82,6 +84,7 @@ RHIApplication::RHIApplication()
 #endif
 #endif
 
+    std::cout << "CreateRHI(GraphicsAPI::Vulkan) 222" << std::endl;
 #if OS_IS_WINDOWS
     // HWND hwnd = Window->GetHWND();
     //HINSTANCE instacne = Window->GetHINSTANCE();
@@ -132,6 +135,7 @@ void RHIApplication::Run()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
+        if (2 == RHIIndex)
         glfwSwapBuffers(glfwWin);
         glfwPollEvents();
 

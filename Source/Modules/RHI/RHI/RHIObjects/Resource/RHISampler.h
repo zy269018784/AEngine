@@ -4,6 +4,7 @@
 class RHIEXPORT RHISampler
 {
 public:
+	RHISampler() =default;
 	RHISampler(RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW);
 	virtual ~RHISampler();
 	RHIFilter GetMinFilter() const;

@@ -1,6 +1,6 @@
 #include "VulkanRHI/VulkanObjects//Resource/VulkanSampler.h"
 #include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
-VulkanSampler::VulkanSampler()
+VulkanSampler::VulkanSampler()	: RHISampler()
 {
 
 }
@@ -10,7 +10,7 @@ VulkanSampler::VulkanSampler(VulkanDevice* InDevice, RHIFilter MinFilter,
 	RHIAddressMode AddressModeU,
 	RHIAddressMode AddressModeV,
 	RHIAddressMode AddressModeW)
-	: Device(InDevice), RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
+	: Device(InDevice), RHISampler(MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW)
 {
 	VkSamplerCreateInfo CreateInfo{ };
 	CreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;

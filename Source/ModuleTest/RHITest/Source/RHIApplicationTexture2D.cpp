@@ -1,6 +1,7 @@
 ﻿#include "RHIApplicationTexture2D.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Vulkan/Common.h"
@@ -91,9 +92,7 @@ void RHIApplicationTexture2D::CreateEBO()
 
 void RHIApplicationTexture2D::CreateTexture()
 {
-    std::cout << "RHICreateSampler start " << pRHI << std::endl;
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-    std::cout << "RHICreateSampler end" << std::endl;
     int texWidth, texHeight, texChannels;
 #if  1
     /*

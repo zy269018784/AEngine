@@ -26,6 +26,7 @@ RHI *CreateRHI(GraphicsAPI API) {
     if (GraphicsAPI::Vulkan == API)
     {
         pRHI = new VulkanRHI();
+        std::cout << "new VulkanRHI" << std::endl;
     }
 #endif
 
