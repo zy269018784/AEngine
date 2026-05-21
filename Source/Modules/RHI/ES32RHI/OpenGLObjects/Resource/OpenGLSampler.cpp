@@ -2,6 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 
 OpenGLSampler::OpenGLSampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
+: RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
 {
 	std::cout << "glGenSamplers" <<std::endl;
 	std::cout << "glGenSamplers" << glGenSamplers <<std::endl;

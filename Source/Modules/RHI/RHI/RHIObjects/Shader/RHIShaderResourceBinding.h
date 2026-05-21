@@ -27,7 +27,8 @@ public:
         Sampler,                // Sampler
         SampledImage,           // Sampled Image
         CombinedImageSampler,   // Combined Image Sampler
-        StorageImage,           // Storage Image                    
+        StorageImage,           // Storage Image
+
     };   
     
     struct TextureAndSampler {

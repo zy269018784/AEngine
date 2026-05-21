@@ -2,7 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Shader/ES21ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-
+#include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include <iostream>
 
 ES21ShaderResourceBindings::ES21ShaderResourceBindings(OpenGLDevice* InDevice)
@@ -48,7 +48,11 @@ void ES21ShaderResourceBindings::Create()
 			if (TextureUnit < MaxTextureUnits)
 			{
 				auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
-				auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
+
+				OpenGLSampler *Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
+				std::cout << "aaaa" << std::endl;
+				auto SamplerHandle = Sampler->GetHandle();
+			//	auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
 
 				// 要求opengl 4.5以上
 				//glBindTextureUnit(TextureUnit, TextureHandle);
@@ -58,7 +62,21 @@ void ES21ShaderResourceBindings::Create()
 				glBindTexture(GL_TEXTURE_2D, TextureHandle);
 
 				// 要求opengl 3.3以上, es 3.0以上
-				glBindSampler(TextureUnit, SamplerHandle);
+			//	glBindSampler(TextureUnit, SamplerHandle);
+#if 1
+				std::cout << "test ES21ShaderResourceBindings !!!!!!!!!" << std::endl;
+				auto AddressModeU = ToOpenGLSamplerAddressMode(Sampler->GetAddressModeU());
+				auto AddressModeV = ToOpenGLSamplerAddressMode(Sampler->GetAddressModeV());
+				auto AddressModeW = ToOpenGLSamplerAddressMode(Sampler->GetAddressModeW());
+				auto MinFilter = ToOpenGLFilter(Sampler->GetMinFilter());
+				auto MagFilter = ToOpenGLFilter(Sampler->GetMagFilter());
+
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, AddressModeU);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, AddressModeV);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, AddressModeW);
+#endif
 				ActiveTextureUnits++;
 			}
 		}

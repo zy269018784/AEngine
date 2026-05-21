@@ -2,8 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Resource/ES21Sampler.h"
 
 ES21Sampler::ES21Sampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
-{
-
+: RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW) {
 }
 
 

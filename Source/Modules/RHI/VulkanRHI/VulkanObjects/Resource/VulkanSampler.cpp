@@ -10,7 +10,7 @@ VulkanSampler::VulkanSampler(VulkanDevice* InDevice, RHIFilter MinFilter,
 	RHIAddressMode AddressModeU,
 	RHIAddressMode AddressModeV,
 	RHIAddressMode AddressModeW)
-	: Device(InDevice)
+	: Device(InDevice), RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
 {
 	VkSamplerCreateInfo CreateInfo{ };
 	CreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
