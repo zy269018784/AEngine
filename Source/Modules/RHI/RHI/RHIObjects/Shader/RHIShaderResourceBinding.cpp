@@ -4,7 +4,7 @@
 /*
 	UBO
 */
-RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf)
+RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RHIShaderType stage, RHIBuffer* buf)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -17,7 +17,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RH
     return b;
 }
 
-RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size)
+RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RHIShaderType stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -33,7 +33,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::UniformBuffer(int binding, RH
 /*
 	SSBO
 */
-RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf)
+RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RHIShaderType stage, RHIBuffer* buf)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -45,7 +45,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RH
     return b;
 }
 
-RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size)
+RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RHIShaderType stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -60,7 +60,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::StorageBuffer(int binding, RH
 /*
     Texture
 */
-RHIShaderResourceBinding RHIShaderResourceBinding::Texture(int binding, RHIShaderResourceBinding::StageFlags stage, RHITexture* tex)
+RHIShaderResourceBinding RHIShaderResourceBinding::Texture(int binding, RHIShaderType stage, RHITexture* tex)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -71,7 +71,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::Texture(int binding, RHIShade
     return b;
 }
 
-RHIShaderResourceBinding RHIShaderResourceBinding::Textures(int binding, RHIShaderResourceBinding::StageFlags stage, int count, RHITexture** tex)
+RHIShaderResourceBinding RHIShaderResourceBinding::Textures(int binding, RHIShaderType stage, int count, RHITexture** tex)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -90,7 +90,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::Textures(int binding, RHIShad
 /*
     Sampled Texture
 */
-RHIShaderResourceBinding RHIShaderResourceBinding::SampledTexture(int binding, RHIShaderResourceBinding::StageFlags stage, RHITexture* tex, RHISampler* sampler)
+RHIShaderResourceBinding RHIShaderResourceBinding::SampledTexture(int binding, RHIShaderType stage, RHITexture* tex, RHISampler* sampler)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -101,7 +101,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::SampledTexture(int binding, R
     return b;
 }
 
-RHIShaderResourceBinding RHIShaderResourceBinding::SampledTextures(int binding, RHIShaderResourceBinding::StageFlags stage, int count, const RHIShaderResourceBinding::TextureAndSampler* texSamplers)
+RHIShaderResourceBinding RHIShaderResourceBinding::SampledTextures(int binding, RHIShaderType stage, int count, const RHIShaderResourceBinding::TextureAndSampler* texSamplers)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;
@@ -120,7 +120,7 @@ RHIShaderResourceBinding RHIShaderResourceBinding::SampledTextures(int binding, 
 /*
     Storage Image
 */
-RHIShaderResourceBinding RHIShaderResourceBinding::ImageStore(int binding, RHIShaderResourceBinding::StageFlags stage, RHITexture* tex, int level)
+RHIShaderResourceBinding RHIShaderResourceBinding::ImageStore(int binding, RHIShaderType stage, RHITexture* tex, int level)
 {
     RHIShaderResourceBinding b;
     b.d.binding = binding;

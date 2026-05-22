@@ -565,34 +565,6 @@ inline VkShaderStageFlagBits ToVkShaderStageFlagBits(RHIShaderType Type)
 	return Flag;
 }
 
-inline VkShaderStageFlagBits ToVkShaderStageFlagBits(RHIShaderResourceBinding::StageFlags Stage)
-{
-	VkShaderStageFlagBits Flag = VK_SHADER_STAGE_VERTEX_BIT;
-	switch (Stage)
-	{
-	case RHIShaderResourceBinding::StageFlags::VertexStage:
-		Flag = VK_SHADER_STAGE_VERTEX_BIT;
-		break;
-	case RHIShaderResourceBinding::StageFlags::TessellationControlStage:
-		Flag = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-		break;
-	case RHIShaderResourceBinding::StageFlags::TessellationEvaluationStage:
-		Flag = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-		break;
-	case RHIShaderResourceBinding::StageFlags::FragmentStage:
-		Flag = VK_SHADER_STAGE_FRAGMENT_BIT;
-		break;
-	case RHIShaderResourceBinding::StageFlags::ComputeStage:
-		Flag = VK_SHADER_STAGE_COMPUTE_BIT;
-		break;
-	case RHIShaderResourceBinding::StageFlags::GeometryStage:
-		Flag = VK_SHADER_STAGE_GEOMETRY_BIT;
-		break;
-	default:
-		break;
-	}
-	return Flag;
-}
 /*
 	Logiacl Operations
 */

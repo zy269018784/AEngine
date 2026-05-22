@@ -82,10 +82,10 @@ void RHIApplicationUBO::CreateSRB()
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings(
         {
-            RHIShaderResourceBinding::UniformBuffer(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHIUBO[0]),
-            RHIShaderResourceBinding::UniformBuffer(1, RHIShaderResourceBinding::StageFlags::FragmentStage, RHIUBO[1]),
-            RHIShaderResourceBinding::UniformBuffer(2, RHIShaderResourceBinding::StageFlags::FragmentStage, RHIUBO[2]),
-            RHIShaderResourceBinding::UniformBuffer(3, RHIShaderResourceBinding::StageFlags::FragmentStage, RHIUBO[3]),
+            RHIShaderResourceBinding::UniformBuffer(0, RHIShaderType::Fragment, RHIUBO[0]),
+            RHIShaderResourceBinding::UniformBuffer(1, RHIShaderType::Fragment, RHIUBO[1]),
+            RHIShaderResourceBinding::UniformBuffer(2, RHIShaderType::Fragment, RHIUBO[2]),
+            RHIShaderResourceBinding::UniformBuffer(3, RHIShaderType::Fragment, RHIUBO[3]),
         }
         );
     SRB->Create();

@@ -173,7 +173,7 @@ void RHIApplicationPlayer::CreateSRB()
     SRB->SetBindings(
         {
             RHIShaderResourceBinding::UniformBuffer(0, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO),
-            RHIShaderResourceBinding::SampledTexture(1, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
         }
         );
     SRB->Create();

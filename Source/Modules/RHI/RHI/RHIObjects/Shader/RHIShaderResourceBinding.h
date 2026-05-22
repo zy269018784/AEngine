@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/Resource/RHIBuffer.h"
 #include "RHI/RHIObjects/Texture/RHITexture.h"
 #include "RHI/RHIObjects/Resource/RHISampler.h"
@@ -38,27 +39,27 @@ public:
 	/*
 		UBO
 	*/
-	static RHIShaderResourceBinding UniformBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf);
-	static RHIShaderResourceBinding UniformBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size);
+	static RHIShaderResourceBinding UniformBuffer(int binding, RHIShaderType stage, RHIBuffer* buf);
+	static RHIShaderResourceBinding UniformBuffer(int binding, RHIShaderType stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size);
 	/*
 		SSBO
 	*/
-	static RHIShaderResourceBinding StorageBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf);
-	static RHIShaderResourceBinding StorageBuffer(int binding, RHIShaderResourceBinding::StageFlags stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size);
+	static RHIShaderResourceBinding StorageBuffer(int binding, RHIShaderType stage, RHIBuffer* buf);
+	static RHIShaderResourceBinding StorageBuffer(int binding, RHIShaderType stage, RHIBuffer* buf, std::uint32_t offset, std::uint32_t size);
     /*
         Texture
     */
-    static RHIShaderResourceBinding Texture(int binding,  RHIShaderResourceBinding::StageFlags stage, RHITexture* tex);
-    static RHIShaderResourceBinding Textures(int binding, RHIShaderResourceBinding::StageFlags stage, int count, RHITexture** tex);
+    static RHIShaderResourceBinding Texture(int binding,  RHIShaderType stage, RHITexture* tex);
+    static RHIShaderResourceBinding Textures(int binding, RHIShaderType stage, int count, RHITexture** tex);
     /*
         Sampled Texture
     */
-    static RHIShaderResourceBinding SampledTexture(int binding, RHIShaderResourceBinding::StageFlags stage, RHITexture* tex, RHISampler* sampler);
-    static RHIShaderResourceBinding SampledTextures(int binding, RHIShaderResourceBinding::StageFlags stage, int count, const RHIShaderResourceBinding::TextureAndSampler* texSamplers);
+    static RHIShaderResourceBinding SampledTexture(int binding, RHIShaderType stage, RHITexture* tex, RHISampler* sampler);
+    static RHIShaderResourceBinding SampledTextures(int binding, RHIShaderType stage, int count, const RHIShaderResourceBinding::TextureAndSampler* texSamplers);
     /*
         Storage Image
     */
-    static RHIShaderResourceBinding ImageStore(int binding, RHIShaderResourceBinding::StageFlags stage, RHITexture* tex, int level);
+    static RHIShaderResourceBinding ImageStore(int binding, RHIShaderType stage, RHITexture* tex, int level);
 
     struct Data
     {
@@ -69,7 +70,7 @@ public:
         /*
             Shader Stage
         */
-        RHIShaderResourceBinding::StageFlags stage;
+        RHIShaderType stage;
         /*
             资源类型
         */

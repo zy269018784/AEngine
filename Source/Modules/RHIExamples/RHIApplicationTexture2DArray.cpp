@@ -122,8 +122,8 @@ void RHIApplicationTexture2DArray::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-         //   RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2DArray, RHISampler2DArray)
+         //   RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_),
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2DArray, RHISampler2DArray)
     });
     SRB->Create();
 }

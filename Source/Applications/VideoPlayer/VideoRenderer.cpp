@@ -225,7 +225,7 @@ void VideoRenderer::SetupQuad() {
 
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
     });
     std::cout << "Create SRB Start" << std::endl;
     SRB->Create();

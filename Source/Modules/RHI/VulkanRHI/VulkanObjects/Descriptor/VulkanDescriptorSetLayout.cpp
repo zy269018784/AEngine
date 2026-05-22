@@ -1,10 +1,11 @@
-#include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
-#include "VulkanRHI/VulkanObjects//Descriptor/VulkanDescriptorSetLayout.h"
-#include "VulkanRHI/VulkanObjects//Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Descriptor/VulkanDescriptorSetLayout.h"
+#include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include <map>
 #include <iostream>
 #include <cstdint>
-
+#if 0
 static VkShaderStageFlagBits ToVkShaderStageFlags(RHIShaderResourceBinding::StageFlags Flag)
 {
 	VkShaderStageFlagBits VkFlag;
@@ -19,7 +20,7 @@ static VkShaderStageFlagBits ToVkShaderStageFlags(RHIShaderResourceBinding::Stag
 	case RHIShaderResourceBinding::StageFlags::TessellationEvaluationStage:
 		VkFlag = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
 		break;
-	case RHIShaderResourceBinding::StageFlags::FragmentStage:
+	case RHIShaderType::Fragment:
 		VkFlag = VK_SHADER_STAGE_FRAGMENT_BIT;
 		break;
 	case RHIShaderResourceBinding::StageFlags::ComputeStage:
@@ -34,7 +35,7 @@ static VkShaderStageFlagBits ToVkShaderStageFlags(RHIShaderResourceBinding::Stag
 
 	return VkFlag;
 }
-
+#endif
 
 VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanDevice* InDevice) 
 	: Device(InDevice), Handle(VK_NULL_HANDLE)
@@ -87,7 +88,7 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanDevice* InDevice, RHI
 		DescriptorSetLayoutBinding.binding = b.d.binding;
 		DescriptorSetLayoutBinding.descriptorType = ToVulkanDescriptorType(b.d.type);
 		DescriptorSetLayoutBinding.descriptorCount = 1;
-		DescriptorSetLayoutBinding.stageFlags = ToVkShaderStageFlags(b.d.stage);
+		DescriptorSetLayoutBinding.stageFlags = ToVkShaderStageFlagBits(b.d.stage);
 		DescriptorSetLayoutBindings.emplace_back(DescriptorSetLayoutBinding);
 	}
 

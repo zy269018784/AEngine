@@ -409,7 +409,7 @@ void Engine::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITexture2D, RHISampler_),
+                             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_),
                              RHIShaderResourceBinding::UniformBuffer(1, RHIShaderResourceBinding::StageFlags::VertexStage, RHIUBO)
                      });
     SRB->Create();

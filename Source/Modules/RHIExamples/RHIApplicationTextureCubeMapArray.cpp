@@ -132,7 +132,7 @@ void RHIApplicationTextureCubeMapArray::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextureCubeMapArray, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITextureCubeMapArray, RHISampler_)
     });
     SRB->Create();
 }

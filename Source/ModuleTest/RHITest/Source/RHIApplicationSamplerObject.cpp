@@ -166,10 +166,10 @@ void RHIApplicationSamplerObject::CreateSRB()
         3   4
     */
     SRB->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextures[0], RHISamplers[0]),
-            RHIShaderResourceBinding::SampledTexture(1, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextures[0], RHISamplers[1]),
-            RHIShaderResourceBinding::SampledTexture(2, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextures[0], RHISamplers[2]),
-            RHIShaderResourceBinding::SampledTexture(3, RHIShaderResourceBinding::StageFlags::FragmentStage, RHITextures[0], RHISamplers[3]),
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITextures[0], RHISamplers[0]),
+            RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHITextures[0], RHISamplers[1]),
+            RHIShaderResourceBinding::SampledTexture(2, RHIShaderType::Fragment, RHITextures[0], RHISamplers[2]),
+            RHIShaderResourceBinding::SampledTexture(3, RHIShaderType::Fragment, RHITextures[0], RHISamplers[3]),
     });
     SRB->Create();
 }

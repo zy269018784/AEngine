@@ -365,39 +365,6 @@ inline GLenum ToOpenGLVertexInputRate(std::uint32_t StepRate)
 	return Mode;
 }
 
-inline GLenum ToOpenGLShaderStageFlagBits(RHIShaderResourceBinding::StageFlags Flag)
-{
-	GLenum Mode;
-	switch (Flag)
-	{
-	case RHIShaderResourceBinding::StageFlags::VertexStage:
-		Mode = GL_VERTEX_SHADER;
-		break;
-	case RHIShaderResourceBinding::StageFlags::TessellationControlStage:
-		std::cout << "OpenGL 3.3 does not support TessellationControlStage" << std::endl;
-		//Mode = GL_TESS_CONTROL_SHADER;
-		break;
-	case RHIShaderResourceBinding::StageFlags::TessellationEvaluationStage:
-		std::cout << "OpenGL 3.3 does not support TessellationEvaluationStage" << std::endl;
-		//Mode = GL_TESS_EVALUATION_SHADER;
-		break;
-	case RHIShaderResourceBinding::StageFlags::FragmentStage:
-		Mode = GL_FRAGMENT_SHADER;
-		break;
-	case RHIShaderResourceBinding::StageFlags::ComputeStage:
-		std::cout << "OpenGL 3.3 does not support ComputeStage" << std::endl;
-		//Mode = GL_COMPUTE_SHADER;
-		break;
-	case RHIShaderResourceBinding::StageFlags::GeometryStage:
-		Mode = GL_GEOMETRY_SHADER;
-		break;
-	default:
-		break;
-	}
-	return Mode;
-}
-
-
 inline GLenum ToOpenGLLogicOp(RHILogicOp RHILogicOp)
 {
 	/*

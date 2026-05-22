@@ -93,10 +93,10 @@ void RHIApplicationSSBO::CreateSRB()
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings(
         {
-            RHIShaderResourceBinding::StorageBuffer(0, RHIShaderResourceBinding::StageFlags::FragmentStage, RHISSBO[0]),
-            RHIShaderResourceBinding::StorageBuffer(1, RHIShaderResourceBinding::StageFlags::FragmentStage, RHISSBO[1]),
-            RHIShaderResourceBinding::StorageBuffer(2, RHIShaderResourceBinding::StageFlags::FragmentStage, RHISSBO[2]),
-            RHIShaderResourceBinding::StorageBuffer(3, RHIShaderResourceBinding::StageFlags::FragmentStage, RHISSBO[3]),
+            RHIShaderResourceBinding::StorageBuffer(0, RHIShaderType::Fragment, RHISSBO[0]),
+            RHIShaderResourceBinding::StorageBuffer(1, RHIShaderType::Fragment, RHISSBO[1]),
+            RHIShaderResourceBinding::StorageBuffer(2, RHIShaderType::Fragment, RHISSBO[2]),
+            RHIShaderResourceBinding::StorageBuffer(3, RHIShaderType::Fragment, RHISSBO[3]),
         }
     );
     SRB->Create();
