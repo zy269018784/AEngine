@@ -21,6 +21,7 @@ class RHIEXPORT RHI
 {
 
 public:
+	RHI(GraphicsAPI APIIndex);
 	/*
 		delete RHI会调用VulkanRHI的析构
 	*/
@@ -200,6 +201,7 @@ public:
 	virtual RHIShaderResourceBindings * RHICreateShaderResourceBindings() = 0;
 protected:
 	std::uint32_t							GPUIndex = 0;
+	GraphicsAPI								APIIndex = GraphicsAPI::Vulkan;
 };
 RHIEXPORT RHI *CreateRHI(GraphicsAPI API);
 /*

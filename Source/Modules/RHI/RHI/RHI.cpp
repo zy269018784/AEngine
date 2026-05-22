@@ -19,13 +19,19 @@
     #include "D3D12RHI/D3D12RHI.h"
 #endif
 
+RHI::RHI(GraphicsAPI Index)
+    : APIIndex(Index)
+{
+
+}
+
 RHI *CreateRHI(GraphicsAPI API) {
     RHI *pRHI = nullptr;
 
 #if USE_VULKAN_RHI
     if (GraphicsAPI::Vulkan == API)
     {
-        pRHI = new VulkanRHI();
+        pRHI = new VulkanRHI(GraphicsAPI::Vulkan);
         std::cout << "new VulkanRHI" << std::endl;
     }
 #endif
@@ -33,7 +39,7 @@ RHI *CreateRHI(GraphicsAPI API) {
 #if USE_ES32_RHI
     if (GraphicsAPI::ES32 == API)
     {
-        pRHI = new ES32RHI();
+        pRHI = new ES32RHI(GraphicsAPI::ES32);
         std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
     }
 #endif

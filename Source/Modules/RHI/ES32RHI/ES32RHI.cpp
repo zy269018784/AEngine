@@ -30,7 +30,8 @@
 
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 
-ES32RHI::ES32RHI()
+ES32RHI::ES32RHI(GraphicsAPI APIIndex)
+	: RHI(APIIndex)
 {
 	std::cout << "ES32RHI::ES32RHI() gladLoadGL" << std::endl;
 	if (!gladLoadGL()) 

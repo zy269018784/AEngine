@@ -8,7 +8,7 @@ class RHIRenderTarget;
 class ES32RHI : public RHI
 {
 public:
-	ES32RHI();
+	ES32RHI(GraphicsAPI APIIndex);
 	~ES32RHI();
 public:
 	/*

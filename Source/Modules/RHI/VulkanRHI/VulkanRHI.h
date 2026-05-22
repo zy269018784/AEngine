@@ -11,7 +11,7 @@ class VulkanDevice;
 class VulkanRHI : public RHI
 {
 public:
-	VulkanRHI();
+	VulkanRHI(GraphicsAPI APIIndex);
 	~VulkanRHI();
 
 	VkCommandBuffer beginSingleTimeCommands();

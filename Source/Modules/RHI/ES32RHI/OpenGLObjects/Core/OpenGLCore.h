@@ -536,3 +536,4 @@ inline GLenum ToOpenGLShaderType(RHIShaderType Type)
 	}
 	return ShaderType;
 }
+

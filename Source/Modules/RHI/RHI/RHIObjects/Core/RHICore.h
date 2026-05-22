@@ -30,7 +30,13 @@ typedef struct RHIEXPORT RHIBufferCopy {
 */
 enum class RHIEXPORT GraphicsAPI : uint8_t{
 	Vulkan,
+	OpenGL46,
+	OpenGL33,
 	ES32,
+	ES31,
+	ES30,
+	ES21,
+	ES20,
 	D3D12,
 	D3D11,
 	D3D10,

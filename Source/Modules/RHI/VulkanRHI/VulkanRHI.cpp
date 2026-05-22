@@ -15,7 +15,8 @@
 #include <iostream>
 
 
-VulkanRHI::VulkanRHI()
+VulkanRHI::VulkanRHI(GraphicsAPI APIIndex)
+	: RHI(APIIndex)
 {
 	/*
 		创建Instance
