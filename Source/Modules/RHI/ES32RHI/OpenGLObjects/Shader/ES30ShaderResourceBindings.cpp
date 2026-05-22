@@ -2,6 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Shader/ES30ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+#include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 
 #include <iostream>
 
@@ -15,15 +16,19 @@ ES30ShaderResourceBindings::~ES30ShaderResourceBindings()
 {
 
 }
-void ES30ShaderResourceBindings::CreateUBO(int BindingPoint, GLuint Handle)
+
+void ES30ShaderResourceBindings::CreateUBO(int BindingPoint, OpenGLBuffer *Buffer)
 {
+	GLuint Handle = Buffer->GetHandle();
 	glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
 }
 
-void ES30ShaderResourceBindings::CreateSSBO(int BindingPoint, GLuint Handle)
+void ES30ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *Buffer)
 {
+	GLuint Handle = Buffer->GetHandle();
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
 }
+
 
 void ES30ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler)
 {

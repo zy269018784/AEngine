@@ -59,24 +59,15 @@ OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t 
 {
 	GLenum ShaderType = ToOpenGLShaderType(Type);
 
-
-	const GLchar* p = (const char*)Code;
-	//std::cout << "p "  << p << std::endl;
 	Handle = glCreateShader(ShaderType);
-	std::cout << "glShaderBinary 1"  <<glShaderBinary << std::endl;
-	//glShaderSource(Handle, 1, &p, nullptr);
-	//glCompileShader(Handle);
 
 	// 3. Load the SPIR-V binary into the shader objects
-	glShaderBinary(1, &Handle, GL_SHADER_BINARY_FORMAT_SPIR_V,
-		Code, CodeSize);
-	std::cout << "glShaderBinary 2"  << std::endl;
+	glShaderBinary(1, &Handle, GL_SHADER_BINARY_FORMAT_SPIR_V, Code, CodeSize);
+
 	// 4. Specialize the shaders (this is crucial!)
 	// This tells the driver which entry point to use from the SPIR-V module.
 	// For GLSL-originated SPIR-V, this is almost always "main".
 	glSpecializeShader(Handle, "main", 0, nullptr, nullptr);
-
-	std::cout << "glShaderBinary 3"  << std::endl;
 
 	// check for shader compile errors
 	int success;

@@ -8,7 +8,7 @@ class OpenGL46ShaderResourceBindings : public OpenGLShaderResourceBindings
 public:
 	OpenGL46ShaderResourceBindings(OpenGLDevice* Device);
 	~OpenGL46ShaderResourceBindings();
-	virtual void CreateUBO(int BindingPoint, GLuint Handle) override final;
-	virtual void CreateSSBO(int BindingPoint, GLuint Handle) override final;
+	virtual void CreateUBO(int BindingPoint,  OpenGLBuffer *Buffer) override final;
+	virtual void CreateSSBO(int BindingPoint, OpenGLBuffer *Buffer) override final;
 	virtual void CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler) override final;
 };

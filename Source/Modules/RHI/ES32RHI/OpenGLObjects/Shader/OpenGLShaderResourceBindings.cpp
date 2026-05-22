@@ -19,10 +19,6 @@ OpenGLShaderResourceBindings::~OpenGLShaderResourceBindings()
 
 void OpenGLShaderResourceBindings::Create()
 {
-	//int MaxUBOBindings  = 0;
-	//int MaxSSBOBindings = 0;
-	//int MaxTextureUnits = 0;
-
 	glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, &MaxUBOBindings);
 	glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &MaxSSBOBindings);
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &MaxTextureUnits);
@@ -45,37 +41,20 @@ void OpenGLShaderResourceBindings::Create()
 		else if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::CombinedImageSampler)
 		{
 			int TextureUnit = Bindings[BindingIndex].d.binding;
-			/*
-				不可以超过最大纹理单元
-			*/
-			if (TextureUnit < MaxTextureUnits)
-			{
-				//auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
-				//auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
+			OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
+			OpenGLSampler* Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
 
-				OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
-				OpenGLSampler* Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
+			CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
 
-				CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
-
-				ActiveTextureUnits++;
-			}
+			ActiveTextureUnits++;
 		}
 		else if (RHIShaderResourceBinding::Type::UniformBuffer == BindingType) {
-			auto Handle = ((OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf)->GetHandle();
-
-			// 绑定 Uniform Buffer 到指定的 binding point
-			//glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
-
-			CreateUBO(Handle, BindingPoint);
+			OpenGLBuffer *Buffer = (OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf;
+			CreateUBO(BindingPoint, Buffer);
 		}
 		else if (RHIShaderResourceBinding::Type::StorageBuffer == BindingType) {
-			auto Handle = ((OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf)->GetHandle();
-
-			// 绑定 Storage Buffer 到指定的 binding point
-			//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
-
-			CreateSSBO(Handle, BindingPoint);
+			OpenGLBuffer *Buffer = (OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf;
+			CreateSSBO(BindingPoint, Buffer);
 		}
 		else if (RHIShaderResourceBinding::Type::StorageImage == BindingType) {
 

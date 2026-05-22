@@ -4,14 +4,15 @@
 class OpenGLTexture;
 class OpenGLSampler;
 class OpenGLDevice;
+class OpenGLBuffer;
 class OpenGLShaderResourceBindings : public RHIShaderResourceBindings
 {
 public:
 	OpenGLShaderResourceBindings(OpenGLDevice* Device);
 	~OpenGLShaderResourceBindings();
 	virtual void Create() final override;
-	virtual void CreateUBO(int BindingPoint, GLuint Handle) = 0;
-	virtual void CreateSSBO(int BindingPoint, GLuint Handle) = 0;
+	virtual void CreateUBO(int BindingPoint,  OpenGLBuffer *Buffer) = 0;
+	virtual void CreateSSBO(int BindingPoint, OpenGLBuffer *Buffer) = 0;
 	virtual void CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler) = 0;
 protected:
 	int MaxUBOBindings  = 0;

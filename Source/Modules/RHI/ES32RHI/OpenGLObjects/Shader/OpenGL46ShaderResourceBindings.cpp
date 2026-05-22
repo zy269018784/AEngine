@@ -17,13 +17,15 @@ OpenGL46ShaderResourceBindings::~OpenGL46ShaderResourceBindings()
 
 }
 
-void OpenGL46ShaderResourceBindings::CreateUBO(int BindingPoint, GLuint Handle)
+void OpenGL46ShaderResourceBindings::CreateUBO(int BindingPoint, OpenGLBuffer *Buffer)
 {
+	GLuint Handle = Buffer->GetHandle();
 	glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
 }
 
-void OpenGL46ShaderResourceBindings::CreateSSBO(int BindingPoint, GLuint Handle)
+void OpenGL46ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *Buffer)
 {
+	GLuint Handle = Buffer->GetHandle();
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
 }
 
