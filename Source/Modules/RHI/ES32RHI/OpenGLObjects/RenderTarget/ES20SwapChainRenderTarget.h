@@ -2,11 +2,11 @@
 #include "OpenGLRenderTarget.h"
 class OpenGLDevice;
 class OpenGLSurface;
-class OpenGL46SwapChainRenderTarget : public OpenGLRenderTarget
+class ES20SwapChainRenderTarget : public OpenGLRenderTarget
 {
 public:
-    OpenGL46SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
-    ~OpenGL46SwapChainRenderTarget();
+    ES20SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
+    ~ES20SwapChainRenderTarget();
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;

@@ -22,7 +22,24 @@
 #include "ES32RHI/OpenGLObjects/Texture/ES20Texture.h"
 
 #include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
-#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/Resource/OpenGL46Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/OpenGL33Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/ES32Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/ES31Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/ES30Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/ES21Sampler.h"
+#include "ES32RHI/OpenGLObjects/Resource/ES20Sampler.h"
+
+
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL33SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES32SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES31SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES30SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES21SwapChainRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES20SwapChainRenderTarget.h"
+
+
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 
@@ -87,7 +104,31 @@ RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 //RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 {
-	return new OpenGLSwapChainRenderTarget(nullptr, nullptr);
+	RHIRenderTarget *SwapChainRenderTarget;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			SwapChainRenderTarget = new OpenGL46SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::OpenGL33:
+			SwapChainRenderTarget = new OpenGL33SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::ES32:
+			SwapChainRenderTarget = new ES32SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::ES31:
+			SwapChainRenderTarget = new ES31SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::ES30:
+			SwapChainRenderTarget = new ES30SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::ES21:
+			SwapChainRenderTarget = new ES21SwapChainRenderTarget(nullptr, nullptr);
+			break;
+		case GraphicsAPI::ES20:
+			SwapChainRenderTarget = new ES20SwapChainRenderTarget(nullptr, nullptr);
+			break;
+	}
+	return SwapChainRenderTarget;
 }
 
 RHIRenderTarget *ES32RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
@@ -124,7 +165,28 @@ RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeY = 1;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
@@ -132,7 +194,28 @@ RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std:
 	RHITextureType Type = RHITextureType::Texture1DArray;
 	std::uint32_t SizeY = ArraySize;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
@@ -140,7 +223,28 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeZ = 1;
-	return new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 
@@ -148,14 +252,56 @@ RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std:
 { 
 	RHITextureType Type = RHITextureType::Texture2DArray;
 	std::uint32_t SizeZ = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture3D;
 	std::uint32_t ArraySize = 1;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
@@ -166,7 +312,28 @@ RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::ui
 		实际没用到
 	*/
 	std::uint32_t SizeZ = 0;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
@@ -177,7 +344,28 @@ RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, st
 	*/
 	std::uint32_t SizeZ = 0;
 	ArraySize *= 6;
-	return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	RHITexture *Texture;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Texture = new OpenGL33Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES32:
+			Texture = new ES32Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES31:
+			Texture = new ES31Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES30:
+			Texture = new ES30Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+		case GraphicsAPI::ES20:
+			Texture = new ES20Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+			break;
+	}
+	return Texture;
 }
 
 void ES32RHI::RHIUpdateTexture(RHITexture* InTexture, const void* InData, std::uint32_t InSize)
@@ -192,7 +380,30 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 	RHIAddressMode AddressModeV,
 	RHIAddressMode AddressModeW)
 {
-	OpenGLSampler* Sampler = new OpenGLSampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+	RHISampler* Sampler = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Sampler = new OpenGL46Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Sampler = new OpenGL33Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::ES32:
+			Sampler = new ES32Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::ES31:
+			Sampler = new ES31Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::ES30:
+			Sampler = new ES30Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::ES21:
+			Sampler = new ES21Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+		case GraphicsAPI::ES20:
+			Sampler = new ES20Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
+			break;
+	}
 	return Sampler;
 }
 

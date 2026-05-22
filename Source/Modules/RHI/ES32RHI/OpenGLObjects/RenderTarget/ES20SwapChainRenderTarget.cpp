@@ -1,4 +1,4 @@
-#include "OpenGL46SwapChainRenderTarget.h"
+#include "ES20SwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL33CommandBuffer.h"
@@ -7,34 +7,34 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
-OpenGL46SwapChainRenderTarget::OpenGL46SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
+ES20SwapChainRenderTarget::ES20SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
     : OpenGLRenderTarget((RHIPixelFormat)0)
 {
     GraphicsCommandBuffers.resize(1);
-    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
+    GraphicsCommandBuffers[0] = new ES20CommandBuffer();
 }
 
-OpenGL46SwapChainRenderTarget::~OpenGL46SwapChainRenderTarget()
+ES20SwapChainRenderTarget::~ES20SwapChainRenderTarget()
 {
 
 }
 
-void OpenGL46SwapChainRenderTarget::RHIBeginFrame() {
+void ES20SwapChainRenderTarget::RHIBeginFrame() {
 
 }
 
-void OpenGL46SwapChainRenderTarget::RHIEndFrame() {
+void ES20SwapChainRenderTarget::RHIEndFrame() {
 
 }
 
-void OpenGL46SwapChainRenderTarget::RHIBeginRenderPass() {
+void ES20SwapChainRenderTarget::RHIBeginRenderPass() {
 
 }
 
-void OpenGL46SwapChainRenderTarget::RHIEndRenderPass() {
+void ES20SwapChainRenderTarget::RHIEndRenderPass() {
 
 }
-void OpenGL46SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
+void ES20SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
 {
     GLint Viewport[4];
     glGetIntegerv(GL_VIEWPORT, Viewport);
@@ -44,6 +44,6 @@ void OpenGL46SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, floa
     h = Viewport[3];
 }
 
-void OpenGL46SwapChainRenderTarget::Resize(float Width, float Height) {
+void ES20SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
