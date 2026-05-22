@@ -179,7 +179,7 @@ int RHIExample()
 	//Example_Triangle();
 	//Example_TriangleIndexed();
 	//Example_DepthTest();
-	//Example_UBO();
+	Example_UBO();
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
@@ -194,7 +194,7 @@ int RHIExample()
 	//Example_Player();
 	//Example_RenderTarget();
 	//Example_TextureRenderTarget();
-	Example_SperateImageSampler();
+	//Example_SperateImageSampler();
 
 	return 0;
 }

@@ -198,7 +198,7 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 
 RHIShaderResourceBindings* ES32RHI::RHICreateShaderResourceBindings() 
 {
-	return new ES21ShaderResourceBindings(nullptr);
+	return new OpenGL46ShaderResourceBindings(nullptr);
 }
 
 GLenum ToOpenGLFormat(RHIVertexInputAttribute::Format Format)

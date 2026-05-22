@@ -1,10 +1,12 @@
 #pragma once
-#include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
-class ES32ShaderResourceBindings : public RHIShaderResourceBindings
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
+class OpenGLDevice;
+class ES32ShaderResourceBindings : public OpenGLShaderResourceBindings
 {
 public:
 	ES32ShaderResourceBindings(OpenGLDevice* Device);
 	~ES32ShaderResourceBindings();
-	virtual void Create() final override;
+	virtual void CreateUBO(int BindingPoint, GLuint Handle) override final;
+	virtual void CreateSSBO(int BindingPoint, GLuint Handle) override final;
+	virtual void CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler) override final;
 };

@@ -6,7 +6,7 @@
 #include <iostream>
 
 OpenGL33ShaderResourceBindings::OpenGL33ShaderResourceBindings(OpenGLDevice* InDevice)
-
+: OpenGLShaderResourceBindings(InDevice)
 {
 
 }
@@ -16,6 +16,35 @@ OpenGL33ShaderResourceBindings::~OpenGL33ShaderResourceBindings()
 
 }
 
+void OpenGL33ShaderResourceBindings::CreateUBO(int BindingPoint, GLuint Handle)
+{
+	glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
+}
+
+void OpenGL33ShaderResourceBindings::CreateSSBO(int BindingPoint, GLuint Handle)
+{
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
+}
+
+void OpenGL33ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler)
+{
+	auto TextureHandle = Texture->GetHandle();
+	auto SamplerHandle = Sampler->GetHandle();
+	/*
+		不可以超过最大纹理单元
+	*/
+	if (TextureUnit < MaxTextureUnits)
+	{
+		// 要求es 2.0以上	都支持
+		glActiveTexture(GL_TEXTURE0 + TextureUnit);
+		glBindTexture(GL_TEXTURE_2D, TextureHandle);
+
+		// 要求opengl 3.3以上, es 3.0以上
+		glBindSampler(TextureUnit, SamplerHandle);
+	}
+}
+
+#if 0
 void OpenGL33ShaderResourceBindings::Create()
 {
 	int MaxUBOBindings  = 0;
@@ -65,4 +94,4 @@ void OpenGL33ShaderResourceBindings::Create()
 	}
 	std::cout << "OpenGL33ShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
 }
-
+#endif

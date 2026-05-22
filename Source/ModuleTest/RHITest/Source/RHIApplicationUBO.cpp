@@ -108,7 +108,7 @@ void RHIApplicationUBO::CreateVertexDescriptioin()
 
 void RHIApplicationUBO::CreateGraphicsPipeline()
 {
-#if USE_RHI_VULKAN
+#if 1
     auto vertShaderCode = ReadFile("UBO_vert.spv");
     auto fragShaderCode = ReadFile("UBO_frag.spv");
     // 创建Shader
@@ -151,7 +151,7 @@ void RHIApplicationUBO::CreateGraphicsPipeline()
 #endif
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Front);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);

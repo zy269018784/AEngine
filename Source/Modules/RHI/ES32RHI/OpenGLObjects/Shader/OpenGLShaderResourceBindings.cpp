@@ -2,8 +2,9 @@
 #include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-
+#include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 #include <iostream>
+
 
 OpenGLShaderResourceBindings::OpenGLShaderResourceBindings(OpenGLDevice* InDevice)
 
@@ -18,9 +19,9 @@ OpenGLShaderResourceBindings::~OpenGLShaderResourceBindings()
 
 void OpenGLShaderResourceBindings::Create()
 {
-	int MaxUBOBindings  = 0;
-	int MaxSSBOBindings = 0;
-	int MaxTextureUnits = 0;
+	//int MaxUBOBindings  = 0;
+	//int MaxSSBOBindings = 0;
+	//int MaxTextureUnits = 0;
 
 	glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, &MaxUBOBindings);
 	glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &MaxSSBOBindings);
@@ -33,6 +34,8 @@ void OpenGLShaderResourceBindings::Create()
 	int ActiveTextureUnits = 0;
 	for (int BindingIndex = 0; BindingIndex < Bindings.size(); BindingIndex++)
 	{
+		const RHIShaderResourceBinding::Type  BindingType = Bindings[BindingIndex].d.type;
+		int BindingPoint = Bindings[BindingIndex].d.binding;
 		if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::SampledImage)
 		{
 			/*
@@ -47,21 +50,36 @@ void OpenGLShaderResourceBindings::Create()
 			*/
 			if (TextureUnit < MaxTextureUnits)
 			{
-				auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
-				auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
+				//auto TextureHandle = ((OpenGLTexture*)Bindings[BindingIndex].d.u.stex.texSamplers->tex)->GetHandle();
+				//auto SamplerHandle = ((OpenGLSampler*)Bindings[BindingIndex].d.u.stex.texSamplers->sampler)->GetHandle();
 
-#if  1
-				// 要求opengl 4.5以上
-				glBindTextureUnit(TextureUnit, TextureHandle);
-#else
-				// 要求es 2.0以上	都支持
-				glActiveTexture(GL_TEXTURE0 + TextureUnit);
-				glBindTexture(GL_TEXTURE_2D, TextureHandle);
-#endif
-				// 要求opengl 3.3以上, es 3.0以上
-				glBindSampler(TextureUnit, SamplerHandle);
+				OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
+				OpenGLSampler* Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
+
+				CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
+
 				ActiveTextureUnits++;
 			}
+		}
+		else if (RHIShaderResourceBinding::Type::UniformBuffer == BindingType) {
+			auto Handle = ((OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf)->GetHandle();
+
+			// 绑定 Uniform Buffer 到指定的 binding point
+			//glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
+
+			CreateUBO(Handle, BindingPoint);
+		}
+		else if (RHIShaderResourceBinding::Type::StorageBuffer == BindingType) {
+			auto Handle = ((OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf)->GetHandle();
+
+			// 绑定 Storage Buffer 到指定的 binding point
+			//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
+
+			CreateSSBO(Handle, BindingPoint);
+		}
+		else if (RHIShaderResourceBinding::Type::StorageImage == BindingType) {
+
+			//glBindImageTexture(imageUnit, textureHandle, 0, GL_FALSE, 0, access, GL_RGBA8);
 		}
 	}
 	std::cout << "OpenGLShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
