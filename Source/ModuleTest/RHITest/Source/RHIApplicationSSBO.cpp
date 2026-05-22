@@ -4,6 +4,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/Shader/RHIShader.h"
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
@@ -120,7 +121,7 @@ void RHIApplicationSSBO::CreateVertexDescriptioin()
 
 void RHIApplicationSSBO::CreateGraphicsPipeline()
 {
-#if USE_RHI_VULKAN
+#if 1
     auto vertShaderCode = ReadFile("SSBO_vert.spv");
     auto fragShaderCode = ReadFile("SSBO_frag.spv");
     // 创建Shader
@@ -163,7 +164,7 @@ void RHIApplicationSSBO::CreateGraphicsPipeline()
 #endif
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::Front);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);

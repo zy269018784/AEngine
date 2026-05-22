@@ -1,4 +1,4 @@
-﻿#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
+#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL33CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
@@ -7,12 +7,12 @@
 
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 
-void OpenGLCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
+void OpenGL33CommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
+void OpenGL33CommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {	
 	GLenum RHITopology =    ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());
 
@@ -57,7 +57,7 @@ void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint3
 		glDrawArrays(GL_TRIANGLES, FirstVertex, VertexCount);
 }
 
-void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount, std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
+void OpenGL33CommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount, std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
 {
 	GLenum RHITopology = ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());
 
@@ -101,32 +101,32 @@ void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 		glDrawElements(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset));
 }
 
-void OpenGLCommandBuffer::RHISetScissor(const RHIScissor& scissor)
+void OpenGL33CommandBuffer::RHISetScissor(const RHIScissor& scissor)
 {
 	glScissor(scissor.X(), scissor.Y(), scissor.Width(), scissor.Height());
 }
 
-void OpenGLCommandBuffer::RHISetStencilTestEnable(RHIBool32 Enable)
+void OpenGL33CommandBuffer::RHISetStencilTestEnable(RHIBool32 Enable)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilOp(RHIStencilFace FaceMask, RHIStencilOp FailOp, RHIStencilOp PassOp, RHIStencilOp DepthFailOp, RHICompareOp CompareOp)
+void OpenGL33CommandBuffer::RHISetStencilOp(RHIStencilFace FaceMask, RHIStencilOp FailOp, RHIStencilOp PassOp, RHIStencilOp DepthFailOp, RHICompareOp CompareOp)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilWriteMask(RHIStencilFace FaceMask, uint32_t WriteMask)
+void OpenGL33CommandBuffer::RHISetStencilWriteMask(RHIStencilFace FaceMask, uint32_t WriteMask)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilReference(RHIStencilFace FaceMask, uint32_t Reference)
+void OpenGL33CommandBuffer::RHISetStencilReference(RHIStencilFace FaceMask, uint32_t Reference)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
+void OpenGL33CommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
 {
 	if (Enable)
 		glEnable(GL_DEPTH_TEST);
@@ -134,7 +134,7 @@ void OpenGLCommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
 		glDisable(GL_DEPTH_TEST);
 }
 
-void OpenGLCommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
+void OpenGL33CommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
 {
 	if (Enable)
 		glDepthMask(GL_TRUE);
@@ -142,23 +142,23 @@ void OpenGLCommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
 		glDepthMask(GL_FALSE);
 }
 
-void OpenGLCommandBuffer::RHISetDepthCompareOp(RHICompareOp DepthCompareOp)
+void OpenGL33CommandBuffer::RHISetDepthCompareOp(RHICompareOp DepthCompareOp)
 {
 	GLenum Op = ToOpenGLCompareOp(DepthCompareOp);
 	glDepthFunc(Op);
 }
 
-void OpenGLCommandBuffer::RHISetDepthBoundsTestEnable(RHIBool32 Enable)
+void OpenGL33CommandBuffer::RHISetDepthBoundsTestEnable(RHIBool32 Enable)
 {
 	//std::cout << "need extension" << std::endl;
 }
 
-void OpenGLCommandBuffer::RHISetDepthBounds(float MinDepthBounds, float MaxDepthBounds)
+void OpenGL33CommandBuffer::RHISetDepthBounds(float MinDepthBounds, float MaxDepthBounds)
 {
 	//std::cout << "need extension" << std::endl;
 }
 
-void OpenGLCommandBuffer::RHISetViewport(const RHIViewport& viewport)
+void OpenGL33CommandBuffer::RHISetViewport(const RHIViewport& viewport)
 {
 	glViewport(viewport.X(), viewport.Y(), viewport.Width(), viewport.Height());
 	glDepthRangef(viewport.MinDepth(), viewport.MaxDepth());	
@@ -166,22 +166,22 @@ void OpenGLCommandBuffer::RHISetViewport(const RHIViewport& viewport)
 	//glViewport(viewport.Viewport()[0], viewport.Viewport()[1], viewport.Viewport()[2], viewport.Viewport()[3]);
 }
 
-void OpenGLCommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
+void OpenGL33CommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
+void OpenGL33CommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat RHIIndexFormat)
+void OpenGL33CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat RHIIndexFormat)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphicsPipeline)
+void OpenGL33CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphicsPipeline)
 {
 	if (InGraphicsPipeline)
 	{
@@ -280,7 +280,7 @@ glVertexBindingDivisor
 glVertexArrayBindingDivisor
 glVertexAttribDivisor
 */
-void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
+void OpenGL33CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
 	RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHIIndexFormat InIndexFormat)
 {
 	IndexType1 = ToOpenGLIndexType(InIndexFormat);
@@ -354,7 +354,7 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 /*
 	Copy Commands
 */
-void OpenGLCommandBuffer::RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstBuffer, std::uint32_t RegionCount, const RHIBufferCopy* Regions)
+void OpenGL33CommandBuffer::RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstBuffer, std::uint32_t RegionCount, const RHIBufferCopy* Regions)
 {
 
 }

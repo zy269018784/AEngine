@@ -1,4 +1,4 @@
-﻿#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
+#include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
@@ -7,12 +7,12 @@
 
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 
-void OpenGLCommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
+void ES21CommandBuffer::RHISetPrimitiveTopology(RHITopology Topology)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
+void ES21CommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint32_t InstanceCount, std::uint32_t FirstVertex, std::uint32_t FirstInstance)
 {	
 	GLenum RHITopology =    ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());
 
@@ -25,12 +25,13 @@ void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint3
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glClearDepthf(1.0f);
 	/*
+		ES 2.1 不支持
 		多边形模式:
 			填充
 			点
 			线
 	*/
-	glPolygonMode(GL_FRONT_AND_BACK, RHIPolygonMode);
+	//glPolygonMode(GL_FRONT_AND_BACK, RHIPolygonMode);
 	/*
 		定义正面:
 			顺时针
@@ -51,13 +52,13 @@ void OpenGLCommandBuffer::RHIDrawPrimitive(std::uint32_t VertexCount, std::uint3
 	else
 		glEnable(GL_CULL_FACE);
 
-	if (InstanceCount > 1)
-		glDrawArraysInstanced(GL_TRIANGLES, FirstVertex, VertexCount, InstanceCount);
-	else if (InstanceCount > 0)
+	// ES 2.1 不支持实例化绘制
+	//glDrawArraysInstanced(GL_TRIANGLES, FirstVertex, VertexCount, InstanceCount);
+	if (InstanceCount > 0)
 		glDrawArrays(GL_TRIANGLES, FirstVertex, VertexCount);
 }
 
-void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount, std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
+void ES21CommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::int32_t InstanceCount, std::int32_t FirstIndex, std::int32_t VertexOffset, std::int32_t FirstInstance)
 {
 	GLenum RHITopology = ToOpenGLPrimitiveTopology(GraphicsPipeline->GetTopology());
 
@@ -70,6 +71,7 @@ void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glClearDepthf(1.0f);
 	/*
+		ES 2.1 不支持
 		多边形模式:
 			填充
 			点
@@ -95,38 +97,39 @@ void OpenGLCommandBuffer::RHIDrawIndexedPrimitive(std::int32_t IndexCount, std::
 		glDisable(GL_CULL_FACE);
 	else
 		glEnable(GL_CULL_FACE);
-	if (InstanceCount > 1)
-		glDrawElementsInstanced(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset), InstanceCount);
-	else if (InstanceCount > 0)
+
+	// ES 2.1 不支持实例化绘制
+	//glDrawElementsInstanced(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset), InstanceCount);
+	if (InstanceCount > 0)
 		glDrawElements(RHITopology, IndexCount, IndexType1, (const void*)(VertexOffset));
 }
 
-void OpenGLCommandBuffer::RHISetScissor(const RHIScissor& scissor)
+void ES21CommandBuffer::RHISetScissor(const RHIScissor& scissor)
 {
 	glScissor(scissor.X(), scissor.Y(), scissor.Width(), scissor.Height());
 }
 
-void OpenGLCommandBuffer::RHISetStencilTestEnable(RHIBool32 Enable)
+void ES21CommandBuffer::RHISetStencilTestEnable(RHIBool32 Enable)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilOp(RHIStencilFace FaceMask, RHIStencilOp FailOp, RHIStencilOp PassOp, RHIStencilOp DepthFailOp, RHICompareOp CompareOp)
+void ES21CommandBuffer::RHISetStencilOp(RHIStencilFace FaceMask, RHIStencilOp FailOp, RHIStencilOp PassOp, RHIStencilOp DepthFailOp, RHICompareOp CompareOp)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilWriteMask(RHIStencilFace FaceMask, uint32_t WriteMask)
+void ES21CommandBuffer::RHISetStencilWriteMask(RHIStencilFace FaceMask, uint32_t WriteMask)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetStencilReference(RHIStencilFace FaceMask, uint32_t Reference)
+void ES21CommandBuffer::RHISetStencilReference(RHIStencilFace FaceMask, uint32_t Reference)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
+void ES21CommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
 {
 	if (Enable)
 		glEnable(GL_DEPTH_TEST);
@@ -134,7 +137,7 @@ void OpenGLCommandBuffer::RHISetDepthTestEnable(RHIBool32 Enable)
 		glDisable(GL_DEPTH_TEST);
 }
 
-void OpenGLCommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
+void ES21CommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
 {
 	if (Enable)
 		glDepthMask(GL_TRUE);
@@ -142,23 +145,23 @@ void OpenGLCommandBuffer::RHISetDepthWriteEnable(RHIBool32 Enable)
 		glDepthMask(GL_FALSE);
 }
 
-void OpenGLCommandBuffer::RHISetDepthCompareOp(RHICompareOp DepthCompareOp)
+void ES21CommandBuffer::RHISetDepthCompareOp(RHICompareOp DepthCompareOp)
 {
 	GLenum Op = ToOpenGLCompareOp(DepthCompareOp);
 	glDepthFunc(Op);
 }
 
-void OpenGLCommandBuffer::RHISetDepthBoundsTestEnable(RHIBool32 Enable)
+void ES21CommandBuffer::RHISetDepthBoundsTestEnable(RHIBool32 Enable)
 {
 	//std::cout << "need extension" << std::endl;
 }
 
-void OpenGLCommandBuffer::RHISetDepthBounds(float MinDepthBounds, float MaxDepthBounds)
+void ES21CommandBuffer::RHISetDepthBounds(float MinDepthBounds, float MaxDepthBounds)
 {
 	//std::cout << "need extension" << std::endl;
 }
 
-void OpenGLCommandBuffer::RHISetViewport(const RHIViewport& viewport)
+void ES21CommandBuffer::RHISetViewport(const RHIViewport& viewport)
 {
 	glViewport(viewport.X(), viewport.Y(), viewport.Width(), viewport.Height());
 	glDepthRangef(viewport.MinDepth(), viewport.MaxDepth());	
@@ -166,22 +169,22 @@ void OpenGLCommandBuffer::RHISetViewport(const RHIViewport& viewport)
 	//glViewport(viewport.Viewport()[0], viewport.Viewport()[1], viewport.Viewport()[2], viewport.Viewport()[3]);
 }
 
-void OpenGLCommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
+void ES21CommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
+void ES21CommandBuffer::RHIEndRenderPass(RHIRenderPass* RenderPass)
 {
 
 }
 
-void OpenGLCommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat RHIIndexFormat)
+void ES21CommandBuffer::RHIBindIndexBuffer(RHIBuffer* IndexBuffer, std::uint32_t Offset, RHIIndexFormat RHIIndexFormat)
 {
 
 }
 
-void OpenGLCommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphicsPipeline)
+void ES21CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphicsPipeline)
 {
 	if (InGraphicsPipeline)
 	{
@@ -280,7 +283,7 @@ glVertexBindingDivisor
 glVertexArrayBindingDivisor
 glVertexAttribDivisor
 */
-void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
+void ES21CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, const RHICommandBuffer::VertexInput* Bindings,
 	RHIBuffer* RHIEBO, std::uint32_t IndexOffset, RHIIndexFormat InIndexFormat)
 {
 	IndexType1 = ToOpenGLIndexType(InIndexFormat);
@@ -301,7 +304,12 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 	{
 		RHIVertexInputAttribute& Att = VertexInputLayout.Attributes[i];
 		int Location = Att.GetLocation();
-		int Binding = Att.GetBinding();
+		int BindingIndex = Att.GetBinding();
+
+		GLsizei Stride = 0;
+		if (BindingIndex < VertexInputLayout.Bindings.size())
+			Stride = VertexInputLayout.Bindings[BindingIndex].GetStride();
+
 		int Size = 0;
 		if (RHIVertexInputAttribute::Format::Float4 == Att.GetFormat())
 		{
@@ -317,44 +325,17 @@ void OpenGLCommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount, 
 		}
 		std::uint32_t Offset = Att.GetOffset();
 
-		glVertexAttribFormat(Location, Size, GL_FLOAT, GL_FALSE, Offset);
 
-		glVertexAttribBinding(Location, Binding);
+		glVertexAttribPointer(Location, Size, GL_FLOAT, GL_FALSE, Stride, (void*)Offset);
 
 		glEnableVertexAttribArray(Location);
-	}
-
-	/*
-	VertexInputLayout.Bindings:	
-		std::uint32_t Stride, RHIVertexInputBinding::Classification Cls = PerVertex, std::uint32_t StepRate = 1
-	RHICommandBuffer::VertexInput* Bindings:
-		Buffer, Offset
-	*/
-	//std::cout << "VertexInputLayout.Bindings.size()  " << VertexInputLayout.Bindings.size() << std::endl;
-	if (VertexInputLayout.Bindings.size() == BindingCount)
-	{
-		for (int i = 0; i < VertexInputLayout.Bindings.size(); i++)
-		{
-			GLsizei Stride = VertexInputLayout.Bindings[i].GetStride();
-
-			OpenGLBuffer* RHIVBO = (OpenGLBuffer*)(Bindings[i].first);
-			GLintptr Offset = Bindings[i].second;
-
-			glBindVertexBuffer(i, RHIVBO->GetHandle(), Offset, Stride);
-
-		//	std::cout << i << " " << RHIVBO->Handle << " " << Offset << " " << Stride << std::endl;
-		}
-	}
-	else
-	{
-		std::cerr << "VertexInputLayout.Bindings.size() != BindingCount" << std::endl;
 	}
 }
 
 /*
 	Copy Commands
 */
-void OpenGLCommandBuffer::RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstBuffer, std::uint32_t RegionCount, const RHIBufferCopy* Regions)
+void ES21CommandBuffer::RHICmdCopyBuffer(RHIBuffer* SrcBuffer, RHIBuffer* DstBuffer, std::uint32_t RegionCount, const RHIBufferCopy* Regions)
 {
 
 }

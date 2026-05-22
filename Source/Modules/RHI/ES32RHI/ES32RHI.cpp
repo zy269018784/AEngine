@@ -191,14 +191,13 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 	RHIAddressMode AddressModeV,
 	RHIAddressMode AddressModeW)
 {
-	std::cout << "RHICreateSampler" <<std::endl;
 	OpenGLSampler* Sampler = new OpenGLSampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
 	return Sampler;
 }
 
 RHIShaderResourceBindings* ES32RHI::RHICreateShaderResourceBindings() 
 {
-	return new OpenGL46ShaderResourceBindings(nullptr);
+	return new ES21ShaderResourceBindings(nullptr);
 }
 
 GLenum ToOpenGLFormat(RHIVertexInputAttribute::Format Format)
