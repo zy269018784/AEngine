@@ -130,3 +130,13 @@ RHIShaderResourceBinding RHIShaderResourceBinding::ImageStore(int binding, RHISh
     b.d.u.simage.level = level;
     return b;
 }
+
+RHIShaderResourceBinding RHIShaderResourceBinding::Sampler(int binding, RHIShaderType stage, RHISampler* sampler)
+{
+    RHIShaderResourceBinding b;
+    b.d.binding = binding;
+    b.d.stage = stage;
+    b.d.type = RHIShaderResourceBinding::Type::Sampler;
+    b.d.u.sampler.sampler = sampler;
+    return b;
+}

@@ -176,7 +176,7 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 		}
 		else if (BindingType == RHIShaderResourceBinding::Type::Sampler)
 		{
-			VkSampler Handle = ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler)->GetHandle();
+			VkSampler Handle = ((VulkanSampler*)Bindings[i].d.u.sampler.sampler)->GetHandle();
 
 			VkDescriptorImageInfo DescriptorImageInfo;
 			DescriptorImageInfo.sampler			= Handle;
@@ -197,10 +197,9 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 			/*
 				https://docs.vulkan.org/samples/latest/samples/api/separate_image_sampler/README.html
 			*/
-			VkImageView Handle = ((VulkanImageView*)Bindings[i].d.u.stex.texSamplers->tex)->GetHandle();
-
+			VkImageView ImageView = ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex)->ImageView->GetHandle();
 			VkDescriptorImageInfo DescriptorImageInfo;
-			DescriptorImageInfo.imageView	= Handle;
+			DescriptorImageInfo.imageView	= ImageView;
 			DescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			SampledImagesDescriptorImageInfos.push_back(DescriptorImageInfo);
 

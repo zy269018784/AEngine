@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert Texture2DSperateImageSampler_vert.glsl -o Texture2DSperateImageSampler_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag Texture2DSperateImageSampler_frag.glsl -o Texture2DSperateImageSampler_frag.spv -e main

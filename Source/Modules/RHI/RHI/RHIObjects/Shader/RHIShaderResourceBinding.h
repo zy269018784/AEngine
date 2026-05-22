@@ -4,6 +4,7 @@
 #include "RHI/RHIObjects/Texture/RHITexture.h"
 #include "RHI/RHIObjects/Resource/RHISampler.h"
 
+
 class RHIEXPORT RHIShaderResourceBinding
 {
 public:
@@ -56,6 +57,12 @@ public:
     */
     static RHIShaderResourceBinding SampledTexture(int binding, RHIShaderType stage, RHITexture* tex, RHISampler* sampler);
     static RHIShaderResourceBinding SampledTextures(int binding, RHIShaderType stage, int count, const RHIShaderResourceBinding::TextureAndSampler* texSamplers);
+
+    /*
+       Sampler
+   */
+    static RHIShaderResourceBinding Sampler(int binding, RHIShaderType stage, RHISampler* sampler);
+
     /*
         Storage Image
     */
@@ -100,11 +107,16 @@ public:
             int level;
         };
 
+        struct Sampler {
+            RHISampler* sampler;
+        };
+
         union {
             UniformBufferData       ubuf;
             StorageBufferData       sbuf;
             StorageImageData        simage;
-            TextureAndOrSamplerData stex;   
+            TextureAndOrSamplerData stex;
+            Sampler                 sampler;
         } u;
 
         int arraySize() const
