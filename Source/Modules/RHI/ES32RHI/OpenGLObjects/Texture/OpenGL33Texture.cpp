@@ -9,7 +9,7 @@
 *  上传数据  glTexSubImage1D, glTexSubImage2D, glTexSubImage3D
  */
 OpenGL33Texture::OpenGL33Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
-    : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
+    : OpenGLTexture(InDevice, InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData)
 {
     std::cout << "OpenGL33Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);
@@ -95,12 +95,6 @@ OpenGL33Texture::~OpenGL33Texture()
 {
     glDeleteTextures(1, &Handle);
 }
-
-GLuint OpenGL33Texture::GetHandle() const
-{
-    return Handle;
-};
-
 
 void OpenGL33Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
@@ -189,7 +183,9 @@ void OpenGL33Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOff
     }
 }
 
+#if 1
 void OpenGL33Texture::TransitionImageLayout(int dir)
 {
 
 }
+#endif

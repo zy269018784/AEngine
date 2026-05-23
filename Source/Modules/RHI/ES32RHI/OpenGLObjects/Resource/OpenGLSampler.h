@@ -12,10 +12,10 @@ public:
 		RHIAddressMode AddressModeU = RHIAddressMode::REPEAT,
 		RHIAddressMode AddressModeV = RHIAddressMode::REPEAT,
 		RHIAddressMode AddressModeW = RHIAddressMode::REPEAT);
-	~OpenGLSampler();
+	virtual ~OpenGLSampler();
 	GLuint GetHandle();
-	void BindTextureUnit(int Unit);
-private:
+	virtual void BindTextureUnit(int Unit) = 0;
+protected:
 	OpenGLDevice* Device;
 	GLuint Handle;
 };

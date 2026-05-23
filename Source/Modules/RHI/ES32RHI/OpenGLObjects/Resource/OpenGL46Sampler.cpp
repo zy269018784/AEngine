@@ -2,7 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 
 OpenGL46Sampler::OpenGL46Sampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
-: RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
+: OpenGLSampler(InDevice, InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
 {
     glGenSamplers(1, &Handle);
 
@@ -27,10 +27,6 @@ OpenGL46Sampler::~OpenGL46Sampler()
     glDeleteSamplers(1, &Handle);
 }
 
-GLuint OpenGL46Sampler::GetHandle()
-{
-    return Handle;
-}
 
 void OpenGL46Sampler::BindTextureUnit(int Unit)
 {

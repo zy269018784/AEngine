@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-#project (ALL_TARGET)
+project (ALL_TARGET)
 ##[[
 #	语言
 ##]]

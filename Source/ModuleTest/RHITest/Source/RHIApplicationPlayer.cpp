@@ -99,13 +99,9 @@ void RHIApplicationPlayer::Init()
     CreateEBO();
     CreateUBO();
     CreateTexture();
-    std::cout << "debug 1 " << std::endl;
     CreateSRB();
-    std::cout << "debug 2 " << std::endl;
     CreateVertexDescriptioin();
-    std::cout << "debug 3 " << std::endl;
     CreateGraphicsPipeline();
-    std::cout << "debug 4 " << std::endl;
 }
 
 void RHIApplicationPlayer::CreateTexture()

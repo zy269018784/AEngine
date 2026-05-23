@@ -31,6 +31,7 @@ void OpenGL46ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *B
 
 void OpenGL46ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler)
 {
+	std::cout << "OpenGL46ShaderResourceBindings::CreateCombinedImageSampler " << Texture << " " << Sampler << std::endl;
 	auto TextureHandle = Texture->GetHandle();
 	auto SamplerHandle = Sampler->GetHandle();
 	/*

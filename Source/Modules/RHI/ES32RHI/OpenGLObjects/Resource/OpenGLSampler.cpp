@@ -4,6 +4,7 @@
 OpenGLSampler::OpenGLSampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
 : RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
 {
+#if 0
 	std::cout << "glGenSamplers" <<std::endl;
 	std::cout << "glGenSamplers" << glGenSamplers <<std::endl;
 	glGenSamplers(1, &Handle);
@@ -21,20 +22,24 @@ OpenGLSampler::OpenGLSampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIF
 	glSamplerParameteri(Handle, GL_TEXTURE_WRAP_T, AddressModeV);
 	glSamplerParameteri(Handle, GL_TEXTURE_WRAP_R, AddressModeW);
 	//glSamplerParameterf(Handle, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16.0f);
+#endif
 }
 
 
 OpenGLSampler::~OpenGLSampler()
 {
+#if 0
 	glDeleteSamplers(1, &Handle);
+#endif
 }
 
 GLuint OpenGLSampler::GetHandle()
 {
 	return Handle;
 }
-
+#if 0
 void OpenGLSampler::BindTextureUnit(int Unit)
 {
 	glBindSampler(Unit, Handle);
 }
+#endif

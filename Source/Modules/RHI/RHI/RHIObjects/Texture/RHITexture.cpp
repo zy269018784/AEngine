@@ -69,7 +69,9 @@ void RHITexture::UpdateImageData()
 		else if (GetType() == RHITextureType::Texture2D)
 		{
 			Pixels = ((std::uint8_t *)GetData());
+			std::cout << "this->Update start"  << std::endl;
 			this->Update(0, 0, 0, 0, Width, Height, 1, Pixels);
+			std::cout << "this->Update end" << std::endl;
 		}
 		else if (GetType() == RHITextureType::Texture2DArray)
 		{

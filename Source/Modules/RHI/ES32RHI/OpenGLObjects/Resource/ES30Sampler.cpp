@@ -2,7 +2,7 @@
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 
 ES30Sampler::ES30Sampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilter InMagFilter, RHIAddressMode InAddressModeU, RHIAddressMode InAddressModeV, RHIAddressMode InAddressModeW)
-: RHISampler(InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
+: OpenGLSampler(InDevice, InMinFilter, InMagFilter, InAddressModeU, InAddressModeV, InAddressModeW)
 {
     glGenSamplers(1, &Handle);
 
@@ -25,11 +25,6 @@ ES30Sampler::ES30Sampler(OpenGLDevice* InDevice, RHIFilter InMinFilter, RHIFilte
 ES30Sampler::~ES30Sampler()
 {
     glDeleteSamplers(1, &Handle);
-}
-
-GLuint ES30Sampler::GetHandle()
-{
-    return Handle;
 }
 
 void ES30Sampler::BindTextureUnit(int Unit)

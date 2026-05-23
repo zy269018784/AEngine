@@ -9,7 +9,7 @@
 *   上传数据  glTexSubImage2D, glTexSubImage3D
  */
 ES30Texture::ES30Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
-    : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
+    : OpenGLTexture(InDevice, InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData)
 {
     std::cout << "ES30Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);
@@ -72,12 +72,6 @@ ES30Texture::~ES30Texture()
 {
     glDeleteTextures(1, &Handle);
 }
-
-GLuint ES30Texture::GetHandle() const
-{
-    return Handle;
-};
-
 
 void ES30Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
@@ -144,7 +138,9 @@ void ES30Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset,
     }
 }
 
+#if 1
 void ES30Texture::TransitionImageLayout(int dir)
 {
 
 }
+#endif

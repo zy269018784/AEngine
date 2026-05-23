@@ -32,7 +32,7 @@ void ES20ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *Buffe
 
 void ES20ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, OpenGLTexture *Texture, OpenGLSampler *Sampler)
 {
-	std::cout << "ES20ShaderResourceBindings::CreateCombinedImageSampler 4" << std::endl;
+	std::cout << "ES20ShaderResourceBindings::CreateCombinedImageSampler 4 " << Texture << " " << Sampler << std::endl;
 	auto TextureHandle = Texture->GetHandle();
 	auto SamplerHandle = Sampler->GetHandle();
 	std::cout << "ES20ShaderResourceBindings::CreateCombinedImageSampler 5" << std::endl;

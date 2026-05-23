@@ -1,19 +1,13 @@
 #pragma once
-#include "ES32RHI/ES32.h"
-#include "RHI/RHIObjects/Texture/RHITexture.h"
-
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 class RHIDevice;
-class OpenGL46Texture : public RHITexture
+class OpenGL46Texture : public OpenGLTexture
 {
 public:
 	OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData = nullptr);
 	~OpenGL46Texture();
-	//void Update(const void* InData, std::uint32_t InSize);
-	void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override;
-	GLuint GetHandle() const;
-	void TransitionImageLayout(int dir) override final;
-private:
-	GLuint Handle;
-	RHIDevice* Device;
+	//GLuint GetHandle() const;
+	virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override final;
+	virtual void TransitionImageLayout(int dir) override final;
 };
 

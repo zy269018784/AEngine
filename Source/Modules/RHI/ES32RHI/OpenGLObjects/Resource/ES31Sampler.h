@@ -3,7 +3,8 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/Resource/RHISampler.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
-class ES31Sampler : public RHISampler
+#include "ES32RHI/OpenGLObjects/Resource/OpenGLSampler.h"
+class ES31Sampler : public OpenGLSampler
 {
 public:
     ES31Sampler() = delete;
@@ -13,9 +14,5 @@ public:
         RHIAddressMode AddressModeV = RHIAddressMode::REPEAT,
         RHIAddressMode AddressModeW = RHIAddressMode::REPEAT);
     ~ES31Sampler();
-    GLuint GetHandle();
-    void BindTextureUnit(int Unit);
-private:
-    OpenGLDevice* Device;
-    GLuint Handle;
+    virtual void BindTextureUnit(int Unit) override final;
 };

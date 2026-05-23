@@ -5,6 +5,7 @@
 OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
     : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
+#if 0
     glGenTextures(1, &Handle);
     GLenum Target = ToOpenGLTextureType(InType);
     auto PixelFormat = OpenGLPixelFormats[int(InFormat)];
@@ -70,7 +71,10 @@ OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixe
     glTexParameteri(Target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(Target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    std::cout << "UpdateImageData start" << std::endl;
     UpdateImageData();
+    std::cout << "UpdateImageData end" << std::endl;
+#endif
 }
 
 
@@ -84,9 +88,10 @@ GLuint OpenGLTexture::GetHandle() const
     return Handle;
 };
 
-
+#if 0
 void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
+    std::cout << "OpenGLTexture::Update start" << std::endl;
     GLenum Target = ToOpenGLTextureType(GetType());
     auto PixelFormat = OpenGLPixelFormats[int(GetFormat())];
     auto InternalFormat = PixelFormat.InternalFormat;
@@ -118,11 +123,20 @@ void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
         glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
         std::cout << "OpenGLTexture::Update 1D Array MipmapLevel " << MipmapLevel << " XOffset " << XOffset << " YOffset " << YOffset << " Width " << Width << " Height " << Height << " Format " << Format << " Type " << Type << std::endl;
         break;
-    case RHITextureType::Texture2D:
+        case RHITextureType::Texture2D:
         /*
             更新整个2D纹理区域.
             [XOffset, XOffset + Width，YOffset, YOffset + Width]
         */
+            std::cout << "texture2d " << Target << " "
+            << MipmapLevel << " "
+            << XOffset << " "
+            << YOffset << " "
+            << Width << " "
+            << Height << " "
+            << Format << " "
+            << Type << " "
+            << InData << std::endl;
         glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
         break;
     case RHITextureType::Texture2DArray:
@@ -170,9 +184,13 @@ void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
     default:
         break;
     }
-}
 
+    std::cout << "OpenGLTexture::Update end" << std::endl;
+}
+#endif
+#if 1
 void OpenGLTexture::TransitionImageLayout(int dir)
 {
 
 }
+#endif

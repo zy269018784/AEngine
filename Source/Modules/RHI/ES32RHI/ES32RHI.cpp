@@ -220,7 +220,7 @@ RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std:
 	RHITextureType Type = RHITextureType::Texture1DArray;
 	std::uint32_t SizeY = ArraySize;
 	std::uint32_t SizeZ = 1;
-	RHITexture *Texture;
+	RHITexture *Texture = nullptr;
 	switch (APIIndex) {
 		case GraphicsAPI::OpenGL46:
 			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
@@ -249,7 +249,9 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
 	std::uint32_t SizeZ = 1;
-	RHITexture *Texture;
+	RHITexture *Texture = nullptr;
+	return new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
+	//return new OpenGLTexture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);
 	switch (APIIndex) {
 		case GraphicsAPI::OpenGL46:
 			Texture = new OpenGL46Texture(nullptr, Type, RHIPixelFormat, NumMips, ArraySize, SizeX, SizeY, SizeZ, Data);

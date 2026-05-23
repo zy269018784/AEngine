@@ -196,7 +196,6 @@ Engine::Engine(IWindow* InWindow)
     pRHI = new ES32RHI();
 #endif
     pRHI->RHIUseGPU(0);
-    std::cout << "debug 1" << std::endl;
 #if  PROJECT_USE_XCB1
     xcb_window_t xcb_window =  Window->GetXCBWindow();
     xcb_connection_t* connection = Window->GetXCBConnection();
