@@ -184,6 +184,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
+    std::cout << "RHICreateGraphicsPipeline start" << std::endl;
 #if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
@@ -205,6 +206,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     delete FragmengShader;
     VertexShader = nullptr;
     FragmengShader = nullptr;
+    std::cout << "RHICreateGraphicsPipeline end" << std::endl;
 }
 
 void RHIApplicationTexture2D::Draw()
