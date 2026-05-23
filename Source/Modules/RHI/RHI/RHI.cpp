@@ -36,11 +36,32 @@ RHI *CreateRHI(GraphicsAPI API) {
     }
 #endif
     std::cout << "API "  << (int)API << std::endl;
+
+#if USE_OPENGL46_RHI
+    if (GraphicsAPI::OpenGL46 == API)
+    {
+        std::cout << "new ES32RHI" << std::endl;
+        pRHI = new ES32RHI(GraphicsAPI::OpenGL46);
+        //std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
+    }
+#endif
+
+
+#if USE_OPENGL33_RHI
+    if (GraphicsAPI::OpenGL33 == API)
+    {
+        std::cout << "new ES32RHI" << std::endl;
+        pRHI = new ES32RHI(GraphicsAPI::OpenGL33);
+        //std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
+    }
+#endif
+
 #if USE_ES32_RHI
     if (GraphicsAPI::ES32 == API)
     {
+        std::cout << "new ES32RHI" << std::endl;
         pRHI = new ES32RHI(GraphicsAPI::ES32);
-        std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
+        //std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
     }
 #endif
 

@@ -43,7 +43,7 @@ RHIApplication::RHIApplication()
     else if (2 == RHIIndex)
     {
         std::cout << "new GLFWWindow 111" << std::endl;
-#if OS_IS_WINDOWS
+#if 0
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
 #else
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES20);
@@ -56,10 +56,15 @@ RHIApplication::RHIApplication()
             opengl需要
         */
        // glfwMakeContextCurrent(InWindow);
-        std::cout << "CreateRHI(GraphicsAPI::ES32) 111" << std::endl;
+       std::cout << "OpenGL CreateRHI 111" << std::endl;
+#if 0
+
+        pRHI = CreateRHI(GraphicsAPI::OpenGL46);
+
+#else
         pRHI = CreateRHI(GraphicsAPI::ES20);
-        std::cout << "CreateRHI(GraphicsAPI::ES32) 222" << std::endl;
-;
+#endif
+        std::cout << "OpenGL CreateRHI 222" << std::endl;
     }
     std::cout << "RHIUseGPU 111 " << pRHI << std::endl;
     pRHI->RHIUseGPU(0);
