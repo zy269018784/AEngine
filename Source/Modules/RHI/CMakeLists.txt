@@ -3,7 +3,7 @@ project (RHI)
 #set (LIBRARY_PATH C:/Projects/Library)
 set (SRC_LIST "")
 
-set (USE_ES32_RHI   0)
+set (USE_ES32_RHI   1)
 set (USE_ES31_RHI   0)
 set (USE_ES30_RHI   0)
 set (USE_ES21_RHI   0)
