@@ -67,17 +67,17 @@ RHIApplicationTexture2D::~RHIApplicationTexture2D()
 
 void RHIApplicationTexture2D::Init()
 {
-    std::cout << "1" << std::endl;
+    std::cout << "RHIApplicationTexture2D::Init 1" << std::endl;
     CreateVBO();
     CreateEBO();
     CreateTexture();
-    std::cout << "2" << std::endl;
+    std::cout << "RHIApplicationTexture2D::Init 2" << std::endl;
     CreateSRB();
-    std::cout << "3" << std::endl;
+    std::cout << "RHIApplicationTexture2D::Init 3" << std::endl;
     CreateVertexDescriptioin();
-    std::cout << "4" << std::endl;
+    std::cout << "RHIApplicationTexture2D::Init 4" << std::endl;
     CreateGraphicsPipeline();
-    std::cout << "5" << std::endl;
+    std::cout << "RHIApplicationTexture2D::Init 5" << std::endl;
 }
 
 void RHIApplicationTexture2D::CreateVBO()
@@ -145,12 +145,14 @@ void RHIApplicationTexture2D::CreateVertexDescriptioin()
 
 void RHIApplicationTexture2D::CreateGraphicsPipeline()
 {
-#if 1
+    std::cout << "RHIApplicationTexture2D create Shader start" << std::endl;
+#if OS_IS_WINDOWS
     auto vertShaderCode = ReadFile("Texture2D_vert.spv");
     auto fragShaderCode = ReadFile("Texture2D_frag.spv");
     // 创建Shader
     VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+
 #else
     auto vertShaderCode = ReadFile2("Texture2D_vert.glsl");
     auto fragShaderCode = ReadFile2("Texture2D_frag.glsl");
@@ -163,7 +165,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
     RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
 #endif
-
+  std::cout << "RHIApplicationTexture2D create Shader END" << std::endl;
     RHIVertexInputLayout VertexInputLayout;
     /*
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1

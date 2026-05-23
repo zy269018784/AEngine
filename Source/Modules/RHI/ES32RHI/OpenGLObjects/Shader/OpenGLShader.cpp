@@ -29,7 +29,7 @@
 //	}
 //	return ShaderType;
 //}
-#if 0
+#if 1
 OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t CodeSize)
 	: RHIShader(Type, Code, CodeSize)
 {
