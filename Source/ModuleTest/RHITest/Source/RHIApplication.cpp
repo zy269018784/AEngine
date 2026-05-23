@@ -64,7 +64,7 @@ RHIApplication::RHIApplication()
 #else
         if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)) {
             printf("Failed to load GLES2\n");
-            return -1;
+            return;
         }
         pRHI = CreateRHI(GraphicsAPI::ES20);
 #endif
