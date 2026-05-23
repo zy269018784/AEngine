@@ -1,4 +1,8 @@
 ﻿#include "glad/glad.h"
+#if defined(_WIN32) || defined(__CYGWIN__)
+#else
+    #include <dlfcn.h>
+#endif
 #include <RHIApplication.h>
 
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
