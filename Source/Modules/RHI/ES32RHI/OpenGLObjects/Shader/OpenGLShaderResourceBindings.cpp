@@ -32,7 +32,9 @@ void OpenGLShaderResourceBindings::Create()
 	{
 		std::cout << "BindingIndex " << BindingIndex << std::endl;
 		const RHIShaderResourceBinding::Type  BindingType = Bindings[BindingIndex].d.type;
+		std::cout << "debug 1" << std::endl;
 		int BindingPoint = Bindings[BindingIndex].d.binding;
+		std::cout << "debug 2" << std::endl;
 		if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::SampledImage)
 		{
 			/*
@@ -41,9 +43,13 @@ void OpenGLShaderResourceBindings::Create()
 		}
 		else if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::CombinedImageSampler)
 		{
+			std::cout << "debug 3" << std::endl;
 			int TextureUnit = Bindings[BindingIndex].d.binding;
+			std::cout << "debug 4" << std::endl;
 			OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
+			std::cout << "debug 5" << std::endl;
 			OpenGLSampler* Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
+			std::cout << "debug 6" << std::endl;
 
 			std::cout << "CreateCombinedImageSampler start" << std::endl;
 			CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
