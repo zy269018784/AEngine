@@ -9,7 +9,7 @@
 *  上传数据  glTexSubImage1D, glTexSubImage2D, glTexSubImage3D
  */
 OpenGL33Texture::OpenGL33Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
-    : OpenGLTexture(InDevice, InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData)
+: OpenGLTexture(InDevice, InType, InFormat,  InNumMips, InArraySize,InX, InY, InZ,  InData)
 {
     std::cout << "OpenGL33Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);
