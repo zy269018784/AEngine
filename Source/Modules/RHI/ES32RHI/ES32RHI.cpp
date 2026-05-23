@@ -50,11 +50,19 @@
 ES32RHI::ES32RHI(GraphicsAPI APIIndex)
 	: RHI(APIIndex)
 {
-	std::cout << "ES32RHI::ES32RHI() gladLoadGL" << std::endl;
-	if (!gladLoadGL()) 
-	{
-		std::cout << "gladLoadGL failed AA" << std::endl;
-		return;
+	if (GraphicsAPI::OpenGL33 == APIIndex || GraphicsAPI::OpenGL46 == APIIndex) {
+		std::cout << "ES32RHI::ES32RHI() gladLoadGL" << std::endl;
+		if (!gladLoadGL())
+		{
+			std::cout << "gladLoadGL failed AA" << std::endl;
+			return;
+		}
+	}
+	else if (GraphicsAPI::ES20 == APIIndex) {
+		if (gladLoadGLES2Loader((GLADloadproc)(wglGetProcAddress))) {
+			std::cout << "gladLoadGLES2Loader failed AA" << std::endl;
+			return;
+		}
 	}
 }
 
