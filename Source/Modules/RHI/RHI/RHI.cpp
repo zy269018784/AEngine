@@ -39,7 +39,7 @@ RHI *CreateRHI(GraphicsAPI API) {
 #if USE_ES32_RHI
     if (GraphicsAPI::ES32 == API)
     {
-        pRHI = new ES32RHI(GraphicsAPI::ES32);
+        pRHI = new ES32RHI(GraphicsAPI::ES20);
         std::cout << "glGetString " << glGetString(GL_VERSION) << std::endl;
     }
 #endif
