@@ -45,6 +45,11 @@
 
 #include <iostream>
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+#else
+	#include <dlfcn.h>
+#endif
+
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 
 ES32RHI::ES32RHI(GraphicsAPI APIIndex)
