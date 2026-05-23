@@ -35,7 +35,7 @@ RHI *CreateRHI(GraphicsAPI API) {
         std::cout << "new VulkanRHI" << std::endl;
     }
 #endif
-
+    std::cout << "API "  << (int)API << std::endl;
 #if USE_ES32_RHI
     if (GraphicsAPI::ES32 == API)
     {
