@@ -59,7 +59,7 @@ ES32RHI::ES32RHI(GraphicsAPI APIIndex)
 		}
 	}
 	else if (GraphicsAPI::ES20 == APIIndex) {
-		if (gladLoadGLES2Loader((GLADloadproc)(wglGetProcAddress))) {
+		if (gladLoadGLES2Loader((GLADloadproc)(GetProcAddress))) {
 			std::cout << "gladLoadGLES2Loader failed AA" << std::endl;
 			return;
 		}
