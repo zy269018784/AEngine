@@ -12,6 +12,7 @@
 #include "ES32RHI/OpenGLObjects/Shader/ES31ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES30ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES21ShaderResourceBindings.h"
+#include "ES32RHI/OpenGLObjects/Shader/ES20ShaderResourceBindings.h"
 
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGL33Texture.h"
@@ -434,7 +435,31 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 
 RHIShaderResourceBindings* ES32RHI::RHICreateShaderResourceBindings() 
 {
-	return new ES21ShaderResourceBindings(nullptr);
+	RHIShaderResourceBindings* ShaderResourceBindings = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			ShaderResourceBindings = new OpenGL46ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::OpenGL33:
+			ShaderResourceBindings = new OpenGL33ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::ES32:
+			ShaderResourceBindings = new ES32ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::ES31:
+			ShaderResourceBindings = new ES31ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::ES30:
+			ShaderResourceBindings = new ES30ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::ES21:
+			ShaderResourceBindings = new ES21ShaderResourceBindings(nullptr);
+			break;
+		case GraphicsAPI::ES20:
+			ShaderResourceBindings = new ES20ShaderResourceBindings(nullptr);
+			break;
+	}
+	return ShaderResourceBindings;
 }
 
 GLenum ToOpenGLFormat(RHIVertexInputAttribute::Format Format)
