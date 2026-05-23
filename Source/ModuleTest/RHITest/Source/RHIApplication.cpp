@@ -67,10 +67,11 @@ RHIApplication::RHIApplication()
         pRHI = CreateRHI(GraphicsAPI::OpenGL46);
 
 #else
-        if (gladLoadGLES2Loader((GLADloadproc)(dlsym))) {
-            std::cout << "gladLoadGLES2Loader failed BBBBBBBBBBB" << std::endl;
-            return;
+        if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)) {
+            printf("Failed to load GLES2\n");
+            return ;
         }
+
         pRHI = CreateRHI(GraphicsAPI::ES20);
 #endif
         std::cout << "OpenGL CreateRHI 222" << std::endl;
