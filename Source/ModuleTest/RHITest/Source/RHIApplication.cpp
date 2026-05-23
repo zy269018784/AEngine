@@ -1,4 +1,5 @@
-﻿#include <RHIApplication.h>
+﻿#include "glad/glad.h"
+#include <RHIApplication.h>
 
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include "RHI/RHIObjects/Resource/RHIBuffer.h"
@@ -62,8 +63,9 @@ RHIApplication::RHIApplication()
         pRHI = CreateRHI(GraphicsAPI::OpenGL46);
 
 #else
-        if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)) {
-            printf("Failed to load GLES2\n");
+
+        if (gladLoadGLES2Loader((GLADloadproc)(dlsym))) {
+            std::cout << "gladLoadGLES2Loader failed BBBBBBBBBBB" << std::endl;
             return;
         }
         pRHI = CreateRHI(GraphicsAPI::ES20);
