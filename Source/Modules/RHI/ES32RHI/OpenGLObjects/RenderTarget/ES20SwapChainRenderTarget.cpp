@@ -6,6 +6,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES31CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
+#include "ES32RHI/OpenGLObjects/CommandBuffer/ES20CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 ES20SwapChainRenderTarget::ES20SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
     : OpenGLRenderTarget((RHIPixelFormat)0)
