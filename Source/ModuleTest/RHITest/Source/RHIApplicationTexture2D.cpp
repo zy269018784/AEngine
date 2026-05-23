@@ -185,23 +185,32 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
         用于创建Descriptor Set Layout和Pipeline Layout
     */
     std::cout << "RHICreateGraphicsPipeline start" << std::endl;
+    std::cout << "RHICreateGraphicsPipeline debug 1" << std::endl;std::cout << "RHICreateGraphicsPipeline start" << std::endl;
 #if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
 #endif
+    std::cout << "RHICreateGraphicsPipeline start 2" << std::endl;
     GraphicsPipeline->SetShaderResourceBindings(SRB);
+    std::cout << "RHICreateGraphicsPipeline start 3" << std::endl;
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    std::cout << "RHICreateGraphicsPipeline start 4" << std::endl;
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
 #endif
+    std::cout << "RHICreateGraphicsPipeline start 5" << std::endl;
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    std::cout << "RHICreateGraphicsPipeline start 6" << std::endl;
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    std::cout << "RHICreateGraphicsPipeline start 7" << std::endl;
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    std::cout << "RHICreateGraphicsPipeline start 8" << std::endl;
     GraphicsPipeline->Create();
+    std::cout << "RHICreateGraphicsPipeline start 9" << std::endl;
     delete VertexShader;
     delete FragmengShader;
     VertexShader = nullptr;
