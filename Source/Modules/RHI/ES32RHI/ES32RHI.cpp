@@ -74,7 +74,7 @@ ES32RHI::ES32RHI(GraphicsAPI APIIndex)
 		}
 #else
 		if (gladLoadGLES2Loader((GLADloadproc)(dlsym))) {
-			std::cout << "gladLoadGLES2Loader failed AA" << std::endl;
+			std::cout << "gladLoadGLES2Loader failed BBBBBBBBBBB" << std::endl;
 			return;
 		}
 #endif
