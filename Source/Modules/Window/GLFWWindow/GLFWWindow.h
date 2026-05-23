@@ -1,9 +1,4 @@
 #pragma once
-                
-
-
-
-
 
 #if WINDOWS_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
@@ -22,6 +17,7 @@
 #include <glfw/glfw3native.h>
 
 
+#include "IWindow.h"
 
 
 class WINDOWEXPORT GLFWWindow : public IWindow
