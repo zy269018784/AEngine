@@ -185,7 +185,7 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
         用于创建Descriptor Set Layout和Pipeline Layout
     */
     std::cout << "RHICreateGraphicsPipeline start" << std::endl;
-    std::cout << "RHICreateGraphicsPipeline debug 1" << std::endl;std::cout << "RHICreateGraphicsPipeline start" << std::endl;
+    std::cout << "RHICreateGraphicsPipeline debug 1 " << RenderTarget << std::endl;
 #if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
