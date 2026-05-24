@@ -1,35 +1,8 @@
-#include "OpenGLShader.h"
+#include "ES32RHI/OpenGLObjects/Shader/OpenGLShader.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include <iostream>
-//GLenum ToOpenGLShaderType(RHIShaderType Type)
-//{
-//	GLenum ShaderType;
-//	switch (Type)
-//	{
-//	case RHIShaderType::Vertex:
-//		ShaderType = GL_VERTEX_SHADER;
-//		break;
-//	case RHIShaderType::TessellationControl:
-//		ShaderType = GL_TESS_CONTROL_SHADER;
-//		break;
-//	case RHIShaderType::TessellationEvaluation:
-//		ShaderType = GL_TESS_EVALUATION_SHADER;
-//		break;
-//	case RHIShaderType::Fragment:
-//		ShaderType = GL_FRAGMENT_SHADER;
-//		break;
-//	case RHIShaderType::Compute:
-//		ShaderType = GL_COMPUTE_SHADER;
-//		break;
-//	case RHIShaderType::Geometry:
-//		ShaderType = GL_GEOMETRY_SHADER;
-//		break;
-//	default:
-//		break;
-//	}
-//	return ShaderType;
-//}
-#if 1
+
+#if 0
 OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t CodeSize)
 	: RHIShader(Type, Code, CodeSize)
 {
@@ -57,6 +30,7 @@ OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t 
 OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t CodeSize)
 	: RHIShader(Type, Code, CodeSize)
 {
+#if 0
 	GLenum ShaderType = ToOpenGLShaderType(Type);
 
 	Handle = glCreateShader(ShaderType);
@@ -78,11 +52,12 @@ OpenGLShader::OpenGLShader(RHIShaderType Type, std::uint32_t* Code, std::size_t 
 		glGetShaderInfoLog(Handle, 512, nullptr, infoLog);
 		std::cout << "glCompileShader log: \n" << infoLog << std::endl;
 	}
+#endif
 }
 #endif
 OpenGLShader::~OpenGLShader()
 {
-	glDeleteShader(Handle);
+	//glDeleteShader(Handle);
 }
 
 GLuint OpenGLShader::GetHandle() const {

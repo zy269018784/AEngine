@@ -37,7 +37,7 @@ void OpenGLGraphicsPipeline::Create()
 	//Handle = glCreateProgram();
 	for (int i = 0; i < Shaders.size(); i++)
 	{
-		glAttachShader(Handle, ((OpenGLShader *)Shaders[i])->Handle);
+		glAttachShader(Handle, ((OpenGLShader *)Shaders[i])->GetHandle());
 	}
 	glLinkProgram(Handle);
 

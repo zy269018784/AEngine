@@ -106,7 +106,7 @@ RHIApplication::RHIApplication()
     std::cout << "RHIApplication 3 " << glfwGetWin32Window << " GLFWHandle " << GLFWHandle << std::endl;
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;RenderTarget
+    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
     std::cout << "RHIApplication pRHI " << pRHI << " " << std::endl;
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
     std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
