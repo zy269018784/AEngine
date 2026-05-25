@@ -54,6 +54,10 @@ void ES20ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, Ope
 	{
 		// 要求es 2.0以上	都支持
 		glActiveTexture(GL_TEXTURE0 + TextureUnit);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, TextureHandle);
+		std::cout << "ES20ShaderResourceBindings glBindTexture " << TextureHandle << std::endl;
+		return;
+
 		glBindTexture(GL_TEXTURE_2D, TextureHandle);
 
 		// 要求opengl 3.3以上, es 3.0以上
