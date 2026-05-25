@@ -26,7 +26,10 @@ void ES30ShaderResourceBindings::CreateUBO(int BindingPoint, OpenGLBuffer *Buffe
 void ES30ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *Buffer)
 {
 	GLuint Handle = Buffer->GetHandle();
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
+	/*
+	 * GL_SHADER_STORAGE_BUFFER 要求es 3.1或以上
+	 */
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
 }
 
 

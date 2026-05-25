@@ -26,9 +26,15 @@ OpenGLBuffer::OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std
         Target = GL_ELEMENT_ARRAY_BUFFER;
         break;
     case RHIBufferType::UniformBuffer:
+        /*
+         * GL_UNIFORM_BUFFER 要求es 3.0或以上
+         */
         Target = GL_UNIFORM_BUFFER;
         break;
     case RHIBufferType::StorageBuffer:
+         /*
+         * GL_SHADER_STORAGE_BUFFER 要求es 3.1或以上
+         */
         Target = GL_SHADER_STORAGE_BUFFER;
         /*
             330没有

@@ -20,13 +20,21 @@ ES20ShaderResourceBindings::~ES20ShaderResourceBindings()
 void ES20ShaderResourceBindings::CreateUBO(int BindingPoint, OpenGLBuffer *Buffer)
 {
 	GLuint Handle = Buffer->GetHandle();
-	glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
+	/*
+	 * es 2.0 不支持glBindBufferBase
+	 * GL_UNIFORM_BUFFER 要求es 3.0或以上
+	 */
+	//glBindBufferBase(GL_UNIFORM_BUFFER, BindingPoint, Handle);
 }
 
 void ES20ShaderResourceBindings::CreateSSBO(int BindingPoint,OpenGLBuffer *Buffer)
 {
 	GLuint Handle = Buffer->GetHandle();
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
+	/*
+	 * es 2.0 不支持glBindBufferBase
+	 * GL_SHADER_STORAGE_BUFFER 要求es 3.1或以上
+	 */
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BindingPoint, Handle);
 }
 
 
@@ -47,6 +55,9 @@ void ES20ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, Ope
 		// 要求es 2.0以上	都支持
 		glActiveTexture(GL_TEXTURE0 + TextureUnit);
 		glBindTexture(GL_TEXTURE_2D, TextureHandle);
+
+		// 要求opengl 3.3以上, es 3.0以上
+		//glBindSampler(TextureUnit, SamplerHandle);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
