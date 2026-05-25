@@ -179,11 +179,11 @@ int RHIExample()
 	//Example_Triangle();
 	//Example_TriangleIndexed();
 	//Example_DepthTest();
-	//Example_UBO();
+	Example_UBO();
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
-	Example_Texture2D();
+	//Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
 	//Example_TextureCubeMap();
