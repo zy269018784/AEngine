@@ -1,5 +1,5 @@
 #include "OpenGLRenderTarget.h"
-#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "ES32RHI/ES32.h"
 OpenGLRenderTarget::OpenGLRenderTarget(RHIPixelFormat InPixelFormat)
     : RHIRenderTarget(InPixelFormat)
 {
@@ -8,5 +8,5 @@ OpenGLRenderTarget::OpenGLRenderTarget(RHIPixelFormat InPixelFormat)
 
 void OpenGLRenderTarget::WaitDeviceIdle()
 {
-
+    glFinish();
 }

@@ -1,5 +1,5 @@
 #include "RHI/RHIObjects/Resource/RHIBuffer.h"
-
+#include <iostream>
 RHIBuffer::RHIBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)
     :  Type(InType), Usage(InUsage), Size(InSize)
 {

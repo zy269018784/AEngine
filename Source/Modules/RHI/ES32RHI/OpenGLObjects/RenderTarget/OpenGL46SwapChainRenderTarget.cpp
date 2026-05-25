@@ -16,7 +16,7 @@ OpenGL46SwapChainRenderTarget::OpenGL46SwapChainRenderTarget(OpenGLDevice *InDev
 
 OpenGL46SwapChainRenderTarget::~OpenGL46SwapChainRenderTarget()
 {
-
+    delete GraphicsCommandBuffers[0];
 }
 
 void OpenGL46SwapChainRenderTarget::RHIBeginFrame() {

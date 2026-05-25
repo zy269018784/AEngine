@@ -122,21 +122,32 @@ RHIApplication::RHIApplication()
 
 RHIApplication::~RHIApplication()
 {
-    delete VertexShader;
-    delete FragmengShader; 
+    return;
+    std::cout << "~RHIApplication 1" << std::endl;
+   // delete VertexShader;
+   // delete FragmengShader;
    //delete GeometryShader;
    //delete ComputeShader;
-    delete RenderTarget;
+    std::cout << "~RHIApplication 2" << std::endl;
+    //delete RenderTarget;
+    std::cout << "~RHIApplication 3" << std::endl;
     delete RHIVBO;
+    std::cout << "~RHIApplication 4" << std::endl;
     delete RHIEBO;
+    std::cout << "~RHIApplication 5" << std::endl;
     delete SRB;
+    std::cout << "~RHIApplication 6" << std::endl;
     delete GraphicsPipeline;
+    std::cout << "~RHIApplication 7" << std::endl;
     delete Surface;
+    std::cout << "~RHIApplication 8" << std::endl;
     delete pRHI;
+    std::cout << "~RHIApplication 9" << std::endl;
 }
 
 void RHIApplication::Run()
 {
+    std::cout << "RHIApplication::Run start" << std::endl;
     Init();
 
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
@@ -160,6 +171,8 @@ void RHIApplication::Run()
 
 
     RenderTarget->WaitDeviceIdle();
+
+    std::cout << "RHIApplication::Run end" << std::endl;
 }
 
 void RHIApplication::Resize(int w, int h)
