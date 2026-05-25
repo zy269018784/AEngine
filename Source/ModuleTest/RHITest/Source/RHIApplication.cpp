@@ -50,18 +50,20 @@ RHIApplication::RHIApplication()
         std::cout << "new GLFWWindow 111" << std::endl;
 #if OS_IS_WINDOWS
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
+        tmpWin->MakeContextCurrent();
+        pRHI = CreateRHI(GraphicsAPI::OpenGL46);
 #else
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES20);
+        tmpWin->MakeContextCurrent();
+        pRHI = CreateRHI(GraphicsAPI::OpenGL46);
 #endif
         std::cout << "new GLFWWindow 222" << std::endl;
-        tmpWin->MakeContextCurrent();
 
         Window = tmpWin;
         /*
             opengl需要
         */
        // glfwMakeContextCurrent(InWindow);
-       std::cout << "OpenGL CreateRHI 111" << std::endl;
 #if OS_IS_WINDOWS
 
         pRHI = CreateRHI(GraphicsAPI::OpenGL46);

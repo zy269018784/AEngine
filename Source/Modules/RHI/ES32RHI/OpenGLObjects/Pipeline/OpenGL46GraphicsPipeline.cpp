@@ -3,6 +3,7 @@
 #include <iostream>
 
 OpenGL46GraphicsPipeline::OpenGL46GraphicsPipeline()
+	: OpenGLGraphicsPipeline()
 {
 	glGenVertexArrays(1, &VAO);
 }

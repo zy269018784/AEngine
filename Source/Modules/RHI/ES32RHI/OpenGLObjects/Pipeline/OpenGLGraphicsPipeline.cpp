@@ -21,7 +21,7 @@ GLuint OpenGLGraphicsPipeline::GetVAO()
 void OpenGLGraphicsPipeline::Create()
 {
 	std::cout << "OpenGLGraphicsPipeline::Create 1" << std::endl;
-	//Handle = glCreateProgram();
+	Handle = glCreateProgram();
 	for (int i = 0; i < Shaders.size(); i++)
 	{
 		glAttachShader(Handle, ((OpenGLShader *)Shaders[i])->GetHandle());
