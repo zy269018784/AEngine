@@ -3,6 +3,15 @@
 #include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
 #include "ES32RHI/OpenGLObjects/Window/OpenGLWindow.h"
 
+
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGL46GraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/OpenGL33GraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/ES32GraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/ES31GraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/ES30GraphicsPipeline.h"
+#include "ES32RHI/OpenGLObjects/Pipeline/ES20GraphicsPipeline.h"
+
 #include "ES32RHI/OpenGLObjects/Shader/OpenGLShader.h"
 #include "ES32RHI/OpenGLObjects/Shader/OpenGL46Shader.h"
 #include "ES32RHI/OpenGLObjects/Shader/OpenGL33Shader.h"
@@ -181,7 +190,33 @@ RHIBuffer* ES32RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InU
 
 RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPass)
 {
-	OpenGLGraphicsPipeline* Pipeline = new OpenGLGraphicsPipeline();
+	RHIGraphicsPipeline *Pipeline = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Pipeline = new OpenGL46GraphicsPipeline();
+			break;
+		case GraphicsAPI::OpenGL33:
+			Pipeline = new OpenGL33GraphicsPipeline();
+			break;
+		case GraphicsAPI::ES32:
+			Pipeline = new ES32GraphicsPipeline();
+			break;
+		case GraphicsAPI::ES31:
+			Pipeline = new ES31GraphicsPipeline();
+			break;
+		case GraphicsAPI::ES30:
+			Pipeline = new ES30GraphicsPipeline();
+			break;
+		case GraphicsAPI::ES21:
+			Pipeline = new ES20GraphicsPipeline();
+			break;
+		case GraphicsAPI::ES20:
+			Pipeline = new ES20GraphicsPipeline();
+			break;
+		default:
+			Pipeline = nullptr;
+			break;
+	}
 	return Pipeline;
 }
 

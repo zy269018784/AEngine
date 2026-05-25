@@ -4,27 +4,14 @@
 
 OpenGLGraphicsPipeline::OpenGLGraphicsPipeline()
 {
-	glGenVertexArrays(1, &VAO);
-	//UnbindVAO();
+	//glGenVertexArrays(1, &VAO);
 }
 
 OpenGLGraphicsPipeline::~OpenGLGraphicsPipeline()
 {
-	glDeleteVertexArrays(1, &VAO);
+	//glDeleteVertexArrays(1, &VAO);
 }
 
-int OpenGLGraphicsPipeline::BindVAO()
-{
-	//std::cout << "BindVAO " << VAO << std::endl;
-	glBindVertexArray(VAO);
-	return 0;
-}
-
-int OpenGLGraphicsPipeline::UnbindVAO()
-{
-	glBindVertexArray(0);
-	return 0;
-}
 
 GLuint OpenGLGraphicsPipeline::GetVAO()
 {
