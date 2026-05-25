@@ -42,7 +42,18 @@ ES20Texture::ES20Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
     case RHITextureType::TextureCubeMap:
         //glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
         for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)
-            glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+        {
+            //glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+
+        }
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
