@@ -5,9 +5,8 @@
 OpenGL46Texture::OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
     : OpenGLTexture(InDevice, InType, InFormat,  InNumMips, InArraySize, InX, InY, InZ, InData)//: RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
-#if 1
     glGenTextures(1, &Handle);
-    GLenum Target = ToOpenGLTextureType(InType);
+    //GLenum Target = ToOpenGLTextureType(InType);
     auto PixelFormat = OpenGLPixelFormats[int(InFormat)];
     glBindTexture(Target, Handle);
     switch (InType)
@@ -71,10 +70,7 @@ OpenGL46Texture::OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHI
     glTexParameteri(Target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(Target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    std::cout << "UpdateImageData start" << std::endl;
     UpdateImageData();
-    std::cout << "UpdateImageData end" << std::endl;
-#endif
 }
 
 

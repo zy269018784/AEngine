@@ -54,19 +54,21 @@ void ES20ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, Ope
 	{
 		// 要求es 2.0以上	都支持
 		glActiveTexture(GL_TEXTURE0 + TextureUnit);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, TextureHandle);
-		std::cout << "ES20ShaderResourceBindings glBindTexture " << TextureHandle << std::endl;
-		return;
 
-		glBindTexture(GL_TEXTURE_2D, TextureHandle);
+		glBindTexture(Texture->GetHandle(), TextureHandle);
 
-		// 要求opengl 3.3以上, es 3.0以上
-		//glBindSampler(TextureUnit, SamplerHandle);
+		if (GL_TEXTURE_2D == Texture->GetHandle())
+		{
+			//glBindTexture(GL_TEXTURE_2D, TextureHandle);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, AddressModeU);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, AddressModeV);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, AddressModeW);
+			// 要求opengl 3.3以上, es 3.0以上
+			//glBindSampler(TextureUnit, SamplerHandle);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, AddressModeU);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, AddressModeV);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, AddressModeW);
+		}
 	}
 }

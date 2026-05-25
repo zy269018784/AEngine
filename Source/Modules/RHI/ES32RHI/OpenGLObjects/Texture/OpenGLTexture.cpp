@@ -5,6 +5,7 @@
 OpenGLTexture::OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
     : RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
+    Target = ToOpenGLTextureType(InType);
 #if 0
     glGenTextures(1, &Handle);
     GLenum Target = ToOpenGLTextureType(InType);
@@ -87,6 +88,11 @@ GLuint OpenGLTexture::GetHandle() const
 {
     return Handle;
 };
+
+GLuint OpenGLTexture::GetTarget() const
+{
+    return Target;
+}
 
 #if 0
 void OpenGLTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)

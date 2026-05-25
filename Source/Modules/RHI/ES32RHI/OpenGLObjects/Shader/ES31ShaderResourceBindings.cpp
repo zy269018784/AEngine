@@ -41,7 +41,7 @@ void ES31ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit, Ope
 	{
 		// 要求es 2.0以上	都支持
 		glActiveTexture(GL_TEXTURE0 + TextureUnit);
-		glBindTexture(GL_TEXTURE_2D, TextureHandle);
+		glBindTexture(Texture->GetHandle(), TextureHandle);
 
 		// 要求opengl 3.3以上, es 3.0以上
 		glBindSampler(TextureUnit, SamplerHandle);
