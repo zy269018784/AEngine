@@ -206,13 +206,13 @@ void RHIApplicationTextureCubeMap::Draw()
     auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
     RenderTarget->GetExtent(x, y, w, h);
 #endif
-    std::cout << "debug 1" << std::endl;
+
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
-    std::cout << "debug 2" << std::endl;
+
     RHIScissor Scissor(0, 0, w, h);
     CommandBuffer->RHISetScissor(Scissor);
-    std::cout << "debug 3" << std::endl;
+
     CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline);
 
     CommandBuffer->RHISetDepthTestEnable(true);
@@ -226,8 +226,8 @@ void RHIApplicationTextureCubeMap::Draw()
 
     */
     CommandBuffer->RHISetStencilTestEnable(false);
-    std::cout << "debug 4" << std::endl;
+
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
-    std::cout << "debug 5" << std::endl;
+
 }
