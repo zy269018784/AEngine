@@ -1,0 +1,2 @@
+glslangValidator.exe -V --glsl-version 460 -S vert Framebuffer_vert.glsl -o Framebuffer_vert.spv -e main
+glslangValidator.exe -V --glsl-version 460 -S frag Framebuffer_frag.glsl -o Framebuffer_frag.spv -e main

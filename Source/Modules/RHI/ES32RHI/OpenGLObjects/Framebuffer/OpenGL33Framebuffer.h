@@ -6,16 +6,16 @@
 
 class OpenGLDevice;
 class OpenGLTexture;
-class OpenGLFramebuffer
+class OpenGL33Framebuffer
 {
 public:
-    OpenGLFramebuffer();
-    OpenGLFramebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
+    OpenGL33Framebuffer();
+    OpenGL33Framebuffer(std::uint32_t Width, std::uint32_t Height,
                       std::vector<RHIColorAttachment *> &InColorAttachments,
                       std::vector<RHIDepthAttachment *> &InDepthAttachments);
-    ~OpenGLFramebuffer();
+    ~OpenGL33Framebuffer();
     GLuint GetHandle() const;
- protected:
+ private:
     GLuint Handle;
     std::vector<OpenGLTexture *> ColorTextures;
     std::vector<OpenGLTexture *> DepthTextures;

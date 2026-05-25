@@ -6,16 +6,16 @@
 
 class OpenGLDevice;
 class OpenGLTexture;
-class OpenGLFramebuffer
+class ES31Framebuffer
 {
 public:
-    OpenGLFramebuffer();
-    OpenGLFramebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
+    ES31Framebuffer();
+    ES31Framebuffer(std::uint32_t Width, std::uint32_t Height,
                       std::vector<RHIColorAttachment *> &InColorAttachments,
                       std::vector<RHIDepthAttachment *> &InDepthAttachments);
-    ~OpenGLFramebuffer();
+    ~ES31Framebuffer();
     GLuint GetHandle() const;
- protected:
+ private:
     GLuint Handle;
     std::vector<OpenGLTexture *> ColorTextures;
     std::vector<OpenGLTexture *> DepthTextures;

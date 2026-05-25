@@ -17,6 +17,7 @@
 #include "RHIApplicationTexture2DSperateImageSampler.h"
 #include "RHIApplicationTexture2DCombinedImageSampler.h"
 #include "GLFWWindow/GLFWWindow.h"
+#include "RHIApplicationFramebuffer.h"
 
 void Example_Model()
 {
@@ -144,6 +145,11 @@ void Example_SperateImageSampler()
 	App.Run();
 }
 
+void Example_Framebuffer()
+{
+	RHIApplicationFramebuffer App;
+	App.Run();
+}
 
 void error_callback(int error, const char* description)
 {
@@ -186,7 +192,7 @@ int RHIExample()
 	//Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
-	Example_TextureCubeMap();
+	//Example_TextureCubeMap();
 	//Example_TextureCubeMapArray();
 	//Example_SampleObject();
 	//Example_GeometryShader();
@@ -195,6 +201,7 @@ int RHIExample()
 	//Example_RenderTarget();
 	//Example_TextureRenderTarget();
 	//Example_SperateImageSampler();
+	Example_Framebuffer();
 
 	return 0;
 }
