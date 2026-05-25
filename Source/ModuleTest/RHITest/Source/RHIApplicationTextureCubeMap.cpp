@@ -5,7 +5,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
-#if  PROJECT_USE_STB
+#if  1
 #include <stb_image.h>
 #endif
 /*
@@ -72,7 +72,7 @@ void RHIApplicationTextureCubeMap::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#if  PROJECT_USE_STB
+#if  1
     /*
         STBI_rgb_alpha统一转成4通道
     */
@@ -92,7 +92,7 @@ void RHIApplicationTextureCubeMap::CreateTexture()
     std::memcpy(TextureData.data() + 4 * TextureSize, pixels5, TextureSize);    // 拷贝第一个纹理
     std::memcpy(TextureData.data() + 5 * TextureSize, pixels6, TextureSize);    // 拷贝第二个纹理
 
-    VkDeviceSize imageSize = texWidth * texHeight * 4;
+    //VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
         << "texHeight  " << texHeight  << " "
@@ -105,7 +105,7 @@ void RHIApplicationTextureCubeMap::CreateTexture()
 
     //RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_SRGB, 1, texWidth, texHeight);
     RHITextureCubeMap = pRHI->RHICreateTextureCube(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, TextureData.data());
-#if 0
+#if 1
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_X, texWidth, texHeight, 1,  pixels1);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_NEGATIVE_X, texWidth, texHeight, 1,  pixels2);
     RHITextureCubeMap->Update(0, 0, 0, (int)RHICubeMapFace::CUBE_MAP_POSITIVE_Y, texWidth, texHeight, 1,  pixels3);

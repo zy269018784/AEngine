@@ -34,11 +34,11 @@ ES20Texture::ES20Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
             glTexImage2D(GL_TEXTURE_2D, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
         break;
     case RHITextureType::Texture2DArray:
+    case RHITextureType::Texture3D:
         /*
             ES 32 not support
         */
         break;
-    case RHITextureType::Texture3D:
     case RHITextureType::TextureCubeMap:
         //glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
         for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)

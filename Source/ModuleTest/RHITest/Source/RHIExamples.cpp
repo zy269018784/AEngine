@@ -184,9 +184,9 @@ int RHIExample()
 	//Example_Texture1D();
 	//Example_Texture1DArray();
 	//Example_Texture2D();
-	Example_Texture2DArray();
+	//Example_Texture2DArray();
 	//Example_Texture3D();
-	//Example_TextureCubeMap();
+	Example_TextureCubeMap();
 	//Example_TextureCubeMapArray();
 	//Example_SampleObject();
 	//Example_GeometryShader();
