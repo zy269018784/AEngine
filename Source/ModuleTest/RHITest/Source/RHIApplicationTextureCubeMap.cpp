@@ -137,7 +137,7 @@ void RHIApplicationTextureCubeMap::CreateVertexDescriptioin()
 
 void RHIApplicationTextureCubeMap::CreateGraphicsPipeline()
 {
-#if 1
+#if OS_IS_WINDOWS
     auto vertShaderCode = ReadFile("TextureCubeMap_vert.spv");
     auto fragShaderCode = ReadFile("TextureCubeMap_frag.spv");
     // 创建Shader
