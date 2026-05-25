@@ -113,8 +113,7 @@ void RHIApplicationTexture2D::CreateTexture()
 
     std::cout << "RHICreateTexture2D start" << std::endl;
     RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
-    std::cout << "RHICreateTexture2D end" << std::endl;
-   // RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
+
 #endif
 }
 
@@ -145,7 +144,6 @@ void RHIApplicationTexture2D::CreateVertexDescriptioin()
 
 void RHIApplicationTexture2D::CreateGraphicsPipeline()
 {
-    std::cout << "RHIApplicationTexture2D create Shader start" << std::endl;
 #if OS_IS_WINDOWS
     auto vertShaderCode = ReadFile("Texture2D_vert.spv");
     auto fragShaderCode = ReadFile("Texture2D_frag.spv");

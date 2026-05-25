@@ -1,6 +1,6 @@
 ﻿#include "RHIApplicationTexture2DArray.h"
 #include "Vulkan/Common.h"
-#if  PROJECT_USE_STB
+#if  1
 #include <stb_image.h>
 #endif
 
@@ -82,7 +82,7 @@ void RHIApplicationTexture2DArray::CreateTexture()
 
     int texWidth, texHeight, texChannels;
     int texWidth2, texHeight2, texChannels2;
-#if  PROJECT_USE_STB
+#if  1
     /*
         STBI_rgb_alpha统一转成4通道,
         有些vulkan设备不支持R8G8B8
@@ -95,7 +95,7 @@ void RHIApplicationTexture2DArray::CreateTexture()
     std::memcpy(ImageArrayData.data(), pixels, TextureSize);                    // 拷贝第一个纹理
     std::memcpy(ImageArrayData.data() + TextureSize, pixels2, TextureSize);    // 拷贝第二个纹理
 
-    VkDeviceSize imageSize = texWidth * texHeight * 4;
+    //VkDeviceSize imageSize = texWidth * texHeight * 4;
     std::cout 
         << "texWidth "   << texWidth   << " "
         << "texHeight  " << texHeight  << " "
@@ -146,7 +146,7 @@ void RHIApplicationTexture2DArray::CreateVertexDescriptioin()
 
 void RHIApplicationTexture2DArray::CreateGraphicsPipeline()
 {
-#if 1
+#if OS_IS_WINDOWS
     auto vertShaderCode = ReadFile("Texture2DArray_vert.spv");
     auto fragShaderCode = ReadFile("Texture2DArray_frag.spv");
     // 创建Shader
@@ -157,9 +157,6 @@ void RHIApplicationTexture2DArray::CreateGraphicsPipeline()
     auto fragShaderCode = ReadFile2("Texture2DArray_frag.glsl");
     const char* p1 = vertShaderCode.c_str();
     const char* p2 = fragShaderCode.c_str();
-
-    // std::cout << p1 << std::endl;
-    // std::cout << p2 << std::endl;
      // 创建Shader
     RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
     RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
