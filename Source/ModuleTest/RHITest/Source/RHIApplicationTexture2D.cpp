@@ -165,7 +165,6 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
     RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
 #endif
-  std::cout << "RHIApplicationTexture2D create Shader END" << std::endl;
     RHIVertexInputLayout VertexInputLayout;
     /*
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
@@ -184,38 +183,28 @@ void RHIApplicationTexture2D::CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-    std::cout << "RHICreateGraphicsPipeline start" << std::endl;
-    std::cout << "RHICreateGraphicsPipeline debug 1 " << RenderTarget << std::endl;
+
 #if USE_RHIWindow
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
 #endif
-    std::cout << "RHICreateGraphicsPipeline start 2" << std::endl;
     GraphicsPipeline->SetShaderResourceBindings(SRB);
-    std::cout << "RHICreateGraphicsPipeline start 3" << std::endl;
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    std::cout << "RHICreateGraphicsPipeline start 4" << std::endl;
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
 #endif
-    std::cout << "RHICreateGraphicsPipeline start 5" << std::endl;
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
-    std::cout << "RHICreateGraphicsPipeline start 6" << std::endl;
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
-    std::cout << "RHICreateGraphicsPipeline start 7" << std::endl;
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
-    std::cout << "RHICreateGraphicsPipeline start 8" << std::endl;
     GraphicsPipeline->Create();
-    std::cout << "RHICreateGraphicsPipeline start 9" << std::endl;
     delete VertexShader;
     delete FragmengShader;
     VertexShader = nullptr;
     FragmengShader = nullptr;
-    std::cout << "RHICreateGraphicsPipeline end" << std::endl;
 }
 
 void RHIApplicationTexture2D::Draw()
