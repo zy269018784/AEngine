@@ -43,7 +43,9 @@ ES20Texture::ES20Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
         //glTexStorage2D(GL_TEXTURE_CUBE_MAP, InNumMips, PixelFormat.InternalFormat, InX, InY);
         for (int MipmapIndex = 0; MipmapIndex < InNumMips; MipmapIndex++)
         {
-            //glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+#if 0
+            glTexImage2D(GL_TEXTURE_CUBE_MAP, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
+#else
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
             glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
 
@@ -52,7 +54,7 @@ ES20Texture::ES20Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFor
 
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
             glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, MipmapIndex, InternalFormat, InX, InY, 0, Format, Type, nullptr);
-
+#endif
         }
         break;
     case RHITextureType::TextureCubeMapArray:
