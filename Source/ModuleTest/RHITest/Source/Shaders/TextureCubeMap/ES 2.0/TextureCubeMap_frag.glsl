@@ -5,14 +5,14 @@ precision highp float;
 uniform samplerCube cubemap;
 
 // varying 变量（对应之前的 in）
-varying vec2 outTexCoord;
+varying vec2 vTexCoord;
 
 void main()
 {
     // 构造立方体纹理采样方向
-    // 原代码: vec3(-1, outTexCoord)
-    // outTexCoord.x 和 outTexCoord.y 提供另外两个坐标
-    vec3 direction = vec3(-1.0, outTexCoord.x, outTexCoord.y);
+    // 原代码: vec3(-1, vTexCoord)
+    // vTexCoord.x 和 vTexCoord.y 提供另外两个坐标
+    vec3 direction = vec3(-1.0, vTexCoord.x, vTexCoord.y);
     
     // ES 2.0 使用 textureCube 函数采样立方体贴图
     vec4 color = textureCube(cubemap, direction);

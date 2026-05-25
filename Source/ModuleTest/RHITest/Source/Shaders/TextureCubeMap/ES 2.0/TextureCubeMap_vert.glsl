@@ -6,12 +6,12 @@ attribute vec3 inPosition;
 attribute vec2 inTexCoord;
 
 // 使用 varying 关键字传递数据到片段着色器
-varying vec2 outTexCoord;
+varying vec2 vTexCoord;
 
 void main() 
 {
     // 传递纹理坐标
-    outTexCoord = inTexCoord;
+    vTexCoord = inTexCoord;
     
     // 设置顶点位置（gl_Position 是内置变量）
     gl_Position = vec4(inPosition, 1.0);
