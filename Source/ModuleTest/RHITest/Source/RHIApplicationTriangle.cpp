@@ -4,6 +4,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 
 #if 1
 /*

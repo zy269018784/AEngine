@@ -4,6 +4,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #if  PROJECT_USE_STB
     #include <stb_image.h>
 #endif

@@ -2,7 +2,12 @@
 
 
 RHISwapchainRenderTarget::RHISwapchainRenderTarget(RHIPixelFormat InPixelFormat)
-    : RHIRenderTarget(InPixelFormat)
+  //  : RHIRenderTarget(InPixelFormat)
+{
+
+}
+
+RHISwapchainRenderTarget::~RHISwapchainRenderTarget()
 {
 
 }

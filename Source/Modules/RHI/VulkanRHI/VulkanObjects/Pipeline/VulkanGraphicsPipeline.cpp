@@ -228,6 +228,7 @@ void VulkanGraphicsPipeline::Create()
 			auto DescSetLayout = ((VulkanShaderResourceBindings*)ShaderResourceBindings)->GetDescriptorSetLayout()->GetHandle();
 			LayoutCreateInfo.setLayoutCount = 1;
 			LayoutCreateInfo.pSetLayouts = &DescSetLayout;
+
 		}
 		else {
 			std::cout << "ShaderResourceBindings is nullptr ==============" << std::endl;

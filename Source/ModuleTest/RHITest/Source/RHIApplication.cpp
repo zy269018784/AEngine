@@ -1,4 +1,5 @@
 ﻿#include "glad/glad.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #if defined(_WIN32) || defined(__CYGWIN__)
 #else
     #include <dlfcn.h>
@@ -33,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 2;
+    RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);

@@ -4,6 +4,7 @@
 #include "Vulkan/Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include "RHI/RHIObjects/Shader/RHIShader.h"
 /*
     VBO1三角形: 红色和黄色
