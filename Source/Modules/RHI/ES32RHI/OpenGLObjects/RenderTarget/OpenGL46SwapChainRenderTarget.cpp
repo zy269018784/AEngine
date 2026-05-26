@@ -8,7 +8,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 OpenGL46SwapChainRenderTarget::OpenGL46SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
-    : OpenGLRenderTarget((RHIPixelFormat)0)
+: OpenGLSwapChainRenderTarget(InDevice, InSurface)
 {
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
@@ -18,7 +18,7 @@ OpenGL46SwapChainRenderTarget::~OpenGL46SwapChainRenderTarget()
 {
     delete GraphicsCommandBuffers[0];
 }
-
+#if 0
 void OpenGL46SwapChainRenderTarget::RHIBeginFrame() {
 
 }
@@ -47,3 +47,4 @@ void OpenGL46SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, floa
 void OpenGL46SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
+#endif

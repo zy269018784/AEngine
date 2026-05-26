@@ -18,7 +18,7 @@ class VulkanSurface;
 class VulkanDevice;
 class VulkanFrame;
 class VulkanTexture;
-class VulkanSwapChainRenderTarget : public VulkanRenderTarget
+class VulkanSwapChainRenderTarget : public RHISwapChainRenderTarget
 {
 public:
     //VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice);
@@ -30,6 +30,47 @@ public:
     virtual void RHIEndFrame() override final;
     virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
     virtual void Resize(float Width, float Height) final override;
+    virtual void WaitDeviceIdle() final override;
+public:
+    /*
+        设备
+    */
+    VulkanDevice						*Device;
+    /*
+        Image
+    */
+    //std::vector<VkImage>					Images;
+    /*
+        Image View
+    */
+    std::vector<VkImageView>				ImageViews;
+    /*
+        分辨率
+    */
+    VkExtent2D								Resolution;
+    /*
+        Format
+    */
+    VkFormat								ImageFormat;
+    /*
+        Render Pass
+    */
+    //VulkanRenderPass*                       RenderPass;
+    /*
+        Framebuffers
+    */
+    std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
+
+    /*
+        用于图像的command buffer
+    */
+    //std::vector<VulkanCommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
+
+    /*
+        当前帧编号
+        FrameIndex: [0, 1]
+    */
+    std::uint32_t					FrameIndex = 0;
 public:
     std::vector<VulkanTexture *> Textures;
     /*

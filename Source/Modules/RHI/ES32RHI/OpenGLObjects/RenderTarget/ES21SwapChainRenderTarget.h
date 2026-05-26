@@ -1,16 +1,10 @@
 #pragma once
-#include "OpenGLRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 class OpenGLDevice;
 class OpenGLSurface;
-class ES21SwapChainRenderTarget : public OpenGLRenderTarget
+class ES21SwapChainRenderTarget : public OpenGLSwapChainRenderTarget
 {
 public:
     ES21SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
     ~ES21SwapChainRenderTarget();
-    virtual void RHIBeginRenderPass() override final;
-    virtual void RHIEndRenderPass() override final;
-    virtual void RHIBeginFrame() override final;
-    virtual void RHIEndFrame() override final;
-    virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
-    virtual void Resize(float Width, float Height) final override;
 };

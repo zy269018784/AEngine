@@ -9,11 +9,6 @@ OpenGLTextureRenderTarget::~OpenGLTextureRenderTarget()
 }
 
 
-void OpenGLTextureRenderTarget::WaitDeviceIdle()
-{
-    
-}
-
 void OpenGLTextureRenderTarget::RHIBeginRenderPass()
 {
 
@@ -31,5 +26,24 @@ void OpenGLTextureRenderTarget::RHIBeginFrame()
 
 void OpenGLTextureRenderTarget::RHIEndFrame()
 {
+
+}
+
+void OpenGLTextureRenderTarget::WaitDeviceIdle()
+{
+    glFinish();
+}
+
+void OpenGLTextureRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
+{
+    GLint Viewport[4];
+    glGetIntegerv(GL_VIEWPORT, Viewport);
+    x = Viewport[0];
+    y = Viewport[1];
+    w = Viewport[2];
+    h = Viewport[3];
+}
+
+void OpenGLTextureRenderTarget::Resize(float Width, float Height) {
 
 }

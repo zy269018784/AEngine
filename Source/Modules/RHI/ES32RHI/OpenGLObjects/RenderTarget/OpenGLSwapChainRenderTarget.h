@@ -1,8 +1,8 @@
 #pragma once
-#include "OpenGLRenderTarget.h"
+#include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
 class OpenGLDevice;
 class OpenGLSurface;
-class OpenGLSwapChainRenderTarget : public OpenGLRenderTarget
+class OpenGLSwapChainRenderTarget : public RHISwapChainRenderTarget
 {
 public:
     OpenGLSwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
@@ -13,4 +13,5 @@ public:
     virtual void RHIEndFrame() override final;
     virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
     virtual void Resize(float Width, float Height) final override;
+    virtual void WaitDeviceIdle() final override;
 };

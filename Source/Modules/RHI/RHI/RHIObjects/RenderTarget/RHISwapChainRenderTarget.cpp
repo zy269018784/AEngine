@@ -1,13 +1,21 @@
 #include "RHISwapChainRenderTarget.h"
-
-
-RHISwapchainRenderTarget::RHISwapchainRenderTarget(RHIPixelFormat InPixelFormat)
-  //  : RHIRenderTarget(InPixelFormat)
+#include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
+RHISwapChainRenderTarget::RHISwapChainRenderTarget(RHIPixelFormat InPixelFormat)
+    : PixelFormat(InPixelFormat)
 {
 
 }
 
-RHISwapchainRenderTarget::~RHISwapchainRenderTarget()
-{
+RHISwapChainRenderTarget::~RHISwapChainRenderTarget() {
+  delete RenderPass;
+}
 
+RHIRenderPass *RHISwapChainRenderTarget::GetRenderPass() const
+{
+  return RenderPass;
+}
+
+RHICommandBuffer* RHISwapChainRenderTarget::CurrentGraphicsCommandBuffer() const
+{
+  return GraphicsCommandBuffers[CurrentImageIndex];
 }

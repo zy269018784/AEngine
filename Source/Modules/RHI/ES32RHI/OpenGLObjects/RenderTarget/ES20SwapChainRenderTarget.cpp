@@ -9,7 +9,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES20CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 ES20SwapChainRenderTarget::ES20SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
-    : OpenGLRenderTarget((RHIPixelFormat)0)
+    : OpenGLSwapChainRenderTarget(InDevice, InSurface)
 {
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new ES20CommandBuffer();
@@ -19,7 +19,7 @@ ES20SwapChainRenderTarget::~ES20SwapChainRenderTarget()
 {
 
 }
-
+#if 0
 void ES20SwapChainRenderTarget::RHIBeginFrame() {
 
 }
@@ -48,3 +48,4 @@ void ES20SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h
 void ES20SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
+#endif

@@ -8,7 +8,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 ES21SwapChainRenderTarget::ES21SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
-    : OpenGLRenderTarget((RHIPixelFormat)0)
+: OpenGLSwapChainRenderTarget(InDevice, InSurface)
 {
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new ES21CommandBuffer();
@@ -19,6 +19,7 @@ ES21SwapChainRenderTarget::~ES21SwapChainRenderTarget()
 
 }
 
+#if 0
 void ES21SwapChainRenderTarget::RHIBeginFrame() {
 
 }
@@ -47,3 +48,4 @@ void ES21SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h
 void ES21SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
+#endif

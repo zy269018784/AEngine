@@ -11,6 +11,8 @@
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
+#include "VulkanRHI/VulkanObjects/Surface/VulkanSurface.h"
+
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
@@ -80,7 +82,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 #endif
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
-	: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
+	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
+	: RHISwapChainRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format)), Device(InDevice)
 {
 	SwapChain = new VulkanSwapChain(Device, InSurface);
 
@@ -338,4 +341,9 @@ void VulkanSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float 
 
 void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
 	SwapChain->Resize(Width, Height);
+}
+
+void VulkanSwapChainRenderTarget::WaitDeviceIdle()
+{
+	Device->DeviceWaitIdle();
 }

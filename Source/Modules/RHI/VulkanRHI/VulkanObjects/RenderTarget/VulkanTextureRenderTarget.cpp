@@ -10,7 +10,7 @@
 
 
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
-    : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
+    : Texture(InTexture), RHITextureRenderTarget(InTexture->GetFormat()), Device(InDevice)
 {
     Resolution.width = InTexture->GetX();
     Resolution.height = InTexture->GetY();
@@ -172,4 +172,9 @@ void VulkanTextureRenderTarget::RHIEndRenderPass()
 void VulkanTextureRenderTarget::Resize(float Width, float Height)
 {
 
+}
+
+void VulkanTextureRenderTarget::WaitDeviceIdle()
+{
+    Device->DeviceWaitIdle();
 }

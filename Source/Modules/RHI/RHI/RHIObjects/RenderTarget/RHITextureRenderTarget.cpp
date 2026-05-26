@@ -1,17 +1,22 @@
 #include "RHITextureRenderTarget.h"
+#include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
 
-RHITextureRenderTarget::RHITextureRenderTarget()
+RHITextureRenderTarget::RHITextureRenderTarget(RHIPixelFormat InPixelFormat)
+    : PixelFormat(InPixelFormat)
 {
 
 }
 
 RHITextureRenderTarget::~RHITextureRenderTarget() {
-    for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
-    {
-        delete ColorAttachments[Index];
-    }
-    for (std::uint32_t Index = 0; Index < DepthStencilAttachments.size(); ++Index)
-    {
-        delete DepthStencilAttachments[Index];
-    }
+    delete RenderPass;
+}
+
+RHIRenderPass *RHITextureRenderTarget::GetRenderPass() const
+{
+    return RenderPass;
+}
+
+RHICommandBuffer* RHITextureRenderTarget::CurrentGraphicsCommandBuffer() const
+{
+    return GraphicsCommandBuffers[CurrentImageIndex];
 }

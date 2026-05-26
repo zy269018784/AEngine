@@ -1,4 +1,4 @@
-﻿#include "OpenGLSwapChainRenderTarget.h"
+﻿#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL33CommandBuffer.h"
@@ -8,7 +8,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
-    : OpenGLRenderTarget((RHIPixelFormat)0)
+    : RHISwapChainRenderTarget((RHIPixelFormat)0)
 {
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new ES30CommandBuffer();
@@ -47,4 +47,9 @@ void OpenGLSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float 
 
 void OpenGLSwapChainRenderTarget::Resize(float Width, float Height) {
 
+}
+
+void OpenGLSwapChainRenderTarget::WaitDeviceIdle()
+{
+    glFinish();
 }

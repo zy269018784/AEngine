@@ -12,8 +12,8 @@ public:
     RHIRenderTarget() = default;
     RHIRenderTarget(RHIPixelFormat InPixelFormat);
     virtual ~RHIRenderTarget();
-    RHIRenderPass *GetRenderPass() const;
-    RHICommandBuffer* CurrentGraphicsCommandBuffer() const;
+    virtual RHIRenderPass *GetRenderPass() const = 0;
+    virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() const = 0;
     virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
     virtual void Resize(float Width, float Height) = 0;
     virtual void WaitDeviceIdle() = 0;
@@ -22,13 +22,4 @@ public:
     virtual void RHIEndRenderPass() = 0;
     virtual void RHIBeginFrame() = 0;
     virtual void RHIEndFrame() = 0;
-public:
-    RHIPixelFormat PixelFormat;
-    RHIRenderPass *RenderPass;
-    /*
-        用于图像的command buffer
-    */
-    std::vector<RHICommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
-
-    std::uint32_t					    CurrentImageIndex = 0;      // [0, SwapChainImages.size() - 1]
 };

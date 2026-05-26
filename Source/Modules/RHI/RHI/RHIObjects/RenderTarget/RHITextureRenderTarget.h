@@ -1,24 +1,32 @@
 #pragma once
 #include "RHI/RHIExport.h"
+#include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
-#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <vector>
+
+
+
+class RHIRenderPass;
+class RHICommandBuffer;
+class RHIFrameBuffer;
+
 class RHIEXPORT RHITextureRenderTarget : public RHIRenderTarget
 {
 public:
-    RHITextureRenderTarget();
+    RHITextureRenderTarget() = default;
+    RHITextureRenderTarget(RHIPixelFormat InPixelFormat);
     virtual ~RHITextureRenderTarget();
+    virtual RHIRenderPass *GetRenderPass() const override final;
+    virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() const override final;
 public:
-    virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
-    virtual void Resize(float Width, float Height) = 0;
-    virtual void WaitDeviceIdle() = 0;
-    virtual void RHIBeginRenderPass() = 0;
-    virtual void RHIEndRenderPass() = 0;
-    virtual void RHIBeginFrame() = 0;
-    virtual void RHIEndFrame() = 0;
-protected:
-    std::vector<RHIAttachment *> ColorAttachments;
-    std::vector<RHIAttachment *> DepthStencilAttachments;
-    RHIFrameBuffer *Framebuffer = nullptr;
+    RHIPixelFormat PixelFormat;
+    RHIRenderPass *RenderPass;
+    RHIFrameBuffer *Framebuffer;
+    /*
+        用于图像的command buffer
+    */
+    std::vector<RHICommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
+
+    std::uint32_t					    CurrentImageIndex = 0;      // [0, SwapChainImages.size() - 1]
 };

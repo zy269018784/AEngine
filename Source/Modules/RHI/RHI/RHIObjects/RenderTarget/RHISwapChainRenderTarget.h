@@ -1,30 +1,23 @@
 #pragma once
 #include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include <vector>
 
 class RHIRenderPass;
 class RHICommandBuffer;
 
-class RHIEXPORT RHISwapchainRenderTarget
+class RHIEXPORT RHISwapChainRenderTarget : public RHIRenderTarget
 {
 public:
-    RHISwapchainRenderTarget() = default;
-    RHISwapchainRenderTarget(RHIPixelFormat InPixelFormat);
-    virtual ~RHISwapchainRenderTarget();
-    RHIRenderPass *GetRenderPass() const;
-    RHICommandBuffer* CurrentGraphicsCommandBuffer() const;
-    virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
-    virtual void Resize(float Width, float Height) = 0;
-    virtual void WaitDeviceIdle() = 0;
-public:
-    virtual void RHIBeginRenderPass() = 0;
-    virtual void RHIEndRenderPass() = 0;
-    virtual void RHIBeginFrame() = 0;
-    virtual void RHIEndFrame() = 0;
+    RHISwapChainRenderTarget() = default;
+    RHISwapChainRenderTarget(RHIPixelFormat InPixelFormat);
+    virtual ~RHISwapChainRenderTarget();
+    virtual RHIRenderPass *GetRenderPass() const override final;
+    virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() const override final;
 public:
     RHIPixelFormat PixelFormat;
-    RHIRenderPass *RenderPass;
+    RHIRenderPass *RenderPass = nullptr;
     /*
         用于图像的command buffer
     */
