@@ -1,22 +1,17 @@
 ﻿#pragma once
 #include "VulkanRHI/Vulkan.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
-#include "RHI/RHIObjects/FrameBuffer/RHIColorAttachment.h"
-#include "RHI/RHIObjects/FrameBuffer/RHIDepthAttachment.h"
-#include <cstdint>
 #include <vector>
 
 class VulkanDevice;
 class VulkanRenderPass;
 class VulkanFrameBuffer;
-class VulkanAttachment;
-class RHIColorAttachment;
-class RHIDepthAttachment;
+class RHIAttachment;
 class VulkanFrameBuffer : public RHIFrameBuffer
 {
 public:
 	VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass *InRenderPass, VkExtent2D SwapChainExtent,
-		std::vector<RHIColorAttachment *> &InColorAttachments, std::vector<RHIDepthAttachment *> &InDepthAttachments);
+		std::vector<RHIAttachment *> &InColorAttachments, std::vector<RHIAttachment *> &InDepthAttachments);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle() const;
 private:

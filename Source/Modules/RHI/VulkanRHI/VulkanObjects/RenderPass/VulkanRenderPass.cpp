@@ -11,7 +11,7 @@ VulkanRenderPass::VulkanRenderPass()
 
 
 VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
-    std::vector<RHIColorAttachment> &InColorAttachments, RHIDepthAttachment &InDepthAttachments)
+    std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments)
     : Device(InDevice)
 {
     std::vector<VkAttachmentDescription> AttachmentDescriptions;

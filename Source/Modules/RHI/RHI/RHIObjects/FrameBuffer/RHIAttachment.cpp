@@ -1,20 +1,21 @@
 #include "RHIAttachment.h"
 
-RHIAttachment::RHIAttachment()
-: Type(RHIAttachmentType::Unknown)
+#include "RHI/RHIObjects/Texture/RHITexture.h"
+
+RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture)
+    : Type(InType), Texture(InTexture)
 {
 
 }
 
-
-RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InPixelFormat)
-    : Type(InType), PixelFormat(InPixelFormat)
+RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat)
+    : Type(InType), Texture(nullptr), Format(InFormat)
 {
 
 }
 
 RHIAttachment::RHIAttachment(const RHIAttachment& Other)
-    : Type(Other.Type), PixelFormat(Other.PixelFormat)
+    : Type(Other.Type), Texture(Other.Texture)
 {
 }
 
@@ -30,6 +31,7 @@ RHIAttachmentType RHIAttachment::GetAttachmentType() const
 
 RHIPixelFormat RHIAttachment::GetRHIPixelFormat() const
 {
-    return PixelFormat;
+    if (Texture)
+        return Texture->GetFormat();
+    return Format;
 }
-

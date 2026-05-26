@@ -376,7 +376,7 @@ enum class RHIEXPORT RHIAttachmentType: std::uint32_t
 	NoneAttachmentType,
 	Unknown
 };
-
+#if 0
 enum class RHIEXPORT RHIDepthAttachmentType: std::uint32_t
 {
 	DepthStencil_D24_S8,    // 明确要求 24位深度+8位模板
@@ -385,7 +385,7 @@ enum class RHIEXPORT RHIDepthAttachmentType: std::uint32_t
 	DepthOnly_D16,          // 仅16位深度
 	Unknown
 };
-
+#endif
 
 enum class RHIEXPORT RHITextureUsageFlag: std::uint32_t
 {

@@ -87,6 +87,7 @@ public:
         Pipeline
     */
     RHIGraphicsPipeline* GraphicsPipeline = nullptr;
+    std::vector<RHIGraphicsPipeline*> GraphicsPipelines;
     /*
        顶点输入
     */

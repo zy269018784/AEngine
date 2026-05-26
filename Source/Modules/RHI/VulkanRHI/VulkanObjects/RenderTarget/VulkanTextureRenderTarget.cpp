@@ -3,14 +3,11 @@
 #include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanAttachment.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanDepthAttachment.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
 #include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
 #include <iostream>
 
-#include "VulkanRHI/VulkanObjects//Texture/VulkanTexture.h"
 
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
     : Texture(InTexture), VulkanRenderTarget(InTexture->GetFormat(), InDevice)
@@ -19,9 +16,9 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     Resolution.height = InTexture->GetY();
 #if 1
     // AMD Radeon RX580 2048SP
-    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D32_S8;
-    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+    RHIAttachmentType   DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIAttachmentType	RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat      DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
     // 4060 support
     // AMD Radeon RX580 2048SP do not support
@@ -39,10 +36,10 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     /*
         1. 创建Render Pass
     */
-    std::vector<RHIColorAttachment> ColorAttachments;
-    ColorAttachments.emplace_back(RHIColorAttachment(RHIAttachmentType::Color1, InTexture->GetFormat()));
+    std::vector<RHIAttachment> ColorAttachments;
+    ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, InTexture));
 
-    RHIDepthAttachment DepthAttachment(DepthStencilType);
+    RHIAttachment DepthAttachment(DepthStencilType, nullptr);
     RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(InTexture->GetFormat()), ColorAttachments,DepthAttachment);
 
 
@@ -67,11 +64,11 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
         InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, InTexture->GetFormat(), ImageViews[0]));
         InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 #endif
-        std::vector<RHIColorAttachment *> InColorAttachments;
-        InColorAttachments.emplace_back(new VulkanColorAttachment(ImageViews[i],RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
+        std::vector<RHIAttachment *> InColorAttachments;
+        InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, nullptr));
 
-        std::vector<RHIDepthAttachment *> InDepthAttachments;
-        InDepthAttachments.emplace_back(new VulkanDepthAttachment(ImageViews[i], DepthStencilType));
+        std::vector<RHIAttachment *> InDepthAttachments;
+        InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, nullptr));
 
         FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },
 			InColorAttachments, InDepthAttachments);

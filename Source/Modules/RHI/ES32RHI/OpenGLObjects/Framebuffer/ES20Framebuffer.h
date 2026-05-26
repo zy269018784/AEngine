@@ -5,14 +5,14 @@
 #include <vector>
 
 class OpenGLDevice;
-class ES32Framebuffer : public OpenGLFramebuffer
+class ES20Framebuffer : public OpenGLFramebuffer
 {
 public:
-    ES32Framebuffer() = delete;
-    ES32Framebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
+    ES20Framebuffer() = delete;
+    ES20Framebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
                       std::vector<RHIAttachment *> &InColorAttachments,
                       std::vector<RHIAttachment *> &InDepthAttachments);
-    ~ES32Framebuffer();
+    ~ES20Framebuffer();
 public:
     virtual OpenGLTexture *CreateTexture(RHIDevice *InDevice, RHIPixelFormat Format, std::uint32_t Width, std::uint32_t Height) override final;
 };

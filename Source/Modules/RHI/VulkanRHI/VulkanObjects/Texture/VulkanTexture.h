@@ -15,6 +15,7 @@ public:
 	~VulkanTexture();
 	void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) override;
 	void TransitionImageLayout(int dir) override final;
+	VkImageView GetImageView() const;
 public:
 	VulkanImage		*Image;
 	VulkanImageView	*ImageView;

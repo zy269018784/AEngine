@@ -1,15 +1,15 @@
 #pragma once
-#if 0
-#include "RHI/RHIObjects/RenderPass/RHIAttachment.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "VulkanRHI/VulkanObjects//Resource/VulkanImageView.h"
-
-class VulkanAttachment
+class VulkanTexture;
+class VulkanAttachment : public RHIAttachment
 {
 public:
-    VulkanAttachment(VkImageView InImageView);
+    VulkanAttachment(RHIAttachmentType InType, RHITexture *InTexture);
+    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat);
+    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat, VkImageView InImageView);
     ~VulkanAttachment();
     VkImageView GetHandle() const;
 private:
     VkImageView ImageView;
 };
-#endif

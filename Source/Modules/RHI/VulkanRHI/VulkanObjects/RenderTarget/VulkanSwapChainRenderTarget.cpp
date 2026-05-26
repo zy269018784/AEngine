@@ -7,13 +7,12 @@
 #include "VulkanRHI/VulkanObjects/Window/VulkanFrame.h"
 #include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandBuffer.h"
 #include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanAttachment.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanDepthAttachment.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
 #include "VulkanRHI/VulkanObjects/Queue/VulkanQueue.h"
 #include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 #include "VulkanRHI/VulkanObjects/Resource/VulkanImageView.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <iostream>
 #include <numbers>
@@ -96,7 +95,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 
 #if 1
 	// AMD Radeon RX580 2048SP
-	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D32_S8;
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
 #else
 	// 4060 support
@@ -115,10 +114,10 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	/*
 		2. 创建Render Pass
 	*/
-	std::vector<RHIColorAttachment> ColorAttachments;
-	ColorAttachments.emplace_back(RHIColorAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
+	std::vector<RHIAttachment> ColorAttachments;
+	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
 
-	RHIDepthAttachment DepthAttachment(DepthStencilType);
+	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
 	RenderPass = new VulkanRenderPass(Device, ImageFormat, ColorAttachments,DepthAttachment);
 
 	/*
@@ -140,11 +139,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 				1);
 		Textures.emplace_back(Tex);
 
-		std::vector<RHIColorAttachment *> InColorAttachments;
-		InColorAttachments.emplace_back(new VulkanColorAttachment(ImageViews[i], RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
+		std::vector<RHIAttachment *> InColorAttachments;
+		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i]));
 
-		std::vector<RHIDepthAttachment *> InDepthAttachments;
-		InDepthAttachments.emplace_back(new VulkanDepthAttachment(Tex->ImageView->GetHandle(), DepthStencilType));
+		std::vector<RHIAttachment *> InDepthAttachments;
+		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 
 		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass),
 								{ Resolution.width, Resolution.height },

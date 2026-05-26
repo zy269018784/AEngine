@@ -1,27 +1,23 @@
 ﻿#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-#include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
-#include "VulkanAttachment.h"
-#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanColorAttachment.h"
-#include "VulkanDepthAttachment.h"
+#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanAttachment.h"
 #include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
-#include <array>
+#include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+#include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
 #include <iostream>
 #include <stdexcept>
 
 VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* InRenderPass, VkExtent2D SwapChainExtent,
-   std::vector<RHIColorAttachment *> &InColorAttachments, std::vector<RHIDepthAttachment *> &InDepthAttachments)
+   std::vector<RHIAttachment *> &InColorAttachments, std::vector<RHIAttachment *> &InDepthAttachments)
     : Device(InDevice)
 {
     std::vector<VkImageView> attachments;
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
-        attachments.emplace_back(static_cast<VulkanColorAttachment *>(InColorAttachments[i])->GetHandle());
+        attachments.emplace_back(static_cast<VulkanAttachment *>(InColorAttachments[i])->GetHandle());
     }
     for (int i = 0; i < InDepthAttachments.size(); i++)
     {
-        attachments.emplace_back(static_cast<VulkanDepthAttachment *>(InDepthAttachments[i])->GetHandle());
+        attachments.emplace_back(static_cast<VulkanAttachment *>(InDepthAttachments[i])->GetHandle());
     }
 
     VkPhysicalDeviceLimits Limits = InDevice->GetPhysicalDevice()->GetPhysicalDeviceLimits();

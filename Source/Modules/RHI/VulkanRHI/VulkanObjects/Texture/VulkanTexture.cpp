@@ -77,3 +77,7 @@ void VulkanTexture::TransitionImageLayout(int dir)
 	}
 	Image->TransitionImageLayout(ToVkFormat(GetFormat()), OldLayout, NewLayout);
 }
+
+VkImageView VulkanTexture::GetImageView() const {
+	return ImageView->GetHandle();
+}
