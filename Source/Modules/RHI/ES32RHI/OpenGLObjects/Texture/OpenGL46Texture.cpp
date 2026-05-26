@@ -87,7 +87,6 @@ GLuint OpenGL46Texture::GetHandle() const
 #if 1
 void OpenGL46Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData)
 {
-    std::cout << "OpenGL46Texture::Update start" << std::endl;
     GLenum Target = ToOpenGLTextureType(GetType());
     auto PixelFormat = OpenGLPixelFormats[int(GetFormat())];
     auto InternalFormat = PixelFormat.InternalFormat;
@@ -108,7 +107,6 @@ void OpenGL46Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOff
         */
         glTexSubImage1D(Target, MipmapLevel, XOffset, Width, Format, Type, InData);
         //glTexSubImage2D(Target, MipmapLevel, XOffset, 0, Width, 1, Format, Type, InData);
-        std::cout << "OpenGL46Texture::Update 1D " << MipmapLevel << " XOffset " <<  XOffset << " Width " << Width << " Format " << Format << " Type " <<  Type << std::endl;
         break;
     case RHITextureType::Texture1DArray:
         /*
@@ -117,22 +115,12 @@ void OpenGL46Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOff
             更新TextureArray[YOffset]， 区域[XOffset, XOffset + Width].
         */
         glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
-        std::cout << "OpenGL46Texture::Update 1D Array MipmapLevel " << MipmapLevel << " XOffset " << XOffset << " YOffset " << YOffset << " Width " << Width << " Height " << Height << " Format " << Format << " Type " << Type << std::endl;
-        break;
+       break;
     case RHITextureType::Texture2D:
         /*
             更新整个2D纹理区域.
             [XOffset, XOffset + Width，YOffset, YOffset + Width]
         */
-        std::cout << "texture2d " << Target << " "
-                << MipmapLevel << " "
-                << XOffset << " "
-                << YOffset << " "
-                << Width << " "
-                << Height << " "
-                << Format << " "
-                << Type << " "
-                << InData << std::endl;
         glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
         break;
     case RHITextureType::Texture2DArray:
@@ -156,7 +144,6 @@ void OpenGL46Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOff
         */
         glTexSubImage2D(Target, MipmapLevel, XOffset, YOffset, Width, Height, Format, Type, InData);
 
-        std::cout << "cube map " << Target << " " << XOffset << " " << YOffset << " " << Width << " " << Height << std::endl;
         break;
     case RHITextureType::TextureCubeMapArray:
         /*
@@ -175,12 +162,10 @@ void OpenGL46Texture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOff
         //            GL_RGBA, GL_UNSIGNED_BYTE, InData);
         //    }
         //}
-        std::cout << "cube map array Target " << Target << " XOffset " << XOffset << " YOffset " << YOffset << " ZOffset " << ZOffset << " Width " << Width << " Height " << Height << " Depth " << Depth << " Format " << Format << std::endl;
         break;
     default:
         break;
     }
-    std::cout << "OpenGL46Texture::Update end" << std::endl;
 }
 #endif
 #if 1

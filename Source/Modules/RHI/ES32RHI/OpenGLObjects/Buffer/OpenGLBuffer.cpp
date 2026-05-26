@@ -16,7 +16,7 @@ OpenGLBuffer::OpenGLBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std
 	bStreamDraw(false)
 {
 	glGenBuffers(1, &Handle);
-    std::cout << "OpenGLBuffer " << Handle << std::endl;
+
     switch (GetType())
     {
     case RHIBufferType::VertexBuffer:

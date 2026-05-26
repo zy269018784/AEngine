@@ -20,7 +20,6 @@ GLuint OpenGLGraphicsPipeline::GetVAO()
 
 void OpenGLGraphicsPipeline::Create()
 {
-	std::cout << "OpenGLGraphicsPipeline::Create 1" << std::endl;
 	Handle = glCreateProgram();
 	for (int i = 0; i < Shaders.size(); i++)
 	{
@@ -35,7 +34,5 @@ void OpenGLGraphicsPipeline::Create()
 		glGetProgramInfoLog(Handle, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
-
-	std::cout << "OpenGLGraphicsPipeline::Create 2" << std::endl;
 }
 

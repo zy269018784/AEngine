@@ -33,7 +33,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -47,7 +47,6 @@ RHIApplication::RHIApplication()
     }
     else if (2 == RHIIndex)
     {
-        std::cout << "new GLFWWindow 111" << std::endl;
 #if OS_IS_WINDOWS
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::OpenGL46);
         tmpWin->MakeContextCurrent();
@@ -57,7 +56,6 @@ RHIApplication::RHIApplication()
         tmpWin->MakeContextCurrent();
         pRHI = CreateRHI(GraphicsAPI::OpenGL46);
 #endif
-        std::cout << "new GLFWWindow 222" << std::endl;
 
         Window = tmpWin;
         /*
@@ -76,11 +74,8 @@ RHIApplication::RHIApplication()
 
         pRHI = CreateRHI(GraphicsAPI::ES20);
 #endif
-        std::cout << "OpenGL CreateRHI 222" << std::endl;
     }
-    std::cout << "RHIUseGPU 111 " << pRHI << std::endl;
     pRHI->RHIUseGPU(0);
-    std::cout << "RHIUseGPU 222" << std::endl;
 
 #if OS_IS_LINUX
 
@@ -100,18 +95,16 @@ RHIApplication::RHIApplication()
 #endif
 #endif
 
-    std::cout << "CreateRHI(GraphicsAPI::Vulkan) 222" << std::endl;
 #if OS_IS_WINDOWS
     // HWND hwnd = Window->GetHWND();
     //HINSTANCE instacne = Window->GetHINSTANCE();
     auto GLFWHandle = (dynamic_cast<GLFWWindow *>(Window))->GetHandle();
-    std::cout << "RHIApplication 3 " << glfwGetWin32Window << " GLFWHandle " << GLFWHandle << std::endl;
+
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
-    std::cout << "RHIApplication pRHI " << pRHI << " " << std::endl;
+
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
-    std::cout << "RHIApplication hwnd " << hwnd << " instacne " << instacne << std::endl;
+
 #endif
 //#endif
 

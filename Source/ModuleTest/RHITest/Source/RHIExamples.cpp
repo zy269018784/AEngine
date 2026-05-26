@@ -157,10 +157,8 @@ void error_callback(int error, const char* description)
 }
 int RHIExample()
 {
-	std::cout << "RHIExample 1" << std::endl;
 	glfwInit();
 	glfwSetErrorCallback(error_callback);
-	std::cout << "RHIExample 2" << std::endl;
 
 #if  PROJECT_USE_SDL3
 	SDL_Init(SDL_INIT_VIDEO);

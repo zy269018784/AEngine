@@ -45,9 +45,8 @@ void OpenGLShaderResourceBindings::Create()
 			OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
 			OpenGLSampler* Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
 
-			std::cout << "CreateCombinedImageSampler start" << std::endl;
+
 			CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
-			std::cout << "CreateCombinedImageSampler end" << std::endl;
 
 
 			ActiveTextureUnits++;
@@ -65,6 +64,6 @@ void OpenGLShaderResourceBindings::Create()
 			//glBindImageTexture(imageUnit, textureHandle, 0, GL_FALSE, 0, access, GL_RGBA8);
 		}
 	}
-	std::cout << "OpenGLShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
+	//std::cout << "OpenGLShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
 }
 
