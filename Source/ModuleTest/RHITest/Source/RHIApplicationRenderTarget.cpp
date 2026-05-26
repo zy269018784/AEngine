@@ -12,15 +12,17 @@
     VBO1三角形: 蓝色和绿色
 */
 static float VertexAttributes[] = {
-    // VBO1                                    // VBO2
-    // pos               uv                    // pos              uv
-    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f,  1.0f, 0.0f,            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-                        
-     0.5f,  0.5f, 0.0f,  1.0f, 1.0f,            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,           -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,           -0.5f, -0.5f, 0.0f, 0.0f, 0.0f
+   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
+    0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
+    0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
+   -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
+};
+
+static float VertexAttributes2[] = {
+    -1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+     1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
+    -1.0f,  1.0f, 0.0f,  0.0f, 1.0f,
 };
 
 //static float VertexAttributes[] = {
@@ -38,7 +40,7 @@ static float VertexAttributes[] = {
 
 static unsigned int Index[] = {
     0, 1, 2,
-    3, 4, 5
+    2, 3, 0
 };
 
 RHIApplicationRenderTarget::RHIApplicationRenderTarget()
@@ -71,7 +73,13 @@ void RHIApplicationRenderTarget::Init()
 
 void RHIApplicationRenderTarget::CreateVBO()
 {
-    RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
+    //RHIVBO = pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer, sizeof(VertexAttributes), VertexAttributes);
+
+    RHIVBOs.push_back(pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer,
+        sizeof(VertexAttributes), VertexAttributes));
+
+    RHIVBOs.push_back(pRHI->RHICreateBuffer(RHIBufferType::VertexBuffer, RHIBufferUsageFlag::VertexBuffer,
+        sizeof(VertexAttributes2), VertexAttributes2));
 }
 
 void RHIApplicationRenderTarget::CreateEBO()
@@ -119,17 +127,8 @@ void RHIApplicationRenderTarget::CreateSRB()
 
 void RHIApplicationRenderTarget::CreateVertexDescriptioin()
 {
-#if 1
-    /*
-        使用VBO1
-    */
-    VertexInputs.push_back(std::make_pair(RHIVBO, 0 * sizeof(float)));
-#else
-    /*
-        使用VBO2
-    */
-    VertexInputs.push_back(std::make_pair(RHIVBO, 5 * sizeof(float)));
-#endif
+    VertexInputs.push_back( std::make_pair(RHIVBOs[0], 0 * sizeof(float)));
+    VertexInputs2.push_back(std::make_pair(RHIVBOs[1], 0 * sizeof(float)));
 }
 
 void RHIApplicationRenderTarget::CreateGraphicsPipeline()
@@ -166,7 +165,7 @@ void RHIApplicationRenderTarget::CreateGraphicsPipeline()
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-        { 10 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+        { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
     });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
@@ -227,6 +226,6 @@ void RHIApplicationRenderTarget::Draw()
     */
     CommandBuffer->RHISetStencilTestEnable(false);
 
-    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }

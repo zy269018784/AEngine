@@ -27,13 +27,6 @@ private:
     void CreateVertexDescriptioin();
     void CreateGraphicsPipeline();
 private:
-    RHIBuffer* RHIVBO = nullptr;   
-    RHIBuffer* RHIEBO = nullptr;
     RHITexture* RHITexture2D = nullptr;
     RHISampler* RHISampler_ = nullptr;
-    RHIShader* VertexShader = nullptr;
-    RHIShader* FragmengShader = nullptr;
-    std::vector<RHICommandBuffer::VertexInput> VertexInputs;
-    RHIShaderResourceBindings* SRB = nullptr;
-    RHIGraphicsPipeline* GraphicsPipeline = nullptr;
 };

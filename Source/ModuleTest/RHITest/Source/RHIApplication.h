@@ -67,6 +67,7 @@ public:
 
     RHISurface* Surface = nullptr;
     RHIRenderTarget *RenderTarget = nullptr;
+    RHIRenderTarget *TextureRenderTarget = nullptr;
 
     /*
         RHI
@@ -76,10 +77,12 @@ public:
         VBO
     */
     RHIBuffer* RHIVBO = nullptr;
+    std::vector<RHIBuffer*> RHIVBOs;
     /*
         EBO
     */
     RHIBuffer* RHIEBO = nullptr;
+    std::vector<RHIBuffer*> RHIEBOs;
     /*
         Pipeline
     */
@@ -88,6 +91,7 @@ public:
        顶点输入
     */
     std::vector<RHICommandBuffer::VertexInput> VertexInputs;
+    std::vector<RHICommandBuffer::VertexInput> VertexInputs2;
     /*
         着色器资源绑定
     */

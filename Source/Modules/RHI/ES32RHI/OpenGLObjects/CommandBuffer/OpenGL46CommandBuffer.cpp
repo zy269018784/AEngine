@@ -289,11 +289,17 @@ void OpenGL46CommandBuffer::RHISetVertexInput(int FirstBinding, int BindingCount
 	*/
 	((OpenGLGraphicsPipeline*)GraphicsPipeline)->BindVAO();
 	OpenGLBuffer* RHIVBO = (OpenGLBuffer*)(Bindings->first);
-	glBindBuffer(GL_ARRAY_BUFFER, RHIVBO->GetHandle());
+	//glBindBuffer(GL_ARRAY_BUFFER, RHIVBO->GetHandle());
 	if (RHIEBO)
 	{	
 		OpenGLBuffer* OpenGLEBO = (OpenGLBuffer*)(RHIEBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, OpenGLEBO->GetHandle());
+	}
+
+	if (RHIVBO)
+		{
+		OpenGLBuffer* OpenGLVBO = (OpenGLBuffer*)(RHIVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, OpenGLVBO->GetHandle());
 	}
 
 	auto VertexInputLayout = GraphicsPipeline->GetVertexInputLayout();
