@@ -9,6 +9,7 @@ class RHICommandBuffer;
 class RHIEXPORT RHIRenderTarget
 {
 public:
+    RHIRenderTarget() = default;
     RHIRenderTarget(RHIPixelFormat InPixelFormat);
     virtual ~RHIRenderTarget();
     RHIRenderPass *GetRenderPass() const;

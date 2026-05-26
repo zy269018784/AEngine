@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 

@@ -99,6 +99,10 @@ VkFramebuffer VulkanFrameBuffer::GetHandle() const
     return Handle;
 }
 
+void VulkanFrameBuffer::Bind() const {
+
+}
+
 VkResult VulkanFrameBuffer::CreateFramebuffer(const VkFramebufferCreateInfo* CreateInfo, const VkAllocationCallbacks* Allocator)
 {
     return Device->CreateFramebuffer(CreateInfo, Allocator, &Handle);

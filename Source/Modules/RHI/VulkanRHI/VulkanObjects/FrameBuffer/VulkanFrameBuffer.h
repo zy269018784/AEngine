@@ -14,6 +14,7 @@ public:
 		std::vector<RHIAttachment *> &InColorAttachments, std::vector<RHIAttachment *> &InDepthAttachments);
 	~VulkanFrameBuffer();
 	VkFramebuffer GetHandle() const;
+	virtual void Bind() const override final;
 private:
 	/*
 		Vulkan API Wrapper
