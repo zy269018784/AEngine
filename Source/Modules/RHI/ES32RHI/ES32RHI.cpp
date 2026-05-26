@@ -72,7 +72,6 @@ ES32RHI::ES32RHI(GraphicsAPI APIIndex)
 	: RHI(APIIndex)
 {
 	if (GraphicsAPI::OpenGL33 == APIIndex || GraphicsAPI::OpenGL46 == APIIndex) {
-		std::cout << "ES32RHI::ES32RHI() gladLoadGL" << std::endl;
 		if (!gladLoadGL())
 		{
 			std::cout << "gladLoadGL failed AA" << std::endl;

@@ -15,7 +15,7 @@ int helloes2_0(int argc, char **argv)
        	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 //        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     	auto Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
-    	std::cout << "glfw handle " << Handle << std::endl;
+
     	glfwMakeContextCurrent(Handle);
 	if (gladLoadGLES2Loader((GLADloadproc)(glfwGetProcAddress)))
 	{

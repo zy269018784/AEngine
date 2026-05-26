@@ -54,19 +54,7 @@ RHIApplication::RHIApplication()
 #else
         GLFWWindow *tmpWin = new GLFWWindow(IWindow::ES20);
         tmpWin->MakeContextCurrent();
-        pRHI = CreateRHI(GraphicsAPI::OpenGL46);
-#endif
 
-        Window = tmpWin;
-        /*
-            opengl需要
-        */
-       // glfwMakeContextCurrent(InWindow);
-#if OS_IS_WINDOWS
-
-        pRHI = CreateRHI(GraphicsAPI::OpenGL46);
-
-#else
         if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)) {
             printf("Failed to load GLES2\n");
             return ;
@@ -74,6 +62,13 @@ RHIApplication::RHIApplication()
 
         pRHI = CreateRHI(GraphicsAPI::ES20);
 #endif
+
+        Window = tmpWin;
+        /*
+            opengl需要
+        */
+       // glfwMakeContextCurrent(InWindow);
+
     }
     pRHI->RHIUseGPU(0);
 
@@ -109,7 +104,6 @@ RHIApplication::RHIApplication()
 //#endif
 
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
-    std::cout << "RHIApplication 4" << std::endl;
 }
 
 

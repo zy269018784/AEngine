@@ -63,7 +63,7 @@ GLFWWindow::GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent)
             break;
     }
     Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
-    std::cout << "glfw handle " << Handle << std::endl;
+
     //glfwMakeContextCurrent(Handle);
 }
 

@@ -35,7 +35,6 @@ RHI *CreateRHI(GraphicsAPI API) {
         std::cout << "new VulkanRHI" << std::endl;
     }
 #endif
-    std::cout << "API "  << (int)API << std::endl;
 
 #if USE_OPENGL46_RHI
     if (GraphicsAPI::OpenGL46 == API)

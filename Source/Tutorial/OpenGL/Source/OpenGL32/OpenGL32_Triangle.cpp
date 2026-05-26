@@ -30,7 +30,7 @@ int OpenGL32_Triangle(int argc, char **argv)
         glfwTerminate();
         return -1;
     }
-    std::cout << "glfw handle " << Handle << std::endl;
+
     glfwMakeContextCurrent(Handle);
 
     // 3. 加载 OpenGL 函数
