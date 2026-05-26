@@ -1,7 +1,11 @@
 #include "RHITextureRenderTarget.h"
 
-RHITextureRenderTarget::RHITextureRenderTarget(RHIPixelFormat InPixelFormat)
-    : RHIRenderTarget(InPixelFormat)
+RHITextureRenderTarget::RHITextureRenderTarget()
+{
+
+}
+
+RHITextureRenderTarget::~RHITextureRenderTarget()
 {
 
 }

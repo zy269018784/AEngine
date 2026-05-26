@@ -352,7 +352,7 @@ enum class RHIEXPORT RHIFeatures : std::uint32_t {
 
 enum class RHIEXPORT RHIAttachmentType: std::uint32_t
 {
-	Color1,
+	Color1 = 0,
 	Color2,
 	Color3,
 	Color4,

@@ -7,6 +7,9 @@ class RHIEXPORT RHIAttachment
 public:
     RHIAttachment() = default;
     RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture);
+    /*
+     * vulkan使用
+     */
     RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat);
     RHIAttachment(const RHIAttachment& Other);
     virtual ~RHIAttachment();
