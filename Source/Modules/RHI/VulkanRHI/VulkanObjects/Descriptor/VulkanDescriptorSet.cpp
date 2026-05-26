@@ -14,7 +14,6 @@ VulkanDescriptorSet::VulkanDescriptorSet(VulkanDevice* Device, VulkanDescriptorP
     AllocateInfo.pNext = nullptr;
     AllocateInfo.pSetLayouts = &SetLayouts;
     VkResult ret = AllocateDescriptorSets(&AllocateInfo);
-    std::cout << "AllocateDescriptorSets " << ret << std::endl;
 }
 
 VulkanDescriptorSet::~VulkanDescriptorSet()

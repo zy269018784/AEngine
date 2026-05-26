@@ -57,17 +57,17 @@ RHIApplicationFramebuffer::~RHIApplicationFramebuffer()
 
 void RHIApplicationFramebuffer::Init()
 {
-    std::cout << "RHIApplicationFramebuffer::Init 1" << std::endl;
+
     CreateVBO();
     CreateEBO();
     CreateTexture();
-    std::cout << "RHIApplicationFramebuffer::Init 2" << std::endl;
+
     CreateSRB();
-    std::cout << "RHIApplicationFramebuffer::Init 3" << std::endl;
+
     CreateVertexDescriptioin();
-    std::cout << "RHIApplicationFramebuffer::Init 4" << std::endl;
+
     CreateGraphicsPipeline();
-    std::cout << "RHIApplicationFramebuffer::Init 5" << std::endl;
+
 }
 
 void RHIApplicationFramebuffer::CreateVBO()

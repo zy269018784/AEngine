@@ -155,7 +155,6 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice* InDevice, RHIShaderReso
 		std::cout << "CreateDescriptorPool failed " << ret << std::endl;
 		return;
 	}
-	std::cout << "CreateDescriptorPool ok" << std::endl;
 }
 
 VulkanDescriptorPool::~VulkanDescriptorPool()

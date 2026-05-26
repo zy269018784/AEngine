@@ -255,8 +255,6 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 	}
 
 	UpdateDescriptorSets(WriteDescriptorSets.size(), WriteDescriptorSets.data(), 0, nullptr);
-
-	std::cout << "UpdateDescriptorSets ok" << std::endl;
 }
 
 void VulkanShaderResourceBindings::UpdateDescriptorSets(uint32_t                    DescriptorWriteCount,
