@@ -1,10 +1,6 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
-
-#include <iostream>
-#include <ostream>
-
-#include "ES32RHI/OpenGLObjects/Texture/OpenGL46Texture.h"
 #include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL46Attachment.h"
+#include <iostream>
 
 OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTexture *> InColorAttachments, std::vector<OpenGLTexture *> InDepthAttachments)
     : OpenGLTextureRenderTarget()
@@ -13,16 +9,18 @@ OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTextu
     {
         std::cout << "greater than 16" << std::endl;
     }
+    RHIAttachmentType Type;
+
     ColorAttachments.resize(InColorAttachments.size());
     for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
     {
-        ColorAttachments[Index] = new OpenGL46Attachment(RHIAttachmentType::Color1 + Index, InColorAttachments[Index]);
+        Type = RHIAttachmentType::Color1 + Index;
+        ColorAttachments[Index] = new OpenGL46Attachment(Type, InColorAttachments[Index]);
     }
 
     DepthStencilAttachments.resize(InDepthAttachments.size());
     for (std::uint32_t Index = 0; Index < DepthStencilAttachments.size(); ++Index)
     {
-        RHIAttachmentType Type;
         switch (InDepthAttachments[Index]->GetFormat())
         {
             case RHIPixelFormat::PF_DepthOnly_D16:
@@ -37,8 +35,11 @@ OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTextu
             case RHIPixelFormat::PF_DepthStencil_D32_S8:
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
+            default:
+                Type = RHIAttachmentType::DepthStencil_D32_S8;
+                break;
         }
-        ColorAttachments[Index] = new OpenGL46Attachment(Type, InColorAttachments[Index]);
+        DepthStencilAttachments[Index] = new OpenGL46Attachment(Type, InColorAttachments[Index]);
     }
 }
 
