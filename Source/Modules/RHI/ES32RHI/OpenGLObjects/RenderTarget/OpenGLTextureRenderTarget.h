@@ -13,5 +13,4 @@ public:
     virtual void GetExtent(float &x, float &y, float &w, float &h) override final;
     virtual void Resize(float Width, float Height) final override;
     virtual void WaitDeviceIdle() final override;
-
 };

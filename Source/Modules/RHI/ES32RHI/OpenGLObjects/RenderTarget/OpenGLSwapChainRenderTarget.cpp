@@ -45,8 +45,9 @@ void OpenGLSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float 
     h = Viewport[3];
 }
 
-void OpenGLSwapChainRenderTarget::Resize(float Width, float Height) {
-
+void OpenGLSwapChainRenderTarget::Resize(float Width, float Height)
+{
+    glViewport(0, 0, Width, Height);
 }
 
 void OpenGLSwapChainRenderTarget::WaitDeviceIdle()
