@@ -39,7 +39,7 @@ OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTextu
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
         }
-        DepthStencilAttachments[Index] = new OpenGL46Attachment(Type, InColorAttachments[Index]);
+        DepthStencilAttachments[Index] = new OpenGL46Attachment(Type, InDepthAttachments[Index]);
     }
 }
 

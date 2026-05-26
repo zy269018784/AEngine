@@ -39,7 +39,7 @@ ES20TextureRenderTarget::ES20TextureRenderTarget(std::vector<OpenGLTexture *> In
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
         }
-        DepthStencilAttachments[Index] = new ES20Attachment(Type, InColorAttachments[Index]);
+        DepthStencilAttachments[Index] = new ES20Attachment(Type, InDepthAttachments[Index]);
     }
 }
 

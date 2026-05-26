@@ -39,7 +39,7 @@ ES31TextureRenderTarget::ES31TextureRenderTarget(std::vector<OpenGLTexture *> In
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
         }
-        DepthStencilAttachments[Index] = new ES31Attachment(Type, InColorAttachments[Index]);
+        DepthStencilAttachments[Index] = new ES31Attachment(Type, InDepthAttachments[Index]);
     }
 }
 
