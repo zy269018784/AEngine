@@ -116,7 +116,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	*/
 	std::vector<RHIAttachment> ColorAttachments;
 	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
-
 	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
 	RenderPass = new VulkanRenderPass(Device, ImageFormat, ColorAttachments,DepthAttachment);
 
