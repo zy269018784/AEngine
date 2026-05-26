@@ -20,7 +20,8 @@ OpenGLSwapChainRenderTarget::~OpenGLSwapChainRenderTarget()
 }
 
 void OpenGLSwapChainRenderTarget::RHIBeginFrame() {
-
+    // 绑定默认帧缓冲
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void OpenGLSwapChainRenderTarget::RHIEndFrame() {

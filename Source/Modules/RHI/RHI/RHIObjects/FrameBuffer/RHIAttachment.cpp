@@ -36,3 +36,7 @@ RHIPixelFormat RHIAttachment::GetRHIPixelFormat() const
     std::cout << "RHIAttachment::GetRHIPixelFormat " << (int)Format << " " << this  << std::endl;
     return Format;
 }
+
+RHITexture *RHIAttachment::GetTexture() const {
+    return Texture;
+}

@@ -20,8 +20,7 @@ OpenGLFramebuffer::OpenGLFramebuffer(RHIDevice *InDevice,  std::uint32_t InWidth
         ColorAttachments(InColorAttachments),
         DepthAttachments(InDepthAttachments)
 {
-    ColorTextures.resize(ColorAttachments.size());
-    DepthTextures.resize(DepthAttachments.size());
+
 }
 
 OpenGLFramebuffer::~OpenGLFramebuffer()
@@ -34,6 +33,11 @@ GLuint OpenGLFramebuffer::GetHandle() const
     return Handle;
 }
 
+void OpenGLFramebuffer::Bind() const
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, Handle);
+}
+
 void OpenGLFramebuffer::Create()
 {
    /*
@@ -43,19 +47,13 @@ void OpenGLFramebuffer::Create()
 
     GLenum Target = GL_FRAMEBUFFER;
     GLenum Textarget = GL_TEXTURE_2D;
-    RHIPixelFormat PixelFormat = RHIPixelFormat::PF_Unknown;
     GLenum Attachment;
     GLuint Texture;
     for (int i = 0; i < ColorAttachments.size(); i++)
     {
-        PixelFormat = ColorAttachments[i]->GetRHIPixelFormat();
-
         Attachment = GL_COLOR_ATTACHMENT0 + i;
-        /*
-         * 创建纹理
-         */
-        ColorTextures[i] = CreateTexture(Device, PixelFormat,  Width, Height);
-        Texture =  ColorTextures[i]->GetHandle();
+
+        Texture =  dynamic_cast<OpenGLTexture *>(ColorAttachments[i]->GetTexture())->GetHandle();
         /*
          * 关联纹理到Framebuffer
          */
@@ -65,32 +63,23 @@ void OpenGLFramebuffer::Create()
 
     for (int i = 0; i < DepthAttachments.size(); i++)
     {
-        PixelFormat = RHIPixelFormat::PF_Unknown;
         Attachment = GL_DEPTH_STENCIL_ATTACHMENT;
 
-        switch (DepthAttachments[i]->GetAttachmentType()) {
+        switch (DepthAttachments[i]->GetAttachmentType())
+        {
             case RHIAttachmentType::DepthStencil_D24_S8:
-                PixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
             case RHIAttachmentType::DepthStencil_D32_S8:
-                PixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
                 Attachment = GL_DEPTH_STENCIL_ATTACHMENT;
                 break;
             case RHIAttachmentType::DepthOnly_D32:
-                PixelFormat = RHIPixelFormat::PF_DepthOnly_D32;
             case RHIAttachmentType::DepthOnly_D16:
-                PixelFormat = RHIPixelFormat::PF_DepthOnly_D16;
                 Attachment = GL_DEPTH_ATTACHMENT;
-                break;
-            case RHIAttachmentType::Unknown:
                 break;
             default:
                 break;
         }
-        /*
-        * 创建纹理
-        */
-        DepthTextures[i] = CreateTexture(Device, PixelFormat,  Width, Height);
-        Texture = DepthTextures[i]->GetHandle();
+
+        Texture =  dynamic_cast<OpenGLTexture *>(DepthAttachments[i]->GetTexture())->GetHandle();
         /*
          * 关联纹理到Framebuffer
          */

@@ -15,6 +15,7 @@ public:
     virtual ~RHIAttachment();
     RHIAttachmentType GetAttachmentType() const;
     RHIPixelFormat GetRHIPixelFormat() const;
+    RHITexture *GetTexture() const;
 protected:
     RHIAttachmentType Type;
     RHITexture *Texture = nullptr;
