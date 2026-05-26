@@ -140,7 +140,6 @@ RHIApplication::~RHIApplication()
 
 void RHIApplication::Run()
 {
-    std::cout << "RHIApplication::Run start" << std::endl;
     Init();
 
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();

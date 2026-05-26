@@ -30,7 +30,6 @@ void OpenGLShaderResourceBindings::Create()
 	int ActiveTextureUnits = 0;
 	for (int BindingIndex = 0; BindingIndex < Bindings.size(); BindingIndex++)
 	{
-		std::cout << "BindingIndex " << BindingIndex << std::endl;
 		const RHIShaderResourceBinding::Type  BindingType = Bindings[BindingIndex].d.type;
 		int BindingPoint = Bindings[BindingIndex].d.binding;
 		if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::SampledImage)
