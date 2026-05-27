@@ -1,10 +1,10 @@
 #pragma once
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
-class OpenGLDevice;
-class OpenGLSurface;
+class RHIDevice;
+class RHISurface;
 class ES31SwapChainRenderTarget : public OpenGLSwapChainRenderTarget
 {
 public:
-    ES31SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
+    ES31SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~ES31SwapChainRenderTarget();
 };

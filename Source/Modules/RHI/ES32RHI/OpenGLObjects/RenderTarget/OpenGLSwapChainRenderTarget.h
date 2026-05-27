@@ -1,11 +1,11 @@
 #pragma once
 #include "RHI/RHIObjects/RenderTarget/RHISwapChainRenderTarget.h"
-class OpenGLDevice;
-class OpenGLSurface;
+class RHIDevice;
+class RHISurface;
 class OpenGLSwapChainRenderTarget : public RHISwapChainRenderTarget
 {
 public:
-    OpenGLSwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
+    OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~OpenGLSwapChainRenderTarget();
     virtual void CreateFramebuffer() override final;
     virtual void CreateRenderPass()  override final;

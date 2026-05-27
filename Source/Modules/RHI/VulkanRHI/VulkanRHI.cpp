@@ -14,6 +14,8 @@
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include <iostream>
 
+#include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
+
 
 VulkanRHI::VulkanRHI(GraphicsAPI APIIndex)
 	: RHI(APIIndex)

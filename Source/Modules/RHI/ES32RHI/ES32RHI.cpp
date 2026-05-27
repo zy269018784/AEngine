@@ -61,6 +61,9 @@
 
 #include <iostream>
 
+#include "OpenGLObjects/Surface/OpenGLSurface.h"
+#include "RHI/RHIObjects/Surface/RHISurface.h"
+
 #if defined(_WIN32) || defined(__CYGWIN__)
 #else
 	#include <dlfcn.h>
@@ -115,56 +118,151 @@ void ES32RHI::RHIUseGPU(std::uint32_t GPUIndex)
 #if RHI_USE_WIN32_KHR
 RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 {
-	return nullptr;
+	RHISurface *Surface = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::ES32:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::ES31:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::ES30:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::ES21:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+		case GraphicsAPI::ES20:
+			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
+			break;
+	}
+	return Surface;
 }
 #endif
 
 #if RHI_USE_PLATFORM_WAYLAND_KHR
 RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
-	return nullptr;
+	RHISurface *Surface = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::ES32:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::ES31:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::ES30:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::ES21:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+		case GraphicsAPI::ES20:
+			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
+			break;
+	}
+	return Surface;
 }
 #endif
 
 #if RHI_USE_XCB_KHR
 RHISurface* ES32RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
-	return nullptr;
+	RHISurface *Surface = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::ES32:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::ES31:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::ES30:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::ES21:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+		case GraphicsAPI::ES20:
+			Surface = new OpenGLSurface(nullptr, Connection, Window);
+			break;
+	}
+	return Surface;
 }
 #endif
 
 #if RHI_USE_Xlib_KHR
 RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 {
-	return nullptr;
+	RHISurface *Surface = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::OpenGL33:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::ES32:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::ES31:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::ES30:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::ES21:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+		case GraphicsAPI::ES20:
+			Surface = new OpenGLSurface(nullptr, Disp, Win);
+			break;
+	}
+	return Surface;
 }
 #endif
 
-//RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 {
 	RHIRenderTarget *SwapChainRenderTarget;
 	switch (APIIndex) {
 		case GraphicsAPI::OpenGL46:
-			SwapChainRenderTarget = new OpenGL46SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new OpenGL46SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::OpenGL33:
-			SwapChainRenderTarget = new OpenGL33SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new OpenGL33SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::ES32:
-			SwapChainRenderTarget = new ES32SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new ES32SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::ES31:
-			SwapChainRenderTarget = new ES31SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new ES31SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::ES30:
-			SwapChainRenderTarget = new ES30SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new ES30SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::ES21:
-			SwapChainRenderTarget = new ES21SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new ES21SwapChainRenderTarget(nullptr, InSurface);
 			break;
 		case GraphicsAPI::ES20:
-			SwapChainRenderTarget = new ES20SwapChainRenderTarget(nullptr, nullptr);
+			SwapChainRenderTarget = new ES20SwapChainRenderTarget(nullptr, InSurface);
 			break;
 	}
 	return SwapChainRenderTarget;

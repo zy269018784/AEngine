@@ -4,6 +4,8 @@
 #include <vector>
 #include <cstddef>
 
+#include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
+
 class VulkanInstance;
 class VulkanCommandPool;
 class VulkanDevice;

@@ -7,10 +7,9 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
-#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 #include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
 
-OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
+OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
     : RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
     GraphicsCommandBuffers.resize(1);

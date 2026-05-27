@@ -4,6 +4,7 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
 #include <cstddef>
+
 class RHIBuffer;
 class RHIShader;
 class RHICommandBuffer;

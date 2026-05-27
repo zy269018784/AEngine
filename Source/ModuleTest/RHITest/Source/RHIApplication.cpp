@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -103,8 +103,9 @@ RHIApplication::RHIApplication()
 
 #endif
 //#endif
-
+    std::cout << "Render target aaa" << std::endl;
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
+    std::cout << "Render target bbb" << std::endl;
 }
 
 
@@ -135,7 +136,9 @@ RHIApplication::~RHIApplication()
 
 void RHIApplication::Run()
 {
+    std::cout << "Run 1" << std::endl;
     Init();
+    std::cout << "Run 2" << std::endl;
 
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))

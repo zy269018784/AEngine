@@ -1,10 +1,10 @@
 #pragma once
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLSwapChainRenderTarget.h"
-class OpenGLDevice;
-class OpenGLSurface;
+class RHIDevice;
+class RHISurface;
 class OpenGL46SwapChainRenderTarget : public OpenGLSwapChainRenderTarget
 {
 public:
-    OpenGL46SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface);
+    OpenGL46SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~OpenGL46SwapChainRenderTarget();
 };

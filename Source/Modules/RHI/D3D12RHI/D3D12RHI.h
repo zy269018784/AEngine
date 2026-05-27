@@ -52,7 +52,7 @@ public:
 	/*
 	 * RenderTarget
 	 */
-	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
+	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(OpenGLSurface *InSurface) final override;
 	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;

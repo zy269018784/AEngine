@@ -13,6 +13,9 @@
 //#include <spirv_cross/spirv_cross.hpp>
 //#include <spirv_cross/spirv_hlsl.hpp>
 #include <iostream>
+
+#include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
+
 D3D12RHI::D3D12RHI()
 {
 //	Device = new D3D12Device();
@@ -65,7 +68,7 @@ RHISurface* D3D12RHI::RHICreateSurface(Display* Disp, Window Win)
 }
 #endif
 
-RHIRenderTarget *D3D12RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
+RHIRenderTarget *D3D12RHI::RHICreateSwapchainRenderTarget(OpenGLSurface *InSurface)
 {
 	return nullptr;
 }

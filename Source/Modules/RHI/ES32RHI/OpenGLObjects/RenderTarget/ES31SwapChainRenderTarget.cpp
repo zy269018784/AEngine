@@ -1,13 +1,7 @@
 #include "ES31SwapChainRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGLCommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL33CommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/ES32CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES31CommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
-ES31SwapChainRenderTarget::ES31SwapChainRenderTarget(OpenGLDevice *InDevice, OpenGLSurface* InSurface)
+ES31SwapChainRenderTarget::ES31SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
 : OpenGLSwapChainRenderTarget(InDevice, InSurface)
 {
     GraphicsCommandBuffers.resize(1);
