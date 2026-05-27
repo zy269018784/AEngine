@@ -10,7 +10,7 @@
 
 
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
-    : Texture(InTexture), RHITextureRenderTarget(InTexture->GetFormat()), Device(InDevice)
+    : Texture(InTexture), RHITextureRenderTarget(InDevice, InTexture->GetX(), InTexture->GetY()), Device(InDevice)
 {
     Resolution.width = InTexture->GetX();
     Resolution.height = InTexture->GetY();
@@ -178,3 +178,19 @@ void VulkanTextureRenderTarget::WaitDeviceIdle()
 {
     Device->DeviceWaitIdle();
 }
+
+
+void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorAttachments,
+                                       std::vector<RHITexture *> InDepthAttachments)
+{
+
+}
+
+RHIAttachment *VulkanTextureRenderTarget::VulkanTextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
+{
+    return nullptr;
+}
+
+void VulkanTextureRenderTarget::CreateFramebuffer() {}
+void VulkanTextureRenderTarget::CreateRenderPass() {}
+void VulkanTextureRenderTarget::CreateCommandbuffer() {}

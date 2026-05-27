@@ -1,3 +1,4 @@
+#if 0
 #include "OpenGLRenderTarget.h"
 #include "ES32RHI/ES32.h"
 OpenGLRenderTarget::OpenGLRenderTarget(RHIPixelFormat InPixelFormat)
@@ -10,3 +11,4 @@ void OpenGLRenderTarget::WaitDeviceIdle()
 {
     glFinish();
 }
+#endif

@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#if 0
+#pragma once
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
@@ -63,3 +64,4 @@ public:
     */
     std::uint32_t					FrameIndex = 0;
 };
+#endif

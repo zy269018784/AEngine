@@ -8,12 +8,21 @@
  *  Framebuffery
  */
 class VulkanTexture;
+class VulkanDevice;
+class VulkanFrameBuffer;
 class VulkanTextureRenderTarget : public RHITextureRenderTarget
 {
 public:
     VulkanTextureRenderTarget(VulkanDevice *InDevice, VulkanTexture *InTexture);
   //  VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice);
     ~VulkanTextureRenderTarget();
+public:
+    virtual void Create(std::vector<RHITexture *> InColorAttachments,
+                    std::vector<RHITexture *> InDepthAttachments) override final;
+    virtual RHIAttachment *CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture) override final;
+    virtual void CreateFramebuffer() override final;
+    virtual void CreateRenderPass()  override final;
+    virtual void CreateCommandbuffer() override final;
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;

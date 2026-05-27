@@ -1,6 +1,7 @@
 #pragma once
 #include "VulkanRHI/Vulkan.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
+#include "RHI/RHIObjects/Device/RHIDevice.h"
 #include <vector>
 
 class VulkanCommandPool;
@@ -9,7 +10,7 @@ class VulkanSemaphore;
 class VulkanFence;
 class VulkanQueue;
 class VulkanPhysicalDevice;
-class VulkanDevice
+class VulkanDevice : public RHIDevice
 {
 public:
 	VulkanDevice();

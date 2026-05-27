@@ -1,10 +1,15 @@
-#include "ES3RHI/OpenGLObjects/RenderTarget/ES31TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES31TextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Framebuffer/ES31Attachment.h"
+#include "ES32RHI/OpenGLObjects/Framebuffer/ES31Framebuffer.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 #include <iostream>
 
-ES31TextureRenderTarget::ES31TextureRenderTarget(std::vector<OpenGLTexture *> InColorAttachments, std::vector<OpenGLTexture *> InDepthAttachments)
-    : OpenGLTextureRenderTarget()
+#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
+
+ES31TextureRenderTarget::ES31TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
+    : OpenGLTextureRenderTarget(InDevice, InWidth, InHeight)
 {
+#if 0
     if (InColorAttachments.size() > 16)
     {
         std::cout << "greater than 16" << std::endl;
@@ -41,9 +46,25 @@ ES31TextureRenderTarget::ES31TextureRenderTarget(std::vector<OpenGLTexture *> In
         }
         DepthStencilAttachments[Index] = new ES31Attachment(Type, InDepthAttachments[Index]);
     }
+#endif
 }
 
 ES31TextureRenderTarget::~ES31TextureRenderTarget()
+{
+
+}
+
+void ES31TextureRenderTarget::CreateFramebuffer()
+{
+    Framebuffer = new ES31Framebuffer(dynamic_cast<OpenGLDevice *>(Device), Width, Height, ColorAttachments, DepthStencilAttachments);
+}
+
+void ES31TextureRenderTarget::CreateRenderPass()
+{
+
+}
+
+void ES31TextureRenderTarget::CreateCommandbuffer()
 {
 
 }

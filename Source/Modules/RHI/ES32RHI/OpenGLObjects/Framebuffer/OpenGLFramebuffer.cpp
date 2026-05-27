@@ -10,6 +10,9 @@
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                           GL_TEXTURE_2D, colorAttachments[0], 0);
+
+    glGenFramebuffers     ES 2.0开始支持
+                          OpenGL 3.0开始支持
 * */
 OpenGLFramebuffer::OpenGLFramebuffer(RHIDevice *InDevice,  std::uint32_t InWidth, std::uint32_t InHeight,
                                 std::vector<RHIAttachment *> &InColorAttachments,
@@ -20,7 +23,7 @@ OpenGLFramebuffer::OpenGLFramebuffer(RHIDevice *InDevice,  std::uint32_t InWidth
         ColorAttachments(InColorAttachments),
         DepthAttachments(InDepthAttachments)
 {
-
+    glGenFramebuffers(1, &Handle);
 }
 
 OpenGLFramebuffer::~OpenGLFramebuffer()

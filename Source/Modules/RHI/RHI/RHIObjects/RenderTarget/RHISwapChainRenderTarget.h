@@ -3,25 +3,17 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include <vector>
+#include <cstdint>
 
 class RHIRenderPass;
 class RHICommandBuffer;
-
+class RHIDevice;
 class RHIEXPORT RHISwapChainRenderTarget : public RHIRenderTarget
 {
 public:
     RHISwapChainRenderTarget() = default;
-    RHISwapChainRenderTarget(RHIPixelFormat InPixelFormat);
+    RHISwapChainRenderTarget(RHIDevice *InDevice, std::uint32_t InWidth, std::uint32_t InHeight, RHIPixelFormat InPixelFormat);
     virtual ~RHISwapChainRenderTarget();
-    virtual RHIRenderPass *GetRenderPass() const override final;
-    virtual RHICommandBuffer* CurrentGraphicsCommandBuffer() const override final;
-public:
+protected:
     RHIPixelFormat PixelFormat;
-    RHIRenderPass *RenderPass = nullptr;
-    /*
-        用于图像的command buffer
-    */
-    std::vector<RHICommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
-
-    std::uint32_t					    CurrentImageIndex = 0;      // [0, SwapChainImages.size() - 1]
 };

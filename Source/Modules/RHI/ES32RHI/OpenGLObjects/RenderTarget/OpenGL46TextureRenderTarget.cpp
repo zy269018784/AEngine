@@ -1,10 +1,15 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL46Attachment.h"
+#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL46Framebuffer.h"
+#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 #include <iostream>
 
-OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTexture *> InColorAttachments, std::vector<OpenGLTexture *> InDepthAttachments)
-    : OpenGLTextureRenderTarget()
+#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
+
+OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
+    : OpenGLTextureRenderTarget(InDevice, InWidth, InHeight)
 {
+#if 0
     if (InColorAttachments.size() > 16)
     {
         std::cout << "greater than 16" << std::endl;
@@ -41,9 +46,31 @@ OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(std::vector<OpenGLTextu
         }
         DepthStencilAttachments[Index] = new OpenGL46Attachment(Type, InDepthAttachments[Index]);
     }
+#endif
 }
 
 OpenGL46TextureRenderTarget::~OpenGL46TextureRenderTarget()
 {
 
+}
+
+
+void OpenGL46TextureRenderTarget::CreateFramebuffer()
+{
+    Framebuffer = new OpenGL46Framebuffer(dynamic_cast<OpenGLDevice *>(Device), Width, Height, ColorAttachments, DepthStencilAttachments);
+}
+
+void OpenGL46TextureRenderTarget::CreateRenderPass()
+{
+
+}
+
+void OpenGL46TextureRenderTarget::CreateCommandbuffer()
+{
+
+}
+
+RHIAttachment *OpenGL46TextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
+{
+    return new OpenGL46Attachment(Type, InTexture);
 }

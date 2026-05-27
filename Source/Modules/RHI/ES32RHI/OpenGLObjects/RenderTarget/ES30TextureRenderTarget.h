@@ -1,12 +1,15 @@
 #pragma once
-#include "RHI/RHIObjects/RenderTarget/RHITextureRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/RenderTarget/ES30TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLTextureRenderTarget.h"
+
 
 class OpenGLTexture;
-class ES30TextureRenderTarget : public RHITextureRenderTarget
+class ES30TextureRenderTarget : public OpenGLTextureRenderTarget
 {
 public:
     ES30TextureRenderTarget() = default;
-    ES30TextureRenderTarget(std::vector<OpenGLTexture *> ColorAttachments, std::vector<OpenGLTexture *> DepthAttachments);
+    ES30TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight);
     virtual ~ES30TextureRenderTarget();
+    virtual void CreateFramebuffer() override final;
+    virtual void CreateRenderPass()  override final;
+    virtual void CreateCommandbuffer() override final;
 };

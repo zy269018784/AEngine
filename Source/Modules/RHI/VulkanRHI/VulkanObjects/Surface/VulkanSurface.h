@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "RHI/RHIObjects/Surface/RHISurface.h"
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
@@ -69,6 +68,7 @@ public:
 #endif
 
 	~VulkanSurface();
+public:
 	VkSurfaceKHR GetHandle() const;
 	void Query(VulkanPhysicalDevice& PhysicalDevice);
 private:

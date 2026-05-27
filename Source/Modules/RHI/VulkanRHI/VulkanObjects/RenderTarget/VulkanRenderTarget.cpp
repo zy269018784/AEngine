@@ -1,3 +1,4 @@
+#if 0
 #include "VulkanRenderTarget.h"
 #include "VulkanRHI/VulkanObjects//Device/VulkanDevice.h"
 #include "VulkanRHI/VulkanObjects//FrameBuffer/VulkanFrameBuffer.h"
@@ -20,3 +21,4 @@ void VulkanRenderTarget::WaitDeviceIdle()
 {
     Device->DeviceWaitIdle();
 }
+#endif

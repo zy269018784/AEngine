@@ -15,6 +15,7 @@
 
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
+#include "RHI/RHIObjects/Device/RHIDevice.h"
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <iostream>
 #include <numbers>
@@ -83,7 +84,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
 	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
-	: RHISwapChainRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format)), Device(InDevice)
+	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), ToRHIPixelFormat(InSurface->CurrentFormat.format)), Device(InDevice)
 {
 	SwapChain = new VulkanSwapChain(Device, InSurface);
 
@@ -346,4 +347,19 @@ void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
 void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 {
 	Device->DeviceWaitIdle();
+}
+
+void VulkanSwapChainRenderTarget::CreateFramebuffer()
+{
+
+}
+
+void VulkanSwapChainRenderTarget::CreateRenderPass()
+{
+
+}
+
+void VulkanSwapChainRenderTarget::CreateCommandbuffer()
+{
+
 }

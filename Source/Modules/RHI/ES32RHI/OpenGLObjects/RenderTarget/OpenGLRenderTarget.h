@@ -1,3 +1,4 @@
+#if 0
 #pragma once
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
@@ -10,3 +11,4 @@ public:
 };
 
 
+#endif

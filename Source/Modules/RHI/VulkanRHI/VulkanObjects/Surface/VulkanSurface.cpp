@@ -1,20 +1,23 @@
 #include "VulkanRHI/VulkanRHI.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 #include "VulkanRHI/VulkanObjects/Core/VulkanAPI.h"
 #include "VulkanRHI/VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanRHI/VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
+
 #include <iostream>
 #include <limits>
 
 
 
 VulkanSurface::VulkanSurface()
+    : RHISurface(0, 0)
 {
 
 }
 
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
-    : Instance(InInstance)
+    : RHISurface(0, 0), Instance(InInstance)
 {
     Handle = Surface;
 }
@@ -269,11 +272,13 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
             if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
                 CurrentFormat = availableFormat;
+                SetRHIPixelFormat(ToRHIPixelFormat(CurrentFormat.format));
                 break;
             }
             else if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
                 CurrentFormat = availableFormat;
+                SetRHIPixelFormat(ToRHIPixelFormat(CurrentFormat.format));
                 break;
             }
         }
@@ -325,6 +330,8 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
     if (Capabilities.currentExtent.width != (uint32_t)std::numeric_limits<uint32_t>::max())
     {
         CurrentExtent = Capabilities.currentExtent;
+        SetWidth(CurrentExtent.width);
+        SetHeight(CurrentExtent.height);
     }
     //else
     //{

@@ -1,11 +1,14 @@
 #pragma once
 #include "RHI/RHIObjects/RenderTarget/RHITextureRenderTarget.h"
+class OpenGLTexture;
 class OpenGLTextureRenderTarget : public RHITextureRenderTarget
 {
 public:
-    OpenGLTextureRenderTarget() = default;
+    OpenGLTextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight);
     virtual ~OpenGLTextureRenderTarget();
 public:
+    virtual void Create(std::vector<RHITexture *> InColorAttachments,
+                        std::vector<RHITexture *> InDepthAttachments) override final;
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;

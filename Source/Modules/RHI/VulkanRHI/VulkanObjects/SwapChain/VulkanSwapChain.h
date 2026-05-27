@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "VulkanRHI/Vulkan.h"
+#include "RHI/RHIObjects/SwapChain/RHISwapChain.h"
 #include <vector>
  
 class VulkanDevice;
@@ -8,7 +9,8 @@ class VulkanSurface;
 class VulkanImage;
 class VulkanImageView;
 class VulkanFrameBuffer;
-class VulkanSwapChain {
+class VulkanSwapChain : public RHISwapChain
+{
 public:
 	VulkanSwapChain(VulkanDevice *InDevice, VulkanSurface* InSurface);
 	~VulkanSwapChain();
@@ -38,15 +40,7 @@ public:
 	/*
 		句柄
 	*/
-	VkSwapchainKHR							Handle; 
-	/*
-		Surface
-	*/
-	VulkanSurface*							Surface;
-	/*
-		设备
-	*/
-    VulkanDevice							*Device;  
+	VkSwapchainKHR							Handle;
 	/*
 		分辨率
 	*/
