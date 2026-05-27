@@ -21,8 +21,6 @@ public:
 	void Cleanup();
 	VkSwapchainKHR GetHandle() const;
 	VkFormat GetFormat() const;
-	//std::uint32_t GetWidth() const;
-	//std::uint32_t GetHeight() const;
 	int GetImageCount() const;
 	std::vector<VkImageView> GetImageViews() const;
 public:
@@ -44,7 +42,7 @@ public:
 	/*
 		分辨率
 	*/
-	VkExtent2D								SwapChainExtent;
+	//VkExtent2D								SwapChainExtent;
 	/*
 		Format
 	*/

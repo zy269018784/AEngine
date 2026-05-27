@@ -21,3 +21,13 @@ std::uint32_t RHISwapChain::GetHeight() const
 {
     return Height;
 }
+
+void RHISwapChain::SetWidth(int InWidth)
+{
+    Width = InWidth;
+}
+
+void RHISwapChain::SetHeight(int InHeight)
+{
+    Height = InHeight;
+}

@@ -11,7 +11,9 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
 { 
     SwapChainImageFormat    = InSurface->CurrentFormat.format;
     SwapChainClorSpace      = InSurface->CurrentFormat.colorSpace;
-    SwapChainExtent         = InSurface->CurrentExtent;
+
+    SetWidth(InSurface->GetWidth());
+    SetHeight(InSurface->GetHeight());
 
     SwapChainPresentMode    = InSurface->CurrentPresentMode;
 
@@ -60,17 +62,7 @@ VkFormat VulkanSwapChain::GetFormat() const
 {
     return SwapChainImageFormat;
 }
-#if 0
-std::uint32_t VulkanSwapChain::GetWidth() const
-{
-    return SwapChainExtent.width;
-}
 
-std::uint32_t VulkanSwapChain::GetHeight() const
-{
-    return SwapChainExtent.height;
-}
-#endif
 int VulkanSwapChain::GetImageCount() const
 {
     return SwapChainImages.size();
@@ -97,7 +89,7 @@ void VulkanSwapChain::CreateSwapChain()
 
     CreateInfo.imageFormat = SwapChainImageFormat;
     CreateInfo.imageColorSpace = SwapChainClorSpace;
-    CreateInfo.imageExtent = SwapChainExtent;
+    CreateInfo.imageExtent = { Width, Height };
     CreateInfo.presentMode = SwapChainPresentMode;
     CreateInfo.imageArrayLayers = 1;
     CreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
@@ -156,14 +148,15 @@ void VulkanSwapChain::CreateImageViews()
     }
 }
 
-void VulkanSwapChain::Resize(float Width, float Height)
+void VulkanSwapChain::Resize(float InWidth, float InHeight)
 {
     std::cout << " VulkanSwapChain::Resize " << SwapChainImageFormat << std::endl;
     Cleanup();
 
     SwapChainImageFormat    = dynamic_cast<VulkanSurface *>(Surface)->CurrentFormat.format;
     SwapChainClorSpace      = dynamic_cast<VulkanSurface *>(Surface)->CurrentFormat.colorSpace;
-    SwapChainExtent         = { (uint32_t)Width, (uint32_t)Height};
+    SetWidth(InWidth);
+    SetHeight(InHeight);
     SwapChainPresentMode    = dynamic_cast<VulkanSurface *>(Surface)->CurrentPresentMode;
 
     uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
