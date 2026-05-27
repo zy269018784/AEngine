@@ -84,9 +84,9 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwap
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
 	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
-	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), ToRHIPixelFormat(InSurface->CurrentFormat.format)), Device(InDevice)
+	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), ToRHIPixelFormat(InSurface->CurrentFormat.format))
 {
-	SwapChain = new VulkanSwapChain(Device, InSurface);
+	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
 	ImageFormat				= SwapChain->GetFormat();
 	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
@@ -113,7 +113,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	*/
 	Frames.resize(SwapChain->GetImageCount());
 	for (int i = 0; i < Frames.size(); i++)
-		Frames[i] = new VulkanFrame(Device, true);
+		Frames[i] = new VulkanFrame(dynamic_cast<VulkanDevice *>(Device), true);
 
 	/*
 		2. 创建Render Pass
@@ -121,7 +121,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	std::vector<RHIAttachment> ColorAttachments;
 	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
 	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-	RenderPass = new VulkanRenderPass(Device, ImageFormat, ColorAttachments,DepthAttachment);
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ImageFormat, ColorAttachments,DepthAttachment);
 
 	/*
 		3. 创建Frame Buffer
@@ -148,7 +148,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		std::vector<RHIAttachment *> InDepthAttachments;
 		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 
-		FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass),
+		FrameBuffers[i] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
 								{ Resolution.width, Resolution.height },
 												InColorAttachments, InDepthAttachments);
 	}
@@ -162,7 +162,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		/*
 			暂时用第0个Command Pool
 		*/
-		GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
+		GraphicsCommandBuffers[i] = dynamic_cast<VulkanDevice *>(Device)->CreateCommandBuffer(dynamic_cast<VulkanDevice *>(Device)->CommandPools[0]);
 	}
 }
 
@@ -279,7 +279,7 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	SubmitInfo.pCommandBuffers		= &CommandBufferHandle;
 	SubmitInfo.signalSemaphoreCount = 1;
 	SubmitInfo.pSignalSemaphores	= &SwapchainImageDrawFinishedSemaphore;
-	auto ret = Device->Queues[0]->QueueSubmit(1, &SubmitInfo, Fence);
+	auto ret = dynamic_cast<VulkanDevice *>(Device)->Queues[0]->QueueSubmit(1, &SubmitInfo, Fence);
 	if (VK_SUCCESS != ret)
 	{
 		std::cout << "ret " << ret << std::endl;
@@ -298,7 +298,7 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	PresentInfo.swapchainCount		= 1;
 	PresentInfo.pSwapchains			= SwapChains;
 	PresentInfo.pImageIndices		= &CurrentImageIndex;
-	vkQueuePresentKHR(Device->PresentQueue, &PresentInfo);
+	vkQueuePresentKHR(dynamic_cast<VulkanDevice *>(Device)->PresentQueue, &PresentInfo);
 	/*
 		更新上一帧索引
 	*/
@@ -346,7 +346,7 @@ void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
 
 void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 {
-	Device->DeviceWaitIdle();
+	dynamic_cast<VulkanDevice *>(Device)->DeviceWaitIdle();
 }
 
 void VulkanSwapChainRenderTarget::CreateFramebuffer()
