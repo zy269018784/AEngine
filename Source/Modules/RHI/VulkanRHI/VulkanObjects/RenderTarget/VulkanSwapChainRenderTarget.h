@@ -36,21 +36,9 @@ public:
     virtual void WaitDeviceIdle() final override;
 public:
     /*
-        设备
-    */
-    //VulkanDevice						*Device;
-    /*
         Image View
     */
     std::vector<VkImageView>				ImageViews;
-    /*
-        分辨率
-    */
-    //VkExtent2D								Resolution;
-    /*
-        Format
-    */
-    VkFormat								ImageFormat;
     /*
         Framebuffers
     */
@@ -60,12 +48,10 @@ public:
         FrameIndex: [0, 1]
     */
     std::uint32_t					FrameIndex = 0;
-public:
-    std::vector<VulkanTexture *> Textures;
     /*
-        交换链
+     * 深度缓冲纹理
      */
-    //VulkanSwapChain                     *SwapChain;
+    std::vector<VulkanTexture *> Textures;
     /*
         同步帧
     */

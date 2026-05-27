@@ -26,14 +26,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 {
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
-	ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
-
-
+	VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
 
 	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
-	RHIPixelFormat SwapChainRHIPixelFormat = ToRHIPixelFormat(ImageFormat);
-	std::cout << "VulkanSwapChainRenderTarget ImageFormat " << ImageFormat << " " << (int)SwapChainRHIPixelFormat << std::endl;
-
+	//RHIPixelFormat SwapChainRHIPixelFormat = ToRHIPixelFormat(ImageFormat);
+	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
 #if 1
 	// AMD Radeon RX580 2048SP
 	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
@@ -65,7 +62,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	*/
 
 	FrameBuffers.resize(ImageViews.size());
-	//SwapChain->FrameBuffers.resize(SwapChain->SwapChainImageViews.size());
 	for (int i = 0; i < FrameBuffers.size(); i++)
 	{
 		VulkanTexture *Tex = new VulkanTexture(InDevice,
