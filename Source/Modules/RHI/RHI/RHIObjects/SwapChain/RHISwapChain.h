@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-
+#include "RHI/RHIObjects/Core/RHICore.h"
 class RHISurface;
 class RHIDevice;
 class RHISwapChain
@@ -13,6 +13,11 @@ public:
     std::uint32_t GetHeight() const;
     void SetWidth(int InWidth);
     void SetHeight(int InHeight);
+    RHIPixelFormat GetRHIPixelFormat() const;
+    void SetRHIPixelFormat(RHIPixelFormat InFormat);
+#if 0
+    void Resize(int InWidth, int InHeight);
+#endif
 protected:
     /*
         Surface
@@ -26,5 +31,7 @@ protected:
     std::uint32_t Width = 0;
 
     std::uint32_t Height = 0;
+
+    RHIPixelFormat Format;
 };
 

@@ -46,7 +46,7 @@ public:
 	/*
 		Format
 	*/
-	VkFormat								SwapChainImageFormat;
+	//VkFormat								SwapChainImageFormat;
 	/*
 		色彩空间
 	*/

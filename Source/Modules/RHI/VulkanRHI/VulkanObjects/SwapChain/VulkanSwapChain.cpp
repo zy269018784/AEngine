@@ -1,6 +1,7 @@
 ﻿#include "VulkanRHI/VulkanObjects/SwapChain/VulkanSwapChain.h"
 #include "VulkanRHI/VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
+#include "VulkanRHI/VulkanObjects/Core/VulkanCore.h"
 
 #include <iostream>
 #include <limits>
@@ -8,10 +9,10 @@
  
 VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurface)
     : RHISwapChain(InDevice, InSurface)
-{ 
-    SwapChainImageFormat    = InSurface->CurrentFormat.format;
+{
     SwapChainClorSpace      = InSurface->CurrentFormat.colorSpace;
 
+    SetRHIPixelFormat(InSurface->GetRHIPixelFormat());
     SetWidth(InSurface->GetWidth());
     SetHeight(InSurface->GetHeight());
 
@@ -22,7 +23,7 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     {
         ImageCount = InSurface->Capabilities.maxImageCount;
     }
-    std::cout << "VulkanSwapChain SwapChainImageFormat " << SwapChainImageFormat << std::endl;
+
     CreateSwapChain();
     GetSwapchainImagesKHR(&ImageCount, nullptr);
     SwapChainImages.resize(ImageCount);
@@ -60,7 +61,7 @@ VkSwapchainKHR VulkanSwapChain::GetHandle() const
 
 VkFormat VulkanSwapChain::GetFormat() const
 {
-    return SwapChainImageFormat;
+    return ToVkFormat(GetRHIPixelFormat());
 }
 
 int VulkanSwapChain::GetImageCount() const
@@ -87,7 +88,7 @@ void VulkanSwapChain::CreateSwapChain()
     CreateInfo.surface = dynamic_cast<VulkanSurface *>(Surface)->GetHandle();
     CreateInfo.minImageCount = ImageCount;
 
-    CreateInfo.imageFormat = SwapChainImageFormat;
+    CreateInfo.imageFormat = ToVkFormat(GetRHIPixelFormat());
     CreateInfo.imageColorSpace = SwapChainClorSpace;
     CreateInfo.imageExtent = { Width, Height };
     CreateInfo.presentMode = SwapChainPresentMode;
@@ -129,7 +130,7 @@ void VulkanSwapChain::CreateImageViews()
         CreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         CreateInfo.image = SwapChainImages[i];
         CreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        CreateInfo.format = SwapChainImageFormat;
+        CreateInfo.format = GetFormat();
         CreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
         CreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
         CreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -150,11 +151,10 @@ void VulkanSwapChain::CreateImageViews()
 
 void VulkanSwapChain::Resize(float InWidth, float InHeight)
 {
-    std::cout << " VulkanSwapChain::Resize " << SwapChainImageFormat << std::endl;
     Cleanup();
 
-    SwapChainImageFormat    = dynamic_cast<VulkanSurface *>(Surface)->CurrentFormat.format;
     SwapChainClorSpace      = dynamic_cast<VulkanSurface *>(Surface)->CurrentFormat.colorSpace;
+    SetRHIPixelFormat(Surface->GetRHIPixelFormat());
     SetWidth(InWidth);
     SetHeight(InHeight);
     SwapChainPresentMode    = dynamic_cast<VulkanSurface *>(Surface)->CurrentPresentMode;
@@ -164,7 +164,6 @@ void VulkanSwapChain::Resize(float InWidth, float InHeight)
     {
         ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
     }
-    std::cout << "VulkanSwapChain SwapChainImageFormat " << SwapChainImageFormat << std::endl;
     CreateSwapChain();
     GetSwapchainImagesKHR(&ImageCount, nullptr);
     SwapChainImages.resize(ImageCount);
