@@ -18,10 +18,13 @@ public:
     std::uint32_t GetHeight() const;
     void SetRHIPixelFormat(RHIPixelFormat InFormat);
     RHIPixelFormat GetRHIPixelFormat() const;
+    void SetRHIPresentMode(RHIPresentMode InMode);
+    RHIPresentMode GetRHIPresentMode() const;
 protected:
     std::uint32_t Width = 0;
     std::uint32_t Height = 0;
     RHIPixelFormat Format;
+    RHIPresentMode PresentMode;
 };
 
 

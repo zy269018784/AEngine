@@ -376,16 +376,18 @@ enum class RHIEXPORT RHIAttachmentType: std::uint32_t
 	NoneAttachmentType,
 	Unknown
 };
-#if 0
-enum class RHIEXPORT RHIDepthAttachmentType: std::uint32_t
-{
-	DepthStencil_D24_S8,    // 明确要求 24位深度+8位模板
-	DepthStencil_D32_S8,    // 明确要求 32位深度+8位模板
-	DepthOnly_D32,          // 仅32位深度
-	DepthOnly_D16,          // 仅16位深度
-	Unknown
+
+enum class RHIPresentMode: std::uint32_t {
+	RHI_PRESENT_MODE_IMMEDIATE_KHR = 0,
+	RHI_PRESENT_MODE_MAILBOX_KHR = 1,
+	RHI_PRESENT_MODE_FIFO_KHR = 2,
+	RHI_PRESENT_MODE_FIFO_RELAXED_KHR = 3,
+	RHI_PRESENT_MODE_SHARED_DEMAND_REFRESH_KHR = 1000111000,
+	RHI_PRESENT_MODE_SHARED_CONTINUOUS_REFRESH_KHR = 1000111001,
+	RHI_PRESENT_MODE_FIFO_LATEST_READY_KHR = 1000361000,
+	RHI_PRESENT_MODE_FIFO_LATEST_READY_EXT = RHI_PRESENT_MODE_FIFO_LATEST_READY_KHR,
+	RHI_PRESENT_MODE_MAX_ENUM_KHR = 0x7FFFFFFF
 };
-#endif
 
 enum class RHIEXPORT RHITextureUsageFlag: std::uint32_t
 {

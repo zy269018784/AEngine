@@ -71,6 +71,7 @@ public:
 public:
 	VkSurfaceKHR GetHandle() const;
 	void Query(VulkanPhysicalDevice& PhysicalDevice);
+	VkPresentModeKHR GetPresentMode() const;
 private:
 	/*
 		Vulkan API Wrapper
@@ -104,9 +105,5 @@ public:
 	/*
 		当前Present Mode
 	*/
-	VkPresentModeKHR						CurrentPresentMode;
-	/*
-		宽和高
-	*/
-	VkExtent2D								CurrentExtent;
+	//VkPresentModeKHR						CurrentPresentMode;
 };

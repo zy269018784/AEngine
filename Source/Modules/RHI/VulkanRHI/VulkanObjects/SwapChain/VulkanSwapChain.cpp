@@ -16,7 +16,6 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     SetWidth(InSurface->GetWidth());
     SetHeight(InSurface->GetHeight());
 
-    SwapChainPresentMode    = InSurface->CurrentPresentMode;
 
     uint32_t ImageCount = InSurface->Capabilities.minImageCount + 1;
     if (InSurface->Capabilities.maxImageCount > 0 && ImageCount > InSurface->Capabilities.maxImageCount)
@@ -91,7 +90,7 @@ void VulkanSwapChain::CreateSwapChain()
     CreateInfo.imageFormat = ToVkFormat(GetRHIPixelFormat());
     CreateInfo.imageColorSpace = SwapChainClorSpace;
     CreateInfo.imageExtent = { Width, Height };
-    CreateInfo.presentMode = SwapChainPresentMode;
+    CreateInfo.presentMode = dynamic_cast<VulkanSurface *>(Surface)->GetPresentMode();
     CreateInfo.imageArrayLayers = 1;
     CreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
     CreateInfo.preTransform = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.currentTransform;
@@ -157,7 +156,6 @@ void VulkanSwapChain::Resize(float InWidth, float InHeight)
     SetRHIPixelFormat(Surface->GetRHIPixelFormat());
     SetWidth(InWidth);
     SetHeight(InHeight);
-    SwapChainPresentMode    = dynamic_cast<VulkanSurface *>(Surface)->CurrentPresentMode;
 
     uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
     if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)

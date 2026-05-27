@@ -37,3 +37,11 @@ RHIPixelFormat RHISurface::GetRHIPixelFormat() const
 {
     return Format;
 }
+
+void RHISurface::SetRHIPresentMode(RHIPresentMode InMode) {
+    PresentMode = InMode;
+}
+
+RHIPresentMode RHISurface::GetRHIPresentMode() const {
+    return PresentMode;
+}

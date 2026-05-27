@@ -22,7 +22,7 @@
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
 	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
-	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), ToRHIPixelFormat(InSurface->CurrentFormat.format))
+	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 

@@ -17,7 +17,7 @@ VulkanSurface::VulkanSurface()
 }
 
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
-    : RHISurface(0, 0), Instance(InInstance)
+    : RHISurface(0, 0)//, Instance(InInstance)
 {
     Handle = Surface;
 }
@@ -33,12 +33,13 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HW
     CreateInfo.hinstance = Hinstance;
     if (!VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR)
         std::cout << "vkCreateWin32SurfaceKHR is null" << std::endl;
-    VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR(Instance->GetHandle(), &CreateInfo, nullptr, &Handle);
+    VulkanAPI::GetInstance()->vkCreateWin32SurfaceKHR(InInstance->GetHandle(), &CreateInfo, nullptr, &Handle);
 }
 #endif
 
 #if RHI_USE_XCB_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* connection, xcb_window_t window)
+: Instance(InInstance)
 {
     VkXcbSurfaceCreateInfoKHR createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR;
@@ -55,6 +56,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, xcb_connection_t* conne
 #endif
 #if RHI_USE_Xlib_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window Win)
+: Instance(InInstance)
 {
     VkXlibSurfaceCreateInfoKHR CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
@@ -71,6 +73,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, Display* Disp, Window W
 
 #if RHI_USE_WAYLAND_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* display, struct wl_surface* surface)
+: Instance(InInstance)
 {
     VkWaylandSurfaceCreateInfoKHR CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
@@ -87,6 +90,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct wl_display* disp
 
 #if RHI_USE_ANDROID_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* Win)
+: Instance(InInstance)
 {
     VkAndroidSurfaceCreateInfoKHR CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
@@ -102,6 +106,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct ANativeWindow* W
 
 #if RHI_USE_DirectFB_EXT
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, DirectFB* dfb, IDirectFBSurface* surface)
+: Instance(InInstance)
 {
     VkDirectFBSurfaceCreateInfoEXT CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_DIRECTFB_SURFACE_CREATE_INFO_EXT;
@@ -118,6 +123,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, DirectFB* dfb, IDirectF
 
 #if RHI_USE_IOS_MVK
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
+: Instance(InInstance)
 {
     VkIOSSurfaceCreateInfoMVK CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_IOS_SURFACE_CREATE_INFO_MVK;
@@ -133,6 +139,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 
 #if RHI_USE_MacOS_MVK
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
+: Instance(InInstance)
 {
     VkMacOSSurfaceCreateInfoMVK CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
@@ -148,6 +155,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const void* pView)
 
 #if RHI_USE_Metal_EXT
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const CAMetalLayer* Layer)
+: Instance(InInstance)
 {
     VkMetalSurfaceCreateInfoEXT CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT;
@@ -163,6 +171,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, const CAMetalLayer* Lay
 
 #if RHI_USE_QNX
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct _screen_context* context, struct _screen_window* window)
+: Instance(InInstance)
 {
     VkScreenSurfaceCreateInfoQNX CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_SCREEN_SURFACE_CREATE_INFO_QNX;
@@ -179,6 +188,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, struct _screen_context*
 
 #if RHI_USE_VI_NN
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, void* window)
+: Instance(InInstance)
 {
     VkViSurfaceCreateInfoNN CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN;
@@ -194,6 +204,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, void* window)
 
 #if RHI_USE_FUCHSIA
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, zx_handle_t imagePipeHandle)
+: Instance(InInstance)
 {
     VkImagePipeSurfaceCreateInfoFUCHSIA CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_IMAGEPIPE_SURFACE_CREATE_INFO_FUCHSIA;
@@ -209,6 +220,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, zx_handle_t imagePipeHa
 
 #if RHI_USE_GGP
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, GgpStreamDescriptor StreamDescriptor)
+: Instance(InInstance)
 {
     VkStreamDescriptorSurfaceCreateInfoGGP CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP;
@@ -224,6 +236,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, GgpStreamDescriptor Str
 
 #if RHI_USE_OHOS
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, OHNativeWindow* window)
+: Instance(InInstance)
 {
     VkOHOSSurfaceCreateInfoOHOS CreateInfo{};
     CreateInfo.sType = VK_STRUCTURE_TYPE_OHOS_SURFACE_CREATE_INFO_OHOS;
@@ -246,6 +259,11 @@ VulkanSurface::~VulkanSurface()
 VkSurfaceKHR VulkanSurface::GetHandle() const
 {
 	return Handle;
+}
+
+VkPresentModeKHR VulkanSurface::GetPresentMode() const
+{
+    return ToVkPresentMode(GetRHIPresentMode());
 }
 
 void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
@@ -272,18 +290,17 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
             if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
                 CurrentFormat = availableFormat;
-                SetRHIPixelFormat(ToRHIPixelFormat(CurrentFormat.format));
+                SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
                 break;
             }
             else if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
                 CurrentFormat = availableFormat;
-                SetRHIPixelFormat(ToRHIPixelFormat(CurrentFormat.format));
+                SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
                 break;
             }
         }
-    } 
-    std::cout << "CurrentFormat " << CurrentFormat.format << std::endl;
+    }
 
     uint32_t PresentModeCount;
     //vkGetPhysicalDeviceSurfacePresentModesKHR(PhysicalDevice.GetHandle(), Handle, &PresentModeCount, nullptr);
@@ -301,23 +318,23 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
         std::cout << "availablePresentMode " << availablePresentMode << std::endl;
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
         {
-            CurrentPresentMode = availablePresentMode;
+            SetRHIPresentMode(ToRHIPresentMode(availablePresentMode));
             break;
         }
 
         else if (availablePresentMode == VK_PRESENT_MODE_FIFO_KHR)
         {
-            CurrentPresentMode = availablePresentMode;
+            SetRHIPresentMode(ToRHIPresentMode(availablePresentMode));
             break;
         }
         else if (availablePresentMode == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
         {
-            CurrentPresentMode = availablePresentMode;
+            SetRHIPresentMode(ToRHIPresentMode(availablePresentMode));
             break;
         }
         else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
         {
-            CurrentPresentMode = availablePresentMode;
+            SetRHIPresentMode(ToRHIPresentMode(availablePresentMode));
             break;
         }
     }
@@ -329,9 +346,8 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
 
     if (Capabilities.currentExtent.width != (uint32_t)std::numeric_limits<uint32_t>::max())
     {
-        CurrentExtent = Capabilities.currentExtent;
-        SetWidth(CurrentExtent.width);
-        SetHeight(CurrentExtent.height);
+        SetWidth(Capabilities.currentExtent.width);
+        SetHeight(Capabilities.currentExtent.height);
     }
     //else
     //{

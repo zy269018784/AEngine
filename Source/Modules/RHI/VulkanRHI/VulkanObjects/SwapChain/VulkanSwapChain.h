@@ -34,27 +34,15 @@ protected:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
-public:
+private:
 	/*
 		句柄
 	*/
 	VkSwapchainKHR							Handle;
 	/*
-		分辨率
-	*/
-	//VkExtent2D								SwapChainExtent;
-	/*
-		Format
-	*/
-	//VkFormat								SwapChainImageFormat;
-	/*
 		色彩空间
 	*/
 	VkColorSpaceKHR							SwapChainClorSpace;
-	/*
-		呈现模式
-	*/
-	VkPresentModeKHR						SwapChainPresentMode;
 private:
 	/*
 		Image
