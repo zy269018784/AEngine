@@ -143,18 +143,21 @@ void RHIApplication::Run()
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
+        if (TextureRenderTarget) {
+            TextureRenderTarget->RHIBeginFrame();
+            TextureRenderTarget->RHIBeginRenderPass();
+            Draw();
+            TextureRenderTarget->RHIEndRenderPass();
+            TextureRenderTarget->RHIEndFrame();
+        }
 
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
-        Draw();
+        Draw2();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
 
-        TextureRenderTarget->RHIBeginFrame();
-        TextureRenderTarget->RHIBeginRenderPass();
-        Draw2();
-        TextureRenderTarget->RHIEndRenderPass();
-        TextureRenderTarget->RHIEndFrame();
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

@@ -166,6 +166,7 @@ void OpenGLTextureRenderTarget::RHIEndRenderPass()
 
 void OpenGLTextureRenderTarget::RHIBeginFrame()
 {
+    //std::cout << "OpenGLTextureRenderTarget Framebuffer->Bind " << std::endl;
     Framebuffer->Bind();
 }
 

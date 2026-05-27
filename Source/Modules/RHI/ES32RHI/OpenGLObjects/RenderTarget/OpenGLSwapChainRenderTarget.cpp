@@ -8,6 +8,7 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 #include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
+#include <iostream>
 
 OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
     : RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
@@ -22,6 +23,7 @@ OpenGLSwapChainRenderTarget::~OpenGLSwapChainRenderTarget()
 }
 
 void OpenGLSwapChainRenderTarget::RHIBeginFrame() {
+    //std::cout << "OpenGLSwapChainRenderTarget Framebuffer->Bind " << std::endl;
     // 绑定默认帧缓冲
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

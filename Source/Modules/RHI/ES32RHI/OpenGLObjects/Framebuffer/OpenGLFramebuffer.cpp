@@ -47,7 +47,7 @@ void OpenGLFramebuffer::Create()
      * 创建Framebuffer
      */
     glGenFramebuffers(1, &Handle);
-
+    glBindFramebuffer(GL_FRAMEBUFFER, Handle);
     GLenum Target = GL_FRAMEBUFFER;
     GLenum Textarget = GL_TEXTURE_2D;
     GLenum Attachment;
