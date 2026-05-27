@@ -19,68 +19,6 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <iostream>
 #include <numbers>
-#if 0
-VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanSwapChain *InSwapChain, VulkanDevice *InDevice)
-    : SwapChain(InSwapChain),  VulkanRenderTarget(ToRHIPixelFormat(InSwapChain->GetFormat()), InDevice)
-{
-    ImageFormat				= SwapChain->GetFormat();
-	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
-
-    ImageViews = SwapChain->GetImageViews();
-
-	std::cout << "SwapChain->GetImageCount() " << SwapChain->GetImageCount() << std::endl;
-	/*
-		1. 同步对象
-	*/
-	Frames.resize(SwapChain->GetImageCount());
-    for (int i = 0; i < Frames.size(); i++)
-        Frames[i] = new VulkanFrame(Device, true);
-
-    /*
-		2. 创建Render Pass
-    */
-	std::vector<RHIAttachment> InAttachments;
-	InAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM));
-	RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ImageFormat, InAttachments, {RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM});
-
-    /*
-        3. 创建Frame Buffer
-    */
-    FrameBuffers.resize(ImageViews.size());
-    for (int i = 0; i < FrameBuffers.size(); i++)
-    {
-    	VulkanTexture *Tex = new VulkanTexture(InDevice,
-				RHITextureType::Texture2D,
-				RHIPixelFormat::PF_DepthStencil,
-				RHITextureUsageFlag::DepthStencilAttachment,
-				RHIAttachmentType::DepthStencil,
-				1,
-				Resolution.width,
-				Resolution.height,
-				1,
-				1);
-    	Textures.emplace_back(Tex);
-
-    	std::vector<VulkanAttachment> InVKAttachments;
-		InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, RHIPixelFormat::PF_R8G8B8A8_UNORM, ImageViews[i]));
-    	InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::DepthStencil, RHIPixelFormat::PF_R8G8B8A8_UNORM, Tex->ImageView->GetHandle()));
-
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { Resolution.width, Resolution.height },  &InVKAttachments);
-    }
-
-	/*
-		4. 创建command buffer
-	 */
-    GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
-    for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
-    {
-        /*
-            暂时用第0个Command Pool
-        */
-        GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
-    }
-}
-#endif
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
 	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
@@ -89,7 +27,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
 	ImageFormat				= SwapChain->GetFormat();
-	Resolution           = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 
 
 
@@ -136,8 +73,8 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 				DepthStencilPixelFormat,
 				RHITextureUsageFlag::DepthStencilAttachment,
 				1,
-				Resolution.width,
-				Resolution.height,
+				SwapChain->GetWidth(),
+				SwapChain->GetHeight(),
 				1,
 				1);
 		Textures.emplace_back(Tex);
@@ -149,7 +86,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 
 		FrameBuffers[i] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
-								{ Resolution.width, Resolution.height },
+								{ SwapChain->GetWidth(), SwapChain->GetHeight() },
 												InColorAttachments, InDepthAttachments);
 	}
 
@@ -321,7 +258,7 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderPass			= (dynamic_cast<VulkanRenderPass *>(RenderPass))->GetHandle();
     RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
-    RenderPassInfo.renderArea.extent	= Resolution;
+    RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
 

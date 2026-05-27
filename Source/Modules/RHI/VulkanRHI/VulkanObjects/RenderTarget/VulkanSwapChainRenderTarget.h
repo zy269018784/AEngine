@@ -46,7 +46,7 @@ public:
     /*
         分辨率
     */
-    VkExtent2D								Resolution;
+    //VkExtent2D								Resolution;
     /*
         Format
     */
