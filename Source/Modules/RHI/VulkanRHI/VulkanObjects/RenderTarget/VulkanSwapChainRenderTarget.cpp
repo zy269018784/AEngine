@@ -26,11 +26,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 {
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
-	ImageFormat				= SwapChain->GetFormat();
+	ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
 
 
 
-	ImageViews = SwapChain->GetImageViews();
+	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
 	RHIPixelFormat SwapChainRHIPixelFormat = ToRHIPixelFormat(ImageFormat);
 	std::cout << "VulkanSwapChainRenderTarget ImageFormat " << ImageFormat << " " << (int)SwapChainRHIPixelFormat << std::endl;
 
@@ -48,7 +48,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	/*
 		1. 同步对象
 	*/
-	Frames.resize(SwapChain->GetImageCount());
+	Frames.resize(dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageCount());
 	for (int i = 0; i < Frames.size(); i++)
 		Frames[i] = new VulkanFrame(dynamic_cast<VulkanDevice *>(Device), true);
 
@@ -93,7 +93,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	/*
 		4. 创建command buffer
 	 */
-	GraphicsCommandBuffers.resize(SwapChain->GetImageCount());
+	GraphicsCommandBuffers.resize(dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageCount());
 	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
 	{
 		/*
@@ -150,7 +150,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
         acquire next image
 		Frames[FrameIndex]->ImageAvailableSemaphore: 		unsignaled ->  signaled
     */
-    if (SwapChain->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex) != VK_SUCCESS)
+    if (dynamic_cast<VulkanSwapChain *>(SwapChain)->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to acquire next image\n");
     }
@@ -223,7 +223,7 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 		throw std::runtime_error("failed to submit draw command buffer!");
 	}
 
-	VkSwapchainKHR SwapChains[] = { SwapChain->GetHandle() };
+	VkSwapchainKHR SwapChains[] = { dynamic_cast<VulkanSwapChain *>(SwapChain)->GetHandle() };
 
 	/*
 		Frames[FrameIndex]->ImageDrawFinishedSemaphore:		signaled    ->  unsignaled
@@ -278,7 +278,7 @@ void VulkanSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float 
 }
 
 void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
-	SwapChain->Resize(Width, Height);
+	dynamic_cast<VulkanSwapChain *>(SwapChain)->Resize(Width, Height);
 }
 
 void VulkanSwapChainRenderTarget::WaitDeviceIdle()

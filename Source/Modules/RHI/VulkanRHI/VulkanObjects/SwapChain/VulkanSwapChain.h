@@ -21,8 +21,8 @@ public:
 	void Cleanup();
 	VkSwapchainKHR GetHandle() const;
 	VkFormat GetFormat() const;
-	std::uint32_t GetWidth() const;
-	std::uint32_t GetHeight() const;
+	//std::uint32_t GetWidth() const;
+	//std::uint32_t GetHeight() const;
 	int GetImageCount() const;
 	std::vector<VkImageView> GetImageViews() const;
 public:

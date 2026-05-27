@@ -65,7 +65,7 @@ public:
     /*
         交换链
      */
-    VulkanSwapChain                     *SwapChain;
+    //VulkanSwapChain                     *SwapChain;
     /*
         同步帧
     */

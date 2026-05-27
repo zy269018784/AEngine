@@ -12,6 +12,7 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     SwapChainImageFormat    = InSurface->CurrentFormat.format;
     SwapChainClorSpace      = InSurface->CurrentFormat.colorSpace;
     SwapChainExtent         = InSurface->CurrentExtent;
+
     SwapChainPresentMode    = InSurface->CurrentPresentMode;
 
     uint32_t ImageCount = InSurface->Capabilities.minImageCount + 1;
@@ -59,7 +60,7 @@ VkFormat VulkanSwapChain::GetFormat() const
 {
     return SwapChainImageFormat;
 }
-
+#if 0
 std::uint32_t VulkanSwapChain::GetWidth() const
 {
     return SwapChainExtent.width;
@@ -69,7 +70,7 @@ std::uint32_t VulkanSwapChain::GetHeight() const
 {
     return SwapChainExtent.height;
 }
-
+#endif
 int VulkanSwapChain::GetImageCount() const
 {
     return SwapChainImages.size();

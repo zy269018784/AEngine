@@ -8,6 +8,7 @@
 class RHIRenderPass;
 class RHICommandBuffer;
 class RHIDevice;
+class RHISwapChain;
 class RHIEXPORT RHISwapChainRenderTarget : public RHIRenderTarget
 {
 public:
@@ -16,4 +17,5 @@ public:
     virtual ~RHISwapChainRenderTarget();
 protected:
     RHIPixelFormat PixelFormat;
+    RHISwapChain   *SwapChain;
 };

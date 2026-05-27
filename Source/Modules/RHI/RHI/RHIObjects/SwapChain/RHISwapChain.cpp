@@ -1,7 +1,9 @@
 #include "RHI/RHIObjects/SwapChain/RHISwapChain.h"
 
+#include "RHI/RHIObjects/Surface/RHISurface.h"
+
 RHISwapChain::RHISwapChain(RHIDevice *InDevice, RHISurface *InSurface)
-    : Device(InDevice), Surface(InSurface)
+    : Device(InDevice), Surface(InSurface), Width(InSurface->GetWidth()), Height(InSurface->GetHeight())
 {
 
 }
