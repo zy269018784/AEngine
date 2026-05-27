@@ -9,7 +9,6 @@ class VulkanSurface : public RHISurface
 {
 public:
 	VulkanSurface() = delete;
-	//VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface);
 
 #if RHI_USE_WIN32_KHR
 	VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd);

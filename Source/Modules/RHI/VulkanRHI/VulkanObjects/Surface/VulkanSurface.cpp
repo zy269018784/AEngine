@@ -4,24 +4,9 @@
 #include "VulkanRHI/VulkanObjects/Surface/VulkanSurface.h"
 #include "VulkanRHI/VulkanObjects/Instance/VulkanInstance.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
-
 #include <iostream>
 #include <limits>
 
-
-#if 0
-VulkanSurface::VulkanSurface()
-    : RHISurface(0, 0)
-{
-
-}
-
-VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
-    : RHISurface(0, 0)//, Instance(InInstance)
-{
-    Handle = Surface;
-}
-#endif
 #if RHI_USE_WIN32_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd)
     : Instance(InInstance)
