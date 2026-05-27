@@ -48,3 +48,19 @@ void RHISwapChain::SetRHIPixelFormat(RHIPixelFormat InFormat)
 {
     Format = InFormat;
 }
+
+void RHISwapChain::SetRHIPresentMode(RHIPresentMode InMode) {
+    PresentMode = InMode;
+}
+
+RHIPresentMode RHISwapChain::GetRHIPresentMode() const {
+    return PresentMode;
+}
+
+void RHISwapChain::SetRHIColorSpace(RHIColorSpace InColorSpace) {
+    ColorSpace = InColorSpace;
+}
+
+RHIColorSpace RHISwapChain::GetRHIColorSpace() const {
+    return ColorSpace;
+}

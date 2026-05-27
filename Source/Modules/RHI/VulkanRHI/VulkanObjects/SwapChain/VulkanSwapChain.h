@@ -40,11 +40,6 @@ private:
 	*/
 	VkSwapchainKHR							Handle;
 	/*
-		色彩空间
-	*/
-	VkColorSpaceKHR							SwapChainClorSpace;
-private:
-	/*
 		Image
 	*/
 	std::vector<VkImage>					SwapChainImages;

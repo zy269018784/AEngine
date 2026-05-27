@@ -45,3 +45,11 @@ void RHISurface::SetRHIPresentMode(RHIPresentMode InMode) {
 RHIPresentMode RHISurface::GetRHIPresentMode() const {
     return PresentMode;
 }
+
+void RHISurface::SetRHIColorSpace(RHIColorSpace InColorSpace) {
+    ColorSpace = InColorSpace;
+}
+
+RHIColorSpace RHISurface::GetRHIColorSpace() const {
+    return ColorSpace;
+}

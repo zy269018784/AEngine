@@ -97,7 +97,7 @@ public:
 	/*
 		像素格式和色彩空间
 	*/
-	VkSurfaceFormatKHR						CurrentFormat;
+	//VkSurfaceFormatKHR						CurrentFormat;
 	/*
 		所有Present Mode
 	*/

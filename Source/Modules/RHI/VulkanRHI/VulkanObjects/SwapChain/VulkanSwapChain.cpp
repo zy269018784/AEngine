@@ -10,8 +10,10 @@
 VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurface)
     : RHISwapChain(InDevice, InSurface)
 {
-    SwapChainClorSpace      = InSurface->CurrentFormat.colorSpace;
+   // SwapChainClorSpace      = ToVkColorSpace(InSurface->GetRHIColorSpace());
 
+    SetRHIPresentMode(InSurface->GetRHIPresentMode());
+    SetRHIColorSpace(InSurface->GetRHIColorSpace());
     SetRHIPixelFormat(InSurface->GetRHIPixelFormat());
     SetWidth(InSurface->GetWidth());
     SetHeight(InSurface->GetHeight());
@@ -88,9 +90,10 @@ void VulkanSwapChain::CreateSwapChain()
     CreateInfo.minImageCount = ImageCount;
 
     CreateInfo.imageFormat = ToVkFormat(GetRHIPixelFormat());
-    CreateInfo.imageColorSpace = SwapChainClorSpace;
+    CreateInfo.imageColorSpace = ToVkColorSpace(GetRHIColorSpace());
     CreateInfo.imageExtent = { Width, Height };
-    CreateInfo.presentMode = dynamic_cast<VulkanSurface *>(Surface)->GetPresentMode();
+    //CreateInfo.presentMode = dynamic_cast<VulkanSurface *>(Surface)->GetPresentMode();
+    CreateInfo.presentMode = ToVkPresentMode(GetRHIPresentMode());
     CreateInfo.imageArrayLayers = 1;
     CreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
     CreateInfo.preTransform = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.currentTransform;
@@ -152,10 +155,11 @@ void VulkanSwapChain::Resize(float InWidth, float InHeight)
 {
     Cleanup();
 
-    SwapChainClorSpace      = dynamic_cast<VulkanSurface *>(Surface)->CurrentFormat.colorSpace;
+    SetRHIPresentMode(Surface->GetRHIPresentMode());
+    SetRHIColorSpace(Surface->GetRHIColorSpace());
     SetRHIPixelFormat(Surface->GetRHIPixelFormat());
-    SetWidth(InWidth);
-    SetHeight(InHeight);
+    SetWidth(Surface->GetWidth());
+    SetHeight(Surface->GetHeight());
 
     uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
     if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)

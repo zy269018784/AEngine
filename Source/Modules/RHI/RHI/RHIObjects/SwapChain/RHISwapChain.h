@@ -15,6 +15,10 @@ public:
     void SetHeight(int InHeight);
     RHIPixelFormat GetRHIPixelFormat() const;
     void SetRHIPixelFormat(RHIPixelFormat InFormat);
+    void SetRHIPresentMode(RHIPresentMode InMode);
+    RHIPresentMode GetRHIPresentMode() const;
+    void SetRHIColorSpace(RHIColorSpace InColorSpace);
+    RHIColorSpace GetRHIColorSpace() const;
 #if 0
     void Resize(int InWidth, int InHeight);
 #endif
@@ -33,5 +37,7 @@ protected:
     std::uint32_t Height = 0;
 
     RHIPixelFormat Format;
+    RHIPresentMode PresentMode;
+    RHIColorSpace ColorSpace;
 };
 

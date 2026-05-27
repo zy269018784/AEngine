@@ -289,14 +289,16 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
         {
             if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
-                CurrentFormat = availableFormat;
+               // CurrentFormat = availableFormat;
                 SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
+                SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
                 break;
             }
             else if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
             {
-                CurrentFormat = availableFormat;
+               // CurrentFormat = availableFormat;
                 SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
+                SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
                 break;
             }
         }

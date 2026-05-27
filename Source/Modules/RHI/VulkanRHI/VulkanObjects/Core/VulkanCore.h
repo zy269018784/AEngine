@@ -1453,3 +1453,89 @@ inline RHIPresentMode ToRHIPresentMode(VkPresentModeKHR mode)
 			return RHIPresentMode::RHI_PRESENT_MODE_FIFO_KHR;
 	}
 }
+
+inline VkColorSpaceKHR ToVkColorSpace(RHIColorSpace colorSpace)
+{
+    switch (colorSpace) {
+        case RHIColorSpace::RHI_COLOR_SPACE_SRGB_NONLINEAR_KHR:
+            return VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+        case RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT:
+            return VK_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT:
+            return VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT:
+            return VK_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_DCI_P3_NONLINEAR_EXT:
+            return VK_COLOR_SPACE_DCI_P3_NONLINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_BT709_LINEAR_EXT:
+            return VK_COLOR_SPACE_BT709_LINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_BT709_NONLINEAR_EXT:
+            return VK_COLOR_SPACE_BT709_NONLINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_BT2020_LINEAR_EXT:
+            return VK_COLOR_SPACE_BT2020_LINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_HDR10_ST2084_EXT:
+            return VK_COLOR_SPACE_HDR10_ST2084_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_DOLBYVISION_EXT:
+            return VK_COLOR_SPACE_DOLBYVISION_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_HDR10_HLG_EXT:
+            return VK_COLOR_SPACE_HDR10_HLG_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_ADOBERGB_LINEAR_EXT:
+            return VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT:
+            return VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_PASS_THROUGH_EXT:
+            return VK_COLOR_SPACE_PASS_THROUGH_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT:
+            return VK_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT;
+        case RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_NATIVE_AMD:
+            return VK_COLOR_SPACE_DISPLAY_NATIVE_AMD;
+        case RHIColorSpace::RHI_COLOR_SPACE_MAX_ENUM_KHR:
+            return VK_COLOR_SPACE_MAX_ENUM_KHR;
+        default:
+            // 默认返回 sRGB 非线性（最常用且广泛支持）
+            return VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+    }
+}
+
+inline RHIColorSpace ToRHIColorSpace(VkColorSpaceKHR colorSpace)
+{
+    switch (colorSpace) {
+        case VK_COLOR_SPACE_SRGB_NONLINEAR_KHR:
+            return RHIColorSpace::RHI_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+        case VK_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT;
+        case VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT;
+        case VK_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT;
+        case VK_COLOR_SPACE_DCI_P3_NONLINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_DCI_P3_NONLINEAR_EXT;
+        case VK_COLOR_SPACE_BT709_LINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_BT709_LINEAR_EXT;
+        case VK_COLOR_SPACE_BT709_NONLINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_BT709_NONLINEAR_EXT;
+        case VK_COLOR_SPACE_BT2020_LINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_BT2020_LINEAR_EXT;
+        case VK_COLOR_SPACE_HDR10_ST2084_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_HDR10_ST2084_EXT;
+        case VK_COLOR_SPACE_DOLBYVISION_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_DOLBYVISION_EXT;
+        case VK_COLOR_SPACE_HDR10_HLG_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_HDR10_HLG_EXT;
+        case VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_ADOBERGB_LINEAR_EXT;
+        case VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT;
+        case VK_COLOR_SPACE_PASS_THROUGH_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_PASS_THROUGH_EXT;
+        case VK_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT:
+            return RHIColorSpace::RHI_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT;
+        case VK_COLOR_SPACE_DISPLAY_NATIVE_AMD:
+            return RHIColorSpace::RHI_COLOR_SPACE_DISPLAY_NATIVE_AMD;
+        case VK_COLOR_SPACE_MAX_ENUM_KHR:
+            return RHIColorSpace::RHI_COLOR_SPACE_MAX_ENUM_KHR;
+        default:
+            // 默认返回 sRGB 非线性
+            return RHIColorSpace::RHI_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+    }
+}
