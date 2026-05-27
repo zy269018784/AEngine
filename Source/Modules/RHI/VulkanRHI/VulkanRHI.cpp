@@ -87,10 +87,12 @@ RHIRenderTarget *VulkanRHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface
 	return RenderTarget;
 }
 
-RHIRenderTarget *VulkanRHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
+RHIRenderTarget *VulkanRHI::RHICreateTextureRenderTarget(std::vector<RHITexture *> InColorAttachments,
+													  std::vector<RHITexture *> InDepthAttachments)
 {
-	RHIRenderTarget* RenderTarget = new VulkanTextureRenderTarget(Devices[GPUIndex], (VulkanTexture *)InTexture);
-	return RenderTarget;
+	return nullptr;
+	//RHIRenderTarget* RenderTarget = new VulkanTextureRenderTarget(Devices[GPUIndex], (VulkanTexture *)InTexture);
+	//return RenderTarget;
 }
 
 RHIBuffer* VulkanRHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)

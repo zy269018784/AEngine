@@ -20,20 +20,13 @@ public:
 private:
     virtual void Init();
     virtual void Draw();
+    virtual void Draw2();
     void CreateVBO();
     void CreateEBO();
     void CreateTexture();
     void CreateSRB();
     void CreateVertexDescriptioin();
     void CreateGraphicsPipeline();
-private:
-    //RHIBuffer* RHIVBO = nullptr;
-    //RHIBuffer* RHIEBO = nullptr;
-    RHITexture* RHITexture2D = nullptr;
-    RHISampler* RHISampler_ = nullptr;
-    //RHIShader* VertexShader = nullptr;
-    //RHIShader* FragmengShader = nullptr;
-    //std::vector<RHICommandBuffer::VertexInput> VertexInputs;
-    //RHIShaderResourceBindings* SRB = nullptr;
-    //RHIGraphicsPipeline* GraphicsPipeline = nullptr;
+
+    void CreateGraphicsPipeline2();
 };

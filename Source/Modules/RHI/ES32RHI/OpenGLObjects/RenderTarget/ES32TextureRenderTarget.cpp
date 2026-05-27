@@ -68,3 +68,8 @@ void ES32TextureRenderTarget::CreateCommandbuffer()
 {
 
 }
+
+RHIAttachment *ES32TextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
+{
+    return new ES32Attachment(Type, InTexture);
+}

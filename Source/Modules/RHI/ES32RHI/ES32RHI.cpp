@@ -55,6 +55,13 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES21SwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES20SwapChainRenderTarget.h"
 
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL33TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES32TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES31TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES30TextureRenderTarget.h"
+#include "ES32RHI/OpenGLObjects/RenderTarget/ES20TextureRenderTarget.h"
+
 
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
@@ -268,9 +275,32 @@ RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 	return SwapChainRenderTarget;
 }
 
-RHIRenderTarget *ES32RHI::RHICreateTextureRenderTarget(RHITexture *InTexture)
+RHIRenderTarget *ES32RHI::RHICreateTextureRenderTarget(std::vector<RHITexture *> InColorAttachments,
+													  std::vector<RHITexture *> InDepthAttachments)
 {
-	return nullptr;
+	RHITextureRenderTarget *TextureRenderTarget = nullptr;
+	switch (APIIndex) {
+		case GraphicsAPI::OpenGL46:
+			TextureRenderTarget = new OpenGL46TextureRenderTarget(nullptr, 0, 0);
+			break;
+		case GraphicsAPI::OpenGL33:
+			TextureRenderTarget = new OpenGL33TextureRenderTarget(nullptr, 0, 0);
+			break;
+		case GraphicsAPI::ES32:
+			TextureRenderTarget = new ES32TextureRenderTarget(nullptr, 0, 0);
+			break;
+		case GraphicsAPI::ES31:
+			TextureRenderTarget = new ES31TextureRenderTarget(nullptr, 0, 0);
+			break;
+		case GraphicsAPI::ES30:
+			TextureRenderTarget = new ES30TextureRenderTarget(nullptr, 0, 0);
+			break;
+		case GraphicsAPI::ES20:
+			TextureRenderTarget = new ES20TextureRenderTarget(nullptr, 0, 0);
+			break;
+	}
+	TextureRenderTarget->Create(InColorAttachments, InDepthAttachments);
+	return TextureRenderTarget;
 }
 
 RHIBuffer* ES32RHI::RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize)

@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -150,6 +150,12 @@ void RHIApplication::Run()
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
 
+        TextureRenderTarget->RHIBeginFrame();
+        TextureRenderTarget->RHIBeginRenderPass();
+        Draw2();
+        TextureRenderTarget->RHIEndRenderPass();
+        TextureRenderTarget->RHIEndFrame();
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         if (2 == RHIIndex)
@@ -176,6 +182,11 @@ void RHIApplication::Init()
 }
 
 void RHIApplication::Draw()
+{
+
+}
+
+void RHIApplication::Draw2()
 {
 
 }

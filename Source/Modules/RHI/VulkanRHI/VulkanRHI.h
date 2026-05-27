@@ -61,7 +61,8 @@ public:
 	 * RenderTarget
 	 */
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
-	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
+	virtual RHIRenderTarget *RHICreateTextureRenderTarget(std::vector<RHITexture *> InColorAttachments,
+												  std::vector<RHITexture *> InDepthAttachments)final override;
 
 	virtual RHIGraphicsPipeline* RHICreateGraphicsPipeline(RHIRenderPass *RenderPass) final override;
 

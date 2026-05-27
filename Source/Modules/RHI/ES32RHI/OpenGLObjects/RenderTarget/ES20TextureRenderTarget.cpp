@@ -69,3 +69,7 @@ void ES20TextureRenderTarget::CreateCommandbuffer()
 
 }
 
+RHIAttachment *ES20TextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
+{
+    return new ES20Attachment(Type, InTexture);
+}

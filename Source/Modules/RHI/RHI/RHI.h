@@ -4,7 +4,7 @@
 #include "RHI/RHIObjects/Core/RHICore.h"
 #include <cstdint>
 #include <cstddef>
-
+#include <vector>
 class RHIBuffer;
 class RHIShader;
 class RHICommandBuffer;
@@ -69,7 +69,8 @@ public:
 	 * RenderTarget
 	 */
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) = 0;
-	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) = 0;
+	virtual RHIRenderTarget *RHICreateTextureRenderTarget(std::vector<RHITexture *> InColorAttachments,
+	                                                      std::vector<RHITexture *> InDepthAttachments) = 0;
 
 	/*
 		管线Pipeline

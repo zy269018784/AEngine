@@ -68,3 +68,7 @@ void OpenGL33TextureRenderTarget::CreateCommandbuffer()
 {
 
 }
+RHIAttachment *OpenGL33TextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
+{
+    return new OpenGL33Attachment(Type, InTexture);
+}

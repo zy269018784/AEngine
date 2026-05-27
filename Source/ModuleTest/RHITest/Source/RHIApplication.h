@@ -51,6 +51,7 @@ public:
 private:
     virtual void Init();
     virtual void Draw();
+    virtual void Draw2();
     virtual void Render();
 public:
     /*
@@ -87,6 +88,7 @@ public:
         Pipeline
     */
     RHIGraphicsPipeline* GraphicsPipeline = nullptr;
+    RHIGraphicsPipeline* GraphicsPipeline2 = nullptr;
     std::vector<RHIGraphicsPipeline*> GraphicsPipelines;
     /*
        顶点输入
@@ -97,6 +99,16 @@ public:
         着色器资源绑定
     */
     RHIShaderResourceBindings* SRB = nullptr;
+    RHIShaderResourceBindings* SRB2 = nullptr;
+    /*
+     * 纹理
+     */
+    RHITexture* RHITexture2D = nullptr;
+    RHISampler* RHISampler_ = nullptr;
+    std::vector<RHISampler*> RHISamplers;
+
+    std::vector<RHITexture*> RHIColorAttachments;
+    std::vector<RHITexture*> RHIDepthAttachments;
 
     RHIShader* VertexShader = nullptr;
     RHIShader* FragmengShader = nullptr;

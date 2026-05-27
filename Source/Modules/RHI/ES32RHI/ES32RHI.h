@@ -54,7 +54,8 @@ public:
 	 * RenderTarget
 	 */
 	virtual RHIRenderTarget *RHICreateSwapchainRenderTarget(RHISurface *InSurface) final override;
-	virtual RHIRenderTarget *RHICreateTextureRenderTarget(RHITexture *InTexture) final override;
+	virtual RHIRenderTarget *RHICreateTextureRenderTarget(std::vector<RHITexture *> InColorAttachments,
+													  std::vector<RHITexture *> InDepthAttachments)final override;
 
 	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize) final override;
 	virtual RHIBuffer* RHICreateBuffer(RHIBufferType InType, RHIBufferUsageFlag InUsage, std::uint32_t InSize, const void* InData) final override;

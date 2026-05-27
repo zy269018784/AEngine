@@ -3,9 +3,11 @@
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <iostream>
 
+#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
+
 OpenGLTextureRenderTarget::OpenGLTextureRenderTarget(RHIDevice * InDevice,
-                                std::uint32_t InWidth,
-                                std::uint32_t InHeight)
+                                                     std::uint32_t InWidth,
+                                                     std::uint32_t InHeight)
     : RHITextureRenderTarget(InDevice, InWidth, InHeight)
 {
 #if 0
@@ -58,6 +60,9 @@ OpenGLTextureRenderTarget::~OpenGLTextureRenderTarget()
 
 void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
                                        std::vector<RHITexture *> InDepthTextures){
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
+
     if (InColorTextures.size() > 16)
     {
         std::cout << "greater than 16" << std::endl;
@@ -145,6 +150,8 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
 
         DepthStencilAttachments[Index] =  CreateAttachment(Type, InDepthTextures[Index]);
     }
+
+    CreateFramebuffer();
 }
 
 void OpenGLTextureRenderTarget::RHIBeginRenderPass()

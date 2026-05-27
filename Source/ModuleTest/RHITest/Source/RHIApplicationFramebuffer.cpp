@@ -68,6 +68,7 @@ void RHIApplicationFramebuffer::Init()
     CreateVertexDescriptioin();
 
     CreateGraphicsPipeline();
+    CreateGraphicsPipeline2();
 
 }
 
@@ -109,11 +110,32 @@ void RHIApplicationFramebuffer::CreateTexture()
     RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
 
 #endif
+    RHIColorAttachments.resize(3);
+    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
+    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
+    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
+
+    RHIDepthAttachments.resize(0);
+
+    RHISamplers.resize(3);
+    RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+    RHISamplers[1] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+    RHISamplers[2] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+
+    this->TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHIColorAttachments, RHIDepthAttachments);
 }
 
 
 void RHIApplicationFramebuffer::CreateSRB()
 {
+    SRB2 = pRHI->RHICreateShaderResourceBindings();
+    SRB2->SetBindings({
+        RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHIColorAttachments[0], RHISamplers[0]),
+        RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHIColorAttachments[1], RHISamplers[1]),
+        RHIShaderResourceBinding::SampledTexture(2, RHIShaderType::Fragment, RHIColorAttachments[2], RHISamplers[2]),
+    });
+    SRB2->Create();
+
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
@@ -130,15 +152,74 @@ void RHIApplicationFramebuffer::CreateVertexDescriptioin()
 void RHIApplicationFramebuffer::CreateGraphicsPipeline()
 {
 #if OS_IS_WINDOWS
-    auto vertShaderCode = ReadFile("Texture2D_vert.spv");
-    auto fragShaderCode = ReadFile("Texture2D_frag.spv");
+    auto vertShaderCode = ReadFile("TextureRenderTarget_vert.spv");
+    auto fragShaderCode = ReadFile("TextureRenderTarget_frag.spv");
     // 创建Shader
     VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
 
 #else
-    auto vertShaderCode = ReadFile2("Texture2D_vert.glsl");
-    auto fragShaderCode = ReadFile2("Texture2D_frag.glsl");
+    auto vertShaderCode = ReadFile2("TextureRenderTarget_vert.glsl");
+    auto fragShaderCode = ReadFile2("TextureRenderTarget_frag.glsl");
+    const char* p1 = vertShaderCode.c_str();
+    const char* p2 = fragShaderCode.c_str();
+
+     // 创建Shader
+    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
+    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
+#endif
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+        { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { "",0, 1, RHIVertexInputAttribute::Format::Float2,  3 * sizeof(float), 0 },
+    });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+        { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+    });
+    /*
+        用于创建Descriptor Set Layout和Pipeline Layout
+    */
+
+
+    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
+
+    GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
+#if USE_RHI_VULKAN
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
+#else
+    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+#endif
+    GraphicsPipeline->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline->Create();
+    delete VertexShader;
+    delete FragmengShader;
+    VertexShader = nullptr;
+    FragmengShader = nullptr;
+}
+
+
+void RHIApplicationFramebuffer::CreateGraphicsPipeline2()
+{
+#if OS_IS_WINDOWS
+    auto vertShaderCode = ReadFile("RT_Texture2D_vert.spv");
+    auto fragShaderCode = ReadFile("RT_Texture2D_frag.spv");
+    // 创建Shader
+    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+
+#else
+    auto vertShaderCode = ReadFile2("RT_Texture2D_vert.glsl");
+    auto fragShaderCode = ReadFile2("RT_Texture2D_frag.glsl");
     const char* p1 = vertShaderCode.c_str();
     const char* p2 = fragShaderCode.c_str();
 
@@ -168,22 +249,22 @@ void RHIApplicationFramebuffer::CreateGraphicsPipeline()
     */
 
 #if USE_RHIWindow
-    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
+    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
 #else
-    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
+    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
 #endif
-    GraphicsPipeline->SetShaderResourceBindings(SRB);
-    GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
-    GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
+    GraphicsPipeline2->SetShaderResourceBindings(SRB2);
+    GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline2->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
     GraphicsPipeline->SetFrontFace(RHIFrontFace::CW);
 #else
-    GraphicsPipeline->SetFrontFace(RHIFrontFace::CCW);
+    GraphicsPipeline2->SetFrontFace(RHIFrontFace::CCW);
 #endif
-    GraphicsPipeline->SetTopology(RHITopology::Triangles);
-    GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
-    GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
-    GraphicsPipeline->Create();
+    GraphicsPipeline2->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline2->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline2->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline2->Create();
     delete VertexShader;
     delete FragmengShader;
     VertexShader = nullptr;
@@ -201,8 +282,8 @@ void RHIApplicationFramebuffer::Draw()
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
 #else
-    auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
-    RenderTarget->GetExtent(x, y, w, h);
+    auto CommandBuffer = TextureRenderTarget->CurrentGraphicsCommandBuffer();
+    TextureRenderTarget->GetExtent(x, y, w, h);
 #endif
 
     RHIViewport Viewport(0, 0, w, h);
@@ -225,12 +306,52 @@ void RHIApplicationFramebuffer::Draw()
     */
     CommandBuffer->RHISetStencilTestEnable(false);
 
-    static std::uint64_t frameCounter = 0;
-    frameCounter++;
-    if (frameCounter % 200 < 100)
-        CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
-    else
-        CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+
+    Draw2();
+}
+
+
+
+void RHIApplicationFramebuffer::Draw2()
+{
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+
+#if USE_RHIWindow
+    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
+    RHIWindow_->GetExtent(x, y, w, h);
+#else
+    auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
+    RenderTarget->GetExtent(x, y, w, h);
+#endif
+
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline2);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
+
+    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
 
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }

@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "RHI/RHIExport.h"
-#include "RHI/RHIObjects/Core/RHICore.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
-#include "RHI/RHIObjects/Device/RHIDevice.h"
-#include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <vector>
 
 class RHIRenderPass;
@@ -11,7 +8,6 @@ class RHICommandBuffer;
 class RHIFrameBuffer;
 class RHIAttachment;
 class RHITexture;
-
 
 class RHIEXPORT RHITextureRenderTarget : public RHIRenderTarget
 {
@@ -27,7 +23,6 @@ public:
                         std::vector<RHITexture *> InDepthAttachments) = 0;
     virtual RHIAttachment *CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture) = 0;
 protected:
-    RHIPixelFormat PixelFormat;
     /*
      * 帧缓冲
      */
