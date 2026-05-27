@@ -8,8 +8,8 @@ class VulkanInstance;
 class VulkanSurface : public RHISurface
 {
 public:
-	VulkanSurface();
-	VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface);
+	VulkanSurface() = delete;
+	//VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface);
 
 #if RHI_USE_WIN32_KHR
 	VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd);
@@ -79,6 +79,11 @@ private:
 	void DestroySurfaceKHR(const VkAllocationCallbacks* Allocator);
 public:
 	/*
+		能力
+	*/
+	VkSurfaceCapabilitiesKHR				Capabilities;
+private:
+	/*
 		句柄
 	*/
 	VkSurfaceKHR Handle;
@@ -86,24 +91,13 @@ public:
 		Vulkan Instance
 	*/
 	VulkanInstance* Instance = nullptr;
-	/*
-		能力
-	*/
-	VkSurfaceCapabilitiesKHR				Capabilities;
+
 	/*
 		所有支持的像素格式和色彩空间
 	*/
 	std::vector<VkSurfaceFormatKHR>			Formats;
 	/*
-		像素格式和色彩空间
-	*/
-	//VkSurfaceFormatKHR						CurrentFormat;
-	/*
 		所有Present Mode
 	*/
 	std::vector<VkPresentModeKHR>			PresentModes;
-	/*
-		当前Present Mode
-	*/
-	//VkPresentModeKHR						CurrentPresentMode;
 };

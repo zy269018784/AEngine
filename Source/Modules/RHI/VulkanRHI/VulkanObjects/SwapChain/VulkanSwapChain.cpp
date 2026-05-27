@@ -10,8 +10,6 @@
 VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurface)
     : RHISwapChain(InDevice, InSurface)
 {
-   // SwapChainClorSpace      = ToVkColorSpace(InSurface->GetRHIColorSpace());
-
     SetRHIPresentMode(InSurface->GetRHIPresentMode());
     SetRHIColorSpace(InSurface->GetRHIColorSpace());
     SetRHIPixelFormat(InSurface->GetRHIPixelFormat());
@@ -19,17 +17,12 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     SetHeight(InSurface->GetHeight());
 
 
-    uint32_t ImageCount = InSurface->Capabilities.minImageCount + 1;
-    if (InSurface->Capabilities.maxImageCount > 0 && ImageCount > InSurface->Capabilities.maxImageCount)
-    {
-        ImageCount = InSurface->Capabilities.maxImageCount;
-    }
+    uint32_t ImageCount = GetMaxImageCount();
 
     CreateSwapChain();
     GetSwapchainImagesKHR(&ImageCount, nullptr);
     SwapChainImages.resize(ImageCount);
     GetSwapchainImagesKHR(&ImageCount, SwapChainImages.data());
-    std::cout << "ImageCount " << ImageCount << std::endl;
 
     CreateImageViews();
 }
@@ -107,13 +100,7 @@ std::vector<VkImageView> VulkanSwapChain::GetImageViews() const
 
 void VulkanSwapChain::CreateSwapChain()
 {
-#if 0
-    uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
-    if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)
-    {
-        ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
-    }
-#endif
+
     VkSwapchainCreateInfoKHR CreateInfo = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     CreateInfo.surface          = GetSurface();
@@ -188,19 +175,12 @@ void VulkanSwapChain::Resize(float InWidth, float InHeight)
     SetRHIPixelFormat(Surface->GetRHIPixelFormat());
     SetWidth(Surface->GetWidth());
     SetHeight(Surface->GetHeight());
-#if 0
-    uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
-    if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)
-    {
-        ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
-    }
-#endif
+
     std::uint32_t ImageCount = GetMaxImageCount();
     CreateSwapChain();
     GetSwapchainImagesKHR(&ImageCount, nullptr);
     SwapChainImages.resize(ImageCount);
     GetSwapchainImagesKHR(&ImageCount, SwapChainImages.data());
-    std::cout << "ImageCount " << ImageCount << std::endl;
 
     CreateImageViews();
 }

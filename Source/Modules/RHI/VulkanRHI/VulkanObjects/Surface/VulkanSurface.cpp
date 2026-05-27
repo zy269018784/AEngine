@@ -9,7 +9,7 @@
 #include <limits>
 
 
-
+#if 0
 VulkanSurface::VulkanSurface()
     : RHISurface(0, 0)
 {
@@ -21,7 +21,7 @@ VulkanSurface::VulkanSurface(VulkanInstance* InInstance, VkSurfaceKHR Surface)
 {
     Handle = Surface;
 }
-
+#endif
 #if RHI_USE_WIN32_KHR
 VulkanSurface::VulkanSurface(VulkanInstance* InInstance, HINSTANCE Hinstance, HWND Hwnd)
     : Instance(InInstance)
