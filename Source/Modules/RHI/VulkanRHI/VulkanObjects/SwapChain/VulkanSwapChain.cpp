@@ -65,6 +65,36 @@ VkFormat VulkanSwapChain::GetFormat() const
     return ToVkFormat(GetRHIPixelFormat());
 }
 
+VkPresentModeKHR VulkanSwapChain::GetPresentMode() const
+{
+    return ToVkPresentMode(GetRHIPresentMode());
+}
+
+VkColorSpaceKHR VulkanSwapChain::GetColorSpace() const
+{
+    return ToVkColorSpace(GetRHIColorSpace());
+}
+
+VkExtent2D VulkanSwapChain::GetImageExtent() const
+{
+    return { GetWidth(), GetHeight() };
+}
+
+VkSurfaceKHR VulkanSwapChain::GetSurface() const
+{
+    return dynamic_cast<VulkanSurface *>(Surface)->GetHandle();
+}
+
+std::uint32_t VulkanSwapChain::GetMaxImageCount() const
+{
+    std::uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
+    if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)
+    {
+        ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
+    }
+    return ImageCount;
+}
+
 int VulkanSwapChain::GetImageCount() const
 {
     return SwapChainImages.size();
@@ -77,28 +107,29 @@ std::vector<VkImageView> VulkanSwapChain::GetImageViews() const
 
 void VulkanSwapChain::CreateSwapChain()
 {
-    std::cout << "CreateSwapChain 1" << std::endl;
+#if 0
     uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
     if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)
     {
         ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
     }
-    std::cout << "CreateSwapChain 2" << std::endl;
+#endif
     VkSwapchainCreateInfoKHR CreateInfo = {};
-    CreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-    CreateInfo.surface = dynamic_cast<VulkanSurface *>(Surface)->GetHandle();
-    CreateInfo.minImageCount = ImageCount;
-
-    CreateInfo.imageFormat = ToVkFormat(GetRHIPixelFormat());
-    CreateInfo.imageColorSpace = ToVkColorSpace(GetRHIColorSpace());
-    CreateInfo.imageExtent = { Width, Height };
-    //CreateInfo.presentMode = dynamic_cast<VulkanSurface *>(Surface)->GetPresentMode();
-    CreateInfo.presentMode = ToVkPresentMode(GetRHIPresentMode());
+    CreateInfo.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+    CreateInfo.surface          = GetSurface();
+    CreateInfo.minImageCount    = GetMaxImageCount();
+    CreateInfo.imageFormat      = GetFormat();
+    CreateInfo.imageColorSpace  = GetColorSpace();
+    CreateInfo.presentMode      = GetPresentMode();
+    CreateInfo.imageExtent      = GetImageExtent();
     CreateInfo.imageArrayLayers = 1;
-    CreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
-    CreateInfo.preTransform = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.currentTransform;
-    CreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-    CreateInfo.clipped = VK_TRUE;
+    CreateInfo.preTransform     = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.currentTransform;
+    /*
+     * 为什么这样写
+     */
+    CreateInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+    CreateInfo.compositeAlpha   = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    CreateInfo.clipped          = VK_TRUE;
 
     if (false)
     {
@@ -110,16 +141,13 @@ void VulkanSwapChain::CreateSwapChain()
     else {
         CreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
     }
-    std::cout << "CreateSwapChain 3 " << Device << std::endl;
+
     VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateSwapchainKHR(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
     {
         std::cout << "vkCreateSwapchainKHR failed " << Result << std::endl;
         throw std::runtime_error("failed to create swap chain!");
     }
-    std::cout << "CreateSwapChain 4" << std::endl;
-    std::cout << "vkCreateSwapchainKHR ok " << Handle << std::endl;
-
 }
 
 void VulkanSwapChain::CreateImageViews()
@@ -160,12 +188,14 @@ void VulkanSwapChain::Resize(float InWidth, float InHeight)
     SetRHIPixelFormat(Surface->GetRHIPixelFormat());
     SetWidth(Surface->GetWidth());
     SetHeight(Surface->GetHeight());
-
+#if 0
     uint32_t ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.minImageCount + 1;
     if (dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount > 0 && ImageCount > dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount)
     {
         ImageCount = dynamic_cast<VulkanSurface *>(Surface)->Capabilities.maxImageCount;
     }
+#endif
+    std::uint32_t ImageCount = GetMaxImageCount();
     CreateSwapChain();
     GetSwapchainImagesKHR(&ImageCount, nullptr);
     SwapChainImages.resize(ImageCount);

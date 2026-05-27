@@ -21,6 +21,11 @@ public:
 	void Cleanup();
 	VkSwapchainKHR GetHandle() const;
 	VkFormat GetFormat() const;
+	VkPresentModeKHR GetPresentMode() const;
+	VkColorSpaceKHR GetColorSpace() const;
+	VkExtent2D GetImageExtent() const;
+	VkSurfaceKHR GetSurface() const;
+	std::uint32_t GetMaxImageCount() const;
 	int GetImageCount() const;
 	std::vector<VkImageView> GetImageViews() const;
 public:

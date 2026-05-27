@@ -26,10 +26,6 @@ protected:
     std::uint32_t Width = 0;
     std::uint32_t Height = 0;
     RHIPixelFormat Format;
-    /*
-        所有Present Mode
-    */
-    //std::vector<RHIPresentMode>			PresentModes;
     RHIPresentMode PresentMode;
     RHIColorSpace ColorSpace;
 };
