@@ -57,7 +57,9 @@ OpenGL46TextureRenderTarget::~OpenGL46TextureRenderTarget()
 
 void OpenGL46TextureRenderTarget::CreateFramebuffer()
 {
-    Framebuffer = new OpenGL46Framebuffer(dynamic_cast<OpenGLDevice *>(Device), Width, Height, ColorAttachments, DepthStencilAttachments);
+    OpenGL46Framebuffer *FB = new OpenGL46Framebuffer(dynamic_cast<OpenGLDevice *>(Device), Width, Height, ColorAttachments, DepthStencilAttachments);
+    Framebuffer = FB;
+    FB->Create();
 }
 
 void OpenGL46TextureRenderTarget::CreateRenderPass()

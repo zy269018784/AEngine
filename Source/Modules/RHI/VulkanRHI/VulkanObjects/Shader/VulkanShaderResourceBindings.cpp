@@ -26,6 +26,10 @@ VulkanShaderResourceBindings::~VulkanShaderResourceBindings()
 	delete DescriptorPool;
 }
 
+void VulkanShaderResourceBindings::Bind() {
+
+}
+
 void VulkanShaderResourceBindings::Create()
 {
 	/*

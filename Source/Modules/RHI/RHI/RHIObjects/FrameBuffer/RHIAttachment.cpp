@@ -5,13 +5,13 @@
 RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture)
     : Type(InType), Texture(InTexture)
 {
-    std::cout << "RHIAttachment B"  << std::endl;
+
 }
 
 RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat)
     : Type(InType), Texture(nullptr), Format(InFormat)
 {
-    std::cout << "RHIAttachment A " << (int)Format << " " << this << std::endl;
+
 }
 
 RHIAttachment::RHIAttachment(const RHIAttachment& Other)

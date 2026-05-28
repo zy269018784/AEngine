@@ -48,7 +48,9 @@ void OpenGL46ShaderResourceBindings::CreateCombinedImageSampler(int TextureUnit,
 		// 要求opengl 3.3以上, es 3.0以上
 		glBindSampler(TextureUnit, SamplerHandle);
 
-		std::cout << "TextureUnit " << TextureUnit << " "
-		<< "SamplerHandle " << SamplerHandle << " " << std::endl;
+		//std::cout << "TextureUnit " << TextureUnit << " "
+		//<< "SamplerHandle " << SamplerHandle << " " << std::endl;
 	}
 }
+
+

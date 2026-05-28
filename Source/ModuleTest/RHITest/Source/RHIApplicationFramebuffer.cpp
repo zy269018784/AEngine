@@ -115,7 +115,8 @@ void RHIApplicationFramebuffer::CreateTexture()
     RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
     RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
 
-    RHIDepthAttachments.resize(0);
+    RHIDepthAttachments.resize(1);
+    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8, 1, texWidth, texHeight, nullptr);
 
     RHISamplers.resize(3);
     RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
@@ -130,9 +131,13 @@ void RHIApplicationFramebuffer::CreateSRB()
 {
     SRB2 = pRHI->RHICreateShaderResourceBindings();
     SRB2->SetBindings({
+#if 1
         RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHIColorAttachments[0], RHISamplers[0]),
         RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHIColorAttachments[1], RHISamplers[1]),
         RHIShaderResourceBinding::SampledTexture(2, RHIShaderType::Fragment, RHIColorAttachments[2], RHISamplers[2]),
+#else
+        RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
+#endif
     });
     SRB2->Create();
 
@@ -285,7 +290,7 @@ void RHIApplicationFramebuffer::Draw()
     auto CommandBuffer = TextureRenderTarget->CurrentGraphicsCommandBuffer();
     TextureRenderTarget->GetExtent(x, y, w, h);
 #endif
-
+    std::cout << "viewport 1 " << w << " " << h << std::endl;
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
@@ -327,7 +332,7 @@ void RHIApplicationFramebuffer::Draw2()
     auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
     RenderTarget->GetExtent(x, y, w, h);
 #endif
-
+    std::cout << "viewport 2 " << w << " " << h << std::endl;
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 

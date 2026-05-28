@@ -122,6 +122,7 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
                 Type = RHIAttachmentType::Color16;
                 break;
         }
+        std::cout << "Create Color " << (int)Type << " " << Index << std::endl;
         ColorAttachments[Index] =  CreateAttachment(Type, InColorTextures[Index]);
     }
 

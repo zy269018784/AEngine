@@ -10,8 +10,4 @@ void main()
     outColor0 = vec4(1) * texture(texSampler, fragTexCoord);
     outColor1 = vec4(1, 0, 0, 0) * texture(texSampler, fragTexCoord);
     outColor2 = vec4(0, 1, 0, 0) * texture(texSampler, fragTexCoord);
-
-    outColor0 = vec4(1, 0, 0, 0);
-    outColor1 = vec4(0, 1, 0, 0);
-    outColor2 = vec4(0, 0, 1, 0);
 }

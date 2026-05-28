@@ -32,13 +32,13 @@ void OpenGLShaderResourceBindings::Create()
 	{
 		const RHIShaderResourceBinding::Type  BindingType = Bindings[BindingIndex].d.type;
 		int BindingPoint = Bindings[BindingIndex].d.binding;
-		if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::SampledImage)
+		if (RHIShaderResourceBinding::Type::SampledImage == BindingType)
 		{
 			/*
 				暂时没实现
 			*/
 		}
-		else if (Bindings[BindingIndex].d.type == RHIShaderResourceBinding::Type::CombinedImageSampler)
+		else if (RHIShaderResourceBinding::Type::CombinedImageSampler == BindingType)
 		{
 			int TextureUnit = Bindings[BindingIndex].d.binding;
 			OpenGLTexture* Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
@@ -66,3 +66,43 @@ void OpenGLShaderResourceBindings::Create()
 	//std::cout << "OpenGLShaderResourceBindings ActiveTextureUnits " << ActiveTextureUnits << std::endl;
 }
 
+void OpenGLShaderResourceBindings::Bind()
+{
+	int BindingPoint;
+	int TextureUnit;
+	OpenGLTexture* Texture;
+	OpenGLSampler* Sampler;
+	OpenGLBuffer *Buffer;
+
+	for (int BindingIndex = 0; BindingIndex < Bindings.size(); BindingIndex++)
+	{
+		const RHIShaderResourceBinding::Type  BindingType = Bindings[BindingIndex].d.type;
+		BindingPoint = Bindings[BindingIndex].d.binding;
+		TextureUnit  = Bindings[BindingIndex].d.binding;
+		switch (BindingType)
+		{
+			case RHIShaderResourceBinding::Type::Sampler:
+			case RHIShaderResourceBinding::Type::SampledImage:
+				/*
+				 * vulkan支持分离的texture和sampler, opengl不支持
+				 */
+				break;
+			case RHIShaderResourceBinding::Type::CombinedImageSampler:
+				Texture = dynamic_cast<OpenGLTexture*>(Bindings[BindingIndex].d.u.stex.texSamplers->tex);
+				Sampler = dynamic_cast<OpenGLSampler *>(Bindings[BindingIndex].d.u.stex.texSamplers->sampler);
+				CreateCombinedImageSampler(TextureUnit, Texture, Sampler);
+				break;
+			case RHIShaderResourceBinding::Type::UniformBuffer:
+				Buffer = (OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf;
+				CreateUBO(BindingPoint, Buffer);
+				break;
+			case RHIShaderResourceBinding::Type::StorageBuffer:
+				Buffer = (OpenGLBuffer*)Bindings[BindingIndex].d.u.ubuf.buf;
+				CreateSSBO(BindingPoint, Buffer);
+				break;
+			case RHIShaderResourceBinding::Type::StorageImage:
+			default:
+				break;
+		}
+	}
+}

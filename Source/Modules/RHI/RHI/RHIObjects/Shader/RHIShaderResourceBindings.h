@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include <initializer_list>
@@ -11,6 +11,10 @@ public:
 	void SetBindings(std::initializer_list<RHIShaderResourceBinding> list);
 	std::vector<RHIShaderResourceBinding>& GetBindings();
 	virtual void Create() = 0;
+	/*
+	 * opengl需要这个绑定纹理, UBO, SSBO
+	 */
+	virtual void Bind() = 0;
 protected:
 	std::vector<RHIShaderResourceBinding> Bindings;
 };

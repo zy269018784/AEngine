@@ -1,4 +1,8 @@
 ﻿#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLFramebuffer.h"
+
+#include <iostream>
+#include <ostream>
+
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
 
 /*
@@ -46,22 +50,28 @@ void OpenGLFramebuffer::Create()
    /*
      * 创建Framebuffer
      */
-    glGenFramebuffers(1, &Handle);
     glBindFramebuffer(GL_FRAMEBUFFER, Handle);
     GLenum Target = GL_FRAMEBUFFER;
     GLenum Textarget = GL_TEXTURE_2D;
     GLenum Attachment;
     GLuint Texture;
+    std::vector<GLuint> Attachments;
     for (int i = 0; i < ColorAttachments.size(); i++)
     {
         Attachment = GL_COLOR_ATTACHMENT0 + i;
 
+        Attachments.push_back(static_cast<GLuint>(GL_COLOR_ATTACHMENT0 + i));
+
         Texture =  dynamic_cast<OpenGLTexture *>(ColorAttachments[i]->GetTexture())->GetHandle();
+
+        std::cout << "Attachment " << Attachment  << " Texture " << Texture << std::endl;
         /*
          * 关联纹理到Framebuffer
          */
         glFramebufferTexture2D(Target, Attachment, Textarget, Texture, 0);
     }
+    // 关键步骤
+    glDrawBuffers(Attachments.size(), Attachments.data());
 
 
     for (int i = 0; i < DepthAttachments.size(); i++)

@@ -13,6 +13,7 @@ public:
 	VulkanShaderResourceBindings(VulkanDevice *Device);
 	~VulkanShaderResourceBindings();
 	virtual void Create() final override;
+	virtual void Bind() final override;
 	VulkanDescriptorSet* GetDescriptorSet();
 	VulkanDescriptorSetLayout* GetDescriptorSetLayout();
 

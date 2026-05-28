@@ -190,10 +190,12 @@ void OpenGL46CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphi
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(((OpenGLGraphicsPipeline*)GraphicsPipeline)->Handle);
 
-
+		//std::cout << "pipeline " << ((OpenGLGraphicsPipeline*)GraphicsPipeline)->Handle << std::endl;
 		OpenGLGraphicsPipeline* OpenGLPipeline = (OpenGLGraphicsPipeline*)InGraphicsPipeline;
 		if (OpenGLPipeline->ShaderResourceBindings)
 		{
+			OpenGLPipeline->ShaderResourceBindings->Bind();
+#if 0
 			auto Bindings = OpenGLPipeline->ShaderResourceBindings->GetBindings();
 			for (int i = 0; i < Bindings.size(); i++)
 			{
@@ -234,6 +236,7 @@ void OpenGL46CommandBuffer::RHISetGraphicsPipeline(RHIGraphicsPipeline* InGraphi
 					//glBindBufferRange(GL_SHADER_STORAGE_BUFFER, BindingPoint, SSBO, Offset, Size);
 				}
 			}
+#endif
 		}
 	}
 	else
