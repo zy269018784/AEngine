@@ -35,7 +35,6 @@ enum class RHIEXPORT GraphicsAPI : uint8_t{
 	ES32,
 	ES31,
 	ES30,
-	ES21,
 	ES20,
 	D3D12,
 	D3D11,

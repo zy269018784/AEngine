@@ -18,7 +18,6 @@
 #include "ES32RHI/OpenGLObjects/Shader/ES32Shader.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES31Shader.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES30Shader.h"
-#include "ES32RHI/OpenGLObjects/Shader/ES21Shader.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES20Shader.h"
 
 #include "ES32RHI/OpenGLObjects/Shader/OpenGLShaderResourceBindings.h"
@@ -27,7 +26,6 @@
 #include "ES32RHI/OpenGLObjects/Shader/ES32ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES31ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES30ShaderResourceBindings.h"
-#include "ES32RHI/OpenGLObjects/Shader/ES21ShaderResourceBindings.h"
 #include "ES32RHI/OpenGLObjects/Shader/ES20ShaderResourceBindings.h"
 
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
@@ -44,7 +42,6 @@
 #include "ES32RHI/OpenGLObjects/Resource/ES32Sampler.h"
 #include "ES32RHI/OpenGLObjects/Resource/ES31Sampler.h"
 #include "ES32RHI/OpenGLObjects/Resource/ES30Sampler.h"
-#include "ES32RHI/OpenGLObjects/Resource/ES21Sampler.h"
 #include "ES32RHI/OpenGLObjects/Resource/ES20Sampler.h"
 
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46SwapChainRenderTarget.h"
@@ -52,7 +49,6 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES32SwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES31SwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES30SwapChainRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/RenderTarget/ES21SwapChainRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES20SwapChainRenderTarget.h"
 
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
@@ -140,9 +136,6 @@ RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
 			break;
 		case GraphicsAPI::ES30:
-			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
-			break;
-		case GraphicsAPI::ES21:
 			Surface = new OpenGLSurface(nullptr, Hinstance, Hwnd);
 			break;
 		case GraphicsAPI::ES20:
@@ -265,9 +258,6 @@ RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 		case GraphicsAPI::ES30:
 			SwapChainRenderTarget = new ES30SwapChainRenderTarget(nullptr, InSurface);
 			break;
-		case GraphicsAPI::ES21:
-			SwapChainRenderTarget = new ES21SwapChainRenderTarget(nullptr, InSurface);
-			break;
 		case GraphicsAPI::ES20:
 			SwapChainRenderTarget = new ES20SwapChainRenderTarget(nullptr, InSurface);
 			break;
@@ -333,9 +323,6 @@ RHIGraphicsPipeline* ES32RHI::RHICreateGraphicsPipeline(RHIRenderPass *RenderPas
 		case GraphicsAPI::ES30:
 			Pipeline = new ES30GraphicsPipeline();
 			break;
-		case GraphicsAPI::ES21:
-			Pipeline = new ES20GraphicsPipeline();
-			break;
 		case GraphicsAPI::ES20:
 			Pipeline = new ES20GraphicsPipeline();
 			break;
@@ -364,9 +351,6 @@ RHIShader* ES32RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, siz
 			break;
 		case GraphicsAPI::ES30:
 			Shader = new ES30Shader(Type, Code, CodeSize);
-			break;
-		case GraphicsAPI::ES21:
-			Shader = new ES21Shader(Type, Code, CodeSize);
 			break;
 		case GraphicsAPI::ES20:
 			Shader = new ES20Shader(Type, Code, CodeSize);
@@ -618,9 +602,6 @@ RHISampler* ES32RHI::RHICreateSampler(RHIFilter MinFilter,
 		case GraphicsAPI::ES30:
 			Sampler = new ES30Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
 			break;
-		case GraphicsAPI::ES21:
-			Sampler = new ES21Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
-			break;
 		case GraphicsAPI::ES20:
 			Sampler = new ES20Sampler(nullptr, MinFilter, MagFilter, AddressModeU, AddressModeV, AddressModeW);
 			break;
@@ -646,9 +627,6 @@ RHIShaderResourceBindings* ES32RHI::RHICreateShaderResourceBindings()
 			break;
 		case GraphicsAPI::ES30:
 			ShaderResourceBindings = new ES30ShaderResourceBindings(nullptr);
-			break;
-		case GraphicsAPI::ES21:
-			ShaderResourceBindings = new ES21ShaderResourceBindings(nullptr);
 			break;
 		case GraphicsAPI::ES20:
 			ShaderResourceBindings = new ES20ShaderResourceBindings(nullptr);
