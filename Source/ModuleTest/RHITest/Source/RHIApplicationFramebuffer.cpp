@@ -276,7 +276,7 @@ void RHIApplicationFramebuffer::CreateGraphicsPipeline2()
     FragmengShader = nullptr;
 }
 
-void RHIApplicationFramebuffer::Draw()
+void RHIApplicationFramebuffer::Draw2()
 {
     float x = 0;
     float y = 0;
@@ -318,7 +318,7 @@ void RHIApplicationFramebuffer::Draw()
 
 
 
-void RHIApplicationFramebuffer::Draw2()
+void RHIApplicationFramebuffer::Draw()
 {
     float x = 0;
     float y = 0;

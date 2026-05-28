@@ -22,18 +22,16 @@ public:
     /*
      * RHIRenderTarget (Virtual) Interface
      */
-    virtual void CreateFramebuffer() = 0;
-    virtual void CreateRenderPass()  = 0;
-    virtual void CreateCommandbuffer() = 0;
-
-    virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
-    virtual void Resize(float Width, float Height) = 0;
-    virtual void WaitDeviceIdle() = 0;
-
     virtual void RHIBeginRenderPass() = 0;
     virtual void RHIEndRenderPass() = 0;
     virtual void RHIBeginFrame() = 0;
     virtual void RHIEndFrame() = 0;
+    virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;
+    virtual void Resize(float Width, float Height) = 0;
+    virtual void WaitDeviceIdle() = 0;
+    virtual void CreateFramebuffer() = 0;
+    virtual void CreateRenderPass()  = 0;
+    virtual void CreateCommandbuffer() = 0;
 protected:
     /*
      * 逻辑设备

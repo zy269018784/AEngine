@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 2;
+    RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -141,14 +141,14 @@ void RHIApplication::Run()
         if (TextureRenderTarget) {
             TextureRenderTarget->RHIBeginFrame();
             TextureRenderTarget->RHIBeginRenderPass();
-            Draw();
+            Draw2();
             TextureRenderTarget->RHIEndRenderPass();
             TextureRenderTarget->RHIEndFrame();
         }
 
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
-        Draw2();
+        Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
 

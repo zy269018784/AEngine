@@ -12,8 +12,7 @@
 OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
     : RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
-    //GraphicsCommandBuffers.resize(1);
-    //GraphicsCommandBuffers[0] = new ES30CommandBuffer();
+
 }
 
 OpenGLSwapChainRenderTarget::~OpenGLSwapChainRenderTarget()

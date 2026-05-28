@@ -83,7 +83,8 @@ RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
 
 RHIRenderTarget *VulkanRHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 {
-	RHIRenderTarget *RenderTarget = new VulkanSwapChainRenderTarget(Devices[GPUIndex], reinterpret_cast<VulkanSurface *>(InSurface));
+	VulkanSwapChainRenderTarget *RenderTarget = new VulkanSwapChainRenderTarget(Devices[GPUIndex], reinterpret_cast<VulkanSurface *>(InSurface));
+	RenderTarget->Create();
 	return RenderTarget;
 }
 

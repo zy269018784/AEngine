@@ -27,21 +27,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
 	VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
-
-	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
-	//RHIPixelFormat SwapChainRHIPixelFormat = ToRHIPixelFormat(ImageFormat);
-	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
-#if 1
-	// AMD Radeon RX580 2048SP
-	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
-#else
-	// 4060 support
-	// AMD Radeon RX580 2048SP do not support
-	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
-#endif
-
 	/*
 		1. 同步对象
 	*/
@@ -49,54 +34,13 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	for (int i = 0; i < Frames.size(); i++)
 		Frames[i] = new VulkanFrame(dynamic_cast<VulkanDevice *>(Device), true);
 
-	/*
-		2. 创建Render Pass
-	*/
-	std::vector<RHIAttachment> ColorAttachments;
-	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
-	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ImageFormat, ColorAttachments,DepthAttachment);
+	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
 
-	/*
-		3. 创建Frame Buffer
-	*/
 
-	FrameBuffers.resize(ImageViews.size());
-	for (int i = 0; i < FrameBuffers.size(); i++)
-	{
-		VulkanTexture *Tex = new VulkanTexture(InDevice,
-				RHITextureType::Texture2D,
-				DepthStencilPixelFormat,
-				RHITextureUsageFlag::DepthStencilAttachment,
-				1,
-				SwapChain->GetWidth(),
-				SwapChain->GetHeight(),
-				1,
-				1);
-		Textures.emplace_back(Tex);
 
-		std::vector<RHIAttachment *> InColorAttachments;
-		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i]));
 
-		std::vector<RHIAttachment *> InDepthAttachments;
-		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
 
-		FrameBuffers[i] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
-								{ SwapChain->GetWidth(), SwapChain->GetHeight() },
-												InColorAttachments, InDepthAttachments);
-	}
 
-	/*
-		4. 创建command buffer
-	 */
-	GraphicsCommandBuffers.resize(dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageCount());
-	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
-	{
-		/*
-			暂时用第0个Command Pool
-		*/
-		GraphicsCommandBuffers[i] = dynamic_cast<VulkanDevice *>(Device)->CreateCommandBuffer(dynamic_cast<VulkanDevice *>(Device)->CommandPools[0]);
-	}
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
@@ -284,15 +228,84 @@ void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 
 void VulkanSwapChainRenderTarget::CreateFramebuffer()
 {
+	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
+#if 1
+	// AMD Radeon RX580 2048SP
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+	// 4060 support
+	// AMD Radeon RX580 2048SP do not support
+	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
+	/*
+		3. 创建Frame Buffer
+	*/
+
+	FrameBuffers.resize(ImageViews.size());
+	for (int i = 0; i < FrameBuffers.size(); i++)
+	{
+		VulkanTexture *Tex = new VulkanTexture(dynamic_cast<VulkanDevice *>(Device),
+				RHITextureType::Texture2D,
+				DepthStencilPixelFormat,
+				RHITextureUsageFlag::DepthStencilAttachment,
+				1,
+				SwapChain->GetWidth(),
+				SwapChain->GetHeight(),
+				1,
+				1);
+		Textures.emplace_back(Tex);
+
+		std::vector<RHIAttachment *> InColorAttachments;
+		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i]));
+
+		std::vector<RHIAttachment *> InDepthAttachments;
+		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
+
+		FrameBuffers[i] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
+								{ SwapChain->GetWidth(), SwapChain->GetHeight() },
+												InColorAttachments, InDepthAttachments);
+	}
 
 }
 
 void VulkanSwapChainRenderTarget::CreateRenderPass()
 {
+	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
+#if 1
+	// AMD Radeon RX580 2048SP
+	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+	// 4060 support
+	// AMD Radeon RX580 2048SP do not support
+	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
 
+
+	VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
+	/*
+		2. 创建Render Pass
+	*/
+	std::vector<RHIAttachment> ColorAttachments;
+	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
+	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ImageFormat, ColorAttachments,DepthAttachment);
 }
 
 void VulkanSwapChainRenderTarget::CreateCommandbuffer()
 {
-
+	/*
+		4. 创建command buffer
+	 */
+	GraphicsCommandBuffers.resize(dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageCount());
+	for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
+	{
+		/*
+			暂时用第0个Command Pool
+		*/
+		GraphicsCommandBuffers[i] = dynamic_cast<VulkanDevice *>(Device)->CreateCommandBuffer(dynamic_cast<VulkanDevice *>(Device)->CommandPools[0]);
+	}
 }
