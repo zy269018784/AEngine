@@ -10,3 +10,9 @@ RHISwapChainRenderTarget::~RHISwapChainRenderTarget() {
 
 }
 
+void RHISwapChainRenderTarget::Create()
+{
+    CreateCommandbuffer();
+    CreateRenderPass();
+    CreateFramebuffer();
+}

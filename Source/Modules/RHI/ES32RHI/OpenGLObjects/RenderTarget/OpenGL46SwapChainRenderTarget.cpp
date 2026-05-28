@@ -4,41 +4,26 @@
 OpenGL46SwapChainRenderTarget::OpenGL46SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
     : OpenGLSwapChainRenderTarget(InDevice, InSurface)
 {
-    GraphicsCommandBuffers.resize(1);
-    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
+
 }
 
 OpenGL46SwapChainRenderTarget::~OpenGL46SwapChainRenderTarget()
 {
     delete GraphicsCommandBuffers[0];
 }
-#if 0
-void OpenGL46SwapChainRenderTarget::RHIBeginFrame() {
 
-}
-
-void OpenGL46SwapChainRenderTarget::RHIEndFrame() {
-
-}
-
-void OpenGL46SwapChainRenderTarget::RHIBeginRenderPass() {
-
-}
-
-void OpenGL46SwapChainRenderTarget::RHIEndRenderPass() {
-
-}
-void OpenGL46SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
+void OpenGL46SwapChainRenderTarget::CreateFramebuffer()
 {
-    GLint Viewport[4];
-    glGetIntegerv(GL_VIEWPORT, Viewport);
-    x = Viewport[0];
-    y = Viewport[1];
-    w = Viewport[2];
-    h = Viewport[3];
-}
-
-void OpenGL46SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
-#endif
+
+void OpenGL46SwapChainRenderTarget::CreateRenderPass()
+{
+
+}
+
+void OpenGL46SwapChainRenderTarget::CreateCommandbuffer()
+{
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
+}

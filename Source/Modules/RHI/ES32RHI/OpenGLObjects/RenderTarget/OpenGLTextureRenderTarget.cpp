@@ -1,6 +1,5 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLTextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-
 #include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLAttachment.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <iostream>
@@ -18,8 +17,6 @@ OpenGLTextureRenderTarget::~OpenGLTextureRenderTarget()
 {
 
 }
-
-
 
 void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
                                        std::vector<RHITexture *> InDepthTextures)

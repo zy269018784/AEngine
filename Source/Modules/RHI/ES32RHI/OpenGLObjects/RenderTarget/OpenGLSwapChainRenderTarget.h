@@ -7,9 +7,6 @@ class OpenGLSwapChainRenderTarget : public RHISwapChainRenderTarget
 public:
     OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~OpenGLSwapChainRenderTarget();
-    virtual void CreateFramebuffer() override final;
-    virtual void CreateRenderPass()  override final;
-    virtual void CreateCommandbuffer() override final;
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
     virtual void RHIBeginFrame() override final;

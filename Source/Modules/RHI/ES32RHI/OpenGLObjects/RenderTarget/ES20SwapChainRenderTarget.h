@@ -7,4 +7,8 @@ class ES20SwapChainRenderTarget : public OpenGLSwapChainRenderTarget
 public:
     ES20SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~ES20SwapChainRenderTarget();
+public:
+    virtual void CreateFramebuffer() override final;
+    virtual void CreateRenderPass()  override final;
+    virtual void CreateCommandbuffer() override final;
 };

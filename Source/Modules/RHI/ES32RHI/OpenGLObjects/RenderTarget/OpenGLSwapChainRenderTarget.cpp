@@ -12,8 +12,8 @@
 OpenGLSwapChainRenderTarget::OpenGLSwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface)
     : RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
-    GraphicsCommandBuffers.resize(1);
-    GraphicsCommandBuffers[0] = new ES30CommandBuffer();
+    //GraphicsCommandBuffers.resize(1);
+    //GraphicsCommandBuffers[0] = new ES30CommandBuffer();
 }
 
 OpenGLSwapChainRenderTarget::~OpenGLSwapChainRenderTarget()
@@ -27,17 +27,21 @@ void OpenGLSwapChainRenderTarget::RHIBeginFrame()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLSwapChainRenderTarget::RHIEndFrame() {
+void OpenGLSwapChainRenderTarget::RHIEndFrame()
+{
 
 }
 
-void OpenGLSwapChainRenderTarget::RHIBeginRenderPass() {
+void OpenGLSwapChainRenderTarget::RHIBeginRenderPass()
+{
 
 }
 
-void OpenGLSwapChainRenderTarget::RHIEndRenderPass() {
+void OpenGLSwapChainRenderTarget::RHIEndRenderPass()
+{
 
 }
+
 void OpenGLSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
 {
     GLint Viewport[4];
@@ -56,19 +60,4 @@ void OpenGLSwapChainRenderTarget::Resize(float Width, float Height)
 void OpenGLSwapChainRenderTarget::WaitDeviceIdle()
 {
     glFinish();
-}
-
-void OpenGLSwapChainRenderTarget::CreateFramebuffer()
-{
-
-}
-
-void OpenGLSwapChainRenderTarget::CreateRenderPass()
-{
-
-}
-
-void OpenGLSwapChainRenderTarget::CreateCommandbuffer()
-{
-
 }

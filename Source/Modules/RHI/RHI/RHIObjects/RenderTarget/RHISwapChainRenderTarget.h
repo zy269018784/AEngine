@@ -15,6 +15,8 @@ public:
     RHISwapChainRenderTarget() = default;
     RHISwapChainRenderTarget(RHIDevice *InDevice, std::uint32_t InWidth, std::uint32_t InHeight, RHIPixelFormat InPixelFormat);
     virtual ~RHISwapChainRenderTarget();
+public:
+    void Create();
 protected:
     RHIPixelFormat PixelFormat;
     RHISwapChain   *SwapChain;

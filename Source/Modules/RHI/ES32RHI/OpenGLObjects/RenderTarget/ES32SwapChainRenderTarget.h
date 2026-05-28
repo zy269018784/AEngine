@@ -7,4 +7,8 @@ class ES32SwapChainRenderTarget : public OpenGLSwapChainRenderTarget
 public:
     ES32SwapChainRenderTarget(RHIDevice *InDevice, RHISurface* InSurface);
     ~ES32SwapChainRenderTarget();
+public:
+    virtual void CreateFramebuffer() override final;
+    virtual void CreateRenderPass()  override final;
+    virtual void CreateCommandbuffer() override final;
 };

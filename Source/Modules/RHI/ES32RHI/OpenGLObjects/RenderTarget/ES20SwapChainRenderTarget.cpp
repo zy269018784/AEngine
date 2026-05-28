@@ -12,33 +12,19 @@ ES20SwapChainRenderTarget::~ES20SwapChainRenderTarget()
 {
 
 }
-#if 0
-void ES20SwapChainRenderTarget::RHIBeginFrame() {
 
-}
-
-void ES20SwapChainRenderTarget::RHIEndFrame() {
-
-}
-
-void ES20SwapChainRenderTarget::RHIBeginRenderPass() {
-
-}
-
-void ES20SwapChainRenderTarget::RHIEndRenderPass() {
-
-}
-void ES20SwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
+void ES20SwapChainRenderTarget::CreateFramebuffer()
 {
-    GLint Viewport[4];
-    glGetIntegerv(GL_VIEWPORT, Viewport);
-    x = Viewport[0];
-    y = Viewport[1];
-    w = Viewport[2];
-    h = Viewport[3];
-}
-
-void ES20SwapChainRenderTarget::Resize(float Width, float Height) {
 
 }
-#endif
+
+void ES20SwapChainRenderTarget::CreateRenderPass()
+{
+
+}
+
+void ES20SwapChainRenderTarget::CreateCommandbuffer()
+{
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new ES20CommandBuffer();
+}

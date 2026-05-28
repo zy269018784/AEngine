@@ -241,7 +241,7 @@ RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 
 RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 {
-	RHIRenderTarget *SwapChainRenderTarget;
+	OpenGLSwapChainRenderTarget *SwapChainRenderTarget;
 	switch (APIIndex) {
 		case GraphicsAPI::OpenGL46:
 			SwapChainRenderTarget = new OpenGL46SwapChainRenderTarget(nullptr, InSurface);
@@ -262,6 +262,7 @@ RHIRenderTarget *ES32RHI::RHICreateSwapchainRenderTarget(RHISurface *InSurface)
 			SwapChainRenderTarget = new ES20SwapChainRenderTarget(nullptr, InSurface);
 			break;
 	}
+	SwapChainRenderTarget->Create();
 	return SwapChainRenderTarget;
 }
 
