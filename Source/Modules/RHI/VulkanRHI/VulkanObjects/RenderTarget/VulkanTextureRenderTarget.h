@@ -19,7 +19,6 @@ public:
 public:
     virtual void Create(std::vector<RHITexture *> InColorAttachments,
                     std::vector<RHITexture *> InDepthAttachments) override final;
-    virtual RHIAttachment *CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture) override final;
     virtual void CreateFramebuffer() override final;
     virtual void CreateRenderPass()  override final;
     virtual void CreateCommandbuffer() override final;

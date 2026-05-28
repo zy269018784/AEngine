@@ -15,6 +15,7 @@ public:
                                 std::vector<RHIAttachment *> &InDepthAttachments);
     ~OpenGLFramebuffer();
     GLuint GetHandle() const;
+public:
     virtual void Bind() const override final;
     void Create();
  protected:

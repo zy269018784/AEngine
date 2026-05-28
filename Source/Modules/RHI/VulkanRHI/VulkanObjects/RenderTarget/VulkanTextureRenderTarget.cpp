@@ -186,11 +186,6 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorAttachme
 
 }
 
-RHIAttachment *VulkanTextureRenderTarget::VulkanTextureRenderTarget::CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture)
-{
-    return nullptr;
-}
-
 void VulkanTextureRenderTarget::CreateFramebuffer() {}
 void VulkanTextureRenderTarget::CreateRenderPass() {}
 void VulkanTextureRenderTarget::CreateCommandbuffer() {}

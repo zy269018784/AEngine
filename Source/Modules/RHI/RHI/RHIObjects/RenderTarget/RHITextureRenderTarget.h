@@ -21,7 +21,6 @@ public:
      */
     virtual void Create(std::vector<RHITexture *> InColorAttachments,
                         std::vector<RHITexture *> InDepthAttachments) = 0;
-    virtual RHIAttachment *CreateAttachment(RHIAttachmentType Type, RHITexture *InTexture) = 0;
 protected:
     /*
      * 帧缓冲
