@@ -11,6 +11,4 @@ public:
                       std::vector<RHIAttachment *> &InColorAttachments,
                       std::vector<RHIAttachment *> &InDepthAttachments);
     ~OpenGL46Framebuffer();
-public:
-    virtual OpenGLTexture *CreateTexture(RHIDevice *InDevice, RHIPixelFormat Format, std::uint32_t Width, std::uint32_t Height) override final;
 };

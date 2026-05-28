@@ -58,8 +58,15 @@ OpenGLTextureRenderTarget::~OpenGLTextureRenderTarget()
 
 }
 
+inline RHIAttachmentType ToRHIAttachmentType(std::uint32_t Index)
+{
+    RHIAttachmentType Type;
+    return Type;
+}
+
 void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
-                                       std::vector<RHITexture *> InDepthTextures){
+                                       std::vector<RHITexture *> InDepthTextures)
+{
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
 

@@ -16,12 +16,5 @@ ES30Framebuffer::~ES30Framebuffer()
 
 }
 
-OpenGLTexture *ES30Framebuffer::CreateTexture(RHIDevice *Device, RHIPixelFormat Format, std::uint32_t Width, std::uint32_t Height)
-{
-    return new ES30Texture(Device, RHITextureType::Texture2D, Format, 1, 1, Width, Height, 1, nullptr);
-}
-
-
-
 
 
