@@ -5,7 +5,6 @@
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES32CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES31CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/ES21CommandBuffer.h"
 #include "ES32RHI/ES32.h"
 #include "ES32RHI/OpenGLObjects/Surface/OpenGLSurface.h"
 #include <iostream>
@@ -22,8 +21,8 @@ OpenGLSwapChainRenderTarget::~OpenGLSwapChainRenderTarget()
 
 }
 
-void OpenGLSwapChainRenderTarget::RHIBeginFrame() {
-    //std::cout << "OpenGLSwapChainRenderTarget Framebuffer->Bind " << std::endl;
+void OpenGLSwapChainRenderTarget::RHIBeginFrame()
+{
     // 绑定默认帧缓冲
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

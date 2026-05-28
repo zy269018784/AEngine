@@ -1,9 +1,8 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL46Framebuffer.h"
-#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-#include <iostream>
-
+#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
+#include <iostream>
 
 OpenGL46TextureRenderTarget::OpenGL46TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
     : OpenGLTextureRenderTarget(InDevice, InWidth, InHeight)
@@ -15,7 +14,6 @@ OpenGL46TextureRenderTarget::~OpenGL46TextureRenderTarget()
 {
 
 }
-
 
 void OpenGL46TextureRenderTarget::CreateFramebuffer()
 {
@@ -31,5 +29,6 @@ void OpenGL46TextureRenderTarget::CreateRenderPass()
 
 void OpenGL46TextureRenderTarget::CreateCommandbuffer()
 {
-
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
 }

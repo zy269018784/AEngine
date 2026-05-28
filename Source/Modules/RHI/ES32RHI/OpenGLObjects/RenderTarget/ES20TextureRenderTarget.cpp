@@ -1,9 +1,9 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES20TextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Framebuffer/ES20Framebuffer.h"
-#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+#include "ES32RHI/OpenGLObjects/CommandBuffer/ES20CommandBuffer.h"
+#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 #include <iostream>
 
-#include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 
 ES20TextureRenderTarget::ES20TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
     : OpenGLTextureRenderTarget(InDevice, InWidth, InHeight)
@@ -28,5 +28,6 @@ void ES20TextureRenderTarget::CreateRenderPass()
 
 void ES20TextureRenderTarget::CreateCommandbuffer()
 {
-
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new ES20CommandBuffer();
 }

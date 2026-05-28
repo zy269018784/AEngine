@@ -1,10 +1,8 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES30TextureRenderTarget.h"
-
 #include "ES32RHI/OpenGLObjects/Framebuffer/ES30Framebuffer.h"
-#include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-#include <iostream>
-
+#include "ES32RHI/OpenGLObjects/CommandBuffer/ES30CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
+#include <iostream>
 
 ES30TextureRenderTarget::ES30TextureRenderTarget(RHIDevice * InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
     : OpenGLTextureRenderTarget(InDevice, InWidth, InHeight)
@@ -29,5 +27,6 @@ void ES30TextureRenderTarget::CreateRenderPass()
 
 void ES30TextureRenderTarget::CreateCommandbuffer()
 {
-
+    GraphicsCommandBuffers.resize(1);
+    GraphicsCommandBuffers[0] = new ES30CommandBuffer();
 }

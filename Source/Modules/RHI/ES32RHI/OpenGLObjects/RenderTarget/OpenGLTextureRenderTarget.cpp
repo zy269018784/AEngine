@@ -1,11 +1,9 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLTextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-#include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
+
 #include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLAttachment.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <iostream>
-
-
 
 OpenGLTextureRenderTarget::OpenGLTextureRenderTarget(RHIDevice * InDevice,
                                                      std::uint32_t InWidth,
@@ -26,8 +24,7 @@ OpenGLTextureRenderTarget::~OpenGLTextureRenderTarget()
 void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
                                        std::vector<RHITexture *> InDepthTextures)
 {
-    GraphicsCommandBuffers.resize(1);
-    GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
+    CreateCommandbuffer();
 
     if (InColorTextures.size() > 16)
     {
@@ -81,7 +78,6 @@ void OpenGLTextureRenderTarget::RHIEndRenderPass()
 
 void OpenGLTextureRenderTarget::RHIBeginFrame()
 {
-    //std::cout << "OpenGLTextureRenderTarget Framebuffer->Bind " << std::endl;
     Framebuffer->Bind();
 }
 
