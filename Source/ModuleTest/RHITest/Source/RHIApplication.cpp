@@ -92,20 +92,15 @@ RHIApplication::RHIApplication()
 #endif
 
 #if OS_IS_WINDOWS
-    // HWND hwnd = Window->GetHWND();
-    //HINSTANCE instacne = Window->GetHINSTANCE();
     auto GLFWHandle = (dynamic_cast<GLFWWindow *>(Window))->GetHandle();
 
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
 	HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
-
 #endif
-//#endif
-    std::cout << "Render target aaa" << std::endl;
+
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
-    std::cout << "Render target bbb" << std::endl;
 }
 
 

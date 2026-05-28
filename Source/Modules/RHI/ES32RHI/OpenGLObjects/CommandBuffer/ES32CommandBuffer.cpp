@@ -1,4 +1,4 @@
-#include "ES32RHI/OpenGLObjects/CommandBuffer/ES32CommandBuffer.h"
+﻿#include "ES32RHI/OpenGLObjects/CommandBuffer/ES32CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Buffer/OpenGLBuffer.h"
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/OpenGLObjects/Pipeline/OpenGLGraphicsPipeline.h"

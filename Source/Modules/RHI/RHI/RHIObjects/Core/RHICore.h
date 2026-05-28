@@ -654,3 +654,59 @@ inline std::uint32_t PixelFormatToSize(RHIPixelFormat InFormat)
 	}
 	return Size;
 }
+
+inline RHIAttachmentType ToRHIAttachmentType(std::uint32_t Index)
+{
+	RHIAttachmentType Type;
+	switch (Index) {
+		case 0:
+			Type = RHIAttachmentType::Color1;
+			break;
+		case 1:
+			Type = RHIAttachmentType::Color2;
+			break;
+		case 2:
+			Type = RHIAttachmentType::Color3;
+			break;
+		case 3:
+			Type = RHIAttachmentType::Color4;
+			break;
+		case 4:
+			Type = RHIAttachmentType::Color5;
+			break;
+		case 5:
+			Type = RHIAttachmentType::Color6;
+			break;
+		case 6:
+			Type = RHIAttachmentType::Color7;
+			break;
+		case 7:
+			Type = RHIAttachmentType::Color8;
+			break;
+		case 8:
+			Type = RHIAttachmentType::Color9;
+			break;
+		case 9:
+			Type = RHIAttachmentType::Color10;
+			break;
+		case 10:
+			Type = RHIAttachmentType::Color11;
+			break;
+		case 11:
+			Type = RHIAttachmentType::Color12;
+			break;
+		case 12:
+			Type = RHIAttachmentType::Color13;
+			break;
+		case 13:
+			Type = RHIAttachmentType::Color14;
+			break;
+		case 14:
+			Type = RHIAttachmentType::Color15;
+			break;
+		case 15:
+			Type = RHIAttachmentType::Color16;
+			break;
+	}
+	return Type;
+}
