@@ -111,12 +111,12 @@ void RHIApplicationFramebuffer::CreateTexture()
 
 #endif
     RHIColorAttachments.resize(3);
-    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
-    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
-    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, nullptr);
+    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
 
     RHIDepthAttachments.resize(1);
-    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8, 1, texWidth, texHeight, nullptr);
+    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8, 1, 800, 600, nullptr);
 
     RHISamplers.resize(3);
     RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
@@ -290,7 +290,7 @@ void RHIApplicationFramebuffer::Draw()
     auto CommandBuffer = TextureRenderTarget->CurrentGraphicsCommandBuffer();
     TextureRenderTarget->GetExtent(x, y, w, h);
 #endif
-    std::cout << "viewport 1 " << w << " " << h << std::endl;
+
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
@@ -332,7 +332,7 @@ void RHIApplicationFramebuffer::Draw2()
     auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
     RenderTarget->GetExtent(x, y, w, h);
 #endif
-    std::cout << "viewport 2 " << w << " " << h << std::endl;
+
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
 
