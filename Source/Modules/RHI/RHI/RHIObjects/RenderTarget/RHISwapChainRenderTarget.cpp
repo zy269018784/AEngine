@@ -15,9 +15,7 @@ RHISwapChainRenderTarget::~RHISwapChainRenderTarget() {
 
 void RHISwapChainRenderTarget::Create()
 {
-    std::cout << "RHISwapChainRenderTarget::Create aaaaa" << std::endl;
     CreateRenderPass();
     CreateFramebuffer();
     CreateCommandbuffer();
-    std::cout << "RHISwapChainRenderTarget::Create bbb" << std::endl;
 }

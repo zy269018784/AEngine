@@ -71,7 +71,7 @@ void VulkanCommandBuffer::RHIBeginRenderPass(RHIRenderPass* RenderPass)
 	VkRenderPassBeginInfo RenderPassBeginInfo{};
 	RenderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	RenderPassBeginInfo.renderPass  = static_cast<VulkanRenderPass*>(RenderPass)->GetHandle();
-	RenderPassBeginInfo.framebuffer = static_cast<VulkanFrameBuffer *>(RenderPass->pFrameBuffer)->GetHandle();
+	RenderPassBeginInfo.framebuffer = static_cast<VulkanFrameBuffer *>(RenderPass->GetFramebuffer())->GetHandle();
 	RenderPassBeginInfo.renderArea.offset = { RenderPass->RenderArea.OffsetX(), RenderPass->RenderArea.OffsetY() };
 	RenderPassBeginInfo.renderArea.extent = { RenderPass->RenderArea.Width(), RenderPass->RenderArea.Height() };
 	RenderPassBeginInfo.clearValueCount = 1;

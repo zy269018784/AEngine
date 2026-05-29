@@ -10,11 +10,10 @@ class VulkanDevice;
 class VulkanRenderPass : public RHIRenderPass
 {
 public:
-	VulkanRenderPass();
-	VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat, std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments);
+	VulkanRenderPass() = delete;
+	VulkanRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();
 private:
 	VkRenderPass Handle;
-	VulkanDevice* Device = nullptr;
 };

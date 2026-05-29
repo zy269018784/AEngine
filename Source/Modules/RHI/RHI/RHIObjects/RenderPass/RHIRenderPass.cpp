@@ -1,4 +1,10 @@
 #include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
+RHIRenderPass::RHIRenderPass(RHIDevice* InDevice)
+	: Device(InDevice)
+{
+
+}
+
 RHIRenderPass::~RHIRenderPass()
 {
 
@@ -13,8 +19,14 @@ void RHIRenderPass::SetRendeArea(RHIRenderArea& RenderArea)
 {
 	this->RenderArea = RenderArea;
 }
-
+#if 0
 void RHIRenderPass::SetFrameBuffer(RHIFrameBuffer* pFrameBuffer)
 {
 	this->pFrameBuffer = pFrameBuffer;
+}
+#endif
+
+RHIFrameBuffer *RHIRenderPass::GetFramebuffer() const {
+	return nullptr;
+	//return pFrameBuffer;
 }

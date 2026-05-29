@@ -40,7 +40,7 @@ VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, Vul
     ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, InTexture));
 
     RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ToVkFormat(InTexture->GetFormat()), ColorAttachments,DepthAttachment);
+    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ColorAttachments,DepthAttachment);
 
 
     ImageViews.push_back(InTexture->ImageView->GetHandle());

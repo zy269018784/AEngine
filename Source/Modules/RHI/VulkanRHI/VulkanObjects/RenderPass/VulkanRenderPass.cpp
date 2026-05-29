@@ -4,15 +4,9 @@
 #include <iostream>
 
 
-VulkanRenderPass::VulkanRenderPass()
-{
-
-}
-
-
-VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
+VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
     std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments)
-    : Device(InDevice)
+    : RHIRenderPass(InDevice)
 {
     std::vector<VkAttachmentDescription> AttachmentDescriptions;
     /*
@@ -22,7 +16,6 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
         VkAttachmentDescription ColorAttachment{};
-        //ColorAttachment.format                  = InFormat;
         ColorAttachment.format                  = ToVkFormat(InColorAttachments[i].GetRHIPixelFormat());
         ColorAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
         ColorAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -75,7 +68,7 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
     CreateInfo.pAttachments                 = AttachmentDescriptions.data();
     CreateInfo.subpassCount                 = 1;
     CreateInfo.pSubpasses                   = &Subpass;
-    VkResult Result = Device->CreateRenderPass(&CreateInfo, nullptr, &Handle);
+    VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
     {
         std::cout << "vkCreateRenderPass failed" << std::endl;
@@ -87,7 +80,7 @@ VulkanRenderPass::VulkanRenderPass(VulkanDevice* InDevice, VkFormat InFormat,
 VulkanRenderPass::~VulkanRenderPass()
 {
     std::cout << __FUNCTION__ << " " << Handle << std::endl;
-     Device->DestroyRenderPass(Handle, nullptr);
+     dynamic_cast<VulkanDevice *>(Device)->DestroyRenderPass(Handle, nullptr);
 }
 
 VkRenderPass VulkanRenderPass::GetHandle()

@@ -24,9 +24,12 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
 	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
+	/*
+	 * 创建交换链
+	 */
 	SwapChain = new VulkanSwapChain(InDevice, InSurface);
 
-	VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
+
 	/*
 		1. 同步对象
 	*/
@@ -35,12 +38,6 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 		Frames[i] = new VulkanFrame(dynamic_cast<VulkanDevice *>(Device), true);
 
 	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
-
-
-
-
-
-
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
@@ -273,6 +270,7 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 void VulkanSwapChainRenderTarget::CreateRenderPass()
 {
 	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
+
 #if 1
 	// AMD Radeon RX580 2048SP
 	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
@@ -291,8 +289,9 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	*/
 	std::vector<RHIAttachment> ColorAttachments;
 	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
+
 	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ImageFormat, ColorAttachments,DepthAttachment);
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachment);
 }
 
 void VulkanSwapChainRenderTarget::CreateCommandbuffer()
