@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ES32RHI/ES32.h"
-#include "RHI/RHIObjects/Framebuffer/RHIFrameBuffer.h"
-#include "RHI/RHIObjects/Framebuffer/RHIAttachment.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "RHI/RHIObjects/Device/RHIDevice.h"
 #include <vector>
 
