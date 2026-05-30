@@ -19,12 +19,16 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     {
         attachments.emplace_back(static_cast<VulkanAttachment *>(InDepthAttachments[i])->GetHandle());
     }
-
+    std::cout << "VulkanFrameBuffer::VulkanFrameBuffer 2 "
+    << InColorAttachments.size() << " "
+    << InDepthAttachments.size() << std::endl;
     VkPhysicalDeviceLimits Limits = InDevice->GetPhysicalDevice()->GetPhysicalDeviceLimits();
 
     VkFramebufferCreateInfo CreateInfo{};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+
     CreateInfo.renderPass       = InRenderPass->GetHandle();
+    std::cout << "VulkanFrameBuffer::VulkanFrameBuffer 4 " << attachments.size() << std::endl;
     CreateInfo.width            = SwapChainExtent.width;
     CreateInfo.height           = SwapChainExtent.height;
     CreateInfo.layers           = 1;
@@ -79,13 +83,13 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     {
         CreateInfo.height = Limits.maxFramebufferHeight;
     }
-
+    std::cout << "VulkanFrameBuffer::VulkanFrameBuffer 5" << std::endl;
     VkResult Result = CreateFramebuffer(&CreateInfo, nullptr);
     if (Result != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create framebuffer!");
     }
-
+    std::cout << "VulkanFrameBuffer::VulkanFrameBuffer 6" << std::endl;
     std::cout << "framebuffer " << Handle << std::endl;
 }
 

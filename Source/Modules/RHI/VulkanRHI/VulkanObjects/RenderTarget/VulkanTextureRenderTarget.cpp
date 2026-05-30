@@ -77,19 +77,21 @@ void VulkanTextureRenderTarget::GetExtent(float &x, float &y, float &w, float &h
 void VulkanTextureRenderTarget::RHIBeginRenderPass()
 {
     //VkClearValue ClearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
-    VkClearValue ClearColor[2];
-    ClearColor[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
-    ClearColor[1].depthStencil = {1.0f, 0};  // 深度清除为1.0（最远值
+    VkClearValue ClearColor[4];
+    ClearColor[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色1
+    ClearColor[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色2 (如有)
+    ClearColor[2].depthStencil = {1.0f, 0}; // 深度范围 [0,1]，模板随意
+    ClearColor[3].depthStencil = {1.0f, 0}; // 第四个附件的清除值（根据实际需求）
 
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     RenderPassInfo.renderPass			= dynamic_cast<VulkanRenderPass*>(RenderPass)->GetHandle();
-    RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
+  //  RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
+    RenderPassInfo.framebuffer			= dynamic_cast<VulkanFrameBuffer *>(FrameBuffers[0])->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= { Width, Height};
-    RenderPassInfo.clearValueCount		= 2;
+    RenderPassInfo.clearValueCount		= 4;
     RenderPassInfo.pClearValues			= ClearColor;
-
     dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
@@ -126,7 +128,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
 #endif
 
     CreateRenderPass();
-    CreateFramebuffer();
+
 
     if (InColorTextures.size() > 16)
     {
@@ -164,16 +166,67 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         }
         DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index]);
     }
+
+
+
     RHIAttachment DepthAttachment(DepthStencilType, nullptr);
     std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
     RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
 
+    CreateFramebuffer();
     CreateCommandbuffer();
 }
 
 void VulkanTextureRenderTarget::CreateFramebuffer()
 {
+    //RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
+#if 1
+    // AMD Radeon RX580 2048SP
+    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+    // 4060 support
+    // AMD Radeon RX580 2048SP do not support
+    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
 
+    DepthStencilPixelFormat = DepthStencilAttachments[0]->GetTexture()->GetFormat();
+    /*
+        3. 创建Frame Buffer
+    */
+    FrameBuffers.resize(1);
+    FrameBuffers[0] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
+                             { Width, Height }, ColorAttachments, DepthStencilAttachments);
+#if 0
+    for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
+    {
+        std::cout << "CreateFramebuffer 3" << std::endl;
+        VulkanTexture * VT = dynamic_cast<VulkanTexture *>(ColorAttachments[Index]->GetTexture());
+        std::cout << "CreateFramebuffer 4" << std::endl;
+        std::vector<RHIAttachment *> InColorAttachments;
+        InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, VT->GetFormat(), VT->GetImageView()));
+        std::cout << "CreateFramebuffer 5" << std::endl;
+        VulkanTexture *DepthTex = new VulkanTexture(dynamic_cast<VulkanDevice *>(Device),
+                  RHITextureType::Texture2D,
+                  DepthStencilPixelFormat,
+                  RHITextureUsageFlag::DepthStencilAttachment,
+                  1,
+                  Width,
+                  Height,
+                  1,
+                  1);
+        std::cout << "CreateFramebuffer 6" << std::endl;
+        std::vector<RHIAttachment *> InDepthAttachments;
+        InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, DepthTex->ImageView->GetHandle()));
+
+        std::cout << "CreateFramebuffer 7 " << InColorAttachments.size() << std::endl;
+        FrameBuffers[Index] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
+                                { Width, Height },
+                                                InColorAttachments, InDepthAttachments);
+        std::cout << "CreateFramebuffer 8" << std::endl;
+    }
+#endif
 }
 
 

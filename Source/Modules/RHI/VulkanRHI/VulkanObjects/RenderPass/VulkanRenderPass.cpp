@@ -25,6 +25,9 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
         ColorAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
         ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        if (3 == InColorAttachments.size())
+            ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
         AttachmentDescriptions.emplace_back(ColorAttachment);
 
         VkAttachmentReference ColorAttachmentRef{};
@@ -61,6 +64,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
     Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
     Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
     std::cout << "Subpass.colorAttachmentCount " << Subpass.colorAttachmentCount << std::endl;
+    std::cout << "AttachmentDescriptions.size()t " << AttachmentDescriptions.size() << std::endl;
     Subpass.pColorAttachments               = ColorAttachmentRefs.data();
     Subpass.pDepthStencilAttachment         = &DepthAttachmentRef;
 

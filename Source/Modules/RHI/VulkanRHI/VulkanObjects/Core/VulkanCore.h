@@ -1170,13 +1170,14 @@ inline VkFormat ToVkFormat(RHIAttachmentType type)
 
 inline VkImageUsageFlags ToVkImageUsageFlags(RHITextureUsageFlag Flag)
 {
+	VkImageUsageFlags VkFlags = 0x0;
 	switch (Flag) {
 		case RHITextureUsageFlag::TransferSRC:
 			return VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
 		case RHITextureUsageFlag::TransferDst:
 			return VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 		case RHITextureUsageFlag::ColorAttachment:
-			return VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+			return VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 		case RHITextureUsageFlag::DepthStencilAttachment:
 			return VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 		case RHITextureUsageFlag::SampledTexture:

@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -131,34 +131,26 @@ RHIApplication::~RHIApplication()
 
 void RHIApplication::Run()
 {
-    std::cout << "Run 1" << std::endl;
+
     Init();
-    std::cout << "Run 2" << std::endl;
+
 
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
-        std::cout << "Run 3" << std::endl;
         if (TextureRenderTarget) {
-            std::cout << "Run 3-1" << std::endl;
+
             TextureRenderTarget->RHIBeginFrame();
-            std::cout << "Run 3-2" << std::endl;
             TextureRenderTarget->RHIBeginRenderPass();
-            std::cout << "Run 3-3" << std::endl;
             Draw2();
-            std::cout << "Run 3-4" << std::endl;
             TextureRenderTarget->RHIEndRenderPass();
-            std::cout << "Run 3-5" << std::endl;
             TextureRenderTarget->RHIEndFrame();
-            std::cout << "Run 3-6" << std::endl;
         }
-        std::cout << "Run 4" << std::endl;
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
         Draw();
         RenderTarget->RHIEndRenderPass();
         RenderTarget->RHIEndFrame();
-        std::cout << "Run 5" << std::endl;
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

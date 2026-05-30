@@ -185,7 +185,6 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 
 void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
 {
-    //VkClearValue ClearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
     VkClearValue ClearColor[2];
     ClearColor[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
     ClearColor[1].depthStencil = {1.0f, 0};  // 深度清除为1.0（最远值

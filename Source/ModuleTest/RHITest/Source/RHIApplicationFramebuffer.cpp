@@ -114,10 +114,14 @@ void RHIApplicationFramebuffer::CreateTexture()
 
 #endif
     RHIColorAttachments.resize(3);
-    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
-    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
-    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
-
+    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
+    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
+    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
+#if 0
+    RHIColorAttachments[0]->TransitionImageLayout(0);
+    RHIColorAttachments[1]->TransitionImageLayout(0);
+    RHIColorAttachments[2]->TransitionImageLayout(0);
+#endif
     RHIDepthAttachments.resize(1);
     std::cout << "PF_DepthStencil_D32_S8 textrue start" << std::endl;
     RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8,  RHITextureUsageFlag::DepthStencilAttachment, 1, 800, 600, nullptr);
@@ -126,8 +130,9 @@ void RHIApplicationFramebuffer::CreateTexture()
     RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     RHISamplers[1] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     RHISamplers[2] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-
+    std::cout << "RHICreateTextureRenderTarget start" << std::endl;
     this->TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHIColorAttachments, RHIDepthAttachments);
+    std::cout << "RHICreateTextureRenderTarget end" << std::endl;
 }
 
 
