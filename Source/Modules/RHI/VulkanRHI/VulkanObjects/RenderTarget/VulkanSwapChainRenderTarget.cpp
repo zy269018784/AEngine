@@ -282,8 +282,7 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
 
-
-	VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
+	//VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
 	/*
 		2. 创建Render Pass
 	*/
