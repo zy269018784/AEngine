@@ -2,13 +2,14 @@
 #include "RHI/RHIExport.h"
 #include "RHI/RHIObjects/RHIClearColor.h"
 #include "RHI/RHIObjects/RHIRenderArea.h"
-
+#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
+#include <vector>
 class RHIFrameBuffer;
 class RHIDevice;
 class RHIEXPORT RHIRenderPass
 {
 public:
-	RHIRenderPass(RHIDevice* InDevice = nullptr);
+	RHIRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments);
 	virtual ~RHIRenderPass();
 	void SetClearColor(RHIClearColor &Color);
 	void SetRendeArea(RHIRenderArea &RenderArea);
@@ -19,5 +20,7 @@ public:
 	RHIRenderArea RenderArea;
 protected:
 	RHIDevice* Device = nullptr;
-	//RHIFrameBuffer* pFrameBuffer = nullptr;
+public:
+	std::vector<RHIAttachment *> ColorAttachments;
+	std::vector<RHIAttachment *> DepthAttachments;
 };

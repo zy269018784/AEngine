@@ -9,82 +9,11 @@
 #include <iostream>
 
 
-VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, VulkanTexture* InTexture)
-    : Texture(InTexture), RHITextureRenderTarget(InDevice, InTexture->GetX(), InTexture->GetY()), Device(InDevice)
+VulkanTextureRenderTarget::VulkanTextureRenderTarget(VulkanDevice* InDevice, std::uint32_t InWidth, std::uint32_t InHeight)
+    : RHITextureRenderTarget(InDevice, InWidth, InHeight), Device(InDevice)
 {
-    Resolution.width = InTexture->GetX();
-    Resolution.height = InTexture->GetY();
-#if 1
-    // AMD Radeon RX580 2048SP
-    RHIAttachmentType   DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-    RHIAttachmentType	RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-    RHIPixelFormat      DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
-#else
-    // 4060 support
-    // AMD Radeon RX580 2048SP do not support
-    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
-    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
-    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
-#endif
 
 
-    std::cout << "VulkanSwapChainRenderTarget ImageFormat PF_R8G8B8A8_UNORM"  << std::endl;
-
-    //RHIAttachment Color1Attachment(RHIAttachmentType::Color1,  InTexture->GetFormat());
-   // RHIAttachment DepthAttachment(DepthStencilType, DepthStencilPixelFormat);
-
-    /*
-        1. 创建Render Pass
-    */
-    std::vector<RHIAttachment> ColorAttachments;
-    ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, InTexture));
-
-    RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-    RenderPass = (RHIRenderPass *)new VulkanRenderPass(Device, ColorAttachments,DepthAttachment);
-
-
-    ImageViews.push_back(InTexture->ImageView->GetHandle());
-    /*
-        2. 创建Frame Buffer
-    */
-    FrameBuffers.resize(3);
-    for (int i = 0; i < FrameBuffers.size(); i++)
-    {
-        VulkanTexture *Tex = new VulkanTexture(InDevice,
-                RHITextureType::Texture2D,
-                DepthStencilPixelFormat,
-                RHITextureUsageFlag::DepthStencilAttachment,
-                1,
-                InTexture->GetX(),
-                InTexture->GetY(),
-                1,
-                1);
-#if 0
-        std::vector<VulkanAttachment> InVKAttachments;
-        InVKAttachments.emplace_back(VulkanAttachment(RHIAttachmentType::Color1, InTexture->GetFormat(), ImageViews[0]));
-        InVKAttachments.emplace_back(VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle()));
-#endif
-        std::vector<RHIAttachment *> InColorAttachments;
-        InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, nullptr));
-
-        std::vector<RHIAttachment *> InDepthAttachments;
-        InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, nullptr));
-
-        FrameBuffers[i] = new VulkanFrameBuffer(Device, dynamic_cast<VulkanRenderPass *>(RenderPass), { InTexture->GetX(), InTexture->GetY() },
-			InColorAttachments, InDepthAttachments);
-    }
-
-     /*
-        3. 创建command buffer
-     */
-    GraphicsCommandBuffers.resize(3);
-    for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
-    {
-        /*
-            暂时用第0个Command Pool
-        */
-        GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
-    }
 }
 #if 0
 VulkanTextureRenderTarget::VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice)
@@ -141,8 +70,8 @@ void VulkanTextureRenderTarget::RHIEndFrame()
 void VulkanTextureRenderTarget::GetExtent(float &x, float &y, float &w, float &h) {
     x = 0;
     y = 0;
-    w = Resolution.width;
-    h = Resolution.height;
+    w = Width;
+    h = Height;
 }
 
 void VulkanTextureRenderTarget::RHIBeginRenderPass()
@@ -157,7 +86,7 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderPass			= dynamic_cast<VulkanRenderPass*>(RenderPass)->GetHandle();
     RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
-    RenderPassInfo.renderArea.extent	= Resolution;
+    RenderPassInfo.renderArea.extent	= { Width, Height};
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
 
@@ -180,12 +109,104 @@ void VulkanTextureRenderTarget::WaitDeviceIdle()
 }
 
 
-void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorAttachments,
-                                       std::vector<RHITexture *> InDepthAttachments)
+void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
+                                       std::vector<RHITexture *> InDepthTextures)
+{
+#if 1
+    // AMD Radeon RX580 2048SP
+    RHIAttachmentType   DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIAttachmentType	RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat      DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+    // 4060 support
+    // AMD Radeon RX580 2048SP do not support
+    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
+
+    CreateRenderPass();
+    CreateFramebuffer();
+
+    if (InColorTextures.size() > 16)
+    {
+        std::cout << "greater than 16" << std::endl;
+    }
+    RHIAttachmentType Type;
+
+    ColorAttachments.resize(InColorTextures.size());
+    for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
+    {
+        Type = ToRHIAttachmentType(Index);
+        ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index]);
+    }
+
+    DepthStencilAttachments.resize(InDepthTextures.size());
+    for (std::uint32_t Index = 0; Index < DepthStencilAttachments.size(); ++Index)
+    {
+        switch (InDepthTextures[Index]->GetFormat())
+        {
+            case RHIPixelFormat::PF_DepthOnly_D16:
+                Type = RHIAttachmentType::DepthOnly_D16;
+                break;
+            case RHIPixelFormat::PF_DepthOnly_D32:
+                Type = RHIAttachmentType::DepthOnly_D32;
+                break;
+            case RHIPixelFormat::PF_DepthStencil_D24_S8:
+                Type = RHIAttachmentType::DepthStencil_D24_S8;
+                break;
+            case RHIPixelFormat::PF_DepthStencil_D32_S8:
+                Type = RHIAttachmentType::DepthStencil_D32_S8;
+                break;
+            default:
+                Type = RHIAttachmentType::DepthStencil_D32_S8;
+                break;
+        }
+        DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index]);
+    }
+    RHIAttachment DepthAttachment(DepthStencilType, nullptr);
+    std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
+    RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
+
+    CreateCommandbuffer();
+}
+
+void VulkanTextureRenderTarget::CreateFramebuffer()
 {
 
 }
 
-void VulkanTextureRenderTarget::CreateFramebuffer() {}
-void VulkanTextureRenderTarget::CreateRenderPass() {}
-void VulkanTextureRenderTarget::CreateCommandbuffer() {}
+
+void VulkanTextureRenderTarget::CreateRenderPass()
+{
+
+#if 1
+    // AMD Radeon RX580 2048SP
+    RHIAttachmentType   DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIAttachmentType	RHIDepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat      DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+    // 4060 support
+    // AMD Radeon RX580 2048SP do not support
+    RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
+    RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
+
+
+}
+
+void VulkanTextureRenderTarget::CreateCommandbuffer()
+{
+    /*
+       3. 创建command buffer
+    */
+    GraphicsCommandBuffers.resize(3);
+    for (int i = 0; i < GraphicsCommandBuffers.size(); i++)
+    {
+        /*
+            暂时用第0个Command Pool
+        */
+        GraphicsCommandBuffers[i] = Device->CreateCommandBuffer(Device->CommandPools[0]);
+    }
+}

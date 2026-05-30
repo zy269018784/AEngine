@@ -13,8 +13,7 @@ class VulkanFrameBuffer;
 class VulkanTextureRenderTarget : public RHITextureRenderTarget
 {
 public:
-    VulkanTextureRenderTarget(VulkanDevice *InDevice, VulkanTexture *InTexture);
-  //  VulkanTextureRenderTarget(RHIPixelFormat InPixelFormat, VulkanDevice *InDevice);
+    VulkanTextureRenderTarget(VulkanDevice *InDevice, std::uint32_t InWidth, std::uint32_t InHeight);
     ~VulkanTextureRenderTarget();
 public:
     virtual void Create(std::vector<RHITexture *> InColorAttachments,
@@ -43,11 +42,11 @@ public:
     /*
         Image View
     */
-    std::vector<VkImageView>				ImageViews;
+    //std::vector<VkImageView>				ImageViews;
     /*
         分辨率
     */
-    VkExtent2D								Resolution;
+   // VkExtent2D								Resolution;
     /*
         Format
     */

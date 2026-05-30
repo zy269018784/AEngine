@@ -1,6 +1,6 @@
 #include "RHI/RHIObjects/RenderPass/RHIRenderPass.h"
-RHIRenderPass::RHIRenderPass(RHIDevice* InDevice)
-	: Device(InDevice)
+RHIRenderPass::RHIRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments)
+	: Device(InDevice), ColorAttachments(InColorAttachments), DepthAttachments(InDepthAttachments)
 {
 
 }

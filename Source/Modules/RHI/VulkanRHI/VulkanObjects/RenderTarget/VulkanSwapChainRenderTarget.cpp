@@ -286,11 +286,12 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	/*
 		2. 创建Render Pass
 	*/
-	std::vector<RHIAttachment> ColorAttachments;
-	ColorAttachments.emplace_back(RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
+	std::vector<RHIAttachment *> ColorAttachments;
+	ColorAttachments.emplace_back(new RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat));
 
-	RHIAttachment DepthAttachment(DepthStencilType, nullptr);
-	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachment);
+	std::vector<RHIAttachment *> DepthAttachments;
+	DepthAttachments.emplace_back(new RHIAttachment(DepthStencilType, nullptr));
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments);
 }
 
 void VulkanSwapChainRenderTarget::CreateCommandbuffer()

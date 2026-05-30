@@ -5,9 +5,10 @@
 
 
 VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
-    std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments)
-    : RHIRenderPass(InDevice)
+    std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments)
+    : RHIRenderPass(InDevice, InColorAttachments, InDepthAttachments)
 {
+    std::cout << "VulkanRenderPass " << InColorAttachments.size() << " " << InDepthAttachments.size() << std::endl;
     std::vector<VkAttachmentDescription> AttachmentDescriptions;
     /*
      * 1. Color Attachments
@@ -16,7 +17,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
         VkAttachmentDescription ColorAttachment{};
-        ColorAttachment.format                  = ToVkFormat(InColorAttachments[i].GetRHIPixelFormat());
+        ColorAttachment.format                  = ToVkFormat(InColorAttachments[i]->GetRHIPixelFormat());
         ColorAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
         ColorAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;
         ColorAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_STORE;
@@ -36,7 +37,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
      * 2. Depth Attachments
      */
     VkAttachmentDescription DepthAttachment{};
-    DepthAttachment.format                  = ToVkFormat(InDepthAttachments.GetAttachmentType());
+    DepthAttachment.format                  = ToVkFormat(InDepthAttachments[0]->GetAttachmentType());
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
     DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
     DepthAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -59,6 +60,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
      */
     Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
     Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
+    std::cout << "Subpass.colorAttachmentCount " << Subpass.colorAttachmentCount << std::endl;
     Subpass.pColorAttachments               = ColorAttachmentRefs.data();
     Subpass.pDepthStencilAttachment         = &DepthAttachmentRef;
 

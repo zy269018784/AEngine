@@ -142,8 +142,18 @@ void VulkanGraphicsPipeline::Create()
 	/*
 		8. Blend
 	*/
+	VkPipelineColorBlendAttachmentState ColorBlendAttachment;
 	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-	ColorBlendAttachment .blendEnable = VK_FALSE;
+	ColorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+	ColorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+	ColorBlendAttachment.colorBlendOp        = VK_BLEND_OP_ADD;
+	ColorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+	ColorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+	ColorBlendAttachment.alphaBlendOp        = VK_BLEND_OP_ADD;
+	ColorBlendAttachment.blendEnable = VK_FALSE;
+	for (int i = 0; i < RenderPass->ColorAttachments.size(); i++)
+		ColorBlendAttachments.emplace_back(ColorBlendAttachment);
+
 
 	/*
 		9. Viewport
@@ -163,8 +173,8 @@ void VulkanGraphicsPipeline::Create()
 	ColorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 	ColorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
 	ColorBlendStateCreateInfo.logicOp = VK_LOGIC_OP_COPY;
-	ColorBlendStateCreateInfo.attachmentCount = 1;
-	ColorBlendStateCreateInfo.pAttachments = &ColorBlendAttachment;
+	ColorBlendStateCreateInfo.attachmentCount = ColorBlendAttachments.size();
+	ColorBlendStateCreateInfo.pAttachments = ColorBlendAttachments.data();
 	ColorBlendStateCreateInfo.blendConstants[0] = 0.0f;
 	ColorBlendStateCreateInfo.blendConstants[1] = 0.0f;
 	ColorBlendStateCreateInfo.blendConstants[2] = 0.0f;

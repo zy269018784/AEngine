@@ -18,7 +18,7 @@ private:
 	std::vector<VkVertexInputBindingDescription>	VertexInputBindingDescriptions;
 	std::vector<VkVertexInputAttributeDescription>	VkVertexInputAttributeDescriptions;
 	VkPipelineVertexInputStateCreateInfo			VertexInputStateCreateInfo{};
-	VkPipelineColorBlendAttachmentState				ColorBlendAttachment{};
+	std::vector<VkPipelineColorBlendAttachmentState> ColorBlendAttachments{};
 	VkPipelineViewportStateCreateInfo				ViewportStateCreateInfo{};
 	VkPipelineTessellationStateCreateInfo			TessellationStateCreateInfo{};
 	VkPipelineColorBlendStateCreateInfo				ColorBlendStateCreateInfo{};

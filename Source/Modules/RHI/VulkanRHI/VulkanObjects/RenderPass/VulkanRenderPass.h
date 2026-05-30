@@ -11,7 +11,7 @@ class VulkanRenderPass : public RHIRenderPass
 {
 public:
 	VulkanRenderPass() = delete;
-	VulkanRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment> &InColorAttachments, RHIAttachment &InDepthAttachments);
+	VulkanRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();
 private:

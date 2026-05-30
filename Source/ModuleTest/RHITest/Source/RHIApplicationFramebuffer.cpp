@@ -61,15 +61,18 @@ void RHIApplicationFramebuffer::Init()
 
     CreateVBO();
     CreateEBO();
+    std::cout << "Init 1" << std::endl;
     CreateTexture();
+    std::cout << "Init 2" << std::endl;
 
     CreateSRB();
-
+    std::cout << "Init 3" << std::endl;
     CreateVertexDescriptioin();
-
+    std::cout << "Init 4" << std::endl;
     CreateGraphicsPipeline();
+    std::cout << "Init 5" << std::endl;
     CreateGraphicsPipeline2();
-
+    std::cout << "Init 6" << std::endl;
 }
 
 void RHIApplicationFramebuffer::CreateVBO()
@@ -192,9 +195,9 @@ void RHIApplicationFramebuffer::CreateGraphicsPipeline()
         用于创建Descriptor Set Layout和Pipeline Layout
     */
 
-
+    std::cout << "CreateGraphicsPipeline 1 " << TextureRenderTarget << std::endl;
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
-
+    std::cout << "CreateGraphicsPipeline 2" << std::endl;
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -206,7 +209,9 @@ void RHIApplicationFramebuffer::CreateGraphicsPipeline()
     GraphicsPipeline->SetTopology(RHITopology::Triangles);
     GraphicsPipeline->SetVertexInputLayout(VertexInputLayout);
     GraphicsPipeline->SetShaderStages({ VertexShader , FragmengShader });
+    std::cout << "CreateGraphicsPipeline 4" << std::endl;
     GraphicsPipeline->Create();
+    std::cout << "CreateGraphicsPipeline 5" << std::endl;
     delete VertexShader;
     delete FragmengShader;
     VertexShader = nullptr;

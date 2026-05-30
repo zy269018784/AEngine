@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 2;
+    RHIIndex = 0;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
@@ -140,11 +140,17 @@ void RHIApplication::Run()
     {
         std::cout << "Run 3" << std::endl;
         if (TextureRenderTarget) {
+            std::cout << "Run 3-1" << std::endl;
             TextureRenderTarget->RHIBeginFrame();
+            std::cout << "Run 3-2" << std::endl;
             TextureRenderTarget->RHIBeginRenderPass();
+            std::cout << "Run 3-3" << std::endl;
             Draw2();
+            std::cout << "Run 3-4" << std::endl;
             TextureRenderTarget->RHIEndRenderPass();
+            std::cout << "Run 3-5" << std::endl;
             TextureRenderTarget->RHIEndFrame();
+            std::cout << "Run 3-6" << std::endl;
         }
         std::cout << "Run 4" << std::endl;
         RenderTarget->RHIBeginFrame();
