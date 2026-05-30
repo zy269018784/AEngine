@@ -1,6 +1,6 @@
-#version 100
+#version 100  // ES 2.0 使用 version 100
 
-precision highp float;
+precision highp float;  // ES 2.0 需要指定精度
 
 uniform sampler2D texSampler;
 uniform sampler2D texSampler2;
