@@ -34,7 +34,7 @@ void window_close_callback(GLFWwindow* window)
 RHIApplication::RHIApplication()
 {
    // return;
-    RHIIndex = 0;
+    RHIIndex = 2;
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
