@@ -166,9 +166,6 @@ RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surf
 		case GraphicsAPI::ES30:
 			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
 			break;
-		case GraphicsAPI::ES21:
-			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
-			break;
 		case GraphicsAPI::ES20:
 			Surface = new OpenGLSurface(nullptr, display, wayland_surface);
 			break;
@@ -197,9 +194,6 @@ RHISurface* ES32RHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t
 		case GraphicsAPI::ES30:
 			Surface = new OpenGLSurface(nullptr, Connection, Window);
 			break;
-		case GraphicsAPI::ES21:
-			Surface = new OpenGLSurface(nullptr, Connection, Window);
-			break;
 		case GraphicsAPI::ES20:
 			Surface = new OpenGLSurface(nullptr, Connection, Window);
 			break;
@@ -226,9 +220,6 @@ RHISurface* ES32RHI::RHICreateSurface(Display* Disp, Window Win)
 			Surface = new OpenGLSurface(nullptr, Disp, Win);
 			break;
 		case GraphicsAPI::ES30:
-			Surface = new OpenGLSurface(nullptr, Disp, Win);
-			break;
-		case GraphicsAPI::ES21:
 			Surface = new OpenGLSurface(nullptr, Disp, Win);
 			break;
 		case GraphicsAPI::ES20:
