@@ -1,4 +1,4 @@
-#if  PROJECT_USE_FFMEPG
+
 #include "FormatContext.h"
 
 FormatContext::FormatContext()
@@ -43,4 +43,4 @@ enum AVCodecID   FormatContext::GetGetStreamCodecID(int index) const
 AVFormatContext *FormatContext::GetHandle() {
     return Handle;
 }
-#endif
+

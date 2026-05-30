@@ -1,0 +1,52 @@
+名称                     分类                 优势                                劣势              收费
+H.262                                                                                            收费
+H.264 (AVC)             Video                                                                    收费
+H.265 (HEVC)            Video                                                                    收费
+H.266 (VVC)             Video                                                                    收费
+MPEG-1                  Video                                                                    收费
+MPEG-2                  Video                                                                    收费
+MPEG-4                  Video                                                                    收费
+MPEG-4 Part 2           Video                                                                    收费
+MPEG-4 Part 10          Video                                                                    收费
+AV1                     Video               压缩率极高                           编码极慢
+VP8                     Video               完全免费                                               完全免费
+VP9                     Video               完全免费                                               完全免费
+AVS                     Video
+AVS2                    Video
+AVS3                    Video
+RealVideo               Video
+WMV                     Video
+MP3                     Audio
+AAC                     Audio
+Opus                    Audio
+FLAC                    Audio
+PCM                     Audio
+
+
+4K编码:
+    H.265               4K时代的基石
+    AV1
+
+8K编码:
+    H.265
+    H.266
+    AV1
+    VP9
+
+
+压缩率(从高到低):
+    H.266
+    AV1
+    H.265  ≈ VP9
+    H.264
+
+
+
+
+
+
+
+
+
+
+

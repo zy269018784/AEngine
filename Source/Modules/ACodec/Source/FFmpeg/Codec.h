@@ -1,12 +1,8 @@
-//
-// Created by zhouyue on 2026/4/6.
-//
-
 #ifndef ENGINE_AVCODEC_H
 #define ENGINE_AVCODEC_H
+#include "Core/ACodecExport.h"
 
-
-class AVCodec {
+class ACODECEXPORT AVCodec {
 };
 
 

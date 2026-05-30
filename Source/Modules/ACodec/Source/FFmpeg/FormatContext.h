@@ -1,15 +1,14 @@
-//
-// Created by zhouyue on 2026/4/6.
-//
-
 #ifndef ENGINE_FORMATCONTEXT_H
 #define ENGINE_FORMATCONTEXT_H
+
+#include "Core/ACodecExport.h"
+
 extern  "C"
 {
      #include <libavformat/avformat.h>
 }
 
-class FormatContext {
+class ACODECEXPORT FormatContext {
 public:
      FormatContext();
      ~FormatContext();
