@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "RHI/RHIObjects/Framebuffer/RHIAttachment.h"
+#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
 #include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLFramebuffer.h"
 
 class OpenGLDevice;
