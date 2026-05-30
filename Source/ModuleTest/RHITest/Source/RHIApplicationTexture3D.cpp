@@ -142,7 +142,7 @@ void RHIApplicationTexture3D::CreateTexture()
             }
         }
     }
-    RHITexture2D = pRHI->RHICreateTexture3D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 32, 32, 3, pixels);
+    RHITexture2D = pRHI->RHICreateTexture3D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 32, 32, 3, pixels);
   //  RHITexture2D->Update(0, 0, 0, 0, 32, 32, 3, pixels);
 #if 0
     std::uint8_t* pixels = new std::uint8_t[32 * 32 * 32 * 4];

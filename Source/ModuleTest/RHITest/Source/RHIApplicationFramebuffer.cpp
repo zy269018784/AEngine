@@ -107,17 +107,18 @@ void RHIApplicationFramebuffer::CreateTexture()
         throw std::runtime_error("failed to load texture image!");
     }
 
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture,1, texWidth, texHeight, pixels);
 
 #endif
     RHIColorAttachments.resize(3);
-    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
-    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
-    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
+    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
+    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
 
     RHIDepthAttachments.resize(1);
-    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8, 1, 800, 600, nullptr);
-
+    std::cout << "PF_DepthStencil_D32_S8 textrue start" << std::endl;
+    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8,  RHITextureUsageFlag::DepthStencilAttachment, 1, 800, 600, nullptr);
+    std::cout  << "PF_DepthStencil_D32_S8 textrue end" << std::endl;
     RHISamplers.resize(3);
     RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     RHISamplers[1] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);

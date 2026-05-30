@@ -111,7 +111,7 @@ public:
 		@param  SizeX:			纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, void *Data = nullptr) = 0;
 
 	/**
 		@brief 创建1D纹理数组
@@ -121,7 +121,7 @@ public:
 		@param  ArraySize:		纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX,  std::uint32_t ArraySize, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX,  std::uint32_t ArraySize, void *Data = nullptr) = 0;
 
 	/**
 		@brief 创建2D纹理
@@ -131,7 +131,7 @@ public:
 		@param  SizeY:			纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) = 0;
 
 	/**
 		@brief 创建2D纹理数组
@@ -142,7 +142,7 @@ public:
 		@param  ArraySize :		纹理宽度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) = 0;
 	
 	/**
 		@brief 创建3D纹理
@@ -153,7 +153,7 @@ public:
 		@param  SizeZ:			纹理高度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data = nullptr) = 0;
 
 	/**
 		@brief 创建CubeMap纹理
@@ -162,7 +162,7 @@ public:
 		@param  Size:			纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data = nullptr) = 0;
 
 	/**
 		@brief 创建CubeMap纹理数组
@@ -171,7 +171,7 @@ public:
 		@param  Size:			纹理长度
 		@return 返回RHITexture
 	*/
-	virtual RHITexture* RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) = 0;
+	virtual RHITexture* RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data = nullptr) = 0;
 
 	/**
 		@brief 更新纹理数据

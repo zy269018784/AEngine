@@ -27,7 +27,7 @@ VulkanImageView::VulkanImageView(VulkanDevice* InDevice, VulkanImage* InImage, R
 	CreateInfo.subresourceRange.levelCount			= InNumMips;
 	CreateInfo.subresourceRange.baseArrayLayer		= 0;
 	CreateInfo.subresourceRange.layerCount			= InArraySize;
-
+	std::cout << "CreateImageView " << ToVkImageAspectFlags(InUsage, InPixelFormat) << std::endl;
 	if (CreateImageView(&CreateInfo, nullptr) != VK_SUCCESS) 
 	{
 		throw std::runtime_error("Failed to create texture image view!");

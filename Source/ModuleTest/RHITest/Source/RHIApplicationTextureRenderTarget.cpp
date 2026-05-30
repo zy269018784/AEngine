@@ -257,7 +257,7 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
 void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, 800, 600, nullptr);
+    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, 1, 800, 600, nullptr);
 //	TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHITextureRT);
 }
 

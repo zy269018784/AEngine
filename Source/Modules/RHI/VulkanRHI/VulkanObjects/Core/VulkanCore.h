@@ -1227,9 +1227,11 @@ inline VkImageAspectFlags ToVkImageAspectFlags(RHITextureUsageFlag InUsage, RHIP
 				case RHIPixelFormat::PF_DepthOnly_D32:
 				case RHIPixelFormat::PF_DepthOnly_D16:
 						Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT;
+						break;
 				case RHIPixelFormat::PF_DepthStencil_D24_S8:
 				case RHIPixelFormat::PF_DepthStencil_D32_S8:
 						Aspect |= VK_IMAGE_ASPECT_STENCIL_BIT;
+						Aspect |= VK_IMAGE_ASPECT_DEPTH_BIT;
 						break;
 			}
 			break;
