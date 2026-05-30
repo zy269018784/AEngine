@@ -146,7 +146,7 @@ RHISurface* ES32RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 }
 #endif
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 RHISurface* ES32RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	RHISurface *Surface = nullptr;

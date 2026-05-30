@@ -49,7 +49,7 @@ public:
 	/*
 		Wayland
 	*/
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 	virtual RHISurface* RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface) = 0;
 #endif
 	/*

@@ -7,7 +7,7 @@
 	#define VK_USE_PLATFORM_WIN32_KHR
 #endif
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 	#define VK_USE_PLATFORM_WAYLAND_KHR
 #endif
 
@@ -19,7 +19,7 @@
 	#define VK_USE_PLATFORM_XLIB_KHR
 #endif
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 	#define VK_USE_PLATFORM_WAYLAND_KHR
 	#define VK_ENABLE_BETA_EXTENSIONS
 #endif
@@ -28,7 +28,7 @@
 #include <vulkan/vulkan_core.h>
 
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR 
+#if RHI_USE_WAYLAND_KHR
 	#include <vulkan/vulkan_wayland.h>
 #endif
 

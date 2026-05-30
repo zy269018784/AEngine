@@ -47,7 +47,7 @@ RHISurface* D3D12RHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 }
 #endif
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 RHISurface* D3D12RHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;

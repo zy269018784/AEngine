@@ -58,7 +58,7 @@ RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 }
 #endif
 
-#if RHI_USE_PLATFORM_WAYLAND_KHR
+#if RHI_USE_WAYLAND_KHR
 RHISurface* VulkanRHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
 	return nullptr;
