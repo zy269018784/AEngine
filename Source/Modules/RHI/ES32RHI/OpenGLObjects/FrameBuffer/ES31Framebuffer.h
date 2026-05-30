@@ -1,16 +1,16 @@
 ﻿#pragma once
 #include "ES32RHI/ES32.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLFramebuffer.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLFramebuffer.h"
 #include "RHI/RHIObjects/Framebuffer/RHIAttachment.h"
 #include <vector>
 
 class OpenGLDevice;
-class ES30Framebuffer : public OpenGLFramebuffer
+class ES31Framebuffer : public OpenGLFramebuffer
 {
 public:
-    ES30Framebuffer() = delete;
-    ES30Framebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
+    ES31Framebuffer() = delete;
+    ES31Framebuffer(OpenGLDevice *InDevice, std::uint32_t Width, std::uint32_t Height,
                       std::vector<RHIAttachment *> &InColorAttachments,
                       std::vector<RHIAttachment *> &InDepthAttachments);
-    ~ES30Framebuffer();
+    ~ES31Framebuffer();
 };

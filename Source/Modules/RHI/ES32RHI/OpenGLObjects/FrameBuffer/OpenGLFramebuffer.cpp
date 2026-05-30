@@ -1,4 +1,4 @@
-﻿#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLFramebuffer.h"
+﻿#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLFramebuffer.h"
 
 #include <iostream>
 #include <ostream>

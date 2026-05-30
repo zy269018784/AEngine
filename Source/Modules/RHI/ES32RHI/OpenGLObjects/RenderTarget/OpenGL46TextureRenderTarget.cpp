@@ -1,5 +1,5 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL46TextureRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL46Framebuffer.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGL46Framebuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL46CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 #include <iostream>

@@ -1,5 +1,5 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGL33TextureRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGL33Framebuffer.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGL33Framebuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/OpenGL33CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 #include <iostream>

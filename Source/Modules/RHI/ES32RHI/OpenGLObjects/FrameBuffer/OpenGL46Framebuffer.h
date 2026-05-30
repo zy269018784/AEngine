@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "RHI/RHIObjects/Framebuffer/RHIAttachment.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLFramebuffer.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLFramebuffer.h"
 
 class OpenGLDevice;
 class OpenGL46Framebuffer : public OpenGLFramebuffer

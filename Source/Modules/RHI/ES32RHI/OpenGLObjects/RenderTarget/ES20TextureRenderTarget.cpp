@@ -1,5 +1,5 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/ES20TextureRenderTarget.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/ES20Framebuffer.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/ES20Framebuffer.h"
 #include "ES32RHI/OpenGLObjects/CommandBuffer/ES20CommandBuffer.h"
 #include "ES32RHI/OpenGLObjects/Device/OpenGLDevice.h"
 #include <iostream>

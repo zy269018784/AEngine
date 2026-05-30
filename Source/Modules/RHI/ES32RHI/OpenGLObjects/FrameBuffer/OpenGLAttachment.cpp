@@ -1,4 +1,4 @@
-﻿#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLAttachment.h"
+﻿#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLAttachment.h"
 
 OpenGLAttachment::OpenGLAttachment(RHIAttachmentType InType, RHITexture *InTexture)
     : RHIAttachment(InType, InTexture)

@@ -1,6 +1,6 @@
 #include "ES32RHI/OpenGLObjects/RenderTarget/OpenGLTextureRenderTarget.h"
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
-#include "ES32RHI/OpenGLObjects/Framebuffer/OpenGLAttachment.h"
+#include "ES32RHI/OpenGLObjects/FrameBuffer/OpenGLAttachment.h"
 #include "RHI/RHIObjects/FrameBuffer/RHIFrameBuffer.h"
 #include <iostream>
 
