@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "RHI/RHIObjects/Core/RHICore.h"
-#include "RHI/RHIObjects/FrameBuffer/RHIAttachment.h"
+#include "RHI/RHIObjects/Framebuffer/RHIAttachment.h"
 
 class OpenGLAttachment : public RHIAttachment
 {
