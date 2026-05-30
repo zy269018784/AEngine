@@ -1,5 +1,5 @@
-﻿#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanAttachment.h"
+﻿#include "VulkanRHI/VulkanObjects/Framebuffer/VulkanFrameBuffer.h"
+#include "VulkanRHI/VulkanObjects/Framebuffer/VulkanAttachment.h"
 #include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanRHI/VulkanObjects/PhysicalDevice/VulkanPhysicalDevice.h"
 #include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"

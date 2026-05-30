@@ -2,7 +2,7 @@
 #include "VulkanRHI/VulkanObjects/CommandBuffer/VulkanCommandPool.h"
 #include "VulkanRHI/VulkanObjects/Device/VulkanDevice.h"
 #include "VulkanRHI/VulkanObjects/RenderPass/VulkanRenderPass.h"
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanFrameBuffer.h"
+#include "VulkanRHI/VulkanObjects/Framebuffer/VulkanFrameBuffer.h"
 #include "VulkanRHI/VulkanObjects/Resource/VulkanBuffer.h"
 #include "VulkanRHI/VulkanObjects/Pipeline/VulkanGraphicsPipeline.h"
 #include "VulkanRHI/VulkanObjects/Shader/VulkanShaderResourceBindings.h"

@@ -1,4 +1,4 @@
-#include "VulkanRHI/VulkanObjects/FrameBuffer/VulkanAttachment.h"
+#include "VulkanRHI/VulkanObjects/Framebuffer/VulkanAttachment.h"
 #include "VulkanRHI/VulkanObjects/Texture/VulkanTexture.h"
 
 VulkanAttachment::VulkanAttachment(RHIAttachmentType InType, RHITexture *InTexture)
