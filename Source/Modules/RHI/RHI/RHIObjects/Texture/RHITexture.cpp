@@ -3,8 +3,9 @@
 #include <iostream>
 #include <ostream>
 
-RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData)
-	: TextureType(InType), Format(InFormat), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
+RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+	std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData)
+	: TextureType(InType), Format(InFormat), Usage(InUsage), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
 {
 }
 
@@ -19,7 +20,17 @@ RHITextureType RHITexture::GetType() const
 
 RHIPixelFormat RHITexture::GetFormat() const
 {
-	return this->Format;
+	return Format;
+}
+
+RHITextureUsageFlag	RHITexture::GetUsage() const
+{
+	return Usage;
+}
+
+RHIImageLayout RHITexture::GetLayout() const
+{
+	return Layout;
 }
 
 std::uint32_t  RHITexture::GetX() const
