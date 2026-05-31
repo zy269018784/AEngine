@@ -1,0 +1,35 @@
+gst_caps_new_any                        创建cap
+gst_caps_new_empty                      创建cap
+gst_caps_new_empty_simple
+gst_caps_new_full
+gst_caps_new_full_valist
+gst_caps_new_id_str_empty_simple
+gst_caps_new_id_str_simple
+gst_caps_new_simple
+gst_caps_new_static_str_empty_simple
+gst_caps_new_static_str_simple
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

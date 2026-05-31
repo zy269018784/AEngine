@@ -1,0 +1,18 @@
+gst_device_create_element           创建GstElement
+gst_device_get_caps                 获取设备支持的能力
+gst_device_get_device_class
+gst_device_get_display_name
+gst_device_get_properties
+
+
+
+
+
+
+
+
+
+
+
+
+

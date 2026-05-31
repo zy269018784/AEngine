@@ -1,0 +1,27 @@
+初始化GStreamer
+    gst_init
+
+创建Pipeline
+    const char * url = "playbin uri=https://gstreamer.freedesktop.org/data/media/sintel_trailer-480p.webm";
+    GstElement *pipeline = gst_parse_launch(url, NULL);
+
+开始播放
+     gst_element_set_state (pipeline, GST_STATE_PLAYING);
+
+释放Pipeline
+    gst_element_set_state (pipeline, GST_STATE_NULL);
+    gst_object_unref (pipeline);
+
+释放GstMessage
+    GstMessage *msg;
+    gst_message_unref (msg);
+
+释放GstBus
+    GstBus *bus;
+    gst_object_unref (bus);
+
+
+
+
+
+

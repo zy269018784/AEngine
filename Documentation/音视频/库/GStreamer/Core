@@ -1,0 +1,25 @@
+
+
+GstElement
+GstBin              GstElement组合
+GstPad              The ports through which GStreamer elements communicate with each other are called pads.
+                    分类:
+                        sink pads, through which data enters an element
+                        source pads, through which data exits an element
+                    note:
+                        source elements only contain source pads
+                        sink elements only contain sink pads
+                        filter elements contain both.
+GstStreams          流
+GstCaps             能力
+GstBus              传输GstMessage
+GstMessage          消息
+GstContext          上下文
+GstEvent            事件
+GstMemory           内存
+GstDevice           设备
+GstSample           样本
+
+
+
+

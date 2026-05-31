@@ -1,0 +1,23 @@
+gst_stream_new                  创建流
+gst_stream_get_stream_id        获取ID
+gst_stream_set_caps             设置caps
+gst_stream_get_caps             获取caps
+gst_stream_set_stream_flags     设置flags
+gst_stream_get_stream_flags     获取flags
+gst_stream_set_stream_type      设置type
+gst_stream_get_stream_type      获取type
+gst_stream_set_tags             设置tag
+gst_stream_get_tags             获取tag
+
+GstStreamType
+    GST_STREAM_TYPE_AUDIO       音频流
+    GST_STREAM_TYPE_VIDEO       视频流
+    GST_STREAM_TYPE_CONTAINER   混合封装流
+    GST_STREAM_TYPE_TEXT        字幕或子画面流
+    GST_STREAM_TYPE_METADATA    元数据流
+
+GstStreamFlags
+
+
+
+

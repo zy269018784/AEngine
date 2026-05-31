@@ -1,0 +1,34 @@
+gst_element_get_name                获取名称
+gst_element_set_name                设置名称
+gst_element_add_pad                 添加pad
+gst_element_remove_pad              移除pad
+gst_element_get_state               获取状态
+gst_element_set_state               设置状态
+gst_element_get_static_pad          获取已有pad
+gst_element_request_pad             动态创建pad
+gst_element_link
+gst_element_link_many
+gst_element_link_filtered
+gst_element_link_pads
+gst_element_link_pads_filtered
+gst_element_get_clock
+gst_element_set_clock
+gst_element_send_event              发送事件
+gst_pad_send_event
+gst_pad_push_event
+gst_element_set_context             设置context
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

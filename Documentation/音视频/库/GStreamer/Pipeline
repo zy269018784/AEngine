@@ -1,0 +1,28 @@
+const char * url = "playbin uri=https://gstreamer.freedesktop.org/data/media/sintel_trailer-480p.webm";
+GstElement *pipeline = gst_parse_launch(url, NULL);
+
+
+
+创建pipeline
+    gst_pipeline_new
+
+pipeline添加element
+    gst_bin_add
+    gst_bin_add_many
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

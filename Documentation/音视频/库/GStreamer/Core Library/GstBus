@@ -1,0 +1,25 @@
+gst_bus_post        提交消息到bus
+gst_bus_pop         从bus获取消息
+gst_bus_peek        查看bus 消息队列头
+gst_bus_poll
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
