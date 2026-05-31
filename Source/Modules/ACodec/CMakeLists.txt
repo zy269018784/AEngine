@@ -19,11 +19,28 @@ file(GLOB_RECURSE     CODEC_SRC_LIST                  ${PROJECT_SOURCE_DIR}/Sour
                                         ${PROJECT_SOURCE_DIR}/Source/*.h)
 list (APPEND SRC_LIST ${CODEC_SRC_LIST})
 
+list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/Source)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
 list (APPEND LIBRARYS		avcodec avdevice avfilter avformat avutil swresample swscale)
-list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/Source)
+
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/gstreamer/include
+                            ${LIBRARY_PATH}/gstreamer/include/gstreamer-1.0
+                            ${LIBRARY_PATH}/gstreamer/include/glib-2.0
+                            ${LIBRARY_PATH}/gstreamer/lib/glib-2.0/include
+)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/gstreamer/lib)
+list (APPEND LIBRARYS		gobject-2.0
+                            gstcodecs-1.0 gsttranscoder-1.0
+                            gstvideo-1.0 gstaudio-1.0
+                            gstnet-1.0  gstrtp-1.0 gstsdp-1.0
+                            gstrtsp-1.0 gstrtspserver-1.0
+                            gstwebrtc-1.0
+                            gstplay-1.0 gstplayer-1.0
+                            gstallocators-1.0
+                            gstd3d11-1.0 gstd3d12-1.0 gstcuda-1.0
+)
 
 add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
 
