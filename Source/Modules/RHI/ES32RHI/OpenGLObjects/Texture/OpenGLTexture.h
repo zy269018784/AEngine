@@ -15,6 +15,7 @@ public:
 	virtual GLuint GetHandle() const;
 	virtual GLuint GetTarget() const;
 	virtual void TransitionImageLayout(int dir);
+	virtual void TransitionTo(RHIImageLayout InLayout) override final;
 protected:
 	GLuint Handle;
 	GLuint Target;

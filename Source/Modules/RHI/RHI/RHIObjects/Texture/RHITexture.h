@@ -21,6 +21,7 @@ public:
 
 	virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) = 0;
 	virtual void TransitionImageLayout(int dir) = 0;
+	virtual void TransitionTo(RHIImageLayout InLayout) = 0;
 protected:
 	void UpdateImageData();
 private:

@@ -200,4 +200,8 @@ void OpenGLTexture::TransitionImageLayout(int dir)
 {
 
 }
+
+void OpenGLTexture::TransitionTo(RHIImageLayout InLayout) {
+
+}
 #endif
