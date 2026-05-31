@@ -51,7 +51,7 @@ file(GLOB_RECURSE SRC_LIST_D3D10RHI         ${PROJECT_SOURCE_DIR}/D3D10RHI/*.cpp
 file(GLOB_RECURSE SRC_LIST_D3D9RHI          ${PROJECT_SOURCE_DIR}/D3D9RHI/*.cpp
                                             ${PROJECT_SOURCE_DIR}/D3D9RHI/*.c
                                             ${PROJECT_SOURCE_DIR}/D3D9RHI/*.h)
-file(GLOB_RECURSE c             ${PROJECT_SOURCE_DIR}/glad/*.cpp
+file(GLOB_RECURSE SRC_LIST_GLAD             ${PROJECT_SOURCE_DIR}/glad/*.cpp
                                             ${PROJECT_SOURCE_DIR}/glad/*.c
                                             ${PROJECT_SOURCE_DIR}/glad/*.h)
 
