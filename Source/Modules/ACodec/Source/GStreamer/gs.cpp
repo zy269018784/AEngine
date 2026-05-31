@@ -7,3 +7,7 @@ void HelloGStreamer()
 {
     std::cout << "HelloGStreamer" << std::endl;
 }
+void HelloGStreamer2()
+{
+    std::cout << "HelloGStreamer 22" << std::endl;
+}
