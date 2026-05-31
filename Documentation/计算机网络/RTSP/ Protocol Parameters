@@ -1,0 +1,13 @@
+协议参数:
+    RTSP Version            2.0
+    RTSP IRI and URI
+    Session Identifiers    长度8-128个字符
+    Media-Time Formats     三种格式:
+                                SMPTE-Relative Timestamps
+                                Normal Play Time
+                                Absolute Time
+
+
+
+
+

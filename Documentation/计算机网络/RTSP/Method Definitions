@@ -1,0 +1,23 @@
+方法:
+    OPTIONS
+    DESCRIBE
+    ANNOUNCE
+    SETUP
+    PLAY                The PLAY method tells the server to start sending data via the mechanism specified in SETUP.
+    PAUSE               The PAUSE request causes the stream delivery to be interrupted (halted) temporarily.
+    TEARDOWN
+    GET_PARAMETER
+    SET_PARAMETER
+    REDIRECT
+    RECORD
+
+
+PLAY:
+    播放直播流
+
+SETUP:
+    用于创建会话
+    修改流的传输参数
+
+
+

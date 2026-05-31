@@ -1,0 +1,33 @@
+RTSP应用层协议
+RTSP在体系结构上位于RTP和RTCP之上, 它使用TCP或RTP完成数据传输.
+RTSP文档RFC7826
+
+RTP  使用一个偶数UDP port
+RTCP 使用RTP的下一个 port,也就是一个奇数 port.
+RTCP与RTP联合工作,RTP实施实际数据的传输,RTCP则负责将控制包送至电话中的每个人.
+
+
+暂停/继续、后退、前进等
+
+
+Client                              Server
+            RTSP: OPTIONS       ->
+        <-  RTSP: OK
+            RTSP: DESCRIBE      ->
+        <-  RTSP: OK
+            RTSP: SETUP         ->
+        <-  RTSP: OK
+            RTSP: PLAY          ->
+        <-  RTSP: OK
+
+
+            RTSP: TEARDOWN      ->
+        <-  RTSP: OK
+
+
+
+
+
+
+
+

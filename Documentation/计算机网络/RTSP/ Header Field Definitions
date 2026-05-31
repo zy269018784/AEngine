@@ -1,0 +1,24 @@
+
+Public          The Public response-header field lists the set of methods supported by the response sender.
+Session         The Session general-header field identifies an RTSP session.
+Supported       The Supported general-header enumerates all the extensions supported by the client or server using feature tags.
+
+
+
+Transport
+
+
+
+
+
+
+Range
+    指定PLAY, PAUSE, SETUP, PLAY_NOTIFY的time range.
+
+
+
+
+
+
+
+
