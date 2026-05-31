@@ -1,0 +1,8 @@
+全锥形NAT(Full Cone NAT)
+地址受限锥形NAT(Address-Restricted Cone NAT)
+端口受限锥形NAT(Port-Restricted Cone NAT)
+对称NAT(Symmetric NAT)
+
+https://webrtc.link/zh/articles/webrtc-introduction/
+
+NAT 类型处理：经典的 NAT 类型（完全圆锥型、受限圆锥型、端口受限圆锥型、对称型）需要不同的打洞方式。特别是对称型 NAT 无法被直接穿越，必须依赖 TURN 服务器进行流量中继。
