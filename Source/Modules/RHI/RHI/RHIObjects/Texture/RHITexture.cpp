@@ -3,10 +3,14 @@
 #include <iostream>
 #include <ostream>
 
-RHITexture::RHITexture(RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+RHITexture::RHITexture(RHITextureType InType,
+	RHIPixelFormat InFormat,
+	RHITextureUsageFlag InUsage,
+	RHIImageLayout InLayout,
 	std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData)
-	: TextureType(InType), Format(InFormat), Usage(InUsage), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
+	: TextureType(InType), Format(InFormat), Usage(InUsage), Layout(InLayout), X(InX), Y(InY), Z(InZ), ArraySize(InArraySize), NumMips(InNumMips), Data(InData)
 {
+
 }
 
 RHITexture::~RHITexture() {

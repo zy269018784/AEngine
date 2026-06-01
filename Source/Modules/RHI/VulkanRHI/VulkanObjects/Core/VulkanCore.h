@@ -1543,7 +1543,7 @@ inline RHIColorSpace ToRHIColorSpace(VkColorSpaceKHR colorSpace)
     }
 }
 
-inline VkImageLayout RHIImageLayoutToVk(RHIImageLayout layout)
+inline VkImageLayout ToVkImageLayout(RHIImageLayout layout)
 {
     switch (layout)
     {
@@ -1619,7 +1619,7 @@ inline VkImageLayout RHIImageLayoutToVk(RHIImageLayout layout)
 }
 
 // 反向转换（如果需要）
-inline RHIImageLayout VkImageLayoutToRHI(VkImageLayout layout)
+inline RHIImageLayout ToRHIImageLayout(VkImageLayout layout)
 {
     switch (layout)
     {

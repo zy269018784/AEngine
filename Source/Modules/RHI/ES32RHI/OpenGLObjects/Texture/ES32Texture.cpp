@@ -8,9 +8,9 @@
 *   指定格式  glTexStorage2D, glTexStorage3D，
 *   上传数据  glTexSubImage2D, glTexSubImage3D
  */
-ES32Texture::ES32Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+ES32Texture::ES32Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout,
     std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
-: OpenGLTexture(InDevice, InType, InFormat, InUsage, InNumMips, InArraySize,InX, InY, InZ,  InData)
+: OpenGLTexture(InDevice, InType, InFormat, InUsage, InLayout, InNumMips, InArraySize,InX, InY, InZ,  InData)
 {
     std::cout << "ES32Texture "  << "InNumMips " << InNumMips << std::endl;
     glGenTextures(1, &Handle);

@@ -7,7 +7,7 @@ class OpenGLTexture : public RHITexture
 {
 public:
 	OpenGLTexture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat,
-										RHITextureUsageFlag InUsage,
+										RHITextureUsageFlag InUsage, RHIImageLayout InLayout,
 										std::uint32_t InNumMips, std::uint32_t InArraySize,
 										std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ,
 										void *InData = nullptr);

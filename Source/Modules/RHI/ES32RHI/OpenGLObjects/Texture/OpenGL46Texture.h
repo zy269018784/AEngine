@@ -1,10 +1,12 @@
 #pragma once
 #include "ES32RHI/OpenGLObjects/Texture/OpenGLTexture.h"
+
 class RHIDevice;
 class OpenGL46Texture : public OpenGLTexture
 {
 public:
-	OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+	OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat,
+		RHITextureUsageFlag InUsage, RHIImageLayout InLayout,
 		std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData = nullptr);
 	~OpenGL46Texture();
 	//GLuint GetHandle() const;

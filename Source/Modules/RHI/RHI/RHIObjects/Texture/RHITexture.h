@@ -5,7 +5,10 @@
 class RHIEXPORT RHITexture
 {
 public:
-	RHITexture(RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+	RHITexture(RHITextureType InType,
+		RHIPixelFormat InFormat,
+		RHITextureUsageFlag InUsage,
+		RHIImageLayout InLayout,
 		std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, std::uint32_t InNumMips, std::uint32_t InArraySize, void *InData = nullptr);
 	virtual ~RHITexture();
 	RHITextureType		GetType() const;

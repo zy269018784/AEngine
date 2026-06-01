@@ -12,7 +12,11 @@
 class VulkanImage
 {
 public:
-	VulkanImage(VulkanDevice *InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat, RHITextureUsageFlag InUsage,
+	VulkanImage(VulkanDevice *InDevice,
+				RHITextureType InType,
+				RHIPixelFormat InPixelFormat,
+				RHITextureUsageFlag InUsage,
+				RHIImageLayout InLayout,
 				std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ,
 				std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount,
 				const void* InData = nullptr);
@@ -63,6 +67,8 @@ private:
 	RHITextureType Type;
 
 	VkImageCreateInfo CreateInfo;
+
+	RHIImageLayout Layout;
 public:
 	/*
 		暂时存放

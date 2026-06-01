@@ -2,10 +2,13 @@
 #include "VulkanRHI/VulkanObjects//Core/VulkanCore.h"
 #include <iostream>
 #include "VulkanRHI/VulkanObjects//PhysicalDevice/VulkanPhysicalDevice.h"
-VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixelFormat InPixelFormat,
+VulkanImage::VulkanImage(VulkanDevice* InDevice,
+    RHITextureType InType,
+    RHIPixelFormat InPixelFormat,
     RHITextureUsageFlag InUsage,
+    RHIImageLayout InLayout,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
-	: Device(InDevice), Type(InType), ArraySize(InArraySize)
+	: Device(InDevice), Type(InType), Layout(InLayout), ArraySize(InArraySize)
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
@@ -27,7 +30,8 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice, RHITextureType InType, RHIPixel
     /*
         texture array报错
     */
-    CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    //CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
     //if  (InUsage == RHITextureUsageFlag::ColorAttachment)
    //     CreateInfo.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -217,6 +221,7 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
     Barrier.image                           = Handle;
     Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
     Barrier.subresourceRange.baseMipLevel   = 0;
+    // to do : 改为 num mipmaps
     Barrier.subresourceRange.levelCount     = 1;
     Barrier.subresourceRange.baseArrayLayer = 0;
     Barrier.subresourceRange.layerCount     = ArraySize;

@@ -246,6 +246,7 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 				RHITextureType::Texture2D,
 				DepthStencilPixelFormat,
 				RHITextureUsageFlag::DepthStencilAttachment,
+				RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED,
 				1,
 				SwapChain->GetWidth(),
 				SwapChain->GetHeight(),

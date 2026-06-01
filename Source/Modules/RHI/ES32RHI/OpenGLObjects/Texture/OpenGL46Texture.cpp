@@ -2,9 +2,10 @@
 #include "ES32RHI/OpenGLObjects/Core/OpenGLCore.h"
 #include "ES32RHI/ES32PixelFormat.h"
 
-OpenGL46Texture::OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat, RHITextureUsageFlag InUsage,
+OpenGL46Texture::OpenGL46Texture(RHIDevice* InDevice, RHITextureType InType, RHIPixelFormat InFormat,
+    RHITextureUsageFlag InUsage, RHIImageLayout InLayout,
     std::uint32_t InNumMips, std::uint32_t InArraySize, std::uint32_t InX, std::uint32_t InY, std::uint32_t InZ, void *InData)
-    : OpenGLTexture(InDevice, InType, InFormat, InUsage, InNumMips, InArraySize, InX, InY, InZ, InData)//: RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
+    : OpenGLTexture(InDevice, InType, InFormat, InUsage, InLayout, InNumMips, InArraySize, InX, InY, InZ, InData)//: RHITexture(InType, InFormat,  InX, InY, InZ, InNumMips, InArraySize, InData), Device(InDevice)
 {
     glGenTextures(1, &Handle);
     //GLenum Target = ToOpenGLTextureType(InType);
