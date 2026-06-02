@@ -68,6 +68,7 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 
 void VulkanTexture::TransitionImageLayout(int dir)
 {
+#if 0
 	RHIImageLayout OldLayout;
 	RHIImageLayout NewLayout;
 	if (0 == dir)
@@ -80,11 +81,12 @@ void VulkanTexture::TransitionImageLayout(int dir)
 		NewLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 	}
 	//Image->TransitionImageLayout(OldLayout, NewLayout);
+#endif
 }
 
 void VulkanTexture::TransitionTo(RHIImageLayout InLayout)
 {
-
+	Image->TransitionImageLayout(InLayout);
 }
 
 VkImageView VulkanTexture::GetImageView() const {
