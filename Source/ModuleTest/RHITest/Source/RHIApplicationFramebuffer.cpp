@@ -117,11 +117,7 @@ void RHIApplicationFramebuffer::CreateTexture()
     RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
     RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
     RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
-#if 0
-    RHIColorAttachments[0]->TransitionImageLayout(0);
-    RHIColorAttachments[1]->TransitionImageLayout(0);
-    RHIColorAttachments[2]->TransitionImageLayout(0);
-#endif
+
     RHIDepthAttachments.resize(1);
     std::cout << "PF_DepthStencil_D32_S8 textrue start" << std::endl;
     RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8,  RHITextureUsageFlag::DepthStencilAttachment, 1, 800, 600, nullptr);

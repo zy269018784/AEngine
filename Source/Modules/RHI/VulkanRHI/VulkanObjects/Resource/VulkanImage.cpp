@@ -12,11 +12,11 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-	CreateInfo                  = {};
+	CreateInfo               = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
-    CreateInfo.extent           = { InSizeX, InSizeY, InSizeZ };
+    CreateInfo.extent        = { InSizeX, InSizeY, InSizeZ };
     CreateInfo.format           = ToVkFormat(InPixelFormat);
     CreateInfo.mipLevels        = InNumMips;
     CreateInfo.arrayLayers      = InArraySize;
@@ -103,6 +103,15 @@ VkImage VulkanImage::GetHandle() const
 
 VkImageCreateInfo VulkanImage::GetCreateInfo() const {
     return CreateInfo;
+}
+
+RHIImageLayout VulkanImage::GetRHIImageLayout() const
+{
+    return Layout;
+}
+
+void VulkanImage::SetRHIImageLayout(RHIImageLayout InLayout) {
+    Layout = InLayout;
 }
 
 void CreateBuffer1(VulkanDevice* Device, VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory)
@@ -208,6 +217,76 @@ void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMe
     std::cout << "VulkanImage::createBuffer ok" << std::endl;
 }
 
+void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
+{
+    RHIImageLayout OldLayout = GetRHIImageLayout();
+    RHIImageLayout NewLayout = InLayout;
+    SetRHIImageLayout(NewLayout);
+
+    VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
+
+    VkImageMemoryBarrier Barrier{};
+    Barrier.sType                           = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+    Barrier.oldLayout                       = ToVkImageLayout(OldLayout);
+    Barrier.newLayout                       = ToVkImageLayout(NewLayout);
+    Barrier.srcQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
+    Barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
+    Barrier.image                           = Handle;
+    Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+    Barrier.subresourceRange.baseMipLevel   = 0;
+    // to do : 改为 num mipmaps
+    Barrier.subresourceRange.levelCount     = 1;
+    Barrier.subresourceRange.baseArrayLayer = 0;
+    Barrier.subresourceRange.layerCount     = ArraySize;
+    Barrier.srcAccessMask                   = VK_ACCESS_NONE;
+    Barrier.dstAccessMask                   = VK_ACCESS_NONE;
+    VkPipelineStageFlags SourceStage;
+    VkPipelineStageFlags DestinationStage;
+    /*
+     *https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
+     *https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
+     */
+    if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
+    {
+        Barrier.srcAccessMask = 0;
+        Barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+    }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+    {
+        Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+        SourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+    {
+        Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+        SourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    }
+    else {
+        //throw std::invalid_argument("unsupported layout transition!");
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    }
+
+    CommandBuffer->CmdPipelineBarrier(
+        SourceStage, DestinationStage,
+        0,
+        0, nullptr,
+        0, nullptr,
+        1, &Barrier
+    );
+
+    Device->Queues[0]->EndCommandBuffer(CommandBuffer);
+}
+#if 0
 void VulkanImage::TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout NewLayout)
 {
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
@@ -273,7 +352,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout
 
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 }
-
+#endif
 #if 0
 void VulkanImage::CopyBufferToImage(VkBuffer Buffer, uint32_t Width, uint32_t Height) 
 {

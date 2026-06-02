@@ -25,6 +25,8 @@ public:
 	~VulkanImage();
 	VkImage GetHandle() const;
 	VkImageCreateInfo GetCreateInfo() const;
+	RHIImageLayout GetRHIImageLayout() const;
+	void SetRHIImageLayout(RHIImageLayout InLayout);
 	void Update(const void* InData, std::uint32_t InSize);
 	//void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData);
 public:
@@ -39,12 +41,13 @@ public:
 
 	void GetImageMemoryRequirements(VkMemoryRequirements* MemoryRequirements);
 public:
+	void TransitionImageLayout(RHIImageLayout NewLayout);
+public:
 	/*
 		临时创建staging buffer
 	*/
 	void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory);
 
-	void TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout NewLayout);
 
 	//void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
 
@@ -53,9 +56,21 @@ public:
 	//virtual void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData) = 0;
 
 private:
+	/*
+	 * 句柄
+	 */
 	VkImage Handle;
+	/*
+	 *
+	 */
 	VkMemoryRequirements MemoryRequirements;
+	/*
+	 * 内存
+	 */
 	VulkanDeviceMemory *DeviceMemory;
+	/*
+	 * 设备
+	 */
 	VulkanDevice* Device;
 	/*
 		纹理数组大小
@@ -67,7 +82,9 @@ private:
 	RHITextureType Type;
 
 	VkImageCreateInfo CreateInfo;
-
+	/*
+	 *  布局
+	 */
 	RHIImageLayout Layout;
 public:
 	/*
