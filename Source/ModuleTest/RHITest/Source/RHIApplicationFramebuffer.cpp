@@ -110,17 +110,17 @@ void RHIApplicationFramebuffer::CreateTexture()
         throw std::runtime_error("failed to load texture image!");
     }
 
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture,1, texWidth, texHeight, pixels);
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, texWidth, texHeight, pixels);
 
 #endif
     RHIColorAttachments.resize(3);
-    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
-    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
-    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, 1, 800, 600, pixels);
+    RHIColorAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,1, 800, 600, pixels);
+    RHIColorAttachments[1] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,1, 800, 600, pixels);
+    RHIColorAttachments[2] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::ColorAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,1, 800, 600, pixels);
 
     RHIDepthAttachments.resize(1);
     std::cout << "PF_DepthStencil_D32_S8 textrue start" << std::endl;
-    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8,  RHITextureUsageFlag::DepthStencilAttachment, 1, 800, 600, nullptr);
+    RHIDepthAttachments[0] = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D32_S8,  RHITextureUsageFlag::DepthStencilAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, 1, 800, 600, nullptr);
     std::cout  << "PF_DepthStencil_D32_S8 textrue end" << std::endl;
     RHISamplers.resize(3);
     RHISamplers[0] = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
@@ -290,6 +290,9 @@ void RHIApplicationFramebuffer::Draw2()
     float w = 0;
     float h = 0;
 
+    RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+    RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+    RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 #if USE_RHIWindow
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
@@ -331,6 +334,11 @@ void RHIApplicationFramebuffer::Draw()
     float y = 0;
     float w = 0;
     float h = 0;
+
+
+    RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 #if USE_RHIWindow
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();

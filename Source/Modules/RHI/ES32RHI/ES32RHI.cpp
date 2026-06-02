@@ -354,7 +354,7 @@ RHIShader* ES32RHI::RHICreateShader(RHIShaderType Type, std::uint32_t* Code, siz
 	return Shader;
 }
 
-RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, void *Data)
+RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture1D;
 	std::uint32_t ArraySize = 1;
@@ -385,7 +385,7 @@ RHITexture* ES32RHI::RHICreateTexture1D(RHIPixelFormat RHIPixelFormat, RHITextur
 	return Texture;
 }
 
-RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
+RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture1DArray;
 	std::uint32_t SizeY = ArraySize;
@@ -415,7 +415,7 @@ RHITexture* ES32RHI::RHICreateTexture1DArray(RHIPixelFormat RHIPixelFormat, RHIT
 	return Texture;
 }
 
-RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
+RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture2D;
 	std::uint32_t ArraySize = 1;
@@ -446,7 +446,7 @@ RHITexture* ES32RHI::RHICreateTexture2D(RHIPixelFormat RHIPixelFormat, RHITextur
 }
 
 
-RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
+RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture2DArray;
 	std::uint32_t SizeZ = 1;
@@ -475,7 +475,7 @@ RHITexture* ES32RHI::RHICreateTexture2DArray(RHIPixelFormat RHIPixelFormat, RHIT
 	return Texture;
 }
 
-RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
+RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t SizeZ, void *Data)
 { 
 	RHITextureType Type = RHITextureType::Texture3D;
 	std::uint32_t ArraySize = 1;
@@ -504,7 +504,7 @@ RHITexture* ES32RHI::RHICreateTexture3D(RHIPixelFormat RHIPixelFormat, RHITextur
 	return Texture;
 }
 
-RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
+RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, void *Data)
 {
 	RHITextureType Type = RHITextureType::TextureCubeMap;
 	std::uint32_t ArraySize = 1;
@@ -537,7 +537,7 @@ RHITexture* ES32RHI::RHICreateTextureCube(RHIPixelFormat RHIPixelFormat, RHIText
 	return Texture;
 }
 
-RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
+RHITexture* ES32RHI::RHICreateTextureCubeArray(RHIPixelFormat RHIPixelFormat, RHITextureUsageFlag InUsage, RHIImageLayout InLayout, std::uint32_t NumMips, std::uint32_t SizeX, std::uint32_t SizeY, std::uint32_t ArraySize, void *Data)
 { 
 	RHITextureType Type = RHITextureType::TextureCubeMapArray;
 	/*

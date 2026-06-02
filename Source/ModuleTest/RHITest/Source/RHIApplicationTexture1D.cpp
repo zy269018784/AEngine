@@ -118,7 +118,9 @@ void RHIApplicationTexture1D::CreateTexture()
     RHISampler1D_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     unsigned char RGBA[4] = { 0, 0, 255, 255 };
 
-    RHITexture1D = pRHI->RHICreateTexture1D(RHIPixelFormat::PF_R8_UINT, RHITextureUsageFlag::SampledTexture, 1, 4, RGBA);
+    RHITexture1D = pRHI->RHICreateTexture1D(RHIPixelFormat::PF_R8_UINT,
+        RHITextureUsageFlag::SampledTexture,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 4, RGBA);
    // RHITexture1D->Update(0, 0, 0, 0, 4, 1, 1, RGBA);
 }
 

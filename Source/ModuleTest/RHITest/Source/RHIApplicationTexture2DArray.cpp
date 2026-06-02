@@ -113,7 +113,10 @@ void RHIApplicationTexture2DArray::CreateTexture()
 
     RHISampler2DArray = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
-    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF, RHITextureUsageFlag::SampledTexture,1, texWidth, texHeight, 2, ImageArrayData.data());
+    RHITexture2DArray = pRHI->RHICreateTexture2DArray(PF,
+        RHITextureUsageFlag::SampledTexture,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED,
+        1, texWidth, texHeight, 2, ImageArrayData.data());
    // RHITexture2DArray->Update(0, 0, 0, 0, 1024, 1024, 1, pixels);
    // RHITexture2DArray->Update(0, 0, 0, 1, 1024, 1024, 1, pixels2);
 #endif

@@ -243,8 +243,8 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     VkPipelineStageFlags SourceStage;
     VkPipelineStageFlags DestinationStage;
     /*
-     *https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
-     *https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
+     *  https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
+     *  https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
      */
     if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
