@@ -26,7 +26,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
         ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
         ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
         if (3 == InColorAttachments.size())
-            ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL;
 
         AttachmentDescriptions.emplace_back(ColorAttachment);
 
