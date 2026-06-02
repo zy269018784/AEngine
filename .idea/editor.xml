@@ -3,6 +3,12 @@
   <component name="BackendCodeEditorSettings">
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=74B75411_002D29C3_002D5544_002DBE62_002D732A269C0905_002Fd_003ASource_002Fd_003AModuleTest_002Fd_003ARHITest_002Fd_003ASource_002Ff_003ARHIApplication_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=74B75411_002D29C3_002D5544_002DBE62_002D732A269C0905_002Fd_003ASource_002Fd_003AModules_002Fd_003ARHI_002Fd_003AES32RHI_002Ff_003AES32RHI_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
+
+.
+    .
+    .
+    .
+    .<option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=74B75411_002D29C3_002D5544_002DBE62_002D732A269C0905_002Fd_003ASource_002Fd_003AModules_002Fd_003ARHI_002Fd_003AVulkanRHI_002Fd_003AVulkanObjects_002Fd_003ACore_002Ff_003AVulkanCore_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=74B75411_002D29C3_002D5544_002DBE62_002D732A269C0905_002Fd_003ASource_002Fd_003AModules_002Fd_003ARHI_002Fd_003AVulkanRHI_002Fd_003AVulkanObjects_002Fd_003AShader_002Ff_003AVulkanShaderResourceBindings_002Ecpp/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Component_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Component Designer generated code" type="string" />
     <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Designer_0020generated_0020code/@EntryIndexedValue" value="Designer generated code" type="string" />
