@@ -48,6 +48,12 @@ target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI Window-Static)
 #target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} Window-Static)
 
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:RHI>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:RHI>>"
+        COMMENT "正在将 RHI.dll 复制到 Release 目录 (仅 Release 配置)"
+)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
