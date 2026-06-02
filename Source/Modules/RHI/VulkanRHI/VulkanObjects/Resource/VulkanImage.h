@@ -44,7 +44,7 @@ public:
 	*/
 	void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, VkBuffer& Buffer, VkDeviceMemory& BufferMemory);
 
-	void TransitionImageLayout(VkFormat format, VkImageLayout OldLayout, VkImageLayout NewLayout);
+	void TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout NewLayout);
 
 	//void CopyBufferToImage(VkBuffer buffer, uint32_t width, uint32_t height);
 

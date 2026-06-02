@@ -208,7 +208,7 @@ void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMe
     std::cout << "VulkanImage::createBuffer ok" << std::endl;
 }
 
-void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout, VkImageLayout NewLayout)
+void VulkanImage::TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout NewLayout)
 {
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 
