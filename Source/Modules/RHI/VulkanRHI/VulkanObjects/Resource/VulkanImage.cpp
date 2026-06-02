@@ -208,14 +208,14 @@ void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMe
     std::cout << "VulkanImage::createBuffer ok" << std::endl;
 }
 
-void VulkanImage::TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout NewLayout)
+void VulkanImage::TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout NewLayout)
 {
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 
     VkImageMemoryBarrier Barrier{};
     Barrier.sType                           = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-    Barrier.oldLayout                       = OldLayout;
-    Barrier.newLayout                       = NewLayout;
+    Barrier.oldLayout                       = ToVkImageLayout(OldLayout);
+    Barrier.newLayout                       = ToVkImageLayout(NewLayout);
     Barrier.srcQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.image                           = Handle;
@@ -233,7 +233,7 @@ void VulkanImage::TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout N
      *https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
      *https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
      */
-    if (OldLayout == VK_IMAGE_LAYOUT_UNDEFINED && NewLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
+    if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
         Barrier.srcAccessMask = 0;
         Barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
@@ -241,7 +241,7 @@ void VulkanImage::TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout N
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         DestinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
     }
-    else if (OldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && NewLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) 
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
         Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
@@ -249,7 +249,7 @@ void VulkanImage::TransitionImageLayout(VkImageLayout OldLayout, VkImageLayout N
         SourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
         DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     }
-    else if (OldLayout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
         Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;

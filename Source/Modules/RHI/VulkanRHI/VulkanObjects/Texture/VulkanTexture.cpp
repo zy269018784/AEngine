@@ -61,23 +61,23 @@ void VulkanTexture::Update(int MipmapLevel, int XOffset, int YOffset, int ZOffse
 	*/
 	Image->Update(InData, Size);
 	VkFormat Format = ToVkFormat(GetFormat());
-	Image->TransitionImageLayout(ToVkImageLayout(GetLayout()), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	Image->TransitionImageLayout(GetLayout(), RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 	Image->CopyBufferToImage(Image->StagingBuffer, MipmapLevel, XOffset, YOffset, ZOffset, Width, Height, Depth);
-	Image->TransitionImageLayout(VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	Image->TransitionImageLayout(RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 }
 
 void VulkanTexture::TransitionImageLayout(int dir)
 {
-	VkImageLayout OldLayout;
-	VkImageLayout NewLayout;
+	RHIImageLayout OldLayout;
+	RHIImageLayout NewLayout;
 	if (0 == dir)
 	{
-		OldLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
-		NewLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		OldLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_PREINITIALIZED;
+		NewLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 	else {
-		OldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		NewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+		OldLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		NewLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 	}
 	Image->TransitionImageLayout(OldLayout, NewLayout);
 }
