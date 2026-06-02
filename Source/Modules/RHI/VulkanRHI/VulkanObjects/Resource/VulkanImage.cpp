@@ -264,11 +264,11 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
-        Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        Barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
-        SourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        SourceStage         = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        DestinationStage    = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     }
     else {
         //throw std::invalid_argument("unsupported layout transition!");
