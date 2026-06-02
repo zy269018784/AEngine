@@ -1,0 +1,79 @@
+1. 创建renderpass和subrenderpass
+
+    /*
+    *  3个subpass,
+    *     第1个pass 3个MRT
+    *     第2个pass
+    *     第3个pass
+    */
+
+    /*
+    * 初始化附件
+    */
+    uint32_t                                attachmentCount;
+    std::vector<VkAttachmentDescription>    Attachments;
+
+    /*
+    * 初始化subpass
+    */
+    uint32_t                                subpassCount;
+    std::vector<VkSubpassDescription>       Subpasses;
+
+    /*
+    * 初始化依赖
+    */
+    uint32_t                                dependencyCount;
+    std::vector<VkSubpassDependency>        Dependencies;
+    // pass0
+    Dependencies[0].srcSubpass          =    0;
+    Dependencies[0].dstSubpass          =    1;
+    Dependencies[0].srcStageMask        =    VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    Dependencies[0].dstStageMask        =    VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    // pass0写入到颜色附件
+    Dependencies[0].srcAccessMask       =    VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    // pass1读取颜色附件
+    Dependencies[0].dstAccessMask       =    VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
+
+    Dependencies[0].dependencyFlags     =    1;
+
+    // pass1
+    Dependencies[1].srcSubpass          =    1;
+    Dependencies[1].dstSubpass          =    2;
+    Dependencies[1].srcStageMask        =    VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    Dependencies[1].dstStageMask        =    VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    // pass0写入到颜色附件
+    Dependencies[1].srcAccessMask       =    VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    // pass1读取颜色附件
+    Dependencies[1].dstAccessMask       =    VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
+
+    Dependencies[0].dependencyFlags     =    1;
+
+    /*
+    * 创建render pass
+    */
+    VkRenderPassCreateInfo CreateInfo;
+    CreateInfo.attachmentCount  = Attachments.size();
+    CreateInfo.pAttachments     = Attachments.data();
+    CreateInfo.subpassCount     = Subpasses.size();
+    CreateInfo.pSubpasses       = Subpasses.data();
+    CreateInfo.dependencyCount  = Dependencies.size();
+    CreateInfo.pDependencies    = Dependencies.data();
+
+    VkRenderPass Handle;
+    vkCreateRenderPass(device, &CreateInfo, nullptr, &Handle);
+
+2.
+    vkCmdBeginRenderPass
+
+
+    vkCmdNextSubpass
+
+
+
+    vkCmdEndRenderPass
+
+
+
+
+
+
