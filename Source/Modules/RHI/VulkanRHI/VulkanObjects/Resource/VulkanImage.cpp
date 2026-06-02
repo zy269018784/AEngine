@@ -225,10 +225,14 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
     Barrier.subresourceRange.levelCount     = 1;
     Barrier.subresourceRange.baseArrayLayer = 0;
     Barrier.subresourceRange.layerCount     = ArraySize;
-
+    Barrier.srcAccessMask                   = VK_ACCESS_NONE;
+    Barrier.dstAccessMask                   = VK_ACCESS_NONE;
     VkPipelineStageFlags SourceStage;
     VkPipelineStageFlags DestinationStage;
-
+    /*
+     *https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
+     *https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
+     */
     if (OldLayout == VK_IMAGE_LAYOUT_UNDEFINED && NewLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
         Barrier.srcAccessMask = 0;
@@ -238,6 +242,14 @@ void VulkanImage::TransitionImageLayout(VkFormat Format, VkImageLayout OldLayout
         DestinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
     }
     else if (OldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && NewLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) 
+    {
+        Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+        SourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    }
+    else if (OldLayout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
         Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
