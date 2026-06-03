@@ -16,7 +16,7 @@ public:
     VkPhysicalDeviceMaintenance4PropertiesKHR	Maintenance4Properties;
     VkPhysicalDeviceMaintenance5PropertiesKHR	Maintenance5Properties;
     VkPhysicalDeviceMaintenance6PropertiesKHR	Maintenance6Properties;
-    VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
+    //VkPhysicalDeviceMaintenance7PropertiesKHR	Maintenance7Properties;
     //VkPhysicalDeviceMaintenance9PropertiesKHR	Maintenance9Properties;
     /*
         物理设备支持的加速结构属性

@@ -1,4 +1,5 @@
 ﻿#include "Core.h"
+#include <cstdint>
 VkInstance Instance;
 std::vector<VkPhysicalDevice> PhysicalDevices;
 std::vector<VkQueueFamilyProperties> QueueFamilyProperties;

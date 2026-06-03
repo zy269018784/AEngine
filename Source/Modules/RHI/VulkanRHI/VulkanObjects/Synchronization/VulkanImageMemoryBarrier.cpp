@@ -23,8 +23,8 @@ bool VulkanImageMemoryBarrier::CheckNewLayout() const
     if (Handle.newLayout == VK_IMAGE_LAYOUT_UNDEFINED)
         return false;
 
-    if (Handle.newLayout == VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT)
-        return false;
+    //if (Handle.newLayout == VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT)
+    //    return false;
 
     if (Handle.newLayout == VK_IMAGE_LAYOUT_PREINITIALIZED)
         return false;

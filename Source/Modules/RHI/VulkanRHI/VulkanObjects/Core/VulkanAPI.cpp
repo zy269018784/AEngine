@@ -35,7 +35,7 @@ void VulkanAPI::LoadSurfaceAPI()
 #endif
 
 #if RHI_USE_WAYLAND_KHR
-    vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWin32SurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWaylandSurfaceKHR"));
+    vkCreateWaylandSurfaceKHR = reinterpret_cast<PFN_vkCreateWaylandSurfaceKHR>(Instance->GetInstanceProcAddr("vkCreateWaylandSurfaceKHR"));
 #endif
 }
 

@@ -18,7 +18,7 @@ public:
     VkPhysicalDeviceMaintenance4FeaturesKHR		Maintenance4Features;
     VkPhysicalDeviceMaintenance5FeaturesKHR		Maintenance5Features;
     VkPhysicalDeviceMaintenance6FeaturesKHR		Maintenance6Features;
-    VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
+    //VkPhysicalDeviceMaintenance7FeaturesKHR		Maintenance7Features;
     //VkPhysicalDeviceMaintenance8FeaturesKHR		Maintenance8Features;
     //VkPhysicalDeviceMaintenance9FeaturesKHR		Maintenance9Features;
 
