@@ -19,5 +19,6 @@ message (STATUS "ModuleTest LIBRARY_PATH                ${LIBRARY_PATH}")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/RHITest)
 add_subdirectory(${PROJECT_SOURCE_DIR}/WindowTest)
+add_subdirectory(${PROJECT_SOURCE_DIR}/GameTest)
 add_subdirectory(${PROJECT_SOURCE_DIR}/HelloWorld)
 #add_subdirectory(${PROJECT_SOURCE_DIR}/ACodecTest)
