@@ -5,18 +5,18 @@
 #include "GGame/GFood.h"
 #include <iostream>
 #include "GDeviceDriver/OLED/SSD1306.h"
+#include <vector>
 
 int main(int argc, char **argv)
 {
-    GGame game;
-    game.SetName("hello GGame");
-    std::cout << game.GetName() << std::endl;
+    std::vector<GFood> Foods = {
+    {"包菜", 2.0},
+    {"鸡翅", 8.0},
+    {"豆肠", 1.0},
+    {"鸡柳", 3.0},
+    };
 
-    SSD1306 oled1306(nullptr);
-    oled1306.SetName("oled1306");
-    std::cout << oled1306.GetName() << std::endl;
-
-    GFood food(nullptr);
-    food.SetName("油炸");
-    std::cout << food.GetName() << std::endl;
+    for (int i = 0; i < Foods.size(); ++i) {
+        std::cout << Foods[i].GetName() << " " <<  Foods[i].GetPrice() << std::endl;
+    }
 }
