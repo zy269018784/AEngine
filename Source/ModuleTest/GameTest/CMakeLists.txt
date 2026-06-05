@@ -33,9 +33,9 @@ if(NOT TARGET GCG)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GCG ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCG)
 endif ()
 
-#if(NOT TARGET GDeviceDriver)
-#   add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GDeviceDriver ${CMAKE_CURRENT_BINARY_DIR}/Modules/GDeviceDriver)
-#endif ()
+if(NOT TARGET GDeviceDriver)
+   add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GDeviceDriver ${CMAKE_CURRENT_BINARY_DIR}/Modules/GDeviceDriver)
+endif ()
 
 if(NOT TARGET GMath)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GMath ${CMAKE_CURRENT_BINARY_DIR}/Modules/GMath)
@@ -68,7 +68,7 @@ list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
 
 # 链接库
 set (LIBRARYS "")
-list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow GGame GRenderDependencyGraph)
+list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow GGame GRenderDependencyGraph GDeviceDriver)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
