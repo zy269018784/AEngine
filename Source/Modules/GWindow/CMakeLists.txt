@@ -16,7 +16,10 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set (USE_MFC false)
 endif ()
 
+#
+set (INCLUDE_PATH "")
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR})
+list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/..)
 
 message (STATUS "Window CMAKE_SOURCE_DIR            ${CMAKE_SOURCE_DIR}")
 message (STATUS "Window PROJECT_SOURCE_DIR          ${PROJECT_SOURCE_DIR}")

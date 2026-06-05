@@ -46,7 +46,7 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
-target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} GRHI Window-Static)
+target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} GRHI GWindow-Static)
 #target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} Window-Static)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -77,3 +77,4 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "GGP")
 elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
 
 endif ()
+

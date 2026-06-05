@@ -27,7 +27,7 @@
 #if  PROJECT_USE_GLFW
     #include <GLFW/glfw3native.h>
 #endif
-#include "IWindow.h"
+#include "GWindow/IWindow.h"
 
 #include <iostream>
 #include <fstream>
