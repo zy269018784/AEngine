@@ -29,7 +29,7 @@ if(NOT TARGET GRHI)
 endif ()
 
 if(NOT TARGET Window)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/Window ${CMAKE_CURRENT_BINARY_DIR}/Modules/Window)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GWindow ${CMAKE_CURRENT_BINARY_DIR}/Modules/GWindow)
 endif ()
 
 # 依赖库
