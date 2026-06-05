@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GWEBRTCDATACHANNEL_H
+#define MODULETEST_GWEBRTCDATACHANNEL_H
+
+
+class GWebRTCDataChannel {
+};
+
+
+#endif //MODULETEST_GWEBRTCDATACHANNEL_H

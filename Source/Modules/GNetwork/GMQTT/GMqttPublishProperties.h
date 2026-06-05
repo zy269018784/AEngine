@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GMQTTPUBLISHPROPERTIES_H
+#define MODULETEST_GMQTTPUBLISHPROPERTIES_H
+
+
+class GMqttPublishProperties {
+};
+
+
+#endif //MODULETEST_GMQTTPUBLISHPROPERTIES_H

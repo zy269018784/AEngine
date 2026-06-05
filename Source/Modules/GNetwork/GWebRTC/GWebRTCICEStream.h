@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GWEBRTCICESTREAM_H
+#define MODULETEST_GWEBRTCICESTREAM_H
+
+
+class GWebRTCICEStream {
+};
+
+
+#endif //MODULETEST_GWEBRTCICESTREAM_H

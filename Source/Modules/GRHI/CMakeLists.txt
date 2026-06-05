@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project (GRHI)
-#set (LIBRARY_PATH C:/Projects/Library)
+
 set (SRC_LIST "")
 
 set (USE_OPENGL33_RHI   1)

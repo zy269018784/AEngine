@@ -33,6 +33,7 @@ if(NOT TARGET Window)
 endif ()
 
 # 依赖库
+set (LIBRARYS "")
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
 list (APPEND LIBRARYS		glfw3)

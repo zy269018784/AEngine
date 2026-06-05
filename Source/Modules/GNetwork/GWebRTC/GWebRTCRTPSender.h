@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GWEBRTCRTPSENDER_H
+#define MODULETEST_GWEBRTCRTPSENDER_H
+
+
+class GWebRTCRTPSender {
+};
+
+
+#endif //MODULETEST_GWEBRTCRTPSENDER_H

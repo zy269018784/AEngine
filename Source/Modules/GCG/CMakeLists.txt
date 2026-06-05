@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project (GCore)
+project (GCG)
 
 #[[
 	语言
@@ -21,10 +21,16 @@ list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/..)
 
 # 源码文件
 file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
-        ${PROJECT_SOURCE_DIR}/*.c
-        ${PROJECT_SOURCE_DIR}/*.h)
+                                        ${PROJECT_SOURCE_DIR}/*.c
+                                        ${PROJECT_SOURCE_DIR}/*.h)
 list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
+
+# 链接GCore库
+if(NOT TARGET GCore)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../GCore ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCore)
+endif ()
+list (APPEND LIBRARYS GCore)
 
 # 动态库
 add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})

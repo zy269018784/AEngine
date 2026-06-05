@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GWEBRTCRTPRECEIVER_H
+#define MODULETEST_GWEBRTCRTPRECEIVER_H
+
+
+class GWebRTCRTPReceiver {
+};
+
+
+#endif //MODULETEST_GWEBRTCRTPRECEIVER_H

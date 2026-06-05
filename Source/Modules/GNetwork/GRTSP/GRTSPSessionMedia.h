@@ -1,0 +1,13 @@
+//
+// Created by zy on 6/6/26.
+//
+
+#ifndef MODULETEST_GRTSPSESSIONMEDIA_H
+#define MODULETEST_GRTSPSESSIONMEDIA_H
+
+
+class GRTSPSessionMedia {
+};
+
+
+#endif //MODULETEST_GRTSPSESSIONMEDIA_H
