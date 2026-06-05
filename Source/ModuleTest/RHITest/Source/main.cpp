@@ -6,7 +6,7 @@ int RHIExample();
 
 int main(int argc, char **argv)
 {
-    return TestVulkanRenderPass(argc, argv);
+    //return TestVulkanRenderPass(argc, argv);
     RHIExample();
 
     return 0;

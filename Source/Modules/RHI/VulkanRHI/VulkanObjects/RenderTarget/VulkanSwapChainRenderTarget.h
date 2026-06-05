@@ -56,4 +56,15 @@ public:
         同步帧
     */
     std::vector<VulkanFrame*>			Frames;						// 2
+
+#if 0
+    // AMD Radeon RX580 2048SP
+    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
+#else
+    // 4060 support
+    // AMD Radeon RX580 2048SP do not support
+    RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
+    RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
+#endif
 };

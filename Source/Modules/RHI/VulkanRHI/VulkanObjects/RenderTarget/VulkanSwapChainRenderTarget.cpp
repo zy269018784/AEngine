@@ -225,16 +225,6 @@ void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 void VulkanSwapChainRenderTarget::CreateFramebuffer()
 {
 	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
-#if 1
-	// AMD Radeon RX580 2048SP
-	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
-#else
-	// 4060 support
-	// AMD Radeon RX580 2048SP do not support
-	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
-#endif
 	/*
 		3. 创建Frame Buffer
 	*/
@@ -270,17 +260,6 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 void VulkanSwapChainRenderTarget::CreateRenderPass()
 {
 	RHIPixelFormat SwapChainRHIPixelFormat = SwapChain->GetRHIPixelFormat();
-
-#if 1
-	// AMD Radeon RX580 2048SP
-	RHIAttachmentType DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D32_S8;
-#else
-	// 4060 support
-	// AMD Radeon RX580 2048SP do not support
-	RHIDepthAttachmentType DepthStencilType = RHIDepthAttachmentType::DepthStencil_D24_S8;
-	RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
-#endif
 
 	//VkFormat ImageFormat	= dynamic_cast<VulkanSwapChain *>(SwapChain)->GetFormat();
 	/*
