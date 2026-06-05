@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 {
     std::vector<GFood> Foods = {
     {"包菜", 2.0},
+    {"香蕉", 2.0},
     {"鸡翅", 8.0},
     {"豆肠", 1.0},
     {"鸡柳", 3.0},
