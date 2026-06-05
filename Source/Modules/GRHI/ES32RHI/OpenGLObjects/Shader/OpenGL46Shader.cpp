@@ -24,7 +24,7 @@ OpenGL46Shader::OpenGL46Shader(RHIShaderType Type, std::uint32_t* Code, std::siz
 	if (!success)
 	{
 		glGetShaderInfoLog(Handle, 512, nullptr, infoLog);
-		std::cout << "glCompileShader log: \n" << infoLog << std::endl;
+		std::cout << "glCompileShader 46 log: \n" << infoLog << std::endl;
 	}
 }
 

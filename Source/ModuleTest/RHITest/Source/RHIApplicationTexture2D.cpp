@@ -144,7 +144,7 @@ void RHIApplicationTexture2D::CreateVertexDescriptioin()
 
 void RHIApplicationTexture2D::CreateGraphicsPipeline()
 {
-#if OS_IS_WINDOWS
+#if 1
     auto vertShaderCode = ReadFile("Texture2D_vert.spv");
     auto fragShaderCode = ReadFile("Texture2D_frag.spv");
     // 创建Shader

@@ -24,8 +24,8 @@ message (STATUS "RHITest CMAKE_CURRENT_SOURCE_DIR 	 ${CMAKE_CURRENT_SOURCE_DIR}"
 message (STATUS "RHITest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}")
 message (STATUS "RHITest LIBRARY_PATH                ${LIBRARY_PATH}")
 
-if(NOT TARGET RHI)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/RHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/RHI)
+if(NOT TARGET GRHI)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRHI)
 endif ()
 
 if(NOT TARGET Window)
@@ -45,14 +45,14 @@ list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
-target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} RHI Window-Static)
+target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} GRHI Window-Static)
 #target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS} Window-Static)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "$<$<CONFIG:Release>:$<TARGET_FILE:RHI>>"
-        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:RHI>>"
-        COMMENT "正在将 RHI.dll 复制到 Release 目录 (仅 Release 配置)"
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GRHI>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GRHI>>"
+        COMMENT "正在将 GRHI.dll 复制到 Release 目录 (仅 Release 配置)"
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")

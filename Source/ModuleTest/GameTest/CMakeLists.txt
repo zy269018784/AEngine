@@ -25,10 +25,10 @@ message (STATUS "GameTest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR
 message (STATUS "GameTest LIBRARY_PATH                ${LIBRARY_PATH}")
 
 if(NOT TARGET ACodec)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/Game ${CMAKE_CURRENT_BINARY_DIR}/Modules/Game)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GCore ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCore)
 endif ()
 
-list (APPEND LIBRARYS Game)
+list (APPEND LIBRARYS GCore)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})

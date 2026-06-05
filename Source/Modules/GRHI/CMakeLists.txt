@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project (RHI)
+project (GRHI)
 #set (LIBRARY_PATH C:/Projects/Library)
 set (SRC_LIST "")
 
@@ -54,10 +54,9 @@ file(GLOB_RECURSE SRC_LIST_D3D9RHI          ${PROJECT_SOURCE_DIR}/D3D9RHI/*.cpp
 file(GLOB_RECURSE SRC_LIST_GLAD             ${PROJECT_SOURCE_DIR}/glad/*.cpp
                                             ${PROJECT_SOURCE_DIR}/glad/*.c
                                             ${PROJECT_SOURCE_DIR}/glad/*.h)
+list (APPEND SRC_LIST ${SRC_LIST_GLAD})
 
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR})
-
-list (APPEND SRC_LIST ${SRC_LIST_GLAD})
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/glad)
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/glad/KHR)
 
