@@ -1,17 +1,13 @@
-﻿
-#include "GCore/GObject.h"
+﻿#include "GCore/GObject.h"
 #include "GMath/Math.h"
-#include <iostream>
 #include "GCG/GVirtualGeometry/GVirtualGeometry.h"
+#include "GGame/GGame.h"
+#include <iostream>
+
 
 int main(int argc, char **argv)
 {
-    GObject obj;
-    obj.SetName("Hello");
-    std::cout << obj.GetName() << std::endl;
-
-    GVirtualGeometry vg;
-    vg.SetName("hello GVirtualGeometry");
-    std::cout << vg.GetName() << std::endl;
-    HelloMath();
+    GGame game;
+    game.SetName("hello GGame");
+    std::cout << game.GetName() << std::endl;
 }

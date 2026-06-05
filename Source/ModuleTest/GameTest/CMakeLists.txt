@@ -45,6 +45,10 @@ if(NOT TARGET GNetwork)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GNetwork ${CMAKE_CURRENT_BINARY_DIR}/Modules/GNetwork)
 endif ()
 
+if(NOT TARGET GGame)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GGame ${CMAKE_CURRENT_BINARY_DIR}/Modules/GGame)
+endif ()
+
 #if(NOT TARGET GRHI)
 #    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRHI)
 #endif ()
@@ -60,7 +64,7 @@ list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
 
 # 链接库
 set (LIBRARYS "")
-list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow)
+list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow GGame)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
