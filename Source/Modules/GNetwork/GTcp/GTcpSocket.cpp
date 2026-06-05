@@ -1,4 +1,4 @@
-#include "GNetwork/GTcpSocket.h"
+#include "GNetwork/GTcp/GTcpSocket.h"
 
 GTcpSocket::GTcpSocket(GObject* Parent)
     : GObject(Parent)

@@ -28,7 +28,7 @@ if(NOT TARGET GRHI)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRHI)
 endif ()
 
-if(NOT TARGET Window)
+if(NOT TARGET GWindow)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GWindow ${CMAKE_CURRENT_BINARY_DIR}/Modules/GWindow)
 endif ()
 

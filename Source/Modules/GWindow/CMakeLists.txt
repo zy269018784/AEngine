@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project (Window)
+project (GWindow)
 
 
 # 配置支持哪些窗口

@@ -24,20 +24,43 @@ message (STATUS "GameTest CMAKE_CURRENT_SOURCE_DIR 	  ${CMAKE_CURRENT_SOURCE_DIR
 message (STATUS "GameTest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}")
 message (STATUS "GameTest LIBRARY_PATH                ${LIBRARY_PATH}")
 
-if(NOT TARGET GMath)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GMath ${CMAKE_CURRENT_BINARY_DIR}/Modules/GMath)
+# 库
+if(NOT TARGET GArch)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GArch ${CMAKE_CURRENT_BINARY_DIR}/Modules/GArch)
 endif ()
 
 if(NOT TARGET GCG)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GCG ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCG)
 endif ()
 
-set (INCLUDE_PATH "")
+#if(NOT TARGET GDeviceDriver)
+#   add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GDeviceDriver ${CMAKE_CURRENT_BINARY_DIR}/Modules/GDeviceDriver)
+#endif ()
+
+if(NOT TARGET GMath)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GMath ${CMAKE_CURRENT_BINARY_DIR}/Modules/GMath)
+endif ()
+
+if(NOT TARGET GNetwork)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GNetwork ${CMAKE_CURRENT_BINARY_DIR}/Modules/GNetwork)
+endif ()
+
+#if(NOT TARGET GRHI)
+#    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRHI ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRHI)
+#endif ()
+
+if(NOT TARGET GWindow)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GWindow ${CMAKE_CURRENT_BINARY_DIR}/Modules/GWindow)
+endif ()
+
+# 头文件路径
+#set (INCLUDE_PATH "")
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
-list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules/GCore)
-message (STATUS "GameTest INCLUDE_PATH ${INCLUDE_PATH}")
-list (APPEND LIBRARYS GMath GCG)
+
+# 链接库
+set (LIBRARYS "")
+list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})

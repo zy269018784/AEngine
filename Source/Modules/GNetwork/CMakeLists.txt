@@ -12,18 +12,18 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 清空SRC_LIST, INCLUDE_PATH
-set (SRC_LIST "")
-set (INCLUDE_PATH "")
-
 # 头文件路径
+set (INCLUDE_PATH "")
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/..)
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR})
 
-# 源码文件
+# 模块源码文件
 file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
-                                        ${PROJECT_SOURCE_DIR}/*.c
-                                        ${PROJECT_SOURCE_DIR}/*.h)
+        ${PROJECT_SOURCE_DIR}/*.c
+        ${PROJECT_SOURCE_DIR}/*.h)
+
+# 源码文件
+set (SRC_LIST "")
 list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
 

@@ -107,7 +107,9 @@ if (USE_VULKAN)
     list (APPEND LIBRARYS		vulkan)
 endif ()
 
-add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
+add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST}
+        ../GDeviceDriver/GDevice.cpp
+        ../GDeviceDriver/GDevice.h)
 
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
