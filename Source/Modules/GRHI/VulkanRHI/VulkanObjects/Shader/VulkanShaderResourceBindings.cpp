@@ -36,21 +36,24 @@ void VulkanShaderResourceBindings::Create()
 		创建描述符池
 	*/
 	CreateDescriptorPool();
-
+	std::cout << "CreateDescriptorPool end" << std::endl;
 	/*
 		创建描述符集合布局
 	*/
 	CreateDescriptorSetLayout();
+	std::cout << "CreateDescriptorSetLayout end" << std::endl;
 
 	/*
 		创建描述符集合
 	*/
 	CreateDescriptorSets();
+	std::cout << "CreateDescriptorSets end" << std::endl;
 	
 	/*
 		更新描述符集合
 	*/
 	UpdateDescriptorSets();
+	std::cout << "UpdateDescriptorSets end" << std::endl;
 }
 
 VulkanDescriptorSet* VulkanShaderResourceBindings::GetDescriptorSet()
@@ -220,7 +223,6 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 		{
 			VkSampler   Sampler   = ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler)->GetHandle();
 			VkImageView ImageView = ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex)->ImageView->GetHandle();
-
 			VkDescriptorImageInfo DescriptorImageInfo;
 			DescriptorImageInfo.sampler		= Sampler;
 			DescriptorImageInfo.imageView	= ImageView;
@@ -257,7 +259,6 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 			WriteDescriptorSets.push_back(WriteDescriptorSet);
 		}
 	}
-
 	UpdateDescriptorSets(WriteDescriptorSets.size(), WriteDescriptorSets.data(), 0, nullptr);
 }
 

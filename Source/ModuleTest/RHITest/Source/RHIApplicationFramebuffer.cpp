@@ -134,6 +134,7 @@ void RHIApplicationFramebuffer::CreateTexture()
 
 void RHIApplicationFramebuffer::CreateSRB()
 {
+
     SRB2 = pRHI->RHICreateShaderResourceBindings();
     SRB2->SetBindings({
 #if 1
@@ -144,13 +145,15 @@ void RHIApplicationFramebuffer::CreateSRB()
         RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
 #endif
     });
+    std::cout << "Create SRB2 begin" << std::endl;
     SRB2->Create();
-
+    std::cout << "Create SRB begin" << std::endl;
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
     });
     SRB->Create();
+    std::cout << "Create SRB end" << std::endl;
 }
 
 void RHIApplicationFramebuffer::CreateVertexDescriptioin()

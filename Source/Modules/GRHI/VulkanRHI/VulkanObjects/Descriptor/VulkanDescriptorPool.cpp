@@ -139,7 +139,8 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice* InDevice, RHIShaderReso
 
 	for (int i = 0; i < PoolSizes.size(); i++)
 	{
-		std::cout << "PoolSizes[i].descriptorCount  " << PoolSizes[i].descriptorCount << std::endl;
+		std::cout << ""
+			   "PoolSizes[i].descriptorCount  " << PoolSizes[i].descriptorCount << std::endl;
 	}
 
 	VkDescriptorPoolCreateInfo CreateInfo = {};

@@ -405,7 +405,7 @@ void VulkanDevice::DestroyDescriptorPool(VkDescriptorPool DescriptorPool,
 {
 	vkDestroyDescriptorPool(Handle, DescriptorPool, Allocator);
 }
-
+#include <iostream>
 /*
 	Update Descriptor Sets
 */
@@ -414,7 +414,9 @@ void VulkanDevice::UpdateDescriptorSets(uint32_t                    DescriptorWr
 	uint32_t                    DescriptorCopyCount,
 	const VkCopyDescriptorSet* DescriptorCopies)
 {
+	std::cout << "UpdateDescriptorSets AAAA "  << DescriptorWrites << " " << DescriptorWriteCount << std::endl;
 	vkUpdateDescriptorSets(Handle, DescriptorWriteCount, DescriptorWrites, DescriptorCopyCount, DescriptorCopies);
+	std::cout << "UpdateDescriptorSets BBBB " << std::endl;
 }
 
 /*
