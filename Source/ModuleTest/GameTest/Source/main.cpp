@@ -5,6 +5,8 @@
 #include "GGame/GFood.h"
 #include "GDeviceDriver/OLED/SSD1306.h"
 #include "GWindow/FLTKWindow/FLTKWindow.h"
+#include "GWindow/GLFWWindow/GLFWWindow.h"
+#include "GWindow/SDLWindow/SDL3Window.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
@@ -24,24 +26,48 @@ int main(int argc, char **argv)
     for (int i = 0; i < Foods.size(); ++i) {
         std::cout << Foods[i].GetName() << " " <<  Foods[i].GetPrice() << std::endl;
     }
-#if 1
-    FLTKWindow *win = new FLTKWindow();
-    Fl_Window *window = win->GetHandle();
-    win->Resize(800, 600);
-    window->end();
-    window->show(argc, argv);
-    return Fl::run();
-#else
-    Fl_Window *window = new Fl_Window(340, 180);
-#if 0
-    Fl_Box *box = new Fl_Box(20, 40, 300, 100, "Hello, World!");
-    box->box(FL_UP_BOX);
-    box->labelfont(FL_BOLD + FL_ITALIC);
-    box->labelsize(36);
-    box->labeltype(FL_SHADOW_LABEL);
-#endif
-    window->end();
-    window->show(argc, argv);
-    return Fl::run();
-#endif
+
+
+    IWindow *win = nullptr;
+    int Index = 2;
+    switch (Index)
+    {
+    case 0:
+        glfwInit();
+        win = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        break;
+    case 1:
+        win = new FLTKWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        break;
+    case 2:
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
+            SDL_Log("SDL_Init 失败: %s", SDL_GetError());
+            return -1;
+        }
+        win = new SDL3Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        break;
+    default:
+        break;
+    }
+
+    win->SetTitle("Hello IWindow");
+    win->SetGeometry(1920 - 400, 1080 - 300, 800, 600);
+    win->Show();
+    win->Run();
+    delete win;
+    // 结束
+    switch (Index)
+    {
+    case 0:
+
+        break;
+    case 1:
+
+        break;
+    case 2:
+        SDL_Quit();
+        break;
+    default:
+        break;
+    }
 }

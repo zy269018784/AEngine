@@ -1,8 +1,10 @@
 #include "GWindow/FLTKWindow/FLTKWindow.h"
 
-FLTKWindow::FLTKWindow()
+FLTKWindow::FLTKWindow(IWindow::GraphicsAPI API, IWindow *Parent)
+    : IWindow(Parent)
 {
-    Handle = new Fl_Window(400, 300, "FLTK Input Example");
+    Handle = new Fl_Window(800, 600, "FLTKWindow");
+    SetGeometry(0, 0, 800, 600);
 }
 
 FLTKWindow::~FLTKWindow()
@@ -18,32 +20,6 @@ Fl_Window *FLTKWindow::GetHandle() const
 void FLTKWindow::Run()
 {
     Fl::run();
-}
-
-void FLTKWindow::SetTitle(const char *Title)
-{
-
-}
-
-void FLTKWindow::Resize(int W, int H)
-{
-    Width = W;
-    Height = H;
-    Handle->resize(X, Y, Width, Height);
-}
-
-void FLTKWindow::SetWidth(int arg)
-{
-
-}
-
-void FLTKWindow::SetHeight(int arg)
-{
-}
-
-void FLTKWindow::SetPosition(int X, int Y)
-{
-
 }
 
 #if OS_IS_WINDOWS
@@ -94,7 +70,53 @@ Window FLTKWindow::GetXlibWindow()
 
 #endif
 
+void FLTKWindow::SetTitle(const char *Title)
+{
+    Handle->label(Title);
+}
 
+void FLTKWindow::SetGeometry(int X, int Y, int W, int H)
+{
+    this->X = X;
+    this->Y = Y;
+    this->Width = W;
+    this->Height = H;
+    Handle->resize(X, Y, Width, Height);
+}
+
+void FLTKWindow::Resize(int W, int H)
+{
+    this->Width = W;
+    this->Height = H;
+    Handle->resize(X, Y, Width, Height);
+}
+
+void FLTKWindow::SetWidth(int arg)
+{
+
+}
+
+void FLTKWindow::SetHeight(int arg)
+{
+}
+
+void FLTKWindow::SetPosition(int X, int Y)
+{
+
+}
+
+void FLTKWindow::Show()
+{
+    Handle->show();
+}
+
+void FLTKWindow::SetVisible(bool Visible)
+{
+    if (Visible)
+        Handle->show();
+    else
+        Handle->hide();
+}
 
 
 

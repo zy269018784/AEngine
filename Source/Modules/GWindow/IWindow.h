@@ -45,11 +45,6 @@ public:
 public:
     virtual void Run() =0;
 public:
-    virtual void SetTitle(const char *Title) =0;
-    virtual void Resize(int W, int H) =0;
-    virtual void SetWidth(int arg) =0;
-    virtual void SetHeight(int arg) =0;
-    virtual void SetPosition(int X, int Y) =0;
 #if  OS_IS_LINUX
     virtual xcb_connection_t *GetXCBConnection() =0;
     virtual xcb_window_t GetXCBWindow() =0;
@@ -60,6 +55,15 @@ public:
     virtual HWND GetHWND() =0;
     virtual HINSTANCE GetHINSTANCE() =0;
 #endif
+    virtual void SetTitle(const char *Title) =0;
+    virtual void SetGeometry(int X, int Y, int W, int H) = 0;
+    virtual void Resize(int W, int H) =0;
+    virtual void SetWidth(int arg) =0;
+    virtual void SetHeight(int arg) =0;
+    virtual void SetPosition(int X, int Y) =0;
+    virtual void Show() =0;
+    virtual void SetVisible(bool Visible) = 0;
+
 protected:
     IWindow  *Parent;
     int Width;

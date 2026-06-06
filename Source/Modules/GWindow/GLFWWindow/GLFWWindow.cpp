@@ -62,9 +62,8 @@ GLFWWindow::GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent)
         default:
             break;
     }
-    Handle = glfwCreateWindow(800, 600, "aaa", NULL, NULL);
-
-    //glfwMakeContextCurrent(Handle);
+    Handle = glfwCreateWindow(800, 600, "", NULL, NULL);
+    SetGeometry(0, 0, 800, 600);
 }
 
 GLFWWindow::~GLFWWindow()
@@ -76,53 +75,6 @@ GLFWWindow::~GLFWWindow()
 ::GLFWwindow* GLFWWindow::GetHandle()
 {
     return Handle;
-}
-
-void GLFWWindow::MakeContextCurrent(void)
-{
-    glfwMakeContextCurrent(Handle);
-}
-
-
-void GLFWWindow::Run()
-{
-    while (!glfwWindowShouldClose(Handle)) {
-       // glClearColor(1, 1, 1, 1);
-       // glClear(GL_COLOR_BUFFER_BIT);
-        glfwPollEvents();
-    }
-
-}
-
-void GLFWWindow::SetTitle(const char *Title)
-{
-    glfwSetWindowTitle(Handle, Title);
-}
-
-void GLFWWindow::Resize(int W, int H)
-{
-    Width  = W;
-    Height = H;
-    glfwSetWindowSize(Handle, Width, Height);
-}
-
-void GLFWWindow::SetWidth(int arg)
-{
-    Width = arg;
-    glfwSetWindowSize(Handle, Width, Height);
-}
-
-void GLFWWindow::SetHeight(int arg)
-{
-    Height = arg;
-    glfwSetWindowSize(Handle, Width, Height);
-}
-
-void GLFWWindow::SetPosition(int X, int Y)
-{
-    this->X = X;
-    this->Y = Y;
-    glfwSetWindowPos(Handle, this->X, this->Y);
 }
 
 #if OS_IS_WINDOWS
@@ -165,3 +117,73 @@ Window GLFWWindow::GetXlibWindow()
 }
 
 #endif
+
+
+void GLFWWindow::MakeContextCurrent(void)
+{
+    glfwMakeContextCurrent(Handle);
+}
+
+
+void GLFWWindow::Run()
+{
+    while (!glfwWindowShouldClose(Handle)) {
+       // glClearColor(1, 1, 1, 1);
+       // glClear(GL_COLOR_BUFFER_BIT);
+        glfwPollEvents();
+    }
+
+}
+
+void GLFWWindow::SetTitle(const char *Title)
+{
+    glfwSetWindowTitle(Handle, Title);
+}
+
+void GLFWWindow::SetGeometry(int X, int Y, int W, int H)
+{
+    SetPosition(X, Y);
+    Resize(W, H);
+}
+
+void GLFWWindow::Resize(int W, int H)
+{
+    Width  = W;
+    Height = H;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetWidth(int arg)
+{
+    Width = arg;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetHeight(int arg)
+{
+    Height = arg;
+    glfwSetWindowSize(Handle, Width, Height);
+}
+
+void GLFWWindow::SetPosition(int X, int Y)
+{
+    this->X = X;
+    this->Y = Y;
+    glfwSetWindowPos(Handle, this->X, this->Y);
+}
+
+void GLFWWindow::Show()
+{
+    glfwShowWindow(Handle);
+}
+
+void GLFWWindow::SetVisible(bool Visible)
+{
+    if (Visible)
+        glfwShowWindow(Handle);
+    else
+        glfwHideWindow(Handle);
+}
+
+
+

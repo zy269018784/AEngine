@@ -7,7 +7,7 @@ set (USE_GLFW       true)
 set (USE_CEF        false)
 set (USE_FLTK       true)
 set (USE_QT         false)
-set (USE_SDL        false)
+set (USE_SDL        true)
 set (USE_SFML       false)
 set (USE_wxWidget   false)
 set (USE_X11        false)
@@ -102,10 +102,14 @@ endif ()
 
 # sdl
 if (USE_SDL)
-    file(GLOB_RECURSE SDL_SRC_LIST         ${PROJECT_SOURCE_DIR}/SDLWindow/*.cpp
-            ${PROJECT_SOURCE_DIR}/SDLWindow/*.c
-            ${PROJECT_SOURCE_DIR}/SDLWindow/*.h)
+    file(GLOB_RECURSE SDL_SRC_LIST          ${PROJECT_SOURCE_DIR}/SDLWindow/*.cpp
+                                            ${PROJECT_SOURCE_DIR}/SDLWindow/*.c
+                                            ${PROJECT_SOURCE_DIR}/SDLWindow/*.h)
     list (APPEND SRC_LIST ${SDL_SRC_LIST})
+    # 依赖库
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/SDL/3.2.24/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/SDL/3.2.24/lib)
+    list (APPEND LIBRARYS		SDL3)
 endif ()
 
 # x11

@@ -12,18 +12,12 @@
 class FLTKWindow : public IWindow
 {
 public:
-    FLTKWindow();
+    FLTKWindow(IWindow::GraphicsAPI API, IWindow *Parent = nullptr);
     ~FLTKWindow();
     Fl_Window *GetHandle() const;
 public:
     virtual void Run() override final;
 public:
-    void SetTitle(const char *Title) override final;
-    void Resize(int W, int H) override final;
-    void SetWidth(int arg) override final;
-    void SetHeight(int arg) override final;
-    void SetPosition(int X, int Y) override final;
-
 #if  OS_IS_LINUX
     virtual xcb_connection_t *GetXCBConnection() override final;
     virtual xcb_window_t GetXCBWindow() override final;
@@ -34,6 +28,14 @@ public:
     virtual HWND GetHWND() override final;
     virtual HINSTANCE GetHINSTANCE() override final;
 #endif
+    void SetTitle(const char *Title) override final;
+    void SetGeometry(int X, int Y, int W, int H) override final;
+    void Resize(int W, int H) override final;
+    void SetWidth(int arg) override final;
+    void SetHeight(int arg) override final;
+    void SetPosition(int X, int Y) override final;
+    void Show() override final;
+    void SetVisible(bool Visible) override final;
 private:
     Fl_Window *Handle;
 };
