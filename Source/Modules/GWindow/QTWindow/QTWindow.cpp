@@ -1,12 +1,21 @@
-#include "../QTWindow.h"
+#include "QTWindow.h"
 
-QTWindow::QTWindow(IWindow *Parent)
+QTWindow::QTWindow(IWindow::GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
-#if PROJECT_USE_QT
-    //Handle = new QWindow(dynamic_cast<QTWindow *>(Parent)->GetHandle());
-    Handle = new QWindow();
-#endif
+    Handle = new QWidget();
+    /*
+     * 设置标题
+     */
+    SetTitle("GLFWWindow");
+    /*
+     * 设置几何
+     */
+    SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 QTWindow::~QTWindow()
@@ -14,74 +23,25 @@ QTWindow::~QTWindow()
 
 }
 
-void QTWindow::Run()
-{
-#if PROJECT_USE_QT
-    Handle->show();
-#endif
-}
-
-#if PROJECT_USE_QT
-QWindow *QTWindow::GetHandle()
-{
-    return Handle;
-}
-#endif
-
-void QTWindow::SetTitle(const char *Title)
-{
-#if PROJECT_USE_QT
-    Handle->setTitle(Title);
-#endif
-}
-
-void QTWindow::Resize(int W, int H)
-{
-    Width  = W;
-    Height = H;
-#if PROJECT_USE_QT
-    Handle->resize(W, H);
-#endif
-}
-
-void QTWindow::SetWidth(int arg)
-{
-    Width = arg;
-#if PROJECT_USE_QT
-    Handle->setWidth(Width);
-#endif
-}
-
-void QTWindow::SetHeight(int arg)
-{
-    Height = arg;
-#if PROJECT_USE_QT
-    Handle->setHeight(Height);
-#endif
-}
-
-void QTWindow::SetPosition(int X, int Y)
-{
-    this->X = X;
-    this->Y = Y;
-#if PROJECT_USE_QT
-    Handle->setPosition(this->X, this->Y);
-#endif
-}
 
 #if OS_IS_WINDOWS
 HWND QTWindow::GetHWND()
 {
-    return {};
+    return glfwGetWin32Window(Handle);
 }
 
 HINSTANCE QTWindow::GetHINSTANCE()
 {
-    return {};
+
+    HWND hwnd = glfwGetWin32Window(Handle);
+
+    HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+
+    return instacne;
 }
 #endif
 
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
 xcb_connection_t *QTWindow::GetXCBConnection()
 {
     return nullptr;
@@ -91,8 +51,7 @@ xcb_window_t QTWindow::GetXCBWindow()
 {
     return 0;
 }
-#endif
-#if  PROJECT_USE_Xlib
+
 Display* QTWindow::GetXlibDisplay()
 {
     return nullptr;
@@ -104,3 +63,60 @@ Window QTWindow::GetXlibWindow()
 }
 
 #endif
+
+void QTWindow::Run()
+{
+    Handle->show();
+}
+
+
+QWidget *QTWindow::GetHandle()
+{
+    return Handle;
+}
+
+
+void QTWindow::SetTitle(const char *Title)
+{
+
+}
+
+void QTWindow::SetGeometry(int X, int Y, int W, int H)
+{
+    Handle->setGeometry(X, Y, W, H);
+}
+
+void QTWindow::Resize(int W, int H)
+{
+    Width  = W;
+    Height = H;
+    Handle->resize(W, H);
+}
+
+void QTWindow::SetWidth(int arg)
+{
+    Width = arg;
+
+}
+
+void QTWindow::SetHeight(int arg)
+{
+    Height = arg;
+
+}
+
+void QTWindow::SetPosition(int X, int Y)
+{
+    this->X = X;
+    this->Y = Y;
+
+}
+void QTWindow::Show()
+{
+    Handle->show();
+}
+
+void QTWindow::SetVisible(bool Visible)
+{
+    Handle->setVisible(Visible);
+}

@@ -3,12 +3,15 @@
 #include "GCG/GVirtualGeometry/GVirtualGeometry.h"
 #include "GGame/GGame.h"
 #include "GGame/GFood.h"
+#include <QApplication>
+#include "GWindow/QTWindow/QTWindow.h"
 #include "GDeviceDriver/OLED/SSD1306.h"
 #include "GWindow/FLTKWindow/FLTKWindow.h"
 #include "GWindow/GLFWWindow/GLFWWindow.h"
 #include "GWindow/SDLWindow/SDL3Window.h"
 #include "GWindow/X11Window/X11Window.h"
-//#include "GWindow/wxWidgetWindow/wxWidgetWIndow.h"
+
+
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
@@ -34,7 +37,8 @@ int main(int argc, char **argv)
     //window->Show();
 
     IWindow *win = nullptr;
-    int Index =  3;
+    int Index =  2;
+    QApplication *app;
     switch (Index)
     {
     case 0:
@@ -55,7 +59,8 @@ int main(int argc, char **argv)
         win = new X11Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     case 4:
-       // win = new wxWidgetWIndow(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        app = new QApplication(argc, argv);
+        win = new QTWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     default:
         break;
@@ -63,6 +68,7 @@ int main(int argc, char **argv)
 
     win->SetTitle("Hello IWindow");
     win->SetGeometry(1920 - 400, 1080 - 300, 800, 600);
+    win->SetGeometry(960, 0, 960, 540);
     win->SetVisible(true);
     win->Run();
     delete win;
@@ -79,6 +85,8 @@ int main(int argc, char **argv)
     case 2:
         SDL_Quit();
         break;
+    case 4:
+        return app->exec();
     default:
         break;
     }

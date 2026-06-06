@@ -4,9 +4,9 @@ project (GWindow)
 
 # 配置支持哪些窗口
 set (USE_GLFW       true)
-set (USE_CEF        true)
+set (USE_CEF        false)
 set (USE_FLTK       true)
-set (USE_QT         false)
+set (USE_QT         true)
 set (USE_SDL        true)
 set (USE_SFML       false)
 set (USE_wxWidget   false)
@@ -94,6 +94,12 @@ if (USE_QT)
                                             ${PROJECT_SOURCE_DIR}/QTWindow/*.c
                                             ${PROJECT_SOURCE_DIR}/QTWindow/*.h)
     list (APPEND SRC_LIST ${QT_SRC_LIST})
+
+    set(CMAKE_AUTOMOC ON)                         # 自动处理信号槽等元对象编译[citation:9]
+    set(CMAKE_AUTORCC ON)                         # 自动处理 .qrc 资源文件[citation:9]
+    set(CMAKE_AUTOUIC ON)
+    find_package(Qt6 REQUIRED COMPONENTS Widgets)
+    list (APPEND LIBRARYS		Qt6::Widgets)
 endif ()
 
 # mfc

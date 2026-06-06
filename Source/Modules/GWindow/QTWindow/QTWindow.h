@@ -1,31 +1,27 @@
 #pragma once
+#include <QWidget>
 
-#if PROJECT_USE_QT
-#include <QWindow>
-#endif
-
-#include "../IWindow.h"
+#include "IWindow.h"
 class QTWindow : public IWindow
 {
 public:
-    QTWindow(IWindow *Parent = nullptr);
+    QTWindow(IWindow::GraphicsAPI API, IWindow *Parent = nullptr);
     ~QTWindow();
-    virtual void Run() override final;
-#if PROJECT_USE_QT
+    QWidget *GetHandle();
 public:
-    QWindow *GetHandle();
-#endif
+    virtual void Run() override final;
 public:
     void SetTitle(const char *Title) override final;
+    void SetGeometry(int X, int Y, int W, int H) override final;
     void Resize(int W, int H) override final;
     void SetWidth(int arg) override final;
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
-#if  PROJECT_USE_XCB
+    void Show() override final;
+    void SetVisible(bool Visible) override final;
+#if  OS_IS_LINUX
     virtual xcb_connection_t *GetXCBConnection() override final;
     virtual xcb_window_t GetXCBWindow() override final;
-#endif
-#if  PROJECT_USE_Xlib
     virtual Display* GetXlibDisplay() override final;
     virtual Window GetXlibWindow() override final;
 #endif
@@ -35,8 +31,6 @@ public:
 #endif
 
 private:
-#if PROJECT_USE_QT
-    QWindow *Handle;
-#endif
+    QWidget *Handle;
 };
 
