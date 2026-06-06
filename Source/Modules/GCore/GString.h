@@ -13,9 +13,13 @@ public:
     GString(const GString& InStr);
 
     GString &operator=(const GString &InStr);
+
     virtual ~GString();
 
     friend std::ostream& operator<<(std::ostream& os, const GString& InStr);
+
+    char *Data();
+    const char *ConstStr() const;
 private:
     std::string Str;
 };

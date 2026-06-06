@@ -28,6 +28,16 @@ GString::~GString()
 
 }
 
+char *GString::Data()
+{
+    return Str.data();
+}
+
+const char *GString::ConstStr() const
+{
+    return Str.c_str();
+}
+
 GString& GString::operator=(const GString& InStr)
 {
     if (this != &InStr)

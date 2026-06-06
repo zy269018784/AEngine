@@ -17,21 +17,29 @@ set (INCLUDE_PATH "")
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR}/..)
 list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR})
 
-# 模块源码文件
-file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
-        ${PROJECT_SOURCE_DIR}/*.c
-        ${PROJECT_SOURCE_DIR}/*.h)
+# 库
+set (LIBRARYS "")
+# 三方库
+# mqtt
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
+list (APPEND LIBRARYS		mqtt)
 
-# 源码文件
-set (SRC_LIST "")
-list (APPEND SRC_LIST ${MODULE_SRC_LIST})
-
-
-# 链接GCore库
+# 自定义库
+# GCore
 if(NOT TARGET GCore)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../GCore ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCore)
 endif ()
 list (APPEND LIBRARYS GCore)
+
+# 模块源码文件
+file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
+                                        ${PROJECT_SOURCE_DIR}/*.c
+                                        ${PROJECT_SOURCE_DIR}/*.h)
+
+# 源码文件
+set (SRC_LIST "")
+list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
 # 动态库
 add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
