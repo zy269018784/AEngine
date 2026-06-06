@@ -52,6 +52,10 @@ RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 	VulkanSurface* Surface = new VulkanSurface(Instance, Hinstance, Hwnd);
 	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
 	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+	RECT clientRect;
+	GetClientRect(hwnd, &clientRect);
+	Surface->SetWidth(clientRect.right);
+	Surface->SetHeight(clientRect.bottom);
 	return Surface;
 }
 #endif
@@ -59,7 +63,10 @@ RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 #if RHI_USE_WAYLAND_KHR
 RHISurface* VulkanRHI::RHICreateSurface(struct wl_display* display, struct wl_surface* wayland_surface)
 {
-	return nullptr;
+	VulkanSurface *Surface = new VulkanSurface(Instance, display, wayland_surface);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+	return Surface;
 }
 #endif
 
@@ -67,6 +74,25 @@ RHISurface* VulkanRHI::RHICreateSurface(struct wl_display* display, struct wl_su
 RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window_t Window)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Connection, Window);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
+#if 0
+	// 1. 发送获取几何信息的请求，得到一个cookie
+	xcb_get_geometry_cookie_t cookie = xcb_get_geometry(Connection, Window);
+
+	// 2. 使用cookie等待并接收服务器的回复
+	xcb_get_geometry_reply_t *reply = xcb_get_geometry_reply(Connection, cookie, NULL);
+
+	if (reply)
+	{
+		Surface->SetWidth(reply->width);
+		Surface->SetHeight(reply->height);
+		// 4. 务必释放reply指向的内存，防止内存泄漏
+		free(reply);
+	} else {
+		fprintf(stderr, "获取窗口几何信息失败。\n");
+	}
+#endif
 	return Surface;
 }
 #endif
@@ -75,6 +101,8 @@ RHISurface* VulkanRHI::RHICreateSurface(xcb_connection_t* Connection, xcb_window
 RHISurface* VulkanRHI::RHICreateSurface(Display* Disp, Window Win)
 {
 	VulkanSurface *Surface = new VulkanSurface(Instance, Disp, Win);
+	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
+	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
 	return Surface;
 }
 #endif

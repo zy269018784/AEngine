@@ -4,10 +4,10 @@ project (GWindow)
 
 # 配置支持哪些窗口
 set (USE_GLFW       true)
-set (USE_CEF        true)
+set (USE_CEF        false)
 set (USE_FLTK       true)
 set (USE_QT         true)
-set (USE_SDL        true)
+set (USE_SDL        false)
 set (USE_SFML       false)
 set (USE_wxWidget   false)
 set (USE_X11        true)

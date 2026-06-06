@@ -100,6 +100,9 @@ RHIApplication::RHIApplication()
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
 #endif
 
+    Surface->SetWidth(800);
+    Surface->SetHeight(600);
+
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
 }
 
