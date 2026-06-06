@@ -127,6 +127,16 @@ Window GLFWWindow::GetXlibWindow()
     return glfwGetX11Window(Handle);
 }
 
+struct wl_display* GLFWWindow::GetWLDisplay()
+{
+    return glfwGetWaylandDisplay();
+}
+
+struct wl_surface* GLFWWindow::GetWLSurface()
+{
+    return glfwGetWaylandWindow(Handle);
+}
+
 #endif
 
 

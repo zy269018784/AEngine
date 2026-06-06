@@ -50,6 +50,8 @@ public:
     virtual xcb_window_t GetXCBWindow() =0;
     virtual Display* GetXlibDisplay() =0;
     virtual Window GetXlibWindow() =0;
+    virtual struct wl_display* GetWLDisplay() =0;
+    virtual struct wl_surface* GetWLSurface() =0;
 #endif
 #if OS_IS_WINDOWS
     virtual HWND GetHWND() =0;

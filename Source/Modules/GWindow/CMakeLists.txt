@@ -44,8 +44,8 @@ if (USE_GLFW)
                                             ${PROJECT_SOURCE_DIR}/GLFWWindow/*.h)
     list (APPEND SRC_LIST ${GLFW_SRC_LIST})
     # 依赖库
-    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
-    list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.4/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.4/lib)
     list (APPEND LIBRARYS		glfw3)
 endif ()
 

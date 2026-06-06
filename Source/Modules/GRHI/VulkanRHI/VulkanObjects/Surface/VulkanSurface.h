@@ -23,7 +23,7 @@ public:
 #endif
 
 #if RHI_USE_WAYLAND_KHR
-	VulkanSurface(VulkanInstance* InInstance,   struct wl_display* display, struct wl_surface* surface);
+	VulkanSurface(VulkanInstance* InInstance, struct wl_display* display, struct wl_surface* surface);
 #endif
 
 #if RHI_USE_ANDROID_KHR
