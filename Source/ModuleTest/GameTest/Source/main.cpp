@@ -7,6 +7,7 @@
 #include "GWindow/FLTKWindow/FLTKWindow.h"
 #include "GWindow/GLFWWindow/GLFWWindow.h"
 #include "GWindow/SDLWindow/SDL3Window.h"
+#include "GWindow/X11Window/X11Window.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
 
 
     IWindow *win = nullptr;
-    int Index = 2;
+    int Index = 3;
     switch (Index)
     {
     case 0:
@@ -45,6 +46,9 @@ int main(int argc, char **argv)
             return -1;
         }
         win = new SDL3Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        break;
+    case 3:
+        win = new X11Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     default:
         break;
