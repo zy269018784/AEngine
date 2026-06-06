@@ -4,7 +4,7 @@ project (GWindow)
 
 # 配置支持哪些窗口
 set (USE_GLFW       true)
-set (USE_CEF        false)
+set (USE_CEF        true)
 set (USE_FLTK       true)
 set (USE_QT         false)
 set (USE_SDL        true)
@@ -56,7 +56,11 @@ if (USE_CEF)
                                             ${PROJECT_SOURCE_DIR}/CEFWindow/*.c
                                             ${PROJECT_SOURCE_DIR}/CEFWindow/*.h)
     list (APPEND SRC_LIST ${CEF_SRC_LIST})
-
+    # 依赖库
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/cef/148.0.9)
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/cef/148.0.9/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/cef/148.0.9/lib)
+    list (APPEND LIBRARYS		cef cef_dll_wrapper)
 endif ()
 
 # fltk
@@ -129,11 +133,15 @@ if (USE_SFML)
 endif ()
 
 # wxwidget
-if (USE_WXWIDGET)
-    file(GLOB_RECURSE WXWIDGET_SRC_LIST    ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.cpp
-            ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.c
-            ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.h)
+if (USE_wxWidget)
+    file(GLOB_RECURSE WXWIDGET_SRC_LIST     ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.cpp
+                                            ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.c
+                                            ${PROJECT_SOURCE_DIR}/wxWidgetWindow/*.h)
     list (APPEND SRC_LIST ${WXWIDGET_SRC_LIST})
+    # 依赖库
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/wxWidgets/3.3.1/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/wxWidgets/3.3.1/lib)
+    list (APPEND LIBRARYS		wx_gtk3u_core-3.3)
 endif ()
 
 list (APPEND SRC_LIST ${SRC_LIST_RHI})

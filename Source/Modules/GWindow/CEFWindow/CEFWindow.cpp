@@ -1,91 +1,122 @@
-#include "../CEFWindow.h"
-#if  PROJECT_USE_CEF
-    #include <include/cef_app.h>
-    #include <include/wrapper/cef_helpers.h>
-#endif
+#include "CEFWindow.h"
 
-CEFWindow::CEFWindow()
+CEFWindow::CEFWindow(IWindow::GraphicsAPI API, IWindow *Parent)
+    : IWindow(Parent)
 {
 
+    /*
+     * 设置标题
+     */
+    SetTitle("CEFWindow");
+    /*
+     * 设置几何
+     */
+    SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 CEFWindow::~CEFWindow()
 {
 
 }
-#if  PROJECT_USE_CEF
-class SimpleClient : public CefClient, public CefLifeSpanHandler {
-public:
-    SimpleClient() {}
 
-    // CefClient methods
-    virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override {
-        return this;
-    }
 
-    // CefLifeSpanHandler methods
-    virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) override {
-        CEF_REQUIRE_UI_THREAD();
-    }
-
-    virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) override {
-        CEF_REQUIRE_UI_THREAD();
-        CefQuitMessageLoop();
-    }
-
-private:
-    IMPLEMENT_REFCOUNTING(SimpleClient);
-};
-
-class SimpleApp : public CefApp, public CefBrowserProcessHandler {
-public:
-    SimpleApp() {}
-
-    // CefApp methods
-    virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override {
-        return this;
-    }
-
-    // CefBrowserProcessHandler methods
-    virtual void OnContextInitialized() override {
-        CEF_REQUIRE_UI_THREAD();
-
-        CefWindowInfo window_info;
-
-        CefBrowserSettings browser_settings;
-        std::string url = "https://www.google.com"; // or "file:///path/to/your/hello_world.html"
-
-        CefRefPtr<SimpleClient> client(new SimpleClient());
-        CefBrowserHost::CreateBrowser(window_info, client, url, browser_settings, {}, {});
-    }
-
-private:
-    IMPLEMENT_REFCOUNTING(SimpleApp);
-};
-
-int CEFMain(int argc, char* argv[])
+::CEFWindow* CEFWindow::GetHandle()
 {
-    CefMainArgs main_args(argc, argv);
+    return nullptr;
+}
 
-    // Execute sub-process logic, if any
-    int exit_code = CefExecuteProcess(main_args, {}, {});
-    if (exit_code >= 0) {
-        return exit_code;
-    }
+#if OS_IS_WINDOWS
+HWND CEFWindow::GetHWND()
+{
 
-    // Initialize CEF
-    CefSettings settings;
-    CefRefPtr<SimpleApp> app(new SimpleApp());
+}
 
-    // Initialize CEF
-    CefInitialize(main_args, settings, app.get(), NULL);
+HINSTANCE CEFWindow::GetHINSTANCE()
+{
 
-    // Run message loop
-    CefRunMessageLoop();
-
-    // Shutdown CEF
-    CefShutdown();
-
-    return 0;
 }
 #endif
+
+#if  OS_IS_LINUX
+xcb_connection_t *CEFWindow::GetXCBConnection()
+{
+    return nullptr;
+}
+
+xcb_window_t CEFWindow::GetXCBWindow()
+{
+    return 0;
+}
+
+Display* CEFWindow::GetXlibDisplay()
+{
+    return nullptr;
+}
+
+Window CEFWindow::GetXlibWindow()
+{
+    return 0;
+}
+
+#endif
+
+
+void CEFWindow::MakeContextCurrent(void)
+{
+
+}
+
+
+void CEFWindow::Run()
+{
+
+}
+
+void CEFWindow::SetTitle(const char *Title)
+{
+
+}
+
+void CEFWindow::SetGeometry(int X, int Y, int W, int H)
+{
+    SetPosition(X, Y);
+    Resize(W, H);
+}
+
+void CEFWindow::Resize(int W, int H)
+{
+    Width  = W;
+    Height = H;
+}
+
+void CEFWindow::SetWidth(int arg)
+{
+    Width = arg;
+}
+
+void CEFWindow::SetHeight(int arg)
+{
+    Height = arg;
+}
+
+void CEFWindow::SetPosition(int X, int Y)
+{
+    this->X = X;
+    this->Y = Y;
+}
+
+void CEFWindow::Show()
+{
+}
+
+void CEFWindow::SetVisible(bool Visible)
+{
+
+}
+
+
+
