@@ -69,6 +69,19 @@ if (USE_FLTK)
     list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
     list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
     list (APPEND LIBRARYS		fltk fltk_forms  fltk_gl  fltk_images)
+    list (APPEND LIBRARYS
+                                X11-xcb
+                                X11
+                                Xext
+                                Xrender
+                                Xcursor
+                                Xfixes
+                                Xinerama
+                                Xft
+                                fontconfig
+                                dl
+                                m
+                                pthread)
 endif ()
 
 # qt

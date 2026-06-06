@@ -44,37 +44,47 @@ void FLTKWindow::SetPosition(int X, int Y)
 #if OS_IS_WINDOWS
 HWND FLTKWindow::GetHWND()
 {
-    return 0;
+    return fl_xid(Handle);
 }
 
 HINSTANCE FLTKWindow::GetHINSTANCE()
 {
-    return 0;
+    HWND hwnd = GetHWND();
+    if (hwnd)
+    {
+        return (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+    }
 }
 #endif
 
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
 xcb_connection_t *FLTKWindow::GetXCBConnection()
 {
-    Display* Display = glfwGetX11Display();
-    return XGetXCBConnection(Display);
+    Display* display = GetXlibDisplay();
+    if (display)
+    {
+        return XGetXCBConnection(display);
+    }
 }
 
 xcb_window_t FLTKWindow::GetXCBWindow()
 {
-    return glfwGetX11Window(Handle);
+    return GetXlibWindow();
 }
-#endif
 
-#if  PROJECT_USE_Xlib
 Display* FLTKWindow::GetXlibDisplay()
 {
-    return glfwGetX11Display();
+    Display *dpy = fl_x11_display();
+    if (!dpy) {
+        // 处理错误：可能 FLTK 还没有打开显示连接，或者运行在 Wayland 后端下
+        fprintf(stderr, "Error: FLTK X11 display not available. Is the program running under X11?\n");
+    }
+    return dpy;
 }
 
 Window FLTKWindow::GetXlibWindow()
 {
-    return glfwGetX11Window(Handle);
+    return fl_xid(Handle);
 }
 
 #endif

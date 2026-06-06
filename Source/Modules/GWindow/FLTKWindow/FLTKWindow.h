@@ -2,6 +2,7 @@
 #include "IWindow.h"
 
 #include <FL/Fl.H>
+#include <FL/platform.H>
 #include <FL/Fl_Window.H>
 
 #if OS_IS_WINDOWS
@@ -20,16 +21,12 @@ public:
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
 
-#if  PROJECT_USE_XCB
+#if  OS_IS_LINUX
     virtual xcb_connection_t *GetXCBConnection() override final;
     virtual xcb_window_t GetXCBWindow() override final;
-#endif
-#if  PROJECT_USE_Xlib
     virtual Display* GetXlibDisplay() override final;
     virtual Window GetXlibWindow() override final;
 #endif
-
-
 #if OS_IS_WINDOWS
     virtual HWND GetHWND() override final;
     virtual HINSTANCE GetHINSTANCE() override final;

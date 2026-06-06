@@ -3,8 +3,10 @@
 #include "GCG/GVirtualGeometry/GVirtualGeometry.h"
 #include "GGame/GGame.h"
 #include "GGame/GFood.h"
-#include <iostream>
 #include "GDeviceDriver/OLED/SSD1306.h"
+#include "GWindow/FLTKWindow/FLTKWindow.h"
+
+#include <iostream>
 #include <vector>
 
 int main(int argc, char **argv)
@@ -20,4 +22,7 @@ int main(int argc, char **argv)
     for (int i = 0; i < Foods.size(); ++i) {
         std::cout << Foods[i].GetName() << " " <<  Foods[i].GetPrice() << std::endl;
     }
+
+    IWindow *win = new FLTKWindow();
+
 }
