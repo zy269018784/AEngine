@@ -4,6 +4,7 @@ QTWindow::QTWindow(IWindow::GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
     Handle = new QWidget();
+    Handle->setWindowFlags(Handle->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     /*
      * 设置标题
      */
@@ -84,6 +85,8 @@ void QTWindow::SetTitle(const char *Title)
 void QTWindow::SetGeometry(int X, int Y, int W, int H)
 {
     Handle->setGeometry(X, Y, W, H);
+    Handle->resize(W, H);
+    Handle->move(X, Y);
 }
 
 void QTWindow::Resize(int W, int H)

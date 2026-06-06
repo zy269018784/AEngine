@@ -11,7 +11,7 @@ extern "C"
 SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
-    Handle = SDL_CreateWindow("", 800, 600, SDL_WINDOW_RESIZABLE);
+    Handle = SDL_CreateWindow("", 800, 600, SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_RESIZABLE );
     Renderer = SDL_CreateRenderer(Handle, "");
     /*
      * 设置标题

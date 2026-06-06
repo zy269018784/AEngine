@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     //window->Show();
 
     IWindow *win = nullptr;
-    int Index =  2;
+    int Index = 2;
     QApplication *app;
     switch (Index)
     {
@@ -67,9 +67,13 @@ int main(int argc, char **argv)
     }
 
     win->SetTitle("Hello IWindow");
-    win->SetGeometry(1920 - 400, 1080 - 300, 800, 600);
-    win->SetGeometry(960, 0, 960, 540);
-    win->SetVisible(true);
+   // win->SetGeometry(1920 - 400, 1080 - 300, 800, 600);
+    //win->SetGeometry(0, 0, 800, 600);
+    win->SetGeometry(0, 0, 800, 600);
+    if (4 == Index)
+        win->SetGeometry(0, 0, 800 / 2, 600 / 2);
+    win->Show();
+    //win->SetVisible(true);
     win->Run();
     delete win;
 
