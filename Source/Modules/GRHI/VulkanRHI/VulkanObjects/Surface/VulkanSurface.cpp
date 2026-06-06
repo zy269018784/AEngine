@@ -253,53 +253,65 @@ VkPresentModeKHR VulkanSurface::GetPresentMode() const
 
 void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
 {
+    /*
+        typedef struct VkSurfaceCapabilitiesKHR {
+            uint32_t                         minImageCount;
+            uint32_t                         maxImageCount;
+            VkExtent2D                       currentExtent;
+            VkExtent2D                       minImageExtent;
+            VkExtent2D                       maxImageExtent;
+            uint32_t                         maxImageArrayLayers;
+            VkSurfaceTransformFlagsKHR       supportedTransforms;
+            VkSurfaceTransformFlagBitsKHR    currentTransform;
+            VkCompositeAlphaFlagsKHR         supportedCompositeAlpha;
+            VkImageUsageFlags                supportedUsageFlags;
+        } VkSurfaceCapabilitiesKHR;
+     */
     PhysicalDevice.GetPhysicalDeviceSurfaceCapabilitiesKHR(Handle, &Capabilities);
 
+    /*
+     * 获取Surface支持的交换链格式
+     */
     std::uint32_t FormatCount;
     PhysicalDevice.GetPhysicalDeviceSurfaceFormatsKHR(Handle, &FormatCount, nullptr);
-
-    std::cout << "FormatCount " << FormatCount << std::endl;
     if (FormatCount != 0)
     {
         Formats.resize(FormatCount);
         PhysicalDevice.GetPhysicalDeviceSurfaceFormatsKHR(Handle, &FormatCount, Formats.data());
     }
+
     /*
         format和color space
     */
     for (const auto& availableFormat : Formats) 
     {
-        std::cout << "availableFormat " << availableFormat.format  << " colorSpace " << availableFormat.colorSpace << std::endl;
+        SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
         if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
         {
-            if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-            {
-               // CurrentFormat = availableFormat;
-                SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
-                SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
-                break;
-            }
-            else if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-            {
-               // CurrentFormat = availableFormat;
-                SetRHIPixelFormat(ToRHIPixelFormat(availableFormat.format));
-                SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
-                break;
-            }
+            SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
+            break;
+        }
+        else if (availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+        {
+            SetRHIColorSpace(ToRHIColorSpace(availableFormat.colorSpace));
+            break;
         }
     }
 
+    /*
+     * 获取Surface支持的呈现模式
+     */
     uint32_t PresentModeCount;
-    //vkGetPhysicalDeviceSurfacePresentModesKHR(PhysicalDevice.GetHandle(), Handle, &PresentModeCount, nullptr);
     PhysicalDevice.GetPhysicalDeviceSurfacePresentModesKHR(Handle, &PresentModeCount, nullptr);
-
     if (PresentModeCount != 0) 
     {
         PresentModes.resize(PresentModeCount);
-        //vkGetPhysicalDeviceSurfacePresentModesKHR(PhysicalDevice.GetHandle(), Handle, &PresentModeCount, PresentModes.data());
         PhysicalDevice.GetPhysicalDeviceSurfacePresentModesKHR(Handle, &PresentModeCount, PresentModes.data());
     }
 
+    /*
+     * 获取呈现模式
+     */
     for (const auto& availablePresentMode : PresentModes)
     {
         std::cout << "availablePresentMode " << availablePresentMode << std::endl;
@@ -326,29 +338,14 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
         }
     }
 
-    std::cout << "PresentModeCount " << PresentModeCount << std::endl;
 
-    std::cout << "Capabilities.currentExtent.width  "  << Capabilities.currentExtent.width  << std::endl;
-    std::cout << "Capabilities.currentExtent.height  " << Capabilities.currentExtent.height << std::endl;
-
-    if (Capabilities.currentExtent.width != (uint32_t)std::numeric_limits<uint32_t>::max())
+    /*
+     * 获取Surface size
+     */
+    if ((Capabilities.currentExtent.width  <= (uint32_t)std::numeric_limits<uint32_t>::max()) &&
+        (Capabilities.currentExtent.height <= (uint32_t)std::numeric_limits<uint32_t>::max()))
     {
         SetWidth(Capabilities.currentExtent.width);
         SetHeight(Capabilities.currentExtent.height);
     }
-    //else
-    //{
-    //    int width, height;
-    //    glfwGetFramebufferSize(GLFWWindow, &width, &height);
-
-    //    VkExtent2D actualExtent = {
-    //        static_cast<std::uint32_t>(width),
-    //        static_cast<std::uint32_t>(height)
-    //    };
-
-    //    actualExtent.width  = std::clamp(actualExtent.width, Capabilities.minImageExtent.width, Capabilities.maxImageExtent.width);
-    //    actualExtent.height = std::clamp(actualExtent.height, Capabilities.minImageExtent.height, Capabilities.maxImageExtent.height);
-
-    //    CurrentExtent = actualExtent;
-    //}
 }
