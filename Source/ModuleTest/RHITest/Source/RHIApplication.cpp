@@ -71,27 +71,38 @@ RHIApplication::RHIApplication()
        // glfwMakeContextCurrent(InWindow);
 
     }
+#if 0
+    // 必须在 glfwInit() 之前调用
+    if (glfwPlatformSupported(GLFW_PLATFORM_WAYLAND)) {
+        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_WAYLAND);
+        std::cout << "Using Wayland platform" << std::endl;
+    } else if (glfwPlatformSupported(GLFW_PLATFORM_X11)) {
+        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+        std::cout << "Using X11 platform" << std::endl;
+    } else {
+        std::cerr << "Error: No supported platform found for GLFW" << std::endl;
+        abort();
+    }
+#endif
     pRHI->RHIUseGPU(0);
 
 #if OS_IS_LINUX
-
-#if 1
-    xcb_window_t xcb_window =  Window->GetXCBWindow();
-    xcb_connection_t* connection = Window->GetXCBConnection();
-    if (!connection || xcb_window == XCB_NONE) {
-        std::cerr << "Failed to get XCB connection/window" << std::endl;
-        return;
+    int backend = 1;
+    switch (backend)
+    {
+    case 0:
+        Surface = pRHI->RHICreateSurface(Window->GetXCBConnection(), Window->GetXCBWindow());
+        break;
+    case 1:
+        Surface = pRHI->RHICreateSurface(Window->GetXlibDisplay(), Window->GetXlibWindow());
+        break;
+    case 2:
+        Surface = pRHI->RHICreateSurface( Window->GetWLDisplay(),  Window->GetWLSurface());
+        break;
+    default:
+        break;
     }
-    Surface = pRHI->RHICreateSurface(connection, xcb_window);
-    std::cout << "glfwGetX11Window" << std::endl;
-#else
-    Display *Disp = Window->GetXlibDisplay();
-    ::Window Win = Window->GetXlibWindow();
-    Surface = pRHI->RHICreateSurface(Disp, Win);
-#endif
-#endif
-
-#if OS_IS_WINDOWS
+#elif OS_IS_WINDOWS
     auto GLFWHandle = (dynamic_cast<GLFWWindow *>(Window))->GetHandle();
 
    	HWND hwnd = glfwGetWin32Window(GLFWHandle);
@@ -100,11 +111,9 @@ RHIApplication::RHIApplication()
     Surface = pRHI->RHICreateSurface(instacne, hwnd);
 #endif
 
-    //Surface->SetWidth(800);
-    //Surface->SetHeight(600);
-
-    std::cout << "Surface size " << Surface->GetWidth() << " " << Surface->GetHeight() << std::endl;
-
+    /*
+     * 创建交换链
+     */
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
 }
 

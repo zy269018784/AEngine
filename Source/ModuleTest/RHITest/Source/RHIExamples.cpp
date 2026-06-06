@@ -157,6 +157,7 @@ void error_callback(int error, const char* description)
 }
 int RHIExample()
 {
+
 	glfwInit();
 	glfwSetErrorCallback(error_callback);
 
