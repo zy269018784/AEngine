@@ -4,21 +4,41 @@
 X11Window::X11Window(IWindow::GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
-
-     X11Display = XOpenDisplay(NULL);
-
-     Screen = DefaultScreen(X11Display);
-     Handle = XCreateSimpleWindow(X11Display,
-                            RootWindow(X11Display, Screen),
-                            0, 0,  // x, y position
-                            400, 300,  // width, height
-                            2,         // border width
-                            BlackPixel(X11Display, Screen),
-                            WhitePixel(X11Display, Screen));
-    XCBHandle = Handle;
-    XStoreName(X11Display, Handle, "X11 Hello World");
+    /*
+     * 获取Display
+     */
+    X11Display = XOpenDisplay(NULL);
+    /*
+     * 获取Screen
+     */
+    Screen = DefaultScreen(X11Display);
+    /*
+     * 创建窗口
+     */
+    Handle = XCreateSimpleWindow(X11Display,
+                        RootWindow(X11Display, Screen),
+                        0, 0,       // x, y position
+                        800, 600,  // width, height
+                        2,         // border width
+                        BlackPixel(X11Display, Screen),
+                        WhitePixel(X11Display, Screen));
+    /*
+     * requests that the X server report the events associated with the specified event mask.
+     */
     XSelectInput(X11Display, Handle, ExposureMask | KeyPressMask);
-    XMapWindow(X11Display, Handle);
+    XCBHandle = Handle;
+    /*
+     * 设置标题
+     */
+    SetTitle("X11Window");
+    /*
+     * 设置几何
+     */
+    SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 X11Window::~X11Window()
@@ -75,9 +95,13 @@ Window X11Window::GetXlibWindow()
 
 void X11Window::SetTitle(const char *Title)
 {
+#if 0
     XTextProperty WindowTitle;
     XStringListToTextProperty((char **)&Title, 1, &WindowTitle);
     XSetWMName(X11Display, Handle, &WindowTitle);
+#else
+    XStoreName(X11Display, Handle, Title);
+#endif
 }
 
 void X11Window::SetGeometry(int X, int Y, int W, int H)

@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
 
     IWindow *win = nullptr;
-    int Index = 3;
+    int Index = 2;
     switch (Index)
     {
     case 0:
@@ -54,8 +54,9 @@ int main(int argc, char **argv)
         break;
     }
 
-    win->SetTitle("Hello IWindow");
+   // win->SetTitle("Hello IWindow");
     win->SetGeometry(1920 - 400, 1080 - 300, 800, 600);
+   // win->SetGeometry(0, 1080 - 300, 800, 600);
     win->Show();
     win->Run();
     delete win;

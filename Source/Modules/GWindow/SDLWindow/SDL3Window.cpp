@@ -13,7 +13,18 @@ SDL3Window::SDL3Window(GraphicsAPI API, IWindow *Parent)
 {
     Handle = SDL_CreateWindow("", 800, 600, SDL_WINDOW_RESIZABLE);
     Renderer = SDL_CreateRenderer(Handle, "");
+    /*
+     * 设置标题
+     */
+    SetTitle("SDL3Window");
+    /*
+     * 设置几何
+     */
     SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 SDL3Window::~SDL3Window()

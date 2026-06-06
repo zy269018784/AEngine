@@ -4,7 +4,18 @@ FLTKWindow::FLTKWindow(IWindow::GraphicsAPI API, IWindow *Parent)
     : IWindow(Parent)
 {
     Handle = new Fl_Window(800, 600, "FLTKWindow");
+    /*
+     * 设置标题
+     */
+    SetTitle("FLTKWindow");
+    /*
+     * 设置几何
+     */
     SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 FLTKWindow::~FLTKWindow()

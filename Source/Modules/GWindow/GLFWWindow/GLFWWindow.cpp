@@ -63,7 +63,18 @@ GLFWWindow::GLFWWindow(IWindow::GraphicsAPI API, IWindow *Parent)
             break;
     }
     Handle = glfwCreateWindow(800, 600, "", NULL, NULL);
+    /*
+     * 设置标题
+     */
+    SetTitle("GLFWWindow");
+    /*
+     * 设置几何
+     */
     SetGeometry(0, 0, 800, 600);
+    /*
+     * 显示
+     */
+    Show();
 }
 
 GLFWWindow::~GLFWWindow()
