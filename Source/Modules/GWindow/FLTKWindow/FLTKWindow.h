@@ -1,12 +1,13 @@
 #pragma once
 #include "IWindow.h"
-#if  PROJECT_USE_FTLK
-    #include <FL/Fl.H>
-    #include <FL/Fl_Window.H>
-#endif
+
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+
 #if OS_IS_WINDOWS
     #include <windows.h>
 #endif
+
 class FLTKWindow : public IWindow {
 public:
     FLTKWindow();
@@ -18,7 +19,7 @@ public:
     void SetWidth(int arg) override final;
     void SetHeight(int arg) override final;
     void SetPosition(int X, int Y) override final;
-#if  PROJECT_USE_GLFW
+
 #if  PROJECT_USE_XCB
     virtual xcb_connection_t *GetXCBConnection() override final;
     virtual xcb_window_t GetXCBWindow() override final;
@@ -27,16 +28,14 @@ public:
     virtual Display* GetXlibDisplay() override final;
     virtual Window GetXlibWindow() override final;
 #endif
-#endif
+
 
 #if OS_IS_WINDOWS
     virtual HWND GetHWND() override final;
     virtual HINSTANCE GetHINSTANCE() override final;
 #endif
 private:
-#if  PROJECT_USE_FTLK
     Fl_Window *Handle;
-#endif
 };
 
 

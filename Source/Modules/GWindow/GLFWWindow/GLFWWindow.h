@@ -3,8 +3,9 @@
 #if WINDOWS_USE_VULKAN
     #define GLFW_INCLUDE_VULKAN
 #endif
+
 #if OS_IS_LINUX
-#define GLFW_INCLUDE_ES32
+    #define GLFW_INCLUDE_ES32
 #endif
 #include <glfw/glfw3.h>
 
@@ -18,7 +19,6 @@
 
 
 #include "IWindow.h"
-
 
 class WINDOWEXPORT GLFWWindow : public IWindow
 {

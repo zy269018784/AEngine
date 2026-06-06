@@ -5,7 +5,7 @@ project (GWindow)
 # 配置支持哪些窗口
 set (USE_GLFW       true)
 set (USE_CEF        false)
-set (USE_FLTK       false)
+set (USE_FLTK       true)
 set (USE_QT         false)
 set (USE_SDL        false)
 set (USE_SFML       false)
@@ -52,25 +52,30 @@ endif ()
 
 # cef
 if (USE_CEF)
-    file(GLOB_RECURSE CEF_SRC_LIST         ${PROJECT_SOURCE_DIR}/CEFWindow/*.cpp
-            ${PROJECT_SOURCE_DIR}/CEFWindow/*.c
-            ${PROJECT_SOURCE_DIR}/CEFWindow/*.h)
+    file(GLOB_RECURSE CEF_SRC_LIST          ${PROJECT_SOURCE_DIR}/CEFWindow/*.cpp
+                                            ${PROJECT_SOURCE_DIR}/CEFWindow/*.c
+                                            ${PROJECT_SOURCE_DIR}/CEFWindow/*.h)
     list (APPEND SRC_LIST ${CEF_SRC_LIST})
+
 endif ()
 
 # fltk
 if (USE_FLTK)
-    file(GLOB_RECURSE FLTK_SRC_LIST        ${PROJECT_SOURCE_DIR}/FLTKWindow/*.cpp
-            ${PROJECT_SOURCE_DIR}/FLTKWindow/*.c
-            ${PROJECT_SOURCE_DIR}/FLTKWindow/*.h)
+    file(GLOB_RECURSE FLTK_SRC_LIST         ${PROJECT_SOURCE_DIR}/FLTKWindow/*.cpp
+                                            ${PROJECT_SOURCE_DIR}/FLTKWindow/*.c
+                                            ${PROJECT_SOURCE_DIR}/FLTKWindow/*.h)
     list (APPEND SRC_LIST ${FLTK_SRC_LIST})
+    # 依赖库
+    list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/fltk/1.4.4/include)
+    list (APPEND LINK_PATH      ${LIBRARY_PATH}/fltk/1.4.4/lib)
+    list (APPEND LIBRARYS		fltk fltk_forms  fltk_gl  fltk_images)
 endif ()
 
 # qt
 if (USE_QT)
-    file(GLOB_RECURSE QT_SRC_LIST          ${PROJECT_SOURCE_DIR}/QTWindow/*.cpp
-            ${PROJECT_SOURCE_DIR}/QTWindow/*.c
-            ${PROJECT_SOURCE_DIR}/QTWindow/*.h)
+    file(GLOB_RECURSE QT_SRC_LIST           ${PROJECT_SOURCE_DIR}/QTWindow/*.cpp
+                                            ${PROJECT_SOURCE_DIR}/QTWindow/*.c
+                                            ${PROJECT_SOURCE_DIR}/QTWindow/*.h)
     list (APPEND SRC_LIST ${QT_SRC_LIST})
 endif ()
 

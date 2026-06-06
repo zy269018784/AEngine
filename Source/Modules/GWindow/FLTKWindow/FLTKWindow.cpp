@@ -1,17 +1,13 @@
-#include "../FLTKWindow.h"
+#include "GWindow/FLTKWindow/FLTKWindow.h"
 
 FLTKWindow::FLTKWindow()
 {
-#if  PROJECT_USE_FTLK
     Handle = new Fl_Window(400, 300, "FLTK Input Example");
-    //Handle->end();
-#endif
 }
 
-FLTKWindow::~FLTKWindow() {
-#if  PROJECT_USE_FTLK
+FLTKWindow::~FLTKWindow()
+{
    delete Handle;
-#endif
 }
 
 
@@ -57,8 +53,6 @@ HINSTANCE FLTKWindow::GetHINSTANCE()
 }
 #endif
 
-#if  PROJECT_USE_GLFW
-
 #if  PROJECT_USE_XCB
 xcb_connection_t *FLTKWindow::GetXCBConnection()
 {
@@ -85,7 +79,6 @@ Window FLTKWindow::GetXlibWindow()
 
 #endif
 
-#endif
 
 
 
