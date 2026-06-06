@@ -9,10 +9,13 @@
     #include <windows.h>
 #endif
 
-class FLTKWindow : public IWindow {
+class FLTKWindow : public IWindow
+{
 public:
     FLTKWindow();
     ~FLTKWindow();
+    Fl_Window *GetHandle() const;
+public:
     virtual void Run() override final;
 public:
     void SetTitle(const char *Title) override final;

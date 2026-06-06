@@ -10,11 +10,14 @@ FLTKWindow::~FLTKWindow()
    delete Handle;
 }
 
-
+Fl_Window *FLTKWindow::GetHandle() const
+{
+    return Handle;
+}
 
 void FLTKWindow::Run()
 {
-    
+    Fl::run();
 }
 
 void FLTKWindow::SetTitle(const char *Title)
@@ -24,7 +27,9 @@ void FLTKWindow::SetTitle(const char *Title)
 
 void FLTKWindow::Resize(int W, int H)
 {
-
+    Width = W;
+    Height = H;
+    Handle->resize(X, Y, Width, Height);
 }
 
 void FLTKWindow::SetWidth(int arg)
