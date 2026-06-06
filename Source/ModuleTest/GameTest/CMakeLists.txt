@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
                             ${PROJECT_SOURCE_DIR}/Source/*.c
+                            ${PROJECT_SOURCE_DIR}/Source/*.cc
                             ${PROJECT_SOURCE_DIR}/Source/*.h)
 
 message (STATUS "GameTest CMAKE_SOURCE_DIR            ${CMAKE_SOURCE_DIR}")
@@ -79,7 +80,17 @@ target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
 
+target_compile_definitions(${PROJECT_NAME}  PRIVATE
+        __STDC_CONSTANT_MACROS
+        __STDC_FORMAT_MACROS
+        __STDC_LIMIT_MACROS
+)
 
+target_compile_options(${PROJECT_NAME}  PRIVATE
+        -fPIC
+        -Wall
+        -Wno-self-move
+)
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
