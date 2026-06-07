@@ -1,3 +1,29 @@
-windows only:
-linux only:
-cross platform:
+| Framework       | Ecosystem      | Windows | Linux | macOS | Android | iOS |
+|-----------------|----------------|---------|-------|-------|---------|-----|
+| Flutter         | Dart           | √       | √     | √     | √       | √   |
+| ReactNative     | JavaScript     | √       | √     | √     | √       | √   |
+| Qt              | C++            | √       | √     | √     | √       | √   |
+| CEF             | C++            | √       | √     | √     | ×       | ×   |
+| Cegui           | C++            | √       | √     | √     | ×       | ×   |
+| cohtml          | C++            | √       | √     | √     | ×       | ×   |
+| CopperCube      | C++            | √       | √     | √     | ×       | ×   |
+| EGT             | C++            | √       | √     | √     | ×       | ×   |
+| gtkmm           | C++            | √       | √     | √     | ×       | ×   |
+| MyGUI           | C++            | √       | √     | √     | ×       | ×   |
+| nana            | C++            | √       | √     | √     | ×       | ×   |
+| U++             | C++            | √       | √     | √     | ×       | ×   |
+| wxWidgets       | C++            | √       | √     | √     | ×       | ×   |
+| MFC             | C++            | √       | ×     | ×     | ×       | ×   |
+| gtk             | C              | √       | √     | √     | ×       | ×   |
+| X11             | C              | ×       | √     | ×     | ×       | ×   |
+| xlib            | C              | ×       | √     | ×     | ×       | ×   |
+| wayland         | C              | ×       | √     | ×     | ×       | ×   |
+| lvgl            | C              | √       | √     | √     | √       | √   |
+| MAUI            | .NET           | √       | ×     | √     | √       | √   |
+| AvaloniaUI      | .NET           | √       | √     | √     | √       | √   |
+| UnoPlatform     | .NET           | √       | √     | √     | √       | √   |
+| WPF             | .NET           | √       | ×     | ×     | ×       | ×   |
+| UWP             | .NET           | √       | ×     | ×     | ×       | ×   |
+| WinForm         | .NET           | √       | ×     | ×     | ×       | ×   |
+| Electron        | Node.js        | √       | √     | √     | ×       | ×   |
+| webview         | WebView2/WebKit| √       | √     | √     | √       | √   |
