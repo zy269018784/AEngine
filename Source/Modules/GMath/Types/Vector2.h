@@ -6,22 +6,17 @@ namespace GMath {
     template <typename T>
     class Vector2 : public Tuple2<Vector2, T> {
     public:
-        // Vector2 Public Methods
-        using Tuple2<Vector2, T>::x;
-        using Tuple2<Vector2, T>::y;
+       // Vector2 Public Methods
+       using Tuple2<Vector2, T>::x;
+       using Tuple2<Vector2, T>::y;
 
-        Vector2() = default;
-          
-            Vector2(T x, T y) : Tuple2<Vector2, T>(x, y) {}
+       Vector2() = default;
 
-        template <typename U>
-           explicit Vector2(Vector2<U> v)
-            : Tuple2<Vector2, T>(T(v.x), T(v.y)) {}
-#if 0
-        template <typename U>
-           explicit Vector2(Point2<U> v)
-            : Tuple2<Vector2, T>(T(v.x), T(v.y)) {}
-#endif
+       Vector2(T x, T y) : Tuple2<Vector2, T>(x, y) {}
+       Vector2(T a) : Tuple2<Vector2, T>(a, a) {}
+
+       template <typename U>
+       explicit Vector2(Vector2<U> v) : Tuple2<Vector2, T>(T(v.x), T(v.y)) {}
     };
     // U + Vector2<T>
     template <typename U, typename T>
