@@ -1,0 +1,34 @@
+opensdk:
+    https://openjdk.org/index.html
+    https://openjdk.org/projects/jdk/26
+    https://jdk.java.net/26/
+    https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz
+
+JDK:
+    https://www.oracle.com/java/technologies/downloads/
+    https://download.oracle.com/java/26/latest/jdk-26_linux-x64_bin.deb
+
+
+android SDK:
+    https://developer.android.google.cn/tools/releases/platform-tools
+
+
+NDK:
+    https://developer.android.google.cn/ndk/downloads
+
+
+platform-tools:
+    https://developer.android.google.cn/tools/releases/platform-tools
+
+概念:
+    JDK (Java Development Kit)
+    SDK (Software Development Kit)
+    NDK (Native Development Kit)
+
+
+
+
+
+
+
+
