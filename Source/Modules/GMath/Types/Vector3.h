@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <Types/Tuple3.h>
 
-
 namespace GMath {
     // Vector3 Definition
     template <typename T>

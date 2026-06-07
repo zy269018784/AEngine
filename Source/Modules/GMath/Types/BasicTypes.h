@@ -4,6 +4,7 @@
 namespace GMath
 {
     using Float     = float;
+    using Double    = double;
     using UInt8     = std::uint8_t;
     using UInt16    = std::uint16_t;
     using UInt32    = std::uint32_t;
@@ -14,4 +15,5 @@ namespace GMath
     using Int64     = std::int64_t;
     using Char8     = char;
     using UChar8    = unsigned char;
+    using Bool      = bool;
 }
