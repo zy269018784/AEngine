@@ -63,6 +63,16 @@ Window QTWindow::GetXlibWindow()
     return 0;
 }
 
+struct wl_display* QTWindow::GetWLDisplay()
+{
+    return nullptr;
+}
+
+struct wl_surface* QTWindow::GetWLSurface()
+{
+    return nullptr;
+}
+
 #endif
 
 void QTWindow::Run()

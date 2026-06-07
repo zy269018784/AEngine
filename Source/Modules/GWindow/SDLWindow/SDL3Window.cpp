@@ -99,6 +99,16 @@ Window SDL3Window::GetXlibWindow()
 {
     return 0;
 }
+
+struct wl_display* SDL3Window::GetWLDisplay()
+{
+    return nullptr;
+}
+
+struct wl_surface* SDL3Window::GetWLSurface()
+{
+    return nullptr;
+}
 #endif
 
 void SDL3Window::SetTitle(const char *Title)

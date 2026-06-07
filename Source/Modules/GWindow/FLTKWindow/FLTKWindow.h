@@ -23,6 +23,8 @@ public:
     virtual xcb_window_t GetXCBWindow() override final;
     virtual Display* GetXlibDisplay() override final;
     virtual Window GetXlibWindow() override final;
+    virtual struct wl_display* GetWLDisplay() override final;
+    virtual struct wl_surface* GetWLSurface() override final;
 #endif
 #if OS_IS_WINDOWS
     virtual HWND GetHWND() override final;

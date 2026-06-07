@@ -78,7 +78,15 @@ Window FLTKWindow::GetXlibWindow()
 {
     return fl_xid(Handle);
 }
+struct wl_display* FLTKWindow::GetWLDisplay()
+{
+    return nullptr;
+}
 
+struct wl_surface* FLTKWindow::GetWLSurface()
+{
+    return nullptr;
+}
 #endif
 
 void FLTKWindow::SetTitle(const char *Title)
