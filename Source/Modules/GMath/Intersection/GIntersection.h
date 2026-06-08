@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <Types/Types.h>
+#include <Types/GTypes.h>
 #include <Intersection/GSurfaceInteraction.h>
 namespace GMath
 {
@@ -11,7 +11,7 @@ namespace GMath
     // QuadricIntersection Definition
     struct GQuadricIntersection {
         Float tHit;
-        Point3f pObj;
+        GPoint3f pObj;
         Float phi;
     };
 }

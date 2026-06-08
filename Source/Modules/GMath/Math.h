@@ -1,12 +1,12 @@
 #pragma once
 #include "GCore/GExport.h"
-#include <Types/Types.h>
+#include <Types/GTypes.h>
 #include <Float.h>
 void GEXPORT HelloMath();
 namespace GMath
 {
     // ========================================================================
-    // Bounds2 Union Functions
+    // GBounds2 Union Functions
     // ========================================================================
 
     /**
@@ -17,8 +17,8 @@ namespace GMath
      * @return Smallest bounding box containing both b and p
      */
     template <typename T>
-    inline Bounds2<T> Union(const Bounds2<T>& b, Point2<T> p) {
-        Bounds2<T> ret;
+    inline GBounds2<T> Union(const GBounds2<T>& b, GPoint2<T> p) {
+        GBounds2<T> ret;
         ret.pMin = Min(b.pMin, p);
         ret.pMax = Max(b.pMax, p);
         return ret;
@@ -32,8 +32,8 @@ namespace GMath
      * @return Smallest bounding box containing both b1 and b2
      */
     template <typename T>
-    inline Bounds2<T> Union(const Bounds2<T>& b1, const Bounds2<T>& b2) {
-        Bounds2<T> ret;
+    inline GBounds2<T> Union(const GBounds2<T>& b1, const GBounds2<T>& b2) {
+        GBounds2<T> ret;
         ret.pMin = Min(b1.pMin, b2.pMin);
         ret.pMax = Max(b1.pMax, b2.pMax);
         return ret;
@@ -46,7 +46,7 @@ namespace GMath
      * @return true if point is within [pMin, pMax] inclusive
      */
     template <typename T>
-    inline bool Inside(Point2<T> pt, const Bounds2<T>& b) {
+    inline bool Inside(GPoint2<T> pt, const GBounds2<T>& b) {
         return (pt.x >= b.pMin.x && pt.x <= b.pMax.x &&
                 pt.y >= b.pMin.y && pt.y <= b.pMax.y);
     }
@@ -58,7 +58,7 @@ namespace GMath
      * @return true if ba is fully contained within bb
      */
     template <typename T>
-    inline bool Inside(const Bounds2<T>& ba, const Bounds2<T>& bb) {
+    inline bool Inside(const GBounds2<T>& ba, const GBounds2<T>& bb) {
         return (ba.pMin.x >= bb.pMin.x && ba.pMax.x <= bb.pMax.x &&
                 ba.pMin.y >= bb.pMin.y && ba.pMax.y <= bb.pMax.y);
     }
@@ -70,9 +70,9 @@ namespace GMath
      * @return Intersection bounding box (empty if they don't overlap)
      */
     template <typename T>
-    inline Bounds2<T> Intersect(const Bounds2<T>& b1, const Bounds2<T>& b2) {
+    inline GBounds2<T> Intersect(const GBounds2<T>& b1, const GBounds2<T>& b2) {
         // Be careful to not run the two-point Bounds constructor
-        Bounds2<T> b;
+        GBounds2<T> b;
         b.pMin = Max(b1.pMin, b2.pMin);
         b.pMax = Min(b1.pMax, b2.pMax);
         return b;
@@ -87,7 +87,7 @@ namespace GMath
  * @return Squared distance (0 if point is inside the box)
  */
     template <typename T, typename U>
-    inline auto DistanceSquared(Point2<T> p, const Bounds2<U>& b) {
+    inline auto DistanceSquared(GPoint2<T> p, const GBounds2<U>& b) {
         using TDist = decltype(T{} - U{});
         TDist dx = std::max<TDist>({0, b.pMin.x - p.x, p.x - b.pMax.x});
         TDist dy = std::max<TDist>({0, b.pMin.y - p.y, p.y - b.pMax.y});
@@ -103,13 +103,13 @@ namespace GMath
      * @return Distance (0 if point is inside the box)
      */
     template <typename T, typename U>
-    inline auto Distance(Point2<T> p, const Bounds2<U>& b) {
+    inline auto Distance(GPoint2<T> p, const GBounds2<U>& b) {
         auto dist2 = DistanceSquared(p, b);
         return std::sqrt(dist2);
     }
 
     // ========================================================================
-    // Bounds3 Union Functions
+    // GBounds3 Union Functions
     // ========================================================================
 
     /**
@@ -120,8 +120,8 @@ namespace GMath
      * @return Smallest bounding box containing both b and p
      */
     template <typename T>
-    inline Bounds3<T> Union(const Bounds3<T>& b, Point3<T> p) {
-        Bounds3<T> ret;
+    inline GBounds3<T> Union(const GBounds3<T>& b, GPoint3<T> p) {
+        GBounds3<T> ret;
         ret.pMin = Min(b.pMin, p);
         ret.pMax = Max(b.pMax, p);
         return ret;
@@ -135,8 +135,8 @@ namespace GMath
      * @return Smallest bounding box containing both b1 and b2
      */
     template <typename T>
-    inline Bounds3<T> Union(const Bounds3<T>& b1, const Bounds3<T>& b2) {
-        Bounds3<T> ret;
+    inline GBounds3<T> Union(const GBounds3<T>& b1, const GBounds3<T>& b2) {
+        GBounds3<T> ret;
         ret.pMin = Min(b1.pMin, b2.pMin);
         ret.pMax = Max(b1.pMax, b2.pMax);
         return ret;
@@ -149,7 +149,7 @@ namespace GMath
      * @return true if point is within [pMin, pMax] inclusive
      */
     template <typename T>
-    inline bool Inside(Point3<T> pt, const Bounds3<T>& b) {
+    inline bool Inside(GPoint3<T> pt, const GBounds3<T>& b) {
         return (pt.x >= b.pMin.x && pt.x <= b.pMax.x &&
                 pt.y >= b.pMin.y && pt.y <= b.pMax.y &&
                 pt.z >= b.pMin.z && pt.z <= b.pMax.z);
@@ -162,7 +162,7 @@ namespace GMath
      * @return true if ba is fully contained within bb
      */
     template <typename T>
-    inline bool Inside(const Bounds3<T>& ba, const Bounds3<T>& bb) {
+    inline bool Inside(const GBounds3<T>& ba, const GBounds3<T>& bb) {
         return (ba.pMin.x >= bb.pMin.x && ba.pMax.x <= bb.pMax.x &&
                 ba.pMin.y >= bb.pMin.y && ba.pMax.y <= bb.pMax.y &&
                 ba.pMin.z >= bb.pMin.z && ba.pMax.z <= bb.pMax.z);
@@ -175,9 +175,9 @@ namespace GMath
      * @return Intersection bounding box (empty if they don't overlap)
      */
     template <typename T>
-    inline Bounds3<T> Intersect(const Bounds3<T>& b1, const Bounds3<T>& b2) {
+    inline GBounds3<T> Intersect(const GBounds3<T>& b1, const GBounds3<T>& b2) {
         // Be careful to not run the two-point Bounds constructor
-        Bounds3<T> b;
+        GBounds3<T> b;
         b.pMin = Max(b1.pMin, b2.pMin);
         b.pMax = Min(b1.pMax, b2.pMax);
         return b;
@@ -192,7 +192,7 @@ namespace GMath
  * @return Squared distance (0 if point is inside the box)
  */
     template <typename T, typename U>
-    inline auto DistanceSquared(Point3<T> p, const Bounds3<U>& b) {
+    inline auto DistanceSquared(GPoint3<T> p, const GBounds3<U>& b) {
         using TDist = decltype(T{} - U{});
         TDist dx = std::max<TDist>({0, b.pMin.x - p.x, p.x - b.pMax.x});
         TDist dy = std::max<TDist>({0, b.pMin.y - p.y, p.y - b.pMax.y});
@@ -209,7 +209,7 @@ namespace GMath
      * @return Distance (0 if point is inside the box)
      */
     template <typename T, typename U>
-    inline auto Distance(Point3<T> p, const Bounds3<U>& b) {
+    inline auto Distance(GPoint3<T> p, const GBounds3<U>& b) {
         auto dist2 = DistanceSquared(p, b);
         return std::sqrt(dist2);
     }
@@ -235,7 +235,7 @@ namespace GMath
         return differenceOfProducts + error;
     }
 
-    inline  Vector3f Cross(Vector3f v, Vector3f w)
+    inline  GVector3f Cross(GVector3f v, GVector3f w)
     {
         return {
         DifferenceOfProducts(v.y, w.z, v.z, w.y),

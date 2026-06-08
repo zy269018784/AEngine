@@ -1,36 +1,35 @@
 ﻿#pragma once
-#include <Types/Tuple3.h>
+#include <Types/GTuple2.h>
 
 namespace GMath {
 
-    // Forward declaration for Vector3
+    // Forward declaration for Vector2
     template <typename T>
-    class Vector3;
+    class Vector2;
 
     /**
-     * @brief 3D point in space
+     * @brief 2D point in space
      * @tparam T Component type (int, float, double, etc.)
      * @note Points represent positions, vectors represent directions.
      *       Points and vectors have different transformation behaviors.
      */
     template <typename T>
-    class Point3 : public Tuple3<Point3, T> {
+    class GPoint2 : public GTuple2<GPoint2, T> {
     public:
         // ========================================================================
         // Using declarations to bring base class members into scope
         // ========================================================================
-        using Tuple3<Point3, T>::x;
-        using Tuple3<Point3, T>::y;
-        using Tuple3<Point3, T>::z;
-        using Tuple3<Point3, T>::HasNaN;
-        using Tuple3<Point3, T>::operator+;
-        using Tuple3<Point3, T>::operator+=;
-        using Tuple3<Point3, T>::operator-;
-        using Tuple3<Point3, T>::operator-=;
-        using Tuple3<Point3, T>::operator*;
-        using Tuple3<Point3, T>::operator*=;
-        using Tuple3<Point3, T>::operator/;
-        using Tuple3<Point3, T>::operator/=;
+        using GTuple2<GPoint2, T>::x;
+        using GTuple2<GPoint2, T>::y;
+        using GTuple2<GPoint2, T>::HasNaN;
+        using GTuple2<GPoint2, T>::operator+;
+        using GTuple2<GPoint2, T>::operator+=;
+        using GTuple2<GPoint2, T>::operator-;
+        using GTuple2<GPoint2, T>::operator-=;
+        using GTuple2<GPoint2, T>::operator*;
+        using GTuple2<GPoint2, T>::operator*=;
+        using GTuple2<GPoint2, T>::operator/;
+        using GTuple2<GPoint2, T>::operator/=;
 
         // ========================================================================
         // Constructors
@@ -39,15 +38,14 @@ namespace GMath {
         /**
          * @brief Default constructor (zero-initialized)
          */
-        Point3() = default;
+        GPoint2() = default;
 
         /**
-         * @brief Construct from x, y, z components
+         * @brief Construct from x, y components
          * @param x X coordinate
          * @param y Y coordinate
-         * @param z Z coordinate
          */
-        Point3(T x, T y, T z) : Tuple3<Point3, T>(x, y, z) {}
+        GPoint2(T x, T y) : GTuple2<GPoint2, T>(x, y) {}
 
         /**
          * @brief Construct from point of different type (with conversion)
@@ -55,8 +53,8 @@ namespace GMath {
          * @param p Source point
          */
         template <typename U>
-        explicit Point3(Point3<U> p)
-            : Tuple3<Point3, T>(T(p.x), T(p.y), T(p.z)) {}
+        explicit GPoint2(GPoint2<U> p)
+            : GTuple2<GPoint2, T>(T(p.x), T(p.y)) {}
 
         /**
          * @brief Construct from vector of different type (with conversion)
@@ -65,8 +63,8 @@ namespace GMath {
          * @note Explicit: prevents unintended vector-to-point conversion
          */
         template <typename U>
-        explicit Point3(Vector3<U> v)
-            : Tuple3<Point3, T>(T(v.x), T(v.y), T(v.z)) {}
+        explicit GPoint2(Vector2<U> v)
+            : GTuple2<GPoint2, T>(T(v.x), T(v.y)) {}
 
         // ========================================================================
         // Point-Vector Arithmetic
@@ -79,8 +77,8 @@ namespace GMath {
          * @return Translated point
          */
         template <typename U>
-        auto operator+(Vector3<U> v) const -> Point3<decltype(T{} + U{})> {
-            return { x + v.x, y + v.y, z + v.z };
+        auto operator+(Vector2<U> v) const -> GPoint2<decltype(T{} + U{})> {
+            return { x + v.x, y + v.y };
         }
 
         /**
@@ -90,8 +88,8 @@ namespace GMath {
          * @return Translated point
          */
         template <typename U>
-        auto operator-(Vector3<U> v) const -> Point3<decltype(T{} - U{})> {
-            return { x - v.x, y - v.y, z - v.z };
+        auto operator-(Vector2<U> v) const -> GPoint2<decltype(T{} - U{})> {
+            return { x - v.x, y - v.y };
         }
 
         /**
@@ -101,8 +99,8 @@ namespace GMath {
          * @return Vector from p to this point
          */
         template <typename U>
-        auto operator-(Point3<U> p) const -> Vector3<decltype(T{} - U{})> {
-            return { x - p.x, y - p.y, z - p.z };
+        auto operator-(GPoint2<U> p) const -> Vector2<decltype(T{} - U{})> {
+            return { x - p.x, y - p.y };
         }
 
         // ========================================================================
@@ -116,10 +114,9 @@ namespace GMath {
          * @return Reference to this point
          */
         template <typename U>
-        Point3<T>& operator+=(Vector3<U> v) {
+        GPoint2<T>& operator+=(Vector2<U> v) {
             x += v.x;
             y += v.y;
-            z += v.z;
             return *this;
         }
 
@@ -130,10 +127,9 @@ namespace GMath {
          * @return Reference to this point
          */
         template <typename U>
-        Point3<T>& operator-=(Vector3<U> v) {
+        GPoint2<T>& operator-=(Vector2<U> v) {
             x -= v.x;
             y -= v.y;
-            z -= v.z;
             return *this;
         }
     };
@@ -148,12 +144,12 @@ namespace GMath {
      * @tparam T Point component type
      * @param u Scalar to add
      * @param pt Point to add to
-     * @return Point with components (u + pt.x, u + pt.y, u + pt.z)
+     * @return Point with components (u + pt.x, u + pt.y)
      */
     template <typename U, typename T>
-    std::enable_if_t<std::is_fundamental_v<U>, Point3<decltype(T{} + U{})>>
-    operator+(U u, Point3<T> pt) {
-        return { u + pt.x, u + pt.y, u + pt.z };
+    std::enable_if_t<std::is_fundamental_v<U>, GPoint2<decltype(T{} + U{})>>
+    inline operator+(U u, GPoint2<T> pt) {
+        return { u + pt.x, u + pt.y };
     }
 
     /**
@@ -162,12 +158,12 @@ namespace GMath {
      * @tparam T Point component type
      * @param u Scalar to subtract from
      * @param pt Point to subtract
-     * @return Point with components (u - pt.x, u - pt.y, u - pt.z)
+     * @return Point with components (u - pt.x, u - pt.y)
      */
     template <typename U, typename T>
-    std::enable_if_t<std::is_fundamental_v<U>, Point3<decltype(T{} - U{})>>
-    operator-(U u, Point3<T> pt) {
-        return { u - pt.x, u - pt.y, u - pt.z };
+    std::enable_if_t<std::is_fundamental_v<U>, GPoint2<decltype(T{} - U{})>>
+    inline operator-(U u, GPoint2<T> pt) {
+        return { u - pt.x, u - pt.y };
     }
 
     /**
@@ -176,12 +172,12 @@ namespace GMath {
      * @tparam T Point component type
      * @param u Scalar multiplier
      * @param pt Point to scale
-     * @return Point with components (u * pt.x, u * pt.y, u * pt.z)
+     * @return Point with components (u * pt.x, u * pt.y)
      */
     template <typename U, typename T>
-    std::enable_if_t<std::is_fundamental_v<U>, Point3<decltype(T{} * U{})>>
-    operator*(U u, Point3<T> pt) {
-        return { u * pt.x, u * pt.y, u * pt.z };
+    std::enable_if_t<std::is_fundamental_v<U>, GPoint2<decltype(T{} * U{})>>
+    inline operator*(U u, GPoint2<T> pt) {
+        return { u * pt.x, u * pt.y };
     }
 
     /**
@@ -190,12 +186,12 @@ namespace GMath {
      * @tparam T Point component type
      * @param u Scalar dividend
      * @param pt Point divisor
-     * @return Point with components (u / pt.x, u / pt.y, u / pt.z)
+     * @return Point with components (u / pt.x, u / pt.y)
      */
     template <typename U, typename T>
-    std::enable_if_t<std::is_fundamental_v<U>, Point3<decltype(T{} - U{})>>
-    operator/(U u, Point3<T> pt) {
-        return { u / pt.x, u / pt.y, u / pt.z };
+    std::enable_if_t<std::is_fundamental_v<U>, GPoint2<decltype(T{} - U{})>>
+    inline operator/(U u, GPoint2<T> pt) {
+        return { u / pt.x, u / pt.y };
     }
 
 } // namespace GMath

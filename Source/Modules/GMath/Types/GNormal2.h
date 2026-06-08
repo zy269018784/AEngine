@@ -1,5 +1,5 @@
 #pragma once
-#include <Types/Tuple2.h>
+#include <Types/GTuple2.h>
 
 namespace GMath {
 
@@ -10,21 +10,21 @@ namespace GMath {
     /**
      * @brief 2D normal vector (surface normal, always unit length in practice)
      * @tparam T Component type (float, double, etc.)
-     * @note Normal2 is distinct from Vector2 for semantic correctness
+     * @note  GNormal2 is distinct from Vector2 for semantic correctness
      *       Normals transform differently from vectors under non-uniform scaling
      */
     template <typename T>
-    class Normal2 : public Tuple2<Normal2, T> {
+    class  GNormal2 : public GTuple2< GNormal2, T> {
     public:
         // ========================================================================
         // Using declarations to bring base class members into scope
         // ========================================================================
-        using Tuple2<Normal2, T>::x;
-        using Tuple2<Normal2, T>::y;
-        using Tuple2<Normal2, T>::HasNaN;
-        using Tuple2<Normal2, T>::operator+;
-        using Tuple2<Normal2, T>::operator*;
-        using Tuple2<Normal2, T>::operator*=;
+        using GTuple2< GNormal2, T>::x;
+        using GTuple2< GNormal2, T>::y;
+        using GTuple2< GNormal2, T>::HasNaN;
+        using GTuple2< GNormal2, T>::operator+;
+        using GTuple2< GNormal2, T>::operator*;
+        using GTuple2< GNormal2, T>::operator*=;
 
         // ========================================================================
         // Constructors
@@ -33,14 +33,14 @@ namespace GMath {
         /**
          * @brief Default constructor (zero-initialized)
          */
-        Normal2() = default;
+         GNormal2() = default;
 
         /**
          * @brief Construct from x, y components
          * @param x X component
          * @param y Y component
          */
-        Normal2(T x, T y) : Tuple2<Normal2, T>(x, y) {}
+         GNormal2(T x, T y) : GTuple2< GNormal2, T>(x, y) {}
 
         /**
          * @brief Construct from normal of different type (with conversion)
@@ -48,8 +48,8 @@ namespace GMath {
          * @param v Source normal
          */
         template <typename U>
-        explicit Normal2<T>(Normal2<U> v)
-            : Tuple2<Normal2, T>(T(v.x), T(v.y)) {}
+        explicit  GNormal2<T>( GNormal2<U> v)
+            : GTuple2< GNormal2, T>(T(v.x), T(v.y)) {}
 
         /**
          * @brief Construct from vector of different type (with conversion)
@@ -58,13 +58,13 @@ namespace GMath {
          * @note Explicit: prevents unintended vector-to-normal conversion
          */
         template <typename U>
-        explicit Normal2<T>(Vector2<U> v)
-            : Tuple2<Normal2, T>(T(v.x), T(v.y)) {}
+        explicit  GNormal2<T>(GVector2<U> v)
+            : GTuple2< GNormal2, T>(T(v.x), T(v.y)) {}
     };
 
 #if 1
     // ========================================================================
-    // Scalar Arithmetic Operators (U + Normal2)
+    // Scalar Arithmetic Operators (U +  GNormal2)
     // ========================================================================
 
     /**
@@ -76,8 +76,8 @@ namespace GMath {
      * @return Normal with components (s + t.x, s + t.y)
      */
     template <typename T, typename U>
-    typename std::enable_if<!std::is_same<Normal2<T>, U>::value, Normal2<T>>::type
-    inline operator+(U s, Normal2<T> t) {
+    typename std::enable_if<!std::is_same< GNormal2<T>, U>::value,  GNormal2<T>>::type
+    inline operator+(U s,  GNormal2<T> t) {
         return { s + t.x, s + t.y };
     }
 
@@ -90,8 +90,8 @@ namespace GMath {
      * @return Normal with components (s - t.x, s - t.y)
      */
     template <typename T, typename U>
-    typename std::enable_if<!std::is_same<Normal2<T>, U>::value, Normal2<T>>::type
-    inline operator-(U s, Normal2<T> t) {
+    typename std::enable_if<!std::is_same< GNormal2<T>, U>::value,  GNormal2<T>>::type
+    inline operator-(U s,  GNormal2<T> t) {
         return { s - t.x, s - t.y };
     }
 
@@ -104,8 +104,8 @@ namespace GMath {
      * @return Normal with components (s * t.x, s * t.y)
      */
     template <typename T, typename U>
-    typename std::enable_if<!std::is_same<Normal2<T>, U>::value, Normal2<T>>::type
-    inline operator*(U s, Normal2<T> t) {
+    typename std::enable_if<!std::is_same< GNormal2<T>, U>::value,  GNormal2<T>>::type
+    inline operator*(U s,  GNormal2<T> t) {
         return { s * t.x, s * t.y };
     }
 
@@ -118,15 +118,15 @@ namespace GMath {
      * @return Normal with components (s / t.x, s / t.y)
      */
     template <typename T, typename U>
-    typename std::enable_if<!std::is_same<Normal2<T>, U>::value, Normal2<T>>::type
-    inline operator/(U s, Normal2<T> t) {
+    typename std::enable_if<!std::is_same< GNormal2<T>, U>::value,  GNormal2<T>>::type
+    inline operator/(U s,  GNormal2<T> t) {
         return { s / t.x, s / t.y };
     }
 #endif
 
 #if 0
     // ========================================================================
-    // Normal2 Geometric Functions (Currently disabled)
+    //  GNormal2 Geometric Functions (Currently disabled)
     // ========================================================================
 
     /**
@@ -135,7 +135,7 @@ namespace GMath {
      * @return Sum of squares of components
      */
     template <typename T>
-    inline auto LengthSquared(Normal2<T> n) -> typename Float {
+    inline auto LengthSquared( GNormal2<T> n) -> typename Float {
         return Sqr(n.x) + Sqr(n.y);
     }
 
@@ -145,7 +145,7 @@ namespace GMath {
      * @return Euclidean length
      */
     template <typename T>
-    inline auto Length(Normal2<T> n) -> typename Float {
+    inline auto Length( GNormal2<T> n) -> typename Float {
         using std::sqrt;
         return sqrt(LengthSquared(n));
     }
@@ -156,7 +156,7 @@ namespace GMath {
      * @return Unit normal
      */
     template <typename T>
-    inline auto Normalize(Normal2<T> n) {
+    inline auto Normalize( GNormal2<T> n) {
         return n / Length(n);
     }
 
@@ -167,7 +167,7 @@ namespace GMath {
      * @return Dot product
      */
     template <typename T>
-    inline T Dot(Normal2<T> v, Normal2<T> w) {
+    inline T Dot( GNormal2<T> v,  GNormal2<T> w) {
         return v.x * w.x + v.y * w.y;
     }
 
@@ -178,7 +178,7 @@ namespace GMath {
      * @return Dot product
      */
     template <typename T>
-    inline T Dot(Normal2<T> v, Vector2<T> w) {
+    inline T Dot( GNormal2<T> v, Vector2<T> w) {
         return v.x * w.x + v.y * w.y;
     }
 #endif

@@ -1,14 +1,14 @@
 ﻿#pragma once
-#include <Types/Tuple2.h>
-#include <Types/Point2.h>
-#include <Types/TypeDeclaration.h>
+#include <Types/GTuple2.h>
+#include <Types/GPoint2.h>
+#include <Types/GTypeDeclaration.h>
 namespace GMath {
     /**
      * @brief 2D axis-aligned bounding box
      * @tparam T Component type (int, float, double, etc.)
      */
     template <typename T>
-    class Bounds2 {
+    class  GBounds2 {
     public:
         // ========================================================================
         // Constructors
@@ -18,25 +18,25 @@ namespace GMath {
          * @brief Construct an empty bounding box (inverted bounds)
          * @note pMin set to max values, pMax set to min values
          */
-        Bounds2() {
+         GBounds2() {
             T minNum = std::numeric_limits<T>::lowest();
             T maxNum = std::numeric_limits<T>::max();
-            pMin = Point2<T>(maxNum, maxNum);
-            pMax = Point2<T>(minNum, minNum);
+            pMin = GPoint2<T>(maxNum, maxNum);
+            pMax = GPoint2<T>(minNum, minNum);
         }
 
         /**
          * @brief Construct a degenerate box from a single point
          * @param p Point (pMin = pMax = p)
          */
-        explicit Bounds2(Point2<T> p) : pMin(p), pMax(p) {}
+        explicit  GBounds2(GPoint2<T> p) : pMin(p), pMax(p) {}
 
         /**
          * @brief Construct a box from two points (min and max computed automatically)
          * @param p1 First corner point
          * @param p2 Second corner point (opposite corner)
          */
-        Bounds2(Point2<T> p1, Point2<T> p2) : pMin(Min(p1, p2)), pMax(Max(p1, p2)) {}
+         GBounds2(GPoint2<T> p1, GPoint2<T> p2) : pMin(Min(p1, p2)), pMax(Max(p1, p2)) {}
 
         /**
          * @brief Construct from bounds of different type (with conversion)
@@ -44,13 +44,13 @@ namespace GMath {
          * @param b Source bounds
          */
         template <typename U>
-        explicit Bounds2(const Bounds2<U>& b) {
+        explicit  GBounds2(const  GBounds2<U>& b) {
             if (b.IsEmpty())
                 // Be careful about overflowing float->int conversions and the like
-                *this = Bounds2<T>();
+                *this =  GBounds2<T>();
             else {
-                pMin = Point2<T>(b.pMin);
-                pMax = Point2<T>(b.pMax);
+                pMin = GPoint2<T>(b.pMin);
+                pMax = GPoint2<T>(b.pMax);
             }
         }
 
@@ -62,14 +62,14 @@ namespace GMath {
          * @brief Get the diagonal vector from pMin to pMax
          * @return Vector from min to max corner
          */
-        Vector2<T> Diagonal() const { return pMax - pMin; }
+        GVector2<T> Diagonal() const { return pMax - pMin; }
 
         /**
          * @brief Compute the area of the bounding box
          * @return Area (width * height)
          */
         T Area() const {
-            Vector2<T> d = pMax - pMin;
+            GVector2<T> d = pMax - pMin;
             return d.x * d.y;
         }
 
@@ -78,7 +78,7 @@ namespace GMath {
          * @param center Output: Center of the circle
          * @param radius Output: Radius of the circle
          */
-        void BoundingCircle(Point2<T>* center, Float* radius) const {
+        void BoundingCircle(GPoint2<T>* center, Float* radius) const {
             *center = (pMin + pMax) / 2;
             *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
         }
@@ -100,7 +100,7 @@ namespace GMath {
          * @return 0 for x-axis, 1 for y-axis
          */
         int MaxDimension() const {
-            Vector2<T> diag = Diagonal();
+            GVector2<T> diag = Diagonal();
             if (diag.x > diag.y)
                 return 0;
             else
@@ -116,7 +116,7 @@ namespace GMath {
          * @param i 0 for pMin, 1 for pMax
          * @return The corner point
          */
-        Point2<T> operator[](int i) const {
+        GPoint2<T> operator[](int i) const {
             // DCHECK(i == 0 || i == 1);
             return (i == 0) ? pMin : pMax;
         }
@@ -126,7 +126,7 @@ namespace GMath {
          * @param i 0 for pMin, 1 for pMax
          * @return Reference to the corner point
          */
-        Point2<T>& operator[](int i) {
+        GPoint2<T>& operator[](int i) {
             // DCHECK(i == 0 || i == 1);
             return (i == 0) ? pMin : pMax;
         }
@@ -136,9 +136,9 @@ namespace GMath {
          * @param corner Corner index (0-3)
          * @return Corner point
          */
-        Point2<T> Corner(int corner) const {
+        GPoint2<T> Corner(int corner) const {
             // DCHECK(corner >= 0 && corner < 4);
-            return Point2<T>((*this)[(corner & 1)].x,
+            return GPoint2<T>((*this)[(corner & 1)].x,
                              (*this)[(corner & 2) ? 1 : 0].y);
         }
 
@@ -151,8 +151,8 @@ namespace GMath {
          * @param t Interpolation parameters (0-1 range)
          * @return Interpolated point
          */
-        Point2<T> Lerp2(Point2f t) const {
-            return Point2<T>((1 - t.x) * pMin.x + t.x * pMax.x,
+        GPoint2<T> Lerp2(GPoint2f t) const {
+            return GPoint2<T>((1 - t.x) * pMin.x + t.x * pMax.x,
                              (1 - t.y) * pMin.y + t.y * pMax.y);
         }
 
@@ -161,8 +161,8 @@ namespace GMath {
          * @param p Point inside the box
          * @return Offset vector with components in [0,1] range
          */
-        Vector2<T> Offset(Point2<T> p) const {
-            Vector2<T> o = p - pMin;
+        GVector2<T> Offset(GPoint2<T> p) const {
+            GVector2<T> o = p - pMin;
             if (pMax.x > pMin.x)
                 o.x /= pMax.x - pMin.x;
             if (pMax.y > pMin.y)
@@ -180,7 +180,7 @@ namespace GMath {
          * @param b RHS bounding box
          * @return true if both pMin and pMax are equal
          */
-        bool operator==(const Bounds2<T>& b) const {
+        bool operator==(const  GBounds2<T>& b) const {
             return b.pMin == pMin && b.pMax == pMax;
         }
 
@@ -189,7 +189,7 @@ namespace GMath {
          * @param b RHS bounding box
          * @return true if pMin or pMax differ
          */
-        bool operator!=(const Bounds2<T>& b) const {
+        bool operator!=(const  GBounds2<T>& b) const {
             return b.pMin != pMin || b.pMax != pMax;
         }
 
@@ -206,14 +206,14 @@ namespace GMath {
          * @param dirIsNeg Direction signs (1 if component negative, 0 otherwise)
          * @return true if ray intersects the bounding box
          */
-        bool IntersectP(Point2<T> o, Vector2<T> d, Float raytMax, Vector2<T> invDir, const int dirIsNeg[2]) const;
+        bool IntersectP(GPoint2<T> o, GVector2<T> d, Float raytMax, GVector2<T> invDir, const int dirIsNeg[2]) const;
 
         // ========================================================================
         // Public Members
         // ========================================================================
 
-        Point2<T> pMin;  ///< Minimum corner (smallest x,y)
-        Point2<T> pMax;  ///< Maximum corner (largest x,y)
+        GPoint2<T> pMin;  ///< Minimum corner (smallest x,y)
+        GPoint2<T> pMax;  ///< Maximum corner (largest x,y)
     };
 
     // ========================================================================
@@ -237,8 +237,8 @@ namespace GMath {
      * @return true if ray intersects the bounding box
      */
     template <typename T>
-    inline bool Bounds2<T>::IntersectP(Point2<T> o, Vector2<T> d, Float raytMax, Vector2<T> invDir, const int dirIsNeg[2]) const {
-        const Bounds2f& bounds = *this;
+    inline bool  GBounds2<T>::IntersectP(GPoint2<T> o, GVector2<T> d, Float raytMax, GVector2<T> invDir, const int dirIsNeg[2]) const {
+        const GBounds2f& bounds = *this;
 
         // Check for ray intersection against x slab
         Float tMin = (bounds[dirIsNeg[0]].x - o.x) * invDir.x;

@@ -1,0 +1,11 @@
+﻿#pragma once
+#include <Types/GPoint2.h>
+#include <Types/GPoint3.h>
+#include <Types/GVector2.h>
+#include <Types/GVector3.h>
+#include <Types/GBounds2.h>
+#include <Types/GBounds3.h>
+#include <Types/GNormal2.h>
+#include <Types/GNormal3.h>
+#include <Types/GTypeDeclaration.h>
+#include <Types/GRay.h>

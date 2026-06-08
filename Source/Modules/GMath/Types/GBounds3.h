@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include <Types/Tuple3.h>
-#include <Types/Point3.h>
-#include <Types/TypeDeclaration.h>
+#include <Types/GTuple3.h>
+#include <Types/GPoint3.h>
+#include <Types/GTypeDeclaration.h>
 namespace GMath {
     // ========================================================================
-    // Bounds3 Class
+    //  GBounds3 Class
     // ========================================================================
 
     /**
@@ -12,7 +12,7 @@ namespace GMath {
      * @tparam T Component type (int, float, double, etc.)
      */
     template <typename T>
-    class Bounds3 {
+    class  GBounds3 {
     public:
         // ========================================================================
         // Constructors
@@ -22,25 +22,25 @@ namespace GMath {
          * @brief Construct an empty bounding box (inverted bounds)
          * @note pMin set to max values, pMax set to min values
          */
-        Bounds3() {
+         GBounds3() {
             T minNum = std::numeric_limits<T>::lowest();
             T maxNum = std::numeric_limits<T>::max();
-            pMin = Point3<T>(maxNum, maxNum, maxNum);
-            pMax = Point3<T>(minNum, minNum, minNum);
+            pMin = GPoint3<T>(maxNum, maxNum, maxNum);
+            pMax = GPoint3<T>(minNum, minNum, minNum);
         }
 
         /**
          * @brief Construct a degenerate box from a single point
          * @param p Point (pMin = pMax = p)
          */
-        explicit Bounds3(Point3<T> p) : pMin(p), pMax(p) {}
+        explicit  GBounds3(GPoint3<T> p) : pMin(p), pMax(p) {}
 
         /**
          * @brief Construct a box from two points (min and max computed automatically)
          * @param p1 First corner point
          * @param p2 Second corner point (opposite corner)
          */
-        Bounds3(Point3<T> p1, Point3<T> p2) : pMin(Min(p1, p2)), pMax(Max(p1, p2)) {}
+         GBounds3(GPoint3<T> p1, GPoint3<T> p2) : pMin(Min(p1, p2)), pMax(Max(p1, p2)) {}
 
         /**
          * @brief Construct from bounds of different type (with conversion)
@@ -48,13 +48,13 @@ namespace GMath {
          * @param b Source bounds
          */
         template <typename U>
-        explicit Bounds3(const Bounds3<U>& b) {
+        explicit  GBounds3(const  GBounds3<U>& b) {
             if (b.IsEmpty())
                 // Be careful about overflowing float->int conversions and the like
-                    *this = Bounds3<T>();
+                    *this =  GBounds3<T>();
             else {
-                pMin = Point3<T>(b.pMin);
-                pMax = Point3<T>(b.pMax);
+                pMin = GPoint3<T>(b.pMin);
+                pMax = GPoint3<T>(b.pMax);
             }
         }
 
@@ -62,7 +62,7 @@ namespace GMath {
          * @brief Get the diagonal vector from pMin to pMax
          * @return Vector from min to max corner
          */
-        Vector3<T> Diagonal() const { return pMax - pMin; }
+        GVector3<T> Diagonal() const { return pMax - pMin; }
 
         // ========================================================================
         // Geometric Properties
@@ -73,7 +73,7 @@ namespace GMath {
          * @return Surface area (sum of all 6 faces)
          */
         T Area() const {
-            Vector3<T> d = Diagonal();
+            GVector3<T> d = Diagonal();
             return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
         }
 
@@ -82,7 +82,7 @@ namespace GMath {
          * @return Volume (width * height * depth)
          */
         T Volume() const {
-            Vector3<T> d = Diagonal();
+            GVector3<T> d = Diagonal();
             return d.x * d.y * d.z;
         }
 
@@ -91,7 +91,7 @@ namespace GMath {
          * @param center Output: Center of the sphere
          * @param radius Output: Radius of the sphere
          */
-        void BoundingSphere(Point3<T>* center, Float* radius) const {
+        void BoundingSphere(GPoint3<T>* center, Float* radius) const {
             *center = (pMin + pMax) / 2;
             *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
         }
@@ -113,7 +113,7 @@ namespace GMath {
          * @return 0 for x-axis, 1 for y-axis, 2 for z-axis
          */
         int MaxDimension() const {
-            Vector3<T> d = Diagonal();
+            GVector3<T> d = Diagonal();
             if (d.x > d.y && d.x > d.z)
                 return 0;
             else if (d.y > d.z)
@@ -131,7 +131,7 @@ namespace GMath {
          * @param i 0 for pMin, 1 for pMax
          * @return The corner point
          */
-        Point3<T> operator[](int i) const {
+        GPoint3<T> operator[](int i) const {
             return (i == 0) ? pMin : pMax;
         }
 
@@ -140,7 +140,7 @@ namespace GMath {
          * @param i 0 for pMin, 1 for pMax
          * @return Reference to the corner point
          */
-        Point3<T>& operator[](int i) {
+        GPoint3<T>& operator[](int i) {
             return (i == 0) ? pMin : pMax;
         }
 
@@ -149,9 +149,9 @@ namespace GMath {
          * @param corner Corner index (0-7)
          * @return Corner point
          */
-        Point3<T> Corner(int corner) const {
+        GPoint3<T> Corner(int corner) const {
             // DCHECK(corner >= 0 && corner < 8);
-            return Point3<T>((*this)[(corner & 1)].x,
+            return GPoint3<T>((*this)[(corner & 1)].x,
                              (*this)[(corner & 2) ? 1 : 0].y,
                              (*this)[(corner & 4) ? 1 : 0].z);
         }
@@ -165,8 +165,8 @@ namespace GMath {
          * @param t Interpolation parameters (0-1 range)
          * @return Interpolated point
          */
-        Point3<T> Lerp3(Point3f t) const {
-            return Point3<T>((1 - t.x) * pMin.x + t.x * pMax.x,
+        GPoint3<T> Lerp3(GPoint3f t) const {
+            return GPoint3<T>((1 - t.x) * pMin.x + t.x * pMax.x,
                              (1 - t.y) * pMin.y + t.y * pMax.y,
                              (1 - t.z) * pMin.z + t.z * pMax.z);
         }
@@ -176,8 +176,8 @@ namespace GMath {
          * @param p Point inside the box
          * @return Offset vector with components in [0,1] range
          */
-        Vector3<T> Offset(Point3<T> p) const {
-            Vector3<T> o = p - pMin;
+        GVector3<T> Offset(GPoint3<T> p) const {
+            GVector3<T> o = p - pMin;
             if (pMax.x > pMin.x)
                 o.x /= pMax.x - pMin.x;
             if (pMax.y > pMin.y)
@@ -196,7 +196,7 @@ namespace GMath {
          * @param b RHS bounding box
          * @return true if both pMin and pMax are equal
          */
-        bool operator==(const Bounds3<T>& b) const {
+        bool operator==(const  GBounds3<T>& b) const {
             return b.pMin == pMin && b.pMax == pMax;
         }
 
@@ -205,7 +205,7 @@ namespace GMath {
          * @param b RHS bounding box
          * @return true if pMin or pMax differ
          */
-        bool operator!=(const Bounds3<T>& b) const {
+        bool operator!=(const  GBounds3<T>& b) const {
             return b.pMin != pMin || b.pMax != pMax;
         }
 
@@ -222,14 +222,14 @@ namespace GMath {
          * @param dirIsNeg Direction signs (1 if component negative, 0 otherwise)
          * @return true if ray intersects the bounding box
          */
-        bool IntersectP(Point3<T> o, Vector3<T> d, Float raytMax, Vector3<T> invDir, const int dirIsNeg[3]) const;
+        bool IntersectP(GPoint3<T> o, GVector3<T> d, Float raytMax, GVector3<T> invDir, const int dirIsNeg[3]) const;
 
         // ========================================================================
         // Public Members
         // ========================================================================
 
-        Point3<T> pMin;  ///< Minimum corner (smallest x,y,z)
-        Point3<T> pMax;  ///< Maximum corner (largest x,y,z)
+        GPoint3<T> pMin;  ///< Minimum corner (smallest x,y,z)
+        GPoint3<T> pMax;  ///< Maximum corner (largest x,y,z)
     };
 
     // ========================================================================
@@ -247,8 +247,8 @@ namespace GMath {
      * @return true if ray intersects the bounding box
      */
     template <typename T>
-    inline bool Bounds3<T>::IntersectP(Point3<T> o, Vector3<T> d, Float raytMax, Vector3<T> invDir, const int dirIsNeg[3]) const {
-        const Bounds3f& bounds = *this;
+    inline bool  GBounds3<T>::IntersectP(GPoint3<T> o, GVector3<T> d, Float raytMax, GVector3<T> invDir, const int dirIsNeg[3]) const {
+        const GBounds3f& bounds = *this;
 
         // Check for ray intersection against x and y slabs
         Float tMin = (bounds[dirIsNeg[0]].x - o.x) * invDir.x;

@@ -3,14 +3,14 @@
 #include <cstring>
 #include <thread>
 #include <chrono>
-#include <Types/Vector2.h>
-#include <Types/Vector3.h>
-#include <Types/Bounds2.h>
-#include <Types/Bounds3.h>
-#include <Types/Normal2.h>
-#include <Types/Normal3.h>
-#include <Types/Point2.h>
-#include <Types/Point3.h>
+#include <Types/GVector2.h>
+#include <Types/GVector3.h>
+#include <Types/GBounds2.h>
+#include <Types/GBounds3.h>
+#include <Types/GNormal2.h>
+#include <Types/GNormal3.h>
+#include <Types/GPoint2.h>
+#include <Types/GPoint3.h>
 #include <Shapes/GTriangle.h>
 using namespace GMath;
 
