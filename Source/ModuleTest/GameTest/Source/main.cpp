@@ -19,10 +19,11 @@
 #include <vector>
 int cef_main(int argc, char **argv);
 int TestMQTT(int argc, char **argv);
-int TestMath(int argc, char **argv);
+int TestCXX(int argc, char **argv);
+int TestMath(int argc, char** argv);
 int main(int argc, char **argv)
 {
-    return TestMath(argc, argv);
+    return TestCXX(argc, argv);
     std::vector<GFood> Foods = {
     {"包菜", 2.0},
     {"香蕉", 2.0},
