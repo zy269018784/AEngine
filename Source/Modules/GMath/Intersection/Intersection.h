@@ -4,12 +4,12 @@
 namespace GMath
 {
     // ShapeIntersection Definition
-    struct ShapeIntersection {
-        SurfaceInteraction intr;
+    struct GShapeIntersection {
+        GSurfaceInteraction intr;
         Float tHit;
     };
     // QuadricIntersection Definition
-    struct QuadricIntersection {
+    struct GQuadricIntersection {
         Float tHit;
         Point3f pObj;
         Float phi;

@@ -48,7 +48,7 @@ namespace GMath
         return Union(Bounds3f(p0, p1), p2);
     }
 
-    GOptional<ShapeIntersection> GTriangle::Intersect(const Ray& ray, Float tMax) const
+    GOptional<GShapeIntersection> GTriangle::Intersect(const Ray& ray, Float tMax) const
     {
         Vector3f dp02 = p0 - p2, dp12 = p1 - p2;
         Point2f uv0 = Point2f(0, 0), uv1 = Point2f(1, 0), uv2 = Point2f(1, 1);

@@ -23,7 +23,7 @@ namespace GMath
         virtual ~GTriangle();
     public:
         Bounds3f Bounds() const override final;
-        GOptional<ShapeIntersection> Intersect(const Ray& ray, Float tMax = Infinity) const override final;
+        GOptional<GShapeIntersection> Intersect(const Ray& ray, Float tMax = Infinity) const override final;
     private:
         Point3f p0;
         Point3f p1;

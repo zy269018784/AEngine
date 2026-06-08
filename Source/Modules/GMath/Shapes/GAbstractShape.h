@@ -15,7 +15,7 @@ namespace GMath
         virtual ~GAbstractShape();
     public:
         virtual Bounds3f Bounds() const = 0;
-        virtual GOptional<ShapeIntersection> Intersect(const Ray& ray, Float tMax = Infinity) const = 0;
+        virtual GOptional<GShapeIntersection> Intersect(const Ray& ray, Float tMax = Infinity) const = 0;
     };
 }
 

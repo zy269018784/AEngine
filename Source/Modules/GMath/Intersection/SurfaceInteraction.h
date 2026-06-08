@@ -2,7 +2,7 @@
 
 namespace GMath
 {
-    class SurfaceInteraction {
+    class GSurfaceInteraction {
 
     };
 }
