@@ -1,11 +1,19 @@
 #include <Shapes/GTriangle.h>
-
- GTriangle:: GTriangle(GAbstractShape *Parent) : GAbstractShape(Parent)
+#include <Math.h>
+namespace GMath
 {
+    GTriangle:: GTriangle(GAbstractShape *Parent) : GAbstractShape(Parent)
+    {
 
-}
+    }
 
- GTriangle::~ GTriangle()
-{
+    GTriangle::~ GTriangle()
+    {
 
+    }
+
+    Bounds3f GTriangle::Bounds() const
+    {
+        return Union(Bounds3f(p0, p1), p2);
+    }
 }

@@ -1,0 +1,10 @@
+﻿#pragma once
+#include <Types/Point2.h>
+#include <Types/Point3.h>
+#include <Types/Vector2.h>
+#include <Types/Vector3.h>
+#include <Types/Bounds2.h>
+#include <Types/Bounds3.h>
+#include <Types/Normal2.h>
+#include <Types/Normal3.h>
+#include <Types/TypeDeclaration.h>

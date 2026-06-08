@@ -74,6 +74,16 @@ namespace GMath {
         }
 
         /**
+         * @brief Compute bounding circle that contains the box
+         * @param center Output: Center of the circle
+         * @param radius Output: Radius of the circle
+         */
+        void BoundingCircle(Point2<T>* center, Float* radius) const {
+            *center = (pMin + pMax) / 2;
+            *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+        }
+
+        /**
          * @brief Check if the bounding box is empty (degenerate or inverted)
          * @return true if pMin.x >= pMax.x or pMin.y >= pMax.y
          */
@@ -160,15 +170,6 @@ namespace GMath {
             return o;
         }
 
-        /**
-         * @brief Compute bounding sphere (circle) that contains the box
-         * @param c Output: Center of the sphere
-         * @param rad Output: Radius of the sphere
-         */
-        void BoundingSphere(Point2<T>* c, Float* rad) const {
-            *c = (pMin + pMax) / 2;
-            *rad = Inside(*c, *this) ? Distance(*c, pMax) : 0;
-        }
 
         // ========================================================================
         // Comparison Operators
@@ -193,6 +194,21 @@ namespace GMath {
         }
 
         // ========================================================================
+        // Ray Intersection
+        // ========================================================================
+
+        /**
+         * @brief Test if a ray intersects the bounding box
+         * @param o Ray origin
+         * @param d Ray direction
+         * @param tMax Maximum ray parameter
+         * @param invDir Inverse of ray direction (1/d)
+         * @param dirIsNeg Direction signs (1 if component negative, 0 otherwise)
+         * @return true if ray intersects the bounding box
+         */
+        bool IntersectP(Point2<T> o, Vector2<T> d, Float raytMax, Vector2<T> invDir, const int dirIsNeg[2]) const;
+
+        // ========================================================================
         // Public Members
         // ========================================================================
 
@@ -204,58 +220,45 @@ namespace GMath {
     // Free Functions
     // ========================================================================
 
-    /**
-     * @brief Test if a point is inside a bounding box (inclusive)
-     * @param pt Point to test
-     * @param b Bounding box
-     * @return true if point is within [pMin, pMax] inclusive
-     */
-    template <typename T>
-    inline bool Inside(Point2<T> pt, const Bounds2<T>& b) {
-        return (pt.x >= b.pMin.x && pt.x <= b.pMax.x &&
-                pt.y >= b.pMin.y && pt.y <= b.pMax.y);
-    }
+
+
+    // ========================================================================
+    // Ray-Box Intersection Implementation (2D)
+    // ========================================================================
 
     /**
-     * @brief Test if bounding box a is completely inside bounding box b
-     * @param ba Inner bounding box
-     * @param bb Outer bounding box
-     * @return true if ba is fully contained within bb
+     * @brief Ray-box intersection test using slabs method (2D)
+     * @tparam T Component type
+     * @param o Ray origin
+     * @param d Ray direction
+     * @param raytMax Maximum ray distance
+     * @param invDir Inverse of ray direction (1/d)
+     * @param dirIsNeg Direction signs: 1 if component negative, 0 otherwise
+     * @return true if ray intersects the bounding box
      */
     template <typename T>
-    inline bool Inside(const Bounds2<T>& ba, const Bounds2<T>& bb) {
-        return (ba.pMin.x >= bb.pMin.x && ba.pMax.x <= bb.pMax.x &&
-                ba.pMin.y >= bb.pMin.y && ba.pMax.y <= bb.pMax.y);
-    }
+    inline bool Bounds2<T>::IntersectP(Point2<T> o, Vector2<T> d, Float raytMax, Vector2<T> invDir, const int dirIsNeg[2]) const {
+        const Bounds2f& bounds = *this;
 
-    /**
-     * @brief Compute the union of two bounding boxes (smallest box containing both)
-     * @param b1 First bounding box
-     * @param b2 Second bounding box
-     * @return Union bounding box
-     */
-    template <typename T>
-    inline Bounds2<T> Union(const Bounds2<T>& b1, const Bounds2<T>& b2) {
-        // Be careful to not run the two-point Bounds constructor
-        Bounds2<T> ret;
-        ret.pMin = Min(b1.pMin, b2.pMin);
-        ret.pMax = Max(b1.pMax, b2.pMax);
-        return ret;
-    }
+        // Check for ray intersection against x slab
+        Float tMin = (bounds[dirIsNeg[0]].x - o.x) * invDir.x;
+        Float tMax = (bounds[1 - dirIsNeg[0]].x - o.x) * invDir.x;
 
-    /**
-     * @brief Compute the intersection of two bounding boxes
-     * @param b1 First bounding box
-     * @param b2 Second bounding box
-     * @return Intersection bounding box (empty if they don't overlap)
-     */
-    template <typename T>
-    inline Bounds2<T> Intersect(const Bounds2<T>& b1, const Bounds2<T>& b2) {
-        // Be careful to not run the two-point Bounds constructor
-        Bounds2<T> b;
-        b.pMin = Max(b1.pMin, b2.pMin);
-        b.pMax = Min(b1.pMax, b2.pMax);
-        return b;
-    }
+        // Check for ray intersection against y slab
+        Float tyMin = (bounds[dirIsNeg[1]].y - o.y) * invDir.y;
+        Float tyMax = (bounds[1 - dirIsNeg[1]].y - o.y) * invDir.y;
 
+        // Update tMax and tyMax to ensure robust bounds intersection
+        tMax *= 1 + 2 * gamma(3);
+        tyMax *= 1 + 2 * gamma(3);
+
+        if (tMin > tyMax || tyMin > tMax)
+            return false;
+        if (tyMin > tMin)
+            tMin = tyMin;
+        if (tyMax < tMax)
+            tMax = tyMax;
+
+        return (tMin < raytMax) && (tMax > 0);
+    }
 } // namespace GMath

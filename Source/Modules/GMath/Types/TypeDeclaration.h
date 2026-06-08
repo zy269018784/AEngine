@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Types/BasicTypes.h>
+
 namespace GMath
 {
 	template <typename T>

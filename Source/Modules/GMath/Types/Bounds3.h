@@ -3,56 +3,6 @@
 #include <Types/Point3.h>
 #include <Types/TypeDeclaration.h>
 namespace GMath {
-
-    // ========================================================================
-    // Distance Functions (Point to Bounds)
-    // ========================================================================
-
-    /**
-     * @brief Compute squared minimum distance from a point to a bounding box
-     * @tparam T Point component type
-     * @tparam U Bounds component type
-     * @param p Input point
-     * @param b Input bounding box
-     * @return Squared distance (0 if point is inside the box)
-     */
-    template <typename T, typename U>
-    inline auto DistanceSquared(Point3<T> p, const Bounds3<U>& b) {
-        using TDist = decltype(T{} - U{});
-        TDist dx = std::max<TDist>({0, b.pMin.x - p.x, p.x - b.pMax.x});
-        TDist dy = std::max<TDist>({0, b.pMin.y - p.y, p.y - b.pMax.y});
-        TDist dz = std::max<TDist>({0, b.pMin.z - p.z, p.z - b.pMax.z});
-        return Sqr(dx) + Sqr(dy) + Sqr(dz);
-    }
-
-    /**
-     * @brief Compute minimum distance from a point to a bounding box
-     * @tparam T Point component type
-     * @tparam U Bounds component type
-     * @param p Input point
-     * @param b Input bounding box
-     * @return Distance (0 if point is inside the box)
-     */
-    template <typename T, typename U>
-    inline auto Distance(Point3<T> p, const Bounds3<U>& b) {
-        auto dist2 = DistanceSquared(p, b);
-        return std::sqrt(dist2);
-    }
-
-    /**
-     * @brief Test if a point is inside a 3D bounding box (inclusive)
-     * @tparam T Component type
-     * @param p Point to test
-     * @param b Bounding box
-     * @return true if point is within [pMin, pMax] inclusive
-     */
-    template <typename T>
-    inline bool Inside(Point3<T> p, const Bounds3<T>& b) {
-        return (p.x >= b.pMin.x && p.x <= b.pMax.x &&
-                p.y >= b.pMin.y && p.y <= b.pMax.y &&
-                p.z >= b.pMin.z && p.z <= b.pMax.z);
-    }
-
     // ========================================================================
     // Bounds3 Class
     // ========================================================================
@@ -92,6 +42,86 @@ namespace GMath {
          */
         Bounds3(Point3<T> p1, Point3<T> p2) : pMin(Min(p1, p2)), pMax(Max(p1, p2)) {}
 
+        /**
+         * @brief Construct from bounds of different type (with conversion)
+         * @tparam U Source component type
+         * @param b Source bounds
+         */
+        template <typename U>
+        explicit Bounds3(const Bounds3<U>& b) {
+            if (b.IsEmpty())
+                // Be careful about overflowing float->int conversions and the like
+                    *this = Bounds3<T>();
+            else {
+                pMin = Point3<T>(b.pMin);
+                pMax = Point3<T>(b.pMax);
+            }
+        }
+
+        /**
+         * @brief Get the diagonal vector from pMin to pMax
+         * @return Vector from min to max corner
+         */
+        Vector3<T> Diagonal() const { return pMax - pMin; }
+
+        // ========================================================================
+        // Geometric Properties
+        // ========================================================================
+
+        /**
+         * @brief Compute the surface area of the bounding box
+         * @return Surface area (sum of all 6 faces)
+         */
+        T Area() const {
+            Vector3<T> d = Diagonal();
+            return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
+        }
+
+        /**
+         * @brief Compute the volume of the bounding box
+         * @return Volume (width * height * depth)
+         */
+        T Volume() const {
+            Vector3<T> d = Diagonal();
+            return d.x * d.y * d.z;
+        }
+
+        /**
+         * @brief Compute bounding sphere that contains the box
+         * @param center Output: Center of the sphere
+         * @param radius Output: Radius of the sphere
+         */
+        void BoundingSphere(Point3<T>* center, Float* radius) const {
+            *center = (pMin + pMax) / 2;
+            *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+        }
+
+        /**
+ * @brief Check if the bounding box is empty (degenerate or inverted)
+ * @return true if pMin.x >= pMax.x or pMin.y >= pMax.y or pMin.z >= pMax.z
+ */
+        bool IsEmpty() const { return pMin.x >= pMax.x || pMin.y >= pMax.y || pMin.z >= pMax.z; }
+
+        /**
+         * @brief Check if the bounding box is degenerate (strictly inverted)
+         * @return true if pMin.x > pMax.x or pMin.y > pMax.y or pMin.z > pMax.z
+         */
+        bool IsDegenerate() const { return pMin.x > pMax.x || pMin.y > pMax.y || pMin.z > pMax.z; }
+
+        /**
+         * @brief Get the dimension with the largest extent
+         * @return 0 for x-axis, 1 for y-axis, 2 for z-axis
+         */
+        int MaxDimension() const {
+            Vector3<T> d = Diagonal();
+            if (d.x > d.y && d.x > d.z)
+                return 0;
+            else if (d.y > d.z)
+                return 1;
+            else
+                return 2;
+        }
+
         // ========================================================================
         // Accessors
         // ========================================================================
@@ -126,56 +156,57 @@ namespace GMath {
                              (*this)[(corner & 4) ? 1 : 0].z);
         }
 
-        /**
-         * @brief Get the diagonal vector from pMin to pMax
-         * @return Vector from min to max corner
-         */
-        Vector3<T> Diagonal() const { return pMax - pMin; }
-
         // ========================================================================
-        // Geometric Properties
+        // Interpolation and Offset
         // ========================================================================
 
         /**
-         * @brief Compute bounding sphere that contains the box
-         * @param center Output: Center of the sphere
-         * @param radius Output: Radius of the sphere
+         * @brief Trilinear interpolation inside the bounding box
+         * @param t Interpolation parameters (0-1 range)
+         * @return Interpolated point
          */
-        void BoundingSphere(Point3<T>* center, Float* radius) const {
-            *center = (pMin + pMax) / 2;
-            *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+        Point3<T> Lerp3(Point3f t) const {
+            return Point3<T>((1 - t.x) * pMin.x + t.x * pMax.x,
+                             (1 - t.y) * pMin.y + t.y * pMax.y,
+                             (1 - t.z) * pMin.z + t.z * pMax.z);
         }
 
         /**
-         * @brief Compute the surface area of the bounding box
-         * @return Surface area (sum of all 6 faces)
+         * @brief Get normalized offset of a point within the bounding box
+         * @param p Point inside the box
+         * @return Offset vector with components in [0,1] range
          */
-        T SurfaceArea() const {
-            Vector3<T> d = Diagonal();
-            return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
+        Vector3<T> Offset(Point3<T> p) const {
+            Vector3<T> o = p - pMin;
+            if (pMax.x > pMin.x)
+                o.x /= pMax.x - pMin.x;
+            if (pMax.y > pMin.y)
+                o.y /= pMax.y - pMin.y;
+            if (pMax.z > pMin.z)
+                o.z /= pMax.z - pMin.z;
+            return o;
+        }
+
+        // ========================================================================
+        // Comparison Operators
+        // ========================================================================
+
+        /**
+         * @brief Equality comparison
+         * @param b RHS bounding box
+         * @return true if both pMin and pMax are equal
+         */
+        bool operator==(const Bounds3<T>& b) const {
+            return b.pMin == pMin && b.pMax == pMax;
         }
 
         /**
-         * @brief Compute the volume of the bounding box
-         * @return Volume (width * height * depth)
+         * @brief Inequality comparison
+         * @param b RHS bounding box
+         * @return true if pMin or pMax differ
          */
-        T Volume() const {
-            Vector3<T> d = Diagonal();
-            return d.x * d.y * d.z;
-        }
-
-        /**
-         * @brief Get the dimension with the largest extent
-         * @return 0 for x-axis, 1 for y-axis, 2 for z-axis
-         */
-        int MaxDimension() const {
-            Vector3<T> d = Diagonal();
-            if (d.x > d.y && d.x > d.z)
-                return 0;
-            else if (d.y > d.z)
-                return 1;
-            else
-                return 2;
+        bool operator!=(const Bounds3<T>& b) const {
+            return b.pMin != pMin || b.pMax != pMax;
         }
 
         // ========================================================================
@@ -191,8 +222,7 @@ namespace GMath {
          * @param dirIsNeg Direction signs (1 if component negative, 0 otherwise)
          * @return true if ray intersects the bounding box
          */
-        bool IntersectP(Point3f o, Vector3f d, Float tMax, Vector3f invDir,
-                        const int dirIsNeg[3]) const;
+        bool IntersectP(Point3<T> o, Vector3<T> d, Float raytMax, Vector3<T> invDir, const int dirIsNeg[3]) const;
 
         // ========================================================================
         // Public Members
@@ -217,9 +247,7 @@ namespace GMath {
      * @return true if ray intersects the bounding box
      */
     template <typename T>
-    inline bool Bounds3<T>::IntersectP(Point3f o, Vector3f d, Float raytMax,
-                                       Vector3f invDir,
-                                       const int dirIsNeg[3]) const {
+    inline bool Bounds3<T>::IntersectP(Point3<T> o, Vector3<T> d, Float raytMax, Vector3<T> invDir, const int dirIsNeg[3]) const {
         const Bounds3f& bounds = *this;
 
         // Check for ray intersection against x and y slabs

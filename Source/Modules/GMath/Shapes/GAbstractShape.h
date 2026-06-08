@@ -1,9 +1,15 @@
 #pragma once
 #include <GCore/GObject.h>
-class GEXPORT GAbstractShape : public GObject
+#include <Types/Types.h>
+namespace GMath
 {
-public:
-    GAbstractShape(GObject *Parent = nullptr);
-    virtual ~GAbstractShape();
-};
+    class GEXPORT GAbstractShape : public GObject
+    {
+    public:
+        GAbstractShape(GObject *Parent = nullptr);
+        virtual ~GAbstractShape();
+    public:
+        virtual Bounds3f Bounds() const = 0;
+    };
+}
 
