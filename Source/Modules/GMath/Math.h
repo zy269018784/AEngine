@@ -245,7 +245,7 @@ namespace GMath
     }
 
     template <typename T>
-       inline Vector3<T> Cross(Vector3<T> v, Vector3<T> w) {
+       inline GVector3<T> Cross(GVector3<T> v, GVector3<T> w) {
         return { DifferenceOfProducts(v.y, w.z, v.z, w.y),
                 DifferenceOfProducts(v.z, w.x, v.x, w.z),
                 DifferenceOfProducts(v.x, w.y, v.y, w.x) };

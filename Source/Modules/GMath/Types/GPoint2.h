@@ -3,9 +3,9 @@
 
 namespace GMath {
 
-    // Forward declaration for Vector2
+    // Forward declaration for GVector2
     template <typename T>
-    class Vector2;
+    class GVector2;
 
     /**
      * @brief 2D point in space
@@ -63,7 +63,7 @@ namespace GMath {
          * @note Explicit: prevents unintended vector-to-point conversion
          */
         template <typename U>
-        explicit GPoint2(Vector2<U> v)
+        explicit GPoint2(GVector2<U> v)
             : GTuple2<GPoint2, T>(T(v.x), T(v.y)) {}
 
         // ========================================================================
@@ -77,7 +77,7 @@ namespace GMath {
          * @return Translated point
          */
         template <typename U>
-        auto operator+(Vector2<U> v) const -> GPoint2<decltype(T{} + U{})> {
+        auto operator+(GVector2<U> v) const -> GPoint2<decltype(T{} + U{})> {
             return { x + v.x, y + v.y };
         }
 
@@ -88,7 +88,7 @@ namespace GMath {
          * @return Translated point
          */
         template <typename U>
-        auto operator-(Vector2<U> v) const -> GPoint2<decltype(T{} - U{})> {
+        auto operator-(GVector2<U> v) const -> GPoint2<decltype(T{} - U{})> {
             return { x - v.x, y - v.y };
         }
 
@@ -99,7 +99,7 @@ namespace GMath {
          * @return Vector from p to this point
          */
         template <typename U>
-        auto operator-(GPoint2<U> p) const -> Vector2<decltype(T{} - U{})> {
+        auto operator-(GPoint2<U> p) const -> GVector2<decltype(T{} - U{})> {
             return { x - p.x, y - p.y };
         }
 
@@ -114,7 +114,7 @@ namespace GMath {
          * @return Reference to this point
          */
         template <typename U>
-        GPoint2<T>& operator+=(Vector2<U> v) {
+        GPoint2<T>& operator+=(GVector2<U> v) {
             x += v.x;
             y += v.y;
             return *this;
@@ -127,7 +127,7 @@ namespace GMath {
          * @return Reference to this point
          */
         template <typename U>
-        GPoint2<T>& operator-=(Vector2<U> v) {
+        GPoint2<T>& operator-=(GVector2<U> v) {
             x -= v.x;
             y -= v.y;
             return *this;
