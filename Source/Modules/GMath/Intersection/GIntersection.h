@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <Types/Types.h>
-#include <Intersection/SurfaceInteraction.h>
+#include <Intersection/GSurfaceInteraction.h>
 namespace GMath
 {
     // ShapeIntersection Definition

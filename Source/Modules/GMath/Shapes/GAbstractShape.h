@@ -1,7 +1,7 @@
 #pragma once
 #include <GCore/GObject.h>
 #include <GCore/GOptional.h>
-#include <Intersection/Intersection.h>
+#include <Intersection/GIntersection.h>
 #include <Types/Types.h>
 #include <limits>
 #include <cmath>
