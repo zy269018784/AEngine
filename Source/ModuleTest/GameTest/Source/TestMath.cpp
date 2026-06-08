@@ -19,7 +19,10 @@ int TestGTriangle()
     Point3f p0(0, 0,     0);
     Point3f p1(100, 0,   100);
     Point3f p2(100, 100, 0);
-    GAbstractShape *Shape = new GTriangle(&p0, &p1, &p2);
+    Point2f uv0(0.3, 0.2);
+    Point2f uv1(0.8, 0.6);
+    Point2f uv2(0.1, 0.98);
+    GAbstractShape *Shape = new GTriangle(&p0, &p1, &p2, &uv0, &uv1, &uv2);
     auto Bounds = Shape->Bounds();
     std::cout << Bounds.pMin.x << ", " << Bounds.pMin.y << ", " << Bounds.pMin.z << std::endl;
     std::cout << Bounds.pMax.x << ", " << Bounds.pMax.y << ", " << Bounds.pMax.z << std::endl;
