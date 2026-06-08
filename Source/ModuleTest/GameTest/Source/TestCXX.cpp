@@ -1,42 +1,42 @@
 #include <iostream>
-#include <cstring>
-#include <thread>
-#include <chrono>
+#include <memory>
 
-int TestCXX(int argc, char** argv)
+class Test {
+public:
+    int id;
+    Test(int i) : id(i) { std::cout << "构造 " << id << "\n"; }
+    ~Test() { std::cout << "析构 " << id << "\n"; }
+    void hello() { std::cout << "Hello " << id << "\n"; }
+};
+
+int TestCXX(int argc, char **argv)
 {
-    std::optional<int> opt = 42;
+    // 1. 创建 shared_ptr
+    auto p1 = std::make_shared<Test>(1);
 
-    // 方法1：operator bool
-    if (opt) {
-        std::cout << "有值" << std::endl;
-    }
+    // 2. 访问成员
+    p1->hello();
+    (*p1).hello();
 
-    // 方法2：has_value()
-    if (opt.has_value()) {
-        std::cout << "有值" << std::endl;
-    }
+    // 3. 查看引用计数
+    std::cout << "引用计数: " << p1.use_count() << "\n";
 
-    // 方式1：空 optional
-    std::optional<int> empty;                    // 包含 nullopt
-    std::optional<int> empty2 = std::nullopt;    // 显式为空
+    // 4. 拷贝（共享所有权）
+    auto p2 = p1;  // 引用计数 +1
+    std::cout << "拷贝后引用计数: " << p1.use_count() << "\n";
 
-    // 方式2：包含值
-    std::optional<int> opt1 = 42;                // 包含值 42
-    std::optional<int> opt2(42);                 // 同上
-    std::optional<int> opt3 = std::make_optional(42);
+    // 5. 获取裸指针
+    Test* raw = p1.get();
+    std::cout << "裸指针地址: " << raw << "\n";
 
-    // 方式3：使用 std::in_place 构造复杂对象（避免拷贝）
-    std::optional<std::string> opt4(std::in_place, "hello");
-    std::optional<std::vector<int>> opt5(std::in_place, 10, 20);  // 10个20
+    // 6. 重置
+    p2.reset();  // p2 释放，引用计数 -1
+    std::cout << "p2 reset 后引用计数: " << p1.use_count() << "\n";
 
-    std::cout << "empty has_value: " << empty.has_value() << std::endl;
-    std::cout << "empty2 has_value: " << empty2.has_value() << std::endl;
-    std::cout << "opt1 has_value: " << opt1.has_value() << ", value: " << *opt1 << std::endl;
-    std::cout << "opt2 has_value: " << opt2.has_value() << ", value: " << *opt2 << std::endl;
-    std::cout << "opt3 has_value: " << opt3.has_value() << ", value: " << *opt3 << std::endl;
-    std::cout << "opt4 has_value: " << opt4.has_value() << ", value: " << *opt4 << std::endl;
-    std::cout << "opt5 has_value: " << opt5.has_value() << ", value: " << (*opt5)[0] << std::endl;
+    // 7. 使用别名构造（共享同一个控制块，但指向不同成员）
+    auto p3 = std::make_shared<Test>(2);
+    std::shared_ptr<int> p4(p3, &p3->id);  // 指向 id 成员
+    std::cout << "p3 引用计数: " << p3.use_count() << "\n";
 
     return 0;
 }
