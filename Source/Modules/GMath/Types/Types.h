@@ -8,3 +8,4 @@
 #include <Types/Normal2.h>
 #include <Types/Normal3.h>
 #include <Types/TypeDeclaration.h>
+#include <Types/Ray.h>

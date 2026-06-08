@@ -46,4 +46,5 @@ namespace GMath
 	#define PiOver2 1.57079632679489661923f
 	#define PiOver4 0.78539816339744830961f
 	#define Sqrt2	1.41421356237309504880f
+	#define Infinity std::numeric_limits<Float>::infinity()
 }

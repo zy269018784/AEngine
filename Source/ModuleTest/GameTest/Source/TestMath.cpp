@@ -11,11 +11,27 @@
 #include <Types/Normal3.h>
 #include <Types/Point2.h>
 #include <Types/Point3.h>
-
+#include <Shapes/GTriangle.h>
 using namespace GMath;
+
+int TestGTriangle()
+{
+    Point3f p0(0, 0,     0);
+    Point3f p1(100, 0,   100);
+    Point3f p2(100, 100, 0);
+    GAbstractShape *Shape = new GTriangle(p0, p1, p2);
+    auto Bounds = Shape->Bounds();
+    std::cout << Bounds.pMin.x << ", " << Bounds.pMin.y << ", " << Bounds.pMin.z << std::endl;
+    std::cout << Bounds.pMax.x << ", " << Bounds.pMax.y << ", " << Bounds.pMax.z << std::endl;
+
+    Ray ray;
+    Shape->Intersect(ray);
+    return 0;
+}
 
 int TestMath(int argc, char** argv)
 {
+    return TestGTriangle();
     std::cout << "========== Vector2 测试 ==========" << std::endl;
     Vector2<float> v1(1, 2);
     Vector2<float> v2(3, 4);
