@@ -1,6 +1,7 @@
 #pragma once
 #include "GCore/GExport.h"
 #include <Types/Types.h>
+#include <Float.h>
 void GEXPORT HelloMath();
 namespace GMath
 {
@@ -212,5 +213,41 @@ namespace GMath
         auto dist2 = DistanceSquared(p, b);
         return std::sqrt(dist2);
     }
+    
+    //
+    
+    template <typename Float, typename C>
+    inline constexpr Float EvaluatePolynomial(Float t, C c) {
+        return c;
+    }
+    
 
+    template <typename Float, typename C, typename... Args>
+        inline constexpr Float EvaluatePolynomial(Float t, C c, Args... cRemaining) {
+        return FMA(t, EvaluatePolynomial(t, cRemaining...), c);
+    }
+    
+    template <typename Ta, typename Tb, typename Tc, typename Td>
+    inline auto DifferenceOfProducts(Ta a, Tb b, Tc c, Td d) {
+        auto cd = c * d;
+        auto differenceOfProducts = FMA(a, b, -cd);
+        auto error = FMA(-c, d, cd);
+        return differenceOfProducts + error;
+    }
+
+    inline  Vector3f Cross(Vector3f v, Vector3f w)
+    {
+        return {
+        DifferenceOfProducts(v.y, w.z, v.z, w.y),
+        DifferenceOfProducts(v.z, w.x, v.x, w.z),
+        DifferenceOfProducts(v.x, w.y, v.y, w.x)
+        };
+    }
+
+    template <typename T>
+       inline Vector3<T> Cross(Vector3<T> v, Vector3<T> w) {
+        return { DifferenceOfProducts(v.y, w.z, v.z, w.y),
+                DifferenceOfProducts(v.z, w.x, v.x, w.z),
+                DifferenceOfProducts(v.x, w.y, v.y, w.x) };
+    }
 }

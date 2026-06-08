@@ -2,7 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include "BasicTypes.h"
-
+#include <Float.h>
 namespace GMath {
 
     /**
