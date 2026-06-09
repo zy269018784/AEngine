@@ -7,14 +7,20 @@ int TestHttpServer(int argc, char **argv)
     // 创建服务器实例
     httplib::Server svr;
 
-    // 注册路由：GET /hi
-    svr.Get("/hi", [](const httplib::Request &req, httplib::Response &res) {
-        res.set_content("Hello!", "text/plain");
-    });
-
     // 可选：添加根路径路由
     svr.Get("/", [](const httplib::Request &req, httplib::Response &res) {
-        res.set_content("Welcome to HTTP Server! Try /hi", "text/plain");
+        res.set_content("Welcome to HTTP Server! Try http://localhost:8080/hi", "text/plain");
+    });
+
+    // http://localhost:8080/hi?name=Alice
+    svr.Get("/hi", [](const httplib::Request &req, httplib::Response &res) {
+        // 检查参数是否存在
+        if (req.has_param("name")) {
+            std::string name = req.get_param_value("name");
+            res.set_content("Hello, " + name + "!", "text/plain");
+        } else {
+            res.set_content("Hello, Guest!", "text/plain");
+        }
     });
 
     // 启动服务器，监听 localhost:8080
