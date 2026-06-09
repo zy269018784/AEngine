@@ -1,6 +1,6 @@
 #pragma once
 
-namespace GHttp
+namespace GNetwork
 {
 
         // 1xx: 信息响应
