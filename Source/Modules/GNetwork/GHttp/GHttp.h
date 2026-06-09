@@ -6,7 +6,7 @@
  *  https://www.rfc-editor.org/info/rfc9112
  *  https://www.rfc-editor.org/info/rfc9110
  *  https://www.rfc-editor.org/info/rfc9112/#name-request-line
- *
+ *  https://www.rfc-editor.org/info/rfc2616/#section-3.7
  */
 namespace GNetwork
 {
