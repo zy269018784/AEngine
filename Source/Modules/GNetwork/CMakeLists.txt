@@ -24,6 +24,10 @@ set (LIBRARYS "")
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
 list (APPEND LIBRARYS		mqtt)
+# curl
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/mqtt/lib)
+list (APPEND LIBRARYS		mqtt)
 
 # 自定义库
 # GCore
