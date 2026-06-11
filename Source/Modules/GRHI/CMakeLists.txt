@@ -99,6 +99,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     list(APPEND LIBRARYS wayland-client wayland-cursor  wayland-egl)
 endif()
 
+set (USE_VULKAN false)
 if (USE_VULKAN)
     list (APPEND SRC_LIST ${SRC_LIST_VulkanRHI})
     #list (APPEND INCLUDE_PATH ${SRC_PREFIX}/Modules/RHI/VulkanRHI)

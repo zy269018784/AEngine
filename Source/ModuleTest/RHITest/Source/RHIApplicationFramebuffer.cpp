@@ -5,7 +5,7 @@
 #include "RHI/RHIObjects/Shader/RHIShader.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "Vulkan/Common.h"
+#include "Common.h"
 #if  1
 #include <stb_image.h>
 #endif

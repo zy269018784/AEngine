@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
 
-file(GLOB_RECURSE SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
+file(GLOB SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
                             ${PROJECT_SOURCE_DIR}/Source/*.c
                             ${PROJECT_SOURCE_DIR}/Source/*.h)
 
@@ -34,8 +34,8 @@ endif ()
 
 # 依赖库
 set (LIBRARYS "")
-list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.3.10/include)
-list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.3.10/lib)
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/glfw/3.4/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/glfw/3.4/lib)
 list (APPEND LIBRARYS		glfw3)
 
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/stb/include)

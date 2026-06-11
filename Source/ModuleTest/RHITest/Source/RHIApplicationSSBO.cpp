@@ -1,7 +1,7 @@
 ﻿#include "RHIApplicationSSBO.h"
 
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
-#include "Vulkan/Common.h"
+#include "Common.h"
 #include "RHI/RHIObjects/Core/RHIVertexInputLayout.h"
 #include "RHI/RHIObjects/Pipeline/RHIGraphicsPipeline.h"
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
