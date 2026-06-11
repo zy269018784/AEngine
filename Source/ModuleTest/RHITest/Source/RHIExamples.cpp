@@ -157,9 +157,29 @@ void error_callback(int error, const char* description)
 }
 int RHIExample(int argc, char **argv)
 {
-
 	glfwInit();
 	glfwSetErrorCallback(error_callback);
+#if 1
+	int platform = glfwGetPlatform();
+	const char* platform_name = "Unknown";
+
+	switch(platform) {
+	case GLFW_PLATFORM_X11: platform_name = "X11"; break;
+	case GLFW_PLATFORM_WAYLAND: platform_name = "Wayland"; break;
+	case GLFW_PLATFORM_WIN32: platform_name = "Win32"; break;
+	case GLFW_PLATFORM_COCOA: platform_name = "Cocoa"; break;
+	}
+
+	std::cout << "GLFW initialized with platform: " << platform_name << std::endl;
+
+	// Now you can call Wayland functions only if platform == GLFW_PLATFORM_WAYLAND
+	if (platform == GLFW_PLATFORM_WAYLAND) {
+		void* display = glfwGetWaylandDisplay();
+		std::cout << "Wayland display obtained" << std::endl;
+	} else {
+		std::cout << "Wayland functions not available - using fallback" << std::endl;
+	}
+#endif
 
 #if  PROJECT_USE_SDL3
 	SDL_Init(SDL_INIT_VIDEO);
@@ -188,7 +208,7 @@ int RHIExample(int argc, char **argv)
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
-	//Example_Texture2D();
+	Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
 	//Example_TextureCubeMap();
@@ -200,7 +220,7 @@ int RHIExample(int argc, char **argv)
 	//Example_RenderTarget();
 	//Example_TextureRenderTarget();
 	//Example_SperateImageSampler();
-	Example_Framebuffer();
+	//Example_Framebuffer();
 
 	return 0;
 }

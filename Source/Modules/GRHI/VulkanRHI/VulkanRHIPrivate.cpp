@@ -17,6 +17,10 @@ void VulkanRHI::CreateInstance()
     {
         "VK_KHR_surface",
     };
+#if RHI_USE_WAYLAND_KHR
+    InstanceExtensions.emplace_back("VK_KHR_wayland_surface");
+#endif
+
 #if RHI_USE_XCB_KHR
     InstanceExtensions.emplace_back("VK_KHR_xcb_surface");
 #endif

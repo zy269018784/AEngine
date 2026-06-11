@@ -347,5 +347,6 @@ void VulkanSurface::Query(VulkanPhysicalDevice& PhysicalDevice)
     {
         SetWidth(Capabilities.currentExtent.width);
         SetHeight(Capabilities.currentExtent.height);
+        std::cout << "AAA Surface size " << GetWidth() << " " << GetHeight() << std::endl;
     }
 }
