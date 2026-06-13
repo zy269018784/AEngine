@@ -19,3 +19,10 @@ message (STATUS "Tuorial LIBRARY_PATH                ${LIBRARY_PATH}")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/OpenGL)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Qt)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_subdirectory(${PROJECT_SOURCE_DIR}/D3D12)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/D3D11)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/D3D10)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/D3D9)
+endif ()
