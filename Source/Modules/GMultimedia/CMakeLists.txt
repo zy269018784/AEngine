@@ -26,11 +26,24 @@ file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
 set (SRC_LIST "")
 list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
+# 库
+set (LIBRARYS "")
+# 三方库
+# ffmpeg
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
+list (APPEND LIBRARYS		avdevice  avfilter  avformat  avutil  swscale swresample)
+# curl
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/ffmpeg/8.0.1/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/ffmpeg/8.0.1/lib)
+list (APPEND LIBRARYS		avdevice  avfilter  avformat  avutil  swscale swresample)
 
 # 链接GCore库
 if(NOT TARGET GCore)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../GCore ${CMAKE_CURRENT_BINARY_DIR}/Modules/GCore)
 endif ()
+
+
 set (LIBRARYS "")
 list (APPEND LIBRARYS GCore)
 
