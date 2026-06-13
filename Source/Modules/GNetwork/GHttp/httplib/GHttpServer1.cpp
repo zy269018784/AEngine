@@ -10,3 +10,8 @@ GHttpServer1::~GHttpServer1()
 {
     delete Handle;
 }
+
+httplib::Server *GHttpServer1::GetHandle() const
+{
+    return Handle;
+}
