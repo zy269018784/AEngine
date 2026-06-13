@@ -18,3 +18,4 @@ message (STATUS "Tuorial CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}
 message (STATUS "Tuorial LIBRARY_PATH                ${LIBRARY_PATH}")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/OpenGL)
+add_subdirectory(${PROJECT_SOURCE_DIR}/Qt)

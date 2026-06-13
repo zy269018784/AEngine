@@ -8,7 +8,7 @@
 	2. Linux安装Node.js	
 		Standalone Binray:
 			https://nodejs.org/dist/v22.21.0/node-v22.21.0-linux-x64.tar.xz
-
+			https://nodejs.org/dist/v24.16.0/node-v24.16.0-linux-x64.tar.xz
 
 	3. MacOS安装Node.js
 		Standalone Binray:
