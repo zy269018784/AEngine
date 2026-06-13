@@ -2,7 +2,7 @@
 
 int TestGProgramming(int argc, char **argv)
 {
-    GProgramming pg;
+    GMultimedia pg;
     pg.Print();
     return 0;
 }

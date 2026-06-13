@@ -66,6 +66,11 @@ if(NOT TARGET GProgramming)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GProgramming ${CMAKE_CURRENT_BINARY_DIR}/Modules/GProgramming)
 endif ()
 
+if(NOT TARGET GMultimedia)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GMultimedia ${CMAKE_CURRENT_BINARY_DIR}/Modules/GMultimedia)
+endif ()
+
+
 if(NOT TARGET GRenderDependencyGraph)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRenderDependencyGraph ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRenderDependencyGraph)
 endif ()
@@ -87,7 +92,9 @@ list (APPEND LIBRARYS
         GRenderDependencyGraph
         GDeviceDriver
         GDatabase
-        GProgramming)
+        GMultimedia
+        GProgramming
+)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
