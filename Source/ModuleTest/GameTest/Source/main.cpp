@@ -23,8 +23,10 @@ int TestCXX(int argc, char **argv);
 int TestMath(int argc, char** argv);
 int TestHttpServer(int argc, char **argv);
 int TestHttpClient(int argc, char **argv);
+int TestGProgramming(int argc, char **argv);
 int main(int argc, char **argv)
 {
+    return TestGProgramming(argc, argv);
     return TestHttpClient(argc, argv);
     return TestHttpServer(argc, argv);
     std::vector<GFood> Foods = {

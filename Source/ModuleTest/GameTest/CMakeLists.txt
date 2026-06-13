@@ -62,6 +62,10 @@ if(NOT TARGET GDatabase)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GDatabase ${CMAKE_CURRENT_BINARY_DIR}/Modules/GDatabase)
 endif ()
 
+if(NOT TARGET GProgramming)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GProgramming ${CMAKE_CURRENT_BINARY_DIR}/Modules/GProgramming)
+endif ()
+
 if(NOT TARGET GRenderDependencyGraph)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRenderDependencyGraph ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRenderDependencyGraph)
 endif ()
@@ -73,7 +77,17 @@ list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
 
 # 链接库
 set (LIBRARYS "")
-list (APPEND LIBRARYS GArch GCG GMath GNetwork GWindow GGame GRenderDependencyGraph GDeviceDriver GDatabase)
+list (APPEND LIBRARYS
+        GArch
+        GCG
+        GMath
+        GNetwork
+        GWindow
+        GGame
+        GRenderDependencyGraph
+        GDeviceDriver
+        GDatabase
+        GProgramming)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
