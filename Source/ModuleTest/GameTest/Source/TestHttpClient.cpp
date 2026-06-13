@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
+#include <GHttp/curl/GHttpClient1.h>
 
 // 回调函数：将响应数据写入 string
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *output) {
@@ -11,7 +12,9 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *out
 
 // 简单的 GET 请求示例
 void HttpGet(const std::string &url) {
-    CURL *curl = curl_easy_init();
+    GHttpClient1 client;
+  //  CURL *curl = curl_easy_init();
+    CURL *curl = client.GetHandle();
     if (!curl) {
         std::cerr << "curl_easy_init failed" << std::endl;
         return;
@@ -31,7 +34,7 @@ void HttpGet(const std::string &url) {
         std::cout << "Response: " << response << std::endl;
     }
 
-    curl_easy_cleanup(curl);
+  //  curl_easy_cleanup(curl);
 }
 
 int TestHttpClient(int argc, char **argv)

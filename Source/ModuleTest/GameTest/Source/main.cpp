@@ -25,7 +25,7 @@ int TestHttpServer(int argc, char **argv);
 int TestHttpClient(int argc, char **argv);
 int main(int argc, char **argv)
 {
-    //return TestHttpClient(argc, argv);
+    return TestHttpClient(argc, argv);
     return TestHttpServer(argc, argv);
     std::vector<GFood> Foods = {
     {"包菜", 2.0},

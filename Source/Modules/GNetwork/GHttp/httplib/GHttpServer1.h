@@ -9,7 +9,7 @@ public:
     virtual ~GHttpServer1();
     httplib::Server *GetHandle() const;
 private:
-    httplib::Server *Handle;
+    httplib::Server *Handle = nullptr;
 };
 
 
