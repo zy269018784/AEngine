@@ -1,6 +1,8 @@
 ﻿官网:
     https://flutter.dev/
 
+文档:
+    https://docs.flutter.dev/
 
 
 1. 安装依赖包
@@ -35,6 +37,12 @@ SDK链接:
     3. SDK 添加到PATH环境变量
     echo 'export PATH="flutter_linux_3.44.1-stable/bin:$PATH"' >> ~/.bashrc
 
+创建项目:
+    flutter create helloflutter
+
+
+升级flutter:
+    flutter upgrade
 
 
 
