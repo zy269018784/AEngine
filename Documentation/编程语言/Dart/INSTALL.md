@@ -1,6 +1,6 @@
 https://storage.googleapis.com/dart-archive/channels/stable/release/latest/linux_packages/dart_3.12.2-1_amd64.deb
 
-dart run
+
 
 
 
