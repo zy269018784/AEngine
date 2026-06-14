@@ -39,6 +39,9 @@ SDK链接:
 
 创建项目:
     flutter create helloflutter
+    cd helloflutter
+    flutter run
+
 
 
 升级flutter:
