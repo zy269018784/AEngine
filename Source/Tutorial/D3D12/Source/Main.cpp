@@ -16,11 +16,6 @@
 // 关键：D3DX12 辅助库 - 定义了 CD3DX12_* 辅助类
 #include <d3dx12.h>
 
-#include "D3D12Objects/Device/D3D12Device.h"
-#include "D3D12Objects/Texture/D3D12Texture.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandPool.h"
-#include "D3D12Objects/CommandBuffer/D3D12CommandBuffer.h"
-
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -28,42 +23,37 @@
 using namespace DirectX;
 
 // 窗口尺寸
-static const UINT WIDTH = 800;
-static const UINT HEIGHT = 600;
+const UINT WIDTH = 800;
+const UINT HEIGHT = 600;
 
 // 帧缓冲区计数（双缓冲）
-static const UINT FRAME_COUNT = 2;
+const UINT FRAME_COUNT = 2;
 
 // 全局 D3D12 对象
-static ID3D12Device* g_device = nullptr;
-static ID3D12CommandQueue* g_commandQueue = nullptr;
-static IDXGISwapChain3* g_swapChain = nullptr;
-static ID3D12DescriptorHeap* g_rtvHeap = nullptr;
-static ID3D12Resource* g_renderTargets[FRAME_COUNT] = {};
-static ID3D12CommandAllocator* g_commandAllocator[FRAME_COUNT] = {};
-static ID3D12GraphicsCommandList* g_commandList = nullptr;
-static ID3D12Fence* g_fence = nullptr;
-static UINT64 g_fenceValue[FRAME_COUNT] = {};
-static HANDLE g_fenceEvent = nullptr;
-static UINT g_rtvDescriptorSize = 0;
-static UINT g_frameIndex = 0;
+ID3D12Device* g_device = nullptr;
+ID3D12CommandQueue* g_commandQueue = nullptr;
+IDXGISwapChain3* g_swapChain = nullptr;
+ID3D12DescriptorHeap* g_rtvHeap = nullptr;
+ID3D12Resource* g_renderTargets[FRAME_COUNT] = {};
+ID3D12CommandAllocator* g_commandAllocator[FRAME_COUNT] = {};
+ID3D12GraphicsCommandList* g_commandList = nullptr;
+ID3D12Fence* g_fence = nullptr;
+UINT64 g_fenceValue[FRAME_COUNT] = {};
+HANDLE g_fenceEvent = nullptr;
+UINT g_rtvDescriptorSize = 0;
+UINT g_frameIndex = 0;
 
 // 纹理相关对象
-static ID3D12DescriptorHeap* g_srvHeap = nullptr;
-static ID3D12Resource* g_texture = nullptr;
+ID3D12DescriptorHeap* g_srvHeap = nullptr;
+ID3D12Resource* g_texture = nullptr;
 
 // 渲染管线对象
-static ID3D12RootSignature* g_rootSignature = nullptr;
-static ID3D12PipelineState* g_pipelineState = nullptr;
+ID3D12RootSignature* g_rootSignature = nullptr;
+ID3D12PipelineState* g_pipelineState = nullptr;
 
 // 顶点缓冲区对象
-static ID3D12Resource* g_vertexBuffer = nullptr;
-static D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
-static D3D12Device* Device = nullptr;
-static D3D12Texture* Texture = nullptr;
-static D3D12CommandPool *CommandPool[FRAME_COUNT] = {};
-static D3D12CommandBuffer *CommandBuffer = nullptr;
-
+ID3D12Resource* g_vertexBuffer = nullptr;
+D3D12_VERTEX_BUFFER_VIEW g_vertexBufferView = {};
 
 // 顶点结构
 struct Vertex {
@@ -76,7 +66,7 @@ struct Vertex {
 #define CHECK_HR_VOID(hr) { if (FAILED(hr)) { std::cerr << "HRESULT failed at line " << __LINE__ << std::endl; return; } }
 
 // 创建一个简单的测试纹理（红绿蓝渐变）
-static void CreateTextureData(std::vector<uint8_t>& data) {
+void CreateTextureData(std::vector<uint8_t>& data) {
     const UINT texWidth = 256;
     const UINT texHeight = 256;
     data.resize(texWidth * texHeight * 4);
@@ -100,7 +90,7 @@ static void CreateTextureData(std::vector<uint8_t>& data) {
 }
 
 // 初始化 D3D12 设备
-static bool InitD3D12(GLFWwindow* window) {
+bool InitD3D12(GLFWwindow* window) {
     // 启用 D3D12 调试层
 #if defined(_DEBUG)
     ID3D12Debug* debugController = nullptr;
@@ -116,17 +106,12 @@ static bool InitD3D12(GLFWwindow* window) {
 
     // 创建 D3D12 设备
     CHECK_HR(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&g_device)));
-    Device = new D3D12Device();
-    Device->Handle = g_device;
 
-#if 0
     // 2. 创建命令队列
     D3D12_COMMAND_QUEUE_DESC queueDesc = {};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     CHECK_HR(g_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&g_commandQueue)));
-#endif
-    g_commandQueue = Device->CommandQueue;
 
     // 3. 创建交换链
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -168,12 +153,8 @@ static bool InitD3D12(GLFWwindow* window) {
     }
 
     // 6. 创建命令分配器和命令列表
-
-    for (UINT i = 0; i < FRAME_COUNT; ++i)
-    {
-        CommandPool[i] = new D3D12CommandPool(Device);
-        g_commandAllocator[i] = CommandPool[i]->GetHandle();
-       // CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
+    for (UINT i = 0; i < FRAME_COUNT; ++i) {
+        CHECK_HR(g_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_commandAllocator[i])));
     }
     CHECK_HR(g_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_commandAllocator[0], nullptr, IID_PPV_ARGS(&g_commandList)));
     CHECK_HR(g_commandList->Close());
@@ -244,7 +225,7 @@ static bool CreateVertexBuffer() {
 }
 
 // 创建纹理和 SRV
-static bool CreateTextureAndSRV() {
+bool CreateTextureAndSRV() {
     // 1. 创建 SRV 描述符堆
     D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
     srvHeapDesc.NumDescriptors = 1;
@@ -271,7 +252,6 @@ static bool CreateTextureAndSRV() {
     textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 
     CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_DEFAULT);
-#if 0
     CHECK_HR(g_device->CreateCommittedResource(
         &heapProps,
         D3D12_HEAP_FLAG_NONE,
@@ -280,11 +260,7 @@ static bool CreateTextureAndSRV() {
         nullptr,
         IID_PPV_ARGS(&g_texture)
     ));
-#else
-    Texture = new D3D12Texture(Device, RHITextureType::Texture2D, RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, 1, 1, textureData.data());
-    g_texture = (ID3D12Resource*)Texture->Handle;
-#endif
-#if 0
+
     // 4. 创建上传堆
     UINT64 uploadBufferSize = GetRequiredIntermediateSize(g_texture, 0, 1);
     ID3D12Resource* textureUploadHeap = nullptr;
@@ -298,11 +274,7 @@ static bool CreateTextureAndSRV() {
         nullptr,
         IID_PPV_ARGS(&textureUploadHeap)
     ));
-#else
-    ID3D12Resource* textureUploadHeap = nullptr;
-    textureUploadHeap = Texture->pUploadBuffer;
-#endif
-#if 0
+
     // 记录上传命令
     CHECK_HR(g_commandAllocator[g_frameIndex]->Reset());
     CHECK_HR(g_commandList->Reset(g_commandAllocator[g_frameIndex], nullptr));
@@ -326,9 +298,6 @@ static bool CreateTextureAndSRV() {
     // 执行命令列表
     ID3D12CommandList* commandLists[] = { g_commandList };
     g_commandQueue->ExecuteCommandLists(1, commandLists);
-#else
-    Texture->Update(0, 0, 0, 0, texWidth, texHeight, 1, textureData.data());
-#endif
 
     // 等待上传完成
     CHECK_HR(g_commandQueue->Signal(g_fence, 1));
@@ -350,7 +319,7 @@ static bool CreateTextureAndSRV() {
 }
 
 // 编译着色器
-static ID3DBlob* CompileShader(const std::string& source, const std::string& entrypoint, const std::string& target) {
+ID3DBlob* CompileShader(const std::string& source, const std::string& entrypoint, const std::string& target) {
     ID3DBlob* shaderBlob = nullptr;
     ID3DBlob* errorBlob = nullptr;
 
@@ -384,7 +353,7 @@ static ID3DBlob* CompileShader(const std::string& source, const std::string& ent
 }
 
 // 创建根签名和 PSO
-static bool CreatePipeline() {
+bool CreatePipeline() {
     // 1. 创建根签名 - 现在需要纹理和采样器
     CD3DX12_DESCRIPTOR_RANGE range;
     range.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
@@ -519,7 +488,7 @@ static bool CreatePipeline() {
 }
 
 // 等待 GPU 完成当前帧
-static void WaitForPreviousFrame() {
+void WaitForPreviousFrame() {
     if (!g_commandQueue || !g_fence) return;
 
     const UINT64 fenceValue = g_fenceValue[g_frameIndex];
@@ -538,7 +507,7 @@ static void WaitForPreviousFrame() {
 }
 
 // 渲染循环
-static void TestD3D12Texture2DRender() {
+void TestD3D12Texture2DRender() {
     if (!g_commandAllocator[g_frameIndex] || !g_commandList || !g_pipelineState || !g_vertexBuffer) {
         std::cerr << "Missing required resources for rendering" << std::endl;
         return;
@@ -629,7 +598,7 @@ static void TestD3D12Texture2DRender() {
 }
 
 // 清理资源
-static void TestD3D12Texture2DCleanup() {
+void TestD3D12Texture2DCleanup() {
     std::cout << "Cleaning up resources..." << std::endl;
 
     WaitForPreviousFrame();
@@ -698,7 +667,7 @@ static void TestD3D12Texture2DCleanup() {
     std::cout << "Cleanup complete" << std::endl;
 }
 
-int TestD3D12RHITexture2D(int argc, char **argv) {
+int TestD3D12Texture2D(int argc, char **argv) {
     std::cout << "Starting D3D12 Texture2D Test..." << std::endl;
 
     // 初始化 GLFW
