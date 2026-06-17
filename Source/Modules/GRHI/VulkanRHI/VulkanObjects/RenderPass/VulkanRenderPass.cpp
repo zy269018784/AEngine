@@ -236,11 +236,23 @@ void VulkanRenderPass::Create1_2()
     Subpass.flags                               = 0;
     Subpass.pipelineBindPoint                   = VK_PIPELINE_BIND_POINT_GRAPHICS;
     Subpass.viewMask                            = 0;  // 单视图渲染
+    /*
+    * 输入附件
+    */
     Subpass.inputAttachmentCount                = 0;
     Subpass.pInputAttachments                   = nullptr;
+    /*
+    * 颜色附件
+    */
     Subpass.colorAttachmentCount                = static_cast<uint32_t>(ColorAttachmentRefs.size());
     Subpass.pColorAttachments                   = ColorAttachmentRefs.data();
+    /*
+     * Resolve附件
+     */
     Subpass.pResolveAttachments                 = nullptr;
+    /*
+     * 深度附件
+     */
     Subpass.pDepthStencilAttachment             = &DepthAttachmentRef;
     Subpass.preserveAttachmentCount             = 0;
     Subpass.pPreserveAttachments                = nullptr;
