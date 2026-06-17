@@ -5,8 +5,9 @@
 
 
 VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
-    std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments)
-    : RHIRenderPass(InDevice, InColorAttachments, InDepthAttachments)
+    std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments,
+    std::vector<RHISubPass *> InSubPass)
+    : RHIRenderPass(InDevice, InColorAttachments, InDepthAttachments, InSubPass)
 {
 #if 0
     std::cout << "VulkanRenderPass " << InColorAttachments.size() << " " << InDepthAttachments.size() << std::endl;
@@ -112,15 +113,37 @@ void VulkanRenderPass::Create1_0()
         ColorAttachment.stencilStoreOp          = ToVkStoreOp(ColorAttachments[i]->GetStencilStoreOp());
         ColorAttachment.initialLayout           = ToVkImageLayout(ColorAttachments[i]->GetInitialLayout());
         ColorAttachment.finalLayout             = ToVkImageLayout(ColorAttachments[i]->GetFinalLayout());
-        //if (3 == ColorAttachments.size())
-        //    ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL;
-
         AttachmentDescriptions.emplace_back(ColorAttachment);
+    }
 
-        VkAttachmentReference ColorAttachmentRef{};
-        ColorAttachmentRef.attachment           = i;
-        ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-        ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
+    std::vector<VkSubpassDescription> SubpassDescription;
+    SubpassDescription.resize(SubPass.size());
+
+    std::vector<VkAttachmentReference> DepthAttachmentRefs{};
+    DepthAttachmentRefs.resize(SubPass.size());
+
+    for (int i = 0; i < SubPass.size(); i++)
+    {
+        auto ColorAttachmentIndex = SubPass[i]->GetColorAttachmentIndex();
+        auto DepthAttachmentIndex = SubPass[i]->GetDepthAttachmentIndex();
+
+        ColorAttachmentRefs.clear();
+        for (int Index = 0; Index < ColorAttachmentIndex.size(); Index++)
+        {
+            VkAttachmentReference ColorAttachmentRef{};
+            ColorAttachmentRef.attachment           = ColorAttachmentIndex[Index];
+            ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+            ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
+        }
+
+        DepthAttachmentRefs[i].attachment           = ColorAttachmentRefs.size();
+        DepthAttachmentRefs[i].layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+        // 暂时只支持图像管线
+        SubpassDescription[i].pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        SubpassDescription[i].colorAttachmentCount            = ColorAttachmentRefs.size();
+        SubpassDescription[i].pColorAttachments               = ColorAttachmentRefs.data();
+        SubpassDescription[i].pDepthStencilAttachment         = &DepthAttachmentRefs[i];
     }
 
     /*
@@ -137,28 +160,13 @@ void VulkanRenderPass::Create1_0()
     DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
     AttachmentDescriptions.emplace_back(DepthAttachment);
 
-    VkAttachmentReference DepthAttachmentRef{};
-    DepthAttachmentRef.attachment           = ColorAttachmentRefs.size();
-    DepthAttachmentRef.layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-    /*
-     * 3
-     */
-    VkSubpassDescription Subpass{};
-    /*
-     *  to do: 只支持图像管线, 不支持其他管线
-     */
-    Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
-    Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
-    Subpass.pColorAttachments               = ColorAttachmentRefs.data();
-    Subpass.pDepthStencilAttachment         = &DepthAttachmentRef;
-
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
     CreateInfo.attachmentCount              = AttachmentDescriptions.size();
     CreateInfo.pAttachments                 = AttachmentDescriptions.data();
-    CreateInfo.subpassCount                 = 1;
-    CreateInfo.pSubpasses                   = &Subpass;
+    CreateInfo.subpassCount                 = SubpassDescription.size();
+    CreateInfo.pSubpasses                   = SubpassDescription.data();
+
     VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
     {
@@ -308,5 +316,5 @@ void VulkanRenderPass::Create1_2()
 
 void VulkanRenderPass::Create()
 {
-    Create1_2();
+    Create1_0();
 }

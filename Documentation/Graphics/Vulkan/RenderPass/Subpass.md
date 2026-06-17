@@ -25,3 +25,26 @@ dependencies[2].srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
 dependencies[2].dstStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
 dependencies[2].srcAccessMask = 0;
 dependencies[2].dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+
+-------------------------------------------------------------------------------------------
+    
+    VkAttachmentReference2 ColorAttachmentRef{};
+    ColorAttachmentRef.sType                = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2;
+    ColorAttachmentRef.pNext                = nullptr;
+    ColorAttachmentRef.attachment           = i;
+    ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    ColorAttachmentRef.aspectMask           = VK_IMAGE_ASPECT_COLOR_BIT;
+    
+    
+    VkAttachmentReference2 DepthAttachmentRef{};
+    DepthAttachmentRef.sType                    = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2;
+    DepthAttachmentRef.pNext                    = nullptr;
+    DepthAttachmentRef.attachment               = static_cast<uint32_t>(ColorAttachmentRefs.size());
+    DepthAttachmentRef.layout                   = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    DepthAttachmentRef.aspectMask               = VK_IMAGE_ASPECT_DEPTH_BIT;
+
+
+
+
+
+

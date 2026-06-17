@@ -317,7 +317,15 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
 			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
 			RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL));
-	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments);
+	/*
+	 * 颜色附件索引
+	 */
+	std::vector< std::uint32_t> ColorAttachmentIndex;
+	ColorAttachmentIndex.emplace_back(0);
+	std::uint32_t InDepthAttachmentIndex = ColorAttachmentIndex.size();
+	std::vector<RHISubPass *> SubPass;
+	SubPass.push_back(new RHISubPass(ColorAttachmentIndex, InDepthAttachmentIndex));
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments, SubPass);
 	RenderPass->Create();
 }
 

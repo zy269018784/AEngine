@@ -208,7 +208,7 @@ int RHIExample(int argc, char **argv)
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
-	//Example_Texture2D();
+	Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
 	//Example_TextureCubeMap();
@@ -220,7 +220,7 @@ int RHIExample(int argc, char **argv)
 	//Example_RenderTarget();
 	//Example_TextureRenderTarget();
 	//Example_SperateImageSampler();
-	Example_Framebuffer();
+	//Example_Framebuffer();
 
 	return 0;
 }

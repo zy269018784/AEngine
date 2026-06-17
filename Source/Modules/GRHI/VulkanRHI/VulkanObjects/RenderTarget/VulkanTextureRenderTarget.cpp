@@ -145,6 +145,12 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         std::cout << "greater than 16" << std::endl;
     }
     RHIAttachmentType Type;
+    /*
+     * 颜色附件索引
+     */
+    std::vector< std::uint32_t> InColorAttachmentIndex;
+    InColorAttachmentIndex.resize(InColorTextures.size());
+    std::uint32_t InDepthAttachmentIndex = InColorAttachmentIndex.size();
 
     ColorAttachments.resize(InColorTextures.size());
     for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
@@ -155,6 +161,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
             );
+        InColorAttachmentIndex[Index] = Index;
     }
 
     DepthStencilAttachments.resize(InDepthTextures.size());
@@ -191,7 +198,11 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
     std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
-    RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
+
+
+    std::vector<RHISubPass *> SubPass;
+    SubPass.push_back(new RHISubPass(InColorAttachmentIndex, InDepthAttachmentIndex));
+    RenderPass = new VulkanRenderPass(Device, ColorAttachments, DepthStencilAttachments, SubPass);
     RenderPass->Create();
     CreateFramebuffer();
     CreateCommandbuffer();
