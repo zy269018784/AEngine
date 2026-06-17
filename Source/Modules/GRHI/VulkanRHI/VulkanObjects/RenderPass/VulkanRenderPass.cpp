@@ -183,11 +183,9 @@ void VulkanRenderPass::Create1_2()
     std::cout << "VulkanRenderPass " << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
     std::vector<VkAttachmentDescription2> AttachmentDescriptions;
 
-
     /*
      * 1. Color Attachments
      */
-    std::vector<VkAttachmentReference2> ColorAttachmentRefs;
     for (int i = 0; i < ColorAttachments.size(); i++)
     {
         VkAttachmentDescription2 ColorAttachment{};
@@ -204,24 +202,31 @@ void VulkanRenderPass::Create1_2()
         ColorAttachment.finalLayout             = ToVkImageLayout(ColorAttachments[i]->GetFinalLayout());
 
         AttachmentDescriptions.emplace_back(ColorAttachment);
-#if 0
-        VkAttachmentReference2 ColorAttachmentRef{};
-        ColorAttachmentRef.sType                = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2;
-        ColorAttachmentRef.pNext                = nullptr;
-        ColorAttachmentRef.attachment           = i;
-        ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-        ColorAttachmentRef.aspectMask           = VK_IMAGE_ASPECT_COLOR_BIT;
-        ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
-#endif
     }
-#if 0
-    VkAttachmentReference2 DepthAttachmentRef{};
-    DepthAttachmentRef.sType                    = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2;
-    DepthAttachmentRef.pNext                    = nullptr;
-    DepthAttachmentRef.attachment               = static_cast<uint32_t>(ColorAttachmentRefs.size());
-    DepthAttachmentRef.layout                   = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-    DepthAttachmentRef.aspectMask               = VK_IMAGE_ASPECT_DEPTH_BIT;
-#endif
+
+    /*
+     * 2. Depth Attachments
+     */
+    for (int i = 0; i < DepthAttachments.size(); i++)
+        {
+        VkAttachmentDescription2 DepthAttachment{};
+        DepthAttachment.sType                       = VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2;
+        DepthAttachment.pNext                       = nullptr;
+        DepthAttachment.flags                       = 0;
+        DepthAttachment.format                      = ToVkFormat(DepthAttachments[i]->GetAttachmentType());
+        DepthAttachment.samples                     = VK_SAMPLE_COUNT_1_BIT;
+        DepthAttachment.loadOp                      = ToVkLoadOp(DepthAttachments[i]->GetLoadOp());
+        DepthAttachment.storeOp                     = ToVkStoreOp(DepthAttachments[i]->GetStoreOp());
+        DepthAttachment.stencilLoadOp               = ToVkLoadOp(DepthAttachments[i]->GetStencilLoadOp());
+        DepthAttachment.stencilStoreOp              = ToVkStoreOp(DepthAttachments[i]->GetStencilStoreOp());
+        DepthAttachment.initialLayout               = ToVkImageLayout(DepthAttachments[i]->GetInitialLayout());
+        DepthAttachment.finalLayout                 = ToVkImageLayout(DepthAttachments[i]->GetFinalLayout());
+        AttachmentDescriptions.emplace_back(DepthAttachment);
+    }
+
+    /*
+     * subpass数组
+     */
     std::vector<VkSubpassDescription2> SubpassDescription;
     SubpassDescription.resize(SubPass.size());
 
@@ -291,55 +296,8 @@ void VulkanRenderPass::Create1_2()
     }
 #endif
 
-    /*
-     * 2. Depth Attachments
-     */
-    VkAttachmentDescription2 DepthAttachment{};
-    DepthAttachment.sType                       = VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2;
-    DepthAttachment.pNext                       = nullptr;
-    DepthAttachment.flags                       = 0;
-    DepthAttachment.format                      = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
-    DepthAttachment.samples                     = VK_SAMPLE_COUNT_1_BIT;
-    DepthAttachment.loadOp                      = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
-    DepthAttachment.storeOp                     = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
-    DepthAttachment.stencilLoadOp               = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
-    DepthAttachment.stencilStoreOp              = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
-    DepthAttachment.initialLayout               = ToVkImageLayout(DepthAttachments[0]->GetInitialLayout());
-    DepthAttachment.finalLayout                 = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
-    AttachmentDescriptions.emplace_back(DepthAttachment);
 
-#if 0
 
-    /*
-     * 3. Subpass Description
-     */
-    VkSubpassDescription2 Subpass{};
-    Subpass.sType                               = VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_2;
-    Subpass.pNext                               = nullptr;
-    Subpass.flags                               = 0;
-    Subpass.pipelineBindPoint                   = VK_PIPELINE_BIND_POINT_GRAPHICS;
-    Subpass.viewMask                            = 0;  // 单视图渲染
-    /*
-    * 输入附件
-    */
-    Subpass.inputAttachmentCount                = 0;
-    Subpass.pInputAttachments                   = nullptr;
-    /*
-    * 颜色附件
-    */
-    Subpass.colorAttachmentCount                = static_cast<uint32_t>(ColorAttachmentRefs.size());
-    Subpass.pColorAttachments                   = ColorAttachmentRefs.data();
-    /*
-     * Resolve附件
-     */
-    Subpass.pResolveAttachments                 = nullptr;
-    /*
-     * 深度附件
-     */
-    Subpass.pDepthStencilAttachment             = &DepthAttachmentRef;
-    Subpass.preserveAttachmentCount             = 0;
-    Subpass.pPreserveAttachments                = nullptr;
-#endif
     /*
      * 4. Subpass Dependencies (可选)
      * 如果需要外部依赖，可以添加
