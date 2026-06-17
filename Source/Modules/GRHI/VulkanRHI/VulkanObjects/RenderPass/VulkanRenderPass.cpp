@@ -110,10 +110,10 @@ void VulkanRenderPass::Create1_0()
         ColorAttachment.storeOp                 = ToVkStoreOp(ColorAttachments[i]->GetStoreOp());
         ColorAttachment.stencilLoadOp           = ToVkLoadOp(ColorAttachments[i]->GetStencilLoadOp());
         ColorAttachment.stencilStoreOp          = ToVkStoreOp(ColorAttachments[i]->GetStencilStoreOp());
-        ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
-        ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-        if (3 == ColorAttachments.size())
-            ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL;
+        ColorAttachment.initialLayout           = ToVkImageLayout(ColorAttachments[i]->GetInitialLayout());
+        ColorAttachment.finalLayout             = ToVkImageLayout(ColorAttachments[i]->GetFinalLayout());
+        //if (3 == ColorAttachments.size())
+        //    ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL;
 
         AttachmentDescriptions.emplace_back(ColorAttachment);
 
@@ -133,8 +133,8 @@ void VulkanRenderPass::Create1_0()
     DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
     DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
     DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
-    DepthAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
-    DepthAttachment.finalLayout             = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    DepthAttachment.initialLayout           = ToVkImageLayout(DepthAttachments[0]->GetInitialLayout());
+    DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
     AttachmentDescriptions.emplace_back(DepthAttachment);
 
     VkAttachmentReference DepthAttachmentRef{};

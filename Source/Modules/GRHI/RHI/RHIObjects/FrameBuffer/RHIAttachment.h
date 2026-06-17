@@ -26,6 +26,8 @@ public:
     [[nodiscard]] RHIAttachmentStoreOp GetStoreOp() const { return StoreOp; }
     [[nodiscard]] RHIAttachmentLoadOp GetStencilLoadOp() const { return StencilLoadOp; }
     [[nodiscard]] RHIAttachmentStoreOp GetStencilStoreOp() const { return StencilStoreOp; }
+    [[nodiscard]] inline RHIImageLayout GetInitialLayout() const { return InitialLayout; }
+    [[nodiscard]] inline RHIImageLayout GetFinalLayout() const { return FinalLayout; }
 protected:
     RHIAttachmentType Type;
     RHITexture *Texture = nullptr;
