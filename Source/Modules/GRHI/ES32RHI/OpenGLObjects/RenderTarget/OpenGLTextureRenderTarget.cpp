@@ -77,6 +77,16 @@ void OpenGLTextureRenderTarget::RHIEndRenderPass()
 
 }
 
+void OpenGLTextureRenderTarget::RHIBeginRenderPass2()
+{
+
+}
+
+void OpenGLTextureRenderTarget::RHIEndRenderPass2()
+{
+
+}
+
 void OpenGLTextureRenderTarget::RHIBeginFrame()
 {
     Framebuffer->Bind();

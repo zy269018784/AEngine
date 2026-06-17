@@ -100,6 +100,16 @@ void VulkanTextureRenderTarget::RHIEndRenderPass()
     dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
 }
 
+void VulkanTextureRenderTarget::RHIBeginRenderPass2()
+{
+
+}
+
+void VulkanTextureRenderTarget::RHIEndRenderPass2()
+{
+
+}
+
 void VulkanTextureRenderTarget::Resize(float Width, float Height)
 {
 

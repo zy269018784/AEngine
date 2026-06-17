@@ -206,6 +206,16 @@ void VulkanSwapChainRenderTarget::RHIEndRenderPass()
     dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
 }
 
+void VulkanSwapChainRenderTarget::RHIBeginRenderPass2()
+{
+
+}
+
+void VulkanSwapChainRenderTarget::RHIEndRenderPass2()
+{
+
+}
+
 void VulkanSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
 {
 	x = y = 0;

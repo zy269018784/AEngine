@@ -14,6 +14,8 @@ public:
     virtual void WaitDeviceIdle() final override;
     virtual void RHIBeginRenderPass() override final;
     virtual void RHIEndRenderPass() override final;
+    virtual void RHIBeginRenderPass2() override final;
+    virtual void RHIEndRenderPass2() override final;
     virtual void RHIBeginFrame() override final;
     virtual void RHIEndFrame() override final;
 };

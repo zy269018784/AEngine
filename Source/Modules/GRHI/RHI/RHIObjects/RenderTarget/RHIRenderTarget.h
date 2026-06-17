@@ -24,6 +24,8 @@ public:
      */
     virtual void RHIBeginRenderPass() = 0;
     virtual void RHIEndRenderPass() = 0;
+    virtual void RHIBeginRenderPass2() = 0;
+    virtual void RHIEndRenderPass2() = 0;
     virtual void RHIBeginFrame() = 0;
     virtual void RHIEndFrame() = 0;
     virtual void GetExtent(float &x, float &y, float &w, float &h) = 0;

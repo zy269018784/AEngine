@@ -41,6 +41,17 @@ void OpenGLSwapChainRenderTarget::RHIEndRenderPass()
 
 }
 
+void OpenGLSwapChainRenderTarget::RHIBeginRenderPass2()
+{
+
+}
+
+void OpenGLSwapChainRenderTarget::RHIEndRenderPass2()
+{
+
+}
+
+
 void OpenGLSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
 {
     GLint Viewport[4];
