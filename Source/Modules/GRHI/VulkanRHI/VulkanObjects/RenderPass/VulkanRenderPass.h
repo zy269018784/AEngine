@@ -16,5 +16,8 @@ public:
 	VkRenderPass GetHandle();
 	virtual void Create() override final;
 private:
+	void Create1_0();
+	void Create1_2();
+private:
 	VkRenderPass Handle;
 };

@@ -178,7 +178,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
     RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
-
+    RenderPass->Create();
     CreateFramebuffer();
     CreateCommandbuffer();
 }

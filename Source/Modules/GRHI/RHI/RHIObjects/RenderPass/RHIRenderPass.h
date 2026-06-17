@@ -16,6 +16,7 @@ public:
 	RHIFrameBuffer *GetFramebuffer() const;
 public:
 	virtual void Create() = 0;
+
 public:
 	RHIClearColor Color;
 	RHIRenderArea RenderArea;

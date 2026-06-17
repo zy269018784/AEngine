@@ -279,6 +279,7 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
 			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
 	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments);
+	RenderPass->Create();
 }
 
 void VulkanSwapChainRenderTarget::CreateCommandbuffer()
