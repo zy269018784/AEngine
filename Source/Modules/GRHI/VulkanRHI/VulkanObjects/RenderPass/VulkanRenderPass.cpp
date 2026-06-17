@@ -63,8 +63,6 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
      */
     Subpass.pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
     Subpass.colorAttachmentCount            = ColorAttachmentRefs.size();
-    std::cout << "Subpass.colorAttachmentCount " << Subpass.colorAttachmentCount << std::endl;
-    std::cout << "AttachmentDescriptions.size()t " << AttachmentDescriptions.size() << std::endl;
     Subpass.pColorAttachments               = ColorAttachmentRefs.data();
     Subpass.pDepthStencilAttachment         = &DepthAttachmentRef;
 
