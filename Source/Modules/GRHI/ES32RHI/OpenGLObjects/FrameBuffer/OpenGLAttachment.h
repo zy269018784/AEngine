@@ -5,7 +5,8 @@
 class OpenGLAttachment : public RHIAttachment
 {
 public:
-    OpenGLAttachment(RHIAttachmentType InType, RHITexture *InTexture);
+    OpenGLAttachment(RHIAttachmentType InType, RHITexture *InTexture, RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
     ~OpenGLAttachment();
 };
 

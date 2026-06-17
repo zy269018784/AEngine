@@ -140,7 +140,9 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
     for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
     {
         Type = ToRHIAttachmentType(Index);
-        ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index]);
+        ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index],
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     }
 
     DepthStencilAttachments.resize(InDepthTextures.size());
@@ -164,12 +166,16 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
         }
-        DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index]);
+        DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index],
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     }
 
 
 
-    RHIAttachment DepthAttachment(DepthStencilType, nullptr);
+    RHIAttachment DepthAttachment(DepthStencilType, nullptr,
+        RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
     RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
 

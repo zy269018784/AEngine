@@ -23,6 +23,10 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
         ColorAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_STORE;
         ColorAttachment.stencilLoadOp           = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
         ColorAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        ColorAttachment.loadOp                  = ToVkLoadOp(InColorAttachments[i]->GetLoadOp());
+        ColorAttachment.storeOp                 = ToVkStoreOp(InColorAttachments[i]->GetStoreOp());
+        ColorAttachment.stencilLoadOp           = ToVkLoadOp(InColorAttachments[i]->GetStencilLoadOp());
+        ColorAttachment.stencilStoreOp          = ToVkStoreOp(InColorAttachments[i]->GetStencilStoreOp());
         ColorAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
         ColorAttachment.finalLayout             = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
         if (3 == InColorAttachments.size())

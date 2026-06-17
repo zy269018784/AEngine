@@ -5,9 +5,15 @@ class VulkanTexture;
 class VulkanAttachment : public RHIAttachment
 {
 public:
-    VulkanAttachment(RHIAttachmentType InType, RHITexture *InTexture);
-    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat);
-    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat, VkImageView InImageView);
+    VulkanAttachment(RHIAttachmentType InType, RHITexture *InTexture,
+        RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
+    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat,
+        RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
+    VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat, VkImageView InImageView,
+        RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
     ~VulkanAttachment();
     VkImageView GetHandle() const;
 private:

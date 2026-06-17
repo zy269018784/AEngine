@@ -33,7 +33,9 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
     for (std::uint32_t Index = 0; Index < ColorAttachments.size(); ++Index)
     {
         Type = ToRHIAttachmentType(Index);
-        ColorAttachments[Index] = new OpenGLAttachment(Type, InColorTextures[Index]);
+        ColorAttachments[Index] = new OpenGLAttachment(Type, InColorTextures[Index],
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     }
 
     DepthStencilAttachments.resize(InDepthTextures.size());
@@ -57,7 +59,9 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
                 Type = RHIAttachmentType::DepthStencil_D32_S8;
                 break;
         }
-        DepthStencilAttachments[Index] = new OpenGLAttachment(Type, InDepthTextures[Index]);
+        DepthStencilAttachments[Index] = new OpenGLAttachment(Type, InDepthTextures[Index],
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
     }
 
     CreateFramebuffer();

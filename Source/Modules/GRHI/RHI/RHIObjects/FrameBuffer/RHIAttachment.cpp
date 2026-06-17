@@ -2,14 +2,20 @@
 
 #include "RHI/RHIObjects/Texture/RHITexture.h"
 #include <iostream>
-RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture)
-    : Type(InType), Texture(InTexture)
+RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture,
+        RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp)
+    : Type(InType), Texture(InTexture),
+        LoadOp(InLoadOp), StoreOp(InStoreOp), StencilLoadOp(InStencilLoadOp), StencilStoreOp(InStencilStoreOp)
 {
 
 }
 
-RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat)
-    : Type(InType), Texture(nullptr), Format(InFormat)
+RHIAttachment::RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat,
+RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
+RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp)
+    : Type(InType), Texture(nullptr), Format(InFormat),
+        LoadOp(InLoadOp), StoreOp(InStoreOp), StencilLoadOp(InStencilLoadOp), StencilStoreOp(InStencilStoreOp)
 {
 
 }
@@ -24,19 +30,9 @@ RHIAttachment::~RHIAttachment()
 
 }
 
-RHIAttachmentType RHIAttachment::GetAttachmentType() const
-{
-    return Type;
-}
-
 RHIPixelFormat RHIAttachment::GetRHIPixelFormat() const
 {
     if (Texture)
         return Texture->GetFormat();
-    std::cout << "RHIAttachment::GetRHIPixelFormat " << (int)Format << " " << this  << std::endl;
     return Format;
-}
-
-RHITexture *RHIAttachment::GetTexture() const {
-    return Texture;
 }

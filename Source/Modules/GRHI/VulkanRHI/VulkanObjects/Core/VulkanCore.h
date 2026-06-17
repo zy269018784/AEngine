@@ -1658,3 +1658,46 @@ inline RHIImageLayout ToRHIImageLayout(VkImageLayout layout)
         default: return RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED;
     }
 }
+
+inline VkAttachmentLoadOp ToVkLoadOp(RHIAttachmentLoadOp loadOp)
+{
+	switch (loadOp)
+	{
+	case RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD:
+		return VK_ATTACHMENT_LOAD_OP_LOAD;
+	case RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR:
+		return VK_ATTACHMENT_LOAD_OP_CLEAR;
+	case RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_DONT_CARE:
+		return VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	case RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_NONE_EXT:
+		return VK_ATTACHMENT_LOAD_OP_NONE_EXT;
+	case RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_MAX_ENUM:
+		// Max enum is typically not a valid operation, but return LOAD as fallback
+		return VK_ATTACHMENT_LOAD_OP_LOAD;
+	default:
+		// Should never happen, but return a safe default
+		return VK_ATTACHMENT_LOAD_OP_LOAD;
+	}
+}
+
+inline VkAttachmentStoreOp ToVkStoreOp(RHIAttachmentStoreOp storeOp)
+{
+	switch (storeOp)
+	{
+	case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE:
+		return VK_ATTACHMENT_STORE_OP_STORE;
+	case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_DONT_CARE:
+		return VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_NONE:
+	//case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_NONE_KHR:
+	//case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_NONE_QCOM:
+	//case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_NONE_EXT:
+	//	return VK_ATTACHMENT_STORE_OP_NONE;
+	case RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_MAX_ENUM:
+		// Max enum is typically not a valid operation, but return STORE as fallback
+		return VK_ATTACHMENT_STORE_OP_STORE;
+	default:
+		// Should never happen, but return a safe default
+		return VK_ATTACHMENT_STORE_OP_STORE;
+	}
+}
