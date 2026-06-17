@@ -90,3 +90,8 @@ VkRenderPass VulkanRenderPass::GetHandle()
 {
     return Handle;
 }
+
+void VulkanRenderPass::Create()
+{
+
+}

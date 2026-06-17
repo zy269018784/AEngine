@@ -13,8 +13,9 @@ public:
 	virtual ~RHIRenderPass();
 	void SetClearColor(RHIClearColor &Color);
 	void SetRendeArea(RHIRenderArea &RenderArea);
-	//void SetFrameBuffer(RHIFrameBuffer* pFrameBuffer);
 	RHIFrameBuffer *GetFramebuffer() const;
+public:
+	virtual void Create() = 0;
 public:
 	RHIClearColor Color;
 	RHIRenderArea RenderArea;

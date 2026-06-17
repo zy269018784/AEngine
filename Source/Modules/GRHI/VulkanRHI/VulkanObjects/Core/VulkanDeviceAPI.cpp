@@ -142,7 +142,8 @@ VkResult VulkanDevice::CreateRenderPass2KHR(const VkRenderPassCreateInfo2* Creat
 								const VkAllocationCallbacks*   Allocator,
 								VkRenderPass*                  RenderPass)
 {
-	return vkCreateRenderPass2KHR(Handle, CreateInfo, Allocator, RenderPass);
+	return VK_ERROR_DEVICE_LOST;
+	//return vkCreateRenderPass2KHR(Handle, CreateInfo, Allocator, RenderPass);
 }
 
 void VulkanDevice::DestroyRenderPass(VkRenderPass RenderPass, const VkAllocationCallbacks* Allocator)

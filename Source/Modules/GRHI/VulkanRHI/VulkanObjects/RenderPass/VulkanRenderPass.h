@@ -14,6 +14,7 @@ public:
 	VulkanRenderPass(RHIDevice* InDevice, std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();
+	virtual void Create() override final;
 private:
 	VkRenderPass Handle;
 };
