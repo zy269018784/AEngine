@@ -95,6 +95,15 @@ public:
 	VkResult CreateRenderPass(const VkRenderPassCreateInfo* pCreateInfo,
 		const VkAllocationCallbacks* pAllocator,
 		VkRenderPass* pRenderPass);
+
+	VkResult CreateRenderPass2(const VkRenderPassCreateInfo2* CreateInfo,
+								 const VkAllocationCallbacks*   Allocator,
+								 VkRenderPass*                  RenderPass);
+
+	VkResult CreateRenderPass2KHR(const VkRenderPassCreateInfo2* CreateInfo,
+									const VkAllocationCallbacks*   Allocator,
+									VkRenderPass*                  RenderPass);
+
 	void DestroyRenderPass(VkRenderPass RenderPass, const VkAllocationCallbacks* Allocator);
 
 	/*

@@ -1,0 +1,78 @@
+void VulkanRenderToTexture::CreateRenderPasses() {
+    // ===== 离屏RenderPass =====
+    // 颜色附件
+    VkAttachmentDescription colorAttachment = {};
+    colorAttachment.format = offscreenTarget.format;
+    colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+    colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;  // 重要：保存结果
+    colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    colorAttachment.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;  // 供后续采样
+
+    VkAttachmentReference colorAttachmentRef = {};
+    colorAttachmentRef.attachment = 0;
+    colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+    // Subpass
+    VkSubpassDescription subpass = {};
+    // 图形管线
+    subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    // 颜色附件数量1
+    subpass.colorAttachmentCount = 1;
+    subpass.pColorAttachments = &colorAttachmentRef;
+
+    // Subpass依赖：确保离屏渲染完成后才能被读取
+    VkSubpassDependency dependency = {};
+    dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependency.dstSubpass = 0;
+    dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    dependency.dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    dependency.srcAccessMask = 0;
+    dependency.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+    VkRenderPassCreateInfo renderPassInfo = {};
+    renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    renderPassInfo.attachmentCount = 1;
+    renderPassInfo.pAttachments = &colorAttachment;
+    renderPassInfo.subpassCount = 1;
+    renderPassInfo.pSubpasses = &subpass;
+    renderPassInfo.dependencyCount = 1;
+    renderPassInfo.pDependencies = &dependency;
+
+    if (vkCreateRenderPass(device, &renderPassInfo, nullptr, &offscreenRenderPass) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create offscreen render pass!");
+    }
+
+    // ===== 屏幕RenderPass =====
+    VkAttachmentDescription swapchainAttachment = {};
+    swapchainAttachment.format = swapchainFormat;
+    swapchainAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+    swapchainAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    swapchainAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    swapchainAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    swapchainAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    swapchainAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    swapchainAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+    VkAttachmentReference swapchainAttachmentRef = {};
+    swapchainAttachmentRef.attachment = 0;
+    swapchainAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+    VkSubpassDescription screenSubpass = {};
+    screenSubpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    screenSubpass.colorAttachmentCount = 1;
+    screenSubpass.pColorAttachments = &swapchainAttachmentRef;
+
+    VkRenderPassCreateInfo screenRenderPassInfo = {};
+    screenRenderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    screenRenderPassInfo.attachmentCount = 1;
+    screenRenderPassInfo.pAttachments = &swapchainAttachment;
+    screenRenderPassInfo.subpassCount = 1;
+    screenRenderPassInfo.pSubpasses = &screenSubpass;
+
+    if (vkCreateRenderPass(device, &screenRenderPassInfo, nullptr, &screenRenderPass) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create screen render pass!");
+    }
+}

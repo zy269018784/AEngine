@@ -131,6 +131,20 @@ VkResult VulkanDevice::CreateRenderPass(const VkRenderPassCreateInfo* pCreateInf
 	return vkCreateRenderPass(Handle, pCreateInfo, pAllocator, pRenderPass);
 }
 
+VkResult VulkanDevice::CreateRenderPass2(const VkRenderPassCreateInfo2* CreateInfo,
+							 const VkAllocationCallbacks*   Allocator,
+							 VkRenderPass*                  RenderPass)
+{
+	return vkCreateRenderPass2(Handle, CreateInfo, Allocator, RenderPass);
+}
+
+VkResult VulkanDevice::CreateRenderPass2KHR(const VkRenderPassCreateInfo2* CreateInfo,
+								const VkAllocationCallbacks*   Allocator,
+								VkRenderPass*                  RenderPass)
+{
+	return vkCreateRenderPass2KHR(Handle, CreateInfo, Allocator, RenderPass);
+}
+
 void VulkanDevice::DestroyRenderPass(VkRenderPass RenderPass, const VkAllocationCallbacks* Allocator)
 {
 	vkDestroyRenderPass(Handle, RenderPass, Allocator);

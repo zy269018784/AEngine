@@ -83,8 +83,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
 
 VulkanRenderPass::~VulkanRenderPass()
 {
-    std::cout << __FUNCTION__ << " " << Handle << std::endl;
-     dynamic_cast<VulkanDevice *>(Device)->DestroyRenderPass(Handle, nullptr);
+    dynamic_cast<VulkanDevice *>(Device)->DestroyRenderPass(Handle, nullptr);
 }
 
 VkRenderPass VulkanRenderPass::GetHandle()
