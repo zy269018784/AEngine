@@ -246,7 +246,7 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 
 		std::vector<RHIAttachment *> InColorAttachments;
 		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i],
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
 		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
 
 		std::vector<RHIAttachment *> InDepthAttachments;
