@@ -8,13 +8,15 @@ public:
     RHIAttachment() = default;
     RHIAttachment(RHIAttachmentType InType, RHITexture *InTexture,
         RHIAttachmentLoadOp LoadOp, RHIAttachmentStoreOp StoreOp,
-        RHIAttachmentLoadOp StencilLoadOp, RHIAttachmentStoreOp StencilStoreOp);
+        RHIAttachmentLoadOp StencilLoadOp, RHIAttachmentStoreOp StencilStoreOp,
+        RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout);
     /*
      * vulkan使用
      */
     RHIAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat,
         RHIAttachmentLoadOp LoadOp, RHIAttachmentStoreOp StoreOp,
-        RHIAttachmentLoadOp StencilLoadOp, RHIAttachmentStoreOp StencilStoreOp);
+        RHIAttachmentLoadOp StencilLoadOp, RHIAttachmentStoreOp StencilStoreOp,
+        RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout);
     RHIAttachment(const RHIAttachment& Other);
     virtual ~RHIAttachment();
     [[nodiscard]] RHIPixelFormat GetRHIPixelFormat() const;
@@ -32,5 +34,7 @@ protected:
     RHIAttachmentStoreOp StoreOp;
     RHIAttachmentLoadOp StencilLoadOp;
     RHIAttachmentStoreOp StencilStoreOp;
+    RHIImageLayout InitialLayout;
+    RHIImageLayout FinalLayout;
 };
 

@@ -35,7 +35,8 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         Type = ToRHIAttachmentType(Index);
         ColorAttachments[Index] = new OpenGLAttachment(Type, InColorTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
     }
 
     DepthStencilAttachments.resize(InDepthTextures.size());
@@ -61,7 +62,8 @@ void OpenGLTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         }
         DepthStencilAttachments[Index] = new OpenGLAttachment(Type, InDepthTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
     }
 
     CreateFramebuffer();

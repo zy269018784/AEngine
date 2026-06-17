@@ -152,7 +152,9 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         Type = ToRHIAttachmentType(Index);
         ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
+            );
     }
 
     DepthStencilAttachments.resize(InDepthTextures.size());
@@ -178,14 +180,16 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         }
         DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
     }
 
 
 
     RHIAttachment DepthAttachment(DepthStencilType, nullptr,
         RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR);
     std::cout << "VulkanTextureRenderTarget " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
     RenderPass = new VulkanRenderPass(Device, ColorAttachments,DepthStencilAttachments);
     RenderPass->Create();

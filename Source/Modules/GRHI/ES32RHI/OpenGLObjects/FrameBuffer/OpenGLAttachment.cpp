@@ -2,8 +2,12 @@
 
 OpenGLAttachment::OpenGLAttachment(RHIAttachmentType InType, RHITexture *InTexture,
     RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
-    RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp)
-    : RHIAttachment(InType, InTexture, InLoadOp, InStoreOp, InStencilLoadOp, InStencilStoreOp)
+    RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp,
+    RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout)
+    : RHIAttachment(InType, InTexture,
+            InLoadOp, InStoreOp,
+            InStencilLoadOp, InStencilStoreOp,
+            InInitialLayout, InFinalLayout)
 {
 
 }

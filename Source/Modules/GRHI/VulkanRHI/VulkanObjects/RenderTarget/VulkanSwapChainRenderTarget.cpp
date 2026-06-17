@@ -282,12 +282,14 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 		std::vector<RHIAttachment *> InColorAttachments;
 		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i],
 		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
+		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+		RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
 
 		std::vector<RHIAttachment *> InDepthAttachments;
 		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle(),
 		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
+		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+		RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
 
 		FrameBuffers[i] = new VulkanFrameBuffer(dynamic_cast<VulkanDevice *>(Device), dynamic_cast<VulkanRenderPass *>(RenderPass),
 								{ SwapChain->GetWidth(), SwapChain->GetHeight() },
@@ -306,13 +308,15 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	*/
 	std::vector<RHIAttachment *> ColorAttachments;
 	ColorAttachments.emplace_back(new RHIAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
+			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+			RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
 
 	std::vector<RHIAttachment *> DepthAttachments;
 	DepthAttachments.emplace_back(new RHIAttachment(DepthStencilType, nullptr,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
+			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+			RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
 	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments);
 	RenderPass->Create();
 }

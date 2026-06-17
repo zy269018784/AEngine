@@ -7,13 +7,18 @@ class VulkanAttachment : public RHIAttachment
 public:
     VulkanAttachment(RHIAttachmentType InType, RHITexture *InTexture,
         RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
-        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp,
+        RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout);
+
     VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat,
         RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
-        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp,
+        RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout);
+
     VulkanAttachment(RHIAttachmentType InType, RHIPixelFormat InFormat, VkImageView InImageView,
         RHIAttachmentLoadOp InLoadOp,        RHIAttachmentStoreOp InStoreOp,
-        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp);
+        RHIAttachmentLoadOp InStencilLoadOp, RHIAttachmentStoreOp InStencilStoreOp,
+        RHIImageLayout InInitialLayout, RHIImageLayout InFinalLayout);
     ~VulkanAttachment();
     VkImageView GetHandle() const;
 private:
