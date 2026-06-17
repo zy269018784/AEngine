@@ -129,10 +129,10 @@ void VulkanRenderPass::Create1_0()
     VkAttachmentDescription DepthAttachment{};
     DepthAttachment.format                  = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
     DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
-    DepthAttachment.loadOp                  = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
-    DepthAttachment.storeOp                 = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    DepthAttachment.stencilLoadOp           = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-    DepthAttachment.stencilStoreOp          = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    DepthAttachment.loadOp                  = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
+    DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
+    DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
+    DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
     DepthAttachment.initialLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
     DepthAttachment.finalLayout             = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
     AttachmentDescriptions.emplace_back(DepthAttachment);
@@ -214,10 +214,10 @@ void VulkanRenderPass::Create1_2()
     DepthAttachment.flags                       = 0;
     DepthAttachment.format                      = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
     DepthAttachment.samples                     = VK_SAMPLE_COUNT_1_BIT;
-    DepthAttachment.loadOp                      = VK_ATTACHMENT_LOAD_OP_CLEAR;    // 重要：清除深度
-    DepthAttachment.storeOp                     = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-    DepthAttachment.stencilLoadOp               = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-    DepthAttachment.stencilStoreOp              = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    DepthAttachment.loadOp                      = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
+    DepthAttachment.storeOp                     = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
+    DepthAttachment.stencilLoadOp               = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
+    DepthAttachment.stencilStoreOp              = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
     DepthAttachment.initialLayout               = VK_IMAGE_LAYOUT_UNDEFINED;
     DepthAttachment.finalLayout                 = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
     AttachmentDescriptions.emplace_back(DepthAttachment);
@@ -227,7 +227,7 @@ void VulkanRenderPass::Create1_2()
     DepthAttachmentRef.pNext                    = nullptr;
     DepthAttachmentRef.attachment               = static_cast<uint32_t>(ColorAttachmentRefs.size());
     DepthAttachmentRef.layout                   = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-    DepthAttachmentRef.aspectMask               = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+    DepthAttachmentRef.aspectMask               = VK_IMAGE_ASPECT_DEPTH_BIT;
 
     /*
      * 3. Subpass Description

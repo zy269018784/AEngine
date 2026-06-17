@@ -276,8 +276,8 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 
 	std::vector<RHIAttachment *> DepthAttachments;
 	DepthAttachments.emplace_back(new RHIAttachment(DepthStencilType, nullptr,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
+		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+			RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE));
 	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments);
 	RenderPass->Create();
 }
