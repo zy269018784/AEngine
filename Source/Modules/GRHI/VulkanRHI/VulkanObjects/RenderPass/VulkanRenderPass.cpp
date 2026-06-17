@@ -225,7 +225,7 @@ void VulkanRenderPass::Create1_2()
     }
 
     /*
-     * subpass数组
+     * 3. subpass数组
      */
     std::vector<VkSubpassDescription2> SubpassDescription;
     SubpassDescription.resize(SubPass.size());
@@ -235,7 +235,7 @@ void VulkanRenderPass::Create1_2()
 
     std::vector<VkAttachmentReference2> DepthAttachmentRefs{};
     DepthAttachmentRefs.resize(SubPass.size());
-#if  1
+
     for (int SubPassIndex = 0; SubPassIndex < SubPass.size(); SubPassIndex++)
     {
         auto ColorAttachmentIndex = SubPass[SubPassIndex]->GetColorAttachmentIndex();
@@ -294,8 +294,6 @@ void VulkanRenderPass::Create1_2()
         SubpassDescription[SubPassIndex].preserveAttachmentCount             = 0;
         SubpassDescription[SubPassIndex].pPreserveAttachments                = nullptr;
     }
-#endif
-
 
 
     /*
