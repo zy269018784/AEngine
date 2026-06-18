@@ -1,18 +1,22 @@
-#version 100
+#version 330 core
 
-precision highp float;
+// 为采样器指定绑定的纹理单元
+layout(binding = 0) uniform sampler2D texSampler;
+layout(binding = 1) uniform sampler2D texSampler2;
+layout(binding = 2) uniform sampler2D texSampler3;
 
-uniform sampler2D texSampler;
-uniform sampler2D texSampler2;
-uniform sampler2D texSampler3;
-varying vec2 fragTexCoord;
+// 为输入变量指定 location（对应顶点着色器的输出 location）
+layout(location = 0) in vec2 fragTexCoord;
+
+// 为输出变量指定 location
+layout(location = 0) out vec4 outColor;
 
 void main()
 {
-    // 示例：使用多个纹理的组合
-    vec4 color1 = texture2D(texSampler, fragTexCoord);
-    vec4 color2 = texture2D(texSampler2, fragTexCoord);
-    vec4 color3 = texture2D(texSampler3, fragTexCoord);
+    // 使用 texture() 函数
+    vec4 color1 = texture(texSampler, fragTexCoord);
+    vec4 color2 = texture(texSampler2, fragTexCoord);
+    vec4 color3 = texture(texSampler3, fragTexCoord);
 
-    gl_FragColor = color1;  // 或其他组合
+    outColor = color1;  // 或其他组合
 }

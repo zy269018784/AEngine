@@ -103,7 +103,6 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanDevice* InDevice, RHI
 		std::cout << "CreateDescriptorSetLayout failed " << ret << std::endl;
 		return;
 	}
-	std::cout << "CreateDescriptorSetLayout Handle === " << Handle << std::endl;
 }
 
 VulkanDescriptorSetLayout::~VulkanDescriptorSetLayout()

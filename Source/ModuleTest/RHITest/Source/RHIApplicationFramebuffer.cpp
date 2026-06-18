@@ -139,8 +139,8 @@ void RHIApplicationFramebuffer::CreateSRB()
     SRB2->SetBindings({
 #if 1
         RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHIColorAttachments[0], RHISamplers[0]),
-        RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHIColorAttachments[1], RHISamplers[1]),
-        RHIShaderResourceBinding::SampledTexture(2, RHIShaderType::Fragment, RHIColorAttachments[2], RHISamplers[2]),
+      //  RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHIColorAttachments[1], RHISamplers[1]),
+      //  RHIShaderResourceBinding::SampledTexture(2, RHIShaderType::Fragment, RHIColorAttachments[2], RHISamplers[2]),
 #else
         RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
 #endif

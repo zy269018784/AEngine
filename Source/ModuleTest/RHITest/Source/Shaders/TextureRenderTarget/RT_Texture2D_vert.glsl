@@ -1,9 +1,8 @@
-#version 100
+#version 330
+layout(location = 0) in vec3 inPosition;
+layout(location = 1) in vec2 inTexCoord;
+layout(location = 0) out vec2 fragTexCoord;
 
-attribute vec3 inPosition;
-attribute vec2 inTexCoord;
-
-varying vec2 fragTexCoord;
 
 void main()
 {
