@@ -129,13 +129,24 @@ void RHIApplication2::Run()
     {
         if (TextureRenderTarget) {
 
+
+
             TextureRenderTarget->RHIBeginFrame();
+            RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+            RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+            RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
             TextureRenderTarget->RHIBeginRenderPass();
             Draw2();
             TextureRenderTarget->RHIEndRenderPass();
             TextureRenderTarget->RHIEndFrame();
         }
+
         RenderTarget->RHIBeginFrame();
+
+        RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
         RenderTarget->RHIBeginRenderPass();
         Draw();
         RenderTarget->RHIEndRenderPass();
@@ -394,9 +405,6 @@ void RHIApplication2::Draw2()
     float w = 0;
     float h = 0;
 
-    RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-    RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-    RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 #if USE_RHIWindow
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
     RHIWindow_->GetExtent(x, y, w, h);
@@ -438,11 +446,6 @@ void RHIApplication2::Draw()
     float y = 0;
     float w = 0;
     float h = 0;
-
-
-    RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-    RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-    RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 #if USE_RHIWindow
     auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();

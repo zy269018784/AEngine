@@ -32,8 +32,8 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     /*
         texture array报错
     */
-    //CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
-    CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
+    CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    //CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
     //if  (InUsage == RHITextureUsageFlag::ColorAttachment)
    //     CreateInfo.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -80,7 +80,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
         DeviceMemory->UnmapMemory();
     }
 
-
+    TransitionImageLayout(InLayout);
     std::cout << "CreateImage ok " << Handle << std::endl;
 }
 
@@ -224,9 +224,9 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
     SetRHIImageLayout(NewLayout);
-
+#if 0
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
-
+#endif
     VkImageMemoryBarrier Barrier{};
     Barrier.sType                           = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     Barrier.oldLayout                       = ToVkImageLayout(OldLayout);
@@ -256,6 +256,14 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         DestinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
     }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+    {
+        Barrier.srcAccessMask = 0;  // ✅ 不需要等待任何操作
+        Barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  // ✅ 后续要写入
+
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不需要等待，从最早开始
+        DestinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;  // ✅ 在写入之前完成转换
+    }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
         Barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
@@ -271,8 +279,6 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
 
         SourceStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-
-        std::cout << "go to SHADER_READ_ONLY_OPTIMAL" << std::endl;
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
     {
@@ -281,15 +287,13 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
 
         SourceStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         DestinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-
-        std::cout << "go to COLOR_ATTACHMENT_OPTIMAL" << std::endl;
     }
     else {
         //throw std::invalid_argument("unsupported layout transition!");
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         DestinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
     }
-
+#if 0
     CommandBuffer->CmdPipelineBarrier(
         SourceStage, DestinationStage,
         0,
@@ -299,6 +303,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     );
 
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
+#endif
 }
 #if 0
 void VulkanImage::TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout NewLayout)
