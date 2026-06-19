@@ -81,7 +81,6 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     }
 
     TransitionImageLayout(InLayout);
-    std::cout << "CreateImage ok " << Handle << std::endl;
 }
 
 VulkanImage::VulkanImage(VulkanDevice* InDevice, VkImage InHandle)
@@ -224,7 +223,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
     SetRHIImageLayout(NewLayout);
-#if 0
+#if 1
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
 #endif
     VkImageMemoryBarrier Barrier{};
@@ -293,7 +292,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         DestinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
     }
-#if 0
+#if 1
     CommandBuffer->CmdPipelineBarrier(
         SourceStage, DestinationStage,
         0,
@@ -303,6 +302,8 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     );
 
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
+
+
 #endif
 }
 #if 0

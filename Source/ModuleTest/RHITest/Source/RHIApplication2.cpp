@@ -130,22 +130,24 @@ void RHIApplication2::Run()
         if (TextureRenderTarget) {
 
 
+            RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+          //  RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+          //  RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
             TextureRenderTarget->RHIBeginFrame();
-            RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-            RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-            RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+
             TextureRenderTarget->RHIBeginRenderPass();
             Draw2();
             TextureRenderTarget->RHIEndRenderPass();
             TextureRenderTarget->RHIEndFrame();
         }
 
+        RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+       // RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+      //  RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
         RenderTarget->RHIBeginFrame();
 
-        RHIColorAttachments[0]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-        RHIColorAttachments[1]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-        RHIColorAttachments[2]->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
         RenderTarget->RHIBeginRenderPass();
         Draw();

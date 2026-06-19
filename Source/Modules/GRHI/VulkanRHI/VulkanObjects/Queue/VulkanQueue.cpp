@@ -43,7 +43,20 @@ void VulkanQueue::EndCommandBuffer(VulkanCommandBuffer* CommandBuffer)
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &CommandBufferHandle;
 
-	vkQueueSubmit(Handle, 1, &submitInfo, VK_NULL_HANDLE);
+	VkFence fence;
+	VkFenceCreateInfo fenceInfo = {};
+	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceInfo.flags = 0;
+	Device->CreateFence(&fenceInfo, nullptr, &fence);
+
+	vkQueueSubmit(Handle, 1, &submitInfo, fence);
+
+	// 等待 GPU 完成
+	Device->WaitForFences(1, &fence, VK_TRUE, UINT64_MAX);
+
+	// 清理
+	Device->DestroyFence(fence, nullptr);
+
 	vkQueueWaitIdle(Handle);
 
 	delete CommandBuffer;
