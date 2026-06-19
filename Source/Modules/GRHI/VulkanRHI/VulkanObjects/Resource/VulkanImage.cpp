@@ -266,11 +266,23 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
-        Barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+        Barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
-        SourceStage         = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-        DestinationStage    = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        SourceStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+
+        std::cout << "go to SHADER_READ_ONLY_OPTIMAL" << std::endl;
+    }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+    {
+        Barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        Barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+        SourceStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        DestinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+
+        std::cout << "go to COLOR_ATTACHMENT_OPTIMAL" << std::endl;
     }
     else {
         //throw std::invalid_argument("unsupported layout transition!");

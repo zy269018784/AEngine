@@ -18,6 +18,7 @@
 #include "RHIApplicationTexture2DCombinedImageSampler.h"
 #include "GLFWWindow/GLFWWindow.h"
 #include "RHIApplicationFramebuffer.h"
+#include "RHIApplication2.h"
 
 void Example_Model()
 {
@@ -220,7 +221,10 @@ int RHIExample(int argc, char **argv)
 	//Example_RenderTarget();
 	//Example_TextureRenderTarget();
 	//Example_SperateImageSampler();
-	Example_Framebuffer();
+	//Example_Framebuffer();
+
+	RHIApplication2 App;
+	App.Run();
 
 	return 0;
 }
