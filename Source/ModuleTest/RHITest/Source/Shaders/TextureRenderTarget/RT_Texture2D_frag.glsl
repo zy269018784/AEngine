@@ -1,4 +1,4 @@
-#version 330 core
+#version 460 core
 
 // 为采样器指定绑定的纹理单元
 layout(binding = 0) uniform sampler2D texSampler;

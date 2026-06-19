@@ -1,5 +1,6 @@
 // ============================================================
-// 完整 Vulkan MRT 示例 - 3个MRT目标 + 纹理加载（使用 stb_image_resize2）
+// 完整 Vulkan MRT 示例 - 3个MRT目标 + 纹理加载
+// 修正：MRT Pass 和 Final Pass 各自绑定正确的纹理
 // ============================================================
 
 #include <vulkan/vulkan.h>
@@ -11,8 +12,6 @@
 #include <stdexcept>
 #include <array>
 #include <algorithm>
-#include <chrono>
-#include <thread>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -29,7 +28,7 @@ const uint32_t HEIGHT = 600;
 const int MRT_COUNT = 3;
 
 // ============================================================
-// 顶点数据结构
+// 顶点数据结构 - 使用全屏三角形
 // ============================================================
 struct Vertex {
     float pos[3];
@@ -37,9 +36,9 @@ struct Vertex {
 };
 
 std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f}},
-    {{ 0.5f, -0.5f, 0.0f}, {1.0f, 0.0f}},
-    {{ 0.0f,  0.5f, 0.0f}, {0.5f, 1.0f}}
+    {{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f}},
+    {{ 3.0f, -1.0f, 0.0f}, {2.0f, 0.0f}},
+    {{-1.0f,  3.0f, 0.0f}, {0.0f, 2.0f}}
 };
 
 // ============================================================
@@ -92,7 +91,7 @@ void createBuffer(VkDevice device, VkPhysicalDevice physicalDevice,
 }
 
 // ============================================================
-// 改进的 copyBufferToImage - 使用 Fence 确保完成
+// copyBufferToImage - 使用 Fence 确保完成
 // ============================================================
 void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graphicsQueue,
                        VkBuffer buffer, VkImage image, uint32_t width, uint32_t height) {
@@ -111,7 +110,6 @@ void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graph
 
     VK_CHECK(vkBeginCommandBuffer(commandBuffer, &beginInfo));
 
-    // 转换到 TRANSFER_DST_OPTIMAL
     VkImageMemoryBarrier barrier = {};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -132,7 +130,6 @@ void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graph
                          VK_PIPELINE_STAGE_TRANSFER_BIT,
                          0, 0, nullptr, 0, nullptr, 1, &barrier);
 
-    // 复制数据
     VkBufferImageCopy region = {};
     region.bufferOffset = 0;
     region.bufferRowLength = 0;
@@ -146,7 +143,6 @@ void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graph
 
     vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
-    // 转换到 SHADER_READ_ONLY_OPTIMAL
     barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
     barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
     barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
@@ -159,7 +155,6 @@ void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graph
 
     VK_CHECK(vkEndCommandBuffer(commandBuffer));
 
-    // ✅ 使用 Fence 确保 GPU 完成工作
     VkFence fence;
     VkFenceCreateInfo fenceInfo = {};
     fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -172,16 +167,7 @@ void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graph
     submitInfo.pCommandBuffers = &commandBuffer;
 
     VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &submitInfo, fence));
-
-    // ✅ 等待 GPU 完成，带超时
-    VkResult result = vkWaitForFences(device, 1, &fence, VK_TRUE, 5000000000ULL); // 5秒超时
-    if (result != VK_SUCCESS) {
-        std::cerr << "Failed to wait for fence in copyBufferToImage!" << std::endl;
-        if (result == VK_TIMEOUT) {
-            std::cerr << "Timeout waiting for GPU!" << std::endl;
-        }
-        throw std::runtime_error("copyBufferToImage failed");
-    }
+    VK_CHECK(vkWaitForFences(device, 1, &fence, VK_TRUE, 5000000000ULL));
 
     vkDestroyFence(device, fence, nullptr);
     vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
@@ -198,21 +184,20 @@ public:
             initVulkan();
             createCommandPool();
 
-            // 先加载纹理获取尺寸
             loadTextureInfo();
-
             createMRTImages();
             createDepthImage();
-
-            // 上传纹理数据
             uploadTextureToMRT();
 
             createRenderPasses();
             createFramebuffers();
             createVertexBuffer();
+
+            // 创建描述符
             createDescriptorPool();
-            createDescriptorSetLayout();
-            createDescriptorSets();
+            createDescriptorSetLayouts();      // 创建两个不同的布局
+            createDescriptorSets();            // 创建描述符集
+
             createGraphicsPipelines();
             createCommandBuffers();
             createSyncObjects();
@@ -279,11 +264,15 @@ private:
     std::vector<VkImage> swapchainImages;
     std::vector<VkImageView> swapchainImageViews;
 
-    // 描述符
+    // 描述符 - MRT Pass 使用 binding 0
     VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
-    VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
-    VkDescriptorSet descriptorSets[3] = {VK_NULL_HANDLE};
+    VkDescriptorSetLayout mrtDescriptorSetLayout = VK_NULL_HANDLE;   // 只含 binding 0
+    VkDescriptorSetLayout finalDescriptorSetLayout = VK_NULL_HANDLE; // 含 binding 0,1,2
+    VkDescriptorSet mrtDescriptorSet = VK_NULL_HANDLE;              // MRT 的描述符集
+    VkDescriptorSet finalDescriptorSet = VK_NULL_HANDLE;            // Final 的描述符集
     VkSampler sampler = VK_NULL_HANDLE;
+    VkSampler sampler2 = VK_NULL_HANDLE;
+    VkSampler sampler3 = VK_NULL_HANDLE;
 
     // 同步
     VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;
@@ -357,7 +346,6 @@ private:
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
-        // 打印设备信息
         VkPhysicalDeviceProperties props;
         vkGetPhysicalDeviceProperties(physicalDevice, &props);
         std::cout << "GPU: " << props.deviceName << std::endl;
@@ -510,9 +498,6 @@ private:
         }
     }
 
-    // ============================================================
-    // 创建 Command Pool
-    // ============================================================
     void createCommandPool() {
         uint32_t queueFamilyCount = 0;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
@@ -534,21 +519,24 @@ private:
         VK_CHECK(vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool));
     }
 
-    // ============================================================
-    // 加载纹理信息（不分配GPU内存）
-    // ============================================================
     void loadTextureInfo() {
         pixels = stbi_load("textures/asuka.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
         if (!pixels) {
-            std::cerr << "Failed to load texture, using default size 512x512" << std::endl;
+            std::cerr << "Failed to load texture, using default" << std::endl;
             texWidth = 512;
             texHeight = 512;
+            pixels = new stbi_uc[512 * 512 * 4];
+            for (int i = 0; i < 512 * 512 * 4; i += 4) {
+                pixels[i] = 255;
+                pixels[i+1] = 128;
+                pixels[i+2] = 64;
+                pixels[i+3] = 255;
+            }
             return;
         }
 
-        std::cout << "Loaded texture: " << texWidth << "x" << texHeight << " channels: " << texChannels << std::endl;
+        std::cout << "Loaded texture: " << texWidth << "x" << texHeight << std::endl;
 
-        // 限制最大尺寸
         const int MAX_SIZE = 512;
         if (texWidth > MAX_SIZE || texHeight > MAX_SIZE) {
             float scale = std::min((float)MAX_SIZE / texWidth, (float)MAX_SIZE / texHeight);
@@ -557,19 +545,13 @@ private:
             newWidth = std::max(1, newWidth);
             newHeight = std::max(1, newHeight);
 
-            std::cout << "Resizing from " << texWidth << "x" << texHeight
-                      << " to " << newWidth << "x" << newHeight << std::endl;
+            std::cout << "Resizing to " << newWidth << "x" << newHeight << std::endl;
 
             stbi_uc* resized = new stbi_uc[newWidth * newHeight * 4];
-
-            stbir_resize(
-                pixels, texWidth, texHeight, 0,
-                resized, newWidth, newHeight, 0,
-                STBIR_RGBA,
-                STBIR_TYPE_UINT8_SRGB,
-                STBIR_EDGE_CLAMP,
-                STBIR_FILTER_DEFAULT
-            );
+            stbir_resize(pixels, texWidth, texHeight, 0,
+                        resized, newWidth, newHeight, 0,
+                        STBIR_RGBA, STBIR_TYPE_UINT8_SRGB,
+                        STBIR_EDGE_CLAMP, STBIR_FILTER_DEFAULT);
 
             stbi_image_free(pixels);
             pixels = resized;
@@ -578,20 +560,12 @@ private:
         }
     }
 
-    // ============================================================
-    // 上传纹理到GPU
-    // ============================================================
     void uploadTextureToMRT() {
-        if (!pixels) {
-            std::cerr << "No texture data to upload!" << std::endl;
-            return;
-        }
+        if (!pixels) return;
 
         VkDeviceSize imageSize = texWidth * texHeight * 4;
-        std::cout << "Uploading texture: " << texWidth << "x" << texHeight
-                  << " (" << imageSize / 1024 << " KB)" << std::endl;
+        std::cout << "Uploading texture: " << imageSize / 1024 << " KB" << std::endl;
 
-        // 创建暂存缓冲
         VkBuffer stagingBuffer;
         VkDeviceMemory stagingBufferMemory;
         createBuffer(device, physicalDevice, imageSize,
@@ -607,23 +581,17 @@ private:
         stbi_image_free(pixels);
         pixels = nullptr;
 
-        // 为每个MRT纹理上传数据
         for (int i = 0; i < MRT_COUNT; i++) {
-            std::cout << "Uploading to MRT " << i << "..." << std::endl;
             copyBufferToImage(device, commandPool, graphicsQueue, stagingBuffer,
                              mrtImages[i], texWidth, texHeight);
         }
-        std::cout << "All textures uploaded successfully!" << std::endl;
+        std::cout << "All textures uploaded!" << std::endl;
 
         vkDestroyBuffer(device, stagingBuffer, nullptr);
         vkFreeMemory(device, stagingBufferMemory, nullptr);
     }
 
-    // ============================================================
-    // 创建 MRT 图像
-    // ============================================================
     void createMRTImages() {
-        // 确保纹理尺寸有效
         if (texWidth == 0 || texHeight == 0) {
             texWidth = 512;
             texHeight = 512;
@@ -669,12 +637,11 @@ private:
             viewInfo.subresourceRange.layerCount = 1;
 
             VK_CHECK(vkCreateImageView(device, &viewInfo, nullptr, &mrtImageViews[i]));
+
+            std::cout << "Created MRT[" << i << "] ImageView: " << mrtImageViews[i] << std::endl;
         }
     }
 
-    // ============================================================
-    // 创建深度图像
-    // ============================================================
     void createDepthImage() {
         VkImageCreateInfo imageInfo = {};
         imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -717,9 +684,6 @@ private:
         VK_CHECK(vkCreateImageView(device, &viewInfo, nullptr, &depthImageView));
     }
 
-    // ============================================================
-    // 其余函数（与之前相同，但添加了错误检查）
-    // ============================================================
     void createVertexBuffer() {
         VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
@@ -740,7 +704,6 @@ private:
                      VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
                      vertexBuffer, vertexBufferMemory);
 
-        // 复制数据
         VkCommandBufferAllocateInfo allocInfo = {};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
@@ -776,16 +739,16 @@ private:
     }
 
     void createRenderPasses() {
-        // ... (与之前相同)
+        // ===== MRT RenderPass =====
         std::vector<VkAttachmentDescription> colorAttachments(MRT_COUNT);
         for (int i = 0; i < MRT_COUNT; i++) {
             colorAttachments[i].format = VK_FORMAT_R8G8B8A8_UNORM;
             colorAttachments[i].samples = VK_SAMPLE_COUNT_1_BIT;
-            colorAttachments[i].loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
+            colorAttachments[i].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
             colorAttachments[i].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
             colorAttachments[i].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
             colorAttachments[i].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-            colorAttachments[i].initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            colorAttachments[i].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
             colorAttachments[i].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         }
 
@@ -827,7 +790,7 @@ private:
 
         VK_CHECK(vkCreateRenderPass(device, &renderPassInfo, nullptr, &mrtRenderPass));
 
-        // Final RenderPass
+        // ===== Final RenderPass =====
         VkAttachmentDescription finalColorAttachment = {};
         finalColorAttachment.format = swapchainImageFormat;
         finalColorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -890,38 +853,66 @@ private:
         }
     }
 
+    // ============================================================
+    // 创建描述符池
+    // ============================================================
     void createDescriptorPool() {
         VkDescriptorPoolSize poolSize = {};
         poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        poolSize.descriptorCount = 3;
+        poolSize.descriptorCount = 4;  // MRT需要1个，Final需要3个，共4个
 
         VkDescriptorPoolCreateInfo poolInfo = {};
         poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
         poolInfo.poolSizeCount = 1;
         poolInfo.pPoolSizes = &poolSize;
-        poolInfo.maxSets = 3;
+        poolInfo.maxSets = 2;  // MRT和Final各一个描述符集
 
         VK_CHECK(vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool));
     }
 
-    void createDescriptorSetLayout() {
-        std::vector<VkDescriptorSetLayoutBinding> layoutBindings(3);
+    // ============================================================
+    // 创建描述符集布局 - 两个不同的布局
+    // ============================================================
+    void createDescriptorSetLayouts() {
+        // ----- MRT 描述符集布局 (只包含 binding 0) -----
+        VkDescriptorSetLayoutBinding mrtBinding = {};
+        mrtBinding.binding = 0;
+        mrtBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        mrtBinding.descriptorCount = 1;
+        mrtBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+        VkDescriptorSetLayoutCreateInfo mrtLayoutInfo = {};
+        mrtLayoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        mrtLayoutInfo.bindingCount = 1;
+        mrtLayoutInfo.pBindings = &mrtBinding;
+
+        VK_CHECK(vkCreateDescriptorSetLayout(device, &mrtLayoutInfo, nullptr, &mrtDescriptorSetLayout));
+
+        // ----- Final 描述符集布局 (包含 binding 0, 1, 2) -----
+        std::vector<VkDescriptorSetLayoutBinding> finalBindings(3);
         for (int i = 0; i < 3; i++) {
-            layoutBindings[i].binding = i;
-            layoutBindings[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            layoutBindings[i].descriptorCount = 1;
-            layoutBindings[i].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+            finalBindings[i].binding = i;
+            finalBindings[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            finalBindings[i].descriptorCount = 1;
+            finalBindings[i].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
         }
 
-        VkDescriptorSetLayoutCreateInfo layoutInfo = {};
-        layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-        layoutInfo.bindingCount = 3;
-        layoutInfo.pBindings = layoutBindings.data();
+        VkDescriptorSetLayoutCreateInfo finalLayoutInfo = {};
+        finalLayoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        finalLayoutInfo.bindingCount = 3;
+        finalLayoutInfo.pBindings = finalBindings.data();
 
-        VK_CHECK(vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout));
+        VK_CHECK(vkCreateDescriptorSetLayout(device, &finalLayoutInfo, nullptr, &finalDescriptorSetLayout));
+
+        std::cout << "Created MRT DescriptorSetLayout (1 binding)" << std::endl;
+        std::cout << "Created Final DescriptorSetLayout (3 bindings)" << std::endl;
     }
 
+    // ============================================================
+    // 创建描述符集
+    // ============================================================
     void createDescriptorSets() {
+        // 创建采样器
         VkSamplerCreateInfo samplerInfo = {};
         samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
         samplerInfo.magFilter = VK_FILTER_LINEAR;
@@ -931,34 +922,102 @@ private:
         samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 
         VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &sampler));
+        VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &sampler2));
+        VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &sampler3));
 
-        std::vector<VkDescriptorSetLayout> layouts(3, descriptorSetLayout);
-        VkDescriptorSetAllocateInfo allocInfo = {};
-        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-        allocInfo.descriptorPool = descriptorPool;
-        allocInfo.descriptorSetCount = 3;
-        allocInfo.pSetLayouts = layouts.data();
+        // ============================================================
+        // 1. MRT 描述符集 (只绑定 texture 到 binding 0)
+        // ============================================================
+        VkDescriptorSetAllocateInfo mrtAllocInfo = {};
+        mrtAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        mrtAllocInfo.descriptorPool = descriptorPool;
+        mrtAllocInfo.descriptorSetCount = 1;
+        mrtAllocInfo.pSetLayouts = &mrtDescriptorSetLayout;
 
-        VK_CHECK(vkAllocateDescriptorSets(device, &allocInfo, descriptorSets));
+        VK_CHECK(vkAllocateDescriptorSets(device, &mrtAllocInfo, &mrtDescriptorSet));
 
-        std::vector<VkWriteDescriptorSet> writes(3);
-        std::vector<VkDescriptorImageInfo> imageInfos(3);
+        // MRT 使用 mrtImages[0] (纹理数据)
+        VkDescriptorImageInfo mrtImageInfo = {};
+        mrtImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        mrtImageInfo.imageView = mrtImageViews[0];  // 使用纹理数据 (不是纯色)
+        mrtImageInfo.sampler = sampler;
 
-        for (int i = 0; i < 3; i++) {
-            imageInfos[i].imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            imageInfos[i].imageView = mrtImageViews[i];
-            imageInfos[i].sampler = sampler;
+        VkWriteDescriptorSet mrtWrite = {};
+        mrtWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        mrtWrite.dstSet = mrtDescriptorSet;
+        mrtWrite.dstBinding = 0;
+        mrtWrite.dstArrayElement = 0;
+        mrtWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        mrtWrite.descriptorCount = 1;
+        mrtWrite.pImageInfo = &mrtImageInfo;
 
-            writes[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            writes[i].dstSet = descriptorSets[0];
-            writes[i].dstBinding = i;
-            writes[i].dstArrayElement = 0;
-            writes[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            writes[i].descriptorCount = 1;
-            writes[i].pImageInfo = &imageInfos[i];
-        }
+        vkUpdateDescriptorSets(device, 1, &mrtWrite, 0, nullptr);
 
-        vkUpdateDescriptorSets(device, writes.size(), writes.data(), 0, nullptr);
+        // ============================================================
+        // 2. Final 描述符集 (绑定 3 个 MRT 纹理)
+        // ============================================================
+        VkDescriptorSetAllocateInfo finalAllocInfo = {};
+        finalAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        finalAllocInfo.descriptorPool = descriptorPool;
+        finalAllocInfo.descriptorSetCount = 1;
+        finalAllocInfo.pSetLayouts = &finalDescriptorSetLayout;
+
+        VK_CHECK(vkAllocateDescriptorSets(device, &finalAllocInfo, &finalDescriptorSet));
+
+        // 创建三个独立的 VkDescriptorImageInfo
+        VkDescriptorImageInfo finalImageInfo0 = {};
+        finalImageInfo0.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        finalImageInfo0.imageView = mrtImageViews[0];  // MRT[0] - 红色
+        finalImageInfo0.sampler = sampler;
+
+        VkDescriptorImageInfo finalImageInfo1 = {};
+        finalImageInfo1.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        finalImageInfo1.imageView = mrtImageViews[1];  // MRT[1] - 绿色
+        finalImageInfo1.sampler = sampler2;
+
+        VkDescriptorImageInfo finalImageInfo2 = {};
+        finalImageInfo2.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        finalImageInfo2.imageView = mrtImageViews[2];  // MRT[2] - 蓝色
+        finalImageInfo2.sampler = sampler3;
+
+        // 创建三个写操作
+        VkWriteDescriptorSet finalWrite0 = {};
+        finalWrite0.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        finalWrite0.dstSet = finalDescriptorSet;
+        finalWrite0.dstBinding = 0;
+        finalWrite0.dstArrayElement = 0;
+        finalWrite0.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        finalWrite0.descriptorCount = 1;
+        finalWrite0.pImageInfo = &finalImageInfo0;
+
+        VkWriteDescriptorSet finalWrite1 = {};
+        finalWrite1.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        finalWrite1.dstSet = finalDescriptorSet;
+        finalWrite1.dstBinding = 1;
+        finalWrite1.dstArrayElement = 0;
+        finalWrite1.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        finalWrite1.descriptorCount = 1;
+        finalWrite1.pImageInfo = &finalImageInfo1;
+
+        VkWriteDescriptorSet finalWrite2 = {};
+        finalWrite2.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        finalWrite2.dstSet = finalDescriptorSet;
+        finalWrite2.dstBinding = 2;
+        finalWrite2.dstArrayElement = 0;
+        finalWrite2.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        finalWrite2.descriptorCount = 1;
+        finalWrite2.pImageInfo = &finalImageInfo2;
+
+        std::vector<VkWriteDescriptorSet> finalWrites = {finalWrite0, finalWrite1, finalWrite2};
+
+        vkUpdateDescriptorSets(device, finalWrites.size(), finalWrites.data(), 0, nullptr);
+
+        std::cout << "=== Descriptor Sets Created ===" << std::endl;
+        std::cout << "MRT DescriptorSet: binding 0 -> MRT[0] (texture data)" << std::endl;
+        std::cout << "Final DescriptorSet:" << std::endl;
+        std::cout << "  binding 0 -> MRT[0]" << std::endl;
+        std::cout << "  binding 1 -> MRT[1]" << std::endl;
+        std::cout << "  binding 2 -> MRT[2]" << std::endl;
     }
 
     VkShaderModule createShaderModule(const std::vector<char>& code) {
@@ -971,8 +1030,13 @@ private:
         return shaderModule;
     }
 
+    // ============================================================
+    // 创建图形管线
+    // ============================================================
     void createGraphicsPipelines() {
-        // ... (与之前相同)
+        // ============================================================
+        // MRT Pipeline
+        // ============================================================
         auto mrtVertCode = readFile("RT_Texture2D_vert.spv");
         auto mrtFragCode = readFile("RT_Texture2D_frag.spv");
 
@@ -1067,12 +1131,13 @@ private:
         dynamicState.dynamicStateCount = dynamicStates.size();
         dynamicState.pDynamicStates = dynamicStates.data();
 
-        VkPipelineLayoutCreateInfo mrtLayoutInfo = {};
-        mrtLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        mrtLayoutInfo.setLayoutCount = 0;
-        mrtLayoutInfo.pSetLayouts = nullptr;
+        // ✅ MRT Pipeline Layout 使用 mrtDescriptorSetLayout (只含 binding 0)
+        VkPipelineLayoutCreateInfo mrtPipelineLayoutInfo = {};
+        mrtPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        mrtPipelineLayoutInfo.setLayoutCount = 1;
+        mrtPipelineLayoutInfo.pSetLayouts = &mrtDescriptorSetLayout;
 
-        VK_CHECK(vkCreatePipelineLayout(device, &mrtLayoutInfo, nullptr, &mrtPipelineLayout));
+        VK_CHECK(vkCreatePipelineLayout(device, &mrtPipelineLayoutInfo, nullptr, &mrtPipelineLayout));
 
         VkGraphicsPipelineCreateInfo mrtPipelineInfo = {};
         mrtPipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -1095,7 +1160,9 @@ private:
         vkDestroyShaderModule(device, mrtVertModule, nullptr);
         vkDestroyShaderModule(device, mrtFragModule, nullptr);
 
+        // ============================================================
         // Final Pipeline
+        // ============================================================
         auto finalVertCode = readFile("TextureRenderTarget_vert.spv");
         auto finalFragCode = readFile("TextureRenderTarget_frag.spv");
 
@@ -1132,12 +1199,13 @@ private:
         finalColorBlending.attachmentCount = 1;
         finalColorBlending.pAttachments = &finalColorBlend;
 
-        VkPipelineLayoutCreateInfo finalLayoutInfo = {};
-        finalLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        finalLayoutInfo.setLayoutCount = 1;
-        finalLayoutInfo.pSetLayouts = &descriptorSetLayout;
+        // ✅ Final Pipeline Layout 使用 finalDescriptorSetLayout (含 binding 0,1,2)
+        VkPipelineLayoutCreateInfo finalPipelineLayoutInfo = {};
+        finalPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        finalPipelineLayoutInfo.setLayoutCount = 1;
+        finalPipelineLayoutInfo.pSetLayouts = &finalDescriptorSetLayout;
 
-        VK_CHECK(vkCreatePipelineLayout(device, &finalLayoutInfo, nullptr, &finalPipelineLayout));
+        VK_CHECK(vkCreatePipelineLayout(device, &finalPipelineLayoutInfo, nullptr, &finalPipelineLayout));
 
         VkGraphicsPipelineCreateInfo finalPipelineInfo = {};
         finalPipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -1185,6 +1253,9 @@ private:
         VK_CHECK(vkCreateFence(device, &fenceInfo, nullptr, &inFlightFence));
     }
 
+    // ============================================================
+    // 录制命令缓冲区
+    // ============================================================
     void recordCommandBuffers() {
         // ===== 1. MRT Command Buffer =====
         VkCommandBufferBeginInfo beginInfo = {};
@@ -1192,29 +1263,6 @@ private:
         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
 
         VK_CHECK(vkBeginCommandBuffer(mrtCommandBuffer, &beginInfo));
-
-        // 转换 MRT 纹理到 COLOR_ATTACHMENT_OPTIMAL
-        for (int i = 0; i < MRT_COUNT; i++) {
-            VkImageMemoryBarrier barrier = {};
-            barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-            barrier.oldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            barrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-            barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.image = mrtImages[i];
-            barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            barrier.subresourceRange.baseMipLevel = 0;
-            barrier.subresourceRange.levelCount = 1;
-            barrier.subresourceRange.baseArrayLayer = 0;
-            barrier.subresourceRange.layerCount = 1;
-            barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
-            barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-
-            vkCmdPipelineBarrier(mrtCommandBuffer,
-                                 VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
-                                 VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                                 0, 0, nullptr, 0, nullptr, 1, &barrier);
-        }
 
         VkRenderPassBeginInfo renderPassInfo = {};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -1233,6 +1281,10 @@ private:
 
         vkCmdBeginRenderPass(mrtCommandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         vkCmdBindPipeline(mrtCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mrtPipeline);
+
+        // ✅ MRT Pass 绑定 mrtDescriptorSet (只含 binding 0)
+        vkCmdBindDescriptorSets(mrtCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                mrtPipelineLayout, 0, 1, &mrtDescriptorSet, 0, nullptr);
 
         VkViewport viewport = {};
         viewport.x = 0.0f;
@@ -1255,29 +1307,6 @@ private:
         vkCmdDraw(mrtCommandBuffer, 3, 1, 0, 0);
         vkCmdEndRenderPass(mrtCommandBuffer);
 
-        // 转换回 SHADER_READ_ONLY_OPTIMAL
-        for (int i = 0; i < MRT_COUNT; i++) {
-            VkImageMemoryBarrier barrier = {};
-            barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-            barrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-            barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            barrier.image = mrtImages[i];
-            barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            barrier.subresourceRange.baseMipLevel = 0;
-            barrier.subresourceRange.levelCount = 1;
-            barrier.subresourceRange.baseArrayLayer = 0;
-            barrier.subresourceRange.layerCount = 1;
-            barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-            barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-
-            vkCmdPipelineBarrier(mrtCommandBuffer,
-                                 VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                                 VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
-                                 0, 0, nullptr, 0, nullptr, 1, &barrier);
-        }
-
         VK_CHECK(vkEndCommandBuffer(mrtCommandBuffer));
 
         // ===== 2. Final Command Buffer =====
@@ -1292,8 +1321,10 @@ private:
 
         vkCmdBeginRenderPass(finalCommandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         vkCmdBindPipeline(finalCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, finalPipeline);
+
+        // ✅ Final Pass 绑定 finalDescriptorSet (含 binding 0,1,2)
         vkCmdBindDescriptorSets(finalCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                finalPipelineLayout, 0, 1, &descriptorSets[0], 0, nullptr);
+                                finalPipelineLayout, 0, 1, &finalDescriptorSet, 0, nullptr);
 
         viewport.width = (float)swapchainExtent.width;
         viewport.height = (float)swapchainExtent.height;
@@ -1317,7 +1348,6 @@ private:
         }
         VK_CHECK(result);
 
-        // 更新 final command buffer
         VkCommandBufferBeginInfo beginInfo = {};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -1337,7 +1367,7 @@ private:
         vkCmdBeginRenderPass(finalCommandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         vkCmdBindPipeline(finalCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, finalPipeline);
         vkCmdBindDescriptorSets(finalCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                finalPipelineLayout, 0, 1, &descriptorSets[0], 0, nullptr);
+                                finalPipelineLayout, 0, 1, &finalDescriptorSet, 0, nullptr);
 
         VkViewport viewport = {};
         viewport.x = 0.0f;
@@ -1357,31 +1387,27 @@ private:
         vkCmdEndRenderPass(finalCommandBuffer);
         VK_CHECK(vkEndCommandBuffer(finalCommandBuffer));
 
-        // 提交 MRT Pass - 不等待任何 semaphore，立即执行
+        // 提交 MRT Pass
         VkSubmitInfo mrtSubmitInfo = {};
         mrtSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
         mrtSubmitInfo.commandBufferCount = 1;
         mrtSubmitInfo.pCommandBuffers = &mrtCommandBuffer;
-        mrtSubmitInfo.signalSemaphoreCount = 0;
-        mrtSubmitInfo.pSignalSemaphores = nullptr;
-
         VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &mrtSubmitInfo, VK_NULL_HANDLE));
 
-        // 等待 MRT 完成（使用 Fence）
+        // 等待 MRT 完成
         VkFence mrtFence;
         VkFenceCreateInfo fenceInfo = {};
         fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         VK_CHECK(vkCreateFence(device, &fenceInfo, nullptr, &mrtFence));
 
-        VkSubmitInfo mrtFenceSubmit = {};
-        mrtFenceSubmit.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        mrtFenceSubmit.commandBufferCount = 0;
-        VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &mrtFenceSubmit, mrtFence));
-
+        VkSubmitInfo fenceSubmitInfo = {};
+        fenceSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        fenceSubmitInfo.commandBufferCount = 0;
+        VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &fenceSubmitInfo, mrtFence));
         VK_CHECK(vkWaitForFences(device, 1, &mrtFence, VK_TRUE, UINT64_MAX));
         vkDestroyFence(device, mrtFence, nullptr);
 
-        // 提交 Final Pass（等待 MRT 完成通过 pipeline barrier）
+        // 提交 Final Pass
         VkSubmitInfo finalSubmitInfo = {};
         finalSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
         finalSubmitInfo.waitSemaphoreCount = 1;
@@ -1395,7 +1421,6 @@ private:
 
         VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &finalSubmitInfo, inFlightFence));
 
-        // Present
         VkPresentInfoKHR presentInfo = {};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentInfo.waitSemaphoreCount = 1;
@@ -1439,7 +1464,8 @@ private:
         if (finalRenderPass != VK_NULL_HANDLE) vkDestroyRenderPass(device, finalRenderPass, nullptr);
 
         if (sampler != VK_NULL_HANDLE) vkDestroySampler(device, sampler, nullptr);
-        if (descriptorSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
+        if (mrtDescriptorSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(device, mrtDescriptorSetLayout, nullptr);
+        if (finalDescriptorSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(device, finalDescriptorSetLayout, nullptr);
         if (descriptorPool != VK_NULL_HANDLE) vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 
         if (vertexBuffer != VK_NULL_HANDLE) vkDestroyBuffer(device, vertexBuffer, nullptr);
