@@ -2,119 +2,208 @@
 #include "GCore/GQueue.h"
 #include "GCore/GStack.h"
 #include "GCore/GVector.h"
+#include "GCore/GMultiHash.h"
+#include "GCore/GMultiMap.h"
+#include "GCore/GVector.h"
+
 #include <iostream>
 
+int TestGMultiHash(int argc, char **argv);
+int TestGMultiMap(int Argc, char** Argv);
 int TestGCore(int argc, char **argv)
 {
-   GVector<int> V1;                          // 空向量
-    GVector<int> V2 = {1, 2, 3, 4, 5};        // 初始化列表
-    GVector<std::string> Names;               // 字符串向量
+    return TestGMultiMap(argc, argv);
+}
 
-    // ========== 添加元素 ==========
-    V1.Append(10);
-    V1.Append(20);
-    V1.Append(30);
-    V1.Prepend(0);                             // 在开头添加
 
-    Names.Append("Alice");
-    Names.Append("Bob");
-    Names.Append("Charlie");
+int TestGMultiHash(int argc, char **argv)
+{
+  // ========== 创建 ==========
+    GMultiHash<std::string, int> Hash;
 
-    // ========== 访问元素 ==========
-    std::cout << "V1[0]: " << V1[0] << std::endl;
-    std::cout << "V1 first: " << V1.First() << std::endl;
-    std::cout << "V1 last: " << V1.Last() << std::endl;
-    std::cout << "V1 size: " << V1.GetSize() << std::endl;
+    // ========== 插入（一个键对应多个值） ==========
+    Hash.Insert("Apple", 10);
+    Hash.Insert("Apple", 20);
+    Hash.Insert("Apple", 30);
+    Hash.Insert("Banana", 5);
+    Hash.Insert("Banana", 15);
+    Hash.Insert("Cherry", 25);
+
+    std::cout << "Size: " << Hash.GetSize() << std::endl;
+
+    // ========== 查询 ==========
+    std::cout << "\nValues for 'Apple': ";
+    auto Values = Hash.Values("Apple");
+    for (const auto& V : Values) {
+        std::cout << V << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Count of 'Apple': " << Hash.Count("Apple") << std::endl;
+    std::cout << "Contains 'Apple'? " << (Hash.Contains("Apple") ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Apple'->20? " << (Hash.Contains("Apple", 20) ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Apple'->99? " << (Hash.Contains("Apple", 99) ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Grape'? " << (Hash.Contains("Grape") ? "Yes" : "No") << std::endl;
 
     // ========== 遍历 ==========
-    std::cout << "V1 elements: ";
-    for (const auto& Item : V1) {
-        std::cout << Item << " ";
+    std::cout << "\nAll entries: ";
+    for (const auto& Item : Hash) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
     }
     std::cout << std::endl;
 
-    std::cout << "Names: ";
-    for (const auto& Name : Names) {
-        std::cout << Name << " ";
+    // ========== 删除 ==========
+    Hash.Remove("Apple", 20);  // 删除指定的键值对
+    std::cout << "\nAfter removing Apple->20, size: " << Hash.GetSize() << std::endl;
+
+    Hash.Remove("Banana");  // 删除所有 Banana
+    std::cout << "After removing all Banana, size: " << Hash.GetSize() << std::endl;
+
+    // ========== 使用初始化列表 ==========
+    GMultiHash<std::string, std::string> Names = {
+        {"Alice", "Engineer"},
+        {"Alice", "Manager"},
+        {"Bob", "Developer"},
+        {"Charlie", "Designer"},
+        {"Charlie", "Artist"}
+    };
+
+    std::cout << "\nNames hash:\n";
+    for (const auto& Item : Names) {
+        std::cout << "  " << Item.first << " -> " << Item.second << std::endl;
+    }
+
+    std::cout << "\nValues for 'Alice': ";
+    for (const auto& Role : Names.Values("Alice")) {
+        std::cout << Role << " ";
     }
     std::cout << std::endl;
-
-    // ========== 插入和删除 ==========
-    V1.Insert(2, 99);                          // 在索引2插入99
-    std::cout << "After insert: ";
-    for (const auto& Item : V1) {
-        std::cout << Item << " ";
-    }
-    std::cout << std::endl;
-
-    V1.RemoveAt(2);                           // 删除索引2的元素
-    std::cout << "After remove: ";
-    for (const auto& Item : V1) {
-        std::cout << Item << " ";
-    }
-    std::cout << std::endl;
-
-    V1.Remove(20);                            // 删除值为20的元素
-    std::cout << "After remove 20: ";
-    for (const auto& Item : V1) {
-        std::cout << Item << " ";
-    }
-    std::cout << std::endl;
-
-    // ========== 查找 ==========
-    if (V1.Contains(10)) {
-        std::cout << "Found 10 at index: " << V1.IndexOf(10) << std::endl;
-    }
-
-    // ========== 反转 ==========
-    V1.Reverse();
-    std::cout << "After reverse: ";
-    for (const auto& Item : V1) {
-        std::cout << Item << " ";
-    }
-    std::cout << std::endl;
-
-    // ========== 清空 ==========
-    V1.Clear();
-    std::cout << "After clear, size: " << V1.GetSize() << std::endl;
-    std::cout << "Is empty? " << (V1.IsEmpty() ? "Yes" : "No") << std::endl;
-
-    // ========== 使用 STL 算法 ==========
-    GVector<int> Numbers = {5, 2, 8, 1, 9, 3};
-
-    // 排序
-    std::sort(Numbers.Begin(), Numbers.End());
-    std::cout << "Sorted: ";
-    for (const auto& N : Numbers) {
-        std::cout << N << " ";
-    }
-    std::cout << std::endl;
-
-    // 查找
-    auto It = std::find(Numbers.Begin(), Numbers.End(), 5);
-    if (It != Numbers.End()) {
-        std::cout << "Found 5" << std::endl;
-    }
 
     // ========== 拷贝和移动 ==========
-    GVector<int> V3 = {1, 2, 3};
-    GVector<int> V4 = V3;                      // 拷贝构造
-    GVector<int> V5 = std::move(V3);           // 移动构造
+    GMultiHash<int, std::string> H1 = {
+        {1, "One"},
+        {1, "Uno"},
+        {2, "Two"},
+        {3, "Three"}
+    };
 
-    std::cout << "V4: ";
-    for (const auto& Item : V4) {
-        std::cout << Item << " ";
+    GMultiHash<int, std::string> H2 = H1;  // 拷贝
+    GMultiHash<int, std::string> H3 = std::move(H1);  // 移动
+
+    std::cout << "\nH2: ";
+    for (const auto& Item : H2) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
     }
     std::cout << std::endl;
 
-    std::cout << "V5: ";
-    for (const auto& Item : V5) {
-        std::cout << Item << " ";
+    std::cout << "H3: ";
+    for (const auto& Item : H3) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
     }
     std::cout << std::endl;
 
-    std::cout << "V3 after move, size: " << V3.GetSize() << std::endl;
+    std::cout << "H1 size after move: " << H1.GetSize() << std::endl;
 
+    // ========== 清空 ==========
+    H2.Clear();
+    std::cout << "\nH2 after clear, size: " << H2.GetSize() << std::endl;
+    std::cout << "H2 is empty? " << (H2.IsEmpty() ? "Yes" : "No") << std::endl;
+
+    return 0;
+}
+
+
+int TestGMultiMap(int Argc, char** Argv) {
+    // ========== 创建 ==========
+    GMultiMap<std::string, int> Map;
+
+    // ========== 插入（一个键对应多个值） ==========
+    Map.Insert("Apple", 10);
+    Map.Insert("Apple", 20);
+    Map.Insert("Apple", 30);
+    Map.Insert("Banana", 5);
+    Map.Insert("Banana", 15);
+    Map.Insert("Cherry", 25);
+
+    std::cout << "Size: " << Map.GetSize() << std::endl;
+
+    // ========== 查询 ==========
+    std::cout << "\nValues for 'Apple': ";
+    auto Values = Map.Values("Apple");
+    for (const auto& V : Values) {
+        std::cout << V << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Count of 'Apple': " << Map.Count("Apple") << std::endl;
+    std::cout << "Contains 'Apple'? " << (Map.Contains("Apple") ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Apple'->20? " << (Map.Contains("Apple", 20) ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Apple'->99? " << (Map.Contains("Apple", 99) ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 'Grape'? " << (Map.Contains("Grape") ? "Yes" : "No") << std::endl;
+
+    // ========== 遍历（按键升序） ==========
+    std::cout << "\nAll entries (sorted by key): ";
+    for (const auto& Item : Map) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
+    }
+    std::cout << std::endl;
+
+    // ========== 删除 ==========
+    Map.Remove("Apple", 20);  // 删除指定的键值对
+    std::cout << "\nAfter removing Apple->20, size: " << Map.GetSize() << std::endl;
+
+    Map.Remove("Banana");  // 删除所有 Banana
+    std::cout << "After removing all Banana, size: " << Map.GetSize() << std::endl;
+
+    // ========== 使用初始化列表 ==========
+    GMultiMap<std::string, std::string> Names = {
+        {"Alice", "Engineer"},
+        {"Alice", "Manager"},
+        {"Bob", "Developer"},
+        {"Charlie", "Designer"},
+        {"Charlie", "Artist"}
+    };
+
+    std::cout << "\nNames map:\n";
+    for (const auto& Item : Names) {
+        std::cout << "  " << Item.first << " -> " << Item.second << std::endl;
+    }
+
+    std::cout << "\nValues for 'Alice': ";
+    for (const auto& Role : Names.Values("Alice")) {
+        std::cout << Role << " ";
+    }
+    std::cout << std::endl;
+
+    // ========== 拷贝和移动 ==========
+    GMultiMap<int, std::string> M1 = {
+        {1, "One"},
+        {1, "Uno"},
+        {2, "Two"},
+        {3, "Three"}
+    };
+
+    GMultiMap<int, std::string> M2 = M1;  // 拷贝
+    GMultiMap<int, std::string> M3 = std::move(M1);  // 移动
+
+    std::cout << "\nM2: ";
+    for (const auto& Item : M2) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "M3: ";
+    for (const auto& Item : M3) {
+        std::cout << "(" << Item.first << "->" << Item.second << ") ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "M1 size after move: " << M1.GetSize() << std::endl;
+
+    // ========== 清空 ==========
+    M2.Clear();
+    std::cout << "\nM2 after clear, size: " << M2.GetSize() << std::endl;
+    std::cout << "M2 is empty? " << (M2.IsEmpty() ? "Yes" : "No") << std::endl;
 
     return 0;
 }
