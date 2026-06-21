@@ -28,8 +28,24 @@ int TestGCore(int argc, char **argv)
     }
     std::cout << std::endl;
 
+    // ========== 方式二：begin()/end() 迭代器 ==========
+    std::cout << "Iterator loop: ";
+    for (auto It = list.begin(); It != list.end(); ++It) {
+        std::cout << *It << " ";
+    }
+    std::cout << std::endl;
+
+    // ========== 方式三：大写 Begin()/End() 迭代器 ==========
+    std::cout << "Capital iterator loop: ";
+    for (auto It = list.Begin(); It != list.End(); ++It) {
+        std::cout << *It << " ";
+    }
+    std::cout << std::endl;
+
     list.Clear();
     std::cout << "Is empty? " << (list.IsEmpty() ? "Yes" : "No") << std::endl;
+
+
 
     return 0;
 }
