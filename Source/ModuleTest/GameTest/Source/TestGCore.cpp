@@ -4,15 +4,20 @@
 #include "GCore/GVector.h"
 #include "GCore/GMultiHash.h"
 #include "GCore/GMultiMap.h"
-#include "GCore/GVector.h"
+#include "GCore/GSet.h"
 
 #include <iostream>
 
 int TestGMultiHash(int argc, char **argv);
 int TestGMultiMap(int Argc, char** Argv);
+
+int TestGSet(int Argc, char** Argv);
+
+
+
 int TestGCore(int argc, char **argv)
 {
-    return TestGMultiMap(argc, argv);
+    return TestGSet(argc, argv);
 }
 
 
@@ -204,6 +209,115 @@ int TestGMultiMap(int Argc, char** Argv) {
     M2.Clear();
     std::cout << "\nM2 after clear, size: " << M2.GetSize() << std::endl;
     std::cout << "M2 is empty? " << (M2.IsEmpty() ? "Yes" : "No") << std::endl;
+
+    return 0;
+}
+
+
+int TestGSet(int Argc, char** Argv) {
+    std::cout << "========== Testing GSet ==========\n";
+
+    // ========== 基本操作 ==========
+    std::cout << "\n--- Basic Operations ---\n";
+
+    GSet<int> Set;
+
+    // 插入
+    Set.Insert(10);
+    Set.Insert(20);
+    Set.Insert(30);
+    Set.Insert(20);  // 重复，不会插入
+    Set.Insert(40);
+
+    std::cout << "Size: " << Set.GetSize() << std::endl;
+    std::cout << "Is empty: " << (Set.IsEmpty() ? "Yes" : "No") << std::endl;
+
+    // 查找
+    std::cout << "Contains 20? " << (Set.Contains(20) ? "Yes" : "No") << std::endl;
+    std::cout << "Contains 99? " << (Set.Contains(99) ? "Yes" : "No") << std::endl;
+
+    // 遍历
+    std::cout << "Elements: ";
+    for (const auto& Item : Set) {
+        std::cout << Item << " ";
+    }
+    std::cout << std::endl;
+
+    // ========== 初始化 ==========
+    std::cout << "\n--- Initialization ---\n";
+
+    GSet<int> Set2 = {1, 2, 3, 4, 5, 3, 5};  // 重复的会被自动去重
+
+    std::cout << "Set2 elements: ";
+    for (const auto& Item : Set2) {
+        std::cout << Item << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "Size: " << Set2.GetSize() << std::endl;
+
+    // ========== 集合运算 ==========
+    std::cout << "\n--- Set Operations ---\n";
+
+    GSet<int> A = {1, 2, 3, 4, 5};
+    GSet<int> B = {4, 5, 6, 7, 8};
+
+    std::cout << "A: ";
+    for (const auto& V : A) std::cout << V << " ";
+    std::cout << std::endl;
+
+    std::cout << "B: ";
+    for (const auto& V : B) std::cout << V << " ";
+    std::cout << std::endl;
+
+    // 并集
+    GSet<int> Union = A.Union(B);
+    std::cout << "Union: ";
+    for (const auto& V : Union) std::cout << V << " ";
+    std::cout << std::endl;
+
+    // 交集
+    GSet<int> Intersection = A.Intersection(B);
+    std::cout << "Intersection: ";
+    for (const auto& V : Intersection) std::cout << V << " ";
+    std::cout << std::endl;
+
+    // 差集
+    GSet<int> Difference = A.Difference(B);
+    std::cout << "Difference (A - B): ";
+    for (const auto& V : Difference) std::cout << V << " ";
+    std::cout << std::endl;
+
+    // 对称差集
+    GSet<int> SymDiff = A.SymmetricDifference(B);
+    std::cout << "Symmetric Difference: ";
+    for (const auto& V : SymDiff) std::cout << V << " ";
+    std::cout << std::endl;
+
+    // 子集判断
+    GSet<int> C = {1, 2, 3};
+    std::cout << "C is subset of A: " << (C.IsSubsetOf(A) ? "Yes" : "No") << std::endl;
+    std::cout << "A is subset of C: " << (A.IsSubsetOf(C) ? "Yes" : "No") << std::endl;
+    std::cout << "C is proper subset of A: " << (C.IsProperSubsetOf(A) ? "Yes" : "No") << std::endl;
+
+    // ========== 删除和清空 ==========
+    std::cout << "\n--- Remove and Clear ---\n";
+
+    GSet<int> Set3 = {1, 2, 3, 4, 5};
+
+    std::cout << "Before: ";
+    for (const auto& V : Set3) std::cout << V << " ";
+    std::cout << std::endl;
+
+    Set3.Remove(3);
+    Set3.Remove(7);  // 不存在，不会报错
+
+    std::cout << "After remove 3: ";
+    for (const auto& V : Set3) std::cout << V << " ";
+    std::cout << std::endl;
+
+    Set3.Clear();
+    std::cout << "After clear, size: " << Set3.GetSize() << std::endl;
+    std::cout << "Is empty? " << (Set3.IsEmpty() ? "Yes" : "No") << std::endl;
 
     return 0;
 }
