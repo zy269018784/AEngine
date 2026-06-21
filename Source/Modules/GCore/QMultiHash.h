@@ -1,0 +1,8 @@
+//
+// Created by zy on 6/21/26.
+//
+
+#ifndef MODULETEST_QMULTIHASH_H
+#define MODULETEST_QMULTIHASH_H
+
+#endif //MODULETEST_QMULTIHASH_H
