@@ -26,8 +26,15 @@ int TestHttpClient(int argc, char **argv);
 int TestGProgramming(int argc, char **argv);
 int TestGMultimedia(int argc, char **argv);
 int TestGCore(int argc, char **argv);
+int TestGTcpClient(int argc, char **argv);
+int TestGTcpServer(int argc, char **argv);
 int main(int argc, char **argv)
 {
+    std::cout << argv[1] << std::endl;
+    if (strcmp(argv[1], "tcp") == 0)
+        return TestGTcpServer(argc, argv);
+    else
+        return TestGTcpClient(argc, argv);
     return TestGCore(argc, argv);
     return TestHttpClient(argc, argv);
     return TestHttpServer(argc, argv);
