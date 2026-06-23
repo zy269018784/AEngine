@@ -1,5 +1,6 @@
 ﻿/*
 	1. 安装Node.js
+		https://nodejs.org/en/download
 
 	2. npm命令
 	3. node命令
@@ -10,3 +11,6 @@
 		index.html
 	命令行进入Project目录, 输入npm start, 运行
 */
+
+
+

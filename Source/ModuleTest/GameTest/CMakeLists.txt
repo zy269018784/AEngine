@@ -25,6 +25,7 @@ message (STATUS "GameTest CMAKE_CURRENT_SOURCE_DIR 	  ${CMAKE_CURRENT_SOURCE_DIR
 message (STATUS "GameTest CMAKE_CURRENT_BINARY_DIR    ${CMAKE_CURRENT_BINARY_DIR}")
 message (STATUS "GameTest LIBRARY_PATH                ${LIBRARY_PATH}")
 
+if (true)
 # 库
 if(NOT TARGET GArch)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GArch ${CMAKE_CURRENT_BINARY_DIR}/Modules/GArch)
@@ -74,7 +75,7 @@ endif ()
 if(NOT TARGET GRenderDependencyGraph)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRenderDependencyGraph ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRenderDependencyGraph)
 endif ()
-
+endif ()
 # 头文件路径
 #set (INCLUDE_PATH "")
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
@@ -83,24 +84,24 @@ list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
 # 链接库
 set (LIBRARYS "")
 list (APPEND LIBRARYS
-        GArch
-        GCG
-        GMath
-        GNetwork
-        GWindow
-        GGame
-        GRenderDependencyGraph
-        GDeviceDriver
-        GDatabase
-        GMultimedia
-        GProgramming
+        #GArch
+        #GCG
+        #GMath
+        #GNetwork
+        #GWindow
+        #GGame
+        #GRenderDependencyGraph
+        #GDeviceDriver
+        #GDatabase
+        #GMultimedia
+        #GProgramming
 )
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
-
+if (false)
 target_compile_definitions(${PROJECT_NAME}  PRIVATE
         __STDC_CONSTANT_MACROS
         __STDC_FORMAT_MACROS
@@ -112,6 +113,8 @@ target_compile_options(${PROJECT_NAME}  PRIVATE
         -Wall
         -Wno-self-move
 )
+endif ()
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")

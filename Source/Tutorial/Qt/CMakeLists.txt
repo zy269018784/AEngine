@@ -10,22 +10,23 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set (USE_QT         true)
+
+if (USE_QT)
+    set(CMAKE_AUTOMOC ON)                         # 自动处理信号槽等元对象编译[citation:9]
+    set(CMAKE_AUTORCC ON)                         # 自动处理 .qrc 资源文件[citation:9]
+    set(CMAKE_AUTOUIC ON)
+    find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickControls2)
+    list (APPEND LIBRARYS		Qt6::Widgets Qt6::QuickControls2)
 
 
-set(CMAKE_AUTOMOC ON)                         # 自动处理信号槽等元对象编译[citation:9]
-set(CMAKE_AUTORCC ON)                         # 自动处理 .qrc 资源文件[citation:9]
-set(CMAKE_AUTOUIC ON)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickControls2)
-list (APPEND LIBRARYS		Qt6::Widgets Qt6::QuickControls2)
+    list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
 
+    file(GLOB_RECURSE SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
+                                ${PROJECT_SOURCE_DIR}/Source/*.c
+                                ${PROJECT_SOURCE_DIR}/Source/*.h)
 
-list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
-
-file(GLOB_RECURSE SRC_LIST  ${PROJECT_SOURCE_DIR}/Source/*.cpp
-                            ${PROJECT_SOURCE_DIR}/Source/*.c
-                            ${PROJECT_SOURCE_DIR}/Source/*.h)
-
-
+endif ()
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})

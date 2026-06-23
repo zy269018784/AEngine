@@ -1,0 +1,1 @@
+cmake -S . -B ../AEngine_build -G "Visual Studio 17 2022"  -DLIBRARY_PATH=../Library -DUSE_VULKAN=true -DCMAKE_PREFIX_PATH=D:/app/Dev/Qt6/6.9.3/msvc2022_64/lib/cmake
