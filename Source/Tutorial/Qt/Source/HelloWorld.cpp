@@ -1,3 +1,5 @@
+#include <QWidget>
+#include <QtQuickWidgets/QQuickWidget>
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
@@ -7,6 +9,16 @@ int main(int argc, char *argv[])
     
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("HelloQML.qml")));
-    
+
+    QWidget w;
+    w.show();
+
+    QQuickWidget *view = new QQuickWidget;
+
+    // 加载你的 QML 界面文件
+    view->setSource(QUrl::fromLocalFile("HelloQML.qml"));
+
+    // 显示它
+    view->show();
     return app.exec();
 }

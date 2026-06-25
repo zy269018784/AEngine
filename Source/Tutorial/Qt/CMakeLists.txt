@@ -16,8 +16,8 @@ if (USE_QT)
     set(CMAKE_AUTOMOC ON)                         # 自动处理信号槽等元对象编译[citation:9]
     set(CMAKE_AUTORCC ON)                         # 自动处理 .qrc 资源文件[citation:9]
     set(CMAKE_AUTOUIC ON)
-    find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickControls2)
-    list (APPEND LIBRARYS		Qt6::Widgets Qt6::QuickControls2)
+    find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickWidgets QuickControls2)
+    list (APPEND LIBRARYS		Qt6::Widgets Qt6::QuickControls2 Qt6::Quick Qt6::QuickWidgets)
 
 
     list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
