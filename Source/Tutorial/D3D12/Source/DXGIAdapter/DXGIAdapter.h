@@ -1,5 +1,5 @@
 #pragma once
-
+#include <dxgi.h>
 class DXGIAdapter
 {
 public:

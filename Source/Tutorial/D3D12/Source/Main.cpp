@@ -1,4 +1,4 @@
-
+﻿
 #include <iostream>
 #include <vector>
 #include <string>
@@ -19,6 +19,8 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "dxguid.lib")
+
 
 using namespace DirectX;
 
@@ -667,7 +669,7 @@ void TestD3D12Texture2DCleanup() {
     std::cout << "Cleanup complete" << std::endl;
 }
 
-int TestD3D12Texture2D(int argc, char **argv) {
+int main(int argc, char **argv) {
     std::cout << "Starting D3D12 Texture2D Test..." << std::endl;
 
     // 初始化 GLFW

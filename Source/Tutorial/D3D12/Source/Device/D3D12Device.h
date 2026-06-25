@@ -1,5 +1,5 @@
 #pragma once
-
+#include <d3d12.h>
 class D3D12Device
 {
 public:
