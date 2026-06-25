@@ -13,10 +13,10 @@ int main(int argc, char *argv[])
     QWidget w;
     w.show();
 
-    QQuickWidget *view = new QQuickWidget;
+    QQuickWidget *view = new QQuickWidget(&w);
 
     // 加载你的 QML 界面文件
-    view->setSource(QUrl::fromLocalFile("HelloQML.qml"));
+    view->setSource(QUrl::fromLocalFile("CustomButton.qml"));
 
     // 显示它
     view->show();
