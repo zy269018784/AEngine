@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+#include <cstdint>
 #include "mqtt/mqtt.h"
 #include "GCore/GObject.h"
 #include "GCore/GString.h"

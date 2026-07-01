@@ -19,6 +19,8 @@ list (APPEND INCLUDE_PATH ${PROJECT_SOURCE_DIR})
 
 # 库
 set (LIBRARYS "")
+
+message (STATUS "GNetwork LIBRARY_PATH ${LIBRARY_PATH}")
 # 三方库
 # mqtt
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/mqtt/include)
@@ -28,10 +30,14 @@ list (APPEND LIBRARYS		mqtt)
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/curl/8.17.0/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/curl/8.17.0/lib)
 list (APPEND LIBRARYS		curl)
+
 # openssl
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/openssl/3.2.0/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/openssl/3.2.0/lib)
 list (APPEND LIBRARYS		ssl crypto)
+# curl
+list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/httplib/0.48.0/include)
+list (APPEND LINK_PATH      ${LIBRARY_PATH}/httplib/0.48.0/lib)
 
 # 自定义库
 # GCore

@@ -1,4 +1,4 @@
-// GSet.h
+﻿// GSet.h
 #pragma once
 
 #include <vector>

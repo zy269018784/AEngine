@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <Types/GTuple2.h>
-#include <Types/GPoint2.h>
-#include <Types/GTypeDeclaration.h>
+#include <GMath/Types/GTuple2.h>
+#include <GMath/Types/GPoint2.h>
+#include <GMath/Float.h>
+#include <GMath/Types/GTypeDeclaration.h>
 namespace GMath {
     /**
      * @brief 2D axis-aligned bounding box

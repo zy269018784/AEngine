@@ -1,5 +1,5 @@
 #pragma once
-#include <Types/GTuple2.h>
+#include <GMath/Types/GTuple2.h>
 
 namespace GMath {
 

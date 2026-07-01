@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <Types/GTuple3.h>
-#include <Types/GPoint3.h>
-#include <Types/GTypeDeclaration.h>
+#include <GMath/Types/GTuple3.h>
+#include <GMath/Types/GPoint3.h>
+#include <GMath/Float.h>
+#include <GMath/Types/GTypeDeclaration.h>
 namespace GMath {
     // ========================================================================
     //  GBounds3 Class

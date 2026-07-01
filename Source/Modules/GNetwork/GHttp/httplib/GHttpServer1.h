@@ -1,8 +1,8 @@
 #pragma once
 #include <GHttp/GAbstractHttpServer.h>
 #include <httplib.h>
-
-class GHttpServer1 : public GAbstractHttpServer
+#include <GCore/GExport.h>
+class GEXPORT GHttpServer1 : public GAbstractHttpServer
 {
 public:
     GHttpServer1(GAbstractHttpServer *Parent = nullptr);

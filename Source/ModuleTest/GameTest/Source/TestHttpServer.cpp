@@ -1,3 +1,4 @@
+﻿#if 1
 #include <httplib.h>
 #include <GHttp/httplib/GHttpServer1.h>
 /*
@@ -36,3 +37,4 @@ int TestHttpServer(int argc, char **argv)
 
     return 0;
 }
+#endif

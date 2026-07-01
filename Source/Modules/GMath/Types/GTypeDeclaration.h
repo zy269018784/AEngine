@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <Types/BasicTypes.h>
+#include <GMath/Types/BasicTypes.h>
 
 namespace GMath
 {

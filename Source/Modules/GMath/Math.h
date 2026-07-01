@@ -1,6 +1,6 @@
 #pragma once
 #include "GCore/GExport.h"
-#include <Types/GTypes.h>
+#include <GMath/Types/GTypes.h>
 #include <Float.h>
 void GEXPORT HelloMath();
 namespace GMath

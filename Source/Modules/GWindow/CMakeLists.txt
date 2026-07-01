@@ -5,12 +5,12 @@ project (GWindow)
 # 配置支持哪些窗口
 set (USE_GLFW       true)
 set (USE_CEF        false)
-set (USE_FLTK       true)
-set (USE_QT         false)
-set (USE_SDL        true)
+set (USE_FLTK       false)
+set (USE_QT         true)
+set (USE_SDL        false)
 set (USE_SFML       false)
 set (USE_wxWidget   false)
-set (USE_X11        true)
+set (USE_X11        false)
 set (USE_MFC        true)
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set (USE_MFC false)
@@ -35,10 +35,13 @@ set (SRC_LIST "")
 file(GLOB IWINDOW_SRC_LIST                  ${PROJECT_SOURCE_DIR}/*.cpp
                                             ${PROJECT_SOURCE_DIR}/*.c
                                             ${PROJECT_SOURCE_DIR}/*.h)
-list (APPEND SRC_LIST ${IWINDOW_SRC_LIST})
+#list (APPEND SRC_LIST ${IWINDOW_SRC_LIST})
+list (APPEND SRC_LIST   ${PROJECT_SOURCE_DIR}/WindowExport.h
+                        ${PROJECT_SOURCE_DIR}/IWindow.h
+                        ${PROJECT_SOURCE_DIR}/IWindow.cpp)
 
 # glfw
-if (USE_GLFW)
+if (${USE_GLFW})
     file(GLOB_RECURSE GLFW_SRC_LIST         ${PROJECT_SOURCE_DIR}/GLFWWindow/*.cpp
                                             ${PROJECT_SOURCE_DIR}/GLFWWindow/*.c
                                             ${PROJECT_SOURCE_DIR}/GLFWWindow/*.h)
@@ -64,7 +67,7 @@ if (USE_CEF)
 endif ()
 
 # fltk
-if (USE_FLTK)
+if (${USE_FLTK})
     file(GLOB_RECURSE FLTK_SRC_LIST         ${PROJECT_SOURCE_DIR}/FLTKWindow/*.cpp
                                             ${PROJECT_SOURCE_DIR}/FLTKWindow/*.c
                                             ${PROJECT_SOURCE_DIR}/FLTKWindow/*.h)
@@ -123,7 +126,7 @@ if (USE_SDL)
 endif ()
 
 # x11
-if (USE_X11)
+if (${USE_X11})
     file(GLOB_RECURSE X11_SRC_LIST         ${PROJECT_SOURCE_DIR}/X11Window/*.cpp
             ${PROJECT_SOURCE_DIR}/X11Window/*.c
             ${PROJECT_SOURCE_DIR}/X11Window/*.h)

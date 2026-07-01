@@ -1,20 +1,21 @@
 ﻿#include "GCore/GObject.h"
 #include "GMath/Math.h"
-#include "GCG/GVirtualGeometry/GVirtualGeometry.h"
+//#include "GCG/GVirtualGeometry/GVirtualGeometry.h"
 #include "GGame/GGame.h"
 #include "GGame/GFood.h"
 #include <QApplication>
 #include "GWindow/QTWindow/QTWindow.h"
 #include "GDeviceDriver/OLED/SSD1306.h"
-#include "GWindow/FLTKWindow/FLTKWindow.h"
+//#include "GWindow/FLTKWindow/FLTKWindow.h"
 #include "GWindow/GLFWWindow/GLFWWindow.h"
 #include "GWindow/SDLWindow/SDL3Window.h"
-#include "GWindow/X11Window/X11Window.h"
+//#include "GWindow/X11Window/X11Window.h"
 
 
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Box.H>
+//#include <FL/Fl.H>
+//#include <FL/Fl_Window.H>
+//#include <FL/Fl_Box.H>
+
 #include <iostream>
 #include <vector>
 int cef_main(int argc, char **argv);
@@ -31,10 +32,10 @@ int TestGTcpServer(int argc, char **argv);
 int main(int argc, char **argv)
 {
     std::cout << argv[1] << std::endl;
-    if (strcmp(argv[1], "tcp") == 0)
-        return TestGTcpServer(argc, argv);
-    else
-        return TestGTcpClient(argc, argv);
+   //if (strcmp(argv[1], "tcp") == 0)
+   //    return TestGTcpServer(argc, argv);
+   //else
+   //    return TestGTcpClient(argc, argv);
     return TestGCore(argc, argv);
     return TestHttpClient(argc, argv);
     return TestHttpServer(argc, argv);
@@ -63,7 +64,7 @@ int main(int argc, char **argv)
         win = new GLFWWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     case 1:
-        win = new FLTKWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        //win = new FLTKWindow(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     case 2:
         if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
         win = new SDL3Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     case 3:
-        win = new X11Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
+        //win = new X11Window(IWindow::GraphicsAPI::OpenGL46, nullptr);
         break;
     case 4:
         app = new QApplication(argc, argv);

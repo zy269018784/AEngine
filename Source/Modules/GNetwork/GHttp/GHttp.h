@@ -1,4 +1,4 @@
- #pragma once
+﻿ #pragma once
 #include <GHttp/GHttpMethod.h>
 #include <GHttp/GHttpStatusCode.h>
 #include <GHttp/GHttpVersion.h>

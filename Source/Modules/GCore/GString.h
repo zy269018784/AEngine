@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "GExport.h"
 #include <string>
+#include <iostream>
 class GEXPORT GString
 {
 public:

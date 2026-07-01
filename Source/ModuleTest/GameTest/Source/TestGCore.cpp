@@ -1,4 +1,4 @@
-#include "GCore/GList.h"
+﻿#include "GCore/GList.h"
 #include "GCore/GQueue.h"
 #include "GCore/GStack.h"
 #include "GCore/GVector.h"

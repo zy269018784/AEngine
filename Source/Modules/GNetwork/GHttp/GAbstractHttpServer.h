@@ -1,6 +1,7 @@
 #pragma once
 #include <GCore/GObject.h>
-class GAbstractHttpServer : public GObject
+#include <GCore/GExport.h>
+class GEXPORT GAbstractHttpServer : public GObject
 {
 public:
     GAbstractHttpServer(GObject *Parent = nullptr);

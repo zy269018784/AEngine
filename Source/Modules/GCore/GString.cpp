@@ -1,4 +1,4 @@
-#include "GString.h"
+﻿#include "GString.h"
 
 GString::GString() : Str()
 {

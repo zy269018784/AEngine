@@ -1,8 +1,8 @@
 #pragma once
 #include <GCore/GObject.h>
 #include <GCore/GOptional.h>
-#include <Intersection/GIntersection.h>
-#include <Types/GTypes.h>
+#include <GMath/Intersection/GIntersection.h>
+#include <GMath/Types/GTypes.h>
 #include <limits>
 #include <cmath>
 using namespace GCore;

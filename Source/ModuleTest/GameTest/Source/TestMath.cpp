@@ -1,17 +1,19 @@
+#if 0
 #include "GMath/Math.h"
 #include <iostream>
 #include <cstring>
 #include <thread>
 #include <chrono>
-#include <Types/GVector2.h>
-#include <Types/GVector3.h>
-#include <Types/GBounds2.h>
-#include <Types/GBounds3.h>
-#include <Types/GNormal2.h>
-#include <Types/GNormal3.h>
-#include <Types/GPoint2.h>
-#include <Types/GPoint3.h>
-#include <Shapes/GTriangle.h>
+#include <GMath/Types/GVector2.h>
+#include <GMath/Types/GVector3.h>
+#include <GMath/Types/GBounds2.h>
+#include <GMath/Types/GBounds3.h>
+#include <GMath/Types/GNormal2.h>
+#include <GMath/Types/GNormal3.h>
+#include <GMath/Types/GPoint2.h>
+#include <GMath/Types/GPoint3.h>
+#include <GMath/Shapes/GTriangle.h>
+#include <GMath/Shapes/GAbstractShape.h>
 using namespace GMath;
 
 int TestGTriangle()
@@ -85,3 +87,4 @@ int TestMath(int argc, char** argv)
 
     return 0;
 }
+#endif

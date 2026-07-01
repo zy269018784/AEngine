@@ -1,6 +1,5 @@
 #pragma once
-#include "IWindow.h"
-
+#include <GWindow/IWindow.h>
 #include <FL/Fl.H>
 #include <FL/platform.H>
 #include <FL/Fl_Window.H>

@@ -1,4 +1,4 @@
-// GStack.h
+﻿// GStack.h
 #pragma once
 
 #include <initializer_list>

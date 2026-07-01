@@ -1,7 +1,7 @@
 #pragma once
 #include <QWidget>
 
-#include "IWindow.h"
+#include <GWindow/IWindow.h>
 class QTWindow : public IWindow
 {
 public:

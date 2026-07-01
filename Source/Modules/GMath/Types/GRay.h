@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <string>
-#include <Types/GTypes.h>
+#include <GMath/Types/GTypes.h>
 
 namespace GMath {
 

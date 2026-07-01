@@ -1,8 +1,9 @@
 #pragma once
 #include <GHttp/GAbstractHttpClient.h>
 #include <curl/curl.h>
+#include <GCore/GExport.h>
 
-class GHttpClient1 : public GAbstractHttpClient
+class GEXPORT GHttpClient1 : public GAbstractHttpClient
 {
 public:
     GHttpClient1(GAbstractHttpClient *Parent = nullptr);

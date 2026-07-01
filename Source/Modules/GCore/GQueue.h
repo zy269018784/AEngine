@@ -1,4 +1,4 @@
-// GQueue.h
+﻿// GQueue.h
 #pragma once
 
 #include <initializer_list>

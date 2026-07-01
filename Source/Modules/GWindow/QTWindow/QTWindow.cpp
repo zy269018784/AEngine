@@ -28,17 +28,19 @@ QTWindow::~QTWindow()
 #if OS_IS_WINDOWS
 HWND QTWindow::GetHWND()
 {
-    return glfwGetWin32Window(Handle);
+   // return glfwGetWin32Window(Handle);
+    return {};
 }
 
 HINSTANCE QTWindow::GetHINSTANCE()
 {
 
-    HWND hwnd = glfwGetWin32Window(Handle);
+  //  HWND hwnd = glfwGetWin32Window(Handle);
 
-    HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+   // HINSTANCE instacne = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
-    return instacne;
+   // return instacne;
+    return {};
 }
 #endif
 

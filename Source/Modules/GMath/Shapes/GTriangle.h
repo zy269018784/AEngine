@@ -1,5 +1,5 @@
-#pragma once
-#include <Shapes/GAbstractShape.h>
+﻿#pragma once
+#include <GMath/Shapes/GAbstractShape.h>
 namespace GMath
 {
     struct Triangle

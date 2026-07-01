@@ -1,3 +1,4 @@
+﻿#if 0
 #include <GNetwork/GTcp/GTcpServer.h>
 #include <iostream>
 #include <sys/socket.h>
@@ -307,3 +308,4 @@ int TestGTcpClient(int argc, char *argv[]) {
 
     return 0;
 }
+#endif

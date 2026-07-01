@@ -1,3 +1,4 @@
+﻿#if 1
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
@@ -58,3 +59,4 @@ int TestHttpClient(int argc, char **argv)
     curl_global_cleanup();
     return 0;
 }
+#endif

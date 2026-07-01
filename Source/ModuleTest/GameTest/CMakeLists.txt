@@ -71,7 +71,6 @@ if(NOT TARGET GMultimedia)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GMultimedia ${CMAKE_CURRENT_BINARY_DIR}/Modules/GMultimedia)
 endif ()
 
-
 if(NOT TARGET GRenderDependencyGraph)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../../Modules/GRenderDependencyGraph ${CMAKE_CURRENT_BINARY_DIR}/Modules/GRenderDependencyGraph)
 endif ()
@@ -81,21 +80,33 @@ endif ()
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/Source)
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/../../Modules)
 
+
+
+set(CMAKE_AUTOMOC ON)                         # 自动处理信号槽等元对象编译[citation:9]
+set(CMAKE_AUTORCC ON)                         # 自动处理 .qrc 资源文件[citation:9]
+set(CMAKE_AUTOUIC ON)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+
 # 链接库
 set (LIBRARYS "")
 list (APPEND LIBRARYS
-        #GArch
+        GArch
         #GCG
         #GMath
-        #GNetwork
-        #GWindow
-        #GGame
+        GNetwork
+        GWindow
+        GGame
         #GRenderDependencyGraph
-        #GDeviceDriver
+        GDeviceDriver
         #GDatabase
-        #GMultimedia
+        GMultimedia
         #GProgramming
 )
+list (APPEND LIBRARYS		Qt6::Widgets)
+
+message (STATUS "GameTest LIBRARYS ${LIBRARYS}")
+
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
