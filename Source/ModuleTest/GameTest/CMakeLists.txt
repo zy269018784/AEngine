@@ -112,6 +112,57 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
+
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GArch>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GArch>>"
+        COMMENT "正在将 GRHI.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GNetwork>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GNetwork>>"
+        COMMENT "正在将 GNetwork.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GGame>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GGame>>"
+        COMMENT "正在将 GGame.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GDeviceDriver>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GDeviceDriver>>"
+        COMMENT "正在将 GDeviceDriver.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GWindow>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GWindow>>"
+        COMMENT "正在将 GWindow.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GMultimedia>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GMultimedia>>"
+        COMMENT "正在将 GMultimedia.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<$<CONFIG:Release>:$<TARGET_FILE:GCore>>"
+        "$<$<CONFIG:Release>:${CMAKE_CURRENT_BINARY_DIR}/Release/$<TARGET_FILE_NAME:GCore>>"
+        COMMENT "正在将 GCore.dll 复制到 Release 目录 (仅 Release 配置)"
+)
+
 if (false)
 target_compile_definitions(${PROJECT_NAME}  PRIVATE
         __STDC_CONSTANT_MACROS
