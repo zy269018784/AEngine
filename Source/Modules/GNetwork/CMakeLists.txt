@@ -47,11 +47,21 @@ endif ()
 list (APPEND LIBRARYS GCore)
 
 # 模块源码文件
-file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
-                                        ${PROJECT_SOURCE_DIR}/*.c
-                                        ${PROJECT_SOURCE_DIR}/*.h)
-list (APPEND SRC_LIST ${MODULE_SRC_LIST})
+file(GLOB_RECURSE HTTP_SRC_LIST         ${PROJECT_SOURCE_DIR}/GHttp/*.cpp
+                                        ${PROJECT_SOURCE_DIR}/GHttp/*.c
+                                        ${PROJECT_SOURCE_DIR}/GHttp/*.h)
+list (APPEND SRC_LIST ${HTTP_SRC_LIST})
 
+
+file(GLOB_RECURSE MQTT_SRC_LIST         ${PROJECT_SOURCE_DIR}/GMQTT/*.cpp
+                                        ${PROJECT_SOURCE_DIR}/GMQTT/*.c
+                                        ${PROJECT_SOURCE_DIR}/GMQTT/*.h)
+list (APPEND SRC_LIST ${MQTT_SRC_LIST})
+
+file(GLOB_RECURSE RTSP_SRC_LIST         ${PROJECT_SOURCE_DIR}/GRTSP/*.cpp
+                                        ${PROJECT_SOURCE_DIR}/GRTSP/*.c
+                                        ${PROJECT_SOURCE_DIR}/GRTSP/*.h)
+list (APPEND SRC_LIST ${RTSP_SRC_LIST})
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set (PlatformName "Windows")
