@@ -29,8 +29,10 @@ int TestGMultimedia(int argc, char **argv);
 int TestGCore(int argc, char **argv);
 int TestGTcpClient(int argc, char **argv);
 int TestGTcpServer(int argc, char **argv);
+int TestGSockets(int argc, char **argv);
 int main(int argc, char **argv)
 {
+    return TestGSockets(argc, argv);
     std::cout << "hello world" << std::endl;
    // std::cout << argv[1] << std::endl;
    //if (strcmp(argv[1], "tcp") == 0)

@@ -50,13 +50,51 @@ list (APPEND LIBRARYS GCore)
 file(GLOB_RECURSE MODULE_SRC_LIST       ${PROJECT_SOURCE_DIR}/*.cpp
                                         ${PROJECT_SOURCE_DIR}/*.c
                                         ${PROJECT_SOURCE_DIR}/*.h)
+list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set (PlatformName "Windows")
+    list (APPEND LIBRARYS      ws2_32)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set (PlatformName "Unix")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    set (PlatformName "Android")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    set (PlatformName "IOS")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set (PlatformName "Mac")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "QNX")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Fuchsia")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "GGP")
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "OHOS")
+
+endif ()
+
+file(GLOB_RECURSE SOCKETS_SRC_LIST
+        ${PROJECT_SOURCE_DIR}/GSockets/${PlatformName}/*.cpp
+        ${PROJECT_SOURCE_DIR}/GSockets/${PlatformName}/*.c
+        ${PROJECT_SOURCE_DIR}/GSockets/${PlatformName}/*.h)
+
+list (APPEND SRC_LIST ${SOCKETS_SRC_LIST})
+list (APPEND SRC_LIST ${PROJECT_SOURCE_DIR}/GSockets/*.cpp
+                      ${PROJECT_SOURCE_DIR}/GSockets/*.c
+                      ${PROJECT_SOURCE_DIR}/GSockets/*.h)
+
+list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/)
 # 源码文件
 set (SRC_LIST "")
 list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
 # 动态库
-add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
+add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST}
+        GSockets/GSocket.cpp
+        GSockets/GSocket.h)
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
@@ -67,4 +105,5 @@ if (false)
     target_link_directories (${PROJECT_NAME}-Static	PUBLIC ${LINK_PATH})
     target_link_libraries (${PROJECT_NAME}-Static PUBLIC ${LIBRARYS})
 endif ()
+
 
