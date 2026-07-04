@@ -46,10 +46,10 @@ inline int ToWindowsProtocol(GSocketType InSocketType)
     switch (InSocketType)
     {
     case GSocketType::SOCKTYPE_Datagram:
-        Protocol = SOCK_DGRAM;
+        Protocol = IPPROTO_UDP;
         break;
     case GSocketType::SOCKTYPE_Streaming:
-        Protocol = SOCK_STREAM;
+        Protocol = IPPROTO_TCP;
         break;
     default:
         Protocol = -1;
@@ -91,6 +91,8 @@ public:
         WindowsProtocol         = ToWindowsProtocol(SocketType);
     }
     virtual ~GSocketWindows();
+    SOCKET GetHandle() const { return Handle; };
+
     virtual int Create() override final;
     virtual bool Bind(const GSpecialAddress, std::uint16_t InPort = 0) override final;
     virtual bool Bind(const GString InAddress, std::uint16_t InPort = 0) override final;

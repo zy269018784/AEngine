@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <GCore/GExport.h>
 #include <GCore/GString.h>
 #include <cstdint>
@@ -64,10 +64,11 @@ public:
     int SetListenBacklogSize(int InSize)
     {
         ListenBacklogSize = InSize;
+        return 0;
     }
 protected:
     /** Indicates the type of socket this is */
-    const GSocketType SocketType;
+    GSocketType SocketType;
     GSocketProtocolFamily ProtocolFamily;
     int ListenBacklogSize;
 };

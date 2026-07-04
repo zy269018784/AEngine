@@ -1,15 +1,11 @@
-#include <iostream>
-#include <GSockets/Windows/GSocketWindows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdio.h>
+#include <string.h>
+#pragma comment(lib, "ws2_32.lib")
 
-
-int TestTcpServer(int argc, char **argv)
-{
-    return 0;
-}
-
-int TestTcpClient(int argc, char **argv)
-{
-      WSADATA wsaData;
+int TcpClient() {
+    WSADATA wsaData;
     SOCKET clientSocket = INVALID_SOCKET;
     struct sockaddr_in serverAddr;
     char sendBuf[1024];
@@ -22,25 +18,21 @@ int TestTcpClient(int argc, char **argv)
         return 1;
     }
 
-    GSocketWindows *SocketWindows = new GSocketWindows(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
-    SocketWindows->Create();
-    clientSocket = SocketWindows->GetHandle();
-
     // 2. 创建客户端 Socket
-   // clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-   // if (clientSocket == INVALID_SOCKET) {
-   //     printf("socket 创建失败: %d\n", WSAGetLastError());
-   //     WSACleanup();
-   //     return 1;
-   // }
+    clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (clientSocket == INVALID_SOCKET) {
+        printf("socket 创建失败: %d\n", WSAGetLastError());
+        WSACleanup();
+        return 1;
+    }
 
     // 3. 设置服务器地址
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(8888);  // 服务器端口
-
+    
     // 方式1：使用 inet_addr（仅 IPv4）
     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // 本机服务器
-
+    
     // 方式2：使用 inet_pton（推荐）
     // if (inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr) != 1) {
     //     printf("无效的 IP 地址\n");
@@ -84,12 +76,4 @@ int TestTcpClient(int argc, char **argv)
     closesocket(clientSocket);
     WSACleanup();
     return 0;
-}
-
-int TestGSockets(int argc, char **argv)
-{
-    if (1 == argc)
-        return TestTcpServer(argc, argv);
-    else
-        return TestTcpClient(argc, argv);
 }
