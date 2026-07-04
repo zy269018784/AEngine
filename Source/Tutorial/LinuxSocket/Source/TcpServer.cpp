@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <errno.h>
 
-int TcpServer() {
+int TcpServer(int argc, char* argv[]) {
     int listenSocket;
     int clientSocket;
     struct sockaddr_in serverAddr, clientAddr;

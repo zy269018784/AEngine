@@ -1,12 +1,18 @@
+#include <corecrt_io.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <winsock2.h>
+#include <ws2def.h>
+#include <ws2tcpip.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-int TcpClient() {
+#include "GSockets/Windows/GSocketWindows.h"
+
+int TcpClient(int argc, char* argv[]) {
     int clientSocket;
     struct sockaddr_in serverAddr;
     char sendBuf[1024];
@@ -25,7 +31,7 @@ int TcpClient() {
     serverAddr.sin_port = htons(8888);  // 服务器端口
 
     // 将 IP 地址从字符串转换为网络字节序
-    if (inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr) != 1) {
+    if (inet_pton(AF_INET, argv[1], &serverAddr.sin_addr) != 1) {
         fprintf(stderr, "无效的 IP 地址\n");
         close(clientSocket);
         return 1;
@@ -63,8 +69,4 @@ int TcpClient() {
     // 6. 清理资源
     close(clientSocket);
     return 0;
-}
-
-int main() {
-    return TcpClient();
 }

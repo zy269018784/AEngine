@@ -5,7 +5,7 @@
 #include <stdio.h>
 #pragma comment(lib, "ws2_32.lib")  // 链接 Winsock 库
 
-int TcpServer() {
+int TcpServer(int argc, char* argv[]) {
     WSADATA wsaData;
     SOCKET listenSocket = INVALID_SOCKET;
     SOCKET clientSocket = INVALID_SOCKET;

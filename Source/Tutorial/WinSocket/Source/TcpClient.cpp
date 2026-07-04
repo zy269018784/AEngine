@@ -4,7 +4,7 @@
 #include <string.h>
 #pragma comment(lib, "ws2_32.lib")
 
-int TcpClient() {
+int TcpClient(int argc, char* argv[]) {
     WSADATA wsaData;
     SOCKET clientSocket = INVALID_SOCKET;
     struct sockaddr_in serverAddr;
@@ -31,7 +31,7 @@ int TcpClient() {
     serverAddr.sin_port = htons(8888);  // 服务器端口
     
     // 方式1：使用 inet_addr（仅 IPv4）
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // 本机服务器
+    serverAddr.sin_addr.s_addr = inet_addr(argv[1]);  // 本机服务器
     
     // 方式2：使用 inet_pton（推荐）
     // if (inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr) != 1) {
