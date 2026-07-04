@@ -30,7 +30,7 @@ int TestTcpClient(int argc, char **argv)
     SocketWindows->Create();
 // = SocketWindows->GetHandle();
 
-    SocketWindows->Connect("127.0.0.1", 8888);
+    SocketWindows->Connect(argv[1], 8888);
     printf("成功连接到服务器 127.0.0.1:8888\n");
 
     // 5. 发送数据
