@@ -2,7 +2,8 @@
 #include "GMath/Math.h"
 //#include "GCG/GVirtualGeometry/GVirtualGeometry.h"
 #include "GGame/GGame.h"
-#include "GGame/GFood.h"
+//#include "GGame/GFood.h"
+#if 0
 #include <QApplication>
 #include "GWindow/QTWindow/QTWindow.h"
 #include "GDeviceDriver/OLED/SSD1306.h"
@@ -10,7 +11,7 @@
 #include "GWindow/GLFWWindow/GLFWWindow.h"
 #include "GWindow/SDLWindow/SDL3Window.h"
 //#include "GWindow/X11Window/X11Window.h"
-
+#endif
 
 //#include <FL/Fl.H>
 //#include <FL/Fl_Window.H>
@@ -35,28 +36,28 @@ int main(int argc, char **argv)
     return TestGSockets(argc, argv);
     std::cout << "hello world" << std::endl;
    // std::cout << argv[1] << std::endl;
-   //if (strcmp(argv[1], "tcp") == 0)
-   //    return TestGTcpServer(argc, argv);
-   //else
-   //    return TestGTcpClient(argc, argv);
+    //if (strcmp(argv[1], "tcp") == 0)
+    //    return TestGTcpServer(argc, argv);
+    //else
+    //    return TestGTcpClient(argc, argv);
      //return TestGCore(argc, argv);
    // return TestHttpClient(argc, argv);
     return TestHttpServer(argc, argv);
-    std::vector<GFood> Foods = {
-    {"包菜", 2.0},
-    {"香蕉", 2.0},
-    {"鸡翅", 8.0},
-    {"豆肠", 1.0},
-    {"鸡柳", 3.0},
-    };
-
-    for (int i = 0; i < Foods.size(); ++i) {
-        std::cout << Foods[i].GetName() << " " <<  Foods[i].GetPrice() << std::endl;
-    }
+    //std::vector<GFood> Foods = {
+    //{"包菜", 2.0},
+    //{"香蕉", 2.0},
+    //{"鸡翅", 8.0},
+    //{"豆肠", 1.0},
+    //{"鸡柳", 3.0},
+    //};
+//
+    //for (int i = 0; i < Foods.size(); ++i) {
+    //    std::cout << Foods[i].GetName() << " " <<  Foods[i].GetPrice() << std::endl;
+    //}
     //wxFrame* window = new wxFrame(NULL, wxID_ANY, "这是一个测试窗口", wxDefaultPosition, wxSize(600, 400));
     //window->SetSizer(sizer);
     //window->Show();
-
+#if 0
     IWindow *win = nullptr;
     int Index = 2;
     QApplication *app;
@@ -115,4 +116,5 @@ int main(int argc, char **argv)
     default:
         break;
     }
+#endif
 }

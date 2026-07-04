@@ -92,19 +92,18 @@ file(GLOB_RECURSE SOCKETS_SRC_LIST
         ${PROJECT_SOURCE_DIR}/GSockets/${PlatformName}/*.h)
 
 list (APPEND SRC_LIST ${SOCKETS_SRC_LIST})
-list (APPEND SRC_LIST ${PROJECT_SOURCE_DIR}/GSockets/*.cpp
-                      ${PROJECT_SOURCE_DIR}/GSockets/*.c
-                      ${PROJECT_SOURCE_DIR}/GSockets/*.h)
+list (APPEND SRC_LIST ${PROJECT_SOURCE_DIR}/GSockets/GSocket.cpp
+                      ${PROJECT_SOURCE_DIR}/GSockets/GSocket.h
+                      ${PROJECT_SOURCE_DIR}/GSockets/GSocketSubsystem.cpp
+                      ${PROJECT_SOURCE_DIR}/GSockets/GSocketSubsystem.h
+)
 
 list (APPEND INCLUDE_PATH   ${PROJECT_SOURCE_DIR}/)
 # 源码文件
-set (SRC_LIST "")
-list (APPEND SRC_LIST ${MODULE_SRC_LIST})
+#list (APPEND SRC_LIST ${MODULE_SRC_LIST})
 
 # 动态库
-add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST}
-        GSockets/GSocket.cpp
-        GSockets/GSocket.h)
+add_library(${PROJECT_NAME}	 SHARED ${SRC_LIST})
 target_include_directories (${PROJECT_NAME}	PUBLIC ${INCLUDE_PATH})
 target_link_directories (${PROJECT_NAME}	PUBLIC ${LINK_PATH})
 target_link_libraries (${PROJECT_NAME} PUBLIC ${LIBRARYS})
@@ -117,3 +116,9 @@ if (false)
 endif ()
 
 
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_WINDOWS=1)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_definitions (${PROJECT_NAME} PUBLIC OS_IS_LINUX=1)
+endif ()

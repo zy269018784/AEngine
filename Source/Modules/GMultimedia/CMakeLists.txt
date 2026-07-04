@@ -64,7 +64,7 @@ list (APPEND LIBRARYS		opus)
 # twolame
 list (APPEND INCLUDE_PATH   ${LIBRARY_PATH}/libtwolame/0.4.0/include)
 list (APPEND LINK_PATH      ${LIBRARY_PATH}/libtwolame/0.4.0/lib)
-list (APPEND LIBRARYS		twolame)
+#list (APPEND LIBRARYS		twolame)
 
 
 # 链接GCore库
