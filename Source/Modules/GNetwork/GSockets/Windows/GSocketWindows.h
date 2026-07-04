@@ -98,7 +98,10 @@ public:
     virtual bool Bind(const GString InAddress, std::uint16_t InPort = 0) override final;
     virtual bool Listen()  override final;
     virtual bool Listen(const GSpecialAddress, std::uint16_t InPort = 0) override final;
-    virtual bool Listen(const GString InAddress, std::uint16_t InPort = 0)  override final;
+    virtual bool Listen(const GString InAddress, std::uint16_t InPort = 0) override final;
+    virtual bool Connect(const GString InAddress, std::uint16_t InPort = 0) override final;
+    virtual std::uint64_t Read(char *Data, std::uint64_t MaxSize)  override final;
+    virtual std::uint64_t Write(const char *Data, std::uint64_t MaxSize)  override final;
 private:
     SOCKET Handle;
     struct sockaddr_in SockAddress;

@@ -76,3 +76,33 @@ bool GSocketWindows::Listen(const GString InAddress, std::uint16_t InPort)
 
     return Listen();
 }
+
+bool GSocketWindows::Connect(const GString InAddress, std::uint16_t InPort)
+{
+    struct sockaddr_in DstSockAddress;
+    DstSockAddress.sin_family = WindowsAddressFamily;
+    DstSockAddress.sin_port = htons(InPort);
+    if (inet_pton(AF_INET, InAddress.ConstStr(), &DstSockAddress.sin_addr) != 1)
+    {
+        std::cerr << "invaild ip address" << std::endl;
+        return false;
+    }
+
+    if (connect(Handle, (struct sockaddr*)&DstSockAddress, sizeof(DstSockAddress)) == SOCKET_ERROR)
+    {
+        closesocket(Handle);
+        return false;
+    }
+
+    return true;
+}
+
+std::uint64_t GSocketWindows::Read(char *Data, std::uint64_t MaxSize)
+{
+    return recv(Handle, Data, MaxSize, 0);
+}
+
+std::uint64_t GSocketWindows::Write(const char *Data, std::uint64_t MaxSize)
+{
+    return send(Handle, Data, MaxSize, 0);
+}
