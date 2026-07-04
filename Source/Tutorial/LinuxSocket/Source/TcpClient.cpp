@@ -1,16 +1,12 @@
-#include <corecrt_io.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <winsock2.h>
-#include <ws2def.h>
-#include <ws2tcpip.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "GSockets/Windows/GSocketWindows.h"
 
 int TcpClient(int argc, char* argv[]) {
     int clientSocket;
