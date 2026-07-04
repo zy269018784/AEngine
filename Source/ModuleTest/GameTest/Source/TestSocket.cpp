@@ -10,7 +10,7 @@ int TestTcpServer(int argc, char **argv)
 int TestTcpClient(int argc, char **argv)
 {
     WSADATA wsaData;
-    SOCKET clientSocket = INVALID_SOCKET;
+   // SOCKET clientSocket = INVALID_SOCKET;
     struct sockaddr_in serverAddr;
     char sendBuf[1024];
     char recvBuf[1024];
@@ -24,7 +24,7 @@ int TestTcpClient(int argc, char **argv)
 
     GSocketWindows *SocketWindows = new GSocketWindows(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
     SocketWindows->Create();
-    clientSocket = SocketWindows->GetHandle();
+// = SocketWindows->GetHandle();
 
     SocketWindows->Connect("127.0.0.1", 8888);
     printf("成功连接到服务器 127.0.0.1:8888\n");
@@ -34,7 +34,8 @@ int TestTcpClient(int argc, char **argv)
     bytesSent = SocketWindows->Write(sendBuf, (int)strlen(sendBuf));
     if (bytesSent == SOCKET_ERROR) {
         printf("send 失败: %d\n", WSAGetLastError());
-        closesocket(clientSocket);
+       // closesocket(clientSocket);
+        SocketWindows->Close();
         WSACleanup();
         return 1;
     }
@@ -54,7 +55,8 @@ int TestTcpClient(int argc, char **argv)
     }
 
     // 7. 清理资源
-    closesocket(clientSocket);
+    SocketWindows->Close();
+    delete SocketWindows;
     WSACleanup();
     return 0;
 }

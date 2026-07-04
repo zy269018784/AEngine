@@ -94,6 +94,7 @@ public:
     SOCKET GetHandle() const { return Handle; };
 
     virtual int Create() override final;
+    virtual void Close() override final;
     virtual bool Bind(const GSpecialAddress, std::uint16_t InPort = 0) override final;
     virtual bool Bind(const GString InAddress, std::uint16_t InPort = 0) override final;
     virtual bool Listen()  override final;

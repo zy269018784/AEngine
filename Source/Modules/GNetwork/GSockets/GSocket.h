@@ -55,6 +55,7 @@ public:
     virtual ~GSocket();
 public:
     virtual int Create() = 0;
+    virtual void Close() = 0;
     virtual bool Bind(const GSpecialAddress InAddress, std::uint16_t InPort = 0) = 0;
     virtual bool Bind(const GString InAddress, std::uint16_t InPort = 0) = 0;
     virtual bool Listen() = 0;

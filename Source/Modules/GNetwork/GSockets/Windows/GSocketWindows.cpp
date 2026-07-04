@@ -20,6 +20,11 @@ int GSocketWindows::Create()
     return Ret;
 }
 
+void GSocketWindows::Close()
+{
+    closesocket(Handle);
+}
+
 bool GSocketWindows::Bind(const GSpecialAddress InAddress, std::uint16_t InPort)
 {
     SockAddress.sin_family = WindowsAddressFamily;
