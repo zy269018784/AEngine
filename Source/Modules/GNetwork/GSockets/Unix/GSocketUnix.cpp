@@ -296,6 +296,11 @@ GSocket *GSocketUnix::Accept()
     {
         return nullptr;
     }
+    // 输出客户端 IP 和端口
+    char clientIP[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &ClientSockAddress.sin_addr, clientIP, INET_ADDRSTRLEN);
+    printf("client IP: %s\n", clientIP);
+    printf("client port : %d\n", ntohs(ClientSockAddress.sin_port));
     Socket = new GSocketUnix(SocketType, ProtocolFamily, ClientHandle);
     Socket->SetSockAddress(ClientSockAddress);
     return Socket;
