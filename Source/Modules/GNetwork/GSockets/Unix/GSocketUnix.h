@@ -134,6 +134,8 @@ public:
     virtual std::int64_t Write(const char* Data, std::int64_t MaxSize) override final;
     virtual GSocket *Accept() override final;
 private:
+    void SetSockAddress(struct sockaddr_in InSockAddress);
+private:
     // 设置 Socket 选项（端口重用等）
     bool SetSocketOptions();
 

@@ -288,9 +288,9 @@ std::int64_t GSocketUnix::Write(const char* Data, std::int64_t MaxSize)
 
 GSocket *GSocketUnix::Accept()
 {
-    GSocket *Socket = nullptr;
+    GSocketUnix *Socket = nullptr;
     struct sockaddr_in ClientSockAddress;
-    int AddrLen = sizeof (ClientSockAddress);
+    socklen_t AddrLen = sizeof(ClientSockAddress);
     int ClientHandle = accept(Handle, (struct sockaddr*)&ClientSockAddress, &AddrLen);
     if (-1 == ClientHandle)
     {
@@ -299,4 +299,9 @@ GSocket *GSocketUnix::Accept()
     Socket = new GSocketUnix(SocketType, ProtocolFamily, ClientHandle);
     Socket->SetSockAddress(ClientSockAddress);
     return Socket;
+}
+
+void GSocketWindows::SetSockAddress(struct sockaddr_in InSockAddress)
+{
+    SockAddress = InSockAddress;
 }
