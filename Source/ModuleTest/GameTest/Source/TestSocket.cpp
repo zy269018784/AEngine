@@ -76,7 +76,8 @@ int TestTcpClient(int argc, char **argv)
     printf("成功连接到服务器 127.0.0.1:8888\n");
 
     // 4.
-    strcpy(sendBuf, "Hello Server!");
+    //strcpy(sendBuf, "Hello Server!");
+    strcpy(recvBuf, argv[2]);
     bytesSent = SocketWindows->Write(sendBuf, (int)strlen(sendBuf));
     printf("发送 %d 字节: %s\n", bytesSent, sendBuf);
 
