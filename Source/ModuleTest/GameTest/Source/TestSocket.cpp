@@ -102,7 +102,7 @@ int TestTcpServer(int argc, char **argv)
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;  // 0.0.0.0
     serverAddr.sin_port = htons(8888);
-
+#if 0
     if (bind(listenSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("bind 失败");
         close(listenSocket);
@@ -115,6 +115,11 @@ int TestTcpServer(int argc, char **argv)
         close(listenSocket);
         return 1;
     }
+#endif
+
+    Socket->Bind(GSpecialAddress::Any, 8888);
+
+    Socket->Listen();
 
     printf("TCP Server 已启动，监听端口 8888...\n");
 
