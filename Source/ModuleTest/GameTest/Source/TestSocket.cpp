@@ -125,11 +125,19 @@ int TestTcpServer(int argc, char **argv)
 
     // 5. 循环接受客户端连接
     while (1) {
-        clientSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
-        if (clientSocket == -1) {
-            perror("accept 失败");
+        GSocket *SocketClient = nullptr;
+        SocketClient = Socket->Accept();
+        if (!SocketClient)
+        {
             continue;
         }
+
+        clientSocket = dynamic_cast<GSocketUnix *>(SocketClient)->GetHandle();
+        //clientSocket = accept(listenSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
+        //if (clientSocket == -1) {
+        //    perror("accept 失败");
+        //    continue;
+        //}
 
         // 打印客户端 IP 和端口
         char clientIP[INET_ADDRSTRLEN];
