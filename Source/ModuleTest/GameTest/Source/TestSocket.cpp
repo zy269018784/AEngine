@@ -12,7 +12,7 @@
 #include <errno.h>
 int TestTcpServer(int argc, char **argv)
 {
-#if 0
+#if 1
     // 1.
     GSocketSubsystem *SocketSubsystemWindows = GSocketSubsystem::CreateGSocketSubsystem();
     SocketSubsystemWindows->Init();
