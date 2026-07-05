@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <GSockets/GSocket.h>
 #include <GSockets/GSocketSubsystem.h>
+#include <GSockets/Unix/GSocketUnix.h>
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -64,19 +65,30 @@ int TestTcpServer(int argc, char **argv)
     return 0;
 #else
 
-      int listenSocket;
+    int listenSocket;
     int clientSocket;
     struct sockaddr_in serverAddr, clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
     char recvBuf[1024];
     int bytesReceived;
 
+
+    GSocketSubsystem *SocketSubsystemWindows = GSocketSubsystem::CreateGSocketSubsystem();
+    SocketSubsystemWindows->Init();
+
+    // 2.
+    GSocket *Socket = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
+    Socket->Create();
+
+
+    listenSocket = dynamic_cast<GSocketUnix *>(listenSocket)->GetHandle();
+
     // 1. 创建监听 Socket (IPv4, TCP) - Linux 不需要 WSAStartup
-    listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (listenSocket == -1) {
-        perror("socket 创建失败");
-        return 1;
-    }
+    //listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    //if (listenSocket == -1) {
+    //    perror("socket 创建失败");
+    //    return 1;
+    //}
 
     // 2. 设置 SO_REUSEADDR 选项，允许端口重用（防止 "Address already in use"）
     int opt = 1;
