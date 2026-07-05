@@ -95,8 +95,19 @@ class GEXPORT GSocketUnix : public GSocket
 {
 public:
     GSocketUnix();
-    inline GSocketUnix(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol) :
+    GSocketUnix(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol) :
             GSocket(InSocketType, InSocketProtocol)
+    {
+        UnixAddressFamily    = ToUnixAddressFamily(ProtocolFamily);
+        UnixSocketType       = ToUnixSocketType(SocketType);
+        UnixProtocol         = ToUnixProtocol(SocketType);
+        Handle               = -1;  // Unix 使用 -1 表示无效 Socket
+        memset(&SockAddress, 0, sizeof(SockAddress));
+        memset(&SockAddress6, 0, sizeof(SockAddress6));
+    }
+
+    GSocketUnix(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol, int InHandle) :
+          GSocket(InSocketType, InSocketProtocol), Handle(InHandle)
     {
         UnixAddressFamily    = ToUnixAddressFamily(ProtocolFamily);
         UnixSocketType       = ToUnixSocketType(SocketType);
