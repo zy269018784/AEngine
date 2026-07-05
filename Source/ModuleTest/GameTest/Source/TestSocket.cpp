@@ -77,7 +77,7 @@ int TestTcpClient(int argc, char **argv)
 
     // 4.
     //strcpy(sendBuf, "Hello Server!");
-    strcpy(recvBuf, argv[2]);
+    strcpy(sendBuf, argv[2]);
     bytesSent = SocketWindows->Write(sendBuf, (int)strlen(sendBuf));
     printf("发送 %d 字节: %s\n", bytesSent, sendBuf);
 
