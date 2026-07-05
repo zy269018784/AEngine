@@ -6,12 +6,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iomanip>
+#include <io.h>
+#include <fcntl.h>
 
 #pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "mmdevapi.lib")
 
-// Device information structure
 struct AudioDeviceInfo {
     std::wstring DeviceID;
     std::wstring FriendlyName;
@@ -21,10 +21,8 @@ struct AudioDeviceInfo {
     std::wstring Format;
     bool bIsDefaultRender = false;
     bool bIsDefaultCapture = false;
-    bool bIsDefaultCommunications = false;
 };
 
-// Get device state string
 std::wstring GetDeviceStateString(DWORD state) {
     switch (state) {
         case DEVICE_STATE_ACTIVE:   return L"Active";
@@ -35,7 +33,6 @@ std::wstring GetDeviceStateString(DWORD state) {
     }
 }
 
-// Get device format info
 std::wstring GetDeviceFormatString(IAudioClient* pAudioClient) {
     if (!pAudioClient) return L"Unable to get format";
 
@@ -60,7 +57,6 @@ std::wstring GetDeviceFormatString(IAudioClient* pAudioClient) {
     return result;
 }
 
-// Get device friendly name
 std::wstring GetDeviceFriendlyName(IMMDevice* pDevice) {
     if (!pDevice) return L"";
 
@@ -83,7 +79,6 @@ std::wstring GetDeviceFriendlyName(IMMDevice* pDevice) {
     return name;
 }
 
-// Get device description
 std::wstring GetDeviceDescription(IMMDevice* pDevice) {
     if (!pDevice) return L"";
 
@@ -106,7 +101,6 @@ std::wstring GetDeviceDescription(IMMDevice* pDevice) {
     return desc;
 }
 
-// Enumerate all audio devices
 std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
     std::vector<AudioDeviceInfo> devices;
 
@@ -117,13 +111,11 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
     hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL,
                           __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
     if (FAILED(hr)) {
-        std::cerr << "Failed to create device enumerator: 0x" << std::hex << hr << std::endl;
         return devices;
     }
 
     hr = pEnumerator->EnumAudioEndpoints(eAll, DEVICE_STATEMASK_ALL, &pDevices);
     if (FAILED(hr)) {
-        std::cerr << "Failed to enumerate audio devices: 0x" << std::hex << hr << std::endl;
         pEnumerator->Release();
         return devices;
     }
@@ -136,8 +128,26 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
         return devices;
     }
 
-    std::cout << "Found " << count << " audio devices" << std::endl;
-    std::cout << "========================================" << std::endl;
+    // 获取默认设备
+    std::wstring defaultRenderID, defaultCaptureID;
+
+    IMMDevice* pDefaultRender = nullptr;
+    if (SUCCEEDED(pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDefaultRender))) {
+        LPWSTR pwszID = nullptr;
+        pDefaultRender->GetId(&pwszID);
+        defaultRenderID = pwszID;
+        CoTaskMemFree(pwszID);
+        pDefaultRender->Release();
+    }
+
+    IMMDevice* pDefaultCapture = nullptr;
+    if (SUCCEEDED(pEnumerator->GetDefaultAudioEndpoint(eCapture, eConsole, &pDefaultCapture))) {
+        LPWSTR pwszID = nullptr;
+        pDefaultCapture->GetId(&pwszID);
+        defaultCaptureID = pwszID;
+        CoTaskMemFree(pwszID);
+        pDefaultCapture->Release();
+    }
 
     for (UINT i = 0; i < count; i++) {
         IMMDevice* pDevice = nullptr;
@@ -146,7 +156,6 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
 
         AudioDeviceInfo info;
 
-        // Get device ID
         LPWSTR pwszID = nullptr;
         hr = pDevice->GetId(&pwszID);
         if (SUCCEEDED(hr)) {
@@ -154,18 +163,13 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
             CoTaskMemFree(pwszID);
         }
 
-        // Get device state
         DWORD state = 0;
-        hr = pDevice->GetState(&state);
-        if (SUCCEEDED(hr)) {
-            info.State = GetDeviceStateString(state);
-        }
+        pDevice->GetState(&state);
+        info.State = GetDeviceStateString(state);
 
-        // Get friendly name and description
         info.FriendlyName = GetDeviceFriendlyName(pDevice);
         info.DeviceDescription = GetDeviceDescription(pDevice);
 
-        // Get data flow using IMMEndpoint
         IMMEndpoint* pEndpoint = nullptr;
         hr = pDevice->QueryInterface(__uuidof(IMMEndpoint), (void**)&pEndpoint);
         if (SUCCEEDED(hr)) {
@@ -175,51 +179,21 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
 
             if (SUCCEEDED(hr)) {
                 switch (dataFlow) {
-                    case eRender:
-                        info.Role = L"Render (Output)";
-                        break;
-                    case eCapture:
-                        info.Role = L"Capture (Input)";
-                        break;
-                    case eAll:
-                        info.Role = L"Bidirectional";
-                        break;
-                    default:
-                        info.Role = L"Unknown";
-                        break;
+                    case eRender: info.Role = L"Render (Output)"; break;
+                    case eCapture: info.Role = L"Capture (Input)"; break;
+                    case eAll: info.Role = L"Bidirectional"; break;
+                    default: info.Role = L"Unknown"; break;
                 }
             }
         }
 
-        // Check if default render device
-        IMMDevice* pDefaultRender = nullptr;
-        hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDefaultRender);
-        if (SUCCEEDED(hr)) {
-            LPWSTR pwszDefaultID = nullptr;
-            if (SUCCEEDED(pDefaultRender->GetId(&pwszDefaultID))) {
-                if (info.DeviceID == pwszDefaultID) {
-                    info.bIsDefaultRender = true;
-                }
-                CoTaskMemFree(pwszDefaultID);
-            }
-            pDefaultRender->Release();
+        if (!info.DeviceID.empty() && info.DeviceID == defaultRenderID) {
+            info.bIsDefaultRender = true;
+        }
+        if (!info.DeviceID.empty() && info.DeviceID == defaultCaptureID) {
+            info.bIsDefaultCapture = true;
         }
 
-        // Check if default capture device
-        IMMDevice* pDefaultCapture = nullptr;
-        hr = pEnumerator->GetDefaultAudioEndpoint(eCapture, eConsole, &pDefaultCapture);
-        if (SUCCEEDED(hr)) {
-            LPWSTR pwszDefaultID = nullptr;
-            if (SUCCEEDED(pDefaultCapture->GetId(&pwszDefaultID))) {
-                if (info.DeviceID == pwszDefaultID) {
-                    info.bIsDefaultCapture = true;
-                }
-                CoTaskMemFree(pwszDefaultID);
-            }
-            pDefaultCapture->Release();
-        }
-
-        // Get device format
         IAudioClient* pAudioClient = nullptr;
         hr = pDevice->Activate(__uuidof(IAudioClient), CLSCTX_ALL, NULL, (void**)&pAudioClient);
         if (SUCCEEDED(hr)) {
@@ -237,8 +211,8 @@ std::vector<AudioDeviceInfo> EnumerateAudioDevices() {
     return devices;
 }
 
-// Print device info
 void PrintDeviceInfo(const AudioDeviceInfo& info, int index) {
+    // ✅ 使用 std::wcout 输出，配合正确的控制台编码
     std::wcout << L"[" << index << L"]" << std::endl;
     std::wcout << L"  Name: " << info.FriendlyName << std::endl;
     std::wcout << L"  Description: " << info.DeviceDescription << std::endl;
@@ -257,55 +231,38 @@ void PrintDeviceInfo(const AudioDeviceInfo& info, int index) {
 }
 
 int main() {
-    // Initialize COM
+    // ✅ 方法1：设置控制台为 UTF-8
+    SetConsoleOutputCP(CP_UTF8);
+
+    // ✅ 方法2：设置宽字符输出模式（推荐）
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
     HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
     if (FAILED(hr)) {
-        std::cerr << "COM initialization failed: 0x" << std::hex << hr << std::endl;
+        std::wcerr << L"COM initialization failed" << std::endl;
         return 1;
     }
 
-    std::cout << "Enumerating all audio devices..." << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::wcout << L"Enumerating all audio devices..." << std::endl;
+    std::wcout << L"========================================" << std::endl;
 
     auto devices = EnumerateAudioDevices();
 
     if (devices.empty()) {
-        std::cout << "No audio devices found" << std::endl;
+        std::wcout << L"No audio devices found" << std::endl;
     } else {
-        std::cout << std::endl << "Device List:" << std::endl;
-        std::cout << "========================================" << std::endl;
+        std::wcout << std::endl << L"Device List:" << std::endl;
+        std::wcout << L"========================================" << std::endl;
 
-        // Separate render and capture devices
-        std::vector<AudioDeviceInfo> renderDevices;
-        std::vector<AudioDeviceInfo> captureDevices;
-
-        for (const auto& dev : devices) {
-            if (dev.Role.find(L"Render") != std::wstring::npos) {
-                renderDevices.push_back(dev);
-            } else if (dev.Role.find(L"Capture") != std::wstring::npos) {
-                captureDevices.push_back(dev);
-            }
-        }
-
-        // Print render devices
-        std::cout << std::endl << "=== Render Devices (Output) ===" << std::endl;
         int index = 0;
-        for (const auto& dev : renderDevices) {
-            PrintDeviceInfo(dev, ++index);
-        }
-
-        // Print capture devices
-        std::cout << std::endl << "=== Capture Devices (Input) ===" << std::endl;
-        index = 0;
-        for (const auto& dev : captureDevices) {
+        for (const auto& dev : devices) {
             PrintDeviceInfo(dev, ++index);
         }
     }
 
-    // Cleanup COM
     CoUninitialize();
 
-    std::cout << std::endl << "Press Enter to exit..." << std::endl;
+    std::wcout << std::endl << L"Press Enter to exit..." << std::endl;
     std::cin.get();
 
     return 0;
