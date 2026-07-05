@@ -112,7 +112,6 @@ public:
         UnixAddressFamily    = ToUnixAddressFamily(ProtocolFamily);
         UnixSocketType       = ToUnixSocketType(SocketType);
         UnixProtocol         = ToUnixProtocol(SocketType);
-        Handle               = -1;  // Unix 使用 -1 表示无效 Socket
         memset(&SockAddress, 0, sizeof(SockAddress));
         memset(&SockAddress6, 0, sizeof(SockAddress6));
     }
