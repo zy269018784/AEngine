@@ -301,7 +301,7 @@ GSocket *GSocketUnix::Accept()
     return Socket;
 }
 
-void GSocketWindows::SetSockAddress(struct sockaddr_in InSockAddress)
+void GSocketUnix::SetSockAddress(struct sockaddr_in InSockAddress)
 {
     SockAddress = InSockAddress;
 }
