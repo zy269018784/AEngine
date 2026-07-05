@@ -289,10 +289,14 @@ std::int64_t GSocketUnix::Write(const char* Data, std::int64_t MaxSize)
 GSocket *GSocketUnix::Accept()
 {
     GSocketWindows *Socket = nullptr;
-    int AddrLen = 0;
     struct sockaddr_in ClientSockAddress;
+    int AddrLen = sizeof (ClientSockAddress);
     SOCKET ClientHandle = accept(Handle, (struct sockaddr*)&ClientSockAddress, &AddrLen);
 
+    if (INVALID_SOCKET == ClientHandle)
+    {
+        return nullptr;
+    }
     Socket = new GSocketUnix(SocketType, ProtocolFamily, ClientHandle);
     Socket->SetSockAddress(ClientSockAddress);
     return Socket;
