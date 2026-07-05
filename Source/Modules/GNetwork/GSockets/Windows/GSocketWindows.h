@@ -63,6 +63,9 @@ inline int ToWindowsSpecialAddress(GSpecialAddress InSpecialAddress)
     int WindowsSpecialAddress;
     switch (InSpecialAddress)
     {
+    case GSpecialAddress::LocalHost:
+        WindowsSpecialAddress = INADDR_LOOPBACK;
+        break;
     case GSpecialAddress::Any:
         WindowsSpecialAddress = INADDR_ANY;
         break;
@@ -83,8 +86,15 @@ class GEXPORT GSocketWindows : public GSocket
 {
 public:
     GSocketWindows();
-    inline GSocketWindows(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol) :
+    GSocketWindows(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol) :
             GSocket(InSocketType, InSocketProtocol)
+    {
+        WindowsAddressFamily    = ToWindowsAddressFamily(ProtocolFamily);
+        WindowsSocketType       = ToWindowsSocketType(SocketType);
+        WindowsProtocol         = ToWindowsProtocol(SocketType);
+    }
+    GSocketWindows(GSocketType InSocketType, GSocketProtocolFamily InSocketProtocol, SOCKET InHandle) :
+            GSocket(InSocketType, InSocketProtocol), Handle(InHandle)
     {
         WindowsAddressFamily    = ToWindowsAddressFamily(ProtocolFamily);
         WindowsSocketType       = ToWindowsSocketType(SocketType);
@@ -101,8 +111,11 @@ public:
     virtual bool Listen(const GSpecialAddress, std::uint16_t InPort = 0) override final;
     virtual bool Listen(const GString InAddress, std::uint16_t InPort = 0) override final;
     virtual bool Connect(const GString InAddress, std::uint16_t InPort = 0) override final;
-    virtual std::uint64_t Read(char *Data, std::uint64_t MaxSize)  override final;
-    virtual std::uint64_t Write(const char *Data, std::uint64_t MaxSize)  override final;
+    virtual std::int64_t Read(char *Data, std::int64_t MaxSize) override final;
+    virtual std::int64_t Write(const char *Data, std::int64_t MaxSize) override final;
+    virtual GSocket *Accept() override final;
+private:
+    void SetSockAddress(struct sockaddr_in InSockAddress);
 private:
     SOCKET Handle;
     struct sockaddr_in SockAddress;

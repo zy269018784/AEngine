@@ -1,51 +1,86 @@
 ﻿#include <iostream>
-//#include <GSockets/Windows/GSocketWindows.h>
 #include <GSockets/GSocket.h>
 #include <GSockets/GSocketSubsystem.h>
 
-#include	<string.h>
+#include <string.h>
 int TestTcpServer(int argc, char **argv)
 {
+    // 1.
+    GSocketSubsystem *SocketSubsystemWindows = GSocketSubsystem::CreateGSocketSubsystem();
+    SocketSubsystemWindows->Init();
+
+    // 2.
+    GSocket *Socket = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
+    Socket->Create();
+
+    Socket->Bind(GSpecialAddress::Any, 8888);
+
+    Socket->Listen();
+
+    char recvBuf[1024];
+    int count = 0;
+    while (1)
+    {
+        GSocket *SocketClient = nullptr;
+        SocketClient = Socket->Accept();
+        if (!SocketClient)
+        {
+            printf("continue = %d\n", count++);
+            continue;
+        }
+        while (1)
+        {
+            auto bytesReceived = SocketClient->Read(recvBuf, sizeof(recvBuf) - 1);
+            printf("bytesReceived = %d\n", bytesReceived);
+            if (bytesReceived > 0)
+            {
+                recvBuf[bytesReceived] = '\0';
+                printf("recv : %s\n", recvBuf);
+
+                // 原样回发给客户端
+                SocketClient->Write(recvBuf, bytesReceived);
+            }
+            else if (bytesReceived == 0)
+            {
+                printf("client disconnect\n");
+                break;
+            }
+            else
+            {
+                break;
+            }
+
+        }
+        SocketClient->Close();
+    }
+
     return 0;
 }
 
 int TestTcpClient(int argc, char **argv)
 {
-  //  WSADATA wsaData;
-   // SOCKET clientSocket = INVALID_SOCKET;
-   // struct sockaddr_in serverAddr;
     char sendBuf[1024];
     char recvBuf[1024];
     int bytesSent, bytesReceived;
 
-    // 1. 初始化 Winsock
-    //if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-    //    printf("WSAStartup 失败\n");
-    //    return 1;
-    //}
+    // 1.
     GSocketSubsystem *SocketSubsystemWindows = GSocketSubsystem::CreateGSocketSubsystem();
     SocketSubsystemWindows->Init();
-    GSocket *SocketWindows = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
-    //GSocketWindows *SocketWindows = new GSocketWindows(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
-    SocketWindows->Create();
-// = SocketWindows->GetHandle();
 
+    // 2.
+    GSocket *SocketWindows = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
+    SocketWindows->Create();
+
+    // 3.
     SocketWindows->Connect(argv[1], 8888);
     printf("成功连接到服务器 127.0.0.1:8888\n");
 
-    // 5. 发送数据
+    // 4.
     strcpy(sendBuf, "Hello Server!");
     bytesSent = SocketWindows->Write(sendBuf, (int)strlen(sendBuf));
-    //if (bytesSent == SOCKET_ERROR) {
-    //    printf("send 失败: %d\n", WSAGetLastError());
-    //   // closesocket(clientSocket);
-    //    SocketWindows->Close();
-    //    //WSACleanup();
-    //    return 1;
-    //}
     printf("发送 %d 字节: %s\n", bytesSent, sendBuf);
 
-    // 6. 接收数据
+    // 5. 接收数据
     bytesReceived = 0;
     //bytesReceived = recv(clientSocket, recvBuf, sizeof(recvBuf) - 1, 0);
     bytesReceived = SocketWindows->Read(recvBuf, sizeof(recvBuf) - 1);
@@ -58,10 +93,10 @@ int TestTcpClient(int argc, char **argv)
        // printf("recv 失败: %d\n", WSAGetLastError());
     }
 
-    // 7. 清理资源
+    // 6. 清理资源
     SocketWindows->Close();
     delete SocketWindows;
-    //WSACleanup();
+    delete SocketSubsystemWindows;
     return 0;
 }
 

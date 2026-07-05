@@ -119,9 +119,9 @@ public:
     virtual bool Listen(const GSpecialAddress InSpecialAddress, std::uint16_t InPort = 0) override final;
     virtual bool Listen(const GString InAddress, std::uint16_t InPort = 0) override final;
     virtual bool Connect(const GString InAddress, std::uint16_t InPort = 0) override final;
-    virtual std::uint64_t Read(char* Data, std::uint64_t MaxSize) override final;
-    virtual std::uint64_t Write(const char* Data, std::uint64_t MaxSize) override final;
-
+    virtual std::int64_t Read(char* Data, std::int64_t MaxSize) override final;
+    virtual std::int64_t Write(const char* Data, std::int64_t MaxSize) override final;
+    virtual GSocket *Accept() override final;
 private:
     // 设置 Socket 选项（端口重用等）
     bool SetSocketOptions();

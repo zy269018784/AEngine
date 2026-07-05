@@ -31,6 +31,11 @@ bool GSocketWindows::Bind(const GSpecialAddress InAddress, std::uint16_t InPort)
     SockAddress.sin_addr.s_addr = ToWindowsSpecialAddress(InAddress);  // 0.0.0.0
     SockAddress.sin_port = htons(InPort);
 
+    SockAddress.sin_family = AF_INET;
+    SockAddress.sin_addr.s_addr = INADDR_ANY;  // 0.0.0.0
+    SockAddress.sin_port = htons(8888);
+
+
     if (bind(Handle, (struct sockaddr*)&SockAddress, sizeof(SockAddress)) == SOCKET_ERROR)
     {
         return false;
@@ -102,12 +107,43 @@ bool GSocketWindows::Connect(const GString InAddress, std::uint16_t InPort)
     return true;
 }
 
-std::uint64_t GSocketWindows::Read(char *Data, std::uint64_t MaxSize)
+std::int64_t GSocketWindows::Read(char *Data, std::int64_t MaxSize)
 {
     return recv(Handle, Data, MaxSize, 0);
 }
 
-std::uint64_t GSocketWindows::Write(const char *Data, std::uint64_t MaxSize)
+std::int64_t GSocketWindows::Write(const char *Data, std::int64_t MaxSize)
 {
     return send(Handle, Data, MaxSize, 0);
+}
+
+GSocket *GSocketWindows::Accept()
+{
+    GSocketWindows *Socket = nullptr;
+
+    struct sockaddr_in ClientSockAddress;
+    int AddrLen = sizeof (ClientSockAddress);
+    SOCKET ClientHandle =  accept(Handle, (struct sockaddr*)&ClientSockAddress, &AddrLen);
+    if (ClientHandle != INVALID_SOCKET) {
+        // 输出客户端 IP 和端口
+        std::cout << "client " << std::endl;
+        std::cout << "ip: " << inet_ntoa(ClientSockAddress.sin_addr) << std::endl;
+        std::cout << "port: " << ntohs(ClientSockAddress.sin_port) << std::endl;
+
+        // 或者在一行输出
+        std::cout << "client: " << inet_ntoa(ClientSockAddress.sin_addr)
+                  << ":" << ntohs(ClientSockAddress.sin_port) << std::endl;
+    }
+    if (INVALID_SOCKET == ClientHandle)
+    {
+        return nullptr;
+    }
+    Socket = new GSocketWindows(SocketType, ProtocolFamily, ClientHandle);
+    Socket->SetSockAddress(ClientSockAddress);
+    return Socket;
+}
+
+void GSocketWindows::SetSockAddress(struct sockaddr_in InSockAddress)
+{
+    SockAddress = InSockAddress;
 }

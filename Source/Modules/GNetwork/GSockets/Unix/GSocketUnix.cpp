@@ -235,7 +235,7 @@ bool GSocketUnix::Connect(const GString InAddress, std::uint16_t InPort)
     return false;
 }
 
-std::uint64_t GSocketUnix::Read(char* Data, std::uint64_t MaxSize)
+std::int64_t GSocketUnix::Read(char* Data, std::int64_t MaxSize)
 {
     if (Handle == -1) {
         return 0;
@@ -261,7 +261,7 @@ std::uint64_t GSocketUnix::Read(char* Data, std::uint64_t MaxSize)
     }
 }
 
-std::uint64_t GSocketUnix::Write(const char* Data, std::uint64_t MaxSize)
+std::int64_t GSocketUnix::Write(const char* Data, std::int64_t MaxSize)
 {
     if (Handle == -1) {
         return 0;
@@ -284,4 +284,16 @@ std::uint64_t GSocketUnix::Write(const char* Data, std::uint64_t MaxSize)
     }
     
     return 0;
+}
+
+GSocket *GSocketUnix::Accept()
+{
+    GSocketWindows *Socket = nullptr;
+    int AddrLen = 0;
+    struct sockaddr_in ClientSockAddress;
+    SOCKET ClientHandle = accept(Handle, (struct sockaddr*)&ClientSockAddress, &AddrLen);
+
+    Socket = new GSocketUnix(SocketType, ProtocolFamily, ClientHandle);
+    Socket->SetSockAddress(ClientSockAddress);
+    return Socket;
 }

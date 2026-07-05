@@ -62,8 +62,9 @@ public:
     virtual bool Listen(const GSpecialAddress InAddress, std::uint16_t InPort = 0) = 0;
     virtual bool Listen(const GString InAddress, std::uint16_t InPort = 0) = 0;
     virtual bool Connect(const GString InAddress, std::uint16_t InPort = 0) = 0;
-    virtual std::uint64_t Read(char *Data, std::uint64_t MaxSize) = 0;
-    virtual std::uint64_t Write(const char *Data, std::uint64_t MaxSize) = 0;
+    virtual std::int64_t Read(char *Data, std::int64_t MaxSize) = 0;
+    virtual std::int64_t Write(const char *Data, std::int64_t MaxSize) = 0;
+    virtual GSocket *Accept() = 0;
 public:
     int SetListenBacklogSize(int InSize)
     {
@@ -74,6 +75,6 @@ protected:
     /** Indicates the type of socket this is */
     GSocketType SocketType;
     GSocketProtocolFamily ProtocolFamily;
-    int ListenBacklogSize;
+    int ListenBacklogSize = 5;
 };
 
