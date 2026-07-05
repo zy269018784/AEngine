@@ -68,26 +68,26 @@ int TestTcpClient(int argc, char **argv)
     SocketSubsystemWindows->Init();
 
     // 2.
-    GSocket *SocketWindows = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
-    SocketWindows->Create();
+    GSocket *Socket = SocketSubsystemWindows->CreateGSocket(GSocketType::SOCKTYPE_Streaming, GSocketProtocolFamily::IPv4);
+    Socket->Create();
 
     // 3.
-    SocketWindows->Connect(argv[1], 8888);
+    Socket->Connect(argv[1], 8888);
     printf("成功连接到服务器 127.0.0.1:8888\n");
 
     // 4.
     //strcpy(sendBuf, "Hello Server!");
     strcpy(sendBuf, argv[2]);
-    bytesSent = SocketWindows->Write(sendBuf, (int)strlen(sendBuf));
-    printf("发送 %d 字节: %s\n", bytesSent, sendBuf);
+    bytesSent = Socket->Write(sendBuf, (int)strlen(sendBuf));
+    printf("send %d nBytes: %s\n", bytesSent, sendBuf);
 
     // 5. 接收数据
     bytesReceived = 0;
     //bytesReceived = recv(clientSocket, recvBuf, sizeof(recvBuf) - 1, 0);
-    bytesReceived = SocketWindows->Read(recvBuf, sizeof(recvBuf) - 1);
+    bytesReceived = Socket->Read(recvBuf, sizeof(recvBuf) - 1);
     if (bytesReceived > 0) {
         recvBuf[bytesReceived] = '\0';
-        printf("收到 %d 字节: %s\n", bytesReceived, recvBuf);
+        printf("recv %d bytes, data: %s\n", bytesReceived, recvBuf);
     } else if (bytesReceived == 0) {
         printf("服务器关闭连接\n");
     } else {
@@ -95,8 +95,8 @@ int TestTcpClient(int argc, char **argv)
     }
 
     // 6. 清理资源
-    SocketWindows->Close();
-    delete SocketWindows;
+    Socket->Close();
+    delete Socket;
     delete SocketSubsystemWindows;
     return 0;
 }
