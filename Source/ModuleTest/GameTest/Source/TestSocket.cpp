@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <GSockets/GSocket.h>
 #include <GSockets/GSocketSubsystem.h>
-
+#include <string.h>
 int TestTcpServer(int argc, char **argv)
 {
     // 1.
