@@ -81,7 +81,7 @@ int TestTcpServer(int argc, char **argv)
     Socket->Create();
 
 
-    listenSocket = dynamic_cast<GSocketUnix *>(listenSocket)->GetHandle();
+    listenSocket = dynamic_cast<GSocketUnix *>(Socket)->GetHandle();
 
     // 1. 创建监听 Socket (IPv4, TCP) - Linux 不需要 WSAStartup
     //listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
