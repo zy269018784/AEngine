@@ -33,7 +33,7 @@ int TestHttpServer(int argc, char **argv)
     std::cout << "Server is running at http://localhost:8080" << std::endl;
     std::cout << "Try: http://localhost:8080/hi" << std::endl;
 
-    svr->listen("localhost", 8080);
+    svr->listen("0.0.0.0", 8080);
 
     return 0;
 }
