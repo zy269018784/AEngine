@@ -160,7 +160,7 @@ int RHIExample(int argc, char **argv)
 {
 	glfwInit();
 	glfwSetErrorCallback(error_callback);
-#if 1
+#if 0
 	int platform = glfwGetPlatform();
 	const char* platform_name = "Unknown";
 
@@ -209,7 +209,7 @@ int RHIExample(int argc, char **argv)
 	//Example_SSBO();
 	//Example_Texture1D();
 	//Example_Texture1DArray();
-	//Example_Texture2D();
+	Example_Texture2D();
 	//Example_Texture2DArray();
 	//Example_Texture3D();
 	//Example_TextureCubeMap();
@@ -223,8 +223,8 @@ int RHIExample(int argc, char **argv)
 	//Example_SperateImageSampler();
 	//Example_Framebuffer();
 
-	RHIApplication2 App;
-	App.Run();
+	//RHIApplication2 App;
+	//App.Run();
 
 	return 0;
 }

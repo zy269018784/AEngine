@@ -53,7 +53,7 @@ RHISurface* VulkanRHI::RHICreateSurface(HINSTANCE Hinstance, HWND Hwnd)
 	Surface->Query(*Instance->GetVulkanPhysicalDevice(GPUIndex));
 	Instance->GetVulkanPhysicalDevice(GPUIndex)->Query(Surface);
 	RECT clientRect;
-	GetClientRect(hwnd, &clientRect);
+	GetClientRect(Hwnd, &clientRect);
 	Surface->SetWidth(clientRect.right);
 	Surface->SetHeight(clientRect.bottom);
 	return Surface;
