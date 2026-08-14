@@ -38,6 +38,7 @@ RHIApplication::RHIApplication()
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
+        Window->SetGeometry(400, 300, 800, 600);
         //glfwSetWindowCloseCallback(((GLFWWindow *)Window)->GetHandle(), window_close_callback);
         pApp = this;
         pRHI = CreateRHI(GraphicsAPI::Vulkan);
@@ -114,7 +115,9 @@ RHIApplication::RHIApplication()
     /*
      * 创建交换链
      */
+    std::cout << "RHICreateSwapchainRenderTarget 1" << std::endl;
     this->RenderTarget = pRHI->RHICreateSwapchainRenderTarget(Surface);
+    std::cout << "RHICreateSwapchainRenderTarget 2" << std::endl;
 }
 
 

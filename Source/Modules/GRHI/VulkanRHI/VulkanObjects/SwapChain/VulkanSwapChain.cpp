@@ -24,6 +24,10 @@ VulkanSwapChain:: VulkanSwapChain(VulkanDevice* InDevice, VulkanSurface* InSurfa
     SwapChainImages.resize(ImageCount);
     GetSwapchainImagesKHR(&ImageCount, SwapChainImages.data());
 
+    for (int i = 0; i < ImageCount; i++)
+    {
+        std::cout << "CreateImageViews aaabbb " << SwapChainImages[i] << std::endl;
+    }
     CreateImageViews();
 }
 
@@ -115,7 +119,7 @@ void VulkanSwapChain::CreateSwapChain()
      * 为什么这样写
      */
    // CreateInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
-    CreateInfo.imageUsage       = VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+    CreateInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     CreateInfo.compositeAlpha   = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
     CreateInfo.clipped          = VK_TRUE;
     std::cout << "CreateInfo.minImageCount " << CreateInfo.minImageCount << std::endl;
