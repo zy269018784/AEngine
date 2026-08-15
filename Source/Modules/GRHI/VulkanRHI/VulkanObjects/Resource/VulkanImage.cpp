@@ -223,8 +223,8 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
     std::cout << "TransitionImageLayout "
-    << static_cast<int>(OldLayout) << " "
-    << static_cast<int>(NewLayout) << std::endl;
+        << static_cast<int>(OldLayout) << " "
+        << static_cast<int>(NewLayout) << std::endl;
     SetRHIImageLayout(NewLayout);
 #if 1
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
