@@ -10,7 +10,7 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     RHITextureUsageFlag InUsage,
     RHIImageLayout InLayout,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
-	: Device(InDevice), Type(InType), Layout(InLayout), ArraySize(InArraySize)
+	: Device(InDevice), Type(InType), Layout(RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED), ArraySize(InArraySize)
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
@@ -222,6 +222,9 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
 {
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
+    std::cout << "TransitionImageLayout "
+    << static_cast<int>(OldLayout) << " "
+    << static_cast<int>(NewLayout) << std::endl;
     SetRHIImageLayout(NewLayout);
 #if 1
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
@@ -247,7 +250,15 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
      *  https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/synchronization.html#VUID-vkCmdPipelineBarrier-srcStageMask-parameter
      *  https://docs.vulkan.org/spec/latest/chapters/synchronization.html#synchronization-access-types-supported
      */
-    if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
+    if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+    {
+        Barrier.srcAccessMask = 0;  // ✅ 从 UNDEFINED 转换，无需等待之前的访问
+        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;  // ✅ 后续着色器需要读取
+
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不依赖之前的任何阶段
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT; // 或 COMPUTE_SHADER_BIT，取决于实际使用
+    }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
         Barrier.srcAccessMask = 0;
         Barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;

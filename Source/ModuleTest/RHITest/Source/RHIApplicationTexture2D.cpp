@@ -112,8 +112,10 @@ void RHIApplicationTexture2D::CreateTexture()
         throw std::runtime_error("failed to load texture image!");
     }
 
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, texWidth, texHeight, pixels);
-
+    std::cout << "RHICreateTexture2D 1" << std::endl;
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 1, texWidth, texHeight, pixels);
+    std::cout << "RHICreateTexture2D 2" << std::endl;
 #endif
 }
 
