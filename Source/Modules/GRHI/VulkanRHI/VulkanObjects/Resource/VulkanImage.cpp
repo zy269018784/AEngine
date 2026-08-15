@@ -223,8 +223,8 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
     std::cout << "TransitionImageLayout "
-    << static_cast<int>(OldLayout) << " "
-    << static_cast<int>(NewLayout) << std::endl;
+        << static_cast<int>(OldLayout) << " "
+        << static_cast<int>(NewLayout) << std::endl;
     SetRHIImageLayout(NewLayout);
 #if 1
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
@@ -236,7 +236,15 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     Barrier.srcQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.image                           = Handle;
-    Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+    if (RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL == NewLayout)
+        Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+    else if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL == NewLayout)
+        Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+    else if (RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL == NewLayout)
+        Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+    else
+        Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
+
     Barrier.subresourceRange.baseMipLevel   = 0;
     // to do : 改为 num mipmaps
     Barrier.subresourceRange.levelCount     = 1;

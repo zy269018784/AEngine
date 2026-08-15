@@ -208,7 +208,7 @@ void VulkanRenderPass::Create1_2()
      * 2. Depth Attachments
      */
     for (int i = 0; i < DepthAttachments.size(); i++)
-        {
+    {
         VkAttachmentDescription2 DepthAttachment{};
         DepthAttachment.sType                       = VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2;
         DepthAttachment.pNext                       = nullptr;
