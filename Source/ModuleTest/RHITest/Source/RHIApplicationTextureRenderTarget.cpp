@@ -45,9 +45,10 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
     if (0 == RHIIndex)
     {
         Window = CreateGLFWWindow(IWindow::Vulkan);
-#if  PROJECT_USE_VULKAN
-        pRHI = new VulkanRHI();
-#endif
+        Window->SetGeometry(400, 300, 800, 600);
+
+        pRHI = CreateRHI(GraphicsAPI::Vulkan);
+
     }
     else if (1 == RHIIndex)
     {
@@ -69,6 +70,7 @@ RHIApplicationTextureRenderTarget::RHIApplicationTextureRenderTarget()
        // glfwMakeContextCurrent(InWindow);
         //pRHI = new ES32RHI();
     }
+    std::cout << "pRHI " << pRHI  << std::endl;
     pRHI->RHIUseGPU(0);
 
 
@@ -253,7 +255,6 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
    // RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
 #endif
 }
-
 void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
