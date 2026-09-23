@@ -63,7 +63,14 @@
 | XXX      |                | 
 
 
-
+Conditional branch (immediate)
+| Bits  | 描述        | 
+|-------|-----------|
+| 25:31 | 0101010   | 
+| 24    | 01        | 
+| 05:23 | immediate | 
+| 04    | o0        | 
+| 03:00 | cond      | 
 
 
 
