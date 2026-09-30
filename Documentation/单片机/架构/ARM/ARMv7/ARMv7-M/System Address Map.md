@@ -40,6 +40,15 @@
 | 0xE000E014                                 | SYST_RVR            |
 | 0xE000E018                                 | SYST_CVR            |
 | 0xE000E01C                                 | SYST_CALIB          |
+| 0xE000ED00                                 | CPUID               |
+| 0xE000ED04                                 | ICSR                |
+| 0xE000ED08                                 | VTOR                |
+| 0xE000ED10                                 | SCR                 |
+| 0xE000ED14                                 | CCR                 |
+| 0xE000ED18                                 | SHPR1               |
+| 0xE000ED1C                                 | SHPR2               |
+| 0xE000ED20                                 | SHPR3               |
+| 0xE000ED24                                 | SHCSR               |
 | 0xE000ED90                                 | MPU_TYPE            |
 | 0xE000ED94                                 | MPU_CTRL            |
 | 0xE000ED98                                 | MPU_RNR             |
@@ -48,9 +57,9 @@
 | 0xE000EDA4                                 | MPU_RBAR_A1         |
 | 0xE000EDA8                                 | MPU_RASR_A1         |
 | 0xE000EDAC                                 | MPU_RBAR_A2         |
-| 0xE000EDB0                                 | MPU_RASR_A2        |
-| 0xE000EDB4                                 | MPU_RBAR_A3        |
-| 0xE000EDB8                                 | MPU_RASR_A3        |
+| 0xE000EDB0                                 | MPU_RASR_A2         |
+| 0xE000EDB4                                 | MPU_RBAR_A3         |
+| 0xE000EDB8                                 | MPU_RASR_A3         |
 
 
 
