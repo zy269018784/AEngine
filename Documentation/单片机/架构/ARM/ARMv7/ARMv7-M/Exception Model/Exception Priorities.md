@@ -11,5 +11,11 @@ Exception Priority Number 	Exception
 -1							HardFault
 
 Priority Grouping:
-
+    把优先级分为两部分: 组优先级 和 子优先级.
+    Reset, NMI and HardFault 的组优先级固定为 -3, -2, -1, 不受优先级分组影响.
     
+    
+    
+
+
+
