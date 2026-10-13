@@ -24,4 +24,46 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(LED1_GPIO_Port, &GPIO_InitStruct);
 
+API:
 
+| 函数                       | 描述 |
+|--------------------------|----|
+| HAL_GPIO_Init            |    |
+| HAL_GPIO_WritePin        |    |
+| HAL_GPIO_ReadPin         |    |
+| HAL_GPIO_TogglePin       |    |
+| HAL_GPIO_LockPin         |    |
+| HAL_GPIO_EXTI_IRQHandler |    |
+| HAL_GPIO_EXTI_Callback   |    |
+
+| 模式                 | 描述     |
+|--------------------|--------|
+| GPIO_MODE_INPUT    | 浮空输入   |
+| GPIO_MODE_OUTPUT_PP | 推挽输出   |
+| GPIO_MODE_OUTPUT_OD | 开漏输出   |
+| GPIO_MODE_AF_PP    | 复用推挽输出 |
+| GPIO_MODE_AF_OD    | 复用开漏输出 |
+| GPIO_MODE_ANALOG | 模拟输入   |
+
+| 上下拉           | 描述   |
+|---------------|------|
+| GPIO_NOPULL   | 不上下拉 |
+| GPIO_PULLUP   | 上拉   |
+| GPIO_PULLDOWN | 下拉   |
+
+| 速度                     | 描述 |
+|------------------------|----|
+| GPIO_SPEED_FREQ_LOW    | 低速 |
+| GPIO_SPEED_FREQ_MEDIUM | 中速 |
+| GPIO_SPEED_FREQ_HIGH   | 高速 |
+
+| 配置                     | 描述   |
+|------------------------|------|
+| GPIO_MODE_INPUT + GPIO_NOPULL    | 浮空输入 |
+| GPIO_MODE_INPUT + GPIO_PULLUP | 上拉输入 |
+| GPIO_MODE_INPUT + GPIO_PULLDOWN   | 下拉输入 |
+| GPIO_MODE_ANALOG   | 模拟输入 |
+| GPIO_MODE_OUTPUT_PP   | 推挽输出     |
+| GPIO_MODE_OUTPUT_OD   | 开漏输出     |
+| GPIO_MODE_AF_PP   | 复用推挽输出    |
+| GPIO_MODE_AF_OD   | 复用开漏输出    |
