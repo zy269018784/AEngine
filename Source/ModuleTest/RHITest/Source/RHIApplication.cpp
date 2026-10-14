@@ -155,7 +155,7 @@ void RHIApplication::Run()
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
-        if (TextureRenderTarget) {
+        if (false && TextureRenderTarget) {
 
             TextureRenderTarget->RHIBeginFrame();
             TextureRenderTarget->RHIBeginRenderPass();

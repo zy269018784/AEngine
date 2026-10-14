@@ -37,6 +37,7 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 	for (int i = 0; i < Frames.size(); i++)
 		Frames[i] = new VulkanFrame(dynamic_cast<VulkanDevice *>(Device), true);
 
+	std::cout << "aaaa GetImageCount " << Frames.size() << std::endl;
 	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
 }
 
@@ -75,7 +76,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     VulkanFrame* Frame = Frames[FrameIndex];
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
-		Frames[FrameIndex]->ImageFence：   			 		signaled   ->  unsignaled
+		Frames[FrameIndex]->ImageFence：   			 		unsignaled   ->  signaled
     */
     Frame->ImageFence->Wait();
 	/*
@@ -110,7 +111,15 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     */
     VkCommandBufferBeginInfo BeginInfo{};
     BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    if (CommandBuffer->BeginCommandBuffer(&BeginInfo) != VK_SUCCESS)
+
+	std::cout << "abcd BeginCommandBuffer "
+	          << "FrameIndex " << FrameIndex << " "
+			  << "Handle "
+	          << CommandBuffer->GetHandle()
+	          << std::endl;
+	//if (dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->BeginCommandBuffer(&BeginInfo)
+	//	!= VK_SUCCESS)
+	if (CommandBuffer->BeginCommandBuffer(&BeginInfo) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to begin recording command buffer!");
     }
@@ -197,7 +206,11 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
-
+	std::cout << "abcd CmdBeginRenderPass "
+	<< "CurrentImageIndex " << CurrentImageIndex << " "
+    << "Handle "
+	<< dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->GetHandle()
+	<< std::endl;
     dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
