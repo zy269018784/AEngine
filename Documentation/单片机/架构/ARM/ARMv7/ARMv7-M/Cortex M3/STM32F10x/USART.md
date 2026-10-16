@@ -1,7 +1,21 @@
 传输:
     最高位             最低位     -> TX pin
 
+| 中断    | 描述     |
+|-------|--------|
+| TXE   | 数据寄存器空 |
+| TC    | 传输完成   |
+| PE    | 校验错误   |
+| RXNE  | 数据可读   |
 
+USART_SR寄存器:
+
+| 位    | 描述   |
+|------|------|
+| 7    | TXE: Transmit data register empty  |
+| 6    | TC: Transmission complete |
+| 5    | RXNE: Read data register not empty |
+| RXNE | 数据可读 |
 
 数据寄存器(USART_DR)实际由2个寄存器构成:
     TDR用作发送
