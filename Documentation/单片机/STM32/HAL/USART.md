@@ -40,11 +40,5 @@ USART_InitTypeDef
 | USART_PHASE_1EDGE |  |
 | USART_PHASE_2EDGE |    |
 
-| Hardware Flow Control         | 描述   |
-|---------------------|------|
-| UART_HWCONTROL_NONE |  |
-| UART_HWCONTROL_RTS |    |
-| UART_HWCONTROL_CTS |    |
-| UART_HWCONTROL_RTS_CTS |    |
 
 
