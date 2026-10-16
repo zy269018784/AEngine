@@ -1,31 +1,37 @@
-USB Device States
-	Visible Device States
-	Attached
-	Powered
-	Default
-	Address
-	Configured
-	Suspended
-Standard Device Requests
-	Clear Feature
-	Get Configuration
-	Get Descriptor
-	Get Interface
-	Get Status
-	Set Address
-	Set Configuration
-	Set Descriptor
-	Set Feature
-	Set Interface
-	Synch Frame
-Standard USB Descriptor Definitions
-	Device
-	Device_Qualifier
-	Configuration
-	Other_Speed_Configuration
-	Interface
-	Endpoint
-	String
+| USB Device States | Visible Device States |
+| --- | --- |
+| Attached |  |
+| Powered |  |
+| Default |  |
+| Address |  |
+| Configured |  |
+| Suspended |  |
+
+| Standard Device Requests | 说明 |
+| --- | --- |
+| Clear Feature | 清除指定特性 |
+| Get Configuration | 获取当前配置值 |
+| Get Descriptor | 获取描述符 |
+| Get Interface | 获取当前接口设置 |
+| Get Status | 获取设备/接口/端点状态 |
+| Set Address | 设置设备地址 |
+| Set Configuration | 设置设备配置 |
+| Set Descriptor | 设置描述符 |
+| Set Feature | 设置指定特性 |
+| Set Interface | 设置接口备用设置 |
+| Synch Frame | 同步帧，用于等时端点 |
+
+| Standard USB Descriptor Definitions | 说明 |
+| --- | --- |
+| Device | 设备描述符，描述设备基本信息 |
+| Device_Qualifier | 设备限定描述符，描述高速/全速下的设备信息 |
+| Configuration | 配置描述符，描述一种配置 |
+| Other_Speed_Configuration | 其他速度配置描述符，描述另一速度下的配置 |
+| Interface | 接口描述符，描述一个接口 |
+| Endpoint | 端点描述符，描述一个端点 |
+| String | 字符串描述符，提供厂商/产品等文本信息 |
+
+
 Control Transfers
 	Control Transfer Data Format
 	Control Transfer Direction
