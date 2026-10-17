@@ -1,3 +1,17 @@
+| Kernel Control API | 描述             |
+|---|----------------|
+| taskYIELD | 请求一次任务切换               |
+| taskENTER_CRITICAL | 进入临界区          |
+| taskEXIT_CRITICAL | 退出临界区          |
+| taskENTER_CRITICAL_FROM_ISR | ISR中进入临界区      |
+| taskEXIT_CRITICAL_FROM_ISR | ISR中退出临界区      |
+| taskDISABLE_INTERRUPTS | 禁止可屏蔽中断        |
+| taskENABLE_INTERRUPTS | 打开可屏蔽中断        |
+| vTaskStartScheduler | 启动调度器          |
+| vTaskEndScheduler | 终止调度器(会删掉所有任务) |
+| vTaskSuspendAll | 挂起调度器, 不禁止中断.  |
+| xTaskResumeAll | 恢复调度器.         |
+| vTaskStepTick |                |
 
 | Task Creation API | 描述          |
 |-------------------|-------------|
@@ -18,10 +32,6 @@
 | uxTaskPriorityGetFromISR |             |
 | uxTaskBasePriorityGet |             |
 | uxTaskBasePriorityGetFromISR |             |
-|  |             |
-|  |             |
-|  |             |
-|  |             |
 
 | Task Utilities API | 描述 |
 |---|---|
@@ -60,21 +70,6 @@
 
 
 
-
-| Kernel Control API | 描述 |
-|---|---|
-| taskYIELD |  |
-| taskENTER_CRITICAL |  |
-| taskEXIT_CRITICAL |  |
-| taskENTER_CRITICAL_FROM_ISR |  |
-| taskEXIT_CRITICAL_FROM_ISR |  |
-| taskDISABLE_INTERRUPTS |  |
-| taskENABLE_INTERRUPTS |  |
-| vTaskStartScheduler |  |
-| vTaskEndScheduler |  |
-| vTaskSuspendAll |  |
-| xTaskResumeAll |  |
-| vTaskStepTick |  |
 
 | Queue Management API | 描述 |
 |---|---|
