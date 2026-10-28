@@ -58,4 +58,9 @@ protected:
     */
     std::vector<RHICommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
     std::uint32_t					    CurrentImageIndex = 0;      // [0, SwapChainImages.size() - 1]
+    /*
+        当前帧编号
+        FrameIndex: [0, 1]
+    */
+    std::uint32_t					FrameIndex = 0;
 };

@@ -72,7 +72,7 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 */
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
-	//std::cout << "Frame Index " << FrameIndex << " " << Frames.size() << std::endl;
+	std::cout << "Frame Index " << FrameIndex << " Frames.size " << Frames.size() << std::endl;
     VulkanFrame* Frame = Frames[FrameIndex];
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
@@ -83,6 +83,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
 	 *  Frames[FrameIndex]->ImageFence：   			 		signaled   ->  unsignaled
 	 */
     Frame->ImageFence->Reset();
+
     VkSemaphore SwapchainImageAvailableSemaphore = Frame->ImageAvailableSemaphore->GetHandle();
     /*
         acquire next image
@@ -97,7 +98,8 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     /*
         current command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
+	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
+	//VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex]);
     /*
         reset command buffer
     */
@@ -115,7 +117,8 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
 	std::cout << "abcd BeginCommandBuffer "
 	          << "FrameIndex " << FrameIndex << " "
 			  << "Handle "
-	          << CommandBuffer->GetHandle()
+	          << CommandBuffer->GetHandle() << " "
+	          << " CurrentImageIndex " << CurrentImageIndex
 	          << std::endl;
 	//if (dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->BeginCommandBuffer(&BeginInfo)
 	//	!= VK_SUCCESS)
@@ -172,7 +175,10 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	VkSwapchainKHR SwapChains[] = { dynamic_cast<VulkanSwapChain *>(SwapChain)->GetHandle() };
 
 	/*
-		Frames[FrameIndex]->ImageDrawFinishedSemaphore:		signaled    ->  unsignaled
+	    呈现图像CurrentImageIndex:
+			vkQueuePresentKHR会等待ImageDrawFinishedSemaphore变成signaled状态.
+			GPU计算完图像CurrentImageIndex后, 会把ImageDrawFinishedSemaphore变成signaled状态.
+			vkQueuePresentKHR会把ImageDrawFinishedSemaphore变成unsignaled状态.
 	*/
 	VkPresentInfoKHR PresentInfo{};
 	PresentInfo.sType				= VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -206,17 +212,18 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
-	std::cout << "abcd CmdBeginRenderPass "
-	<< "CurrentImageIndex " << CurrentImageIndex << " "
-    << "Handle "
-	<< dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->GetHandle()
-	<< std::endl;
-    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+	std::cout
+		<< "abcd CmdBeginRenderPass "
+		<< "CurrentImageIndex " << CurrentImageIndex << " "
+	    << "Handle "
+		<< dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->GetHandle()
+		<< std::endl;
+    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanSwapChainRenderTarget::RHIEndRenderPass()
 {
-    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
+    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->CmdEndRenderPass();
 }
 
 void VulkanSwapChainRenderTarget::RHIBeginRenderPass2()

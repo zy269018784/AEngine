@@ -18,5 +18,5 @@ RHIRenderPass *RHIRenderTarget::GetRenderPass() const
 
 RHICommandBuffer* RHIRenderTarget::CurrentGraphicsCommandBuffer() const
 {
-    return GraphicsCommandBuffers[CurrentImageIndex];
+    return GraphicsCommandBuffers[FrameIndex];
 }

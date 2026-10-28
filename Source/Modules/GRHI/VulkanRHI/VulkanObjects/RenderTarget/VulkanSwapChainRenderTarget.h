@@ -49,7 +49,7 @@ public:
         当前帧编号
         FrameIndex: [0, 1]
     */
-    std::uint32_t					FrameIndex = 0;
+    //std::uint32_t					FrameIndex = 0;
     /*
      * 深度缓冲纹理
      */
