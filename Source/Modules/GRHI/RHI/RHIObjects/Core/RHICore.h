@@ -537,6 +537,27 @@ enum class RHIEXPORT RHIAttachmentStoreOp : std::uint32_t
 	RHI_ATTACHMENT_STORE_OP_MAX_ENUM = 0x7FFFFFFF
 };
 
+enum class RHIEXPORT RHIAccessFlagBits : std::uint32_t
+{
+	RHI_NONE                        = 0x00000000,
+	RHI_INDIRECT_COMMAND_READ       = 0x00000001,
+	RHI_INDEX_READ                  = 0x00000002,
+	RHI_VERTEX_ATTRIBUTE_READ       = 0x00000004,
+	RHI_UNIFORM_READ                = 0x00000008,
+	RHI_INPUT_ATTACHMENT_READ       = 0x00000010,
+	RHI_SHADER_READ                 = 0x00000020,
+	RHI_SHADER_WRITE                = 0x00000040,
+	RHI_COLOR_ATTACHMENT_READ       = 0x00000080,
+	RHI_COLOR_ATTACHMENT_WRITE      = 0x00000100,
+	RHI_DEPTH_STENCIL_ATTACHMENT_READ  = 0x00000200,
+	RHI_DEPTH_STENCIL_ATTACHMENT_WRITE = 0x00000400,
+	RHI_TRANSFER_READ               = 0x00000800,
+	RHI_TRANSFER_WRITE              = 0x00001000,
+	RHI_HOST_READ                   = 0x00002000,
+	RHI_HOST_WRITE                  = 0x00004000,
+	RHI_MEMORY_READ                 = 0x00008000,
+	RHI_MEMORY_WRITE                = 0x00010000,
+};
 
 inline std::uint32_t GetRHIPixelFormatSize(RHIPixelFormat format)
 {

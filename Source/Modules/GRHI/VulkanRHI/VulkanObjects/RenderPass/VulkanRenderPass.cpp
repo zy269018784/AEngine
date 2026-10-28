@@ -96,7 +96,7 @@ VkRenderPass VulkanRenderPass::GetHandle()
 
 void VulkanRenderPass::Create1_0()
 {
-    std::cout << "VulkanRenderPass " << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
+    std::cout << "VulkanRenderPass Create1_0" << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
     std::vector<VkAttachmentDescription> AttachmentDescriptions;
     /*
      * 1. Color Attachments
@@ -180,7 +180,7 @@ void VulkanRenderPass::Create1_0()
 
 void VulkanRenderPass::Create1_2()
 {
-    std::cout << "VulkanRenderPass " << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
+    std::cout << "VulkanRenderPass Create1_2" << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
     std::vector<VkAttachmentDescription2> AttachmentDescriptions;
 
     /*

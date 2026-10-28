@@ -1703,3 +1703,30 @@ inline VkAttachmentStoreOp ToVkStoreOp(RHIAttachmentStoreOp storeOp)
 		return VK_ATTACHMENT_STORE_OP_STORE;
 	}
 }
+
+inline VkAccessFlagBits ToVkAccessFlags(RHIAccessFlagBits accessFlags)
+{
+	switch (accessFlags)
+	{
+	case RHIAccessFlagBits::RHI_NONE:                        return VK_ACCESS_NONE;
+	case RHIAccessFlagBits::RHI_INDIRECT_COMMAND_READ:       return VK_ACCESS_INDIRECT_COMMAND_READ_BIT;
+	case RHIAccessFlagBits::RHI_INDEX_READ:                  return VK_ACCESS_INDEX_READ_BIT;
+	case RHIAccessFlagBits::RHI_VERTEX_ATTRIBUTE_READ:       return VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT;
+	case RHIAccessFlagBits::RHI_UNIFORM_READ:                return VK_ACCESS_UNIFORM_READ_BIT;
+	case RHIAccessFlagBits::RHI_INPUT_ATTACHMENT_READ:       return VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
+	case RHIAccessFlagBits::RHI_SHADER_READ:                 return VK_ACCESS_SHADER_READ_BIT;
+	case RHIAccessFlagBits::RHI_SHADER_WRITE:                return VK_ACCESS_SHADER_WRITE_BIT;
+	case RHIAccessFlagBits::RHI_COLOR_ATTACHMENT_READ:       return VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
+	case RHIAccessFlagBits::RHI_COLOR_ATTACHMENT_WRITE:      return VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+	case RHIAccessFlagBits::RHI_DEPTH_STENCIL_ATTACHMENT_READ:  return VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT;
+	case RHIAccessFlagBits::RHI_DEPTH_STENCIL_ATTACHMENT_WRITE: return VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+	case RHIAccessFlagBits::RHI_TRANSFER_READ:               return VK_ACCESS_TRANSFER_READ_BIT;
+	case RHIAccessFlagBits::RHI_TRANSFER_WRITE:              return VK_ACCESS_TRANSFER_WRITE_BIT;
+	case RHIAccessFlagBits::RHI_HOST_READ:                   return VK_ACCESS_HOST_READ_BIT;
+	case RHIAccessFlagBits::RHI_HOST_WRITE:                  return VK_ACCESS_HOST_WRITE_BIT;
+	case RHIAccessFlagBits::RHI_MEMORY_READ:                 return VK_ACCESS_MEMORY_READ_BIT;
+	case RHIAccessFlagBits::RHI_MEMORY_WRITE:                return VK_ACCESS_MEMORY_WRITE_BIT;
+	default:
+		return VK_ACCESS_NONE;
+	}
+}
