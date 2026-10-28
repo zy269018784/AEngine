@@ -98,7 +98,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     /*
         current command buffer
     */
-	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
+	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer());
 	//VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex]);
     /*
         reset command buffer
@@ -130,11 +130,10 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
 
 void VulkanSwapChainRenderTarget::RHIEndFrame()
 {
-
 	/*
 		current frame's command buffer
 	*/
-	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex]);
+	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer());
 	VkCommandBuffer CommandBufferHandle = CommandBuffer->GetHandle();
 	/*
 		complete recording of a command buffer
@@ -216,14 +215,14 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
 		<< "abcd CmdBeginRenderPass "
 		<< "CurrentImageIndex " << CurrentImageIndex << " "
 	    << "Handle "
-		<< dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->GetHandle()
+		<< dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->GetHandle()
 		<< std::endl;
-    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanSwapChainRenderTarget::RHIEndRenderPass()
 {
-    dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[FrameIndex])->CmdEndRenderPass();
+    dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdEndRenderPass();
 }
 
 void VulkanSwapChainRenderTarget::RHIBeginRenderPass2()
@@ -253,12 +252,12 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass2()
 	SubpassBeginInfo.pNext = nullptr;
 	SubpassBeginInfo.contents = VK_SUBPASS_CONTENTS_INLINE;
 
-	dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass2(&RenderPassInfo, &SubpassBeginInfo);
+	dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass2(&RenderPassInfo, &SubpassBeginInfo);
 }
 
 void VulkanSwapChainRenderTarget::RHIEndRenderPass2()
 {
-	dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
+	dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdEndRenderPass();
 }
 
 void VulkanSwapChainRenderTarget::GetExtent(float &x, float &y, float &w, float &h)
