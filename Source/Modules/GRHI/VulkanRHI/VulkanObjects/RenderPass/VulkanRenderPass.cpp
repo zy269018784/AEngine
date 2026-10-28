@@ -57,7 +57,7 @@ VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
     DepthAttachmentRef.layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
     /*
-     * 3
+     * 3. Subpass
      */
     VkSubpassDescription Subpass{};
     /*
