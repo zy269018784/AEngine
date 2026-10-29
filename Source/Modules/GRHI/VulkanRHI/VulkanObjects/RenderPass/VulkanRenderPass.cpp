@@ -173,6 +173,14 @@ void VulkanRenderPass::Create1_0()
 
     }
 
+    /*
+     * 4. VkSubpassDependency;
+     */
+    std::vector<VkSubpassDependency> Dependencies;
+
+    /*
+     * 5. 创建RenderPass
+     */
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
     CreateInfo.pNext                        = nullptr;
@@ -181,8 +189,8 @@ void VulkanRenderPass::Create1_0()
     CreateInfo.pAttachments                 = AttachmentDescriptions.data();
     CreateInfo.subpassCount                 = SubpassDescription.size();
     CreateInfo.pSubpasses                   = SubpassDescription.data();
-    CreateInfo.dependencyCount              = 0;
-    CreateInfo.pDependencies                = nullptr;
+    CreateInfo.dependencyCount              = Dependencies.size();
+    CreateInfo.pDependencies                = Dependencies.data();
 
     VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
