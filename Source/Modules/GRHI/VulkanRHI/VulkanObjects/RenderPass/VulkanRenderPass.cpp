@@ -98,10 +98,10 @@ void VulkanRenderPass::Create1_0()
 {
     std::cout << "VulkanRenderPass Create1_0" << ColorAttachments.size() << " " << DepthAttachments.size() << std::endl;
     std::vector<VkAttachmentDescription> AttachmentDescriptions;
+
     /*
      * 1. Color Attachments
      */
-
     for (int i = 0; i < ColorAttachments.size(); i++)
     {
         VkAttachmentDescription ColorAttachment{};
@@ -116,52 +116,9 @@ void VulkanRenderPass::Create1_0()
         AttachmentDescriptions.emplace_back(ColorAttachment);
     }
 
-    std::vector<VkAttachmentReference> ColorAttachmentRefs;
-
-    std::vector<VkSubpassDescription> SubpassDescription;
-    SubpassDescription.resize(SubPass.size());
-
-    std::vector<VkAttachmentReference> DepthAttachmentRefs{};
-    DepthAttachmentRefs.resize(SubPass.size());
-
-    for (int i = 0; i < SubPass.size(); i++)
-    {
-        auto ColorAttachmentIndex = SubPass[i]->GetColorAttachmentIndex();
-        auto DepthAttachmentIndex = SubPass[i]->GetDepthAttachmentIndex();
-
-        ColorAttachmentRefs.clear();
-        for (int Index = 0; Index < ColorAttachmentIndex.size(); Index++)
-        {
-            VkAttachmentReference ColorAttachmentRef{};
-            ColorAttachmentRef.attachment           = ColorAttachmentIndex[Index];
-            ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-            ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
-        }
-
-        DepthAttachmentRefs[i].attachment           = ColorAttachmentRefs.size();
-        DepthAttachmentRefs[i].layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        // 暂时只支持图像管线
-        SubpassDescription[i].pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
-        SubpassDescription[i].colorAttachmentCount            = ColorAttachmentRefs.size();
-        SubpassDescription[i].pColorAttachments               = ColorAttachmentRefs.data();
-        SubpassDescription[i].pDepthStencilAttachment         = &DepthAttachmentRefs[i];
-    }
-
     /*
      * 2. Depth Attachments
      */
-    //VkAttachmentDescription DepthAttachment{};
-    //DepthAttachment.format                  = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
-    //DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
-    //DepthAttachment.loadOp                  = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
-    //DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
-    //DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
-    //DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
-    //DepthAttachment.initialLayout           = ToVkImageLayout(DepthAttachments[0]->GetInitialLayout());
-    //DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
-    //AttachmentDescriptions.emplace_back(DepthAttachment);
-
     for (int i = 0; i < DepthAttachments.size(); i++)
     {
         VkAttachmentDescription DepthAttachment{};
@@ -175,6 +132,48 @@ void VulkanRenderPass::Create1_0()
         DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[i]->GetFinalLayout());
         AttachmentDescriptions.emplace_back(DepthAttachment);
     }
+
+    /*
+     * 3. SubpassDescription数组
+     */
+    std::vector<VkSubpassDescription> SubpassDescription;
+    SubpassDescription.resize(SubPass.size());
+
+    std::vector<VkAttachmentReference> DepthAttachmentRefs{};
+    DepthAttachmentRefs.resize(SubPass.size());
+
+    for (int SubPassIndex = 0; SubPassIndex < SubPass.size(); SubPassIndex++)
+    {
+        auto ColorAttachmentIndex = SubPass[SubPassIndex]->GetColorAttachmentIndex();
+        auto DepthAttachmentIndex = SubPass[SubPassIndex]->GetDepthAttachmentIndex();
+
+        std::vector<VkAttachmentReference> ColorAttachmentRefs;
+        ColorAttachmentRefs.clear();
+        for (int Index = 0; Index < ColorAttachmentIndex.size(); Index++)
+        {
+            VkAttachmentReference ColorAttachmentRef{};
+            ColorAttachmentRef.attachment           = ColorAttachmentIndex[Index];
+            ColorAttachmentRef.layout               = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+            ColorAttachmentRefs.emplace_back(ColorAttachmentRef);
+        }
+
+        DepthAttachmentRefs[SubPassIndex].attachment           = ColorAttachmentRefs.size();
+        DepthAttachmentRefs[SubPassIndex].layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+        // 暂时只支持图像管线
+        SubpassDescription[SubPassIndex].pipelineBindPoint                          = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        SubpassDescription[SubPassIndex].inputAttachmentCount            = 0;
+        SubpassDescription[SubPassIndex].pInputAttachments               = nullptr;
+        SubpassDescription[SubPassIndex].colorAttachmentCount            = ColorAttachmentRefs.size();
+        SubpassDescription[SubPassIndex].pColorAttachments               = ColorAttachmentRefs.data();
+        SubpassDescription[SubPassIndex].pResolveAttachments             = nullptr;
+        SubpassDescription[SubPassIndex].pDepthStencilAttachment         = &DepthAttachmentRefs[SubPassIndex];
+        SubpassDescription[SubPassIndex].preserveAttachmentCount         = 0;
+        SubpassDescription[SubPassIndex].pPreserveAttachments            = nullptr;
+
+    }
+
+
 
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -239,7 +238,7 @@ void VulkanRenderPass::Create1_2()
     }
 
     /*
-     * 3. subpass数组
+     * 3. SubpassDescription数组
      */
     std::vector<VkSubpassDescription2> SubpassDescription;
     SubpassDescription.resize(SubPass.size());
