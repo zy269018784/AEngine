@@ -173,14 +173,16 @@ void VulkanRenderPass::Create1_0()
 
     }
 
-
-
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    CreateInfo.pNext                        = nullptr;
+    CreateInfo.flags                        = 0;
     CreateInfo.attachmentCount              = AttachmentDescriptions.size();
     CreateInfo.pAttachments                 = AttachmentDescriptions.data();
     CreateInfo.subpassCount                 = SubpassDescription.size();
     CreateInfo.pSubpasses                   = SubpassDescription.data();
+    CreateInfo.dependencyCount              = 0;
+    CreateInfo.pDependencies                = nullptr;
 
     VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateRenderPass(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
@@ -328,16 +330,12 @@ void VulkanRenderPass::Create1_2()
     CreateInfo.flags                            = 0;
     CreateInfo.attachmentCount                  = static_cast<uint32_t>(AttachmentDescriptions.size());
     CreateInfo.pAttachments                     = AttachmentDescriptions.data();
-    CreateInfo.subpassCount                     = 1;
-    //CreateInfo.pSubpasses                       = &Subpass;
+    CreateInfo.subpassCount                     = SubpassDescription.size();
+    CreateInfo.pSubpasses                       = SubpassDescription.data();
     CreateInfo.dependencyCount                  = static_cast<uint32_t>(Dependencies.size());
     CreateInfo.pDependencies                    = Dependencies.empty() ? nullptr : Dependencies.data();
     CreateInfo.correlatedViewMaskCount          = 0;  // 不使用多视图渲染
     CreateInfo.pCorrelatedViewMasks             = nullptr;
-
-    CreateInfo.subpassCount                     = SubpassDescription.size();
-    CreateInfo.pSubpasses                       = SubpassDescription.data();
-
     // 使用 vkCreateRenderPass2 而不是 vkCreateRenderPass
     VkResult Result = dynamic_cast<VulkanDevice *>(Device)->CreateRenderPass2(&CreateInfo, nullptr, &Handle);
     if (VK_SUCCESS != Result)
@@ -354,6 +352,10 @@ void VulkanRenderPass::Create()
     /*
      * 两个版本都可以
      */
+#if 1
     Create1_0();
-   // Create1_2();
+#else
+    Create1_2();
+#endif
+
 }
