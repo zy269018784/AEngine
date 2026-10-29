@@ -151,16 +151,30 @@ void VulkanRenderPass::Create1_0()
     /*
      * 2. Depth Attachments
      */
-    VkAttachmentDescription DepthAttachment{};
-    DepthAttachment.format                  = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
-    DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
-    DepthAttachment.loadOp                  = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
-    DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
-    DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
-    DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
-    DepthAttachment.initialLayout           = ToVkImageLayout(DepthAttachments[0]->GetInitialLayout());
-    DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
-    AttachmentDescriptions.emplace_back(DepthAttachment);
+    //VkAttachmentDescription DepthAttachment{};
+    //DepthAttachment.format                  = ToVkFormat(DepthAttachments[0]->GetAttachmentType());
+    //DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
+    //DepthAttachment.loadOp                  = ToVkLoadOp(DepthAttachments[0]->GetLoadOp());
+    //DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[0]->GetStoreOp());
+    //DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[0]->GetStencilLoadOp());
+    //DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[0]->GetStencilStoreOp());
+    //DepthAttachment.initialLayout           = ToVkImageLayout(DepthAttachments[0]->GetInitialLayout());
+    //DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[0]->GetFinalLayout());
+    //AttachmentDescriptions.emplace_back(DepthAttachment);
+
+    for (int i = 0; i < DepthAttachments.size(); i++)
+    {
+        VkAttachmentDescription DepthAttachment{};
+        DepthAttachment.format                  = ToVkFormat(DepthAttachments[i]->GetAttachmentType());
+        DepthAttachment.samples                 = VK_SAMPLE_COUNT_1_BIT;
+        DepthAttachment.loadOp                  = ToVkLoadOp(DepthAttachments[i]->GetLoadOp());
+        DepthAttachment.storeOp                 = ToVkStoreOp(DepthAttachments[i]->GetStoreOp());
+        DepthAttachment.stencilLoadOp           = ToVkLoadOp(DepthAttachments[i]->GetStencilLoadOp());
+        DepthAttachment.stencilStoreOp          = ToVkStoreOp(DepthAttachments[i]->GetStencilStoreOp());
+        DepthAttachment.initialLayout           = ToVkImageLayout(DepthAttachments[i]->GetInitialLayout());
+        DepthAttachment.finalLayout             = ToVkImageLayout(DepthAttachments[i]->GetFinalLayout());
+        AttachmentDescriptions.emplace_back(DepthAttachment);
+    }
 
     VkRenderPassCreateInfo CreateInfo{};
     CreateInfo.sType                        = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -350,5 +364,9 @@ void VulkanRenderPass::Create1_2()
 
 void VulkanRenderPass::Create()
 {
-    Create1_2();
+    /*
+     * 两个版本都可以
+     */
+    Create1_0();
+   // Create1_2();
 }
