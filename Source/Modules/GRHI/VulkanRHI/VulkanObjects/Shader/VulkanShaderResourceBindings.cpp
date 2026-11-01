@@ -221,13 +221,17 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 		}
 		else if (BindingType == RHIShaderResourceBinding::Type::CombinedImageSampler)
 		{
+			std::cout << "2026-11-1 CombinedImageSampler binding " <<  ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler) << std::endl;
 			VkSampler   Sampler   = ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler)->GetHandle();
+			std::cout << "2026-11-1 CombinedImageSampler binding 2 "  << ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex) << std::endl;
 			VkImageView ImageView = ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex)->ImageView->GetHandle();
+			std::cout << "2026-11-1 CombinedImageSampler binding 3 " << std::endl;
 			VkDescriptorImageInfo DescriptorImageInfo;
 			DescriptorImageInfo.sampler		= Sampler;
 			DescriptorImageInfo.imageView	= ImageView;
 			DescriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			CombinedImageSamplersDescriptorImageInfos.push_back(DescriptorImageInfo);
+
 
 			VkWriteDescriptorSet WriteDescriptorSet{};
 			WriteDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -238,7 +242,7 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 			WriteDescriptorSet.pImageInfo = &CombinedImageSamplersDescriptorImageInfos.back();
 			WriteDescriptorSets.push_back(WriteDescriptorSet);
 
-			//std::cout << "CombinedImageSampler binding " << Binding << std::endl;
+
 		}
 		else if (BindingType == RHIShaderResourceBinding::Type::StorageImage)
 		{

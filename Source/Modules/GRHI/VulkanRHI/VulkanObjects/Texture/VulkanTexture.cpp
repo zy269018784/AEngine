@@ -80,7 +80,7 @@ void VulkanTexture::TransitionImageLayout(int dir)
 		OldLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 		NewLayout = RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 	}
-	//Image->TransitionImageLayout(OldLayout, NewLayout);
+	Image->TransitionImageLayout(NewLayout);
 #endif
 }
 

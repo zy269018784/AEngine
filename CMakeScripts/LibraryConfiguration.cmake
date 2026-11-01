@@ -22,7 +22,7 @@ set (USE_LIVE555        false)
 set (USE_BLUEZ          false)
 # live555 need openssl
 set (USE_OPENSSL        false)
-set (USE_STB            false)
+set (USE_STB            true)
 set (USE_MFC            false)
 set (USE_PORTAUDIO      false)
 set (USE_CEF            false)

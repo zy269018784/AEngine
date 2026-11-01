@@ -2,7 +2,7 @@
 
 #include "RHI/RHIObjects/RenderTarget/RHIRenderTarget.h"
 #include "Common.h"
-#if  PROJECT_USE_STB
+#if  1
 #include <stb_image.h>
 #endif
 #include "RHI/RHIObjects/Core/RHIVertexInputAttribute.h"
@@ -140,12 +140,14 @@ RHIApplicationTextureRenderTarget::~RHIApplicationTextureRenderTarget()
 
 void RHIApplicationTextureRenderTarget::Run()
 {
-#if  PROJECT_USE_GLFW
+    std::cout << "Run 1" << std::endl;
     Init();
+    std::cout << "Run 2" << std::endl;
 #if 1
     auto glfwWin = ((GLFWWindow *)Window)->GetHandle();
     while (!glfwWindowShouldClose(glfwWin))
     {
+        std::cout << "loop " << std::endl;
 #if USE_RHIWindow
         RHIWindow_->RHIBeginFrame();
         RHIWindow_->RHIBeginRenderPass();
@@ -154,7 +156,9 @@ void RHIApplicationTextureRenderTarget::Run()
         RHIWindow_->RHIEndFrame();
 #else
 #if 1
-        RHITextureRT->TransitionImageLayout(1);
+        std::cout << "test 1 " << std::endl;
+        RHITextureRT->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        std::cout << "test 2 " << std::endl;
         TextureRenderTarget->RHIBeginFrame();
         TextureRenderTarget->RHIBeginRenderPass();
         Draw2();
@@ -162,7 +166,7 @@ void RHIApplicationTextureRenderTarget::Run()
         TextureRenderTarget->RHIEndFrame();
 #endif
 #if 1
-        RHITextureRT->TransitionImageLayout(0);
+        RHITextureRT->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
         Draw();
@@ -192,7 +196,6 @@ void RHIApplicationTextureRenderTarget::Run()
 
     }
     RHIWindow_->WaitDeviceIdle();
-#endif
 #endif
 }
 
@@ -233,25 +236,32 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
     RHISampler_ = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
 
     int texWidth, texHeight, texChannels;
-#if  PROJECT_USE_STB
+#if  1
     /*
         STBI_rgb_alpha统一转成4通道
     */
     //stbi_uc* pixels = stbi_load("textures/texture.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     stbi_uc* pixels = stbi_load("textures/asuka.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    VkDeviceSize imageSize = texWidth * texHeight * 4;
-    std::cout 
+    size_t imageSize = texWidth * texHeight * 4;
+
+    if (!pixels) {
+        throw std::runtime_error("failed to load texture image!");
+    }
+
+    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM,
+        RHITextureUsageFlag::ColorAttachment,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL,
+        1,
+        texWidth,
+        texHeight,
+        pixels);
+    std::cout
+        << "RHITexture2D " << RHITexture2D << " "
         << "texWidth "   << texWidth   << " "
         << "texHeight  " << texHeight  << " "
         << "texChannels  " << texChannels << " "
         << "pixels  " << (unsigned int)pixels[(texHeight * texWidth / 2 + texWidth / 2) * 4] << " "
         << std::endl;
-    if (!pixels) {
-        throw std::runtime_error("failed to load texture image!");
-    }
-
-    RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, 1, texWidth, texHeight, pixels);
-
    // RHITexture2D->Update(0, 0, 0, 0, texWidth, texHeight, 1, pixels);
 #endif
 }
@@ -269,13 +279,17 @@ void RHIApplicationTextureRenderTarget::CreateSRB()
     SRB->SetBindings({
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITextureRT, RHISamplerRT)
     });
+    std::cout << "SRB 1-1" << std::endl;
     SRB->Create();
+    std::cout << "SRB 1-2" << std::endl;
 
     SRB2 = pRHI->RHICreateShaderResourceBindings();
     SRB2->SetBindings({
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
     });
+    std::cout << "SRB 2-1" << std::endl;
     SRB2->Create();
+    std::cout << "SRB 2-2" << std::endl;
 }
 
 void RHIApplicationTextureRenderTarget::CreateVertexDescriptioin()
@@ -323,11 +337,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-#if USE_RHIWindow
-    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
-#else
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
-#endif
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -383,11 +393,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
-#if USE_RHIWindow
-    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
-#else
     GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
-#endif
     GraphicsPipeline2->SetShaderResourceBindings(SRB2);
     GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline2->SetCullMode(RHICullMode::CullModeNone);
