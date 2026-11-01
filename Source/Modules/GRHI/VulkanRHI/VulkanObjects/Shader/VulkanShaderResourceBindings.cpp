@@ -221,11 +221,8 @@ void VulkanShaderResourceBindings::UpdateDescriptorSets()
 		}
 		else if (BindingType == RHIShaderResourceBinding::Type::CombinedImageSampler)
 		{
-			std::cout << "2026-11-1 CombinedImageSampler binding " <<  ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler) << std::endl;
 			VkSampler   Sampler   = ((VulkanSampler*)Bindings[i].d.u.stex.texSamplers->sampler)->GetHandle();
-			std::cout << "2026-11-1 CombinedImageSampler binding 2 "  << ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex) << std::endl;
 			VkImageView ImageView = ((VulkanTexture*)Bindings[i].d.u.stex.texSamplers->tex)->ImageView->GetHandle();
-			std::cout << "2026-11-1 CombinedImageSampler binding 3 " << std::endl;
 			VkDescriptorImageInfo DescriptorImageInfo;
 			DescriptorImageInfo.sampler		= Sampler;
 			DescriptorImageInfo.imageView	= ImageView;

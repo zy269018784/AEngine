@@ -207,7 +207,7 @@ void RHIApplicationTextureRenderTarget::Resize(int w, int h)
 
 void RHIApplicationTextureRenderTarget::Init()
 {
-	std::cout << "hello 1" << std::endl;
+	std::cout << "Init start" << std::endl;
     CreateVBO();
     CreateEBO();
     CreateTexture();
@@ -216,8 +216,10 @@ void RHIApplicationTextureRenderTarget::Init()
     CreateVertexDescriptioin();
 	std::cout << "hello 2" << std::endl;
     CreateGraphicsPipeline();
+    std::cout << "CreateGraphicsPipeline ok" << std::endl;
 	CreateGraphicsPipeline2();
-	std::cout << "hello 3" << std::endl;
+	std::cout << "CreateGraphicsPipeline2 ok" << std::endl;
+    std::cout << "Init end" << std::endl;
 }
 
 void RHIApplicationTextureRenderTarget::CreateVBO()
@@ -269,7 +271,13 @@ void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
     RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
-//	TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(RHITextureRT);
+    RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8, RHITextureUsageFlag::DepthStencilAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
+
+    std::vector<RHITexture *> ColorAttachments;
+    ColorAttachments.push_back(RHITextureRT);
+    std::vector<RHITexture *> DepthAttachments;
+    DepthAttachments.push_back(DepthTextureRT);
+    TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(ColorAttachments, DepthAttachments);
 }
 
 
@@ -393,6 +401,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
     */
+    std::cout << "GraphicsPipeline2 TextureRenderTarget " << TextureRenderTarget << std::endl;
     GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
     GraphicsPipeline2->SetShaderResourceBindings(SRB2);
     GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
@@ -405,7 +414,9 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
     GraphicsPipeline2->SetTopology(RHITopology::Triangles);
     GraphicsPipeline2->SetVertexInputLayout(VertexInputLayout);
     GraphicsPipeline2->SetShaderStages({ VertexShader , FragmengShader });
+    std::cout << "GraphicsPipeline2->Create start" << std::endl;
     GraphicsPipeline2->Create();
+    std::cout << "GraphicsPipeline2->Create end" << std::endl;
     delete VertexShader;
     delete FragmengShader;
 }
