@@ -162,6 +162,10 @@ void VulkanCommandBuffer::CmdCopyBuffer2(const VkCopyBufferInfo2* CopyBufferInfo
 	vkCmdCopyBuffer2(Handle, CopyBufferInfo);
 }
 
+/*
+* VUID-vkCmdCopyBufferToImage-dstImageLayout-01396
+* dstImageLayout must be VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, or VK_IMAGE_LAYOUT_GENERAL
+ */
 void VulkanCommandBuffer::CmdCopyBufferToImage(VkBuffer SrcBuffer,
 	VkImage DstImage,
 	VkImageLayout DstImageLayout,

@@ -261,7 +261,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
      */
     if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
-        Barrier.srcAccessMask = 0;  // ✅ 从 UNDEFINED 转换，无需等待之前的访问
+        Barrier.srcAccessMask = VK_ACCESS_NONE;  // ✅ 从 UNDEFINED 转换，无需等待之前的访问
         Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;  // ✅ 后续着色器需要读取
 
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不依赖之前的任何阶段
@@ -269,7 +269,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
-        Barrier.srcAccessMask = 0;
+        Barrier.srcAccessMask = VK_ACCESS_NONE;
         Barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
@@ -277,7 +277,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
     {
-        Barrier.srcAccessMask = 0;  // ✅ 不需要等待任何操作
+        Barrier.srcAccessMask = VK_ACCESS_NONE;  // ✅ 不需要等待任何操作
         Barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  // ✅ 后续要写入
 
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不需要等待，从最早开始
