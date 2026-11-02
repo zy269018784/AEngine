@@ -236,7 +236,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     Barrier.srcQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.image                           = Handle;
-    
+
     if (RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL == NewLayout)
         Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
     else if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL == NewLayout)
