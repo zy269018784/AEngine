@@ -312,7 +312,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
         DestinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
     }
-#if 1
+
     CommandBuffer->CmdPipelineBarrier(
         SourceStage, DestinationStage,
         0,
@@ -324,7 +324,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     Device->Queues[0]->EndCommandBuffer(CommandBuffer);
 
 
-#endif
+
 }
 #if 0
 void VulkanImage::TransitionImageLayout(RHIImageLayout OldLayout, RHIImageLayout NewLayout)
