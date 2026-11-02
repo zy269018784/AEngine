@@ -15,6 +15,7 @@
 #include "RHIApplicationRenderTarget.h"
 #include "RHIApplicationTextureRenderTarget.h"
 #include "RHIApplicationTexture2DSperateImageSampler.h"
+#include "RHIApplicationTexture2DRenderTarget.h"
 #include "RHIApplicationTexture2DCombinedImageSampler.h"
 #include "GLFWWindow/GLFWWindow.h"
 #include "RHIApplicationFramebuffer.h"
@@ -83,6 +84,12 @@ void Example_Texture2D()
 	std::cout << "Example_Texture2D 2" << std::endl;
 	App.Run();
 	std::cout << "Example_Texture2D 3" << std::endl;
+}
+
+void Example_Texture2DRenderTarget()
+{
+	RHIApplicationTexture2DRenderTarget App;
+	App.Run();
 }
 
 void Example_TextureRenderTarget()
@@ -219,9 +226,10 @@ int RHIExample(int argc, char **argv)
 	//Example_Scene();
 	//Example_Player();
 	//Example_RenderTarget();
-	Example_TextureRenderTarget();
+	//Example_TextureRenderTarget();
 	//Example_SperateImageSampler();
 	//Example_Framebuffer();
+	Example_Texture2DRenderTarget();
 
 	//RHIApplication2 App;
 	//App.Run();

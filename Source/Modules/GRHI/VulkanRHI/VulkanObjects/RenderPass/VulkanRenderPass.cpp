@@ -161,7 +161,7 @@ void VulkanRenderPass::Create1_0()
         DepthAttachmentRefs[SubPassIndex].layout               = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
         // 暂时只支持图像管线
-        SubpassDescription[SubPassIndex].pipelineBindPoint                          = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        SubpassDescription[SubPassIndex].pipelineBindPoint               = VK_PIPELINE_BIND_POINT_GRAPHICS;
         SubpassDescription[SubPassIndex].inputAttachmentCount            = 0;
         SubpassDescription[SubPassIndex].pInputAttachments               = nullptr;
         SubpassDescription[SubPassIndex].colorAttachmentCount            = ColorAttachmentRefs.size();
