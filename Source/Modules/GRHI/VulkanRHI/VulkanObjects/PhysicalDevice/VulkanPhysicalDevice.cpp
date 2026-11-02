@@ -214,11 +214,8 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 		暂时打开交换链
 	*/
 	std::vector<const char*> DeviceExtensions = {
-		// "VK_KHR_swapchain"
-		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-
-		"VK_EXT_extended_dynamic_state",
-		//VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME, // "VK_KHR_swapchain"
+		VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME, //"VK_EXT_extended_dynamic_state",
 	};
 #if 0
 	/*
@@ -260,8 +257,17 @@ VulkanDevice* VulkanPhysicalDevice::CreateDevice()
 	*/
 	DeviceFeatures.geometryShader = Features.geometryShader;
 #endif
+
+	/*
+	 * 启动VK_KHR_synchronization2
+	 */
+	VkPhysicalDeviceSynchronization2Features Sync2Features{};
+	Sync2Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES_KHR;
+	Sync2Features.synchronization2 = VK_TRUE;
+
 	VkDeviceCreateInfo DeviceCreateInfo{};
 	DeviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	DeviceCreateInfo.pNext = &Sync2Features;
 	DeviceCreateInfo.queueCreateInfoCount = QueueCreateInfos.size();
 	DeviceCreateInfo.pQueueCreateInfos = QueueCreateInfos.data();
 	DeviceCreateInfo.enabledExtensionCount = DeviceExtensions.size();
