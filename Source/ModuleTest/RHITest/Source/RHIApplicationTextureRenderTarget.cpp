@@ -210,7 +210,9 @@ void RHIApplicationTextureRenderTarget::Init()
 	std::cout << "Init start" << std::endl;
     CreateVBO();
     CreateEBO();
+    std::cout << "CreateTexture start" << std::endl;
     CreateTexture();
+    std::cout << "CreateTextureRT start" << std::endl;
 	CreateTextureRT();
     CreateSRB();
     CreateVertexDescriptioin();
@@ -270,7 +272,9 @@ void RHIApplicationTextureRenderTarget::CreateTexture()
 void RHIApplicationTextureRenderTarget::CreateTextureRT()
 {
 	RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
-    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
+    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM,
+        RHITextureUsageFlag::SampledTexture,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
     RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8, RHITextureUsageFlag::DepthStencilAttachment, RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
 
     std::vector<RHITexture *> ColorAttachments;
