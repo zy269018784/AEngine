@@ -143,9 +143,9 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 		等待上一帧Image有空
 	*/
 	VkSemaphore SwapchainImageAvailableSemaphore	= CurrentFrame()->ImageAvailableSemaphore->GetHandle();
-	VkSemaphore SwapchainImageDrawFinishedSemaphore = CurrentFrame()->ImageDrawFinishedSemaphore->GetHandle();
+	//VkSemaphore SwapchainImageDrawFinishedSemaphore = CurrentFrame()->ImageDrawFinishedSemaphore->GetHandle();
 
-	SwapchainImageDrawFinishedSemaphore = ImageDrawFinishedSemaphores[CurrentImageIndex]->GetHandle();
+	VkSemaphore SwapchainImageDrawFinishedSemaphore = ImageDrawFinishedSemaphores[CurrentImageIndex]->GetHandle();
 
 	VkFence Fence								    = CurrentFrame()->ImageFence->GetHandle();
 	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };

@@ -6,7 +6,7 @@ VulkanFrame::VulkanFrame(VulkanDevice* InDevice, bool InSignaled)
 {
 	ImageFence = Device->CreateFence (InSignaled);
 	ImageAvailableSemaphore = Device->CreateSemaphore();
-	ImageDrawFinishedSemaphore = Device->CreateSemaphore();
+	//ImageDrawFinishedSemaphore = Device->CreateSemaphore();
 }
 
 VulkanFrame::~VulkanFrame()
@@ -14,5 +14,5 @@ VulkanFrame::~VulkanFrame()
 	std::cout << "VulkanFrame::~VulkanFrame()" << std::endl;
 	delete ImageFence;
 	delete ImageAvailableSemaphore;
-	delete ImageDrawFinishedSemaphore;
+	//delete ImageDrawFinishedSemaphore;
 }

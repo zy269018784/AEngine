@@ -11,7 +11,7 @@ public:
 public:
 	VulkanFence*		ImageFence = nullptr;
 	VulkanSemaphore*	ImageAvailableSemaphore = nullptr;
-	VulkanSemaphore*	ImageDrawFinishedSemaphore = nullptr;
+	//VulkanSemaphore*	ImageDrawFinishedSemaphore = nullptr;
 private:
 	VulkanDevice*		Device = nullptr;
 };
