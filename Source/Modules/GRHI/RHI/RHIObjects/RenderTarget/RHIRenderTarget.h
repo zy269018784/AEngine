@@ -65,8 +65,8 @@ protected:
     */
     std::vector<RHIFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
     /*
-        当前帧编号
-        FrameIndex: [0, 1]
+        当前帧编号: 递增, CurrentImageIndex不一定是递增, 但FrameIndex 一定是
+        FrameIndex:  [0, SwapChainImages.size() - 1]
     */
     std::uint32_t					FrameIndex = 0;
 };

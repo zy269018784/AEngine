@@ -114,14 +114,6 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     VkCommandBufferBeginInfo BeginInfo{};
     BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-	std::cout << "abcd BeginCommandBuffer "
-	          << "FrameIndex " << FrameIndex << " "
-			  << "Handle "
-	          << CommandBuffer->GetHandle() << " "
-	          << " CurrentImageIndex " << CurrentImageIndex
-	          << std::endl;
-	//if (dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex])->BeginCommandBuffer(&BeginInfo)
-	//	!= VK_SUCCESS)
 	if (CommandBuffer->BeginCommandBuffer(&BeginInfo) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to begin recording command buffer!");
@@ -211,12 +203,7 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
     RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
-	std::cout
-		<< "abcd CmdBeginRenderPass "
-		<< "CurrentImageIndex " << CurrentImageIndex << " "
-	    << "Handle "
-		<< dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->GetHandle()
-		<< std::endl;
+
     dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 

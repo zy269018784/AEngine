@@ -38,38 +38,7 @@ public:
     */
     VulkanDevice						*Device;
     /*
-        Image
-    */
-    //std::vector<VkImage>					Images;
-    /*
-        Image View
-    */
-    //std::vector<VkImageView>				ImageViews;
-    /*
-        分辨率
-    */
-   // VkExtent2D								Resolution;
-    /*
         Format
     */
     VkFormat								ImageFormat;
-    /*
-        Render Pass
-    */
-    //VulkanRenderPass*                       RenderPass;
-    /*
-        Framebuffers
-    */
-    //std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
-
-    /*
-        用于图像的command buffer
-    */
-    //std::vector<VulkanCommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
-
-    /*
-        当前帧编号
-        FrameIndex: [0, 1]
-    */
-    std::uint32_t					FrameIndex = 0;
 };
