@@ -51,8 +51,8 @@ public:
     /*
         同步帧
     */
-    std::vector<VulkanFrame*>			Frames;						// 2
-
+    std::vector<VulkanFrame*>			Frames;
+    // 每个交换链Image一个
     std::vector<VulkanSemaphore*>	ImageDrawFinishedSemaphores;
 
 #if 0

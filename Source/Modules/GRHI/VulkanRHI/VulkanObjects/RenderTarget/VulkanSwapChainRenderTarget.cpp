@@ -77,7 +77,6 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 */
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
-	//std::cout << "Frame Index " << FrameIndex << " Frames.size " << Frames.size() << std::endl;
     VulkanFrame* Frame = CurrentFrame();
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
@@ -90,6 +89,7 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     Frame->ImageFence->Reset();
 
     VkSemaphore SwapchainImageAvailableSemaphore = Frame->ImageAvailableSemaphore->GetHandle();
+
     /*
         acquire next image
 		Frames[FrameIndex]->ImageAvailableSemaphore: 		unsignaled ->  signaled
@@ -98,13 +98,12 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
     {
         throw std::runtime_error("failed to acquire next image\n");
     }
-	//std::cout << "Frame Index " << FrameIndex << " CurrentImageIndex " << CurrentImageIndex << std::endl;
 
     /*
         current command buffer
     */
 	VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer());
-	//VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer *>(GraphicsCommandBuffers[CurrentImageIndex]);
+
     /*
         reset command buffer
     */
@@ -143,7 +142,6 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 		等待上一帧Image有空
 	*/
 	VkSemaphore SwapchainImageAvailableSemaphore	= CurrentFrame()->ImageAvailableSemaphore->GetHandle();
-	//VkSemaphore SwapchainImageDrawFinishedSemaphore = CurrentFrame()->ImageDrawFinishedSemaphore->GetHandle();
 
 	VkSemaphore SwapchainImageDrawFinishedSemaphore = ImageDrawFinishedSemaphores[CurrentImageIndex]->GetHandle();
 
