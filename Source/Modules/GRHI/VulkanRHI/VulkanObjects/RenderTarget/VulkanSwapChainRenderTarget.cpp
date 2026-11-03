@@ -39,6 +39,11 @@ VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice,
 
 	std::cout << "aaaa GetImageCount " << Frames.size() << std::endl;
 	ImageViews = dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageViews();
+
+
+	ImageDrawFinishedSemaphores.resize(dynamic_cast<VulkanSwapChain *>(SwapChain)->GetImageCount());
+	for (int i = 0; i < ImageDrawFinishedSemaphores.size(); i++)
+		ImageDrawFinishedSemaphores[i] = InDevice->CreateSemaphore();
 }
 
 VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
@@ -139,6 +144,9 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	*/
 	VkSemaphore SwapchainImageAvailableSemaphore	= CurrentFrame()->ImageAvailableSemaphore->GetHandle();
 	VkSemaphore SwapchainImageDrawFinishedSemaphore = CurrentFrame()->ImageDrawFinishedSemaphore->GetHandle();
+
+	SwapchainImageDrawFinishedSemaphore = ImageDrawFinishedSemaphores[CurrentImageIndex]->GetHandle();
+
 	VkFence Fence								    = CurrentFrame()->ImageFence->GetHandle();
 	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 

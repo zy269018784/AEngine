@@ -3,6 +3,7 @@
 #include "VulkanRenderTarget.h"
 #include "VulkanRHI/Vulkan.h"
 #include <vector>
+#include "VulkanRHI/VulkanObjects//Synchronization/VulkanSemaphore.h"
 /*
  *  Color Attachments
  *      Image View
@@ -51,6 +52,8 @@ public:
         同步帧
     */
     std::vector<VulkanFrame*>			Frames;						// 2
+
+    std::vector<VulkanSemaphore*>	ImageDrawFinishedSemaphores;
 
 #if 0
     // AMD Radeon RX580 2048SP
