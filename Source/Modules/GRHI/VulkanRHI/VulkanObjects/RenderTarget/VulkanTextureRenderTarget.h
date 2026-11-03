@@ -60,7 +60,7 @@ public:
     /*
         Framebuffers
     */
-    std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
+    //std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
 
     /*
         用于图像的command buffer

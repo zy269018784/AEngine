@@ -20,3 +20,8 @@ RHICommandBuffer* RHIRenderTarget::CurrentGraphicsCommandBuffer() const
 {
     return GraphicsCommandBuffers[FrameIndex];
 }
+
+RHIFrameBuffer* RHIRenderTarget::CurrentFrameBuffer() const
+{
+    return FrameBuffers[FrameIndex];
+}

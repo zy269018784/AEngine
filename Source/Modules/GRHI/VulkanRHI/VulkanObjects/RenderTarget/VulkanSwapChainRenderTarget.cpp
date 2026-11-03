@@ -206,7 +206,7 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass()
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     RenderPassInfo.renderPass			= (dynamic_cast<VulkanRenderPass *>(RenderPass))->GetHandle();
-    RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
+    RenderPassInfo.framebuffer			= (dynamic_cast<VulkanFrameBuffer *>(CurrentFrameBuffer()))->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= { SwapChain->GetWidth(), SwapChain->GetHeight() };
     RenderPassInfo.clearValueCount		= 2;
@@ -241,7 +241,7 @@ void VulkanSwapChainRenderTarget::RHIBeginRenderPass2()
 	RenderPassInfo.sType                    = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	RenderPassInfo.pNext                    = nullptr;
 	RenderPassInfo.renderPass               = (dynamic_cast<VulkanRenderPass *>(RenderPass))->GetHandle();
-	RenderPassInfo.framebuffer              = FrameBuffers[CurrentImageIndex]->GetHandle();
+	RenderPassInfo.framebuffer              = (dynamic_cast<VulkanFrameBuffer *>(CurrentFrameBuffer()))->GetHandle();
 	RenderPassInfo.renderArea.offset        = { 0, 0 };
 	RenderPassInfo.renderArea.extent        = { SwapChain->GetWidth(), SwapChain->GetHeight() };
 	RenderPassInfo.clearValueCount          = 2;

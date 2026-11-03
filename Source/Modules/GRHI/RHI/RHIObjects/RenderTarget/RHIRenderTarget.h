@@ -6,6 +6,7 @@
 class RHIRenderPass;
 class RHICommandBuffer;
 class RHIDevice;
+class RHIFrameBuffer;
 class RHIEXPORT RHIRenderTarget
 {
 public:
@@ -18,6 +19,7 @@ public:
      */
     RHIRenderPass *GetRenderPass() const;
     RHICommandBuffer* CurrentGraphicsCommandBuffer() const;
+    RHIFrameBuffer* CurrentFrameBuffer() const;
 public:
     /*
      * RHIRenderTarget (Virtual) Interface
@@ -58,6 +60,10 @@ protected:
     */
     std::vector<RHICommandBuffer*>	    GraphicsCommandBuffers;		// SwapChainImages.size()
     std::uint32_t					    CurrentImageIndex = 0;      // [0, SwapChainImages.size() - 1]
+    /*
+        Framebuffers
+    */
+    std::vector<RHIFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
     /*
         当前帧编号
         FrameIndex: [0, 1]

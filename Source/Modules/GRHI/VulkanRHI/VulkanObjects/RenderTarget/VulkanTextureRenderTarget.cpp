@@ -92,12 +92,12 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.renderArea.extent	= { Width, Height};
     RenderPassInfo.clearValueCount		= 4;
     RenderPassInfo.pClearValues			= ClearColor;
-    dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanTextureRenderTarget::RHIEndRenderPass()
 {
-    dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[CurrentImageIndex])->CmdEndRenderPass();
+    dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer())->CmdEndRenderPass();
 }
 
 void VulkanTextureRenderTarget::RHIBeginRenderPass2()

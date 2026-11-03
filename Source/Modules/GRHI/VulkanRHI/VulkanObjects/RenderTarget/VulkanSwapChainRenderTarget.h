@@ -44,7 +44,7 @@ public:
     /*
         Framebuffers
     */
-    std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
+    //std::vector<VulkanFrameBuffer*>		    FrameBuffers;			// SwapChainImages.size()
     /*
         当前帧编号
         FrameIndex: [0, 1]
