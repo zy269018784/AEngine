@@ -73,7 +73,7 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
 	//std::cout << "Frame Index " << FrameIndex << " Frames.size " << Frames.size() << std::endl;
-    VulkanFrame* Frame = Frames[FrameIndex];
+    VulkanFrame* Frame = CurrentFrame();
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
 		Frames[FrameIndex]->ImageFence：   			 		unsignaled   ->  signaled
@@ -137,9 +137,9 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	/*
 		等待上一帧Image有空
 	*/
-	VkSemaphore SwapchainImageAvailableSemaphore	= Frames[FrameIndex]->ImageAvailableSemaphore->GetHandle();
-	VkSemaphore SwapchainImageDrawFinishedSemaphore = Frames[FrameIndex]->ImageDrawFinishedSemaphore->GetHandle();
-	VkFence Fence								    = Frames[FrameIndex]->ImageFence->GetHandle();
+	VkSemaphore SwapchainImageAvailableSemaphore	= CurrentFrame()->ImageAvailableSemaphore->GetHandle();
+	VkSemaphore SwapchainImageDrawFinishedSemaphore = CurrentFrame()->ImageDrawFinishedSemaphore->GetHandle();
+	VkFence Fence								    = CurrentFrame()->ImageFence->GetHandle();
 	VkPipelineStageFlags WaitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
 	/*
@@ -179,10 +179,6 @@ void VulkanSwapChainRenderTarget::RHIEndFrame()
 	PresentInfo.pSwapchains			= SwapChains;
 	PresentInfo.pImageIndices		= &CurrentImageIndex;
 	vkQueuePresentKHR(dynamic_cast<VulkanDevice *>(Device)->PresentQueue, &PresentInfo);
-	/*
-		更新上一帧索引
-	*/
-	//LastImageIndex = CurrentImageIndex;
 	/*
 		当前帧
 	*/
@@ -261,6 +257,11 @@ void VulkanSwapChainRenderTarget::Resize(float Width, float Height) {
 void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 {
 	dynamic_cast<VulkanDevice *>(Device)->DeviceWaitIdle();
+}
+
+VulkanFrame *VulkanSwapChainRenderTarget::CurrentFrame() const
+{
+	return Frames[FrameIndex];
 }
 
 void VulkanSwapChainRenderTarget::CreateFramebuffer()
