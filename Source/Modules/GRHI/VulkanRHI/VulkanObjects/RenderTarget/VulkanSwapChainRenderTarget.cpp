@@ -72,7 +72,7 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 */
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
-	std::cout << "Frame Index " << FrameIndex << " Frames.size " << Frames.size() << std::endl;
+	//std::cout << "Frame Index " << FrameIndex << " Frames.size " << Frames.size() << std::endl;
     VulkanFrame* Frame = Frames[FrameIndex];
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
