@@ -163,6 +163,9 @@ void RHIApplication::Run()
             TextureRenderTarget->RHIEndRenderPass();
             TextureRenderTarget->RHIEndFrame();
         }
+
+        dynamic_cast<RHISwapChainRenderTarget *>(RenderTarget)->IfNeedRecreateSwapChain();
+
         RenderTarget->RHIBeginFrame();
         RenderTarget->RHIBeginRenderPass();
         Draw();

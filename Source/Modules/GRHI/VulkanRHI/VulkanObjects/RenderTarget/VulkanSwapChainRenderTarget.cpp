@@ -77,6 +77,8 @@ VulkanSwapChainRenderTarget::~VulkanSwapChainRenderTarget()
 */
 void VulkanSwapChainRenderTarget::RHIBeginFrame()
 {
+	VkResult Result = VK_SUCCESS;
+
     VulkanFrame* Frame = CurrentFrame();
     /*
 		等待QueueSubmit把Frames[FrameIndex]->ImageFence变为signaled状态)
@@ -94,8 +96,14 @@ void VulkanSwapChainRenderTarget::RHIBeginFrame()
         acquire next image
 		Frames[FrameIndex]->ImageAvailableSemaphore: 		unsignaled ->  signaled
     */
-    if (dynamic_cast<VulkanSwapChain *>(SwapChain)->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex) != VK_SUCCESS)
+	Result = dynamic_cast<VulkanSwapChain *>(SwapChain)->AcquireNextImageKHR(UINT64_MAX, SwapchainImageAvailableSemaphore, VK_NULL_HANDLE, &CurrentImageIndex);
+    if (VK_SUCCESS != Result)
     {
+    	if (VK_ERROR_OUT_OF_DATE_KHR == Result)
+    	{
+    		std::cout << "AcquireNextImageKHR VK_ERROR_OUT_OF_DATE_KHR" << std::endl;
+    		NeedRecreateSwapChain = true;
+    	}
         throw std::runtime_error("failed to acquire next image\n");
     }
 
@@ -268,6 +276,12 @@ void VulkanSwapChainRenderTarget::WaitDeviceIdle()
 VulkanFrame *VulkanSwapChainRenderTarget::CurrentFrame() const
 {
 	return Frames[FrameIndex];
+}
+
+void VulkanSwapChainRenderTarget::IfNeedRecreateSwapChain()
+{
+	if (NeedRecreateSwapChain)
+		std::cout << "VulkanSwapChainRenderTarget RecreateSwapChain" << std::endl;
 }
 
 void VulkanSwapChainRenderTarget::CreateFramebuffer()

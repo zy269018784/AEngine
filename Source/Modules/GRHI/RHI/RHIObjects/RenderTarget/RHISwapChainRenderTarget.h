@@ -17,7 +17,10 @@ public:
     virtual ~RHISwapChainRenderTarget();
 public:
     void Create();
+    virtual void IfNeedRecreateSwapChain() = 0;
 protected:
     RHIPixelFormat PixelFormat;
     RHISwapChain   *SwapChain;
+public:
+    bool NeedRecreateSwapChain = false;
 };

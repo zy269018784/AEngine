@@ -27,3 +27,4 @@ void OpenGL46SwapChainRenderTarget::CreateCommandbuffer()
     GraphicsCommandBuffers.resize(1);
     GraphicsCommandBuffers[0] = new OpenGL46CommandBuffer();
 }
+

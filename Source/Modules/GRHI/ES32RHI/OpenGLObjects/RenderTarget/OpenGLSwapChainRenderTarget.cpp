@@ -71,3 +71,8 @@ void OpenGLSwapChainRenderTarget::WaitDeviceIdle()
 {
     glFinish();
 }
+
+void OpenGLSwapChainRenderTarget::IfNeedRecreateSwapChain()
+{
+
+}
