@@ -15,6 +15,8 @@ public:
     RHIApplicationSSBO();
     ~RHIApplicationSSBO();
 private:
+    virtual void Render() override final;
+private:
     virtual void Init();
     virtual void Draw();
     void CreateVBO();

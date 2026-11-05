@@ -202,3 +202,8 @@ void RHIApplicationTriangle::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), nullptr, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawPrimitive(6);
 }
+
+void RHIApplicationTriangle::Render()
+{
+
+}

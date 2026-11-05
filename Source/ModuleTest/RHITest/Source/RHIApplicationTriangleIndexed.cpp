@@ -192,3 +192,8 @@ void RHIApplicationTriangleIndexed::Draw()
 
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
+
+void RHIApplicationTriangleIndexed::Render()
+{
+
+}

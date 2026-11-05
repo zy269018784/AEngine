@@ -230,3 +230,8 @@ void RHIApplicationRenderTarget::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
+
+void RHIApplicationRenderTarget::Render()
+{
+
+}

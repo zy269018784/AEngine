@@ -199,3 +199,8 @@ void RHIApplicationUBO::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
+
+void RHIApplicationUBO::Render()
+{
+
+}

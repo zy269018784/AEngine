@@ -281,3 +281,8 @@ void RHIApplicationSamplerObject::Draw()
     CommandBuffer->RHIDrawPrimitive(24);
 #endif
 }
+
+void RHIApplicationSamplerObject::Render()
+{
+
+}

@@ -376,3 +376,8 @@ void RHIApplicationFramebuffer::Draw()
 
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
+
+void RHIApplicationFramebuffer::Render()
+{
+
+}

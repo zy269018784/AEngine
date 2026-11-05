@@ -17,6 +17,8 @@ public:
     RHIApplicationTexture2DArray();
     ~RHIApplicationTexture2DArray();
 private:
+    virtual void Render() override final;
+private:
     virtual void Init();
     virtual void Draw();
     void CreateVBO();

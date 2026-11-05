@@ -52,7 +52,7 @@ private:
     virtual void Init();
     virtual void Draw();
     virtual void Draw2();
-    virtual void Render();
+    virtual void Render() = 0;
 public:
     /*
      *  0:  vulkan
