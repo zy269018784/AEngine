@@ -166,11 +166,7 @@ void RHIApplication::Run()
 
         dynamic_cast<RHISwapChainRenderTarget *>(RenderTarget)->IfNeedRecreateSwapChain();
 
-        RenderTarget->RHIBeginFrame();
-        RenderTarget->RHIBeginRenderPass();
-        Draw();
-        RenderTarget->RHIEndRenderPass();
-        RenderTarget->RHIEndFrame();
+        Render();
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

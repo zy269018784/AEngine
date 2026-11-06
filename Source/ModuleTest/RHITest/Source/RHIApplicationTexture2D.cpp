@@ -248,5 +248,9 @@ void RHIApplicationTexture2D::Draw()
 
 void RHIApplicationTexture2D::Render()
 {
-
+    RenderTarget->RHIBeginFrame();
+    RenderTarget->RHIBeginRenderPass();
+    Draw();
+    RenderTarget->RHIEndRenderPass();
+    RenderTarget->RHIEndFrame();
 }

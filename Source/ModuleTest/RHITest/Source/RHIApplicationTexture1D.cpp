@@ -246,5 +246,9 @@ void RHIApplicationTexture1D::Draw()
 
 void RHIApplicationTexture1D::Render()
 {
-
+    RenderTarget->RHIBeginFrame();
+    RenderTarget->RHIBeginRenderPass();
+    Draw();
+    RenderTarget->RHIEndRenderPass();
+    RenderTarget->RHIEndFrame();
 }

@@ -317,5 +317,9 @@ void RHIApplicationTexture3D::Draw()
 
 void RHIApplicationTexture3D::Render()
 {
-
+    RenderTarget->RHIBeginFrame();
+    RenderTarget->RHIBeginRenderPass();
+    Draw();
+    RenderTarget->RHIEndRenderPass();
+    RenderTarget->RHIEndFrame();
 }
