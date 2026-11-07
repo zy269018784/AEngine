@@ -6,9 +6,9 @@
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBinding.h"
 #include "RHI/RHIObjects/Shader/RHIShaderResourceBindings.h"
 #include "Common.h"
-#if  1
+
 #include <stb_image.h>
-#endif
+
 /*
     VBO1三角形: 红色和黄色
     VBO1三角形: 蓝色和绿色
@@ -68,17 +68,15 @@ RHIApplicationTexture2DRenderTarget::~RHIApplicationTexture2DRenderTarget()
 
 void RHIApplicationTexture2DRenderTarget::Init()
 {
-    std::cout << "RHIApplicationTexture2DRenderTarget::Init 1" << std::endl;
     CreateVBO();
     CreateEBO();
     CreateTexture();
-    std::cout << "RHIApplicationTexture2DRenderTarget::Init 2" << std::endl;
     CreateSRB();
-    std::cout << "RHIApplicationTexture2DRenderTarget::Init 3" << std::endl;
+    //CreateSRB2();
+    //CreateTextureRenderTarget();
     CreateVertexDescriptioin();
-    std::cout << "RHIApplicationTexture2DRenderTarget::Init 4" << std::endl;
     CreateGraphicsPipeline();
-    std::cout << "RHIApplicationTexture2DRenderTarget::Init 5" << std::endl;
+    //CreateGraphicsPipeline2();
 }
 
 void RHIApplicationTexture2DRenderTarget::CreateVBO()
@@ -127,6 +125,17 @@ void RHIApplicationTexture2DRenderTarget::CreateSRB()
             RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
     });
     SRB->Create();
+
+
+}
+
+void RHIApplicationTexture2DRenderTarget::CreateSRB2()
+{
+    SRB2 = pRHI->RHICreateShaderResourceBindings();
+    SRB2->SetBindings({
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
+    });
+    SRB2->Create();
 }
 
 void RHIApplicationTexture2DRenderTarget::CreateVertexDescriptioin()
@@ -184,11 +193,8 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline()
         用于创建Descriptor Set Layout和Pipeline Layout
     */
 
-#if USE_RHIWindow
-    GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RHIWindow_);
-#else
+
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
-#endif
     GraphicsPipeline->SetShaderResourceBindings(SRB);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
@@ -206,6 +212,67 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline()
     VertexShader = nullptr;
     FragmengShader = nullptr;
 }
+
+
+void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
+{
+    auto vertShaderCode = ReadFile("Texture2D_vert.spv");
+    auto fragShaderCode = ReadFile("Texture2D_frag.spv");
+    // 创建Shader
+    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+
+    RHIVertexInputLayout VertexInputLayout;
+    /*
+        int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
+    */
+    VertexInputLayout.SetAttributes({
+        { "",0, 0, RHIVertexInputAttribute::Format::Float3,  0 * sizeof(float), 0 },
+        { "",0, 1, RHIVertexInputAttribute::Format::Float2,  3 * sizeof(float), 0 },
+       // { 0, 2, RHIVertexInputAttribute::Format::Float2,  6 * sizeof(float), 0 }
+    });
+    /*
+        std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
+    */
+    VertexInputLayout.SetBindings({
+        { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+    });
+    /*
+        用于创建Descriptor Set Layout和Pipeline Layout
+    */
+    GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
+    GraphicsPipeline2->SetShaderResourceBindings(SRB2);
+    GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
+    GraphicsPipeline2->SetCullMode(RHICullMode::CullModeNone);
+#if USE_RHI_VULKAN
+    GraphicsPipeline2->SetFrontFace(RHIFrontFace::CW);
+#else
+    GraphicsPipeline2->SetFrontFace(RHIFrontFace::CCW);
+#endif
+    GraphicsPipeline2->SetTopology(RHITopology::Triangles);
+    GraphicsPipeline2->SetVertexInputLayout(VertexInputLayout);
+    GraphicsPipeline2->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline2->Create();
+    delete VertexShader;
+    delete FragmengShader;
+}
+
+void RHIApplicationTexture2DRenderTarget::CreateTextureRenderTarget()
+{
+    RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+    RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM,
+        RHITextureUsageFlag::SampledTexture,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
+    RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8,
+        RHITextureUsageFlag::DepthStencilAttachment,
+        RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1, 800, 600, nullptr);
+
+    std::vector<RHITexture *> ColorAttachments;
+    ColorAttachments.push_back(RHITextureRT);
+    std::vector<RHITexture *> DepthAttachments;
+    DepthAttachments.push_back(DepthTextureRT);
+    TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(ColorAttachments, DepthAttachments);
+}
  
 void RHIApplicationTexture2DRenderTarget::Draw()
 {
@@ -214,13 +281,8 @@ void RHIApplicationTexture2DRenderTarget::Draw()
     float w = 0;
     float h = 0;
 
-#if USE_RHIWindow
-    auto CommandBuffer = RHIWindow_->CurrentGraphicsCommandBuffer();
-    RHIWindow_->GetExtent(x, y, w, h);
-#else
     auto CommandBuffer = RenderTarget->CurrentGraphicsCommandBuffer();
     RenderTarget->GetExtent(x, y, w, h);
-#endif
 
     RHIViewport Viewport(0, 0, w, h);
     CommandBuffer->RHISetViewport(Viewport);
@@ -245,6 +307,41 @@ void RHIApplicationTexture2DRenderTarget::Draw()
     CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
+
+void RHIApplicationTexture2DRenderTarget::Draw2()
+{
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+
+    auto CommandBuffer = TextureRenderTarget->CurrentGraphicsCommandBuffer();
+    TextureRenderTarget->GetExtent(x, y, w, h);
+
+    RHIViewport Viewport(0, 0, w, h);
+    CommandBuffer->RHISetViewport(Viewport);
+
+    RHIScissor Scissor(0, 0, w, h);
+    CommandBuffer->RHISetScissor(Scissor);
+
+    CommandBuffer->RHISetGraphicsPipeline(GraphicsPipeline2);
+
+    CommandBuffer->RHISetDepthTestEnable(true);
+    CommandBuffer->RHISetDepthCompareOp(RHICompareOp::Less);
+    CommandBuffer->RHISetDepthWriteEnable(true);
+    /*
+        开启深度测试, 这个也要开启
+    */
+    CommandBuffer->RHISetDepthBoundsTestEnable(true);
+    /*
+
+    */
+    CommandBuffer->RHISetStencilTestEnable(false);
+
+    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
+}
+
 
 void RHIApplicationTexture2DRenderTarget::Render()
 {
