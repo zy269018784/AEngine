@@ -157,7 +157,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
     {
         Type = ToRHIAttachmentType(Index);
         ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index],
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
             );
@@ -186,7 +186,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
                 break;
         }
         DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index],
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
 
