@@ -415,12 +415,12 @@ enum RHIColorSpace : std::uint32_t {
 
 enum class RHIEXPORT RHITextureUsageFlag: std::uint32_t
 {
-	TransferSRC,
-	TransferDst,
-	ColorAttachment,
-	DepthStencilAttachment,
-	SampledTexture,
-	StorageTexture,
+	TransferSRC 			= 0x1,
+	TransferDst 			= 0x2,
+	ColorAttachment			= 0x4,
+	DepthStencilAttachment  = 0x8,
+	SampledTexture			= 0x10,
+	StorageTexture			= 0x20,
 };
 
 enum class RHIEXPORT RHITImageUsageFlag: std::uint32_t
@@ -432,6 +432,33 @@ enum class RHIEXPORT RHITImageUsageFlag: std::uint32_t
 	SampledTexture,
 	StorageTexture,
 };
+
+// 位或：组合多个 flag，返回枚举（保持可组合）
+constexpr RHITextureUsageFlag operator|(RHITextureUsageFlag a, RHITextureUsageFlag b) noexcept {
+	return static_cast<RHITextureUsageFlag>(
+		static_cast<std::uint32_t>(a) | static_cast<std::uint32_t>(b));
+}
+
+// 位与：用于"是否包含"检查，返回 bool
+constexpr bool operator&(RHITextureUsageFlag a, RHITextureUsageFlag b) noexcept {
+	return (static_cast<std::uint32_t>(a) & static_cast<std::uint32_t>(b)) != 0u;
+}
+
+// 复合或：返回引用（保持可组合）
+constexpr RHITextureUsageFlag& operator|=(RHITextureUsageFlag& a, RHITextureUsageFlag b) noexcept {
+	a = a | b;
+	return a;
+}
+
+// 复合与：这是"检查"，返回 bool 更合理
+constexpr bool operator&=(const RHITextureUsageFlag& a, RHITextureUsageFlag b) noexcept {
+	return (static_cast<std::uint32_t>(a) & static_cast<std::uint32_t>(b)) != 0u;
+}
+
+// 取反：返回枚举（用于掩码，如 usage &= ~Flag::Sampled）
+constexpr RHITextureUsageFlag operator~(RHITextureUsageFlag a) noexcept {
+	return static_cast<RHITextureUsageFlag>(~static_cast<std::uint32_t>(a));
+}
 
 enum class RHIEXPORT RHIBufferUsageFlag: std::uint32_t
 {

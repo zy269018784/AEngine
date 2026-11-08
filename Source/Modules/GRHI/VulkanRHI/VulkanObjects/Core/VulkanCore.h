@@ -1171,6 +1171,41 @@ inline VkFormat ToVkFormat(RHIAttachmentType type)
 inline VkImageUsageFlags ToVkImageUsageFlags(RHITextureUsageFlag Flag)
 {
 	VkImageUsageFlags VkFlags = 0x0;
+	if (Flag & RHITextureUsageFlag::TransferSRC)
+	{
+		VkFlags |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+	}
+
+	if (Flag & RHITextureUsageFlag::TransferDst)
+	{
+		VkFlags |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	}
+
+	if (Flag & RHITextureUsageFlag::ColorAttachment)
+	{
+		VkFlags |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		VkFlags |= VK_IMAGE_USAGE_SAMPLED_BIT;
+		VkFlags |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	}
+
+	if (Flag & RHITextureUsageFlag::DepthStencilAttachment)
+	{
+		VkFlags |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	}
+
+	if (Flag & RHITextureUsageFlag::SampledTexture)
+	{
+		VkFlags |= VK_IMAGE_USAGE_SAMPLED_BIT;
+		VkFlags |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	}
+
+	if (Flag & RHITextureUsageFlag::StorageTexture)
+	{
+		VkFlags |= VK_IMAGE_USAGE_STORAGE_BIT;
+	}
+
+	return VkFlags;
+
 	switch (Flag) {
 		case RHITextureUsageFlag::TransferSRC:
 			return VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
