@@ -72,11 +72,11 @@ void RHIApplicationTexture2DRenderTarget::Init()
     CreateEBO();
     CreateTexture();
     CreateSRB();
-    //CreateSRB2();
-    //CreateTextureRenderTarget();
+    CreateSRB2();
+    CreateTextureRenderTarget();
     CreateVertexDescriptioin();
     CreateGraphicsPipeline();
-    //CreateGraphicsPipeline2();
+    CreateGraphicsPipeline2();
 }
 
 void RHIApplicationTexture2DRenderTarget::CreateVBO()
@@ -260,8 +260,9 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
 void RHIApplicationTexture2DRenderTarget::CreateTextureRenderTarget()
 {
     RHISamplerRT = pRHI->RHICreateSampler(RHIFilter::NEAREST, RHIFilter::NEAREST);
+
     RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM,
-        RHITextureUsageFlag::SampledTexture,
+        RHITextureUsageFlag::ColorAttachment,
         RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
     RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8,
         RHITextureUsageFlag::DepthStencilAttachment,
@@ -338,13 +339,19 @@ void RHIApplicationTexture2DRenderTarget::Draw2()
     */
     CommandBuffer->RHISetStencilTestEnable(false);
 
-    CommandBuffer->RHISetVertexInput(0, VertexInputs2.size(), VertexInputs2.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
+    CommandBuffer->RHISetVertexInput(0, VertexInputs.size(), VertexInputs.data(), RHIEBO, 0, RHIIndexFormat::IndexUInt32);
     CommandBuffer->RHIDrawIndexedPrimitive(6, 1, 0, 0, 0);
 }
 
 
 void RHIApplicationTexture2DRenderTarget::Render()
 {
+    TextureRenderTarget->RHIBeginFrame();
+    TextureRenderTarget->RHIBeginRenderPass();
+    Draw2();
+    TextureRenderTarget->RHIEndRenderPass();
+    TextureRenderTarget->RHIEndFrame();
+
     RenderTarget->RHIBeginFrame();
     RenderTarget->RHIBeginRenderPass();
     Draw();
