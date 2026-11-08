@@ -86,8 +86,7 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     RenderPassInfo.renderPass			= dynamic_cast<VulkanRenderPass*>(RenderPass)->GetHandle();
-  //  RenderPassInfo.framebuffer			= FrameBuffers[CurrentImageIndex]->GetHandle();
-    RenderPassInfo.framebuffer			= dynamic_cast<VulkanFrameBuffer *>(FrameBuffers[0])->GetHandle();
+    RenderPassInfo.framebuffer			= dynamic_cast<VulkanFrameBuffer *>(CurrentFrameBuffer())->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= { Width, Height};
     RenderPassInfo.clearValueCount		= 4;
@@ -124,6 +123,7 @@ void VulkanTextureRenderTarget::WaitDeviceIdle()
 void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures,
                                        std::vector<RHITexture *> InDepthTextures)
 {
+#if 0
 #if 1
     // AMD Radeon RX580 2048SP
     RHIAttachmentType   DepthStencilType = RHIAttachmentType::DepthStencil_D32_S8;
@@ -136,9 +136,8 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
     RHIAttachmentType	   RHIDepthStencilType = RHIAttachmentType::DepthStencil_D24_S8;
     RHIPixelFormat  DepthStencilPixelFormat = RHIPixelFormat::PF_DepthStencil_D24_S8;
 #endif
-
-    CreateRenderPass();
-
+#endif
+   // CreateRenderPass();
 
     if (InColorTextures.size() > 16)
     {
@@ -158,8 +157,8 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         Type = ToRHIAttachmentType(Index);
         ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
             );
         InColorAttachmentIndex[Index] = Index;
     }
@@ -187,21 +186,23 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         }
         DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
+            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+            RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
         std::cout << "DepthStencilAttachments[Index] GetInitialLayout" << (int)DepthStencilAttachments[Index]->GetInitialLayout() << std::endl;
     }
 
 
 
-    RHIAttachment DepthAttachment(DepthStencilType, nullptr,
-        RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
-    std::cout << "VulkanTextureRenderTarget Test " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
+   //RHIAttachment DepthAttachment(DepthStencilType, nullptr,
+   //    RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+   //        RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+   //        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+   //std::cout << "VulkanTextureRenderTarget Test " << ColorAttachments.size() << " " << DepthStencilAttachments.size() << std::endl;
 
-
+    /*
+     * 只创建一个Subpass
+     */
     std::vector<RHISubPass *> SubPass;
     SubPass.push_back(new RHISubPass(InColorAttachmentIndex, InDepthAttachmentIndex));
     RenderPass = new VulkanRenderPass(Device, ColorAttachments, DepthStencilAttachments, SubPass);
