@@ -112,6 +112,8 @@ public:
 
     RHIShader* VertexShader = nullptr;
     RHIShader* FragmengShader = nullptr;
+    RHIShader* VertexShader2 = nullptr;
+    RHIShader* FragmengShader2 = nullptr;
     RHIShader* GeometryShader = nullptr;
     RHIShader* ComputeShader = nullptr;
 };

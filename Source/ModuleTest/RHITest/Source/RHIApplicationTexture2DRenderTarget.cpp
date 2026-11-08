@@ -154,25 +154,13 @@ void RHIApplicationTexture2DRenderTarget::CreateVertexDescriptioin()
 
 void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline()
 {
-#if 1
     auto vertShaderCode = ReadFile("RT_Texture2D_vert.spv");
     auto fragShaderCode = ReadFile("RT_Texture2D_frag.spv");
     // 创建Shader
-    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
 
-#else
-    auto vertShaderCode = ReadFile2("Texture2D_vert.glsl");
-    auto fragShaderCode = ReadFile2("Texture2D_frag.glsl");
-    const char* p1 = vertShaderCode.c_str();
-    const char* p2 = fragShaderCode.c_str();
 
-    // std::cout << p1 << std::endl;
-    // std::cout << p2 << std::endl;
-     // 创建Shader
-    RHIShader* VertexShader = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)p1, vertShaderCode.size());
-    RHIShader* FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)p2, fragShaderCode.size());
-#endif
     RHIVertexInputLayout VertexInputLayout;
     /*
         int binding, int location, RHIVertexInputAttribute::Format format, std::uint32_t offset, int matrixSlice = -1
@@ -217,9 +205,10 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
 {
     auto vertShaderCode = ReadFile("TextureRenderTarget_vert.spv");
     auto fragShaderCode = ReadFile("TextureRenderTarget_frag.spv");
+
     // 创建Shader
-    VertexShader= pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
-    FragmengShader = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
+    VertexShader2 = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
+    FragmengShader2 = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
 
     RHIVertexInputLayout VertexInputLayout;
     /*
@@ -234,7 +223,7 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
         std::uint32_t stride, RHIVertexInputBinding::Classification cls = PerVertex, std::uint32_t stepRate = 1
     */
     VertexInputLayout.SetBindings({
-        { 5 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
+        { 10 * sizeof(float), RHIVertexInputBinding::Classification::PerVertex, 0 },
     });
     /*
         用于创建Descriptor Set Layout和Pipeline Layout
@@ -250,10 +239,10 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
 #endif
     GraphicsPipeline2->SetTopology(RHITopology::Triangles);
     GraphicsPipeline2->SetVertexInputLayout(VertexInputLayout);
-    GraphicsPipeline2->SetShaderStages({ VertexShader , FragmengShader });
+    GraphicsPipeline2->SetShaderStages({ VertexShader2 , FragmengShader2 });
     GraphicsPipeline2->Create();
-    delete VertexShader;
-    delete FragmengShader;
+    delete VertexShader2;
+    delete FragmengShader2;
 }
 
 void RHIApplicationTexture2DRenderTarget::CreateTextureRenderTarget()

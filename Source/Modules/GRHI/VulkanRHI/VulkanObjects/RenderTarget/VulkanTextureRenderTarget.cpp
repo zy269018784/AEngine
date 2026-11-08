@@ -32,7 +32,7 @@ void VulkanTextureRenderTarget::RHIBeginFrame()
     /*
         current command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[FrameIndex]);
+    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer());
     /*
         reset command buffer
     */
@@ -57,7 +57,7 @@ void VulkanTextureRenderTarget::RHIEndFrame()
     /*
         current frame's command buffer
     */
-    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(GraphicsCommandBuffers[FrameIndex]);
+    VulkanCommandBuffer* CommandBuffer = dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer());
     /*
         complete recording of a command buffer
     */
