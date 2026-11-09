@@ -10,14 +10,14 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
    std::vector<RHIAttachment *> &InColorAttachments, std::vector<RHIAttachment *> &InDepthAttachments)
     : Device(InDevice)
 {
-    std::vector<VkImageView> attachments;
+    std::vector<VkImageView> Attachments;
     for (int i = 0; i < InColorAttachments.size(); i++)
     {
-        attachments.emplace_back(static_cast<VulkanAttachment *>(InColorAttachments[i])->GetHandle());
+        Attachments.emplace_back(static_cast<VulkanAttachment *>(InColorAttachments[i])->GetHandle());
     }
     for (int i = 0; i < InDepthAttachments.size(); i++)
     {
-        attachments.emplace_back(static_cast<VulkanAttachment *>(InDepthAttachments[i])->GetHandle());
+        Attachments.emplace_back(static_cast<VulkanAttachment *>(InDepthAttachments[i])->GetHandle());
     }
     std::cout << "VulkanFrameBuffer::VulkanFrameBuffer 2 "
     << InColorAttachments.size() << " "
@@ -33,8 +33,8 @@ VulkanFrameBuffer::VulkanFrameBuffer(VulkanDevice* InDevice, VulkanRenderPass* I
     CreateInfo.width            = SwapChainExtent.width;
     CreateInfo.height           = SwapChainExtent.height;
     CreateInfo.layers           = 1;
-    CreateInfo.attachmentCount  = attachments.size();
-    CreateInfo.pAttachments     = attachments.data();
+    CreateInfo.attachmentCount  = Attachments.size();
+    CreateInfo.pAttachments     = Attachments.data();
 
     /*
      *      • VUID-VkFramebufferCreateInfo-layers-00889
