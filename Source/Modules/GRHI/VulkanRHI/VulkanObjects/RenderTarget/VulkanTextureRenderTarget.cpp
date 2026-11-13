@@ -78,10 +78,12 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
 {
     //VkClearValue ClearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
     VkClearValue ClearColor[4];
-    ClearColor[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色1
-    ClearColor[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色2 (如有)
-    ClearColor[2].depthStencil = {1.0f, 0}; // 深度范围 [0,1]，模板随意
-    ClearColor[3].depthStencil = {1.0f, 0}; // 第四个附件的清除值（根据实际需求）
+   //ClearColor[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色1
+   //ClearColor[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色2 (如有)
+   //ClearColor[2].depthStencil = {1.0f, 0}; // 深度范围 [0,1]，模板随意
+   //ClearColor[3].depthStencil = {1.0f, 0}; // 第四个附件的清除值（根据实际需求）
+    ClearColor[0].color			= {{ 0.0f, 0.0f, 0.0f, 0.0f }};      // 颜色清除值
+    ClearColor[1].depthStencil	= { 1.0f, 0 };                // 深度清除为1.0（最远值），模板为0
 
     VkRenderPassBeginInfo RenderPassInfo{};
     RenderPassInfo.sType				= VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -89,9 +91,16 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
     RenderPassInfo.framebuffer			= dynamic_cast<VulkanFrameBuffer *>(CurrentFrameBuffer())->GetHandle();
     RenderPassInfo.renderArea.offset	= { 0, 0 };
     RenderPassInfo.renderArea.extent	= { Width, Height};
-    RenderPassInfo.clearValueCount		= 4;
+    RenderPassInfo.clearValueCount		= 2;
     RenderPassInfo.pClearValues			= ClearColor;
-    dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+  //  dynamic_cast<VulkanCommandBuffer*>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass(&RenderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+    VkSubpassBeginInfo SubpassBeginInfo{};
+    SubpassBeginInfo.sType = VK_STRUCTURE_TYPE_SUBPASS_BEGIN_INFO;
+    SubpassBeginInfo.pNext = nullptr;
+    SubpassBeginInfo.contents = VK_SUBPASS_CONTENTS_INLINE;
+
+    dynamic_cast<VulkanCommandBuffer *>(CurrentGraphicsCommandBuffer())->CmdBeginRenderPass2(&RenderPassInfo, &SubpassBeginInfo);
 }
 
 void VulkanTextureRenderTarget::RHIEndRenderPass()

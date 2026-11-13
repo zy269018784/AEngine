@@ -32,6 +32,9 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     /*
         texture array报错
     */
+    /*
+     * initialLayout is a VkImageLayout value specifying the initial VkImageLayout of all image subresources of the image. See Image Layouts.
+     */
     CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
     //CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
     //if  (InUsage == RHITextureUsageFlag::ColorAttachment)
