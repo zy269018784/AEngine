@@ -107,6 +107,17 @@ void VulkanRenderPass::Create1_0()
      * 4. VkSubpassDependency;
      */
     std::vector<VkSubpassDependency> Dependencies;
+    Dependencies.resize(SubpassDependencies.size());
+    for (int SubpassDependencyIndex = 0; SubpassDependencyIndex < SubpassDependencies.size(); SubpassDependencyIndex++)
+    {
+        Dependencies[SubpassDependencyIndex].srcSubpass         = SubpassDependencies[SubpassDependencyIndex]->SrcSubpass;
+        Dependencies[SubpassDependencyIndex].dstSubpass         = SubpassDependencies[SubpassDependencyIndex]->DstSubpass;
+        Dependencies[SubpassDependencyIndex].srcAccessMask      = ToVkAccessFlags(SubpassDependencies[SubpassDependencyIndex]->SrcAccessMask);
+        Dependencies[SubpassDependencyIndex].dstAccessMask      = ToVkAccessFlags(SubpassDependencies[SubpassDependencyIndex]->DstAccessMask);
+        Dependencies[SubpassDependencyIndex].srcStageMask       = ToVkPipelineStageFlags(SubpassDependencies[SubpassDependencyIndex]->SrcStageMask);
+        Dependencies[SubpassDependencyIndex].dstStageMask       = ToVkPipelineStageFlags(SubpassDependencies[SubpassDependencyIndex]->DstStageMask);
+        Dependencies[SubpassDependencyIndex].dependencyFlags    = ToVkDependencyFlags(SubpassDependencies[SubpassDependencyIndex]->DependencyFlags);
+    }
 
     /*
      * 5. 创建RenderPass
@@ -236,28 +247,23 @@ void VulkanRenderPass::Create1_2()
         SubpassDescription[SubPassIndex].pPreserveAttachments                = nullptr;
     }
 
-
     /*
-     * 4. Subpass Dependencies (可选)
-     * 如果需要外部依赖，可以添加
+     * 4. VkSubpassDependency2;
      */
     std::vector<VkSubpassDependency2> Dependencies;
-    // 如果需要在RenderPass开始时等待外部操作完成，可以添加依赖
-    // 例如等待之前的Compute Shader完成
-    /*
-    VkSubpassDependency2 ExternalDependency{};
-    ExternalDependency.sType                    = VK_STRUCTURE_TYPE_SUBPASS_DEPENDENCY_2;
-    ExternalDependency.pNext                    = nullptr;
-    ExternalDependency.srcSubpass               = VK_SUBPASS_EXTERNAL;
-    ExternalDependency.dstSubpass               = 0;
-    ExternalDependency.srcStageMask             = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-    ExternalDependency.dstStageMask             = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-    ExternalDependency.srcAccessMask            = VK_ACCESS_SHADER_WRITE_BIT;
-    ExternalDependency.dstAccessMask            = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-    ExternalDependency.dependencyFlags          = 0;
-    ExternalDependency.viewOffset               = 0;
-    Dependencies.emplace_back(ExternalDependency);
-    */
+    Dependencies.resize(SubpassDependencies.size());
+    for (int SubpassDependencyIndex = 0; SubpassDependencyIndex < SubpassDependencies.size(); SubpassDependencyIndex++)
+    {
+        Dependencies[SubpassDependencyIndex].sType              = VK_STRUCTURE_TYPE_SUBPASS_DEPENDENCY_2;
+        Dependencies[SubpassDependencyIndex].pNext              = nullptr;
+        Dependencies[SubpassDependencyIndex].srcSubpass         = SubpassDependencies[SubpassDependencyIndex]->SrcSubpass;
+        Dependencies[SubpassDependencyIndex].dstSubpass         = SubpassDependencies[SubpassDependencyIndex]->DstSubpass;
+        Dependencies[SubpassDependencyIndex].srcAccessMask      = ToVkAccessFlags(SubpassDependencies[SubpassDependencyIndex]->SrcAccessMask);
+        Dependencies[SubpassDependencyIndex].dstAccessMask      = ToVkAccessFlags(SubpassDependencies[SubpassDependencyIndex]->DstAccessMask);
+        Dependencies[SubpassDependencyIndex].srcStageMask       = ToVkPipelineStageFlags(SubpassDependencies[SubpassDependencyIndex]->SrcStageMask);
+        Dependencies[SubpassDependencyIndex].dstStageMask       = ToVkPipelineStageFlags(SubpassDependencies[SubpassDependencyIndex]->DstStageMask);
+        Dependencies[SubpassDependencyIndex].dependencyFlags    = ToVkDependencyFlags(SubpassDependencies[SubpassDependencyIndex]->DependencyFlags);
+    }
 
     /*
      * 5. Create RenderPass with VkRenderPassCreateInfo2
