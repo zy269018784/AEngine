@@ -5,9 +5,11 @@
 
 
 VulkanRenderPass::VulkanRenderPass(RHIDevice* InDevice,
-    std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments,
+    std::vector<RHIAttachment *> InColorAttachments,
+    std::vector<RHIAttachment *> InDepthAttachments,
+    std::vector<RHISubpassDependency *> InSubpassDependencies,
     std::vector<RHISubPass *> InSubPass)
-    : RHIRenderPass(InDevice, InColorAttachments, InDepthAttachments, InSubPass)
+    : RHIRenderPass(InDevice, InColorAttachments, InDepthAttachments, InSubpassDependencies, InSubPass)
 {
 
 }

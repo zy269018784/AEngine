@@ -352,7 +352,8 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	std::uint32_t InDepthAttachmentIndex = ColorAttachmentIndex.size();
 	std::vector<RHISubPass *> SubPass;
 	SubPass.push_back(new RHISubPass(ColorAttachmentIndex, InDepthAttachmentIndex));
-	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments,DepthAttachments, SubPass);
+	std::vector<RHISubpassDependency *> SubpassDependencies;
+	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments, DepthAttachments, SubpassDependencies, SubPass);
 	RenderPass->Create();
 }
 

@@ -1,8 +1,9 @@
-#pragma once
+ #pragma once
 #include <VulkanRHI/Vulkan.h>
 #include <RHI/RHIObjects/RenderPass/RHIRenderPass.h>
 #include <RHI/RHIObjects/RenderPass/RHISubPass.h>
 #include <RHI/RHIObjects/FrameBuffer/RHIAttachment.h>
+#include "RHI/RHIObjects/Core/RHISubpassDependency.h"
 #include <vector>
 
 class VulkanDevice;
@@ -13,6 +14,7 @@ public:
 	VulkanRenderPass() = delete;
 	VulkanRenderPass(RHIDevice* InDevice,
 		std::vector<RHIAttachment *> InColorAttachments, std::vector<RHIAttachment *> InDepthAttachments,
+		std::vector<RHISubpassDependency *> InSubpassDependencies,
 		std::vector<RHISubPass *> InSubPass);
 	~VulkanRenderPass();
 	VkRenderPass GetHandle();

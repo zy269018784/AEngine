@@ -7,12 +7,14 @@
 class RHIFrameBuffer;
 class RHIDevice;
 class RHISubPass;
+class RHISubpassDependency;
 class RHIEXPORT RHIRenderPass
 {
 public:
 	RHIRenderPass(RHIDevice* InDevice,
 		std::vector<RHIAttachment *> InColorAttachments,
 		std::vector<RHIAttachment *> InDepthAttachments,
+		std::vector<RHISubpassDependency *> InSubpassDependencies,
 		std::vector<RHISubPass *> InSubPass);
 	virtual ~RHIRenderPass();
 	void SetClearColor(RHIClearColor &Color);
@@ -29,5 +31,6 @@ protected:
 public:
 	std::vector<RHIAttachment *> ColorAttachments;
 	std::vector<RHIAttachment *> DepthAttachments;
+	std::vector<RHISubpassDependency *> SubpassDependencies;
 	std::vector<RHISubPass *> SubPass;
 };
