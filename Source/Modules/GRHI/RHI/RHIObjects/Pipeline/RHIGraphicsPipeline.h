@@ -80,7 +80,7 @@ protected:
 	/*
 		Multisample
 	*/
-	int								SampleCount;
+	int								SampleCount = 1;
 public:
 	/*
 		Render Pass
