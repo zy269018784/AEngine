@@ -27,18 +27,28 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
         深度附件必须要VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
     */
     CreateInfo.usage            = ToVkImageUsageFlags(InUsage);
-    CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
+
     CreateInfo.sharingMode      = VK_SHARING_MODE_EXCLUSIVE;
-    /*
-        texture array报错
-    */
     /*
      * initialLayout is a VkImageLayout value specifying the initial VkImageLayout of all image subresources of the image. See Image Layouts.
      */
-    //CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    /*
+     * VUID-VkImageCreateInfo-initialLayout-00993
+     * initialLayout must be VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT, or VK_IMAGE_LAYOUT_PREINITIALIZED
+     */
     CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
-    //if  (InUsage == RHITextureUsageFlag::ColorAttachment)
-   //     CreateInfo.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+
+
+    /*
+     * VUID-VkImageCreateInfo-initialLayout-12478
+     * If initialLayout is VK_IMAGE_LAYOUT_PREINITIALIZED, tiling must be VK_IMAGE_TILING_LINEAR
+     */
+    CreateInfo.tiling           = VK_IMAGE_TILING_OPTIMAL;
+    if (InLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_PREINITIALIZED)
+    {
+        CreateInfo.tiling = VK_IMAGE_TILING_LINEAR;
+    }
 
     VkResult Result = CreateImage(&CreateInfo, nullptr);
     if (VK_SUCCESS != Result)
