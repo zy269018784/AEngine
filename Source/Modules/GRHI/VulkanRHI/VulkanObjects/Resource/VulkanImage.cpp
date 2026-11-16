@@ -10,15 +10,15 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     RHITextureUsageFlag InUsage,
     RHIImageLayout InLayout,
 	std::uint32_t InSizeX, std::uint32_t InSizeY, std::uint32_t InSizeZ, std::uint32_t InArraySize, std::uint32_t InNumMips, std::uint32_t InSampleCount, const void* InData)
-	: Device(InDevice), Type(InType), Layout(RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED), ArraySize(InArraySize)
+	: Device(InDevice), Type(InType), PixelFormat(InPixelFormat), Layout(RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED), ArraySize(InArraySize)
 {
     DeviceMemory = new VulkanDeviceMemory(InDevice);
     VkImageViewType InResourceType = ToVulkanImageViewType(InType);
-	CreateInfo               = {};
+	CreateInfo                  = {};
     CreateInfo.sType            = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     CreateInfo.flags            = ImageViewTypeToImageCreateFlagBits(InResourceType);
     CreateInfo.imageType        = ImageViewTypeToImageType(InResourceType);
-    CreateInfo.extent        = { InSizeX, InSizeY, InSizeZ };
+    CreateInfo.extent           = { InSizeX, InSizeY, InSizeZ };
     CreateInfo.format           = ToVkFormat(InPixelFormat);
     CreateInfo.mipLevels        = InNumMips;
     CreateInfo.arrayLayers      = InArraySize;
@@ -35,8 +35,8 @@ VulkanImage::VulkanImage(VulkanDevice* InDevice,
     /*
      * initialLayout is a VkImageLayout value specifying the initial VkImageLayout of all image subresources of the image. See Image Layouts.
      */
-    CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
-    //CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
+    //CreateInfo.initialLayout      = VK_IMAGE_LAYOUT_UNDEFINED;
+    CreateInfo.initialLayout      = ToVkImageLayout(InLayout);
     //if  (InUsage == RHITextureUsageFlag::ColorAttachment)
    //     CreateInfo.initialLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
@@ -103,15 +103,6 @@ VulkanImage::~VulkanImage()
 VkImage VulkanImage::GetHandle() const
 {
     return Handle;
-}
-
-VkImageCreateInfo VulkanImage::GetCreateInfo() const {
-    return CreateInfo;
-}
-
-RHIImageLayout VulkanImage::GetRHIImageLayout() const
-{
-    return Layout;
 }
 
 void VulkanImage::SetRHIImageLayout(RHIImageLayout InLayout) {
@@ -221,15 +212,79 @@ void VulkanImage::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMe
     std::cout << "VulkanImage::createBuffer ok" << std::endl;
 }
 
+bool VulkanImage::HasColorAspect() const
+{
+    if (RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL == GetRHIImageLayout())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool VulkanImage::HasDepthAspect() const
+{
+    if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL == GetRHIImageLayout())
+    {
+        return true;
+    }
+    if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL == GetRHIImageLayout())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthOnly_D16 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthOnly_D32 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthStencil_D24_S8 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthStencil_D32_S8 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool VulkanImage::HasStencilAspect() const
+{
+    if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL == GetRHIImageLayout())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthStencil_D24_S8 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    if (RHIPixelFormat::PF_DepthStencil_D32_S8 == GetRHIPixelFormat())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
 {
     RHIImageLayout OldLayout = GetRHIImageLayout();
     RHIImageLayout NewLayout = InLayout;
-    /*
+#if 0
     std::cout << "TransitionImageLayout "
         << static_cast<int>(OldLayout) << " "
         << static_cast<int>(NewLayout) << std::endl;
-    */
+#endif
     SetRHIImageLayout(NewLayout);
 #if 1
     VulkanCommandBuffer* CommandBuffer = Device->CommandPools[0]->BeginSingleTimeCommands();
@@ -242,6 +297,27 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     Barrier.dstQueueFamilyIndex             = VK_QUEUE_FAMILY_IGNORED;
     Barrier.image                           = Handle;
 
+    Barrier.subresourceRange.aspectMask     = 0;
+
+    if (HasColorAspect())
+    {
+        Barrier.subresourceRange.aspectMask     |= VK_IMAGE_ASPECT_COLOR_BIT;
+    }
+    else
+    {
+        if (HasStencilAspect())
+        {
+            Barrier.subresourceRange.aspectMask     |= VK_IMAGE_ASPECT_STENCIL_BIT;
+        }
+        if (HasDepthAspect())
+        {
+            Barrier.subresourceRange.aspectMask     |= VK_IMAGE_ASPECT_DEPTH_BIT;
+        }
+        else
+            Barrier.subresourceRange.aspectMask     |= VK_IMAGE_ASPECT_COLOR_BIT;
+    }
+
+/*
     if (RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL == NewLayout)
         Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
     else if (RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL == NewLayout)
@@ -250,7 +326,7 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
         Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
     else
         Barrier.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-
+*/
     Barrier.subresourceRange.baseMipLevel   = 0;
     // to do : 改为 num mipmaps
     Barrier.subresourceRange.levelCount     = 1;
@@ -298,27 +374,36 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
     {
-        Barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        Barrier.srcAccessMask   = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+        Barrier.dstAccessMask   = VK_ACCESS_SHADER_READ_BIT;
 
-        SourceStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        SourceStage             = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        DestinationStage        = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL)
     {
-        Barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        Barrier.srcAccessMask   = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+        Barrier.dstAccessMask   = VK_ACCESS_SHADER_READ_BIT;
 
-        SourceStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        SourceStage             = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        DestinationStage        = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+    {
+        Barrier.srcAccessMask   = VK_ACCESS_SHADER_READ_BIT;
+        Barrier.dstAccessMask   = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+        SourceStage             = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        DestinationStage        = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
     {
-        Barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
-        Barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+        std::cout << "RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL -> RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL" << std::endl;
+        Barrier.srcAccessMask   = VK_ACCESS_SHADER_READ_BIT;
+        Barrier.dstAccessMask   = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
-        SourceStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-        DestinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        SourceStage             = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        DestinationStage        = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
     }
     else {
         //throw std::invalid_argument("unsupported layout transition!");

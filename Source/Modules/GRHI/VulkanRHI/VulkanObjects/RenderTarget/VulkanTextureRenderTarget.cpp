@@ -82,8 +82,7 @@ void VulkanTextureRenderTarget::RHIBeginRenderPass()
    //ClearColor[1].color = {{0.0f, 0.0f, 0.0f, 1.0f}}; // 颜色2 (如有)
    //ClearColor[2].depthStencil = {1.0f, 0}; // 深度范围 [0,1]，模板随意
    //ClearColor[3].depthStencil = {1.0f, 0}; // 第四个附件的清除值（根据实际需求）
-    ClearColor[0].color			= {{
-    .0f, 0.0f, 0.0f, 0.0f }};      // 颜色清除值
+    ClearColor[0].color			= {{ .0f, 0.0f, 0.0f, 0.0f }};      // 颜色清除值
     ClearColor[1].depthStencil	= { 1.0f, 0 };                // 深度清除为1.0（最远值），模板为0
 
     VkRenderPassBeginInfo RenderPassInfo{};
@@ -168,7 +167,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         ColorAttachments[Index] = new VulkanAttachment(Type, InColorTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
             );
         InColorAttachmentIndex[Index] = Index;
     }
@@ -197,7 +196,7 @@ void VulkanTextureRenderTarget::Create(std::vector<RHITexture *> InColorTextures
         DepthStencilAttachments[Index] = new VulkanAttachment(Type, InDepthTextures[Index],
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
             RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-            RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+            RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 
         std::cout << "DepthStencilAttachments[Index] GetInitialLayout" << (int)DepthStencilAttachments[Index]->GetInitialLayout() << std::endl;
     }

@@ -21,7 +21,6 @@
 #include <numbers>
 
 VulkanSwapChainRenderTarget::VulkanSwapChainRenderTarget(VulkanDevice *InDevice, VulkanSurface* InSurface)
-	//: VulkanRenderTarget(ToRHIPixelFormat(InSurface->CurrentFormat.format), InDevice)
 	: RHISwapChainRenderTarget(InDevice, InSurface->GetWidth(), InSurface->GetHeight(), InSurface->GetRHIPixelFormat())
 {
 	/*
@@ -298,7 +297,7 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 				RHITextureType::Texture2D,
 				DepthStencilPixelFormat,
 				RHITextureUsageFlag::DepthStencilAttachment,
-				RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED,
 				1,
 				SwapChain->GetWidth(),
 				SwapChain->GetHeight(),
@@ -308,9 +307,9 @@ void VulkanSwapChainRenderTarget::CreateFramebuffer()
 
 		std::vector<RHIAttachment *> InColorAttachments;
 		InColorAttachments.emplace_back(new VulkanAttachment(RHIAttachmentType::Color1, SwapChainRHIPixelFormat, ImageViews[i],
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-		RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
-		RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
+															 RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_CLEAR, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+															 RHIAttachmentLoadOp::RHI_ATTACHMENT_LOAD_OP_LOAD, RHIAttachmentStoreOp::RHI_ATTACHMENT_STORE_OP_STORE,
+															 RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, RHIImageLayout::RHI_IMAGE_LAYOUT_PRESENT_SRC_KHR));
 
 		std::vector<RHIAttachment *> InDepthAttachments;
 		InDepthAttachments.emplace_back(new VulkanAttachment(DepthStencilType, DepthStencilPixelFormat, Tex->ImageView->GetHandle(),
@@ -352,6 +351,7 @@ void VulkanSwapChainRenderTarget::CreateRenderPass()
 	std::uint32_t InDepthAttachmentIndex = ColorAttachmentIndex.size();
 	std::vector<RHISubPass *> SubPass;
 	SubPass.push_back(new RHISubPass(ColorAttachmentIndex, InDepthAttachmentIndex));
+
 	std::vector<RHISubpassDependency *> SubpassDependencies;
 	RenderPass = new VulkanRenderPass(dynamic_cast<VulkanDevice *>(Device), ColorAttachments, DepthAttachments, SubpassDependencies, SubPass);
 	RenderPass->Create();

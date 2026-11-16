@@ -70,10 +70,13 @@ void RHIApplicationTexture2DRenderTarget::Init()
 {
     CreateVBO();
     CreateEBO();
+    std::cout << "============================================= CreateTexture" << std::endl;
     CreateTexture();
-
+    std::cout << "============================================= CreateSRB2" << std::endl;
     CreateSRB2();
+    std::cout << "============================================= CreateTextureRenderTarget" << std::endl;
     CreateTextureRenderTarget();
+    std::cout << "============================================= CreateVertexDescriptioin" << std::endl;
     CreateVertexDescriptioin();
     CreateSRB();
     CreateGraphicsPipeline();
@@ -113,7 +116,7 @@ void RHIApplicationTexture2DRenderTarget::CreateTexture()
 
     std::cout << "RHICreateTexture2D 1" << std::endl;
     RHITexture2D = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM, RHITextureUsageFlag::SampledTexture,
-        RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 1, texWidth, texHeight, pixels);
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, texWidth, texHeight, pixels);
     std::cout << "RHICreateTexture2D 2" << std::endl;
 #endif
 }
@@ -123,7 +126,8 @@ void RHIApplicationTexture2DRenderTarget::CreateSRB()
 {
     SRB = pRHI->RHICreateShaderResourceBindings();
     SRB->SetBindings({
-            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITextureRT, RHISampler_)
+            RHIShaderResourceBinding::SampledTexture(0, RHIShaderType::Fragment, RHITextureRT, RHISampler_),
+            RHIShaderResourceBinding::SampledTexture(1, RHIShaderType::Fragment, RHITexture2D, RHISampler_)
     });
     SRB->Create();
 }
@@ -206,6 +210,9 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
     auto vertShaderCode = ReadFile("TextureRenderTarget_vert.spv");
     auto fragShaderCode = ReadFile("TextureRenderTarget_frag.spv");
 
+    //auto vertShaderCode = ReadFile("RT_Texture2D_vert.spv");
+    //auto fragShaderCode = ReadFile("RT_Texture2D_frag.spv");
+
     // 创建Shader
     VertexShader2 = pRHI->RHICreateShader(RHIShaderType::Vertex, (std::uint32_t*)vertShaderCode.data(), vertShaderCode.size());
     FragmengShader2 = pRHI->RHICreateShader(RHIShaderType::Fragment, (std::uint32_t*)fragShaderCode.data(), fragShaderCode.size());
@@ -230,6 +237,8 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
     */
     GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
     GraphicsPipeline2->SetShaderResourceBindings(SRB2);
+    //GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
+    //GraphicsPipeline2->SetShaderResourceBindings(SRB);
     GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline2->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
@@ -252,15 +261,21 @@ void RHIApplicationTexture2DRenderTarget::CreateTextureRenderTarget()
     RHITextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_R8G8B8A8_UNORM,
         RHITextureUsageFlag::ColorAttachment | RHITextureUsageFlag::SampledTexture,
         RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
+
+    std::cout << "DepthTextureRT start " << std::endl;
     RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8,
         RHITextureUsageFlag::DepthStencilAttachment,
-        RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1, 800, 600, nullptr);
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
+    std::cout << "DepthTextureRT end " << std::endl;
 
     std::vector<RHITexture *> ColorAttachments;
     ColorAttachments.push_back(RHITextureRT);
     std::vector<RHITexture *> DepthAttachments;
     DepthAttachments.push_back(DepthTextureRT);
+
+    std::cout << "RHICreateTextureRenderTarget start " << std::endl;
     TextureRenderTarget = pRHI->RHICreateTextureRenderTarget(ColorAttachments, DepthAttachments);
+    std::cout << "RHICreateTextureRenderTarget end " << std::endl;
 }
  
 void RHIApplicationTexture2DRenderTarget::Draw()
@@ -336,13 +351,15 @@ void RHIApplicationTexture2DRenderTarget::Render()
 {
     RHITextureRT->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
+#if 1
     TextureRenderTarget->RHIBeginFrame();
     TextureRenderTarget->RHIBeginRenderPass();
     Draw2();
     TextureRenderTarget->RHIEndRenderPass();
     TextureRenderTarget->RHIEndFrame();
+#endif
 
-    RHITextureRT->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    RHITextureRT->TransitionTo(RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
 
     RenderTarget->RHIBeginFrame();
     RenderTarget->RHIBeginRenderPass();

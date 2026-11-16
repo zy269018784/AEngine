@@ -24,8 +24,9 @@ public:
 	VulkanImage(VulkanDevice* InDevice, VkImage InHandle);
 	~VulkanImage();
 	VkImage GetHandle() const;
-	VkImageCreateInfo GetCreateInfo() const;
-	RHIImageLayout GetRHIImageLayout() const;
+	VkImageCreateInfo GetCreateInfo() const { return CreateInfo; };
+	RHIImageLayout GetRHIImageLayout() const { return Layout; };
+	RHIPixelFormat GetRHIPixelFormat() const { return PixelFormat; };
 	void SetRHIImageLayout(RHIImageLayout InLayout);
 	void Update(const void* InData, std::uint32_t InSize);
 	//void Update(int MipmapLevel, int XOffset, int YOffset, int ZOffset, int Width, int Height, int Depth, const void* InData);
@@ -42,6 +43,10 @@ public:
 	void GetImageMemoryRequirements(VkMemoryRequirements* MemoryRequirements);
 public:
 	void TransitionImageLayout(RHIImageLayout NewLayout);
+private:
+	bool HasColorAspect() const;
+	bool HasDepthAspect() const;
+	bool HasStencilAspect() const;
 public:
 	/*
 		临时创建staging buffer
@@ -80,6 +85,8 @@ private:
 		纹理类型
 	*/
 	RHITextureType Type;
+
+	RHIPixelFormat PixelFormat;
 
 	VkImageCreateInfo CreateInfo;
 	/*

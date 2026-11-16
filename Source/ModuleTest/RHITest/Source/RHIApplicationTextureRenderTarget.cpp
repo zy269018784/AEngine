@@ -279,7 +279,7 @@ void RHIApplicationTextureRenderTarget::CreateTextureRT()
         RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
     RHITexture * DepthTextureRT = pRHI->RHICreateTexture2D(RHIPixelFormat::PF_DepthStencil_D24_S8,
         RHITextureUsageFlag::DepthStencilAttachment,
-        RHIImageLayout::RHI_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1, 800, 600, nullptr);
+        RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED, 1, 800, 600, nullptr);
 
     std::vector<RHITexture *> ColorAttachments;
     ColorAttachments.push_back(RHITextureRT);
@@ -431,6 +431,7 @@ void RHIApplicationTextureRenderTarget::CreateGraphicsPipeline2()
 
 void RHIApplicationTextureRenderTarget::Draw2()
 {
+    std::cout << "Draw2" << std::endl;
  	float x = 0;
     float y = 0;
     float w = 0;
@@ -470,6 +471,7 @@ void RHIApplicationTextureRenderTarget::Draw2()
 
 void RHIApplicationTextureRenderTarget::Draw()
 {
+    std::cout << "Draw" << std::endl;
     float x = 0;
     float y = 0;
     float w = 0;
