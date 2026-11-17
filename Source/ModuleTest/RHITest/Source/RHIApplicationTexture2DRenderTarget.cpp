@@ -187,6 +187,7 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline()
 
     GraphicsPipeline = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
     GraphicsPipeline->SetShaderResourceBindings(SRB);
+    GraphicsPipeline->SetSubpass(0);
     GraphicsPipeline->SetPolygonMode(RHIPolygonMode::Fill);
     GraphicsPipeline->SetCullMode(RHICullMode::CullModeNone);
 #if USE_RHI_VULKAN
@@ -237,6 +238,7 @@ void RHIApplicationTexture2DRenderTarget::CreateGraphicsPipeline2()
     */
     GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(TextureRenderTarget->GetRenderPass());
     GraphicsPipeline2->SetShaderResourceBindings(SRB2);
+    GraphicsPipeline2->SetSubpass(0);
     //GraphicsPipeline2 = pRHI->RHICreateGraphicsPipeline(RenderTarget->GetRenderPass());
     //GraphicsPipeline2->SetShaderResourceBindings(SRB);
     GraphicsPipeline2->SetPolygonMode(RHIPolygonMode::Fill);

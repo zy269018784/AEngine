@@ -358,6 +358,14 @@ void VulkanImage::TransitionImageLayout(RHIImageLayout InLayout)
         SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不依赖之前的任何阶段
         DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT; // 或 COMPUTE_SHADER_BIT，取决于实际使用
     }
+    else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_READ_ONLY_OPTIMAL)
+    {
+        Barrier.srcAccessMask = VK_ACCESS_NONE;  // ✅ 从 UNDEFINED 转换，无需等待之前的访问
+        Barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;  // ✅ 后续着色器需要读取
+
+        SourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;  // ✅ 不依赖之前的任何阶段
+        DestinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT; // 或 COMPUTE_SHADER_BIT，取决于实际使用
+    }
     else if (OldLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_UNDEFINED && NewLayout == RHIImageLayout::RHI_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
     {
         Barrier.srcAccessMask = VK_ACCESS_NONE;
