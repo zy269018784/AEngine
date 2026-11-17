@@ -70,13 +70,9 @@ void RHIApplicationTexture2DRenderTarget::Init()
 {
     CreateVBO();
     CreateEBO();
-    std::cout << "============================================= CreateTexture" << std::endl;
     CreateTexture();
-    std::cout << "============================================= CreateSRB2" << std::endl;
     CreateSRB2();
-    std::cout << "============================================= CreateTextureRenderTarget" << std::endl;
     CreateTextureRenderTarget();
-    std::cout << "============================================= CreateVertexDescriptioin" << std::endl;
     CreateVertexDescriptioin();
     CreateSRB();
     CreateGraphicsPipeline();
