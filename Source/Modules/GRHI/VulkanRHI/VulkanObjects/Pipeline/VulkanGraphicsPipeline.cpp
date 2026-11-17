@@ -251,21 +251,22 @@ void VulkanGraphicsPipeline::Create()
 		}
 	}
 
-	CreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-	CreateInfo.stageCount = ShaderStageCreateInfos.size();
-	CreateInfo.pStages = ShaderStageCreateInfos.data();
-	CreateInfo.pVertexInputState = &VertexInputStateCreateInfo;
-	CreateInfo.pInputAssemblyState = &InputAssemblyStateCreateInfo;
+	CreateInfo.sType				= VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	CreateInfo.stageCount			= ShaderStageCreateInfos.size();
+	CreateInfo.pStages				= ShaderStageCreateInfos.data();
+	CreateInfo.pVertexInputState	= &VertexInputStateCreateInfo;
+	CreateInfo.pInputAssemblyState	= &InputAssemblyStateCreateInfo;
 	//CreateInfo.pTessellationState = &TessellationStateCreateInfo;
-	CreateInfo.pViewportState = &ViewportStateCreateInfo;
-	CreateInfo.pRasterizationState = &RasterizationStateCreateInfo;
-	CreateInfo.pMultisampleState = &MultisampleStateCreateInfo;
-	CreateInfo.pDepthStencilState = &DepthStencilStateCreateInfo;
-	CreateInfo.pColorBlendState = &ColorBlendStateCreateInfo;
-	CreateInfo.pDynamicState = &DynamicStateCreateInfo;
-	CreateInfo.renderPass = static_cast<VulkanRenderPass *>(RenderPass)->GetHandle();
-	CreateInfo.layout = PipelineLayout;
-	CreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+	CreateInfo.pViewportState		= &ViewportStateCreateInfo;
+	CreateInfo.pRasterizationState	= &RasterizationStateCreateInfo;
+	CreateInfo.pMultisampleState	= &MultisampleStateCreateInfo;
+	CreateInfo.pDepthStencilState	= &DepthStencilStateCreateInfo;
+	CreateInfo.pColorBlendState		= &ColorBlendStateCreateInfo;
+	CreateInfo.pDynamicState		= &DynamicStateCreateInfo;
+	CreateInfo.renderPass			= static_cast<VulkanRenderPass *>(RenderPass)->GetHandle();
+	CreateInfo.subpass				= GetSubpass();
+	CreateInfo.layout				= PipelineLayout;
+	CreateInfo.basePipelineHandle	= VK_NULL_HANDLE;
 
     ret = Device->CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &CreateInfo, nullptr, &Handle);
 

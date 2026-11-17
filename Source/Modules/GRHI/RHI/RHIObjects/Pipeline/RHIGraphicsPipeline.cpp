@@ -127,3 +127,16 @@ int RHIGraphicsPipeline::GetSampleCount() const
 {
 	return SampleCount;
 }
+
+/*
+ * SubPass
+ */
+void RHIGraphicsPipeline::SetSubpass(std:: uint32_t Index)
+{
+	SubpassIndex = Index;
+}
+
+std::uint32_t RHIGraphicsPipeline::GetSubpass() const
+{
+	return SubpassIndex;
+}

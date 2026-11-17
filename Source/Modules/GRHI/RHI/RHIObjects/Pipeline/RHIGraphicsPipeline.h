@@ -50,6 +50,12 @@ public:
 	*/
 	void SetSampleCount(int s);
 	int GetSampleCount() const;
+
+	/*
+	 * SubPass
+	 */
+	void SetSubpass(std:: uint32_t Index);
+	std::uint32_t GetSubpass() const;
 protected:
 	/*
 		Assembly of primitives
@@ -81,6 +87,11 @@ protected:
 		Multisample
 	*/
 	int								SampleCount = 1;
+
+	/*
+	 * SubPass
+	 */
+	std::uint32_t					SubpassIndex;
 public:
 	/*
 		Render Pass
