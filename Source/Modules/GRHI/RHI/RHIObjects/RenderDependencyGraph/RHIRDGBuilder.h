@@ -9,13 +9,14 @@ public:
     enum class PassFlag : std::uint32_t
     {
         Graphics,
-        Compute
+        Compute,
+        Swapchain
     };
 public:
     RHIRDGBuilder();
-    ~RHIRDGBuilder();
+    virtual ~RHIRDGBuilder();
 public:
-    void AddPass(std::string PassName, RHIRDGBuilder::PassFlag Flag);
+    virtual void AddPass(std::string PassName, RHIRDGBuilder::PassFlag Flag) = 0;
 };
 
 
